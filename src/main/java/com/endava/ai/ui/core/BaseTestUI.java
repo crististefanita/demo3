@@ -10,8 +10,8 @@ import org.testng.annotations.Listeners;
  * Engine setup/teardown only; MUST NOT manage reporting lifecycle.
  */
 @Listeners({
-        TestListener.class,
-        AllureTestNg.class
+        AllureTestNg.class,
+        TestListener.class
 })
 public abstract class BaseTestUI {
 

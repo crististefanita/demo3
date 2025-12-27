@@ -2,14 +2,15 @@ package com.endava.ai.api.core;
 
 import com.endava.ai.api.client.ApiClient;
 import com.endava.ai.api.config.ConfigManager;
+import com.endava.ai.ui.core.TestListener;
 import io.qameta.allure.testng.AllureTestNg;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 
 @Listeners({
-        TestListener.class,
-        AllureTestNg.class
+        AllureTestNg.class,
+        TestListener.class
 })
 public abstract class BaseTestAPI {
 

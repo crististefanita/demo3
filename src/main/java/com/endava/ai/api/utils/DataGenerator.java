@@ -1,6 +1,7 @@
 package com.endava.ai.api.utils;
 
 import java.util.Random;
+import java.util.UUID;
 
 public final class DataGenerator {
     private DataGenerator() {}
@@ -11,7 +12,7 @@ public final class DataGenerator {
     }
 
     public static String randomEmail(Random r) {
-        int n = 100000 + r.nextInt(900000);
+        String n = UUID.randomUUID().toString().substring(0, 8);
         return "user" + n + "@example.com";
     }
 

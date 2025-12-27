@@ -12,13 +12,13 @@ public final class WaitUtils {
 
     public static void waitForVisible(String cssSelector) {
         int seconds = ConfigManager.getInt("explicit.wait.seconds");
-        StepLogger.logDetail("Wait for visible: " + cssSelector + " (timeout=" + seconds + "s)");
+        StepLogger.logDetail("Wait for visible: " + cssSelector);
         DriverManager.getEngine().waitForVisible(cssSelector, seconds);
     }
 
     public static void waitForUrlContains(String fragment) {
         int seconds = ConfigManager.getInt("explicit.wait.seconds");
-        StepLogger.logDetail("Wait for URL contains: " + fragment + " (timeout=" + seconds + "s)");
+        StepLogger.logDetail("Wait for URL contains: " + fragment);
         try {
             DriverManager.getEngine().waitForUrlContains(fragment, seconds);
         } catch (Exception e) {
