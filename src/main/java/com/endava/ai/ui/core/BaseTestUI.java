@@ -1,0 +1,28 @@
+package com.endava.ai.ui.core;
+
+import com.endava.ai.ui.config.ConfigManager;
+import io.qameta.allure.testng.AllureTestNg;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
+
+/**
+ * Engine setup/teardown only; MUST NOT manage reporting lifecycle.
+ */
+@Listeners({
+        TestListener.class,
+        AllureTestNg.class
+})
+public abstract class BaseTestUI {
+
+    @BeforeMethod(alwaysRun = true)
+    public void setUp() {
+        ConfigManager.load();
+        DriverManager.initEngine();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void tearDown() {
+        DriverManager.quitEngine();
+    }
+}
