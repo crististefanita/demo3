@@ -32,7 +32,7 @@ public final class AllureAdapter implements ReportLogger {
 
     @Override
     public void startTest(String testName, String description) {
-        // no-op
+        // NO-OP (handled by AllureTestNg)
     }
 
     @Override
@@ -60,7 +60,9 @@ public final class AllureAdapter implements ReportLogger {
 
     @Override
     public void logDetail(String detail) {
-        detailsBuffer.get().append(detail).append("\n");
+        if (detail != null) {
+            detailsBuffer.get().append(detail).append("\n");
+        }
     }
 
     @Override
@@ -80,10 +82,7 @@ public final class AllureAdapter implements ReportLogger {
     @Override
     public void fail(String message, String stacktraceAsText) {
         String stepId = currentStepId.get();
-        if (stepId == null) {
-            startStep("Unhandled failure");
-            stepId = currentStepId.get();
-        }
+        if (stepId == null) return;
 
         flushDetails();
 
@@ -99,6 +98,26 @@ public final class AllureAdapter implements ReportLogger {
     }
 
     // --------------------------------------------------
+    // Screenshot (TEST-level ONLY)
+    // --------------------------------------------------
+
+    @Override
+    public void attachScreenshotBase64(String base64, String title) {
+        if (base64 == null || base64.isBlank()) return;
+
+        byte[] bytes = Base64.getDecoder().decode(base64);
+
+        try (InputStream is = new ByteArrayInputStream(bytes)) {
+            Allure.addAttachment(
+                    title != null ? title : "Failure Screenshot",
+                    "image/png",
+                    is,
+                    ".png"
+            );
+        } catch (Exception ignored) {}
+    }
+
+    // --------------------------------------------------
     // Payloads
     // --------------------------------------------------
 
@@ -107,47 +126,9 @@ public final class AllureAdapter implements ReportLogger {
         attachText("Payload", content, "application/json", ".json");
     }
 
-    // --------------------------------------------------
-    // Screenshot (FIX IMPORTANT)
-    // --------------------------------------------------
-
-    @Override
-    public void attachScreenshotBase64(String base64, String title) {
-        if (base64 == null || base64.isBlank()) return;
-
-        // strip data-uri prefix if present
-        String b64 = base64.trim();
-        int comma = b64.indexOf(',');
-        if (b64.startsWith("data:") && comma > 0) {
-            b64 = b64.substring(comma + 1);
-        }
-
-        byte[] bytes = Base64.getDecoder().decode(b64);
-
-        // 🔑 IMPORTANT: create a dedicated Allure STEP for screenshot
-        String uuid = UUID.randomUUID().toString();
-
-        StepResult step = new StepResult()
-                .setName(title != null ? title : "Failure screenshot")
-                .setStatus(Status.FAILED);
-
-        Allure.getLifecycle().startStep(uuid, step);
-
-        try (InputStream is = new ByteArrayInputStream(bytes)) {
-            Allure.addAttachment(
-                    "Screenshot",
-                    "image/png",
-                    is,
-                    ".png"
-            );
-        } catch (Exception ignored) {}
-
-        Allure.getLifecycle().stopStep(uuid);
-    }
-
     @Override
     public void flush() {
-        // no-op for Allure
+        // no-op
     }
 
     // --------------------------------------------------
