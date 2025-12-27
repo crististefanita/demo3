@@ -19,9 +19,15 @@ public final class DriverManager {
     public static UIEngine getEngine() {
         UIEngine e = ENGINE.get();
         if (e == null) {
-            throw new IllegalStateException("UI engine is not initialized. Ensure BaseTestUI setup ran.");
+            throw new IllegalStateException(
+                    "UI engine is not initialized. Ensure BaseTestUI setup ran."
+            );
         }
         return e;
+    }
+
+    public static boolean hasActiveEngine() {
+        return ENGINE.get() != null;
     }
 
     public static void quitEngine() {

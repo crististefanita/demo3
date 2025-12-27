@@ -17,7 +17,6 @@ public class NegativeUserTests extends BaseTestAPI {
 
     @Test(description = "Create user with invalid email should fail")
     public void invalid_email_is_rejected() {
-        String raw = JsonTestDataReader.readRaw("testdata/NegativeUserTests_invalid_email.json");
         String invalidEmail = JsonTestDataReader.read("testdata/NegativeUserTests_invalid_email.json", InvalidEmailData.class).email;
 
         UsersService svc = new UsersService();
@@ -32,7 +31,7 @@ public class NegativeUserTests extends BaseTestAPI {
                 () -> svc.createUser(req)
         );
 
-        ResponseValidator.statusIs(resp, 423);
+        ResponseValidator.statusIs(resp, 422);
         Assert.assertTrue(resp.getBody().asString().contains("email"), "Expected email validation error");
     }
 

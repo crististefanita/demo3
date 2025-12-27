@@ -46,9 +46,13 @@ public final class TestListener implements ITestListener, ISuiteListener {
     @Override
     public void onTestFailure(ITestResult result) {
         try {
-            if (!screenshotTaken.get().getAndSet(true)) {
+            // 🔑 SCREENSHOT ONLY IF UI ENGINE IS ACTIVE
+            if (!screenshotTaken.get().getAndSet(true)
+                    && DriverManager.hasActiveEngine()) {
+
                 String base64 =
-                        DriverManager.getEngine().captureScreenshotAsBase64();
+                        DriverManager.getEngine()
+                                .captureScreenshotAsBase64();
 
                 ReportingManager.getLogger()
                         .attachScreenshotBase64(base64, "Failure Screenshot");
