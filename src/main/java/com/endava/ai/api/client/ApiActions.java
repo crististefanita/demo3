@@ -1,8 +1,8 @@
 package com.endava.ai.api.client;
 
 import com.endava.ai.ui.config.ConfigManager;
-import com.endava.ai.ui.reporting.ReportingManager;
-import com.endava.ai.ui.reporting.StepLogger;
+import com.endava.ai.core.reporting.ReportingManager;
+import com.endava.ai.core.reporting.StepLogger;
 import io.restassured.response.Response;
 
 public final class ApiActions {

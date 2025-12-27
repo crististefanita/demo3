@@ -1,6 +1,6 @@
 package com.endava.ai.api.validation;
 
-import com.endava.ai.ui.reporting.StepLogger;
+import com.endava.ai.core.reporting.StepLogger;
 import io.restassured.response.Response;
 import org.testng.Assert;
 

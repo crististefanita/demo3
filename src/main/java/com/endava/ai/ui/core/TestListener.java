@@ -1,7 +1,7 @@
 package com.endava.ai.ui.core;
 
-import com.endava.ai.ui.reporting.ReportingManager;
-import com.endava.ai.ui.reporting.StepLogger;
+import com.endava.ai.core.reporting.ReportingManager;
+import com.endava.ai.core.reporting.StepLogger;
 import io.qameta.allure.Allure;
 import org.testng.*;
 

@@ -2,7 +2,7 @@ package com.endava.ai.ui.utils;
 
 import com.endava.ai.ui.config.ConfigManager;
 import com.endava.ai.ui.core.DriverManager;
-import com.endava.ai.ui.reporting.StepLogger;
+import com.endava.ai.core.reporting.StepLogger;
 
 /**
  * ONLY place allowed to execute waits and log wait failures.

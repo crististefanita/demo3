@@ -1,4 +1,4 @@
-package com.endava.ai.ui.reporting;
+package com.endava.ai.core.reporting;
 
 public interface ReportLogger {
     void startTest(String testName, String description);

@@ -1,7 +1,7 @@
 package com.endava.ai.api.utils;
 
 import com.endava.ai.api.config.ConfigManager;
-import com.endava.ai.ui.reporting.StepLogger;
+import com.endava.ai.core.reporting.StepLogger;
 
 /**
  * API module has no UI waits; provided to keep a consistent contract with cross-cutting requirements.

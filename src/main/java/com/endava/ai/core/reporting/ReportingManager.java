@@ -1,8 +1,8 @@
-package com.endava.ai.ui.reporting;
+package com.endava.ai.core.reporting;
 
 import com.endava.ai.ui.config.ConfigManager;
-import com.endava.ai.ui.reporting.adapters.ExtentAdapter;
-import com.endava.ai.ui.reporting.adapters.AllureAdapter;
+import com.endava.ai.core.reporting.adapters.ExtentAdapter;
+import com.endava.ai.core.reporting.adapters.AllureAdapter;
 
 public final class ReportingManager {
 

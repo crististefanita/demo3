@@ -1,6 +1,6 @@
-package com.endava.ai.ui.reporting.adapters;
+package com.endava.ai.core.reporting.adapters;
 
-import com.endava.ai.ui.reporting.ReportLogger;
+import com.endava.ai.core.reporting.ReportLogger;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StatusDetails;
