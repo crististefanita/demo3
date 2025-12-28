@@ -1,7 +1,8 @@
-package com.endava.ai.ui.core;
+package com.endava.ai.core;
 
 import com.endava.ai.core.reporting.ReportingManager;
 import com.endava.ai.core.reporting.StepLogger;
+import com.endava.ai.ui.core.DriverManager;
 import org.testng.*;
 
 import java.util.concurrent.atomic.AtomicBoolean;

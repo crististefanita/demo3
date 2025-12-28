@@ -1,6 +1,6 @@
 package com.endava.ai.ui.engine;
 
-import com.endava.ai.ui.config.ConfigManager;
+import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.ui.engine.playwright.PlaywrightEngine;
 import com.endava.ai.ui.engine.selenium.SeleniumEngine;
 

@@ -5,7 +5,7 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
-import com.endava.ai.ui.config.ConfigManager;
+import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.core.reporting.ReportLogger;
 
 import java.nio.file.Path;

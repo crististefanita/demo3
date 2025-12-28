@@ -1,6 +1,6 @@
 package com.endava.ai.ui.utils;
 
-import com.endava.ai.ui.config.ConfigManager;
+import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.ui.core.DriverManager;
 import com.endava.ai.core.reporting.StepLogger;
 

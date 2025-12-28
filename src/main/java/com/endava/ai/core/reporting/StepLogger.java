@@ -1,6 +1,6 @@
 package com.endava.ai.core.reporting;
 
-import com.endava.ai.ui.config.ConfigManager;
+import com.endava.ai.core.config.ConfigManager;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
