@@ -196,72 +196,107 @@ details pre {
 <body>
 <div class="wrap">
 <header>
-<h1>Living Architecture (UI + API) — Canonical <span class="badge">v1.6</span></h1>
-<div class="sub">Document canonic pentru arhitectura UI + API (versiune v1_6).</div>
+<h1>Living Architecture (UI + API) — Canonical <span class="badge">v1.0</span></h1>
+<div class="sub">Document canonic pentru arhitectura UI + API (versiune v1_0).</div>
 </header>
 <div class="grid">
 <div class="card">
 <h2>1) Abordare</h2>
 <div class="kvs">
-<div class="k">Technology</div>
-<div>
-  <code class="inline">Java 11</code> ·
-  <code class="inline">Maven</code> ·
-  <code class="inline">TestNG</code> ·
-  <code class="inline">RestAssured</code>
-</div>
-<div class="k">Root package</div>
-<div>
-  <code class="inline">{framework.basePackage}</code> =
-  <code class="inline">com.endava.ai</code>
-</div>
-<div class="k">Config unificată</div>
-<div>
-  <code class="inline">framework.properties</code> 
-  (<code class="inline">src/main/resources</code>)
-</div>
-<div class="k">Model de interacțiune</div>
-<div><span class="pill">UI</span> UIActions + WaitUtils + UIEngine (Selenium/Playwright)</div>
-<div class="k">Model de apel</div>
-<div><span class="pill">API</span> ApiClient + Service Objects + Validations (TestNG orchestration only)</div>
-<div class="k">Reporting unificat</div>
-<div><code class="inline">ReportLogger</code> + <code class="inline">ReportingManager</code> + <code class="inline">StepLogger</code></div>
-<div class="k">Reporting engines</div>
-<div>
-  <code class="inline">Extent</code> ·
-  <code class="inline">Allure</code>
-  <span class="muted">(+ viitoare adaptoare)</span>
-</div>
-<div class="k">Reutilizare reporting (API)</div>
-
-<div>
-  <span class="pill">reporting.mode = shared | local</span>
-  <span class="muted">
-    (shared → refolosește reporting din <span class="pill">Core module</span>;
-     local → inițializează reporting separat)
-  </span>
-</div>
+  <div class="k">Technology</div>
+  <div>
+    <code class="inline">Java 11</code> ·
+    <code class="inline">Maven</code> ·
+    <code class="inline">TestNG</code> ·
+    <code class="inline">RestAssured</code>
+  </div>
+  <div class="k">Structură proiect</div>
+  <div>
+    <b>Un singur proiect Maven</b>, cu un singur
+    <code class="inline">src</code>
+    (<code class="inline">src/main</code>, <code class="inline">src/test</code>);
+    separare exclusiv logică, prin pachete Java
+  </div>
+  <div class="k">Root package</div>
+  <div>
+    <code class="inline">{framework.basePackage}</code> =
+    <code class="inline">com.endava.ai</code>
+  </div>
+  <div class="k">Config unificată</div>
+  <div>
+    <code class="inline">framework.properties</code>
+    (<code class="inline">src/main/resources</code>)
+  </div>
+  <div class="k">Model de interacțiune</div>
+  <div>
+    <span class="pill">UI</span>
+    UIActions + WaitUtils + UIEngine (Selenium | Playwright)
+  </div>
+  <div class="k">Model de apel</div>
+  <div>
+    <span class="pill">API</span>
+    ApiClient + Services + Validations (TestNG orchestration only)
+  </div>
+  <div class="k">Reporting unificat</div>
+  <div>
+    <code class="inline">ReportLogger</code> +
+    <code class="inline">ReportingManager</code> +
+    <code class="inline">StepLogger</code>
+  </div>
+  <div class="k">Reporting engines</div>
+  <div>
+    <code class="inline">Extent</code> ·
+    <code class="inline">Allure</code>
+    <span class="muted">(+ viitoare adaptoare)</span>
+  </div>
+  <div class="k">Reutilizare reporting (API)</div>
+  <div>
+    <span class="pill">reporting.mode = shared | local</span>
+    <span class="muted">
+      (shared → reutilizează componentele de reporting din pachetele core;
+       local → inițializează reporting separat)
+    </span>
+  </div>
 </div>
 <hr class="sep"/>
-<h3>Parametri canonici de arhitectură</h3>
-<ul>
-<li><b>UI root package</b>: <code class="inline">{framework.basePackage}.ui</code></li>
-<li><b>API root package</b>: <code class="inline">{framework.basePackage}.api</code></li>
-<li><b>Core module</b>: <code class="inline">{framework.basePackage}.core</code></li>
-<li><b>Reporting module</b>: <code class="inline">{framework.basePackage}.reporting</code></li>
-</ul>
+<details>
+  <summary>Structură canonică de pachete</summary>
+  <ul>
+    <li><b>MUST</b> toate componentele framework-ului să fie definite sub același <code class="inline">{framework.basePackage}</code> și în același <code class="inline">src</code>.</li>   <li>UI root package: <code class="inline">{framework.basePackage}.ui</code></li>
+    <li>API root package: <code class="inline">{framework.basePackage}.api</code></li>
+    <li>Core module: <code class="inline">{framework.basePackage}.core</code></li>
+    <li>Reporting module: <code class="inline">{framework.basePackage}.core.reporting</code></li>
+  </ul>
+  <details>
+    <summary>Ierarhie folosită <span class="sumhint">core / config / reporting</span></summary>
+    <span class="pill">Core module</span>
+    <pre><code>│   TestListener.java
+│
+├───config
+│       ConfigManager.java
+│
+└───reporting
+    │   ReportingManager.java
+    │   ReportLogger.java
+    │   StepLogger.java
+    │
+    └───adapters
+            AllureAdapter.java
+            ExtentAdapter.java</code></pre>
+  </details>
+</details>
 <div class="split">
 </div>
 </div>
 <div class="card">
-<h2>Config cheie</h2>
+<h2>Configurație centralizată</h2>
 <div class="note">
-    Obiectiv: configurare centralizată. Nicio valoare nu este hardcodată; accesul se face exclusiv prin <b>ConfigManager</b>.
+    Valorile de configurare sunt gestionate într-un singur punct și accesate exclusiv prin <b>ConfigManager</b>.
    </div>
 <details open="">
 <summary>UI — proprietăți <span class="sumhint">framework.properties</span></summary>
 <pre><code>base.url=https://practicesoftwaretesting.com
-ui.engine=default      # default -&gt; selenium
+ui.engine=selenium      # selenium | Playwright
 reports.dir=reports
 reporting.engine=extent   # extent | allure
 explicit.wait.seconds=2
@@ -279,25 +314,6 @@ reporting.engine=extent   # compatibil cu modulul de reporting reutilizat
 reports.timestamp.enabled=true
 reports.timestamp.format=yyyy-MM-dd_HH-mm-ss
 console.details.enabled=true # dacă modulul de reporting o suportă</code></pre>
-</details>
-<details>
-<summary>Ierarhie folosită <span class="sumhint">core/config/reporting</span></summary>
-<div class="card">
-<span class="pill">Core module</span>
-<pre><code>│   TestListener.java
-│
-├───config
-│       ConfigManager.java
-│
-└───reporting
-    │   ReportingManager.java
-    │   ReportLogger.java
-    │   StepLogger.java
-    │
-    └───adapters
-            AllureAdapter.java
-            ExtentAdapter.java</code></pre>
-</div>
 </details>
 </div>
 </div>
@@ -352,13 +368,13 @@ console.details.enabled=true # dacă modulul de reporting o suportă</code></pre
 <polyline fill="none" points="806,240 810,246 814,240" stroke="#93c5fd" stroke-width="2"></polyline>
 </svg>
 <details>
-<summary>Explicație <span class="sumhint">structură și responsabilități</span></summary>
+<summary>Explicație <span class="sumhint">Structură și responsabilități</span></summary>
 <h4>Ce ilustrează:</h4>
 <ul>
-<li><b>Separarea responsabilităților</b> între modulele UI, API și Reporting,cu testele limitate strict la orchestrare.</li>
-<li><b>UI</b>: interacțiunile, așteptările și validările sunt izolate de teste și grupate în layere dedicate.</li>
-<li><b>API</b>: apelurile HTTP și aserțiunile sunt separate de testele de orchestrare prin Service Objects și Validation.</li>
-<li><b>Reporting</b>: lifecycle-ul testului și semantica pașilor sunt centralizate și independente de engine-urile UI/API.</li>
+  <li><b>Separarea responsabilităților</b> între componentele UI, API și Reporting, cu testele limitate strict la orchestrare.</li>
+  <li><b>UI</b>: interacțiunile, așteptările și validările sunt izolate de teste și grupate în layere dedicate.</li>
+  <li><b>API</b>: apelurile HTTP și aserțiunile sunt separate de testele de orchestrare prin Services și Validation.</li>
+  <li><b>Reporting</b>: lifecycle-ul testului și semantica pașilor sunt centralizate și independente de engine-urile UI/API.</li>
 </ul>
 <h4>De ce este important:</h4>
 <ul>
@@ -368,7 +384,7 @@ console.details.enabled=true # dacă modulul de reporting o suportă</code></pre
 </ul>
 </details>
 </div>
-</div></details><details><summary>2.1.2 Flux UI → Reporting <span class="sumhint">sequence</span></summary><div class="card">
+</div></details><details><summary>2.1.2 Flux UI → Reporting <span class="sumhint">Sequence</span></summary><div class="card">
 <p class="muted">Fluxul arată cum acțiunile UI devin pași în raport și cum sunt rutate către engine-ul de reporting prin abstractions.</p>
 <div class="diag">
 <svg aria-label="Flux UI → Reporting" height="250" viewbox="0 0 980 250" width="980">
@@ -417,7 +433,7 @@ console.details.enabled=true # dacă modulul de reporting o suportă</code></pre
 </ul>
 </details>
 </div>
-</div></details><details><summary>2.1.3 Flux API → Reporting <span class="sumhint">sequence</span></summary><div class="card">
+</div></details><details><summary>2.1.3 Flux API → Reporting <span class="sumhint">Sequence</span></summary><div class="card">
 <p class="muted">Flux simetric: apelurile HTTP și validările devin pași în raport prin același contract (StepLogger → ReportingManager → ReportLogger).</p>
 <div class="diag">
 <svg aria-label="Flux API → Reporting" height="250" viewbox="0 0 980 250" width="980">
@@ -467,7 +483,7 @@ console.details.enabled=true # dacă modulul de reporting o suportă</code></pre
 </div>
 </div></details></details>
 <details>
-<summary>2.2 Flux TestNG + StepLogger (reguli de eșec) <span class="sumhint">sequence</span></summary>
+<summary>2.2 Flux TestNG + StepLogger (reguli de eșec) <span class="sumhint">Sequence</span></summary>
 <div class="diag">
 <!-- SVG: sequence diagram (style aligned to preview) -->
 <svg aria-label="TestNG + StepLogger flow" height="420" viewbox="0 0 980 420" width="980">
@@ -508,7 +524,7 @@ console.details.enabled=true # dacă modulul de reporting o suportă</code></pre
 <text fill="#fca5a5" font-size="12" text-anchor="middle" x="655" y="288">fail(msg, stacktraceText) (o singură dată)</text>
 </svg>
 <details>
-<summary>Explicație <span class="sumhint">lifecycle test și reguli de eșec</span></summary>
+<summary>Explicație <span class="sumhint">Lifecycle test și reguli de eșec</span></summary>
 <ul>
 <li><b>Ce ilustrează:</b> Separarea responsabilităților dintre lifecycle-ul testului și semantica pașilor raportați.</li>
 <li><b>Separarea responsabilităților:</b>
@@ -527,31 +543,10 @@ console.details.enabled=true # dacă modulul de reporting o suportă</code></pre
 </li>
 </ul>
 </details>
-<details>
-<summary>Specificație diagramă (Mermaid)</summary>
-<pre><code class="language-mermaid">sequenceDiagram
- autonumber
- participant Test as TestNG
- participant L as TestListener
- participant RM as ReportingManager
- participant SL as StepLogger
- participant RA as ReportLogger(Adapter)
-
- Test-&gt;&gt;L: onTestStart()
- L-&gt;&gt;RM: getLogger()
- RM-&gt;&gt;RA: resolve by reporting.engine
- L-&gt;&gt;RA: startTest(name, desc)
- L-&gt;&gt;SL: markTestStarted()
-
- Test-&gt;&gt;SL: startStep(title) / logDetail(...)
- SL-&gt;&gt;RA: startStep(title) / logDetail(...)
-
- SL-&gt;&gt;RA: fail(msg, stacktraceText) (single)</code></pre>
-</details>
 </div>
 </details>
 <details>
-<summary>2.3 Lifecycle TestNG + reporting (UI) <span class="sumhint">sequence</span></summary>
+<summary>2.3 Lifecycle TestNG + reporting (UI) <span class="sumhint">Sequence</span></summary>
 <div class="diag">
 <svg aria-label="UI lifecycle with screenshot" height="420" viewbox="0 0 980 420" width="980">
 <defs>
@@ -612,35 +607,10 @@ console.details.enabled=true # dacă modulul de reporting o suportă</code></pre
 </li>
 </ul>
 </details>
-<details>
-<summary>Specificație diagramă (Mermaid)</summary>
-<pre><code class="language-mermaid">sequenceDiagram
- autonumber
- participant Test as TestNG
- participant L as TestListener
- participant RM as ReportingManager
- participant SL as StepLogger
- participant RA as ReportLogger(Adapter)
- participant DM as DriverManager/Engine
-
- Test-&gt;&gt;L: onTestStart()
- L-&gt;&gt;RM: getLogger()
- L-&gt;&gt;RA: startTest(name, desc)
- L-&gt;&gt;SL: markTestStarted()
-
- Test-&gt;&gt;SL: startStep(...) / logDetail(...) / pass(...)
- SL-&gt;&gt;RA: startStep(...) / logDetail(...) / pass(...)
-
- Test-&gt;&gt;L: onTestFailure()
- L-&gt;&gt;DM: captureScreenshotAsBase64()
- L-&gt;&gt;RA: attachScreenshotBase64(base64, title) (TEST-level)
- L-&gt;&gt;RA: endTest(FAIL)
- L-&gt;&gt;SL: clearTestStarted()</code></pre>
-</details>
 </div>
 </details>
 <details>
-<summary>2.4 Lifecycle TestNG + reporting (API) <span class="sumhint">sequence</span></summary>
+<summary>2.4 Lifecycle TestNG + reporting (API) <span class="sumhint">Sequence</span></summary>
 <div class="diag">
 <svg aria-label="API shared reporting lifecycle" height="400" viewbox="0 0 980 400" width="980">
 <defs>
@@ -650,7 +620,7 @@ console.details.enabled=true # dacă modulul de reporting o suportă</code></pre
 </defs>
 <text fill="#9ddcff" font-size="14" x="70" y="34">TestNG</text>
 <text fill="#9ddcff" font-size="14" x="220" y="34">Listener</text>
-<text fill="#9ddcff" font-size="14" x="360" y="34">Service</text>
+<text fill="#9ddcff" font-size="14" x="360" y="34">Services</text>
 <text fill="#9ddcff" font-size="14" x="520" y="34">Validation</text>
 <text fill="#9ddcff" font-size="14" x="700" y="34">StepLogger</text>
 <text fill="#9ddcff" font-size="14" x="860" y="34">ReportLogger</text>
@@ -683,47 +653,12 @@ console.details.enabled=true # dacă modulul de reporting o suportă</code></pre
 <li><b>Ce ilustrează:</b> execuția unui test API cu mecanism de reporting reutilizat.</li>
 <li><b>Pași în testele API:</b>
 <ul>
-<li><b>Service</b> execută request-uri HTTP și creează pași HTTP …, cu metoda, path-ul, URL-ul și parametrii relevanți.</li>
+<li><b>Services</b> execută request-uri HTTP și creează pași HTTP …, cu metoda, path-ul, URL-ul și parametrii relevanți.</li>
 <li><b>Payload-uri</b> (request/response) sunt atașate ca code block în raport.</li>
-<li><b>Validations</b> rulează aserțiuni în pași separați, pentru a diferenția clar eșecul de request de cel de validare.</li>
+<li><b>Validations</b> rulează aserțiuni în pași separați, distinct de pașii de apel HTTP.</li>
 </ul>
 </li>
 </ul>
-<div class="rule">
-<b>Recomandare de naming pentru pași API:</b>
-<ul>
-<li><b>HTTP step:</b> <code class="inline">HTTP {METHOD} {relativePath}</code> (și în details: URL complet).</li>
-<li><b>Validation step:</b> <code class="inline">Validate: {expectations}</code> (ex. status=201, schema ok).</li>
-</ul>
-</div>
-</details>
-<details>
-<summary>Specificație diagramă (Mermaid)</summary>
-<pre><code class="language-mermaid">sequenceDiagram
- autonumber
- participant Test as TestNG
- participant L as TestListener(API or shared)
- participant SL as StepLogger(shared)
- participant RM as ReportingManager(shared)
- participant RA as ReportLogger(Adapter)
- participant SVC as Service Objects
- participant VAL as Validation
-
- Test-&gt;&gt;L: onTestStart()
- L-&gt;&gt;RM: getLogger()
- RM--&gt;&gt;L: ReportLogger
- L-&gt;&gt;RA: startTest(...)
- L-&gt;&gt;SL: markTestStarted()
-
- Test-&gt;&gt;SVC: call flow
- SVC-&gt;&gt;SL: startStep("HTTP ...")
- SVC-&gt;&gt;SL: logDetail("request.body") / ...
- SVC-&gt;&gt;RM: getLogger().logCodeBlock(payload) Note right of SVC: dacă StepLogger nu expune logCodeBlock
- SVC-&gt;&gt;SL: pass("Call completed")
-
- Test-&gt;&gt;VAL: assertions
- VAL-&gt;&gt;SL: startStep("Validate ...")
- VAL-&gt;&gt;SL: pass/ fail (single)</code></pre>
 </details>
 </div>
 </details>
@@ -737,15 +672,13 @@ console.details.enabled=true # dacă modulul de reporting o suportă</code></pre
 </marker>
 </defs>
 <rect fill="#1e293b" height="46" rx="10" width="200" x="40" y="40"></rect><text fill="#e6e9ef" font-size="13" text-anchor="middle" x="140" y="69">Test Node</text>
-<rect fill="#1e293b" height="46" rx="10" width="200" x="290" y="40"></rect><text fill="#e6e9ef" font-size="13" text-anchor="middle" x="390" y="69">Metadata</text>
 <rect fill="#1e293b" height="46" rx="10" width="200" x="540" y="40"></rect><text fill="#e6e9ef" font-size="13" text-anchor="middle" x="640" y="69">Screenshot (FAIL)</text>
 <rect fill="#1e293b" height="46" rx="10" width="200" x="40" y="130"></rect><text fill="#e6e9ef" font-size="13" text-anchor="middle" x="140" y="159">Step Node (collapsible)</text>
 <rect fill="#1e293b" height="46" rx="10" width="200" x="290" y="130"></rect><text fill="#e6e9ef" font-size="13" text-anchor="middle" x="390" y="159">Details</text>
 <rect fill="#1e293b" height="46" rx="10" width="200" x="540" y="130"></rect><text fill="#e6e9ef" font-size="13" text-anchor="middle" x="640" y="159">Payloads (code)</text>
 <rect fill="#1e293b" height="46" rx="10" width="200" x="290" y="220"></rect><text fill="#e6e9ef" font-size="13" text-anchor="middle" x="390" y="249">PASS / FAIL</text>
 <rect fill="#1e293b" height="46" rx="10" width="200" x="540" y="220"></rect><text fill="#e6e9ef" font-size="13" text-anchor="middle" x="640" y="249">Stacktrace (step only)</text>
-<line marker-end="url(#arrow5)" stroke="#93c5fd" stroke-width="2" x1="240" x2="290" y1="63" y2="63"></line>
-<line marker-end="url(#arrow5)" stroke="#93c5fd" stroke-width="2" x1="490" x2="540" y1="63" y2="63"></line>
+<line marker-end="url(#arrow5)" stroke="#93c5fd" stroke-width="2" x1="240" x2="540" y1="63" y2="63"></line>
 <line marker-end="url(#arrow5)" stroke="#93c5fd" stroke-width="2" x1="140" x2="140" y1="86" y2="130"></line>
 <line marker-end="url(#arrow5)" stroke="#93c5fd" stroke-width="2" x1="240" x2="290" y1="153" y2="153"></line>
 <line marker-end="url(#arrow5)" stroke="#93c5fd" stroke-width="2" x1="490" x2="540" y1="153" y2="153"></line>
@@ -792,26 +725,6 @@ console.details.enabled=true # dacă modulul de reporting o suportă</code></pre
 </div>
 </div>
 </ul></details>
-<details>
-<summary>Specificație diagramă (Mermaid)</summary>
-<pre><code class="language-mermaid">flowchart TD
- T["Test Node (PASS/FAIL/SKIP)"]
- META["Metadata (name, desc, env)"]
- SS["Screenshot (FAIL only, test-level)"]
- S1["Step 1 (collapsible)"]
- D1["Details (lines)"]
- P1["Payload (code blocks)"]
- R1["Result PASS/FAIL"]
- ST1["Stacktrace (single code block, only in failing step)"]
-
- T --&gt; META
- T --&gt; SS
- T --&gt; S1
- S1 --&gt; D1
- S1 --&gt; P1
- S1 --&gt; R1
- R1 --&gt; ST1</code></pre>
-</details>
 </div>
 <div class="rule">
 <b>Regulă de aur:</b> stacktrace-ul apare o singură dată, numai în step-ul care a picat. Test node-ul nu primește stacktrace.
@@ -821,148 +734,182 @@ console.details.enabled=true # dacă modulul de reporting o suportă</code></pre
 <hr class="sep"/>
 <div class="card">
 <h2>3) Reguli canonice (UI + API) — MUST / MUST NOT</h2>
+
 <details>
-<summary>3.1 Configurație &amp; structură core <span class="sumhint">entry points canonice</span></summary>
-<h4>Config</h4>
-<ul>
-<li><b>MUST</b> toate setările în <code class="inline">framework.properties</code>.</li>
-<li><b>MUST</b> acces la config exclusiv prin <code class="inline">ConfigManager</code>.</li>
-<li><b>MUST</b> exista un singur <code class="inline">ConfigManager</code>, în pachetul <code class="inline">config</code>.</li>
-</ul>
-<h4>Test lifecycle</h4>
-<ul>
-<li><b>MUST</b> exista un singur <code class="inline">TestListener</code>.</li>
-<li><b>MUST</b> <code class="inline">TestListener</code> este comun UI + API.</li>
-<li><b>MUST</b> lifecycle-ul testului este controlat exclusiv din <code class="inline">TestListener</code>.</li>
-</ul>
-<h4>Reporting</h4>
-<ul>
-<li><b>MUST</b> toate componentele de raportare să fie în modulul <code class="inline">reporting</code>.</li>
-<li><b>MUST</b> engine-ul de raportare să fie rezolvat exclusiv de <code class="inline">ReportingManager</code>.</li>
-<li><b>MUST</b> <code class="inline">StepLogger</code> este unic și comun UI + API.</li>
-<li><b>MUST</b> adaptoarele să existe doar în <code class="inline">reporting.adapters</code>.</li>
-<li><b>MUST NOT</b> acces direct la adaptoare din teste, servicii sau validări.</li>
-</ul>
-<h4>Directoare</h4>
-<ul>
-<li><b>MUST</b> <code class="inline">reports.dir</code> creat înainte de primul raport.</li>
-<li><b>MUST</b> <code class="inline">allure.results.dir</code> creat dacă <code class="inline">reporting.engine=allure</code>.</li>
-</ul>
+  <summary>3.1 Configurație &amp; structură core <span class="sumhint">Architectural entry points</span></summary>
+  <h4>Config</h4>
+  <ul>
+    <li><b>MUST</b> toate setările framework-ului să fie definite în <code class="inline">framework.properties</code>.</li>
+    <li><b>MUST</b> accesul la configurație să se facă exclusiv prin <code class="inline">ConfigManager</code>.</li>
+    <li><b>MUST</b> exista un singur <code class="inline">ConfigManager</code>, localizat în modulul <b>core</b>, utilizat de toate modulele (UI și API).</li>
+  </ul>
+  <h4>Test lifecycle</h4>
+  <ul>
+    <li><b>MUST</b> sa existe un singur owner al lifecycle-ului de test per engine de raportare: <code class="inline">TestListener</code> pentru Extent și <code class="inline">AllureTestNg</code> pentru Allure.</li>
+    <li><b>MUST NOT</b> <code class="inline">TestListener</code> sa controleze lifecycle-ul testului cand <code class="inline">reporting.engine=allure</code>.</li>
+    <li><b>MUST</b> exista un singur <code class="inline">TestListener</code>, comun pentru UI și API.</li>
+    <li><b>MUST</b> <code class="inline">TestListener</code> sa ruteze orice excepție apărută în afara pașilor către <code class="inline">StepLogger</code> pentru raportare.</li>
+  </ul>
+  <h4>Reporting</h4>
+  <ul>
+    <li><b>MUST</b> toate componentele de raportare să fie izolate în modulul <code class="inline">reporting</code> din <b>core</b>.</li>
+    <li><b>MUST</b> engine-ul de raportare să fie rezolvat exclusiv de <code class="inline">ReportingManager</code>.</li>
+    <li><b>MUST</b> <code class="inline">StepLogger</code> să fie unic și comun pentru UI și API.</li>
+    <li><b>MUST</b> adaptoarele de raportare să existe exclusiv în <code class="inline">reporting.adapters</code>.</li>
+    <li><b>MUST NOT</b> testele, serviciile sau validările să acceseze direct adaptoarele de raportare.</li>
+  </ul>
+  <h4>Directoare</h4>
+  <ul>
+    <li><b>MUST</b> <code class="inline">reports.dir</code> să fie disponibil înainte de inițializarea raportării.</li>
+    <li><b>MUST</b> <code class="inline">allure.results.dir</code> să fie disponibil atunci când <code class="inline">reporting.engine=allure</code> (direct sau implicit prin engine).</li>
+  </ul>
 </details>
 <details>
-<summary>3.2 Logging &amp; semantică de pași <span class="sumhint">StepLogger + TestListener</span></summary>
-<h4>Crearea și controlul pașilor</h4>
-<ul>
-<li><b>MUST</b> fiecare pas semantic să fie creat exclusiv prin
-      <code class="inline">StepLogger.startStep(...)</code>.</li>
-<li><b>MUST</b> <code class="inline">StepLogger</code> să fie singurul component care poate emite
-      <code class="inline">ReportLogger.fail(...)</code>.</li>
-<li><b>MUST</b> exista exact un FAIL per pas, fără duplicări.</li>
-</ul>
-<h4>Detalii și excepții</h4>
-<ul>
-<li><b>MUST</b> <code class="inline">StepLogger.logDetail(...)</code> să fie apelat doar în interiorul
-      unui pas activ.</li>
-<li><b>MUST NOT</b> loga detalii sau FAIL în afara pașilor.</li>
-<li><b>MUST</b> orice excepție apărută în afara unui pas activ să producă FAIL la nivel de test.</li>
-</ul>
-<h4>Stacktrace și screenshot</h4>
-<ul>
-<li><b>MUST</b> stacktrace-ul să fie redat o singură dată, exclusiv în pasul care a eșuat,
-      ca monospace code block.</li>
-<li><b>MUST</b> screenshot-ul să fie capturat exclusiv din <code class="inline">TestListener</code>,
-      o singură dată per test FAIL, la nivel de test și doar dacă există un UIEngine activ.</li>
-</ul>
-<details>
-<summary>Logging în consolă <span class="sumhint">format + toggle</span></summary>
-<ul>
-<li><b>MUST</b> console logging exclusiv prin StepLogger.</li>
-<li><b>MUST</b> afișează start step + PASS/FAIL.</li>
-<li><b>MAY</b> afișează și detalii dacă <code class="inline">console.details.enabled=true</code> (când e implementat).</li>
-</ul>
-<pre><code>▶ Type into element: Email
- • locator=input[data-test='email']
- • value=test@example.com
- ✅ PASS: Typed</code></pre>
+  <summary>3.2 Logging &amp; semantică de pași <span class="sumhint">StepLogger + TestListener</span></summary>
+  <summary>Scope de aplicare</summary>
+  <div class="rule">Regulile din această secțiune (<b>3.2 Logging &amp; semantică de pași</b>) se aplică exclusiv layere-lor de execuție (<code class="inline">UIActions</code>, <code class="inline">Services</code>, <code class="inline">Validation</code>). <b>Test Layer</b> nu este un consumer valid de <code class="inline">StepLogger</code>.</div>
+  <h4>Crearea și controlul pașilor</h4>
+  <ul>
+    <li><b>MUST</b> fiecare pas semantic să fie creat exclusiv prin <code class="inline">StepLogger.startStep(...)</code>.</li>
+    <li><b>MUST</b> <code class="inline">StepLogger</code> să fie singurul component care poate marca un pas ca <code class="inline">FAIL</code>.</li>
+    <li><b>MUST</b> exista exact un rezultat final per pas (<code class="inline">PASS</code> sau <code class="inline">FAIL</code>).</li>
+    <li><b>MUST NOT</b> permite crearea unui pas nou cât timp există un pas activ.</li>
+  </ul>
+  <h4>Detalii și excepții</h4>
+  <ul>
+    <li><b>MUST</b> <code class="inline">StepLogger</code> să creeze pași doar după ce engine-ul de raportare are un test activ.</li>
+    <li><b>MUST</b> apelurile <code class="inline">logDetail(...)</code>, <code class="inline">pass(...)</code> și <code class="inline">fail(...)</code> să fie realizate exclusiv în interiorul unui pas activ.</li>
+    <li><b>MUST</b> orice excepție apărută în afara unui pas activ să producă <code class="inline">FAIL</code> la nivel de test, rutat prin <code class="inline">TestListener</code>.</li>
+  </ul>
+  <h4>Stacktrace și screenshot</h4>
+  <ul>
+    <li><b>MUST</b> stacktrace-ul să fie raportat o singură dată, exclusiv în pasul care a eșuat, ca <b>code block</b>.</li>
+    <li><b>MUST</b> screenshot-ul să fie capturat exclusiv din <code class="inline">TestListener</code>, o singură dată per test <code class="inline">FAIL</code>, la nivel de test.</li>
+  </ul>
+  <h4>Logging în consolă</h4>
+  <ul>
+    <li><b>MUST</b> logging-ul în consolă să fie realizat exclusiv prin <code class="inline">StepLogger</code>.</li>
+    <li><b>MUST</b> fiecare pas să fie afișat cu un titlu semantic pe o linie distinctă.</li>
+    <li><b>MUST</b> detaliile unui pas să fie afișate indentat, câte un element pe linie.</li>
+    <li><b>MUST</b> rezultatul pasului să fie afișat pe ultima linie, cu status vizual (<code class="inline">PASS</code> / <code class="inline">FAIL</code>).</li>
+    <li><b>MAY</b> detaliile să fie omise dacă <code class="inline">console.details.enabled=false</code>.</li>
+  </ul>
+  <details>
+    <summary>Exemplu UI <span class="sumhint">interacțiune</span></summary>
+    <pre><code>▶ Type into element: Email
+  • locator=input[data-test='email']
+  • value=test@example.com
+  ✅ PASS: Typed</code></pre>
+  </details>
+  <details>
+    <summary>Exemplu API <span class="sumhint">request + validation</span></summary>
+    <pre><code>▶ POST /public/v2/users
+  • method=POST
+  • url=https://gorest.co.in/public/v2/users
+  • request.body={...}
+  • response.status=201
+  • response.body={...}
+  ✅ PASS: Call completed
+▶ Validate status: expect 201
+  • actual=201
+  ✅ PASS: Validated</code></pre>
+  </details>  
 </details>
-</details>
+
 <details>
-<summary>3.3 UI: interacțiuni și așteptări <span class="sumhint">UIActions + UIEngine + WaitUtils</span></summary>
-<h4>Interacțiuni UI</h4>
-<ul>
-<li><b>MUST</b> toate interacțiunile UI să fie executate exclusiv prin <code class="inline">UIActions</code>.</li>
-<li><b>MUST</b> <code class="inline">UIEngine</code> să expună doar operații de bază
-      (click, type, getText, wait), fără logică de test sau reporting.</li>
-</ul>
-<h4>Așteptări (waits)</h4>
-<ul>
-<li><b>MUST</b> toate așteptările explicite să fie realizate exclusiv prin <code class="inline">WaitUtils</code>.</li>
-<li><b>MUST</b> decizia de a aplica un explicit wait să fie luată în <code class="inline">UIActions</code>,
-      în mod engine-aware.</li>
-<li><b>MUST NOT</b> <code class="inline">WaitUtils</code> să emită FAIL direct
-      (FAIL este controlat exclusiv la nivel de step).</li>
-</ul>
-<h4>Strategie de așteptare dependentă de engine</h4>
-<ul>
-<li><b>MUST</b> <code class="inline">UIEngine</code> să expună metoda
-      <code class="inline">boolean supportsAutoWait()</code>.</li>
-<li><b>MUST</b> engine-urile bazate pe Selenium să returneze <code class="inline">false</code>.</li>
-<li><b>MUST</b> engine-urile bazate pe Playwright să returneze <code class="inline">true</code>.</li>
-<li><b>MUST</b> <code class="inline">UIActions</code> să decidă aplicarea explicit wait
-      înainte de interacțiuni.</li>
-</ul>
-<pre><code class="language-java">private static void waitIfRequired(String cssSelector) {
+  <summary>3.3 UI: interacțiuni și așteptări <span class="sumhint">UIActions + UIEngine + WaitUtils</span></summary>
+  <h4>Interacțiuni UI</h4>
+  <ul>
+    <li><b>MUST</b> toate interacțiunile UI să fie executate exclusiv prin <code class="inline">UIActions</code>.</li>
+    <li><b>MUST</b> <code class="inline">UIEngine</code> să expună doar operații de bază (click, type, getText, wait), fără logică de test sau reporting.</li>
+    <li><b>MUST</b> framework-ul să livreze două implementări concrete de <code class="inline">UIEngine</code> (Selenium și Playwright), selectabile prin configurație.</li>
+    <li><b>MUST</b> UIEngine-ul activ să standardizeze dimensiunea browser-ului pentru execuție și screenshot-uri (implicit <code class="inline">2560×1440</code>), indiferent de engine.</li>
+  </ul>
+  <h4>Așteptări (waits)</h4>
+  <ul>
+    <li><b>MUST</b> toate așteptările explicite să fie realizate exclusiv prin <code class="inline">WaitUtils</code>.</li>
+    <li><b>MUST</b> decizia de a aplica un explicit wait să fie luată în <code class="inline">UIActions</code>, în mod engine-aware.</li>
+    <li><b>MUST NOT</b> <code class="inline">WaitUtils</code> să emită FAIL direct; FAIL este controlat exclusiv la nivel de step.</li>
+  </ul>
+  <h4>Strategie de așteptare dependentă de engine</h4>
+  <ul>
+    <li><b>MUST</b> <code class="inline">UIEngine</code> să expună metoda <code class="inline">boolean supportsAutoWait()</code>.</li>
+    <li><b>MUST</b> engine-urile bazate pe Selenium să returneze <code class="inline">false</code>, iar cele bazate pe Playwright să returneze <code class="inline">true</code>.</li>
+    <li><b>MUST</b> <code class="inline">UIActions</code> să decidă aplicarea explicit wait înainte de interacțiuni.</li>
+  </ul>
+  <pre><code class="language-java">private static void waitIfRequired(String cssSelector) {
   if (!DriverManager.getEngine().supportsAutoWait()) {
     WaitUtils.waitForVisible(cssSelector);
   }
 }</code></pre>
 </details>
 <details>
-<summary>3.4 API: service objects + validations <span class="sumhint">no direct endpoints in tests</span></summary>
-<ul>
-<li><b>MUST</b> testele nu referă endpoint-uri/metode direct.</li>
-<li><b>MUST</b> toate apelurile prin Service Objects.</li>
-<li><b>MUST</b> assertions doar în validation layer, în pași logați.</li>
-<li><b>MUST</b> request models via factory/builder (fără setări directe în test).</li>
+  <summary>
+    3.4 Validation Layer
+    <span class="sumhint">Assertions &amp; verdict</span>
+  </summary>
+  <ul>
+    <li><b>MUST</b> toate aserțiunile să fie realizate exclusiv în Validation Layer.</li>
+    <li><b>MUST</b> validările să fie expuse prin clase reutilizabile.</li>
+	<li><b>MAY</b> Validation Layer să creeze pași de tip <em>Validate</em> în raport, folosind <code class="inline">StepLogger</code>.</li>
+    <li><b>MUST</b> un eșec de validare să marcheze testul ca <em>FAILED</em> fără a opri execuția testelor următoare.</li>
+  </ul>
+</details>
+<details>
+  <summary>
+    3.5 API: services
+    <span class="sumhint">Services Only</span>
+  </summary>
+  <h4>Test Layer</h4>
+ <ul>
+  <li><b>MUST</b> testele să orchestreze exclusiv prin
+      <code class="inline">Services</code>,
+      <code class="inline">Factories / Builders</code> și
+      <code class="inline">Validators</code>.</li>
+ <li><b>MUST NOT</b> testele să execute apeluri HTTP sau să facă raportare;
+    orice utilizare a <code class="inline">StepLogger</code> din Test Layer
+    este interzisă.</li>
 </ul>
-<h4>Contract ApiClient:</h4>
+  <h4>Services</h4>
+  <ul>
+    <li><b>MUST</b> să definească endpoint-ul prin <code>basePath</code>.</li>
+    <li><b>MUST</b> să expună metode de business.</li>
+    <li><b>MUST NOT</b> să conțină aserțiuni sau validări.</li>
+  </ul>
+  <h4>HTTP Execution</h4>
+  <ul>
+    <li><b>MUST</b> execuția apelurilor HTTP să fie delegată unui layer comun reutilizabil.</li>
+    <li>
+      <b>MUST</b> URL-ul complet să fie construit ca
+      <code class="inline">{base.url.api} + relativePath</code>.
+    </li>
+    <li><b>MUST</b> layer-ul de execuție să returneze obiectul <code>Response</code>.</li>
+  </ul>
+</section>
+  <h4>Request / Response Models</h4>
+  <ul>
+    <li><b>MUST</b> modelele de request să fie construite exclusiv prin Factories sau Builders.</li>
+    <li><b>MUST NOT</b> testele să construiască manual payload-uri JSON.</li>
+  </ul>
+  <h4>Semantică și naming pentru pași API</h4>
 <ul>
-<li><b>MUST</b> este responsabil exclusiv de execuția apelurilor HTTP.</li>
-<li><b>MUST NOT</b> conține validări, aserțiuni sau logică de reporting.</li>
+  <li><b>MUST</b> pașii de apel HTTP să folosească formatul <code class="inline">HTTP {METHOD} {relativePath}</code>; URL-ul complet MUST fi inclus în details.</li>
+  <li><b>MUST</b> pașii de validare să folosească formatul <code class="inline">Validate: {expectations}</code> (ex. <code class="inline">status=201</code>, <code class="inline">schema ok</code>).</li>
 </ul>
 </details>
 <details>
-<summary>3.5 Reporting: engines + adapters <span class="sumhint">extent / allure</span></summary>
+<summary>3.6 Reporting: engines & adapters <span class="sumhint">Extent / Allure</span></summary>
 <ul>
-<li><b>MUST</b> <code class="inline">reporting.engine</code> resolve exclusiv în <code class="inline">ReportingManager</code>.</li>
-<li><b>MUST</b> adapters implementează <code class="inline">ReportLogger</code>.</li>
-<li><b>MUST</b> fără obiecte Throwable în adapter; doar text (stacktraceAsText).</li>
-<li><b>MUST</b> payload-urile ca code blocks (în Extent: MarkupHelper.createCodeBlock).</li>
-<li><b>MUST</b> screenshot doar din TestListener (exact o dată per test FAIL), atașat la nivel de test.</li>
+  <li><b>MUST</b> selecția engine-ului de raportare să fie controlată exclusiv de <code class="inline">ReportingManager</code>, pe baza <code class="inline">reporting.engine</code>.</li>
+  <li><b>MUST</b> adaptoarele de raportare să implementeze <code class="inline">ReportLogger</code> și să fie accesate exclusiv prin <code class="inline">ReportingManager</code>.</li>
+  <li><b>MUST NOT</b> testele, serviciile sau validările să apeleze direct adaptoare de raportare.</li>
+  <li><b>MUST</b> adaptoarele inactive să fie NO-OP și să nu arunce excepții.</li>
+  <li><b>MUST</b> screenshot-urile să fie atașate exclusiv din <code class="inline">TestListener</code>, o singură dată per test FAIL.</li>
 </ul>
 </details>
+
 <details>
-<summary>3.6 CSS &amp; aspect (Extent) (MUST) <span class="sumhint">MUST</span></summary>
-<pre><code>.card-title a span { color: #f2f2f2 !important; }
-.card-title a { color: #f2f2f2 !important; }
-.fa { color: #f2f2f2 !important; }</code></pre>
-</details>
-<details>
-<summary>3.7 Dependențe Maven <span class="sumhint">pom.xml scope</span></summary>
-<div>
-<ul>
-<li>
-<b>MUST NOT</b> declara in <code class="inline">pom.xml</code>
-        cu <code class="inline">&lt;scope&gt;test&lt;/scope&gt;</code> dependențe de framework care sunt utilizate la runtime.
-      </li>
-<li>
-<b>MUST</b> toate dependențele framework-ului să fie disponibile la runtime.
-      </li>
-</ul>
-</div>
-</details>
-<details>
-<summary>3.8 Contract canonic de raportare (UI + API) <span class="sumhint">ReportLogger &amp; StepLogger</span></summary>
+<summary>3.7 Contract canonic de raportare (UI + API) <span class="sumhint">ReportLogger Interface</span></summary>
 <ul>
 <li><b>ReportLogger</b> MUST expune EXACT următoarele metode:</li>
 </ul>
@@ -975,11 +922,38 @@ void fail(String message, String stacktraceAsText);
 void attachScreenshotBase64(String base64, String title);
 void logCodeBlock(String content);
 void flush();</code></pre>
+<h4>ReportLogger contract</h4>
+<ul>
+  <li><b>MUST</b> <code class="inline">ReportLogger</code> să definească un contract comun pentru toate engine-urile de raportare.</li>
+  <li><b>NOTE</b> <code class="inline">startTest</code>, <code class="inline">endTest</code> și <code class="inline">flush</code> sunt relevante doar pentru engine-uri cu lifecycle manual (ex. Extent).</li>
+  <li><b>NOTE</b> Pentru <code class="inline">Allure</code>, lifecycle-ul testului este controlat de <code class="inline">AllureTestNg</code>, iar aceste metode sunt NO-OP.</li>
+  <li><b>MUST</b> adaptoarele de raportare inactive să fie NO-OP.</li>
+</ul>
+</details>
+<details>
+<summary>3.8 CSS &amp; aspect (Extent)  <span class="sumhint">Style</span></summary>
+<ul>
+    <li><b>MUST</b> adaptorul Extent să seteze explicit tema Theme.DARK.</li>
+    <li><b>MUST</b> să aplice explicit CSS-ul prin ExtentSparkReporter.setCss(...), definit ca string final, hardcoded.</li>
+</ul>
+<pre><code>.card-title a span { color: #f2f2f2 !important; }
+.card-title a { color: #f2f2f2 !important; }
+.fa { color: #f2f2f2 !important; }</code></pre>
+</details>
+<details>
+  <summary>3.9 Constrângeri globale</summary>
+  <ul>
+    <li><b>MUST</b> toate dependințele framework-ului să fie disponibile la runtime.</li>
+    <li><b>MUST NOT</b> fie declarate dependințe cu <code class="inline">&lt;scope&gt;test&lt;/scope&gt;</code>.</li>
+    <li><b>MUST NOT</b> fie utilizate numele de metode <code class="inline">wait</code>, <code class="inline">notify</code>, <code class="inline">notifyAll</code>, <code class="inline">finalize</code>.</li>
+    <li><b>MUST</b> existe un singur <code class="inline">pom.xml</code> la rădăcina proiectului.</li>
+    <li><b>MUST NOT</b> fie definite module Maven separate (<code class="inline">&lt;modules&gt;</code>).</li>
+  </ul>
 </details>
 </div>
 <hr class="sep"/>
 <div class="card">
-<h2>4) Organizarea testelor</h2>
+<h2>4) Organizarea testelor — DEMO</h2>
 <div class="split">
 <div class="mini">
 <details>
@@ -1009,8 +983,9 @@ void flush();</code></pre>
 xpath: //button[text()='Register']</code></pre>
 <div class="note">
 <b>Demo / POC Guidance:</b>
-Locatorii POT fi defensivi (id, name, data-test alternativ).
-Această regulă este ilustrativă și MUST fi adaptată pentru aplicații reale.
+Pentru demo sau POC, locatorii POT fi defensivi (ex. id, name, data-test),
+pentru a tolera variații minore de UI.
+Această regulă MUST fi adaptată pentru aplicații reale.
 </div>
 <h4>Date de test</h4>
 <ul>
@@ -1040,10 +1015,10 @@ Această regulă este ilustrativă și MUST fi adaptată pentru aplicații reale
 <div class="details-body">
 <pre><code>Base URL (config): {base.url.api} = https://gorest.co.in
 
-POST  /public/v2/users      -&gt; expect 201
-GET  /public/v2/users/{user_id} -&gt; expect 200
-PUT  /public/v2/users/{user_id} -&gt; expect 200/201
-PATCH /public/v2/users/{user_id} -&gt; expect 200/201
+POST  /public/v2/users            -&gt; expect 201
+GET  /public/v2/users/{user_id}   -&gt; expect 200
+PUT  /public/v2/users/{user_id}   -&gt; expect 200/201
+PATCH /public/v2/users/{user_id}  -&gt; expect 200/201
 DELETE /public/v2/users/{user_id} -&gt; expect 204</code></pre>
 </div>
 </details><details><summary>Autentificare &amp; Autorizare (API) <span class="sumhint">auth.token</span></summary>
@@ -1053,7 +1028,7 @@ DELETE /public/v2/users/{user_id} -&gt; expect 204</code></pre>
 <li><b>MUST</b> autentificarea să fie gestionată centralizat (ex: <code class="inline">ApiClient</code>).</li>
 <li><b>MUST NOT</b> testele să construiască manual headere de autentificare.</li>
 <li><b>MUST NOT</b> token-ul să fie hardcodat în teste.</li>
-<li>Pentru operații <b>WRITE</b> (POST / PUT / PATCH / DELETE):
+<li>Pentru operații POST / PUT / PATCH / DELETE:
   <ul>
 <li><b>MUST</b> token prezent.</li>
 <li>Lipsa token-ului → <b>SKIP</b> sau <b>FAIL</b> controlat, explicit.</li>
@@ -1135,25 +1110,25 @@ public abstract class BaseTestAPI {
 </div>
 <hr class="sep"/>
 <div class="card">
-<h2>5) Artefacte livrare</h2>
-<div class="split">
-<div class="mini">
-<h3>UI</h3>
-<ul>
-<li>Complete Maven project</li>
-<li><code class="inline">pom.xml</code>, <code class="inline">framework.properties</code>, <code class="inline">testng.xml</code>, <code class="inline">README.md</code></li>
-<li>README: setup, exec, approach, reporting, Allure usage</li>
-</ul>
-</div>
-<div class="mini">
-<h3>API</h3>
-<ul>
-<li>Complete Maven project</li>
-<li><code class="inline">pom.xml</code>, <code class="inline">framework.properties</code>, <code class="inline">testng.xml</code>, <code class="inline">README.md</code></li>
-<li>README: setup, exec, approach, reporting, shared/local mode</li>
-</ul>
-</div>
-</div>
+  <h2>5) Artefacte livrare</h2>
+  <div class="split">
+    <div class="mini">
+      <h3>UI</h3>
+      <ul>
+        <li>Parte a aceluiași proiect Maven</li>
+        <li><code class="inline">pom.xml</code>, <code class="inline">framework.properties</code>, <code class="inline">testng.xml</code>, <code class="inline">README.md</code></li>
+        <li><code class="inline">README.md</code> MUST: explică configurarea proiectului, pașii de execuție, abordarea de testare și strategia de raportare.</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h3>API</h3>
+      <ul>
+        <li>Parte a aceluiași proiect Maven</li>
+        <li><code class="inline">pom.xml</code>, <code class="inline">framework.properties</code>, <code class="inline">testng.xml</code>, <code class="inline">README.md</code></li>
+        <li><code class="inline">README.md</code> MUST: explică configurarea proiectului, pașii de execuție, abordarea de testare și strategia de raportare.</li>
+      </ul>
+    </div>
+  </div>
 </div>
 </div>
 </body>
