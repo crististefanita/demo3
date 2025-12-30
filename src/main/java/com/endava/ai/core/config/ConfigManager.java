@@ -30,6 +30,7 @@ public final class ConfigManager {
         return require("base.url.api");
     }
 
+    @SuppressWarnings("unused")
     public static String getAuthToken() {
         return require("auth.token");
     }
