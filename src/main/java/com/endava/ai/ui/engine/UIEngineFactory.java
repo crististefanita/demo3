@@ -4,6 +4,20 @@ import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.ui.engine.playwright.PlaywrightEngine;
 import com.endava.ai.ui.engine.selenium.SeleniumEngine;
 
+/*
+Test start
+  ↓
+UIEngineFactory.create()
+  ↓
+UIEngine.start()
+    ├─ init driver / browser
+    ├─ SET window size (2560×1440)
+    └─ engine ready
+  ↓
+Test steps
+  ↓
+Screenshots
+ */
 public final class UIEngineFactory {
     private UIEngineFactory() {}
 
@@ -12,14 +26,19 @@ public final class UIEngineFactory {
      */
     public static UIEngine create() {
         String v = ConfigManager.require("ui.engine").toLowerCase().trim();
+        UIEngine engine;
         switch (v) {
             case "playwright":
-                return new PlaywrightEngine();
+                engine = new PlaywrightEngine();
+                break;
             case "selenium":
             case "default":
-                return new SeleniumEngine();
+                engine = new SeleniumEngine();
+                break;
             default:
-                throw new IllegalArgumentException("Unsupported ui.engine: " + v + " (supported: selenium, playwright, default)");
+                throw new IllegalArgumentException("Unsupported ui.engine: " + v);
         }
+        engine.standardizeWindow();
+        return engine;
     }
 }

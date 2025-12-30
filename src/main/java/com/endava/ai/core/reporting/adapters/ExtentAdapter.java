@@ -31,8 +31,6 @@ public final class ExtentAdapter implements ReportLogger {
     private final ThreadLocal<ExtentTest> currentStep = new ThreadLocal<>();
 
     private ExtentAdapter() {
-        ConfigManager.load();
-
         String reportsDir = ConfigManager.require("reports.dir");
         boolean tsEnabled = ConfigManager.getBoolean("reports.timestamp.enabled");
         String tsFormat = ConfigManager.require("reports.timestamp.format");
@@ -52,8 +50,7 @@ public final class ExtentAdapter implements ReportLogger {
         spark.config().setReportName("UI Test Automation Framework");
 
         // Apply CSS overrides exactly (as required).
-        String css = ""
-                + ".card-title a span { color: #f2f2f2 !important; }\n"
+        String css = ".card-title a span { color: #f2f2f2 !important; }\n"
                 + ".card-title a { color: #f2f2f2 !important; }\n"
                 + ".fa { color: #f2f2f2 !important; }\n";
         spark.config().setCss(css);

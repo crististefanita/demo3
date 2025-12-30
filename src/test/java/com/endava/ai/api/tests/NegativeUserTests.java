@@ -1,7 +1,6 @@
 package com.endava.ai.api.tests;
 
 import com.endava.ai.api.client.ApiActions;
-import com.endava.ai.api.config.ConfigManager;
 import com.endava.ai.api.core.BaseTestAPI;
 import com.endava.ai.api.factory.UserFactory;
 import com.endava.ai.api.model.UserRequest;
@@ -9,6 +8,7 @@ import com.endava.ai.api.service.UsersService;
 import com.endava.ai.api.utils.JsonTestDataReader;
 import com.endava.ai.api.utils.JsonUtils;
 import com.endava.ai.api.validation.ResponseValidator;
+import com.endava.ai.core.config.ConfigManager;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;

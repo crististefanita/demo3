@@ -12,10 +12,6 @@ public final class UIActions {
 
     private UIActions() {}
 
-    /* =========================
-       Navigation
-       ========================= */
-
     public static void navigateToRelative(String relativePath) {
         String baseUrl = ConfigManager.require("base.url");
         String fullUrl = baseUrl + relativePath;
@@ -32,10 +28,6 @@ public final class UIActions {
             throw e;
         }
     }
-
-    /* =========================
-       Interactions
-       ========================= */
 
     public static void click(String cssSelector, String description) {
         StepLogger.startStep("Click on: " + description);
@@ -85,10 +77,6 @@ public final class UIActions {
             throw e;
         }
     }
-
-    /* =========================
-       Internal helpers
-       ========================= */
 
     private static void waitIfRequired(String cssSelector) {
         if (!DriverManager.getEngine().supportsAutoWait()) {

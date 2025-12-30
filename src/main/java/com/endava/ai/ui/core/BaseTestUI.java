@@ -1,6 +1,5 @@
 package com.endava.ai.ui.core;
 
-import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.core.TestListener;
 import io.qameta.allure.testng.AllureTestNg;
 import org.testng.annotations.AfterMethod;
@@ -18,7 +17,6 @@ public abstract class BaseTestUI {
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
-        ConfigManager.load();
         DriverManager.initEngine();
     }
 

@@ -1,6 +1,6 @@
 package com.endava.ai.api.client;
 
-import com.endava.ai.api.config.ConfigManager;
+import com.endava.ai.core.config.ConfigManager;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 
@@ -9,7 +9,8 @@ import static io.restassured.http.ContentType.JSON;
 public final class ApiClient {
     private static volatile boolean initialized = false;
 
-    private ApiClient() {}
+    private ApiClient() {
+    }
 
     public static synchronized void init() {
         if (initialized) return;

@@ -63,19 +63,12 @@ public final class StepLogger {
     public static void fail(String message, String stacktraceAsText) {
         requireActiveStep();
         if (STATE.get() == StepState.FAILED) return; // forbid duplicate failure/stacktrace rendering
+        ReportingManager.getLogger().logDetail(message);
         ReportingManager.getLogger().fail(message, stacktraceAsText);
         STATE.set(StepState.FAILED);
         console("  ❌ FAIL: " + message);
         // End of step context after failure
         STATE.remove();
-    }
-
-    public static void failUnhandledOutsideStep(Throwable t) {
-        // For any exception outside StepLogger-controlled steps: fail the TEST at TEST level.
-        // We cannot create a step node here without violating "no info outside step node", so we:
-        // - create a synthetic step to host failure details
-        startStep("Unhandled exception outside StepLogger-controlled step");
-        fail("Unhandled exception outside step", stacktraceToString(t));
     }
 
     private static void requireTestStarted() {

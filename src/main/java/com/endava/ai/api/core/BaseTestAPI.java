@@ -1,8 +1,8 @@
 package com.endava.ai.api.core;
 
 import com.endava.ai.api.client.ApiClient;
-import com.endava.ai.api.config.ConfigManager;
 import com.endava.ai.core.TestListener;
+import com.endava.ai.core.config.ConfigManager;
 import io.qameta.allure.testng.AllureTestNg;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;

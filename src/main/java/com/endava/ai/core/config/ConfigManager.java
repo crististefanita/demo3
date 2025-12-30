@@ -1,74 +1,69 @@
 package com.endava.ai.core.config;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Properties;
 
-/**
- * Loads and exposes framework configuration.
- * Ensures reports.dir exists before any report is produced.
- */
 public final class ConfigManager {
-    private static final String CONFIG_FILE = "framework.properties";
-    private static final Properties PROPS = new Properties();
-    private static volatile boolean loaded = false;
 
-    private ConfigManager() {}
+    private static final Properties properties = new Properties();
 
-    public static void load() {
-        if (loaded) return;
-        synchronized (ConfigManager.class) {
-            if (loaded) return;
-            try (InputStream is = ConfigManager.class.getClassLoader().getResourceAsStream(CONFIG_FILE)) {
-                if (is == null) {
-                    throw new IllegalStateException("Missing " + CONFIG_FILE + " under src/main/resources");
-                }
-                PROPS.load(is);
+    static {
+        try (InputStream is = ConfigManager.class
+                .getClassLoader()
+                .getResourceAsStream("framework.properties")) {
 
-                // Mark loaded BEFORE any require()/get() calls to avoid recursion.
-                loaded = true;
-
-                ensureReportsDirExists();
-            } catch (IOException e) {
-                throw new IllegalStateException("Failed to load " + CONFIG_FILE, e);
+            if (is == null) {
+                throw new RuntimeException("framework.properties not found on classpath");
             }
+            properties.load(is);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load framework.properties", e);
         }
     }
 
-    private static void ensureReportsDirExists() {
-        String dir = PROPS.getProperty("reports.dir");
-        if (dir == null || dir.trim().isEmpty()) {
-            throw new IllegalStateException("Missing required config property: reports.dir");
-        }
-        Path p = Paths.get(dir.trim());
-        try {
-            Files.createDirectories(p);
-        } catch (IOException e) {
-            throw new IllegalStateException("Failed to create reports.dir: " + p.toAbsolutePath(), e);
-        }
+    private ConfigManager() {
+        // prevent instantiation
+    }
+
+    public static String getApiBaseUrl() {
+        return require("base.url.api");
+    }
+
+    public static String getAuthToken() {
+        return require("auth.token");
     }
 
     public static String get(String key) {
-        load();
-        return PROPS.getProperty(key);
+        return properties.getProperty(key);
     }
 
-    public static String require(String key) {
-        String v = get(key);
-        if (v == null || v.trim().isEmpty()) {
-            throw new IllegalStateException("Missing required config property: " + key);
-        }
-        return v.trim();
+    public static String get(String key, String defaultValue) {
+        return properties.getProperty(key, defaultValue);
+    }
+
+     public static boolean getBoolean(String key) {
+        return Boolean.parseBoolean(require(key));
     }
 
     public static int getInt(String key) {
-        return Integer.parseInt(require(key));
+        try {
+            return Integer.parseInt(properties.getProperty(key));
+        } catch (Exception e) {
+            throw new RuntimeException(
+                    "Missing or invalid integer config key: " + key, e
+            );
+        }
     }
 
-    public static boolean getBoolean(String key) {
-        return Boolean.parseBoolean(require(key));
+    public static String require(String key) {
+        String value = properties.getProperty(key);
+
+        if (value == null || value.trim().isEmpty()) {
+            throw new RuntimeException("Missing required config key: " + key);
+        }
+
+        return value;
     }
+
 }

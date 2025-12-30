@@ -20,19 +20,15 @@ public final class AllureAdapter implements ReportLogger {
     private final ThreadLocal<StringBuilder> detailsBuffer =
             ThreadLocal.withInitial(StringBuilder::new);
 
-    private AllureAdapter() {}
+    private AllureAdapter() {
+    }
 
     public static AllureAdapter getInstance() {
         return INSTANCE;
     }
 
-    // --------------------------------------------------
-    // Test lifecycle (handled by AllureTestNg)
-    // --------------------------------------------------
-
     @Override
     public void startTest(String testName, String description) {
-        // NO-OP (handled by AllureTestNg)
     }
 
     @Override
@@ -40,10 +36,6 @@ public final class AllureAdapter implements ReportLogger {
         currentStepId.remove();
         detailsBuffer.remove();
     }
-
-    // --------------------------------------------------
-    // Step lifecycle
-    // --------------------------------------------------
 
     @Override
     public void startStep(String stepTitle) {
@@ -97,10 +89,6 @@ public final class AllureAdapter implements ReportLogger {
         currentStepId.remove();
     }
 
-    // --------------------------------------------------
-    // Screenshot (TEST-level ONLY)
-    // --------------------------------------------------
-
     @Override
     public void attachScreenshotBase64(String base64, String title) {
         if (base64 == null || base64.isBlank()) return;
@@ -114,42 +102,46 @@ public final class AllureAdapter implements ReportLogger {
                     is,
                     ".png"
             );
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
-
-    // --------------------------------------------------
-    // Payloads
-    // --------------------------------------------------
 
     @Override
     public void logCodeBlock(String content) {
-        attachText("Payload", content, "application/json", ".json");
+        attachText(content);
     }
 
     @Override
     public void flush() {
-        // no-op
     }
-
-    // --------------------------------------------------
-    // Helpers
-    // --------------------------------------------------
 
     private void flushDetails() {
         String content = detailsBuffer.get().toString().trim();
-        if (!content.isEmpty()) {
-            attachText("Details", content, "text/plain", ".txt");
+        if (content.isEmpty()) {
+            return;
         }
-        detailsBuffer.get().setLength(0);
+
+        byte[] bytes = content.getBytes(StandardCharsets.UTF_8);
+        try (InputStream is = new ByteArrayInputStream(bytes)) {
+            Allure.getLifecycle().addAttachment(
+                    "Details",
+                    "text/plain",
+                    ".txt",
+                    is
+            );
+        } catch (Exception ignored) {
+        } finally {
+            detailsBuffer.get().setLength(0);
+        }
     }
 
-    private void attachText(String name, String content,
-                            String mime, String ext) {
+    private void attachText(String content) {
         if (content == null) return;
 
         byte[] bytes = content.getBytes(StandardCharsets.UTF_8);
         try (InputStream is = new ByteArrayInputStream(bytes)) {
-            Allure.addAttachment(name, mime, is, ext);
-        } catch (Exception ignored) {}
+            Allure.addAttachment("Payload", "application/json", is, ".json");
+        } catch (Exception ignored) {
+        }
     }
 }
