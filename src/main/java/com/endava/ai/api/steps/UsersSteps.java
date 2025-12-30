@@ -91,6 +91,14 @@ public class UsersSteps {
         );
     }
 
+    public void deleteUserSilently(Integer userId) {
+        try {
+            svc.deleteUser(userId);
+        } catch (Exception ignored) {
+            // cleanup best-effort, fără reporting
+        }
+    }
+
     private Response createAndValidateUser(UserRequest req) {
         Response resp = createUser(req);
         ResponseValidator.statusIs(resp, 201);

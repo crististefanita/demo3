@@ -1,26 +1,25 @@
 package com.endava.ai.ui.utils;
 
 import com.endava.ai.core.config.ConfigManager;
-import com.endava.ai.ui.core.DriverManager;
 import com.endava.ai.core.reporting.StepLogger;
+import com.endava.ai.ui.core.DriverManager;
 
-/**
- * ONLY place allowed to execute waits and log wait failures.
- */
 public final class WaitUtils {
-    private WaitUtils() {}
+
+    private static final int EXPLICIT_WAIT_SECONDS = ConfigManager.getInt("explicit.wait.seconds");
+
+    private WaitUtils() {
+    }
 
     public static void waitForVisible(String cssSelector) {
-        int seconds = ConfigManager.getInt("explicit.wait.seconds");
         StepLogger.logDetail("Wait for visible: " + cssSelector);
-        DriverManager.getEngine().waitForVisible(cssSelector, seconds);
+        DriverManager.getEngine().waitForVisible(cssSelector, EXPLICIT_WAIT_SECONDS);
     }
 
     public static void waitForUrlContains(String fragment) {
-        int seconds = ConfigManager.getInt("explicit.wait.seconds");
         StepLogger.logDetail("Wait for URL contains: " + fragment);
         try {
-            DriverManager.getEngine().waitForUrlContains(fragment, seconds);
+            DriverManager.getEngine().waitForUrlContains(fragment, EXPLICIT_WAIT_SECONDS);
         } catch (Exception e) {
             StepLogger.fail("Wait failed for URL contains: " + fragment, e);
             throw e;

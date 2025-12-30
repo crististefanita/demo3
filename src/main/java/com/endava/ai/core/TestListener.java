@@ -4,7 +4,10 @@ import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.core.reporting.ReportingManager;
 import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.ui.core.DriverManager;
-import org.testng.*;
+import org.testng.ISuite;
+import org.testng.ISuiteListener;
+import org.testng.ITestListener;
+import org.testng.ITestResult;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -54,13 +57,10 @@ public final class TestListener implements ITestListener, ISuiteListener {
     @Override
     public void onTestFailure(ITestResult result) {
         try {
-            ensureFailureStep();
-            StepLogger.fail(
-                    result.getThrowable() == null ? "Test failed" : result.getThrowable().getMessage(),
-                    result.getThrowable()
-            );
+            if (!StepLogger.testHasFailed()) {
+                StepLogger.failUnhandledOutsideStep(result.getThrowable());
+            }
             attachScreenshotOnce();
-        } catch (Throwable ignored) {
         } finally {
             endTest("FAIL");
         }
@@ -78,13 +78,6 @@ public final class TestListener implements ITestListener, ISuiteListener {
     private void endTest(String status) {
         if (useExtent()) ReportingManager.getLogger().endTest(status);
         StepLogger.clearTestStarted();
-    }
-
-    private void ensureFailureStep() {
-        try {
-            StepLogger.startStep("Test failure");
-        } catch (IllegalStateException ignored) {
-        }
     }
 
     private void attachScreenshotOnce() {

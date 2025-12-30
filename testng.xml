@@ -5,14 +5,12 @@
         <listener class-name="com.endava.ai.core.TestListener"/>
     </listeners>
 
-    <!-- ================= API TESTS ================= -->
     <test name="API Tests">
         <packages>
             <package name="com.endava.ai.api.tests"/>
         </packages>
     </test>
 
-    <!-- ================= UI TESTS ================= -->
     <test name="UI Tests">
         <packages>
             <package name="com.endava.ai.ui.tests"/>

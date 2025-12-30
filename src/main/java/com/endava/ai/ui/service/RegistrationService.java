@@ -29,6 +29,7 @@ public final class RegistrationService {
         UIActions.type(RegisterPage.CITY, "City", city);
         UIActions.type(RegisterPage.STATE, "State", state);
         UIActions.type(RegisterPage.COUNTRY, "Country", country);
+//        UIActions.select(RegisterPage.COUNTRY, "Country", country);
         UIActions.type(RegisterPage.PHONE, "Phone", phone);
 
         UIActions.type(RegisterPage.EMAIL, "Email address", email);

@@ -15,7 +15,6 @@ public final class SeleniumEngine implements UIEngine {
 
     public SeleniumEngine() {
         ChromeOptions options = new ChromeOptions();
-        // Headless by default for CI friendliness; remove if you prefer UI.
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");

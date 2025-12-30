@@ -1,8 +1,10 @@
 package com.endava.ai.core.reporting;
 
 import com.endava.ai.core.config.ConfigManager;
-import com.endava.ai.core.reporting.adapters.ExtentAdapter;
 import com.endava.ai.core.reporting.adapters.AllureAdapter;
+import com.endava.ai.core.reporting.adapters.ExtentAdapter;
+
+import java.util.Locale;
 
 public final class ReportingManager {
 
@@ -11,32 +13,31 @@ public final class ReportingManager {
     private ReportingManager() {}
 
     public static ReportLogger getLogger() {
-        if (logger != null) return logger;
+        ReportLogger result = logger;
+        if (result != null) return result;
 
         synchronized (ReportingManager.class) {
-            if (logger != null) return logger;
-
-            String engine = ConfigManager
-                    .require("reporting.engine")
-                    .toLowerCase()
-                    .trim();
-
-            switch (engine) {
-                case "extent":
-                    logger = ExtentAdapter.getInstance();
-                    break;
-
-                case "allure":
-                    logger = AllureAdapter.getInstance();
-                    break;
-
-                default:
-                    throw new IllegalArgumentException(
-                            "Unsupported reporting.engine: " + engine +
-                                    " (supported: extent, allure)"
-                    );
+            if (logger == null) {
+                logger = createLogger();
             }
             return logger;
+        }
+    }
+
+    private static ReportLogger createLogger() {
+        String engine = ConfigManager.require("reporting.engine")
+                .trim()
+                .toLowerCase(Locale.ROOT);
+        switch (engine) {
+            case "extent":
+                return ExtentAdapter.getInstance();
+            case "allure":
+                return AllureAdapter.getInstance();
+            default:
+                throw new IllegalArgumentException(
+                        "Unsupported reporting.engine: " + engine +
+                                " (supported: extent, allure)"
+                );
         }
     }
 }

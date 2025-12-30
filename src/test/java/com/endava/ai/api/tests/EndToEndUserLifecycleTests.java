@@ -25,7 +25,7 @@ public class EndToEndUserLifecycleTests extends BaseTestAPI {
     @AfterMethod
     public void cleanUp() {
         if (createdUserId != null) {
-            users.deleteUser(createdUserId);
+            users.deleteUserSilently(createdUserId);
         }
     }
 

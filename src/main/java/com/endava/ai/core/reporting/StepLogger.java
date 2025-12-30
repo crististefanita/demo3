@@ -2,37 +2,35 @@ package com.endava.ai.core.reporting;
 
 import com.endava.ai.core.config.ConfigManager;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-/**
- * Exclusive step/node logging helper.
- * ONLY caller of ReportLogger.fail().
- * Enforces:
- * - exactly one failure per step
- * - StepLogger.logDetail forbidden outside active steps
- * - any step execution requires test started by TestListener
- * - stacktraces rendered once and only as code blocks (via adapter logCodeBlock)
- */
 public final class StepLogger {
+
     private static final ThreadLocal<StepState> STATE = new ThreadLocal<>();
     private static final ThreadLocal<Boolean> TEST_STARTED = new ThreadLocal<>();
+    private static final ThreadLocal<Boolean> TEST_FAILED = new ThreadLocal<>();
+
+    private static final int MAX_EXTERNAL_FRAMES = 3;
+    private static final String INTERNAL_PACKAGE = "com.endava";
 
     private StepLogger() {}
 
     public static void markTestStarted() {
         TEST_STARTED.set(Boolean.TRUE);
+        TEST_FAILED.set(Boolean.FALSE);
     }
 
     public static void clearTestStarted() {
         TEST_STARTED.remove();
         STATE.remove();
+        TEST_FAILED.remove();
+    }
+
+    public static boolean testHasFailed() {
+        return Boolean.TRUE.equals(TEST_FAILED.get());
     }
 
     public static void startStep(String title) {
         requireTestStarted();
-        ReportLogger logger = ReportingManager.getLogger();
-        logger.startStep(title);
+        ReportingManager.getLogger().startStep(title);
         STATE.set(StepState.STARTED);
         console("▶ " + title);
     }
@@ -40,7 +38,6 @@ public final class StepLogger {
     public static void logDetail(String detail) {
         requireActiveStep();
         ReportingManager.getLogger().logDetail(detail);
-        // Details are intentionally not echoed to console (requirements: console logging for step start and PASS/FAIL only).
 
         if (ConfigManager.getBoolean("console.details.enabled")) {
             console("  • " + detail);
@@ -49,7 +46,8 @@ public final class StepLogger {
 
     public static void pass(String message) {
         requireActiveStep();
-        if (STATE.get() == StepState.FAILED) return; // do not duplicate
+        if (STATE.get() == StepState.FAILED) return;
+
         ReportingManager.getLogger().pass(message);
         STATE.set(StepState.PASSED);
         console("  ✅ PASS: " + message);
@@ -57,32 +55,44 @@ public final class StepLogger {
     }
 
     public static void fail(String message, Throwable t) {
-        fail(message, stacktraceToString(t));
+        fail(message, formatStacktrace(t));
     }
 
     public static void fail(String message, String stacktraceAsText) {
         requireActiveStep();
-        if (STATE.get() == StepState.FAILED) return; // forbid duplicate failure/stacktrace rendering
+        if (STATE.get() == StepState.FAILED) return;
+
+        TEST_FAILED.set(Boolean.TRUE);
+
         ReportingManager.getLogger().logDetail(message);
         ReportingManager.getLogger().fail(message, stacktraceAsText);
         STATE.set(StepState.FAILED);
         console("  ❌ FAIL: " + message);
-        // End of step context after failure
         STATE.remove();
+    }
+
+    public static void failUnhandledOutsideStep(Throwable t) {
+        if (testHasFailed()) return;
+
+        startStep("Unhandled exception outside step");
+        fail("Unhandled exception outside step", t);
     }
 
     private static void requireTestStarted() {
         Boolean started = TEST_STARTED.get();
         if (started == null || !started) {
-            throw new IllegalStateException("Test not started. TestListener must start the test before steps run.");
+            throw new IllegalStateException(
+                    "Test not started. TestListener must start the test before steps run."
+            );
         }
     }
 
     private static void requireActiveStep() {
         requireTestStarted();
-        StepState st = STATE.get();
-        if (st == null) {
-            throw new IllegalStateException("No active step. StepLogger.logDetail/pass/fail must be called within an active step.");
+        if (STATE.get() == null) {
+            throw new IllegalStateException(
+                    "No active step. StepLogger.logDetail/pass/fail must be called within an active step."
+            );
         }
     }
 
@@ -90,14 +100,54 @@ public final class StepLogger {
         System.out.println(msg);
     }
 
-    private static String stacktraceToString(Throwable t) {
+    private static String formatStacktrace(Throwable t) {
         if (t == null) return "";
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        t.printStackTrace(pw);
-        pw.flush();
-        return sw.toString();
+
+        Throwable root = findRootCause(t);
+        StringBuilder sb = new StringBuilder();
+
+        appendRootMessage(sb, root);
+        appendRelevantFrames(sb, root);
+
+        return sb.toString();
     }
 
-    private enum StepState { STARTED, PASSED, FAILED }
+    private static Throwable findRootCause(Throwable t) {
+        Throwable current = t;
+        while (current.getCause() != null && current.getCause() != current) {
+            current = current.getCause();
+        }
+        return current;
+    }
+
+    private static void appendRootMessage(StringBuilder sb, Throwable root) {
+        String msg = root.getMessage();
+        if (msg == null) return;
+
+        int nl = msg.indexOf('\n');
+        sb.append(nl > 0 ? msg.substring(0, nl) : msg)
+                .append("\n\n");
+    }
+
+    private static void appendRelevantFrames(StringBuilder sb, Throwable root) {
+        int externalCount = 0;
+
+        for (StackTraceElement e : root.getStackTrace()) {
+            String cls = e.getClassName();
+
+            if (cls.startsWith(INTERNAL_PACKAGE)) {
+                sb.append("at ").append(e).append("\n");
+                continue;
+            }
+
+            if (externalCount < MAX_EXTERNAL_FRAMES) {
+                sb.append("at ").append(e).append("\n");
+                externalCount++;
+            }
+        }
+    }
+
+    private enum StepState {
+        STARTED, PASSED, FAILED
+    }
 }
