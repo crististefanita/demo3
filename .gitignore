@@ -1,2 +1,5 @@
 /allure-results/
 /target/
+# IntelliJ IDEA
+/.idea/
+*.iml*

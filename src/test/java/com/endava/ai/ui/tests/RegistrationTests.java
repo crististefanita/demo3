@@ -42,8 +42,6 @@ public class RegistrationTests extends BaseTestUI {
     public void negative_missing_required_fields_shows_error() {
         service.openRegister();
 
-        // Click Register immediately without filling anything
-        // (Service layer uses UIActions but doesn't need to fill fields)
         com.endava.ai.ui.utils.UIActions.click(com.endava.ai.ui.pages.RegisterPage.REGISTER_BUTTON, "Register");
 
         validation.assertStillOnRegister();

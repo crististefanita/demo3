@@ -4,8 +4,8 @@ import com.endava.ai.ui.engine.UIEngine;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.stream.Collectors;
 
 public final class PlaywrightEngine implements UIEngine {
     private final Playwright playwright;
@@ -16,12 +16,19 @@ public final class PlaywrightEngine implements UIEngine {
     public PlaywrightEngine() {
         this.playwright = Playwright.create();
         this.browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
-        this.context = browser.newContext(new Browser.NewContextOptions().setViewportSize(1440, 900));
+        this.context = browser.newContext();
         this.page = context.newPage();
     }
 
     @Override
-    public boolean supportsAutoWait() { return true; }
+    public boolean supportsAutoWait() {
+        return true;
+    }
+
+    @Override
+    public void setWindowSize(int width, int height) {
+        page.setViewportSize(width, height);
+    }
 
     @Override
     public void open(String url) {
@@ -44,18 +51,13 @@ public final class PlaywrightEngine implements UIEngine {
     @Override
     public String getText(String cssSelector) {
         Locator loc = page.locator(cssSelector);
-        int count = (int) loc.count();
-        if (count <= 0) return "";
-        if (count == 1) return loc.first().innerText();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < count; i++) {
-            String t = loc.nth(i).innerText();
-            if (t != null && !t.trim().isEmpty()) {
-                if (sb.length() > 0) sb.append("\n");
-                sb.append(t.trim());
-            }
+        if (loc.count() == 0) {
+            return "";
         }
-        return sb.toString();
+        return loc.allInnerTexts().stream()
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.joining("\n"));
     }
 
     @Override

@@ -15,17 +15,20 @@ public final class SeleniumEngine implements UIEngine {
 
     public SeleniumEngine() {
         ChromeOptions options = new ChromeOptions();
-        // Headless by default for CI friendliness; remove if you prefer UI.
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         this.driver = new ChromeDriver(options);
         this.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
-        this.driver.manage().window().setSize(new Dimension(1440, 900));
     }
 
     @Override
     public boolean supportsAutoWait() { return false; }
+
+    @Override
+    public void setWindowSize(int width, int height) {
+        driver.manage().window().setSize(new Dimension(width, height));
+    }
 
     @Override
     public void open(String url) {

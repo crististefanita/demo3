@@ -2,17 +2,15 @@
 <suite name="Full Suite" parallel="false">
     <listeners>
         <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
-        <listener class-name="com.endava.ai.ui.core.TestListener"/>
+        <listener class-name="com.endava.ai.core.TestListener"/>
     </listeners>
 
-    <!-- ================= API TESTS ================= -->
     <test name="API Tests">
         <packages>
             <package name="com.endava.ai.api.tests"/>
         </packages>
     </test>
 
-    <!-- ================= UI TESTS ================= -->
     <test name="UI Tests">
         <packages>
             <package name="com.endava.ai.ui.tests"/>

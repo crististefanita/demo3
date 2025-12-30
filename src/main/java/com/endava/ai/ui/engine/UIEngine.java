@@ -22,4 +22,10 @@ public interface UIEngine {
     String captureScreenshotAsBase64();
 
     void quit();
+
+    default void standardizeWindow() {
+        setWindowSize(2560, 1440);
+    }
+
+    void setWindowSize(int width, int height);
 }

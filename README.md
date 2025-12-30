@@ -233,9 +233,10 @@ base.url.api=https://api.example.com
 Listener order is critical:
 
 ```xml
+
 <listeners>
-  <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
-  <listener class-name="com.endava.ai.ui.core.TestListener"/>
+    <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    <listener class-name="com.endava.ai.core.TestListener"/>
 </listeners>
 ```
 

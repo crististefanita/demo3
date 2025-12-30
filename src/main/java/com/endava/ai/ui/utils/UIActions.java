@@ -1,94 +1,106 @@
 package com.endava.ai.ui.utils;
 
-import com.endava.ai.ui.config.ConfigManager;
-import com.endava.ai.ui.core.DriverManager;
+import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.core.reporting.StepLogger;
+import com.endava.ai.ui.core.DriverManager;
 
-/**
- * Centralized UI interaction abstraction.
- * All UI interactions MUST be executed via UIActions.
- */
 public final class UIActions {
 
-    private UIActions() {}
-
-    /* =========================
-       Navigation
-       ========================= */
+    private UIActions() {
+    }
 
     public static void navigateToRelative(String relativePath) {
         String baseUrl = ConfigManager.require("base.url");
         String fullUrl = baseUrl + relativePath;
 
-        StepLogger.startStep("Navigate to URL: " + fullUrl);
-        try {
-            StepLogger.logDetail("base.url=" + baseUrl);
-            StepLogger.logDetail("relativePath=" + relativePath);
-
-            DriverManager.getEngine().open(fullUrl);
-            StepLogger.pass("Navigated");
-        } catch (Exception e) {
-            StepLogger.fail("Failed navigating to: " + fullUrl, e);
-            throw e;
-        }
+        execute(
+                "Navigate to URL: " + fullUrl,
+                () -> {
+                    StepLogger.logDetail("base.url=" + baseUrl);
+                    StepLogger.logDetail("relativePath=" + relativePath);
+                    DriverManager.getEngine().open(fullUrl);
+                    WaitUtils.waitForUrlContains(relativePath);
+                },
+                "Navigated",
+                "Failed navigating to: " + fullUrl
+        );
     }
 
-    /* =========================
-       Interactions
-       ========================= */
-
     public static void click(String cssSelector, String description) {
-        StepLogger.startStep("Click on: " + description);
-        try {
-            StepLogger.logDetail("locator=" + cssSelector);
-
-            waitIfRequired(cssSelector);
-
-            DriverManager.getEngine().click(cssSelector);
-            StepLogger.pass("Clicked");
-        } catch (Exception e) {
-            StepLogger.fail("Failed clicking: " + description, e);
-            throw e;
-        }
+        execute(
+                "Click on: " + description,
+                () -> {
+                    StepLogger.logDetail("locator=" + cssSelector);
+                    waitIfRequired(cssSelector);
+                    DriverManager.getEngine().click(cssSelector);
+                },
+                "Clicked",
+                "Failed clicking: " + description
+        );
     }
 
     public static void type(String cssSelector, String description, String value) {
-        StepLogger.startStep("Type into element: " + description);
-        try {
-            StepLogger.logDetail("locator=" + cssSelector);
-            StepLogger.logDetail("value=" + value);
+        execute(
+                "Type into element: " + description,
+                () -> {
+                    StepLogger.logDetail("locator=" + cssSelector);
+                    StepLogger.logDetail("value=" + value);
+                    waitIfRequired(cssSelector);
+                    DriverManager.getEngine().type(cssSelector, value);
+                },
+                "Typed",
+                "Failed typing into: " + description
+        );
+    }
 
-            waitIfRequired(cssSelector);
+    @SuppressWarnings("unused")
+    public static void select(String cssSelector, String description, String value) {
+        execute(
+                "Select option: " + description,
+                () -> {
+                    StepLogger.logDetail("locator=" + cssSelector);
+                    StepLogger.logDetail("value=" + value);
 
-            DriverManager.getEngine().type(cssSelector, value);
-            StepLogger.pass("Typed");
-        } catch (Exception e) {
-            StepLogger.fail("Failed typing into: " + description, e);
-            throw e;
-        }
+                    if (!DriverManager.getEngine().supportsAutoWait()) {
+                        WaitUtils.waitForVisible(cssSelector);
+                    }
+
+                    DriverManager.getEngine().click(cssSelector);
+                    DriverManager.getEngine().click(cssSelector + " option[value='" + value + "']");
+                },
+                "Selected",
+                "Failed selecting: " + description
+        );
     }
 
     public static String getText(String cssSelector, String description) {
-        StepLogger.startStep("Get text from: " + description);
-        try {
-            StepLogger.logDetail("locator=" + cssSelector);
+        final String[] result = new String[1];
 
-            waitIfRequired(cssSelector);
+        execute(
+                "Get text from: " + description,
+                () -> {
+                    StepLogger.logDetail("locator=" + cssSelector);
+                    waitIfRequired(cssSelector);
+                    result[0] = DriverManager.getEngine().getText(cssSelector);
+                    StepLogger.logDetail("text=" + result[0]);
+                },
+                "Text captured",
+                "Failed getting text from: " + description
+        );
 
-            String text = DriverManager.getEngine().getText(cssSelector);
-            StepLogger.logDetail("text=" + text);
-
-            StepLogger.pass("Text captured");
-            return text;
-        } catch (Exception e) {
-            StepLogger.fail("Failed getting text from: " + description, e);
-            throw e;
-        }
+        return result[0];
     }
 
-    /* =========================
-       Internal helpers
-       ========================= */
+    private static void execute(String stepTitle, Runnable action, String successMessage, String failureMessage) {
+        StepLogger.startStep(stepTitle);
+        try {
+            action.run();
+            StepLogger.pass(successMessage);
+        } catch (Throwable e) {
+            StepLogger.fail(failureMessage, e);
+            throw new AssertionError("UI Action failed: " + stepTitle);
+        }
+    }
 
     private static void waitIfRequired(String cssSelector) {
         if (!DriverManager.getEngine().supportsAutoWait()) {
