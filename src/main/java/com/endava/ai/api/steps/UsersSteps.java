@@ -1,13 +1,13 @@
 package com.endava.ai.api.steps;
 
 import com.endava.ai.api.client.ApiActions;
+import com.endava.ai.api.client.ApiClient;
 import com.endava.ai.api.factory.UserFactory;
 import com.endava.ai.api.model.UserRequest;
 import com.endava.ai.api.model.UserResponse;
 import com.endava.ai.api.service.UsersService;
 import com.endava.ai.api.utils.JsonUtils;
 import com.endava.ai.api.validation.ResponseValidator;
-import com.endava.ai.core.config.ConfigManager;
 import io.restassured.response.Response;
 
 import static com.endava.ai.api.client.HttpMethod.*;
@@ -18,19 +18,23 @@ public class UsersSteps {
     private static final String CREATE_INVALID_EMAIL = "invalid_email_is_rejected";
 
     private final UsersService svc = new UsersService();
-    private final String usersUrl = ConfigManager.get("base.url") + svc.basePath();
 
     public UserResponse createValidUser() {
-        return createAndValidateUser(UserFactory.validUser(CREATE_VALID_USER))
-                .as(UserResponse.class);
+        return createAndValidateUser(
+                UserFactory.validUser(CREATE_VALID_USER)
+        ).as(UserResponse.class);
     }
 
     public Response createValidUserResponse() {
-        return createAndValidateUser(UserFactory.validUser(CREATE_VALID_USER));
+        return createAndValidateUser(
+                UserFactory.validUser(CREATE_VALID_USER)
+        );
     }
 
     public Response createUserWithInvalidEmail(String invalidEmail) {
-        return createUser(UserFactory.withEmail(CREATE_INVALID_EMAIL, invalidEmail));
+        return createUser(
+                UserFactory.withEmail(CREATE_INVALID_EMAIL, invalidEmail)
+        );
     }
 
     public Response createUserWithoutAuth() {
@@ -38,54 +42,68 @@ public class UsersSteps {
 
         return ApiActions.execute(
                 POST,
-                usersUrl,
+                svc.basePath(),
                 svc.basePath(),
                 JsonUtils.toJson(req),
-                () -> svc.createUserWithoutAuth(req)
+                () -> ApiClient.requestWithoutAuth()
+                        .body(req)
+                        .post(svc.basePath())
         );
     }
 
-    public Response waitUntilAvailable(Integer userId) {
-        return ResponseValidator.waitForStatus(() -> svc.getUser(userId), 200);
-    }
-
     public Response getUser(Integer id) {
+        String path = svc.basePath() + "/" + id;
+
         return ApiActions.execute(
                 GET,
-                usersUrl + "/" + id,
-                svc.basePath() + "/" + id,
+                path,
+                path,
                 null,
                 () -> svc.getUser(id)
         );
     }
 
-    public Response patchUser(Integer id, UserRequest patch) {
+    public Response waitUntilAvailable(Integer userId) {
+        return ResponseValidator.waitForStatus(
+                () -> svc.getUser(userId),
+                200
+        );
+    }
+
+     public Response patchUser(Integer id, UserRequest patch) {
+        String path = svc.basePath() + "/" + id;
+
         return ApiActions.execute(
                 PATCH,
-                usersUrl + "/" + id,
-                svc.basePath() + "/" + id,
+                path,
+                path,
                 JsonUtils.toJson(patch),
                 () -> svc.patchUser(id, patch)
         );
     }
 
     public Response deleteUser(Integer userId) {
+        String path = svc.basePath() + "/" + userId;
+
         Response resp = ApiActions.execute(
                 DELETE,
-                usersUrl + "/" + userId,
-                svc.basePath() + "/" + userId,
+                path,
+                path,
                 null,
                 () -> svc.deleteUser(userId)
         );
+
         ResponseValidator.statusIs(resp, 204);
         return resp;
     }
 
     public Response deleteUserNonExisting(Integer id) {
+        String path = svc.basePath() + "/" + id;
+
         return ApiActions.execute(
                 DELETE,
-                usersUrl + "/" + id,
-                svc.basePath() + "/" + id,
+                path,
+                path,
                 null,
                 () -> svc.deleteUser(id)
         );
@@ -108,7 +126,7 @@ public class UsersSteps {
     private Response createUser(UserRequest req) {
         return ApiActions.execute(
                 POST,
-                usersUrl,
+                svc.basePath(),
                 svc.basePath(),
                 JsonUtils.toJson(req),
                 () -> svc.createUser(req)

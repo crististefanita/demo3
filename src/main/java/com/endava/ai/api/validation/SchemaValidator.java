@@ -10,7 +10,7 @@ public final class SchemaValidator {
     public static void validate(Response resp, String schemaClasspath) {
         StepLogger.startStep("Validate JSON schema");
         try {
-            StepLogger.logDetail("schema=" + schemaClasspath);
+            StepLogger.logDetail("Validate: schema=" + schemaClasspath);
             resp.then().assertThat().body(JsonSchemaValidator.matchesJsonSchemaInClasspath(schemaClasspath));
             StepLogger.pass("Schema valid");
         } catch (AssertionError e) {

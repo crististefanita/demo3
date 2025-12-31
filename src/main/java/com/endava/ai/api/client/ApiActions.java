@@ -1,9 +1,10 @@
 package com.endava.ai.api.client;
 
-import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.core.reporting.ReportingManager;
 import com.endava.ai.core.reporting.StepLogger;
 import io.restassured.response.Response;
+
+import static com.endava.ai.core.config.ConfigManager.require;
 
 public final class ApiActions {
 
@@ -42,7 +43,7 @@ public final class ApiActions {
         if (bodyJson != null && !bodyJson.isBlank()) {
             StepLogger.logDetail("request.body");
 
-            if (ConfigManager.getBoolean("console.details.enabled")) {
+            if (getBoolean("console.details.enabled")) {
                 System.out.println("  • " + bodyJson);
             }
 
@@ -56,11 +57,15 @@ public final class ApiActions {
 
         String bodyJson = response.getBody().asPrettyString();
 
-        if (ConfigManager.getBoolean("console.details.enabled")) {
+        if (getBoolean("console.details.enabled")) {
             System.out.println("  • " + bodyJson);
         }
 
         ReportingManager.getLogger().logCodeBlock(bodyJson);
+    }
+
+    public static boolean getBoolean(String key) {
+        return Boolean.parseBoolean(require(key));
     }
 
     @FunctionalInterface

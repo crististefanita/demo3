@@ -5,13 +5,14 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
-import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.core.reporting.ReportLogger;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static com.endava.ai.core.config.ConfigManager.require;
 
 public final class ExtentAdapter implements ReportLogger {
 
@@ -22,9 +23,9 @@ public final class ExtentAdapter implements ReportLogger {
     private final ThreadLocal<ExtentTest> currentStep = new ThreadLocal<>();
 
     private ExtentAdapter() {
-        String reportsDir = ConfigManager.require("reports.dir");
-        boolean tsEnabled = ConfigManager.getBoolean("reports.timestamp.enabled");
-        String tsFormat = ConfigManager.require("reports.timestamp.format");
+        String reportsDir = require("reports.dir");
+        boolean tsEnabled = getBoolean("reports.timestamp.enabled");
+        String tsFormat = require("reports.timestamp.format");
 
         String fileName = tsEnabled
                 ? "ExtentReport_" + new SimpleDateFormat(tsFormat).format(new Date()) + ".html"
@@ -121,5 +122,9 @@ public final class ExtentAdapter implements ReportLogger {
             );
         }
         return s;
+    }
+
+    public boolean getBoolean(String key) {
+        return Boolean.parseBoolean(require(key));
     }
 }

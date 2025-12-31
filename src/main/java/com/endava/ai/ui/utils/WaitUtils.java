@@ -6,9 +6,20 @@ import com.endava.ai.ui.core.DriverManager;
 
 public final class WaitUtils {
 
-    private static final int EXPLICIT_WAIT_SECONDS = ConfigManager.getInt("explicit.wait.seconds");
+    private static final int EXPLICIT_WAIT_SECONDS = getExplicitWait();
 
     private WaitUtils() {
+    }
+
+    private static int getExplicitWait() {
+        String key = "explicit.wait.seconds";
+        try {
+            return Integer.parseInt(ConfigManager.get(key,"10"));
+        } catch (Exception e) {
+            throw new RuntimeException(
+                    "Missing or invalid integer config key: " + key, e
+            );
+        }
     }
 
     public static void waitForVisible(String cssSelector) {
