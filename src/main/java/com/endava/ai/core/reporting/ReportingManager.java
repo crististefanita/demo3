@@ -8,11 +8,12 @@ import java.util.Locale;
 
 public final class ReportingManager {
 
-    private static volatile ReportLogger logger;
+    private static ReportLogger logger;
 
-    private ReportingManager() {}
+    private ReportingManager() {
+    }
 
-    public static ReportLogger getLogger() {
+    public static synchronized ReportLogger getLogger() {
         ReportLogger result = logger;
         if (result != null) return result;
 
@@ -26,8 +27,8 @@ public final class ReportingManager {
 
     private static ReportLogger createLogger() {
         String engine = ConfigManager.require("reporting.engine")
-                .trim()
                 .toLowerCase(Locale.ROOT);
+
         switch (engine) {
             case "extent":
                 return ExtentAdapter.getInstance();

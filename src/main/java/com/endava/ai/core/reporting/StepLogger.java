@@ -1,6 +1,6 @@
 package com.endava.ai.core.reporting;
 
-import com.endava.ai.core.config.ConfigManager;
+import static com.endava.ai.core.config.ConfigManager.require;
 
 public final class StepLogger {
 
@@ -11,7 +11,8 @@ public final class StepLogger {
     private static final int MAX_EXTERNAL_FRAMES = 3;
     private static final String INTERNAL_PACKAGE = "com.endava";
 
-    private StepLogger() {}
+    private StepLogger() {
+    }
 
     public static void markTestStarted() {
         TEST_STARTED.set(Boolean.TRUE);
@@ -30,6 +31,9 @@ public final class StepLogger {
 
     public static void startStep(String title) {
         requireTestStarted();
+        if (STATE.get() != null) {
+            throw new IllegalStateException("Cannot start a new step while another step is active.");
+        }
         ReportingManager.getLogger().startStep(title);
         STATE.set(StepState.STARTED);
         console("▶ " + title);
@@ -39,7 +43,7 @@ public final class StepLogger {
         requireActiveStep();
         ReportingManager.getLogger().logDetail(detail);
 
-        if (ConfigManager.getBoolean("console.details.enabled")) {
+        if (getBoolean("console.details.enabled")) {
             console("  • " + detail);
         }
     }
@@ -145,6 +149,10 @@ public final class StepLogger {
                 externalCount++;
             }
         }
+    }
+
+    public static boolean getBoolean(String key) {
+        return Boolean.parseBoolean(require(key));
     }
 
     private enum StepState {

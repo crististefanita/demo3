@@ -1,13 +1,19 @@
 package com.endava.ai.ui.engine.playwright;
 
+import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.ui.engine.UIEngine;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
 import java.util.Base64;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public final class PlaywrightEngine implements UIEngine {
+
+    private static final int EXPLICIT_WAIT_SECONDS =
+            Integer.parseInt(Objects.requireNonNull(ConfigManager.get("explicit.wait.seconds", "10")));
+
     private final Playwright playwright;
     private final Browser browser;
     private final BrowserContext context;
@@ -15,9 +21,14 @@ public final class PlaywrightEngine implements UIEngine {
 
     public PlaywrightEngine() {
         this.playwright = Playwright.create();
-        this.browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
+        this.browser = playwright.chromium()
+                .launch(new BrowserType.LaunchOptions().setHeadless(true));
         this.context = browser.newContext();
         this.page = context.newPage();
+
+        int timeoutMs = EXPLICIT_WAIT_SECONDS * 1000;
+        page.setDefaultTimeout(timeoutMs);
+        page.setDefaultNavigationTimeout(timeoutMs);
     }
 
     @Override
@@ -37,7 +48,7 @@ public final class PlaywrightEngine implements UIEngine {
 
     @Override
     public void click(String cssSelector) {
-        // Playwright auto-wait applies
+        // Playwright auto-wait applies (uses default timeout)
         page.locator(cssSelector).first().click();
     }
 
@@ -67,6 +78,7 @@ public final class PlaywrightEngine implements UIEngine {
 
     @Override
     public void waitForVisible(String cssSelector, int seconds) {
+        // explicit wait override (still allowed)
         page.locator(cssSelector).first().waitFor(new Locator.WaitForOptions()
                 .setTimeout(seconds * 1000.0)
                 .setState(WaitForSelectorState.VISIBLE));
@@ -74,7 +86,10 @@ public final class PlaywrightEngine implements UIEngine {
 
     @Override
     public void waitForUrlContains(String fragment, int seconds) {
-        page.waitForURL("**" + fragment + "**", new Page.WaitForURLOptions().setTimeout(seconds * 1000.0));
+        page.waitForURL(
+                "**" + fragment + "**",
+                new Page.WaitForURLOptions().setTimeout(seconds * 1000.0)
+        );
     }
 
     @Override
