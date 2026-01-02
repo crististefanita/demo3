@@ -9,9 +9,16 @@ import org.testng.ISuiteListener;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class TestListener implements ITestListener, ISuiteListener {
+
+    static {
+        Runtime.getRuntime().addShutdownHook(
+                new Thread(TestListener::deleteAllureResults)
+        );
+    }
 
     private final ThreadLocal<AtomicBoolean> screenshotTaken =
             ThreadLocal.withInitial(() -> new AtomicBoolean(false));
@@ -24,12 +31,16 @@ public final class TestListener implements ITestListener, ISuiteListener {
 
     @Override
     public void onStart(ISuite suite) {
-        if (useExtent()) ReportingManager.getLogger();
+        if (useExtent()) {
+            ReportingManager.getLogger();
+        }
     }
 
     @Override
     public void onFinish(ISuite suite) {
-        if (useExtent()) ReportingManager.getLogger().flush();
+        if (useExtent()) {
+            ReportingManager.getLogger().flush();
+        }
     }
 
     @Override
@@ -76,7 +87,9 @@ public final class TestListener implements ITestListener, ISuiteListener {
     }
 
     private void endTest(String status) {
-        if (useExtent()) ReportingManager.getLogger().endTest(status);
+        if (useExtent()) {
+            ReportingManager.getLogger().endTest(status);
+        }
         StepLogger.clearTestStarted();
     }
 
@@ -85,5 +98,19 @@ public final class TestListener implements ITestListener, ISuiteListener {
             String base64 = DriverManager.getEngine().captureScreenshotAsBase64();
             ReportingManager.getLogger().attachScreenshotBase64(base64, "Failure Screenshot");
         }
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private static void deleteAllureResults() {
+        if ("allure".equalsIgnoreCase(
+                ConfigManager.get("reporting.engine", "extent")
+        )) return;
+
+        File dir = new File("allure-results");
+        File[] files = dir.listFiles();
+        if (files == null) return;
+
+        for (File f : files) f.delete();
+        dir.delete();
     }
 }

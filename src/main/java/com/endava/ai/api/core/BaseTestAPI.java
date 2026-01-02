@@ -1,16 +1,14 @@
 package com.endava.ai.api.core;
 
 import com.endava.ai.api.client.ApiClient;
-import com.endava.ai.core.TestListener;
 import com.endava.ai.core.config.ConfigManager;
-import io.qameta.allure.testng.AllureTestNg;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 
 @Listeners({
-        AllureTestNg.class,
-        TestListener.class
+        io.qameta.allure.testng.AllureTestNg.class,
+        com.endava.ai.core.TestListener.class
 })
 public abstract class BaseTestAPI {
 
@@ -21,8 +19,8 @@ public abstract class BaseTestAPI {
     }
 
     protected void requireTokenForWrites() {
-        String token = ConfigManager.get("auth.token");
-        if (token == null || token.isBlank()) {
+        String token = ConfigManager.require("auth.token");
+        if (token.isEmpty()) {
             throw new SkipException("auth.token is not set; GoRest write operations require a token");
         }
     }

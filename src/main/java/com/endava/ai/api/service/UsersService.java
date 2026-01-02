@@ -41,14 +41,6 @@ public class UsersService {
                 .andReturn();
     }
 
-    public Response createUserWithoutAuth(UserRequest req) {
-        return io.restassured.RestAssured
-                .given()
-                .contentType(io.restassured.http.ContentType.JSON)
-                .body(req)
-                .post(basePath());
-    }
-
     public String basePath() {
         return BASE_PATH;
     }

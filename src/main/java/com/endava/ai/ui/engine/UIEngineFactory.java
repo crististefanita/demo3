@@ -25,7 +25,7 @@ public final class UIEngineFactory {
      * Supported ui.engine values: selenium, playwright, default (default maps to selenium)
      */
     public static UIEngine create() {
-        String v = ConfigManager.require("ui.engine").toLowerCase().trim();
+        String v = ConfigManager.require("ui.engine").toLowerCase();
         UIEngine engine;
         switch (v) {
             case "playwright":

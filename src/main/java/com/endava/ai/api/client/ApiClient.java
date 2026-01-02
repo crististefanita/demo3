@@ -14,11 +14,11 @@ public final class ApiClient {
 
     public static synchronized void init() {
         if (initialized) return;
-        String baseUrl = ConfigManager.get("base.url");
-        if (baseUrl == null || baseUrl.isBlank()) {
-            throw new IllegalStateException("base.url is required in framework.properties");
+        String baseUrl = ConfigManager.require("base.url.api");
+        if (baseUrl.isBlank()) {
+            throw new IllegalStateException("base.url.api is required in framework.properties");
         }
-        RestAssured.baseURI = ConfigManager.getApiBaseUrl();
+        RestAssured.baseURI = baseUrl;
         initialized = true;
     }
 
@@ -28,10 +28,17 @@ public final class ApiClient {
                 .contentType(JSON)
                 .accept(JSON);
 
-        String token = ConfigManager.get("auth.token");
-        if (token != null && !token.isBlank()) {
-            req.header("Authorization", "Bearer " + token.trim());
+        String token = ConfigManager.require("auth.token");
+        if (!token.isBlank()) {
+            req.header("Authorization", "Bearer " + token);
         }
         return req;
+    }
+
+    public static RequestSpecification requestWithoutAuth() {
+        init();
+        return RestAssured.given()
+                .contentType(JSON)
+                .accept(JSON);
     }
 }
