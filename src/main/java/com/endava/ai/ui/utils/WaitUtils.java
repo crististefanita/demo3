@@ -16,7 +16,7 @@ public final class WaitUtils {
     private static int getExplicitWait() {
         String key = "explicit.wait.seconds";
         try {
-            return Integer.parseInt(Objects.requireNonNull(ConfigManager.get(key, "10")));
+            return Integer.parseInt(ConfigManager.get(key,"10"));
         } catch (Exception e) {
             throw new RuntimeException(
                     "Missing or invalid integer config key: " + key, e
