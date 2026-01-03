@@ -22,7 +22,7 @@ resources:
             type: UserRequest
         captures:
           - name: userId
-            from: "$.id"
+            from: $.id
             type: integer
 
       get:

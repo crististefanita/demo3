@@ -22,7 +22,13 @@ public final class Models {
         public String action;
         public String resource;
         public List<String> dependsOn = new ArrayList<>();
-        public List<String> captures = new ArrayList<>();
+        public List<Capture> captures = new ArrayList<>();
+    }
+
+    public static final class Capture {
+        public String name;
+        public String from;
+        public String type;
     }
 
     public static final class Cleanup {
@@ -78,12 +84,6 @@ public final class Models {
 
     public static final class Param {
         public String name;
-        public String type;
-    }
-
-    public static final class Capture {
-        public String name;
-        public String from;
         public String type;
     }
 

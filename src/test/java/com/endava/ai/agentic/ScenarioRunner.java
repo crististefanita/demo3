@@ -2,12 +2,17 @@ package com.endava.ai.agentic;
 
 import java.lang.reflect.Method;
 import java.util.*;
+
 import com.endava.ai.agentic.Models.*;
 
 public final class ScenarioRunner {
+
     private final BridgeMapping mapping;
     private final ServiceRegistry registry;
     private final PayloadFactoryRegistry payloadFactory;
+
+    // Context de execuție (date produse de pași anteriori)
+    private final Map<String, Object> context = new HashMap<>();
 
     public ScenarioRunner(
             BridgeMapping mapping,
@@ -22,7 +27,6 @@ public final class ScenarioRunner {
     public void run(ExecutableScenario scenario) {
         if (scenario == null || scenario.steps == null) return;
 
-        // naive topological execution: loop until all executed
         Set<String> executed = new HashSet<>();
         int safety = scenario.steps.size() * 5 + 10;
 
@@ -54,10 +58,16 @@ public final class ScenarioRunner {
 
     private void executeStep(ExecutableStep step) {
         Resource res = mapping.resources.get(step.resource);
-        if (res == null || res.actions == null) throw new IllegalArgumentException("Unknown resource: " + step.resource);
+        if (res == null || res.actions == null) {
+            throw new IllegalArgumentException("Unknown resource: " + step.resource);
+        }
 
         Action act = res.actions.get(step.action);
-        if (act == null) throw new IllegalArgumentException("Unknown action: " + step.action + " for resource: " + step.resource);
+        if (act == null) {
+            throw new IllegalArgumentException(
+                    "Unknown action: " + step.action + " for resource: " + step.resource
+            );
+        }
 
         String serviceFqcn = mapping.base.apiServicePackage + "." + res.service;
         Object service = registry.getService(serviceFqcn);
@@ -66,9 +76,12 @@ public final class ScenarioRunner {
         }
 
         try {
-            Method m = findMethod(service.getClass(), act.method);
+            Method method = findMethod(service.getClass(), act.method);
             Object[] args = buildArgs(act);
-            m.invoke(service, args);
+            Object result = method.invoke(service, args);
+
+            captureResult(act, result);
+
         } catch (Exception e) {
             throw new RuntimeException("Failed to execute step: " + step.stepId, e);
         }
@@ -78,7 +91,9 @@ public final class ScenarioRunner {
         for (Method m : serviceClass.getMethods()) {
             if (m.getName().equals(methodName)) return m;
         }
-        throw new IllegalArgumentException("Method not found: " + serviceClass.getName() + "." + methodName);
+        throw new IllegalArgumentException(
+                "Method not found: " + serviceClass.getName() + "." + methodName
+        );
     }
 
     private Object[] buildArgs(Action act) {
@@ -87,6 +102,7 @@ public final class ScenarioRunner {
         }
 
         Object[] args = new Object[act.params.size()];
+
         for (int i = 0; i < act.params.size(); i++) {
             Param p = act.params.get(i);
 
@@ -96,19 +112,44 @@ public final class ScenarioRunner {
             }
 
             Class<?> clazz = resolveClass(p.type);
+
+            // 1) dacă există valoare în context (ex: userId capturat)
+            Object fromContext = context.get(p.name);
+            if (fromContext != null) {
+                if (clazz == int.class || clazz == Integer.class) {
+                    args[i] = ((Number) fromContext).intValue();
+                } else if (clazz == long.class || clazz == Long.class) {
+                    args[i] = ((Number) fromContext).longValue();
+                } else if (clazz == boolean.class || clazz == Boolean.class) {
+                    args[i] = fromContext;
+                } else {
+                    args[i] = fromContext;
+                }
+                continue;
+            }
+
+            // 2) altfel, delegăm payloadFactory (ex: UserRequest)
             args[i] = payloadFactory.create(clazz);
         }
+
         return args;
     }
 
     private Class<?> resolveClass(String type) {
+        switch (type) {
+            case "int":
+                return int.class;
+            case "long":
+                return long.class;
+            case "boolean":
+                return boolean.class;
+        }
+
         try {
-            // tip complet
             if (type.contains(".")) {
                 return Class.forName(type);
             }
 
-            // tip relativ la apiModelPackage
             String fqcn = mapping.base.apiModelPackage + "." + type;
             return Class.forName(fqcn);
 
@@ -117,4 +158,49 @@ public final class ScenarioRunner {
         }
     }
 
+    private void captureResult(Action act, Object result) {
+        if (act.captures == null || result == null) return;
+
+        for (Capture c : act.captures) {
+            Object value = extractValue(result, c.from);
+            context.put(c.name, value);
+        }
+    }
+
+    private Object extractValue(Object source, String path) {
+        try {
+            if (source instanceof io.restassured.response.Response) {
+                io.restassured.response.Response resp =
+                        (io.restassured.response.Response) source;
+
+                if (path.startsWith("$.") || path.startsWith("$[")) {
+                    String jsonPath = path.startsWith("$.") ? path.substring(2) : path;
+                    return resp.jsonPath().getInt(jsonPath);
+                }
+
+                throw new IllegalArgumentException(
+                        "Unsupported capture path for Response: " + path
+                );
+            }
+
+            if (path.startsWith("response.")) {
+                String fieldName = path.substring("response.".length());
+                Method getter = source.getClass()
+                        .getMethod("get" + capitalize(fieldName));
+                return getter.invoke(source);
+            }
+
+            throw new IllegalArgumentException("Unsupported capture path: " + path);
+
+        } catch (Exception e) {
+            throw new RuntimeException(
+                    "Failed to extract capture from path: " + path, e
+            );
+        }
+    }
+
+    private String capitalize(String s) {
+        if (s == null || s.isEmpty()) return s;
+        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+    }
 }
