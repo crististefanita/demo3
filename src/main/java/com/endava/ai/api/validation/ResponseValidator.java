@@ -24,7 +24,7 @@ public final class ResponseValidator {
     }
 
     public static void statusIs(Response resp, int expected) {
-        validateStep("Validate status: expect " + expected, () -> {
+        validateStep("Validate: status=" + expected, () -> {
             int actual = resp.getStatusCode();
             StepLogger.logDetail("actual=" + actual);
             Assert.assertEquals(actual, expected, "Unexpected HTTP status");
@@ -32,7 +32,7 @@ public final class ResponseValidator {
     }
 
     public static void bodyContains(Response resp, String expectedText) {
-        validateStep("Validate response body contains: " + expectedText, () ->
+        validateStep("Validate: body~=" + expectedText, () ->
                 Assert.assertTrue(
                         resp.getBody().asString().contains(expectedText),
                         "Expected response body to contain: " + expectedText

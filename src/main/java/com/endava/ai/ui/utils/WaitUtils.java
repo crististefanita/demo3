@@ -4,6 +4,8 @@ import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.ui.core.DriverManager;
 
+import java.util.Objects;
+
 public final class WaitUtils {
 
     private static final int EXPLICIT_WAIT_SECONDS = getExplicitWait();
@@ -29,11 +31,6 @@ public final class WaitUtils {
 
     public static void waitForUrlContains(String fragment) {
         StepLogger.logDetail("Wait for URL contains: " + fragment);
-        try {
-            DriverManager.getEngine().waitForUrlContains(fragment, EXPLICIT_WAIT_SECONDS);
-        } catch (Exception e) {
-            StepLogger.fail("Wait failed for URL contains: " + fragment, e);
-            throw e;
-        }
+        DriverManager.getEngine().waitForUrlContains(fragment, EXPLICIT_WAIT_SECONDS);
     }
 }
