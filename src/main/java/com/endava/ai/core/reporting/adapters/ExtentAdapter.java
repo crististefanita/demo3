@@ -17,6 +17,7 @@ import static com.endava.ai.core.config.ConfigManager.require;
 public final class ExtentAdapter implements ReportLogger {
 
     private static final ExtentAdapter INSTANCE = new ExtentAdapter();
+    private static final String FALLBACK_NAME = "Test";
 
     private final ExtentReports extent;
     private final ThreadLocal<ExtentTest> currentTest = new ThreadLocal<>();
@@ -24,7 +25,7 @@ public final class ExtentAdapter implements ReportLogger {
 
     private ExtentAdapter() {
         String reportsDir = require("reports.dir");
-        boolean tsEnabled = getBoolean("reports.timestamp.enabled");
+        boolean tsEnabled = Boolean.parseBoolean(require("reports.timestamp.enabled"));
         String tsFormat = require("reports.timestamp.format");
 
         String fileName = tsEnabled
@@ -35,8 +36,8 @@ public final class ExtentAdapter implements ReportLogger {
 
         ExtentSparkReporter spark = new ExtentSparkReporter(reportPath.toString());
         spark.config().setTheme(Theme.DARK);
-        spark.config().setDocumentTitle("UI Test Report");
-        spark.config().setReportName("UI Test Automation Framework");
+        spark.config().setDocumentTitle("Test Report");
+        spark.config().setReportName("Automation Framework");
         spark.config().setCss(
                 ".card-title a span { color: #f2f2f2 !important; }" +
                         ".card-title a { color: #f2f2f2 !important; }" +
@@ -52,8 +53,30 @@ public final class ExtentAdapter implements ReportLogger {
     }
 
     @Override
+    public void ensureTestStarted(String testName, String description) {
+        ExtentTest t = currentTest.get();
+
+        if (t == null) {
+            currentTest.set(
+                    extent.createTest(
+                            testName != null ? testName : FALLBACK_NAME,
+                            description == null ? "" : description
+                    )
+            );
+            return;
+        }
+
+        if (testName != null && FALLBACK_NAME.equals(t.getModel().getName())) {
+            t.getModel().setName(testName);
+            if (description != null) {
+                t.getModel().setDescription(description);
+            }
+        }
+    }
+
+    @Override
     public void startTest(String testName, String description) {
-        currentTest.set(extent.createTest(testName, description == null ? "" : description));
+        ensureTestStarted(testName, description);
         currentStep.remove();
     }
 
@@ -80,10 +103,19 @@ public final class ExtentAdapter implements ReportLogger {
 
     @Override
     public void fail(String message, String stacktraceAsText) {
-        ExtentTest step = requireStep();
+        ExtentTest step;
+
+        if (currentStep.get() == null) {
+            step = requireTest().createNode("Test failure");
+            currentStep.set(step);
+        } else {
+            step = currentStep.get();
+        }
+
         step.fail(message);
         logCodeBlock(stacktraceAsText);
-        requireTest().fail(message);
+
+        currentStep.remove();
     }
 
     @Override
@@ -106,25 +138,13 @@ public final class ExtentAdapter implements ReportLogger {
 
     private ExtentTest requireTest() {
         ExtentTest t = currentTest.get();
-        if (t == null) {
-            throw new IllegalStateException(
-                    "No active test. TestListener must start the test before steps run."
-            );
-        }
+        if (t == null) throw new IllegalStateException("No active test");
         return t;
     }
 
     private ExtentTest requireStep() {
         ExtentTest s = currentStep.get();
-        if (s == null) {
-            throw new IllegalStateException(
-                    "No active step. StepLogger must start a step before logging details."
-            );
-        }
+        if (s == null) throw new IllegalStateException("No active step");
         return s;
-    }
-
-    public boolean getBoolean(String key) {
-        return Boolean.parseBoolean(require(key));
     }
 }

@@ -25,6 +25,14 @@ public final class ReportingManager {
         }
     }
 
+    public static void setLoggerForTests(ReportLogger testLogger) {
+        logger = testLogger;
+    }
+
+    public static void reset() {
+        logger = null;
+    }
+
     private static ReportLogger createLogger() {
         String engine = ConfigManager.require("reporting.engine")
                 .toLowerCase(Locale.ROOT);
@@ -41,4 +49,6 @@ public final class ReportingManager {
                 );
         }
     }
+
+
 }

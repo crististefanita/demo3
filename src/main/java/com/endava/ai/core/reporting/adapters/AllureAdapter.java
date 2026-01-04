@@ -135,6 +135,10 @@ public final class AllureAdapter implements ReportLogger {
     public void flush() {
     }
 
+    @Override
+    public void ensureTestStarted(String testName, String description) {
+    }
+
     private void attachFailureDetails(List<Parameter> params, String stacktrace) {
         StringBuilder sb = new StringBuilder();
         for (Parameter p : params) {

@@ -20,7 +20,7 @@ public abstract class BaseTestAPI {
 
     protected void requireTokenForWrites() {
         String token = ConfigManager.require("auth.token");
-        if (token.isEmpty()) {
+        if (token.isBlank()) {
             throw new SkipException("auth.token is not set; GoRest write operations require a token");
         }
     }

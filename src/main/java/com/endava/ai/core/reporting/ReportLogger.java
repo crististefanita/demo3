@@ -1,6 +1,7 @@
 package com.endava.ai.core.reporting;
 
 public interface ReportLogger {
+    void ensureTestStarted(String testName, String description);
     void startTest(String testName, String description);
     void endTest(String status);            // PASS, FAIL, SKIP
     void startStep(String stepTitle);
