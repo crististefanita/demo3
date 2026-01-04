@@ -27,9 +27,15 @@ public final class ConfigManager {
 
     public static String get(String key, String defaultValue) {
         String value = PROPERTIES.getProperty(key);
-        if (value == null) return defaultValue == null ? null : defaultValue.trim();
-        value = value.trim();
-        return value.isEmpty() ? (defaultValue == null ? null : defaultValue.trim()) : value;
+        if (value == null) {
+            return defaultValue == null ? null : defaultValue.trim();
+        }
+
+        value = stripInlineComment(value);
+
+        return value.isEmpty()
+                ? (defaultValue == null ? null : defaultValue.trim())
+                : value;
     }
 
     public static String require(String key) {
@@ -37,11 +43,18 @@ public final class ConfigManager {
         if (value == null) {
             throw new IllegalStateException("Missing config key: " + key);
         }
-        value = value.trim();
+
+        value = stripInlineComment(value);
+
         if (value.isEmpty()) {
             throw new IllegalStateException("Config key is empty: " + key);
         }
         return value;
+    }
+
+    private static String stripInlineComment(String value) {
+        if (value == null) return null;
+        return value.replaceFirst("\\s+[#!].*$", "").trim();
     }
 
 }
