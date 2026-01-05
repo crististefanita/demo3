@@ -1,24 +1,24 @@
-package com.endava.ai.core.reporting.screnshot;
+package com.endava.ai.ui.reporting;
 
 import com.endava.ai.core.reporting.ReportingManager;
 import com.endava.ai.ui.core.DriverManager;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+public final class ScreenshotManager {
 
-public class ScreenshotManager {
-    private static final ThreadLocal<AtomicBoolean> taken =
-            ThreadLocal.withInitial(() -> new AtomicBoolean(false));
+    private static final ThreadLocal<Boolean> taken = ThreadLocal.withInitial(() -> false);
 
     private ScreenshotManager() {
     }
 
+    @SuppressWarnings("unused")
     public static void resetForTest() {
-        taken.get().set(false);
+        taken.set(false);
     }
 
     public static void attachOnce(String label) {
-        if (!taken.get().getAndSet(true)
-                && DriverManager.hasActiveEngine()) {
+        if (!taken.get() && DriverManager.hasActiveEngine()) {
+
+            taken.set(true);
 
             String base64 = DriverManager.getEngine()
                     .captureScreenshotAsBase64();
@@ -26,5 +26,10 @@ public class ScreenshotManager {
             ReportingManager.getLogger()
                     .attachScreenshotBase64(base64, label);
         }
+    }
+
+    @SuppressWarnings("unused")
+    static void clear() {
+        taken.remove();
     }
 }

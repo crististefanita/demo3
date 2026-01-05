@@ -1,7 +1,7 @@
 package com.endava.ai.core.reporting.utils;
 
 public class ConsoleLoger {
-    private static final int MAX_EXTERNAL_FRAMES = 3;
+    private static final int MAX_EXTERNAL_FRAMES = 6;
     private static final String INTERNAL_PACKAGE = "com.endava";
 
     public static void console(String msg) {

@@ -1,7 +1,9 @@
 package com.endava.ai.ui.core;
 
+import com.endava.ai.core.reporting.attachment.FailureAttachmentRegistry;
 import com.endava.ai.ui.engine.UIEngine;
 import com.endava.ai.ui.engine.UIEngineFactory;
+import com.endava.ai.ui.reporting.UiScreenshotFailureHandler;
 
 /**
  * ThreadLocal engine lifecycle; hides engine specifics.
@@ -9,11 +11,17 @@ import com.endava.ai.ui.engine.UIEngineFactory;
 public final class DriverManager {
     private static final ThreadLocal<UIEngine> ENGINE = new ThreadLocal<>();
 
-    private DriverManager() {}
+    private DriverManager() {
+    }
 
     public static void initEngine() {
         if (ENGINE.get() != null) return;
+
         ENGINE.set(UIEngineFactory.create());
+
+        FailureAttachmentRegistry.register(
+                new UiScreenshotFailureHandler()
+        );
     }
 
     public static UIEngine getEngine() {

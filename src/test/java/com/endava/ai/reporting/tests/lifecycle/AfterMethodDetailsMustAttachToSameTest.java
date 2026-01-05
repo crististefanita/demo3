@@ -1,6 +1,6 @@
-package com.endava.ai.reporting.lifecycle;
+package com.endava.ai.reporting.tests.lifecycle;
 
-import com.endava.ai.core.TestListener;
+import com.endava.ai.core.listener.TestListener;
 import com.endava.ai.core.reporting.ReportingManager;
 import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.reporting.util.RecordingReportingLogger;
@@ -14,7 +14,7 @@ import org.testng.xml.XmlTest;
 import java.util.List;
 
 @SuppressWarnings("ALL")
-public class AfterTestDetailsMustBeReported {
+public class AfterMethodDetailsMustAttachToSameTest {
 
     @Listeners(TestListener.class)
     public static class TestClass {
@@ -26,16 +26,16 @@ public class AfterTestDetailsMustBeReported {
             StepLogger.pass("ok");
         }
 
-        @AfterTest
-        public void afterTest() {
-            StepLogger.startStep("afterTest");
-            StepLogger.logDetail("afterTest.detail");
+        @AfterMethod
+        public void afterMethod() {
+            StepLogger.startStep("afterMethod");
+            StepLogger.logDetail("afterMethod.detail");
             StepLogger.pass("ok");
         }
     }
 
     @Test
-    public void after_test_details_must_be_reported() {
+    public void after_method_details_must_be_attached_to_test() {
 
         RecordingReportingLogger logger = new RecordingReportingLogger();
         ReportingManager.reset();
@@ -54,9 +54,15 @@ public class AfterTestDetailsMustBeReported {
         testng.setVerbose(0);
         testng.run();
 
+        int idxTest = logger.infoMessages.indexOf("test.detail");
+        int idxAfter = logger.infoMessages.indexOf("afterMethod.detail");
+
+        Assert.assertTrue(idxTest != -1, "Missing test details");
+        Assert.assertTrue(idxAfter != -1, "Missing @AfterMethod details");
+
         Assert.assertTrue(
-                logger.infoMessages.contains("afterTest.detail"),
-                "@AfterTest details are lost and not reported"
+                idxAfter > idxTest,
+                "@AfterMethod details must appear after test details"
         );
     }
 }

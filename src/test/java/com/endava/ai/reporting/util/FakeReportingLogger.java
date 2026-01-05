@@ -9,11 +9,6 @@ public final class FakeReportingLogger implements ReportLogger {
     public int failCount = 0;
 
     @Override
-    public void ensureTestStarted(String testName, String description) {
-        // no-op
-    }
-
-    @Override
     public void startTest(String testName, String description) {
         // no-op
     }

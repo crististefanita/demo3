@@ -1,6 +1,6 @@
-package com.endava.ai.reporting;
+package com.endava.ai.reporting.tests;
 
-import com.endava.ai.core.TestListener;
+import com.endava.ai.core.listener.TestListener;
 import com.endava.ai.core.reporting.ReportingManager;
 import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.core.reporting.adapters.ExtentAdapter;
@@ -8,12 +8,27 @@ import com.endava.ai.reporting.util.FakeReportingLogger;
 import com.endava.ai.reporting.util.FakeTestResult;
 import com.endava.ai.reporting.util.RecordingReportingLogger;
 import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 public class TestListenerFailureTest {
+    @BeforeMethod
+    public void resetStateBefore() {
+        ReportingManager.reset();
+        StepLogger.clear();
+        TestListener.resetForTests();
+    }
+
+    @AfterMethod
+    public void resetStateAfter() {
+        ReportingManager.reset();
+        StepLogger.clear();
+        TestListener.resetForTests();
+    }
 
     @Test
     public void test_failure_outside_step_is_logged_as_fail() {

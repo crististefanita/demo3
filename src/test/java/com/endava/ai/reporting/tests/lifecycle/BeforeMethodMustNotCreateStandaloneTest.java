@@ -1,6 +1,6 @@
-package com.endava.ai.reporting.lifecycle;
+package com.endava.ai.reporting.tests.lifecycle;
 
-import com.endava.ai.core.TestListener;
+import com.endava.ai.core.listener.TestListener;
 import com.endava.ai.core.reporting.ReportingManager;
 import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.reporting.util.FakeTestResult;

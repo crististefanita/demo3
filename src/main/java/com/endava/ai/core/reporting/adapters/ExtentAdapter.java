@@ -23,56 +23,23 @@ public final class ExtentAdapter implements ReportLogger {
     private final ThreadLocal<ExtentTest> currentStep = new ThreadLocal<>();
 
     private ExtentAdapter() {
-        String reportsDir = require("reports.dir");
-        boolean tsEnabled = Boolean.parseBoolean(require("reports.timestamp.enabled"));
-        String tsFormat = require("reports.timestamp.format");
-
-        String fileName = tsEnabled
-                ? "ExtentReport_" + new SimpleDateFormat(tsFormat).format(new Date()) + ".html"
-                : "ExtentReport.html";
-
-        Path reportPath = Paths.get(reportsDir, fileName);
-
-        ExtentSparkReporter spark = new ExtentSparkReporter(reportPath.toString());
-        spark.config().setTheme(Theme.DARK);
-        spark.config().setDocumentTitle("Test Report");
-        spark.config().setReportName("Automation Framework");
-        spark.config().setCss(
-                ".card-title a span { color: #f2f2f2 !important; }" +
-                        ".card-title a { color: #f2f2f2 !important; }" +
-                        ".fa { color: #f2f2f2 !important; }"
-        );
-
-        extent = new ExtentReports();
-        extent.attachReporter(spark);
+        this.extent = createExtent();
     }
 
     public static ExtentAdapter getInstance() {
         return INSTANCE;
     }
 
-    // ----------------------------------------------------
-
     @Override
     public void ensureTestStarted(String testName, String description) {
-        ExtentTest t = currentTest.get();
+        ExtentTest test = currentTest.get();
 
-        if (t == null) {
-            currentTest.set(
-                    extent.createTest(
-                            testName != null ? testName : FALLBACK_NAME,
-                            description != null ? description : ""
-                    )
-            );
+        if (test == null) {
+            currentTest.set(createTest(testName, description));
             return;
         }
 
-        if (testName != null && FALLBACK_NAME.equals(t.getModel().getName())) {
-            t.getModel().setName(testName);
-            if (description != null) {
-                t.getModel().setDescription(description);
-            }
-        }
+        renameFallbackTestIfNeeded(test, testName, description);
     }
 
     @Override
@@ -86,8 +53,6 @@ public final class ExtentAdapter implements ReportLogger {
         currentStep.remove();
         currentTest.remove();
     }
-
-    // ----------------------------------------------------
 
     @Override
     public void startStep(String stepTitle) {
@@ -106,13 +71,7 @@ public final class ExtentAdapter implements ReportLogger {
 
     @Override
     public void fail(String message, String stacktraceAsText) {
-        ExtentTest node = currentStep.get();
-
-        if (node == null) {
-            node = requireTest().createNode("Failure");
-            currentStep.set(node);
-        }
-
+        ExtentTest node = getOrCreateFailureNode();
         node.fail(message);
 
         if (stacktraceAsText != null) {
@@ -142,19 +101,72 @@ public final class ExtentAdapter implements ReportLogger {
         extent.flush();
     }
 
-    // ----------------------------------------------------
+    private ExtentReports createExtent() {
+        String reportsDir = require("reports.dir");
+        boolean tsEnabled = Boolean.parseBoolean(require("reports.timestamp.enabled"));
+        String tsFormat = require("reports.timestamp.format");
+
+        String fileName = tsEnabled
+                ? "ExtentReport_" + new SimpleDateFormat(tsFormat).format(new Date()) + ".html"
+                : "ExtentReport.html";
+
+        Path reportPath = Paths.get(reportsDir, fileName);
+
+        ExtentSparkReporter spark = new ExtentSparkReporter(reportPath.toString());
+        spark.config().setTheme(Theme.DARK);
+        spark.config().setDocumentTitle("Test Report");
+        spark.config().setReportName("Automation Framework");
+        spark.config().setCss(
+                ".card-title a span { color: #f2f2f2 !important; }" +
+                        ".card-title a { color: #f2f2f2 !important; }" +
+                        ".fa { color: #f2f2f2 !important; }"
+        );
+
+        ExtentReports reports = new ExtentReports();
+        reports.attachReporter(spark);
+        return reports;
+    }
+
+    private ExtentTest createTest(String testName, String description) {
+        return extent.createTest(
+                testName != null ? testName : FALLBACK_NAME,
+                description != null ? description : ""
+        );
+    }
+
+    private static void renameFallbackTestIfNeeded(
+            ExtentTest test,
+            String testName,
+            String description
+    ) {
+        if (testName == null) return;
+        if (!FALLBACK_NAME.equals(test.getModel().getName())) return;
+
+        test.getModel().setName(testName);
+        if (description != null) {
+            test.getModel().setDescription(description);
+        }
+    }
+
+    private ExtentTest getOrCreateFailureNode() {
+        ExtentTest node = currentStep.get();
+        if (node != null) return node;
+
+        node = requireTest().createNode("Failure");
+        currentStep.set(node);
+        return node;
+    }
 
     private ExtentTest requireTest() {
-        ExtentTest t = currentTest.get();
-        if (t == null) {
+        ExtentTest test = currentTest.get();
+        if (test == null) {
             throw new IllegalStateException("No active test");
         }
-        return t;
+        return test;
     }
 
     private ExtentTest getActiveNode() {
-        return currentStep.get() != null
-                ? currentStep.get()
-                : requireTest();
+        ExtentTest step = currentStep.get();
+        return step != null ? step : requireTest();
     }
 }

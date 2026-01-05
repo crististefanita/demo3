@@ -14,22 +14,18 @@ public final class RecordingTestNamesLogger implements ReportLogger {
 
     @Override
     public void ensureTestStarted(String testName, String description) {
-        String existing = currentTest.get();
-
-        if (existing == null) {
-            String name = testName != null ? testName : FALLBACK_NAME;
-            currentTest.set(name);
-            startedTests.add(name);
+        if (currentTest.get() != null) {
+            if (testName != null && FALLBACK_NAME.equals(currentTest.get())) {
+                int last = startedTests.lastIndexOf(FALLBACK_NAME);
+                if (last >= 0) startedTests.set(last, testName);
+                currentTest.set(testName);
+            }
             return;
         }
 
-        if (testName != null && FALLBACK_NAME.equals(existing)) {
-            int last = startedTests.lastIndexOf(FALLBACK_NAME);
-            if (last >= 0) {
-                startedTests.set(last, testName);
-            }
-            currentTest.set(testName);
-        }
+        String name = testName != null ? testName : FALLBACK_NAME;
+        currentTest.set(name);
+        startedTests.add(name);
     }
 
     @Override
