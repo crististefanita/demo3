@@ -1,7 +1,6 @@
 package com.endava.ai.core.reporting.adapters;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.*;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
@@ -52,6 +51,8 @@ public final class ExtentAdapter implements ReportLogger {
         return INSTANCE;
     }
 
+    // ----------------------------------------------------
+
     @Override
     public void ensureTestStarted(String testName, String description) {
         ExtentTest t = currentTest.get();
@@ -60,7 +61,7 @@ public final class ExtentAdapter implements ReportLogger {
             currentTest.set(
                     extent.createTest(
                             testName != null ? testName : FALLBACK_NAME,
-                            description == null ? "" : description
+                            description != null ? description : ""
                     )
             );
             return;
@@ -86,6 +87,8 @@ public final class ExtentAdapter implements ReportLogger {
         currentTest.remove();
     }
 
+    // ----------------------------------------------------
+
     @Override
     public void startStep(String stepTitle) {
         currentStep.set(requireTest().createNode(stepTitle));
@@ -93,27 +96,28 @@ public final class ExtentAdapter implements ReportLogger {
 
     @Override
     public void logDetail(String detail) {
-        requireStep().info(detail);
+        getActiveNode().info(detail);
     }
 
     @Override
     public void pass(String message) {
-        requireStep().pass(message);
+        getActiveNode().pass(message);
     }
 
     @Override
     public void fail(String message, String stacktraceAsText) {
-        ExtentTest step;
+        ExtentTest node = currentStep.get();
 
-        if (currentStep.get() == null) {
-            step = requireTest().createNode("Test failure");
-            currentStep.set(step);
-        } else {
-            step = currentStep.get();
+        if (node == null) {
+            node = requireTest().createNode("Failure");
+            currentStep.set(node);
         }
 
-        step.fail(message);
-        logCodeBlock(stacktraceAsText);
+        node.fail(message);
+
+        if (stacktraceAsText != null) {
+            node.fail(MarkupHelper.createCodeBlock(stacktraceAsText));
+        }
 
         currentStep.remove();
     }
@@ -122,13 +126,15 @@ public final class ExtentAdapter implements ReportLogger {
     public void attachScreenshotBase64(String base64, String title) {
         requireTest().addScreenCaptureFromBase64String(
                 base64,
-                title == null ? "Screenshot" : title
+                title != null ? title : "Screenshot"
         );
     }
 
     @Override
     public void logCodeBlock(String content) {
-        requireStep().info(MarkupHelper.createCodeBlock(content == null ? "" : content));
+        getActiveNode().info(
+                MarkupHelper.createCodeBlock(content != null ? content : "")
+        );
     }
 
     @Override
@@ -136,15 +142,19 @@ public final class ExtentAdapter implements ReportLogger {
         extent.flush();
     }
 
+    // ----------------------------------------------------
+
     private ExtentTest requireTest() {
         ExtentTest t = currentTest.get();
-        if (t == null) throw new IllegalStateException("No active test");
+        if (t == null) {
+            throw new IllegalStateException("No active test");
+        }
         return t;
     }
 
-    private ExtentTest requireStep() {
-        ExtentTest s = currentStep.get();
-        if (s == null) throw new IllegalStateException("No active step");
-        return s;
+    private ExtentTest getActiveNode() {
+        return currentStep.get() != null
+                ? currentStep.get()
+                : requireTest();
     }
 }

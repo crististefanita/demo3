@@ -15,7 +15,7 @@ public class BeforeTestLifecycleFailureTest {
         ReportingManager.reset();
         ReportingManager.setLoggerForTests(ExtentAdapter.getInstance());
 
-        StepLogger.clearTestStarted();
+        StepLogger.clear();
 
         try {
             ApiActions.execute(

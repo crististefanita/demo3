@@ -17,7 +17,7 @@ public class BeforeMethodMustNotCreateStandaloneTest {
         ReportingManager.reset();
         ReportingManager.setLoggerForTests(logger);
 
-        StepLogger.clearTestStarted();
+        StepLogger.clear();
 
         StepLogger.startStep("Validate: status=200");
         StepLogger.pass("Validated");
