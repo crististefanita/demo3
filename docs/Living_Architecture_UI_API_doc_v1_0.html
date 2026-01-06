@@ -1145,7 +1145,7 @@ DELETE /public/v2/users/{user_id} -&gt; expect 204</code></pre>
 <div><b>MUST</b> toate testele UI extind această clasă <code>BaseTestUI</code></div>
 <pre><code>@Listeners({
     io.qameta.allure.testng.AllureTestNg.class,
-    com.endava.ai.core.TestListener.class
+    com.endava.ai.core.listener.TestListener.class
 })
 public abstract class BaseTestUI {
 
@@ -1163,7 +1163,7 @@ public abstract class BaseTestUI {
 <div><b>MUST</b> toate testele API extind această clasă <code>BaseTestAPI</code></div>
 <pre><code>@Listeners({
     io.qameta.allure.testng.AllureTestNg.class,
-    com.endava.ai.core.TestListener.class
+    com.endava.ai.core.listener.TestListener.class
 })
 public abstract class BaseTestAPI {
 

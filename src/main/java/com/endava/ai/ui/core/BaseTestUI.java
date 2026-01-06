@@ -1,6 +1,6 @@
 package com.endava.ai.ui.core;
 
-import com.endava.ai.core.TestListener;
+import com.endava.ai.core.listener.TestListener;
 import io.qameta.allure.testng.AllureTestNg;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

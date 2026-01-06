@@ -10,4 +10,8 @@ public interface ReportLogger {
     void attachScreenshotBase64(String base64, String title);
     void logCodeBlock(String content);
     void flush();
+
+    default void ensureTestStarted(String testName, String description) {
+        startTest(testName, description);
+    }
 }

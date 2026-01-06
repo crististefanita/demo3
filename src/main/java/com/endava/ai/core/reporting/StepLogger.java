@@ -1,28 +1,30 @@
 package com.endava.ai.core.reporting;
 
 import static com.endava.ai.core.config.ConfigManager.require;
+import static com.endava.ai.core.reporting.utils.ConsoleLoger.console;
+import static com.endava.ai.core.reporting.utils.ConsoleLoger.formatStacktrace;
 
 public final class StepLogger {
 
-    private static final ThreadLocal<StepState> STATE = new ThreadLocal<>();
-    private static final ThreadLocal<Boolean> TEST_STARTED = new ThreadLocal<>();
+    private static final ThreadLocal<Boolean> STEP_ACTIVE = new ThreadLocal<>();
     private static final ThreadLocal<Boolean> TEST_FAILED = new ThreadLocal<>();
-
-    private static final int MAX_EXTERNAL_FRAMES = 3;
-    private static final String INTERNAL_PACKAGE = "com.endava";
+    private static final ThreadLocal<ReportLogger> DELEGATE = new ThreadLocal<>();
 
     private StepLogger() {
     }
 
-    public static void markTestStarted() {
-        TEST_STARTED.set(Boolean.TRUE);
-        TEST_FAILED.set(Boolean.FALSE);
+    public static void setDelegate(ReportLogger logger) {
+        DELEGATE.set(logger);
     }
 
-    public static void clearTestStarted() {
-        TEST_STARTED.remove();
-        STATE.remove();
+    public static void clearDelegate() {
+        DELEGATE.remove();
+    }
+
+    public static void clear() {
+        STEP_ACTIVE.remove();
         TEST_FAILED.remove();
+        DELEGATE.remove();
     }
 
     public static boolean testHasFailed() {
@@ -30,32 +32,38 @@ public final class StepLogger {
     }
 
     public static void startStep(String title) {
-        requireTestStarted();
-        if (STATE.get() != null) {
+        if (Boolean.TRUE.equals(STEP_ACTIVE.get()))
             throw new IllegalStateException("Cannot start a new step while another step is active.");
-        }
-        ReportingManager.getLogger().startStep(title);
-        STATE.set(StepState.STARTED);
+        STEP_ACTIVE.set(Boolean.TRUE);
         console("▶ " + title);
+
+        ReportLogger l = DELEGATE.get();
+        if (l != null) l.startStep(title);
     }
 
     public static void logDetail(String detail) {
         requireActiveStep();
-        ReportingManager.getLogger().logDetail(detail);
 
-        if (getBoolean("console.details.enabled")) {
-            console("  • " + detail);
-        }
+        ReportLogger l = DELEGATE.get();
+        if (l != null) l.logDetail(detail);
+
+        if (getBoolean("console.details.enabled")) console("  • " + detail);
+    }
+
+    public static void logCodeBlock(String content) {
+        requireActiveStep();
+        ReportLogger l = DELEGATE.get();
+        if (l != null) l.logCodeBlock(content);
     }
 
     public static void pass(String message) {
         requireActiveStep();
-        if (STATE.get() == StepState.FAILED) return;
-
-        ReportingManager.getLogger().pass(message);
-        STATE.set(StepState.PASSED);
         console("  ✅ PASS: " + message);
-        STATE.remove();
+
+        ReportLogger l = DELEGATE.get();
+        if (l != null) l.pass(message);
+
+        STEP_ACTIVE.remove();
     }
 
     public static void fail(String message, Throwable t) {
@@ -64,98 +72,32 @@ public final class StepLogger {
 
     public static void fail(String message, String stacktraceAsText) {
         requireActiveStep();
-        if (STATE.get() == StepState.FAILED) return;
-
         TEST_FAILED.set(Boolean.TRUE);
-
-        ReportingManager.getLogger().logDetail(message);
-        ReportingManager.getLogger().fail(message, stacktraceAsText);
-        STATE.set(StepState.FAILED);
         console("  ❌ FAIL: " + message);
-        STATE.remove();
+
+        ReportLogger l = DELEGATE.get();
+        if (l != null) l.fail(message, stacktraceAsText);
+
+        STEP_ACTIVE.remove();
     }
 
     public static void failUnhandledOutsideStep(Throwable t) {
         if (testHasFailed()) return;
 
-        startStep("Unhandled exception outside step");
-        fail("Unhandled exception outside step", t);
-    }
+        TEST_FAILED.set(Boolean.TRUE);
 
-    private static void requireTestStarted() {
-        Boolean started = TEST_STARTED.get();
-        if (started == null || !started) {
-            throw new IllegalStateException(
-                    "Test not started. TestListener must start the test before steps run."
-            );
+        ReportLogger l = DELEGATE.get();
+        if (l != null) {
+            l.fail("Unhandled exception outside step", formatStacktrace(t));
+            console("  ❌ FAIL: Unhandled exception outside step");
         }
     }
 
     private static void requireActiveStep() {
-        requireTestStarted();
-        if (STATE.get() == null) {
-            throw new IllegalStateException(
-                    "No active step. StepLogger.logDetail/pass/fail must be called within an active step."
-            );
-        }
+        if (!Boolean.TRUE.equals(STEP_ACTIVE.get())) throw new IllegalStateException("No active step.");
     }
 
-    private static void console(String msg) {
-        System.out.println(msg);
-    }
-
-    private static String formatStacktrace(Throwable t) {
-        if (t == null) return "";
-
-        Throwable root = findRootCause(t);
-        StringBuilder sb = new StringBuilder();
-
-        appendRootMessage(sb, root);
-        appendRelevantFrames(sb, root);
-
-        return sb.toString();
-    }
-
-    private static Throwable findRootCause(Throwable t) {
-        Throwable current = t;
-        while (current.getCause() != null && current.getCause() != current) {
-            current = current.getCause();
-        }
-        return current;
-    }
-
-    private static void appendRootMessage(StringBuilder sb, Throwable root) {
-        String msg = root.getMessage();
-        if (msg == null) return;
-
-        int nl = msg.indexOf('\n');
-        sb.append(nl > 0 ? msg.substring(0, nl) : msg)
-                .append("\n\n");
-    }
-
-    private static void appendRelevantFrames(StringBuilder sb, Throwable root) {
-        int externalCount = 0;
-
-        for (StackTraceElement e : root.getStackTrace()) {
-            String cls = e.getClassName();
-
-            if (cls.startsWith(INTERNAL_PACKAGE)) {
-                sb.append("at ").append(e).append("\n");
-                continue;
-            }
-
-            if (externalCount < MAX_EXTERNAL_FRAMES) {
-                sb.append("at ").append(e).append("\n");
-                externalCount++;
-            }
-        }
-    }
-
-    public static boolean getBoolean(String key) {
+    private static boolean getBoolean(String key) {
         return Boolean.parseBoolean(require(key));
-    }
-
-    private enum StepState {
-        STARTED, PASSED, FAILED
     }
 }
