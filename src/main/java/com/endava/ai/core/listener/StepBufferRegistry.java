@@ -7,79 +7,105 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 
 final class StepBufferRegistry {
-
     private static final Object SUITE_SCOPE = new Object();
-
-    private final Map<Object, StepBufferLogger> before = new IdentityHashMap<>();
-    private final Map<Object, StepBufferLogger> after = new IdentityHashMap<>();
-    private final ThreadLocal<StepBufferLogger> beforeMethod =
-            ThreadLocal.withInitial(StepBufferLogger::new);
-    private final Map<Class<?>, Boolean> firstSeenClass = new IdentityHashMap<>();
+    private final Map<Object, StepBufferLogger> beforeSuite = new IdentityHashMap<>();
+    private final Map<Class<?>, StepBufferLogger> beforeTest = new IdentityHashMap<>();
+    private final Map<Class<?>, StepBufferLogger> beforeClass = new IdentityHashMap<>();
+    private final Map<Class<?>, StepBufferLogger> afterTest = new IdentityHashMap<>();
+    private final Map<Class<?>, StepBufferLogger> afterClass = new IdentityHashMap<>();
+    private final Map<Object, StepBufferLogger> afterSuite = new IdentityHashMap<>();
+    private final ThreadLocal<StepBufferLogger> beforeMethod = ThreadLocal.withInitial(StepBufferLogger::new);
+    private final ThreadLocal<StepBufferLogger> afterMethod = ThreadLocal.withInitial(StepBufferLogger::new);
 
     StepBufferLogger beforeMethod() {
         return beforeMethod.get();
     }
 
+    StepBufferLogger afterMethod() {
+        return afterMethod.get();
+    }
+
     StepBufferLogger beforeFor(ITestNGMethod m) {
-        return before.computeIfAbsent(scopeOf(m), k -> new StepBufferLogger());
+        if (m.isBeforeSuiteConfiguration())
+            return beforeSuite.computeIfAbsent(SUITE_SCOPE, k -> new StepBufferLogger());
+        if (m.isBeforeClassConfiguration())
+            return beforeClass.computeIfAbsent(m.getRealClass(), k -> new StepBufferLogger());
+        if (m.isBeforeTestConfiguration())
+            return beforeTest.computeIfAbsent(m.getRealClass(), k -> new StepBufferLogger());
+        return beforeSuite.computeIfAbsent(SUITE_SCOPE, k -> new StepBufferLogger());
     }
 
     StepBufferLogger afterFor(ITestNGMethod m) {
-        return after.computeIfAbsent(scopeOf(m), k -> new StepBufferLogger());
+        if (m.isAfterSuiteConfiguration()) return afterSuite.computeIfAbsent(SUITE_SCOPE, k -> new StepBufferLogger());
+        if (m.isAfterClassConfiguration())
+            return afterClass.computeIfAbsent(m.getRealClass(), k -> new StepBufferLogger());
+        if (m.isAfterTestConfiguration())
+            return afterTest.computeIfAbsent(m.getRealClass(), k -> new StepBufferLogger());
+        return afterSuite.computeIfAbsent(SUITE_SCOPE, k -> new StepBufferLogger());
     }
 
     StepBufferLogger peekBeforeSuite() {
-        return before.get(SUITE_SCOPE);
+        return beforeSuite.get(SUITE_SCOPE);
+    }
+
+    StepBufferLogger peekBeforeTest(Class<?> cls) {
+        return beforeTest.get(cls);
     }
 
     StepBufferLogger peekBeforeClass(Class<?> cls) {
-        return before.get(cls);
+        return beforeClass.get(cls);
+    }
+
+    StepBufferLogger peekAfterTest(Class<?> cls) {
+        return afterTest.get(cls);
     }
 
     StepBufferLogger peekAfterClass(Class<?> cls) {
-        return after.get(cls);
+        return afterClass.get(cls);
+    }
+
+    StepBufferLogger peekAfterSuite() {
+        return afterSuite.get(SUITE_SCOPE);
     }
 
     void flushBeforeSuite(ReportLogger logger) {
-        StepBufferLogger s = before.remove(SUITE_SCOPE);
+        StepBufferLogger s = beforeSuite.remove(SUITE_SCOPE);
         if (s != null) s.flushTo(logger);
     }
 
-    void flushBeforeClass(Class<?> cls, ReportLogger logger) {
-        if (firstSeenClass.putIfAbsent(cls, Boolean.TRUE) == null) {
-            StepBufferLogger b = before.remove(cls);
-            if (b != null) b.flushTo(logger);
-        }
+    void flushBeforeTest(Class<?> cls, ReportLogger logger) {
+        StepBufferLogger b = beforeTest.remove(cls);
+        if (b != null) b.flushTo(logger);
     }
 
-    void flushAfterClassForLastTest(Class<?> cls, ReportLogger logger) {
-        StepBufferLogger a = after.remove(cls);
+    void flushBeforeClass(Class<?> cls, ReportLogger logger) {
+        StepBufferLogger b = beforeClass.remove(cls);
+        if (b != null) b.flushTo(logger);
+    }
+
+    void flushAfterTestForLastReport(Class<?> cls, ReportLogger logger) {
+        StepBufferLogger a = afterTest.remove(cls);
         if (a != null) a.flushTo(logger);
     }
 
-    @SuppressWarnings("unused")
-    void flushAfterSuiteForLastTest(ReportLogger logger) {
-        StepBufferLogger s = after.remove(SUITE_SCOPE);
+    void flushAfterClassForLastReport(Class<?> cls, ReportLogger logger) {
+        StepBufferLogger a = afterClass.remove(cls);
+        if (a != null) a.flushTo(logger);
+    }
+
+    void flushAfterSuiteForLastReport(ReportLogger logger) {
+        StepBufferLogger s = afterSuite.remove(SUITE_SCOPE);
         if (s != null) s.flushTo(logger);
     }
 
     void clear() {
-        before.clear();
-        after.clear();
-        firstSeenClass.clear();
+        beforeSuite.clear();
+        beforeTest.clear();
+        beforeClass.clear();
+        afterTest.clear();
+        afterClass.clear();
+        afterSuite.clear();
         beforeMethod.get().clear();
-    }
-
-    private static Object scopeOf(ITestNGMethod m) {
-        if (m.isBeforeClassConfiguration() || m.isAfterClassConfiguration())
-            return m.getRealClass();
-
-        if (m.isBeforeTestConfiguration() || m.isAfterTestConfiguration())
-            return m.getRealClass();
-
-        if (m.isAfterSuiteConfiguration())
-            return SUITE_SCOPE;
-
-        return SUITE_SCOPE;
+        afterMethod.get().clear();
     }
 }

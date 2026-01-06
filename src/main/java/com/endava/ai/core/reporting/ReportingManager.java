@@ -10,7 +10,8 @@ public final class ReportingManager {
 
     private static ReportLogger logger;
 
-    private ReportingManager() {}
+    private ReportingManager() {
+    }
 
     @SuppressWarnings("ConstantConditions")
     public static synchronized ReportLogger getLogger() {
@@ -21,7 +22,9 @@ public final class ReportingManager {
         return logger;
     }
 
-    /** for unit tests / core-only usage */
+    /**
+     * for unit tests / core-only usage
+     */
     public static synchronized ReportLogger tryGetLogger() {
         if (logger != null) return logger;
 
@@ -49,8 +52,16 @@ public final class ReportingManager {
         String engine = engineRaw.toLowerCase(Locale.ROOT);
 
         switch (engine) {
-            case "extent": return ExtentAdapter.getInstance();
-            case "allure": return AllureAdapter.getInstance();
+            case "extent":
+                return new CompositeReportLogger(
+                        ExtentAdapter.getInstance(),
+                        AllureAdapter.getInstance()
+                );
+            case "allure":
+                return new CompositeReportLogger(
+                        AllureAdapter.getInstance(),
+                        ExtentAdapter.getInstance()
+                );
             default:
                 throw new IllegalArgumentException(
                         "Unsupported reporting.engine: " + engine + " (supported: extent, allure)"

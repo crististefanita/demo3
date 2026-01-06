@@ -79,6 +79,7 @@ public final class ExtentAdapter implements ReportLogger {
 
     @Override
     public void fail(String message, String stacktraceAsText) {
+        ensureTestStartedIfNeeded();
         ExtentTest node = getActiveNode();
         node.fail(message);
 
@@ -173,5 +174,11 @@ public final class ExtentAdapter implements ReportLogger {
         Deque<ExtentTest> st = stepStack.get();
         ExtentTest node = st.peekLast();
         return node != null ? node : requireTest();
+    }
+
+    private void ensureTestStartedIfNeeded() {
+        if (currentTest.get() == null) {
+            currentTest.set(createTest(FALLBACK_NAME, null));
+        }
     }
 }
