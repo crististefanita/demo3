@@ -12,7 +12,6 @@ public final class ReportingEngineCleanup {
         deleteAllureResults();
     }
 
-
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void deleteAllureResults() {
         File dir = new File("allure-results");

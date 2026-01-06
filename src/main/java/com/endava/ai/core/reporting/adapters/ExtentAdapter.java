@@ -9,7 +9,9 @@ import com.endava.ai.core.reporting.ReportLogger;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayDeque;
 import java.util.Date;
+import java.util.Deque;
 
 import static com.endava.ai.core.config.ConfigManager.require;
 
@@ -20,7 +22,8 @@ public final class ExtentAdapter implements ReportLogger {
 
     private final ExtentReports extent;
     private final ThreadLocal<ExtentTest> currentTest = new ThreadLocal<>();
-    private final ThreadLocal<ExtentTest> currentStep = new ThreadLocal<>();
+    private final ThreadLocal<Deque<ExtentTest>> stepStack =
+            ThreadLocal.withInitial(ArrayDeque::new);
 
     private ExtentAdapter() {
         this.extent = createExtent();
@@ -45,18 +48,21 @@ public final class ExtentAdapter implements ReportLogger {
     @Override
     public void startTest(String testName, String description) {
         ensureTestStarted(testName, description);
-        currentStep.remove();
+        stepStack.get().clear();
     }
 
     @Override
     public void endTest(String status) {
-        currentStep.remove();
+        stepStack.get().clear();
+        stepStack.remove();
         currentTest.remove();
     }
 
     @Override
     public void startStep(String stepTitle) {
-        currentStep.set(requireTest().createNode(stepTitle));
+        ExtentTest parent = stepStack.get().peekLast();
+        ExtentTest node = (parent != null ? parent : requireTest()).createNode(stepTitle);
+        stepStack.get().addLast(node);
     }
 
     @Override
@@ -66,19 +72,21 @@ public final class ExtentAdapter implements ReportLogger {
 
     @Override
     public void pass(String message) {
-        getActiveNode().pass(message);
+        ExtentTest node = getActiveNode();
+        node.pass(message);
+        popIfStep();
     }
 
     @Override
     public void fail(String message, String stacktraceAsText) {
-        ExtentTest node = getOrCreateFailureNode();
+        ExtentTest node = getActiveNode();
         node.fail(message);
 
         if (stacktraceAsText != null) {
             node.fail(MarkupHelper.createCodeBlock(stacktraceAsText));
         }
 
-        currentStep.remove();
+        popIfStep();
     }
 
     @Override
@@ -99,6 +107,11 @@ public final class ExtentAdapter implements ReportLogger {
     @Override
     public void flush() {
         extent.flush();
+    }
+
+    private void popIfStep() {
+        Deque<ExtentTest> st = stepStack.get();
+        if (!st.isEmpty()) st.pollLast();
     }
 
     private ExtentReports createExtent() {
@@ -148,15 +161,6 @@ public final class ExtentAdapter implements ReportLogger {
         }
     }
 
-    private ExtentTest getOrCreateFailureNode() {
-        ExtentTest node = currentStep.get();
-        if (node != null) return node;
-
-        node = requireTest().createNode("Failure");
-        currentStep.set(node);
-        return node;
-    }
-
     private ExtentTest requireTest() {
         ExtentTest test = currentTest.get();
         if (test == null) {
@@ -166,7 +170,8 @@ public final class ExtentAdapter implements ReportLogger {
     }
 
     private ExtentTest getActiveNode() {
-        ExtentTest step = currentStep.get();
-        return step != null ? step : requireTest();
+        Deque<ExtentTest> st = stepStack.get();
+        ExtentTest node = st.peekLast();
+        return node != null ? node : requireTest();
     }
 }

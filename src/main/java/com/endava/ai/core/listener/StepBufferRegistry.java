@@ -6,7 +6,6 @@ import org.testng.ITestNGMethod;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-
 final class StepBufferRegistry {
 
     private static final Object SUITE_SCOPE = new Object();
@@ -29,11 +28,16 @@ final class StepBufferRegistry {
         return after.computeIfAbsent(scopeOf(m), k -> new StepBufferLogger());
     }
 
-    void flushBeforeClass(Class<?> cls, ReportLogger logger) {
-        if (firstSeenClass.putIfAbsent(cls, Boolean.TRUE) == null) {
-            StepBufferLogger b = before.remove(cls);
-            if (b != null) b.flushTo(logger);
-        }
+    StepBufferLogger peekBeforeSuite() {
+        return before.get(SUITE_SCOPE);
+    }
+
+    StepBufferLogger peekBeforeClass(Class<?> cls) {
+        return before.get(cls);
+    }
+
+    StepBufferLogger peekAfterClass(Class<?> cls) {
+        return after.get(cls);
     }
 
     void flushBeforeSuite(ReportLogger logger) {
@@ -41,10 +45,20 @@ final class StepBufferRegistry {
         if (s != null) s.flushTo(logger);
     }
 
-    void flushAfterForLastTest(Class<?> cls, ReportLogger logger) {
+    void flushBeforeClass(Class<?> cls, ReportLogger logger) {
+        if (firstSeenClass.putIfAbsent(cls, Boolean.TRUE) == null) {
+            StepBufferLogger b = before.remove(cls);
+            if (b != null) b.flushTo(logger);
+        }
+    }
+
+    void flushAfterClassForLastTest(Class<?> cls, ReportLogger logger) {
         StepBufferLogger a = after.remove(cls);
         if (a != null) a.flushTo(logger);
+    }
 
+    @SuppressWarnings("unused")
+    void flushAfterSuiteForLastTest(ReportLogger logger) {
         StepBufferLogger s = after.remove(SUITE_SCOPE);
         if (s != null) s.flushTo(logger);
     }

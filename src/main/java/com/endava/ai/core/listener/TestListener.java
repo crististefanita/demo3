@@ -48,20 +48,53 @@ public final class TestListener
     @Override
     public void onTestStart(ITestResult result) {
         FailureAttachmentRegistry.onTestStart();
-
         lifecycle.startTest(result);
 
         ReportLogger logger = ReportingManager.tryGetLogger();
         if (logger == null) return;
 
-        flushBeforeScopes(result, logger);
-        flushBeforeMethod(logger);
+        boolean hasSetup = false;
+
+        StepBufferLogger suite = buffers.peekBeforeSuite();
+        if (suite != null && !suite.isEmpty()) {
+            startGroup(logger, "SETUP");
+            startGroup(logger, "@BeforeSuite");
+            buffers.flushBeforeSuite(logger);
+            endGroup(logger);
+            hasSetup = true;
+        }
+
+        StepBufferLogger cls = buffers.peekBeforeClass(result.getMethod().getRealClass());
+        if (cls != null && !cls.isEmpty()) {
+            if (!hasSetup) startGroup(logger, "SETUP");
+            startGroup(logger, "@BeforeClass");
+            buffers.flushBeforeClass(result.getMethod().getRealClass(), logger);
+            endGroup(logger);
+            hasSetup = true;
+        }
+
+        StepBufferLogger bm = buffers.beforeMethod();
+        if (!bm.isEmpty()) {
+            if (!hasSetup) startGroup(logger, "SETUP");
+            startGroup(logger, "@BeforeMethod");
+            flushBeforeMethod(logger);
+            endGroup(logger);
+            hasSetup = true;
+        }
+
+        if (hasSetup) endGroup(logger);
+
+        startGroup(logger, "TEST BODY");
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
         FailureAttachmentRegistry.onTestFailure();
         lifecycle.failTest(result);
+
+        if (result.getThrowable() != null) {
+            StepLogger.failUnhandledOutsideStep(result.getThrowable());
+        }
     }
 
     @Override
@@ -77,16 +110,31 @@ public final class TestListener
         ReportLogger logger = ReportingManager.tryGetLogger();
 
         if (logger != null && context.getLastTest() != null) {
-            buffers.flushAfterForLastTest(
-                    context.getLastTest().getMethod().getRealClass(),
-                    logger
-            );
+            boolean hasTeardown = false;
+
+            StepBufferLogger ac =
+                    buffers.peekAfterClass(context.getLastTest().getMethod().getRealClass());
+            if (ac != null && !ac.isEmpty()) {
+                startGroup(logger, "TEARDOWN");
+                startGroup(logger, "@AfterClass");
+                buffers.flushAfterClassForLastTest(
+                        context.getLastTest().getMethod().getRealClass(),
+                        logger
+                );
+                endGroup(logger);
+                hasTeardown = true;
+            }
+
+            if (hasTeardown) endGroup(logger);
         }
 
         lifecycle.endSuite();
     }
 
     private ReportLogger resolveDelegate(ITestNGMethod m) {
+        ReportLogger real = ReportingManager.tryGetLogger();
+        if (real == null) return null;
+
         if (m.isBeforeMethodConfiguration()) {
             StepBufferLogger b = buffers.beforeMethod();
             b.clear();
@@ -94,10 +142,12 @@ public final class TestListener
         }
 
         if (m.isAfterMethodConfiguration()) {
-            return ReportingManager.tryGetLogger();
+            return real;
         }
 
-        if (m.isBeforeClassConfiguration() || m.isBeforeTestConfiguration()) {
+        if (m.isBeforeClassConfiguration()
+                || m.isBeforeTestConfiguration()
+                || m.isBeforeSuiteConfiguration()) {
             return buffers.beforeFor(m);
         }
 
@@ -118,15 +168,14 @@ public final class TestListener
         }
     }
 
-    private void flushBeforeScopes(ITestResult result, ReportLogger logger) {
-        buffers.flushBeforeClass(
-                result.getMethod().getRealClass(),
-                logger
-        );
-        buffers.flushBeforeSuite(logger);
+    private static void startGroup(ReportLogger logger, String title) {
+        logger.startStep(title);
+    }
+
+    private static void endGroup(ReportLogger logger) {
+        logger.pass("");
     }
 
     public static void resetForTests() {
-        // only for testing purposes
     }
 }
