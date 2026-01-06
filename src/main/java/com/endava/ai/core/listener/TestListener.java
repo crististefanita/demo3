@@ -5,6 +5,7 @@ import com.endava.ai.core.reporting.ReportingManager;
 import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.core.reporting.attachment.FailureAttachmentRegistry;
 import com.endava.ai.core.reporting.utils.ReportingEngineCleanup;
+import com.endava.ai.core.reporting.utils.ReportingEnginePolicy;
 import org.testng.*;
 
 public final class TestListener
@@ -48,11 +49,18 @@ public final class TestListener
     @Override
     public void onTestStart(ITestResult result) {
         FailureAttachmentRegistry.onTestStart();
-
         lifecycle.startTest(result);
 
         ReportLogger logger = ReportingManager.tryGetLogger();
         if (logger == null) return;
+
+        if (ReportingEnginePolicy.isAllure()) {
+            logger.startTest(
+                    result.getMethod().getMethodName(),
+                    result.getMethod().getDescription()
+            );
+            return;
+        }
 
         flushBeforeScopes(result, logger);
         flushBeforeMethod(logger);
@@ -62,6 +70,10 @@ public final class TestListener
     public void onTestFailure(ITestResult result) {
         FailureAttachmentRegistry.onTestFailure();
         lifecycle.failTest(result);
+
+        if (ReportingEnginePolicy.isAllure() && result.getThrowable() != null) {
+            StepLogger.failUnhandledOutsideStep(result.getThrowable());
+        }
     }
 
     @Override
@@ -76,17 +88,19 @@ public final class TestListener
     public void onFinish(ISuite suite) {
         ReportLogger logger = ReportingManager.tryGetLogger();
 
-        if (logger != null && context.getLastTest() != null) {
-            buffers.flushAfterForLastTest(
-                    context.getLastTest().getMethod().getRealClass(),
-                    logger
-            );
+        if (!ReportingEnginePolicy.isAllure() && logger != null && context.getLastTest() != null) {
+            buffers.flushAfterForLastTest(context.getLastTest().getMethod().getRealClass(), logger);
         }
 
         lifecycle.endSuite();
     }
 
     private ReportLogger resolveDelegate(ITestNGMethod m) {
+        ReportLogger real = ReportingManager.tryGetLogger();
+        if (ReportingEnginePolicy.isAllure()) {
+            return real;
+        }
+
         if (m.isBeforeMethodConfiguration()) {
             StepBufferLogger b = buffers.beforeMethod();
             b.clear();
@@ -94,7 +108,7 @@ public final class TestListener
         }
 
         if (m.isAfterMethodConfiguration()) {
-            return ReportingManager.tryGetLogger();
+            return real;
         }
 
         if (m.isBeforeClassConfiguration() || m.isBeforeTestConfiguration()) {
@@ -127,6 +141,5 @@ public final class TestListener
     }
 
     public static void resetForTests() {
-        // only for testing purposes
     }
 }

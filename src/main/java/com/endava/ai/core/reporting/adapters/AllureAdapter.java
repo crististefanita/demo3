@@ -28,6 +28,7 @@ public final class AllureAdapter implements ReportLogger {
 
     @Override
     public void startTest(String testName, String description) {
+        clearContext();
     }
 
     @Override
