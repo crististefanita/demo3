@@ -1,48 +1,46 @@
 package com.endava.ai.core.listener;
 
-import org.testng.ITestResult;
-
 final class TestContext {
 
-    private boolean firstTest = true;
-    private ITestResult lastTest;
-    private final ThreadLocal<Boolean> testEnded = new ThreadLocal<>();
+    private Class<?> activeClass;
+    private boolean reportFailed;
+    private boolean testOpen;
 
-    boolean isFirstTest() {
-        return firstTest;
+    Class<?> getActiveClass() {
+        return activeClass;
     }
 
-    void markFirstTestConsumed() {
-        firstTest = false;
+    void setActiveClass(Class<?> activeClass) {
+        this.activeClass = activeClass;
     }
 
-    ITestResult getLastTest() {
-        return lastTest;
+    boolean isReportFailed() {
+        return reportFailed;
     }
 
-    void setLastTest(ITestResult result) {
-        lastTest = result;
+    void markFailed() {
+        this.reportFailed = true;
     }
 
-    boolean isTestStarted() {
-        return !Boolean.TRUE.equals(testEnded.get());
+    void resetFailure() {
+        this.reportFailed = false;
     }
 
-    boolean hasTestStarted() {
-        return testEnded.get() != null;
+    boolean isTestOpen() {
+        return testOpen;
     }
 
-    void markTestStarted() {
-        testEnded.set(Boolean.FALSE);
+    void openTest() {
+        this.testOpen = true;
     }
 
-    void markTestEnded() {
-        testEnded.set(Boolean.TRUE);
+    void closeTest() {
+        this.testOpen = false;
     }
 
-    void clear() {
-        firstTest = true;
-        lastTest = null;
-        testEnded.remove();
+    void reset() {
+        activeClass = null;
+        reportFailed = false;
+        testOpen = false;
     }
 }

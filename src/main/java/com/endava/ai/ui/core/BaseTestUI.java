@@ -1,7 +1,6 @@
 package com.endava.ai.ui.core;
 
-import com.endava.ai.core.listener.TestListener;
-import io.qameta.allure.testng.AllureTestNg;
+import com.endava.ai.core.listener.UnifiedTestListener;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -10,8 +9,8 @@ import org.testng.annotations.Listeners;
  * Engine setup/teardown only; MUST NOT manage reporting lifecycle.
  */
 @Listeners({
-        AllureTestNg.class,
-        TestListener.class
+//        AllureTestNg.class,
+        UnifiedTestListener.class
 })
 public abstract class BaseTestUI {
 

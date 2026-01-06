@@ -1,6 +1,6 @@
 package com.endava.ai.reporting.tests.attachment;
 
-import com.endava.ai.core.listener.TestListener;
+import com.endava.ai.core.listener.UnifiedTestListener;
 import com.endava.ai.core.reporting.ReportingManager;
 import com.endava.ai.core.reporting.adapters.AllureAdapter;
 import com.endava.ai.core.reporting.attachment.FailureAttachmentRegistry;
@@ -42,7 +42,7 @@ public class AllureMustAttachPerFailedTest {
         TestNG testng = new TestNG();
         testng.setXmlSuites(List.of(suite));
         testng.setUseDefaultListeners(false);
-        testng.addListener(new TestListener());
+        testng.addListener(new UnifiedTestListener());
         testng.setVerbose(0);
 
         testng.run();

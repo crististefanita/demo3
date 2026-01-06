@@ -12,13 +12,15 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.Base64;
+
 public final class AllureAdapter implements ReportLogger {
 
     private static final AllureAdapter INSTANCE = new AllureAdapter();
 
-    private final ThreadLocal<String> currentStepId = new ThreadLocal<>();
-    private final ThreadLocal<List<Parameter>> stepParams =
-            ThreadLocal.withInitial(ArrayList::new);
+    private final ThreadLocal<Deque<String>> stepStack =
+            ThreadLocal.withInitial(ArrayDeque::new);
+    private final ThreadLocal<Deque<List<Parameter>>> paramsStack =
+            ThreadLocal.withInitial(ArrayDeque::new);
 
     private AllureAdapter() {}
 
@@ -28,6 +30,7 @@ public final class AllureAdapter implements ReportLogger {
 
     @Override
     public void startTest(String testName, String description) {
+        clearContext();
     }
 
     @Override
@@ -40,15 +43,17 @@ public final class AllureAdapter implements ReportLogger {
     public void startStep(String stepTitle) {
         if (isInactive()) return;
 
-        String stepId = beginStep(stepTitle);
-        currentStepId.set(stepId);
-        stepParams.get().clear();
+        String parent = stepStack.get().peekLast();
+        String stepId = beginStep(stepTitle, parent);
+        stepStack.get().addLast(stepId);
+        paramsStack.get().addLast(new ArrayList<>());
     }
 
     @Override
     public void logDetail(String detail) {
         if (isInactive() || isBlank(detail)) return;
-        stepParams.get().add(param("detail", detail));
+        List<Parameter> p = paramsStack.get().peekLast();
+        if (p != null) p.add(param("detail", detail));
     }
 
     @Override
@@ -61,7 +66,9 @@ public final class AllureAdapter implements ReportLogger {
     public void fail(String message, String stacktrace) {
         if (isInactive()) return;
 
-        addErrorParam(message);
+        List<Parameter> p = paramsStack.get().peekLast();
+        if (p != null && !isBlank(message)) p.add(param("error", message));
+
         finishCurrentStep(Status.FAILED);
         attachFailure(stacktrace);
     }
@@ -82,40 +89,36 @@ public final class AllureAdapter implements ReportLogger {
     public void flush() {
     }
 
-    /* ================= helpers ================= */
-
     private boolean isInactive() {
         return !ReportingEnginePolicy.isAllure();
     }
 
-    private String beginStep(String title) {
+    private String beginStep(String title, String parentStepId) {
         String stepId = UUID.randomUUID().toString();
-        Allure.getLifecycle().startStep(
-                stepId,
-                new StepResult().setName(title).setStatus(Status.PASSED)
-        );
+        StepResult sr = new StepResult().setName(title).setStatus(Status.PASSED);
+
+        if (parentStepId != null) {
+            Allure.getLifecycle().startStep(parentStepId, stepId, sr);
+        } else {
+            Allure.getLifecycle().startStep(stepId, sr);
+        }
+
         return stepId;
     }
 
     private void finishCurrentStep(Status status) {
-        String stepId = currentStepId.get();
+        String stepId = stepStack.get().pollLast();
+        List<Parameter> params = paramsStack.get().pollLast();
         if (stepId == null) return;
 
         Allure.getLifecycle().updateStep(stepId, s -> {
-            if (!stepParams.get().isEmpty()) {
-                s.setParameters(new ArrayList<>(stepParams.get()));
+            if (params != null && !params.isEmpty()) {
+                s.setParameters(new ArrayList<>(params));
             }
             s.setStatus(status);
         });
 
         Allure.getLifecycle().stopStep(stepId);
-        clearContext();
-    }
-
-    private void addErrorParam(String message) {
-        if (!isBlank(message)) {
-            stepParams.get().add(param("error", message));
-        }
     }
 
     private void attachFailure(String stacktrace) {
@@ -134,8 +137,10 @@ public final class AllureAdapter implements ReportLogger {
     }
 
     private void clearContext() {
-        currentStepId.remove();
-        stepParams.get().clear();
+        stepStack.get().clear();
+        paramsStack.get().clear();
+        stepStack.remove();
+        paramsStack.remove();
     }
 
     private static Parameter param(String name, String value) {
