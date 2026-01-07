@@ -1,4 +1,4 @@
-package com.endava.ai.core.reporting.utils;
+package com.endava.ai.core.reporting.internal;
 
 import java.io.File;
 
@@ -8,7 +8,7 @@ public final class ReportingEngineCleanup {
     }
 
     public static void onShutdown() {
-        if (ReportingEnginePolicy.isAllure()) return;
+        if (ReportingEngine.current().keepsAllureResults()) return;
         deleteAllureResults();
     }
 

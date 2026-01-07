@@ -1,43 +1,26 @@
 package com.endava.ai.core.listener;
 
+import com.endava.ai.core.listener.internal.*;
 import com.endava.ai.core.reporting.ReportLogger;
 import com.endava.ai.core.reporting.ReportingManager;
 import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.core.reporting.attachment.FailureAttachmentRegistry;
-import com.endava.ai.core.reporting.utils.ReportingEngineCleanup;
+import com.endava.ai.core.reporting.internal.ReportingEngineCleanup;
 import org.testng.*;
-
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-import java.util.Map;
-import java.util.Set;
 
 public final class TestListener implements ITestListener, ISuiteListener, IInvokedMethodListener {
 
     private final TestContext context = new TestContext();
     private final StepBufferRegistry buffers = new StepBufferRegistry();
     private final TestLifecycleController lifecycle = new TestLifecycleController(context);
+    private final FlowPolicy flowPolicy = new FlowPolicy();
+    private final LifecycleFlusher flusher = new LifecycleFlusher(buffers);
 
-    private final Map<Class<?>, Boolean> firstMethodSeen = new IdentityHashMap<>();
-    private final Map<Class<?>, Set<String>> methodsWithDependents = new IdentityHashMap<>();
+    private final ThreadLocal<TestExecutionState> state =
+            ThreadLocal.withInitial(TestExecutionState::new);
 
-    private final ThreadLocal<State> state = ThreadLocal.withInitial(State::new);
-
-    private static final class State {
-        boolean methodGroupOpen;
-        boolean beforeOpen;
-        boolean testOpen;
-        boolean afterOpen;
-        boolean flowMode;
-
-        void reset() {
-            methodGroupOpen = false;
-            beforeOpen = false;
-            testOpen = false;
-            afterOpen = false;
-            flowMode = false;
-        }
-    }
+    private final ThreadLocal<InvocationController> invocations =
+            ThreadLocal.withInitial(() -> new InvocationController(buffers, flusher, state.get()));
 
     static {
         Runtime.getRuntime().addShutdownHook(new Thread(ReportingEngineCleanup::onShutdown));
@@ -48,315 +31,147 @@ public final class TestListener implements ITestListener, ISuiteListener, IInvok
         context.clear();
         buffers.clear();
         StepLogger.clear();
-        firstMethodSeen.clear();
-        methodsWithDependents.clear();
+        flowPolicy.clear();
         state.remove();
+        invocations.remove();
+    }
+
+    @Override
+    public void onFinish(ISuite suite) {
+        lifecycle.endSuite();
     }
 
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult tr) {
-        if (!method.isConfigurationMethod()) return;
-        ITestNGMethod m = method.getTestMethod();
-        if (m == null) return;
-        StepLogger.setDelegate(resolveDelegate(m));
+        invocations.get().beforeInvocation(method);
     }
 
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult tr) {
-        ITestNGMethod m = method.getTestMethod();
-
-        if (method.isTestMethod()) {
-            ReportLogger logger = ReportingManager.tryGetLogger();
-            State st = state.get();
-
-            if (logger != null && st.testOpen && !st.flowMode) {
-                endGroup(logger);
-                st.testOpen = false;
-            }
-
-            if (logger != null && !st.afterOpen && !st.flowMode && hasAfterContent(tr.getMethod().getRealClass())) {
-                startGroup(logger, "AFTER");
-                st.afterOpen = true;
-            }
-
-            return;
-        }
-
-        if (!method.isConfigurationMethod()) return;
-
-        if (m != null && m.isAfterMethodConfiguration()) {
-            ReportLogger logger = ReportingManager.tryGetLogger();
-            if (logger != null) {
-                startGroup(logger, "@AfterMethod");
-                flushAfterMethod(logger);
-                endGroup(logger);
-            }
-        }
-
-        StepLogger.clearDelegate();
+        invocations.get().afterInvocation(method, tr);
     }
 
     @Override
     public void onTestStart(ITestResult result) {
+        StepLogger.clear();
         FailureAttachmentRegistry.onTestStart();
-        ReportLogger logger = ReportingManager.tryGetLogger();
-        Class<?> cls = result.getMethod().getRealClass();
-
-        if (logger != null && context.getActiveReportClass() != null && !context.getActiveReportClass().equals(cls)) {
-            flushClassTeardown(logger, context.getActiveReportClass());
-        }
 
         lifecycle.startTest(result);
+
+        ReportLogger logger = ReportingManager.tryGetLogger();
         if (logger == null) return;
 
-        State st = state.get();
+        Class<?> cls = result.getMethod().getRealClass();
+        String method = result.getMethod().getMethodName();
 
-        boolean firstForClass = firstMethodSeen.putIfAbsent(cls, Boolean.TRUE) == null;
+        TestExecutionState st = state.get();
+        boolean firstForClass = context.isFirstMethodForClass(cls);
+
         if (firstForClass) {
             st.reset();
-            st.flowMode = classHasDependentChain(result.getTestContext(), cls);
+            if (flowPolicy.isFlowClass(result.getTestContext(), cls)) st.enableFlowMode();
+        } else if (!st.isFlowMode()) {
+            st.reset();
         }
 
-        if (st.flowMode) {
-            if (!st.methodGroupOpen) {
-                startGroup(logger, "FLOW");
-                st.methodGroupOpen = true;
-
-                startGroup(logger, "BEFORE");
-                flushBeforeSuite(logger);
-                flushBeforeScopes(cls, logger);
-                endGroup(logger);
-
-                startGroup(logger, "TEST");
-                st.testOpen = true;
-            }
-
-            startGroup(logger, result.getMethod().getMethodName());
-            return;
-        }
-
-        st.reset();
-        startGroup(logger, result.getMethod().getMethodName());
-        st.methodGroupOpen = true;
-
-        startGroup(logger, "BEFORE");
-        st.beforeOpen = true;
-
-        flushBeforeSuite(logger);
-        if (firstForClass) flushBeforeScopes(cls, logger);
-        flushBeforeMethod(logger);
-
-        endGroup(logger);
-        st.beforeOpen = false;
-
-        startGroup(logger, "TEST");
-        st.testOpen = true;
+        startGroups(logger, cls, method, firstForClass, st);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        closeMethodGroups(result);
+        closeGroups(result);
         context.markTestEnded();
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        FailureAttachmentRegistry.onTestFailure();
-        lifecycle.failTest(result);
-        if (result.getThrowable() != null) StepLogger.failUnhandledOutsideStep(result.getThrowable());
-        closeMethodGroups(result);
+        endWithThrowable(result, true);
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        if (result.getThrowable() != null) StepLogger.failUnhandledOutsideStep(result.getThrowable());
-        closeMethodGroups(result);
+        endWithThrowable(result, false);
         context.markTestEnded();
     }
 
-    @Override
-    public void onFinish(ISuite suite) {
-        System.out.println("TestListener.onFinish ISuite: " + suite.getName() + " @" + System.identityHashCode(this));
+    private void endWithThrowable(ITestResult result, boolean failed) {
+        Throwable t = result.getThrowable();
 
-        ReportLogger logger = ReportingManager.tryGetLogger();
-        if (logger != null && context.getActiveReportClass() != null) {
-            flushClassTeardown(logger, context.getActiveReportClass());
-        }
-        lifecycle.endSuite();
+        FailureAttachmentRegistry.onTestFailure(t);
+        if (failed) lifecycle.failTest(result);
+
+        if (t != null) StepLogger.failUnhandledOutsideStep(t);
+
+        closeGroups(result);
     }
 
-    private void closeMethodGroups(ITestResult result) {
-        ReportLogger logger = ReportingManager.tryGetLogger();
-        if (logger == null) return;
+    private void startGroups(
+            ReportLogger logger,
+            Class<?> cls,
+            String method,
+            boolean firstForClass,
+            TestExecutionState st
+    ) {
+        GroupController g = new GroupController(logger);
 
-        State st = state.get();
+        if (st.isFlowMode()) {
+            g.openIf(
+                    () -> !st.isMethodGroupOpen(),
+                    "FLOW",
+                    () -> {
+                        st.openMethodGroup();
+                        flusher.flushBefore(logger, g, cls, true);
+                        g.open("TEST BODY");
+                        st.openTest();
+                    }
+            );
 
-        if (st.flowMode) {
-            endGroup(logger);
-            if (isLastInFlow(result)) {
-                if (st.testOpen) {
-                    endGroup(logger);
-                    st.testOpen = false;
-                }
-                if (st.methodGroupOpen) {
-                    endGroup(logger);
-                    st.methodGroupOpen = false;
-                }
-                st.flowMode = false;
-            }
+            g.open(method);
             return;
         }
 
-        if (st.afterOpen) {
-            endGroup(logger);
-            st.afterOpen = false;
-        }
-        if (st.methodGroupOpen) {
-            endGroup(logger);
-            st.methodGroupOpen = false;
-        }
+        g.open(method);
+        st.openMethodGroup();
+
+        flusher.flushBefore(logger, g, cls, firstForClass);
+
+        g.open("TEST BODY");
+        st.openTest();
     }
 
-    @SuppressWarnings("ConstantConditions")
-    private boolean classHasDependentChain(ITestContext ctx, Class<?> cls) {
-        if (ctx == null) return false;
-        Set<String> dependents = methodsWithDependents.computeIfAbsent(cls, k -> computeDependents(ctx, cls));
-        return dependents != null && !dependents.isEmpty();
-    }
+    private void closeGroups(ITestResult result) {
+        ReportLogger logger = ReportingManager.tryGetLogger();
+        if (logger == null) return;
 
-    private static Set<String> computeDependents(ITestContext ctx, Class<?> cls) {
-        Set<String> s = new HashSet<>();
-        for (ITestNGMethod m : ctx.getAllTestMethods()) {
-            if (m == null || m.getRealClass() == null || !cls.equals(m.getRealClass())) continue;
-            String[] deps = m.getMethodsDependedUpon();
-            if (deps == null) continue;
-            for (String d : deps) {
-                if (d != null && !d.isBlank()) s.add(d);
-            }
-        }
-        return s;
-    }
-
-    private boolean isLastInFlow(ITestResult result) {
+        TestExecutionState st = state.get();
+        GroupController g = new GroupController(logger);
         Class<?> cls = result.getMethod().getRealClass();
-        Set<String> dependents = methodsWithDependents.get(cls);
-        if (dependents == null) return true;
-        return !dependents.contains(result.getMethod().getMethodName());
-    }
 
-    private void flushBeforeSuite(ReportLogger logger) {
-        StepBufferLogger suite = buffers.peekBeforeSuite();
-        if (suite != null && !suite.isEmpty()) {
-            startGroup(logger, "@BeforeSuite");
-            buffers.flushBeforeSuite(logger);
-            endGroup(logger);
-        }
-    }
-
-    private void flushBeforeScopes(Class<?> cls, ReportLogger logger) {
-        StepBufferLogger bt = buffers.peekBeforeTest(cls);
-        if (bt != null && !bt.isEmpty()) {
-            startGroup(logger, "@BeforeTest");
-            buffers.flushBeforeTest(cls, logger);
-            endGroup(logger);
+        // Close TEST BODY if still open (safety net)
+        if (st.isTestOpen()) {
+            g.closeCurrent();
+            st.closeTest();
         }
 
-        StepBufferLogger bc = buffers.peekBeforeClass(cls);
-        if (bc != null && !bc.isEmpty()) {
-            startGroup(logger, "@BeforeClass");
-            buffers.flushBeforeClass(cls, logger);
-            endGroup(logger);
-        }
-    }
+        // Flush remaining teardown scopes (@AfterClass/@AfterTest/@AfterSuite) under TEARDOWN
+        if (st.isAfterOpen() || flusher.hasAfterScopesContent(cls)) {
+            if (!st.isAfterOpen()) {
+                g.open("TEARDOWN");
+                st.openAfter();
+            }
 
-    private void flushBeforeMethod(ReportLogger logger) {
-        StepBufferLogger bm = buffers.beforeMethod();
-        if (!bm.isEmpty()) {
-            startGroup(logger, "@BeforeMethod");
-            bm.flushTo(logger);
-            bm.clear();
-            endGroup(logger);
-        }
-    }
+            flusher.flushAfterScopes(logger, g, cls);
 
-    private void flushAfterMethod(ReportLogger logger) {
-        StepBufferLogger am = buffers.afterMethod();
-        if (!am.isEmpty()) {
-            am.flushTo(logger);
-            am.clear();
-        }
-    }
-
-    private void flushClassTeardown(ReportLogger logger, Class<?> cls) {
-        StepBufferLogger at = buffers.peekAfterTest(cls);
-        StepBufferLogger ac = buffers.peekAfterClass(cls);
-        StepBufferLogger as = buffers.peekAfterSuite();
-
-        boolean has = (at != null && !at.isEmpty()) || (ac != null && !ac.isEmpty()) || (as != null && !as.isEmpty());
-        if (!has) return;
-
-        startGroup(logger, "AFTER");
-
-        if (at != null && !at.isEmpty()) {
-            startGroup(logger, "@AfterTest");
-            buffers.flushAfterTestForLastReport(cls, logger);
-            endGroup(logger);
-        }
-        if (ac != null && !ac.isEmpty()) {
-            startGroup(logger, "@AfterClass");
-            buffers.flushAfterClassForLastReport(cls, logger);
-            endGroup(logger);
-        }
-        if (as != null && !as.isEmpty()) {
-            startGroup(logger, "@AfterSuite");
-            buffers.flushAfterSuiteForLastReport(logger);
-            endGroup(logger);
+            // Close TEARDOWN wrapper
+            g.closeCurrent();
+            st.closeAfter();
         }
 
-        endGroup(logger);
-    }
-
-    private ReportLogger resolveDelegate(ITestNGMethod m) {
-        ReportLogger real = ReportingManager.tryGetLogger();
-        if (real == null) return null;
-
-        if (m.isBeforeMethodConfiguration()) {
-            StepBufferLogger b = buffers.beforeMethod();
-            b.clear();
-            return b;
+        // Close method group
+        if (st.isMethodGroupOpen()) {
+            g.closeCurrent();
+            st.closeMethodGroup();
         }
-        if (m.isAfterMethodConfiguration()) {
-            StepBufferLogger a = buffers.afterMethod();
-            a.clear();
-            return a;
-        }
-        if (m.isBeforeClassConfiguration() || m.isBeforeTestConfiguration() || m.isBeforeSuiteConfiguration()) {
-            return buffers.beforeFor(m);
-        }
-        if (m.isAfterClassConfiguration() || m.isAfterTestConfiguration() || m.isAfterSuiteConfiguration()) {
-            return buffers.afterFor(m);
-        }
-
-        return real;
-    }
-
-    private static void startGroup(ReportLogger logger, String title) {
-        logger.startStep(title);
-    }
-
-    private static void endGroup(ReportLogger logger) {
-        logger.pass("");
-    }
-
-    private boolean hasAfterContent(Class<?> cls) {
-        StepBufferLogger at = buffers.peekAfterTest(cls);
-        StepBufferLogger ac = buffers.peekAfterClass(cls);
-        StepBufferLogger as = buffers.peekAfterSuite();
-        StepBufferLogger am = buffers.afterMethod();
-        return (am != null && !am.isEmpty())
-                || (at != null && !at.isEmpty())
-                || (ac != null && !ac.isEmpty())
-                || (as != null && !as.isEmpty());
     }
 
     public static void resetForTests() {

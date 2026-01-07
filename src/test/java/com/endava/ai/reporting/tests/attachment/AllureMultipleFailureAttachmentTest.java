@@ -25,8 +25,8 @@ public class AllureMultipleFailureAttachmentTest {
         FailureAttachmentRegistry.register(handler);
         ReportingManager.setLoggerForTests(AllureAdapter.getInstance());
 
-        FailureAttachmentRegistry.onTestFailure();
-        FailureAttachmentRegistry.onTestFailure();
+        FailureAttachmentRegistry.onTestFailure(new RuntimeException("boom"));
+        FailureAttachmentRegistry.onTestFailure(new RuntimeException("boom2"));
 
         Assert.assertEquals(
                 handler.calls.get(),

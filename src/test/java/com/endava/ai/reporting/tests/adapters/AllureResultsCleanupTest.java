@@ -1,7 +1,7 @@
 package com.endava.ai.reporting.tests.adapters;
 
 import com.endava.ai.core.config.ConfigManager;
-import com.endava.ai.core.reporting.utils.ReportingEngineCleanup;
+import com.endava.ai.core.reporting.internal.ReportingEngineCleanup;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

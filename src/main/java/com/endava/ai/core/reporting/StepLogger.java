@@ -50,6 +50,10 @@ public final class StepLogger {
         if (getBoolean("console.details.enabled")) console("  • " + detail);
     }
 
+    public static void info(String detail) {
+        logDetail(detail);
+    }
+
     public static void logCodeBlock(String content) {
         requireActiveStep();
         ReportLogger l = DELEGATE.get();
@@ -97,6 +101,7 @@ public final class StepLogger {
         if (!Boolean.TRUE.equals(STEP_ACTIVE.get())) throw new IllegalStateException("No active step.");
     }
 
+    @SuppressWarnings("ALL")
     private static boolean getBoolean(String key) {
         return Boolean.parseBoolean(require(key));
     }

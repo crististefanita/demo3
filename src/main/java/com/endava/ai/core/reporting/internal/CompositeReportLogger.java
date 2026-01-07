@@ -1,9 +1,12 @@
 
-package com.endava.ai.core.reporting;
+package com.endava.ai.core.reporting.internal;
+
+import com.endava.ai.core.reporting.ReportLogger;
 
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public final class CompositeReportLogger implements ReportLogger {
 
     private final List<ReportLogger> delegates;

@@ -1,19 +1,19 @@
-package com.endava.ai.core.listener;
+package com.endava.ai.core.listener.internal;
 
 import com.endava.ai.core.reporting.ReportLogger;
 import com.endava.ai.core.reporting.ReportingManager;
 import com.endava.ai.core.reporting.StepLogger;
 import org.testng.ITestResult;
 
-final class TestLifecycleController {
+public final class TestLifecycleController {
 
     private final TestContext context;
 
-    TestLifecycleController(TestContext context) {
+    public TestLifecycleController(TestContext context) {
         this.context = context;
     }
 
-    void startTest(ITestResult result) {
+    public void startTest(ITestResult result) {
         ReportLogger logger = ReportingManager.tryGetLogger();
 
         context.markFirstTestConsumed();
@@ -27,7 +27,7 @@ final class TestLifecycleController {
         StepLogger.setDelegate(logger);
     }
 
-    void failTest(ITestResult result) {
+    public void failTest(ITestResult result) {
         ReportLogger logger = ReportingManager.tryGetLogger();
 
         if (logger == null) {
@@ -42,7 +42,7 @@ final class TestLifecycleController {
         context.markTestEnded();
     }
 
-    void endSuite() {
+    public void endSuite() {
         ReportLogger logger = ReportingManager.tryGetLogger();
 
         if (logger != null && context.getLastTest() != null) {

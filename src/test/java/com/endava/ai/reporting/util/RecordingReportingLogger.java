@@ -3,23 +3,21 @@ package com.endava.ai.reporting.util;
 import com.endava.ai.core.reporting.ReportLogger;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class RecordingReportingLogger implements ReportLogger {
 
     public final List<String> infoMessages = new ArrayList<>();
     public final List<String> failMessages = new ArrayList<>();
     public final Map<String, List<String>> detailsPerTest = new LinkedHashMap<>();
-    public final java.util.concurrent.atomic.AtomicBoolean flushCalled =
-            new java.util.concurrent.atomic.AtomicBoolean(false);
+    public final AtomicBoolean flushCalled = new AtomicBoolean(false);
 
     private final ThreadLocal<String> currentTest = new ThreadLocal<>();
 
     @Override
     public void ensureTestStarted(String testName, String description) {
-        if (currentTest.get() == null) {
-            currentTest.set(testName);
-            detailsPerTest.putIfAbsent(testName, new ArrayList<>());
-        }
+        currentTest.set(testName);
+        detailsPerTest.putIfAbsent(testName, new ArrayList<>());
     }
 
     @Override
@@ -53,7 +51,9 @@ public final class RecordingReportingLogger implements ReportLogger {
 
     @Override public void attachScreenshotBase64(String base64, String title) {}
     @Override public void logCodeBlock(String content) {}
-    @Override public void flush() {
+
+    @Override
+    public void flush() {
         flushCalled.set(true);
     }
 }

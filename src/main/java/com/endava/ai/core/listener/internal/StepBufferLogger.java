@@ -1,11 +1,11 @@
-package com.endava.ai.core.listener;
+package com.endava.ai.core.listener.internal;
 
 import com.endava.ai.core.reporting.ReportLogger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-final class StepBufferLogger implements ReportLogger {
+public final class StepBufferLogger implements ReportLogger {
 
     private final List<Event> events = new ArrayList<>();
 
@@ -51,16 +51,15 @@ final class StepBufferLogger implements ReportLogger {
     public void flush() {
     }
 
-    @SuppressWarnings("unused")
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return events.isEmpty();
     }
 
-    void clear() {
+    public void clear() {
         events.clear();
     }
 
-    void flushTo(ReportLogger target) {
+    public void flushTo(ReportLogger target) {
         for (Event e : events) {
             switch (e.kind) {
                 case START_STEP:

@@ -1,4 +1,4 @@
-package com.endava.ai.core.listener;
+package com.endava.ai.core.listener.internal;
 
 import com.endava.ai.core.reporting.ReportLogger;
 import org.testng.ITestNGMethod;
@@ -6,26 +6,29 @@ import org.testng.ITestNGMethod;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-final class StepBufferRegistry {
+public final class StepBufferRegistry {
+
     private static final Object SUITE_SCOPE = new Object();
+
     private final Map<Object, StepBufferLogger> beforeSuite = new IdentityHashMap<>();
     private final Map<Class<?>, StepBufferLogger> beforeTest = new IdentityHashMap<>();
     private final Map<Class<?>, StepBufferLogger> beforeClass = new IdentityHashMap<>();
     private final Map<Class<?>, StepBufferLogger> afterTest = new IdentityHashMap<>();
     private final Map<Class<?>, StepBufferLogger> afterClass = new IdentityHashMap<>();
     private final Map<Object, StepBufferLogger> afterSuite = new IdentityHashMap<>();
+
     private final ThreadLocal<StepBufferLogger> beforeMethod = ThreadLocal.withInitial(StepBufferLogger::new);
     private final ThreadLocal<StepBufferLogger> afterMethod = ThreadLocal.withInitial(StepBufferLogger::new);
 
-    StepBufferLogger beforeMethod() {
+    public StepBufferLogger beforeMethod() {
         return beforeMethod.get();
     }
 
-    StepBufferLogger afterMethod() {
+    public StepBufferLogger afterMethod() {
         return afterMethod.get();
     }
 
-    StepBufferLogger beforeFor(ITestNGMethod m) {
+    public StepBufferLogger beforeFor(ITestNGMethod m) {
         if (m.isBeforeSuiteConfiguration())
             return beforeSuite.computeIfAbsent(SUITE_SCOPE, k -> new StepBufferLogger());
         if (m.isBeforeClassConfiguration())
@@ -35,7 +38,7 @@ final class StepBufferRegistry {
         return beforeSuite.computeIfAbsent(SUITE_SCOPE, k -> new StepBufferLogger());
     }
 
-    StepBufferLogger afterFor(ITestNGMethod m) {
+    public StepBufferLogger afterFor(ITestNGMethod m) {
         if (m.isAfterSuiteConfiguration()) return afterSuite.computeIfAbsent(SUITE_SCOPE, k -> new StepBufferLogger());
         if (m.isAfterClassConfiguration())
             return afterClass.computeIfAbsent(m.getRealClass(), k -> new StepBufferLogger());
@@ -44,61 +47,61 @@ final class StepBufferRegistry {
         return afterSuite.computeIfAbsent(SUITE_SCOPE, k -> new StepBufferLogger());
     }
 
-    StepBufferLogger peekBeforeSuite() {
+    public StepBufferLogger peekBeforeSuite() {
         return beforeSuite.get(SUITE_SCOPE);
     }
 
-    StepBufferLogger peekBeforeTest(Class<?> cls) {
+    public StepBufferLogger peekBeforeTest(Class<?> cls) {
         return beforeTest.get(cls);
     }
 
-    StepBufferLogger peekBeforeClass(Class<?> cls) {
+    public StepBufferLogger peekBeforeClass(Class<?> cls) {
         return beforeClass.get(cls);
     }
 
-    StepBufferLogger peekAfterTest(Class<?> cls) {
+    public StepBufferLogger peekAfterTest(Class<?> cls) {
         return afterTest.get(cls);
     }
 
-    StepBufferLogger peekAfterClass(Class<?> cls) {
+    public StepBufferLogger peekAfterClass(Class<?> cls) {
         return afterClass.get(cls);
     }
 
-    StepBufferLogger peekAfterSuite() {
+    public StepBufferLogger peekAfterSuite() {
         return afterSuite.get(SUITE_SCOPE);
     }
 
-    void flushBeforeSuite(ReportLogger logger) {
+    public void flushBeforeSuite(ReportLogger logger) {
         StepBufferLogger s = beforeSuite.remove(SUITE_SCOPE);
         if (s != null) s.flushTo(logger);
     }
 
-    void flushBeforeTest(Class<?> cls, ReportLogger logger) {
+    public void flushBeforeTest(Class<?> cls, ReportLogger logger) {
         StepBufferLogger b = beforeTest.remove(cls);
         if (b != null) b.flushTo(logger);
     }
 
-    void flushBeforeClass(Class<?> cls, ReportLogger logger) {
+    public void flushBeforeClass(Class<?> cls, ReportLogger logger) {
         StepBufferLogger b = beforeClass.remove(cls);
         if (b != null) b.flushTo(logger);
     }
 
-    void flushAfterTestForLastReport(Class<?> cls, ReportLogger logger) {
+    public void flushAfterTestForLastReport(Class<?> cls, ReportLogger logger) {
         StepBufferLogger a = afterTest.remove(cls);
         if (a != null) a.flushTo(logger);
     }
 
-    void flushAfterClassForLastReport(Class<?> cls, ReportLogger logger) {
+    public void flushAfterClassForLastReport(Class<?> cls, ReportLogger logger) {
         StepBufferLogger a = afterClass.remove(cls);
         if (a != null) a.flushTo(logger);
     }
 
-    void flushAfterSuiteForLastReport(ReportLogger logger) {
+    public void flushAfterSuiteForLastReport(ReportLogger logger) {
         StepBufferLogger s = afterSuite.remove(SUITE_SCOPE);
         if (s != null) s.flushTo(logger);
     }
 
-    void clear() {
+    public void clear() {
         beforeSuite.clear();
         beforeTest.clear();
         beforeClass.clear();

@@ -20,7 +20,7 @@ public class FailureScreenshotRegistryTest {
 
         FailureAttachmentRegistry.register(handler);
 
-        FailureAttachmentRegistry.onTestFailure();
+        FailureAttachmentRegistry.onTestFailure(new RuntimeException("boom"));
 
         Assert.assertEquals(handler.calls.get(), 1);
     }
@@ -29,6 +29,6 @@ public class FailureScreenshotRegistryTest {
     public void registry_is_safe_without_handler() {
         FailureAttachmentRegistry.clearForTests();
 
-        FailureAttachmentRegistry.onTestFailure();
+        FailureAttachmentRegistry.onTestFailure(new RuntimeException("boom"));
     }
 }

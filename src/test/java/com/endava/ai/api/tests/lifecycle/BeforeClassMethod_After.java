@@ -32,11 +32,15 @@ public class BeforeClassMethod_After extends BaseTestAPI {
 
     @BeforeMethod
     public void beforeMethodSetup() {
-        Response getResp = users.waitUntilAvailable(created.id);
+        if (createdUserId == null) {
+            created = users.createValidUser();
+            Assert.assertTrue(created.id > 0);
+            createdUserId = created.id;
+        }
+
+        Response getResp = users.waitUntilAvailable(createdUserId);
         Assert.assertEquals(getResp.getStatusCode(), 200);
     }
-
-
 
     @Test(description = "Update User")
     public void update_User() {
@@ -54,7 +58,6 @@ public class BeforeClassMethod_After extends BaseTestAPI {
         createdUserId = null;
 
         Response getAfterDel = users.getUser(created.id);
-        // fail intentionally
         ResponseValidator.statusIs(getAfterDel, 404);
     }
 

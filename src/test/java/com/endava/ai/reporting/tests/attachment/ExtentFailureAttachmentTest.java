@@ -25,7 +25,7 @@ public class ExtentFailureAttachmentTest {
         FailureAttachmentRegistry.register(handler);
         ReportingManager.setLoggerForTests(ExtentAdapter.getInstance());
 
-        FailureAttachmentRegistry.onTestFailure();
+        FailureAttachmentRegistry.onTestFailure(new RuntimeException("boom"));
 
         Assert.assertEquals(handler.calls.get(), 1);
     }
