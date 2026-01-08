@@ -74,7 +74,31 @@ public final class TestListener implements ITestListener, ISuiteListener, IInvok
             st.reset();
         }
 
-        startGroups(logger, cls, method, firstForClass, st);
+        GroupController g = new GroupController(logger);
+
+        if (st.isFlowMode()) {
+            g.openIf(
+                    () -> !st.isMethodGroupOpen(),
+                    "FLOW",
+                    () -> {
+                        st.openMethodGroup();
+                        flusher.flushBefore(logger, g, cls, true);
+                        g.open("TEST BODY");
+                        g.open(method);
+                        st.openTest();
+                    }
+            );
+            return;
+        }
+
+        g.open(method);
+        st.openMethodGroup();
+
+        flusher.flushBefore(logger, g, cls, firstForClass);
+
+        g.open("TEST BODY");
+        g.open(method);
+        st.openTest();
     }
 
     @Override
@@ -105,40 +129,6 @@ public final class TestListener implements ITestListener, ISuiteListener, IInvok
         closeGroups(result);
     }
 
-    private void startGroups(
-            ReportLogger logger,
-            Class<?> cls,
-            String method,
-            boolean firstForClass,
-            TestExecutionState st
-    ) {
-        GroupController g = new GroupController(logger);
-
-        if (st.isFlowMode()) {
-            g.openIf(
-                    () -> !st.isMethodGroupOpen(),
-                    "FLOW",
-                    () -> {
-                        st.openMethodGroup();
-                        flusher.flushBefore(logger, g, cls, true);
-                        g.open("TEST BODY");
-                        st.openTest();
-                    }
-            );
-
-            g.open(method);
-            return;
-        }
-
-        g.open(method);
-        st.openMethodGroup();
-
-        flusher.flushBefore(logger, g, cls, firstForClass);
-
-        g.open("TEST BODY");
-        st.openTest();
-    }
-
     private void closeGroups(ITestResult result) {
         ReportLogger logger = ReportingManager.tryGetLogger();
         if (logger == null) return;
@@ -147,13 +137,16 @@ public final class TestListener implements ITestListener, ISuiteListener, IInvok
         GroupController g = new GroupController(logger);
         Class<?> cls = result.getMethod().getRealClass();
 
-        // Close TEST BODY if still open (safety net)
         if (st.isTestOpen()) {
             g.closeCurrent();
             st.closeTest();
         }
 
-        // Flush remaining teardown scopes (@AfterClass/@AfterTest/@AfterSuite) under TEARDOWN
+        if (st.isMethodGroupOpen()) {
+            g.closeCurrent();
+            st.closeMethodGroup();
+        }
+
         if (st.isAfterOpen() || flusher.hasAfterScopesContent(cls)) {
             if (!st.isAfterOpen()) {
                 g.open("TEARDOWN");
@@ -161,16 +154,8 @@ public final class TestListener implements ITestListener, ISuiteListener, IInvok
             }
 
             flusher.flushAfterScopes(logger, g, cls);
-
-            // Close TEARDOWN wrapper
             g.closeCurrent();
             st.closeAfter();
-        }
-
-        // Close method group
-        if (st.isMethodGroupOpen()) {
-            g.closeCurrent();
-            st.closeMethodGroup();
         }
     }
 
