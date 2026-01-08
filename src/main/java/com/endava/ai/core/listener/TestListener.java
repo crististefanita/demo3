@@ -1,10 +1,11 @@
 package com.endava.ai.core.listener;
 
+import com.endava.ai.core.listener.internal.*;
 import com.endava.ai.core.reporting.ReportLogger;
 import com.endava.ai.core.reporting.ReportingManager;
 import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.core.reporting.attachment.FailureAttachmentRegistry;
-import com.endava.ai.core.reporting.utils.ReportingEngineCleanup;
+import com.endava.ai.core.reporting.internal.ReportingEngineCleanup;
 import org.testng.*;
 
 public final class TestListener
@@ -12,13 +13,21 @@ public final class TestListener
 
     private final TestContext context = new TestContext();
     private final StepBufferRegistry buffers = new StepBufferRegistry();
-    private final TestLifecycleController lifecycle =
-            new TestLifecycleController(context);
+    private final TestLifecycleController lifecycle = new TestLifecycleController(context);
+    private final FlowPolicy flowPolicy = new FlowPolicy();
+    private final LifecycleFlusher flusher = new LifecycleFlusher(buffers);
+
+    private final ThreadLocal<TestExecutionState> state =
+            ThreadLocal.withInitial(TestExecutionState::new);
+
+    private final ThreadLocal<InvocationController> invocations =
+            ThreadLocal.withInitial(() ->
+                    new InvocationController(buffers, flusher, state.get())
+            );
 
     static {
-        Runtime.getRuntime().addShutdownHook(
-                new Thread(ReportingEngineCleanup::onShutdown)
-        );
+        Runtime.getRuntime()
+                .addShutdownHook(new Thread(ReportingEngineCleanup::onShutdown));
     }
 
     @Override
@@ -26,27 +35,29 @@ public final class TestListener
         context.clear();
         buffers.clear();
         StepLogger.clear();
+        flowPolicy.clear();
+        state.remove();
+        invocations.remove();
     }
 
     @Override
-    public void beforeInvocation(IInvokedMethod method, ITestResult tr, ITestContext ctx) {
-        if (!method.isConfigurationMethod()) return;
-
-        ITestNGMethod m = method.getTestMethod();
-        if (m == null) return;
-
-        StepLogger.setDelegate(resolveDelegate(m));
+    public void onFinish(ISuite suite) {
+        lifecycle.endSuite();
     }
 
     @Override
-    public void afterInvocation(IInvokedMethod method, ITestResult tr, ITestContext ctx) {
-        if (method.isConfigurationMethod()) {
-            StepLogger.clearDelegate();
-        }
+    public void beforeInvocation(IInvokedMethod method, ITestResult tr) {
+        invocations.get().beforeInvocation(method);
+    }
+
+    @Override
+    public void afterInvocation(IInvokedMethod method, ITestResult tr) {
+        invocations.get().afterInvocation(method, tr);
     }
 
     @Override
     public void onTestStart(ITestResult result) {
+        StepLogger.clear();
         FailureAttachmentRegistry.onTestStart();
 
         lifecycle.startTest(result);
@@ -54,79 +65,144 @@ public final class TestListener
         ReportLogger logger = ReportingManager.tryGetLogger();
         if (logger == null) return;
 
-        flushBeforeScopes(result, logger);
-        flushBeforeMethod(logger);
-    }
+        // 🔑 CANONICAL WIRING
+        StepLogger.setDelegate(logger);
 
-    @Override
-    public void onTestFailure(ITestResult result) {
-        FailureAttachmentRegistry.onTestFailure();
-        lifecycle.failTest(result);
-    }
+        Class<?> cls = result.getMethod().getRealClass();
+        String method = result.getMethod().getMethodName();
 
-    @Override
-    public void onTestSkipped(ITestResult result) {
-        if (result.getThrowable() != null) {
-            StepLogger.failUnhandledOutsideStep(result.getThrowable());
+        TestExecutionState st = state.get();
+        boolean firstForClass = context.isFirstMethodForClass(cls);
+
+        if (firstForClass) {
+            st.reset();
+            if (flowPolicy.isFlowClass(result.getTestContext(), cls))
+                st.enableFlowMode();
+        } else if (!st.isFlowMode()) {
+            st.reset();
         }
+
+        startGroups(logger, cls, method, firstForClass, st);
+    }
+
+    @Override
+    public void onTestSuccess(ITestResult result) {
+        closeGroups(result);
+        StepLogger.clearDelegate();   // 🔑 IMPORTANT
         context.markTestEnded();
     }
 
     @Override
-    public void onFinish(ISuite suite) {
+    public void onTestFailure(ITestResult result) {
+        endWithThrowable(result, true);
+    }
+
+    @Override
+    public void onTestSkipped(ITestResult result) {
+        endWithThrowable(result, false);
+        context.markTestEnded();
+    }
+
+    private void endWithThrowable(ITestResult result, boolean failed) {
+        Throwable t = result.getThrowable();
+
+        FailureAttachmentRegistry.onTestFailure(t);
+        if (failed) lifecycle.failTest(result);
+
+        if (t != null)
+            StepLogger.failUnhandledOutsideStep(t);
+
+        closeGroups(result);
+        StepLogger.clearDelegate();   // 🔑 IMPORTANT
+    }
+
+    private void startGroups(
+            ReportLogger logger,
+            Class<?> cls,
+            String method,
+            boolean firstForClass,
+            TestExecutionState st
+    ) {
+        GroupController g = new GroupController(logger);
+
+        if (st.isFlowMode()) {
+            if (!st.isMethodGroupOpen()) {
+                g.open("FLOW");
+                st.openMethodGroup();
+
+                flusher.flushBefore(logger, g, cls, true);
+
+                g.open("TEST BODY");
+            }
+
+            g.open(method);
+            st.openTest();
+            return;
+        }
+
+        g.open(method);
+        st.openMethodGroup();
+
+        flusher.flushBefore(logger, g, cls, firstForClass);
+
+        g.open("TEST BODY");
+        st.openTest();
+    }
+
+    private void closeGroups(ITestResult result) {
         ReportLogger logger = ReportingManager.tryGetLogger();
+        if (logger == null) return;
 
-        if (logger != null && context.getLastTest() != null) {
-            buffers.flushAfterForLastTest(
-                    context.getLastTest().getMethod().getRealClass(),
-                    logger
-            );
+        TestExecutionState st = state.get();
+        GroupController g = new GroupController(logger);
+        Class<?> cls = result.getMethod().getRealClass();
+
+        if (st.isTestOpen()) {
+            g.closeCurrent();
+            st.closeTest();
         }
 
-        lifecycle.endSuite();
-    }
+        if (st.isFlowMode()) {
+            if (flowPolicy.isLastInFlow(result)) {
+                g.closeCurrent();
+                g.closeCurrent();
+                st.closeMethodGroup();
 
-    private ReportLogger resolveDelegate(ITestNGMethod m) {
-        if (m.isBeforeMethodConfiguration()) {
-            StepBufferLogger b = buffers.beforeMethod();
-            b.clear();
-            return b;
+                st.disableFlowMode();
+
+                if (flusher.hasAfterScopesContent(cls)) {
+                    g.open("TEARDOWN");
+                    st.openAfter();
+
+                    flusher.flushAfterScopes(logger, g, cls);
+
+                    g.closeCurrent();
+                    st.closeAfter();
+                }
+            }
+            return;
         }
 
-        if (m.isAfterMethodConfiguration()) {
-            return ReportingManager.tryGetLogger();
+        if (st.isMethodGroupOpen()) {
+            g.closeCurrent();
+            st.closeMethodGroup();
         }
 
-        if (m.isBeforeClassConfiguration() || m.isBeforeTestConfiguration()) {
-            return buffers.beforeFor(m);
+        if (st.isAfterOpen() || flusher.hasAfterScopesContent(cls)) {
+            if (!st.isAfterOpen()) {
+                g.open("TEARDOWN");
+                st.openAfter();
+            }
+
+            flusher.flushAfterScopes(logger, g, cls);
+
+            g.closeCurrent();
+            st.closeAfter();
         }
-
-        if (m.isAfterClassConfiguration()
-                || m.isAfterTestConfiguration()
-                || m.isAfterSuiteConfiguration()) {
-            return buffers.afterFor(m);
-        }
-
-        return null;
-    }
-
-    private void flushBeforeMethod(ReportLogger logger) {
-        StepBufferLogger b = buffers.beforeMethod();
-        if (!b.isEmpty()) {
-            b.flushTo(logger);
-            b.clear();
-        }
-    }
-
-    private void flushBeforeScopes(ITestResult result, ReportLogger logger) {
-        buffers.flushBeforeClass(
-                result.getMethod().getRealClass(),
-                logger
-        );
-        buffers.flushBeforeSuite(logger);
     }
 
     public static void resetForTests() {
-        // only for testing purposes
+        ReportingManager.reset();
+        StepLogger.clear();
     }
 }

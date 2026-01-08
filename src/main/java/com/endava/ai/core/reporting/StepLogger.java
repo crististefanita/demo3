@@ -6,7 +6,7 @@ import static com.endava.ai.core.reporting.utils.ConsoleLoger.formatStacktrace;
 
 public final class StepLogger {
 
-    private static final ThreadLocal<Boolean> STEP_ACTIVE = new ThreadLocal<>();
+    private static final ThreadLocal<Integer> STEP_DEPTH = ThreadLocal.withInitial(() -> 0);
     private static final ThreadLocal<Boolean> TEST_FAILED = new ThreadLocal<>();
     private static final ThreadLocal<ReportLogger> DELEGATE = new ThreadLocal<>();
 
@@ -22,7 +22,7 @@ public final class StepLogger {
     }
 
     public static void clear() {
-        STEP_ACTIVE.remove();
+        STEP_DEPTH.remove();
         TEST_FAILED.remove();
         DELEGATE.remove();
     }
@@ -32,9 +32,7 @@ public final class StepLogger {
     }
 
     public static void startStep(String title) {
-        if (Boolean.TRUE.equals(STEP_ACTIVE.get()))
-            throw new IllegalStateException("Cannot start a new step while another step is active.");
-        STEP_ACTIVE.set(Boolean.TRUE);
+        STEP_DEPTH.set(STEP_DEPTH.get() + 1);
         console("▶ " + title);
 
         ReportLogger l = DELEGATE.get();
@@ -50,6 +48,10 @@ public final class StepLogger {
         if (getBoolean("console.details.enabled")) console("  • " + detail);
     }
 
+    public static void info(String detail) {
+        logDetail(detail);
+    }
+
     public static void logCodeBlock(String content) {
         requireActiveStep();
         ReportLogger l = DELEGATE.get();
@@ -63,7 +65,7 @@ public final class StepLogger {
         ReportLogger l = DELEGATE.get();
         if (l != null) l.pass(message);
 
-        STEP_ACTIVE.remove();
+        STEP_DEPTH.set(STEP_DEPTH.get() - 1);
     }
 
     public static void fail(String message, Throwable t) {
@@ -78,7 +80,7 @@ public final class StepLogger {
         ReportLogger l = DELEGATE.get();
         if (l != null) l.fail(message, stacktraceAsText);
 
-        STEP_ACTIVE.remove();
+        STEP_DEPTH.set(STEP_DEPTH.get() - 1);
     }
 
     public static void failUnhandledOutsideStep(Throwable t) {
@@ -94,9 +96,11 @@ public final class StepLogger {
     }
 
     private static void requireActiveStep() {
-        if (!Boolean.TRUE.equals(STEP_ACTIVE.get())) throw new IllegalStateException("No active step.");
+        if (STEP_DEPTH.get() <= 0)
+            throw new IllegalStateException("No active step.");
     }
 
+    @SuppressWarnings("ALL")
     private static boolean getBoolean(String key) {
         return Boolean.parseBoolean(require(key));
     }

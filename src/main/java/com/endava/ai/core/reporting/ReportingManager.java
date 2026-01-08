@@ -1,35 +1,23 @@
 package com.endava.ai.core.reporting;
 
 import com.endava.ai.core.config.ConfigManager;
-import com.endava.ai.core.reporting.adapters.AllureAdapter;
-import com.endava.ai.core.reporting.adapters.ExtentAdapter;
+import com.endava.ai.core.reporting.internal.ReportingEngine;
 
-import java.util.Locale;
+import java.util.function.Supplier;
 
 public final class ReportingManager {
 
     private static ReportLogger logger;
 
-    private ReportingManager() {}
-
-    @SuppressWarnings("ConstantConditions")
-    public static synchronized ReportLogger getLogger() {
-        ReportLogger result = logger;
-        if (result != null) return result;
-
-        if (logger == null) logger = createLoggerStrict();
-        return logger;
+    private ReportingManager() {
     }
 
-    /** for unit tests / core-only usage */
+    public static synchronized ReportLogger getLogger() {
+        return getOrCreate(() -> ConfigManager.require("reporting.engine"));
+    }
+
     public static synchronized ReportLogger tryGetLogger() {
-        if (logger != null) return logger;
-
-        String engine = ConfigManager.get("reporting.engine", null);
-        if (engine == null || engine.isBlank()) return null;
-
-        logger = createLogger(engine);
-        return logger;
+        return getOrCreate(() -> ConfigManager.get("reporting.engine", null));
     }
 
     public static void setLoggerForTests(ReportLogger testLogger) {
@@ -40,21 +28,13 @@ public final class ReportingManager {
         logger = null;
     }
 
-    private static ReportLogger createLoggerStrict() {
-        String engine = ConfigManager.require("reporting.engine");
-        return createLogger(engine);
-    }
+    private static ReportLogger getOrCreate(Supplier<String> engineSupplier) {
+        if (logger != null) return logger;
 
-    private static ReportLogger createLogger(String engineRaw) {
-        String engine = engineRaw.toLowerCase(Locale.ROOT);
+        String raw = engineSupplier.get();
+        if (raw == null || raw.isBlank()) return null;
 
-        switch (engine) {
-            case "extent": return ExtentAdapter.getInstance();
-            case "allure": return AllureAdapter.getInstance();
-            default:
-                throw new IllegalArgumentException(
-                        "Unsupported reporting.engine: " + engine + " (supported: extent, allure)"
-                );
-        }
+        logger = ReportingEngine.from(raw).createLogger();
+        return logger;
     }
 }
