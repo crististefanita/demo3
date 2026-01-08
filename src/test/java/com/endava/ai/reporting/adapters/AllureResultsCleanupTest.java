@@ -1,4 +1,4 @@
-package com.endava.ai.reporting.tests.adapters;
+package com.endava.ai.reporting.adapters;
 
 import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.core.reporting.internal.ReportingEngineCleanup;

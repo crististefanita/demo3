@@ -1,16 +1,24 @@
 package com.endava.ai.ui.tests;
 
+import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.ui.core.BaseTestUI;
 import com.endava.ai.ui.service.RegistrationService;
 import com.endava.ai.ui.utils.DataGenerator;
 import com.endava.ai.ui.utils.JsonTestData;
 import com.endava.ai.ui.validation.RegistrationValidation;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class RegistrationTests extends BaseTestUI {
 
     private final RegistrationService service = new RegistrationService();
     private final RegistrationValidation validation = new RegistrationValidation();
+
+    @BeforeMethod
+    public void before() {
+        StepLogger.startStep("Registration preconditions");
+        StepLogger.pass("Ready");
+    }
 
     @Test(description = "Positive: successful registration redirects to login")
     public void positive_registration_redirects_to_login() {

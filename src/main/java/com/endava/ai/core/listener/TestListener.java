@@ -8,7 +8,8 @@ import com.endava.ai.core.reporting.attachment.FailureAttachmentRegistry;
 import com.endava.ai.core.reporting.internal.ReportingEngineCleanup;
 import org.testng.*;
 
-public final class TestListener implements ITestListener, ISuiteListener, IInvokedMethodListener {
+public final class TestListener
+        implements ITestListener, ISuiteListener, IInvokedMethodListener {
 
     private final TestContext context = new TestContext();
     private final StepBufferRegistry buffers = new StepBufferRegistry();
@@ -20,10 +21,13 @@ public final class TestListener implements ITestListener, ISuiteListener, IInvok
             ThreadLocal.withInitial(TestExecutionState::new);
 
     private final ThreadLocal<InvocationController> invocations =
-            ThreadLocal.withInitial(() -> new InvocationController(buffers, flusher, state.get()));
+            ThreadLocal.withInitial(() ->
+                    new InvocationController(buffers, flusher, state.get())
+            );
 
     static {
-        Runtime.getRuntime().addShutdownHook(new Thread(ReportingEngineCleanup::onShutdown));
+        Runtime.getRuntime()
+                .addShutdownHook(new Thread(ReportingEngineCleanup::onShutdown));
     }
 
     @Override
@@ -61,6 +65,9 @@ public final class TestListener implements ITestListener, ISuiteListener, IInvok
         ReportLogger logger = ReportingManager.tryGetLogger();
         if (logger == null) return;
 
+        // 🔑 CANONICAL WIRING
+        StepLogger.setDelegate(logger);
+
         Class<?> cls = result.getMethod().getRealClass();
         String method = result.getMethod().getMethodName();
 
@@ -69,41 +76,19 @@ public final class TestListener implements ITestListener, ISuiteListener, IInvok
 
         if (firstForClass) {
             st.reset();
-            if (flowPolicy.isFlowClass(result.getTestContext(), cls)) st.enableFlowMode();
+            if (flowPolicy.isFlowClass(result.getTestContext(), cls))
+                st.enableFlowMode();
         } else if (!st.isFlowMode()) {
             st.reset();
         }
 
-        GroupController g = new GroupController(logger);
-
-        if (st.isFlowMode()) {
-            g.openIf(
-                    () -> !st.isMethodGroupOpen(),
-                    "FLOW",
-                    () -> {
-                        st.openMethodGroup();
-                        flusher.flushBefore(logger, g, cls, true);
-                        g.open("TEST BODY");
-                        g.open(method);
-                        st.openTest();
-                    }
-            );
-            return;
-        }
-
-        g.open(method);
-        st.openMethodGroup();
-
-        flusher.flushBefore(logger, g, cls, firstForClass);
-
-        g.open("TEST BODY");
-        g.open(method);
-        st.openTest();
+        startGroups(logger, cls, method, firstForClass, st);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
         closeGroups(result);
+        StepLogger.clearDelegate();   // 🔑 IMPORTANT
         context.markTestEnded();
     }
 
@@ -124,9 +109,44 @@ public final class TestListener implements ITestListener, ISuiteListener, IInvok
         FailureAttachmentRegistry.onTestFailure(t);
         if (failed) lifecycle.failTest(result);
 
-        if (t != null) StepLogger.failUnhandledOutsideStep(t);
+        if (t != null)
+            StepLogger.failUnhandledOutsideStep(t);
 
         closeGroups(result);
+        StepLogger.clearDelegate();   // 🔑 IMPORTANT
+    }
+
+    private void startGroups(
+            ReportLogger logger,
+            Class<?> cls,
+            String method,
+            boolean firstForClass,
+            TestExecutionState st
+    ) {
+        GroupController g = new GroupController(logger);
+
+        if (st.isFlowMode()) {
+            if (!st.isMethodGroupOpen()) {
+                g.open("FLOW");
+                st.openMethodGroup();
+
+                flusher.flushBefore(logger, g, cls, true);
+
+                g.open("TEST BODY");
+            }
+
+            g.open(method);
+            st.openTest();
+            return;
+        }
+
+        g.open(method);
+        st.openMethodGroup();
+
+        flusher.flushBefore(logger, g, cls, firstForClass);
+
+        g.open("TEST BODY");
+        st.openTest();
     }
 
     private void closeGroups(ITestResult result) {
@@ -142,6 +162,27 @@ public final class TestListener implements ITestListener, ISuiteListener, IInvok
             st.closeTest();
         }
 
+        if (st.isFlowMode()) {
+            if (flowPolicy.isLastInFlow(result)) {
+                g.closeCurrent();
+                g.closeCurrent();
+                st.closeMethodGroup();
+
+                st.disableFlowMode();
+
+                if (flusher.hasAfterScopesContent(cls)) {
+                    g.open("TEARDOWN");
+                    st.openAfter();
+
+                    flusher.flushAfterScopes(logger, g, cls);
+
+                    g.closeCurrent();
+                    st.closeAfter();
+                }
+            }
+            return;
+        }
+
         if (st.isMethodGroupOpen()) {
             g.closeCurrent();
             st.closeMethodGroup();
@@ -154,6 +195,7 @@ public final class TestListener implements ITestListener, ISuiteListener, IInvok
             }
 
             flusher.flushAfterScopes(logger, g, cls);
+
             g.closeCurrent();
             st.closeAfter();
         }
