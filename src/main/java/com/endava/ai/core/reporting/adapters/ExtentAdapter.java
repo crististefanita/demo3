@@ -1,51 +1,24 @@
 package com.endava.ai.core.reporting.adapters;
 
-import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.markuputils.MarkupHelper;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
-import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.endava.ai.core.reporting.ReportLogger;
+import com.endava.ai.core.reporting.adapters.extent.ExtentReporter;
+import com.endava.ai.core.reporting.adapters.extent.ExtentTestContext;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static com.endava.ai.core.config.ConfigManager.require;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public final class ExtentAdapter implements ReportLogger {
 
     private static final ExtentAdapter INSTANCE = new ExtentAdapter();
-    private static final String FALLBACK_NAME = "Test";
 
-    private final ExtentReports extent;
-    private final ThreadLocal<ExtentTest> currentTest = new ThreadLocal<>();
-    private final ThreadLocal<ExtentTest> currentStep = new ThreadLocal<>();
+    private final ExtentReporter reporter = new ExtentReporter();
+    private final ExtentTestContext testContext = new ExtentTestContext(reporter);
+
+    private final ThreadLocal<Deque<ExtentTest>> stepStack =
+            ThreadLocal.withInitial(ArrayDeque::new);
 
     private ExtentAdapter() {
-        String reportsDir = require("reports.dir");
-        boolean tsEnabled = Boolean.parseBoolean(require("reports.timestamp.enabled"));
-        String tsFormat = require("reports.timestamp.format");
-
-        String fileName = tsEnabled
-                ? "ExtentReport_" + new SimpleDateFormat(tsFormat).format(new Date()) + ".html"
-                : "ExtentReport.html";
-
-        Path reportPath = Paths.get(reportsDir, fileName);
-
-        ExtentSparkReporter spark = new ExtentSparkReporter(reportPath.toString());
-        spark.config().setTheme(Theme.DARK);
-        spark.config().setDocumentTitle("Test Report");
-        spark.config().setReportName("Automation Framework");
-        spark.config().setCss(
-                ".card-title a span { color: #f2f2f2 !important; }" +
-                        ".card-title a { color: #f2f2f2 !important; }" +
-                        ".fa { color: #f2f2f2 !important; }"
-        );
-
-        extent = new ExtentReports();
-        extent.attachReporter(spark);
     }
 
     public static ExtentAdapter getInstance() {
@@ -54,97 +27,100 @@ public final class ExtentAdapter implements ReportLogger {
 
     @Override
     public void ensureTestStarted(String testName, String description) {
-        ExtentTest t = currentTest.get();
-
-        if (t == null) {
-            currentTest.set(
-                    extent.createTest(
-                            testName != null ? testName : FALLBACK_NAME,
-                            description == null ? "" : description
-                    )
-            );
-            return;
-        }
-
-        if (testName != null && FALLBACK_NAME.equals(t.getModel().getName())) {
-            t.getModel().setName(testName);
-            if (description != null) {
-                t.getModel().setDescription(description);
-            }
-        }
+        testContext.start(testName, description);
     }
 
     @Override
     public void startTest(String testName, String description) {
         ensureTestStarted(testName, description);
-        currentStep.remove();
+        clearSteps();
     }
 
     @Override
     public void endTest(String status) {
-        currentStep.remove();
-        currentTest.remove();
+        ExtentTest test = testContext.get();
+
+        if (test != null && "FAIL".equalsIgnoreCase(status)) {
+            test.getModel().setStatus(com.aventstack.extentreports.Status.FAIL);
+        }
+
+        clearSteps();
+        testContext.end();
     }
 
     @Override
-    public void startStep(String stepTitle) {
-        currentStep.set(requireTest().createNode(stepTitle));
+    public void startStep(String title) {
+        ExtentTest test = testContext.get();
+        if (test == null) return;
+
+        ExtentTest parent = stepStack.get().peekLast();
+        ExtentTest node = (parent != null ? parent : test).createNode(title);
+        stepStack.get().addLast(node);
     }
 
     @Override
     public void logDetail(String detail) {
-        requireStep().info(detail);
+        getActiveNode().info(detail);
     }
 
     @Override
     public void pass(String message) {
-        requireStep().pass(message);
+        ExtentTest test = testContext.get();
+        if (test == null) return;
+
+        if (message != null && !message.isEmpty()) {
+            getActiveNode().pass(message);
+        }
+
+        popStepIfNeeded();
     }
 
     @Override
     public void fail(String message, String stacktraceAsText) {
-        ExtentTest step;
+        ExtentTest test = testContext.get();
+        if (test == null) return;
 
-        if (currentStep.get() == null) {
-            step = requireTest().createNode("Test failure");
-            currentStep.set(step);
-        } else {
-            step = currentStep.get();
-        }
-
-        step.fail(message);
-        logCodeBlock(stacktraceAsText);
-
-        currentStep.remove();
+        reporter.fail(getActiveNode(), message, stacktraceAsText);
+        popStepIfNeeded();
     }
 
     @Override
     public void attachScreenshotBase64(String base64, String title) {
-        requireTest().addScreenCaptureFromBase64String(
-                base64,
-                title == null ? "Screenshot" : title
-        );
+        ExtentTest test = testContext.get();
+        if (test == null) return;
+
+        reporter.attachScreenshot(test, base64, title);
     }
 
     @Override
     public void logCodeBlock(String content) {
-        requireStep().info(MarkupHelper.createCodeBlock(content == null ? "" : content));
+        ExtentTest test = testContext.get();
+        if (test == null) return;
+
+        reporter.logCodeBlock(getActiveNode(), content);
     }
 
     @Override
     public void flush() {
-        extent.flush();
+        reporter.flush();
     }
 
-    private ExtentTest requireTest() {
-        ExtentTest t = currentTest.get();
-        if (t == null) throw new IllegalStateException("No active test");
-        return t;
+    private ExtentTest getActiveNode() {
+        Deque<ExtentTest> stack = stepStack.get();
+        ExtentTest node = stack.peekLast();
+        return node != null ? node : testContext.get();
     }
 
-    private ExtentTest requireStep() {
-        ExtentTest s = currentStep.get();
-        if (s == null) throw new IllegalStateException("No active step");
-        return s;
+    private void popStepIfNeeded() {
+        Deque<ExtentTest> stack = stepStack.get();
+        if (!stack.isEmpty()) {
+            stack.pollLast();
+        }
+    }
+
+    private void clearSteps() {
+        Deque<ExtentTest> stack = stepStack.get();
+        stack.clear();
+        stepStack.remove();
     }
 }

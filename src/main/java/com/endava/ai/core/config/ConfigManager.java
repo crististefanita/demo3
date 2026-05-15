@@ -31,6 +31,18 @@ public final class ConfigManager {
         return value;
     }
 
+    public static void set(String key, String value) {
+        if (value == null) {
+            properties().remove(key);
+        } else {
+            properties().setProperty(key, value.trim());
+        }
+    }
+
+    public static void clear(String key) {
+        properties().remove(key);
+    }
+
     private static Properties properties() {
         if (PROPERTIES == null) {
             synchronized (ConfigManager.class) {

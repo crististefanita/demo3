@@ -236,7 +236,7 @@ Listener order is critical:
 
 <listeners>
     <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
-    <listener class-name="com.endava.ai.core.TestListener"/>
+    <listener class-name="com.endava.ai.core.listener.TestListener"/>
 </listeners>
 ```
 

@@ -1,10 +1,9 @@
 package com.endava.ai.core.reporting;
 
 import com.endava.ai.core.config.ConfigManager;
-import com.endava.ai.core.reporting.adapters.AllureAdapter;
-import com.endava.ai.core.reporting.adapters.ExtentAdapter;
+import com.endava.ai.core.reporting.internal.ReportingEngine;
 
-import java.util.Locale;
+import java.util.function.Supplier;
 
 public final class ReportingManager {
 
@@ -14,15 +13,11 @@ public final class ReportingManager {
     }
 
     public static synchronized ReportLogger getLogger() {
-        ReportLogger result = logger;
-        if (result != null) return result;
+        return getOrCreate(() -> ConfigManager.require("reporting.engine"));
+    }
 
-        synchronized (ReportingManager.class) {
-            if (logger == null) {
-                logger = createLogger();
-            }
-            return logger;
-        }
+    public static synchronized ReportLogger tryGetLogger() {
+        return getOrCreate(() -> ConfigManager.get("reporting.engine", null));
     }
 
     public static void setLoggerForTests(ReportLogger testLogger) {
@@ -33,22 +28,13 @@ public final class ReportingManager {
         logger = null;
     }
 
-    private static ReportLogger createLogger() {
-        String engine = ConfigManager.require("reporting.engine")
-                .toLowerCase(Locale.ROOT);
+    private static ReportLogger getOrCreate(Supplier<String> engineSupplier) {
+        if (logger != null) return logger;
 
-        switch (engine) {
-            case "extent":
-                return ExtentAdapter.getInstance();
-            case "allure":
-                return AllureAdapter.getInstance();
-            default:
-                throw new IllegalArgumentException(
-                        "Unsupported reporting.engine: " + engine +
-                                " (supported: extent, allure)"
-                );
-        }
+        String raw = engineSupplier.get();
+        if (raw == null || raw.isBlank()) return null;
+
+        logger = ReportingEngine.from(raw).createLogger();
+        return logger;
     }
-
-
 }
