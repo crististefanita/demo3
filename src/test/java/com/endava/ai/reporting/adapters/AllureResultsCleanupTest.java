@@ -2,6 +2,7 @@ package com.endava.ai.reporting.adapters;
 
 import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.core.reporting.internal.ReportingEngineCleanup;
+import com.endava.ai.core.reporting.internal.ReportingPaths;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -16,9 +17,12 @@ public class AllureResultsCleanupTest {
 
     @BeforeMethod
     void setUp() {
-        allureDir = new File("allure-results");
+        allureDir = ReportingPaths.allureResultsDirectory();
+
         deleteDir(allureDir);
-        allureDir.mkdir();
+
+        allureDir.mkdirs();
+
         new File(allureDir, "dummy.txt");
     }
 
@@ -53,7 +57,7 @@ public class AllureResultsCleanupTest {
         ReportingEngineCleanup.onShutdown();
 
         Assert.assertFalse(
-                new File("allure-results").exists(),
+                ReportingPaths.allureResultsDirectory().exists(),
                 "Extent must not leave allure-results behind"
         );
     }
@@ -63,11 +67,17 @@ public class AllureResultsCleanupTest {
     }
 
     private static void deleteDir(File dir) {
-        if (!dir.exists()) return;
+        if (dir == null || !dir.exists()) return;
+
         File[] files = dir.listFiles();
+
         if (files != null) {
-            for (File f : files) f.delete();
+            for (File file : files) {
+                if (file.isDirectory()) deleteDir(file);
+                else file.delete();
+            }
         }
+
         dir.delete();
     }
 }
