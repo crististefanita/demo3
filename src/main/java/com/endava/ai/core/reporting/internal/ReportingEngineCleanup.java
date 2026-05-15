@@ -9,16 +9,21 @@ public final class ReportingEngineCleanup {
 
     public static void onShutdown() {
         if (ReportingEngine.current().keepsAllureResults()) return;
-        deleteAllureResults();
+        deleteDir(ReportingPaths.allureResultsDirectory());
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    private static void deleteAllureResults() {
-        File dir = new File("allure-results");
-        File[] files = dir.listFiles();
-        if (files == null) return;
+    private static void deleteDir(File dir) {
+        if (dir == null || !dir.exists()) return;
 
-        for (File f : files) f.delete();
+        File[] files = dir.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) deleteDir(file);
+                else file.delete();
+            }
+        }
+
         dir.delete();
     }
 }
