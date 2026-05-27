@@ -2,9 +2,9 @@ package com.endava.ai.ui.tests;
 
 import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.ui.core.BaseTestUI;
+import com.endava.ai.ui.factory.UserDataFactory;
+import com.endava.ai.ui.model.RegistrationData;
 import com.endava.ai.ui.service.RegistrationService;
-import com.endava.ai.ui.utils.DataGenerator;
-import com.endava.ai.ui.utils.JsonTestData;
 import com.endava.ai.ui.validation.RegistrationValidation;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -23,25 +23,8 @@ public class RegistrationTests extends BaseTestUI {
     @Test(description = "Positive: successful registration redirects to login")
     public void positive_registration_redirects_to_login() {
         service.openRegister();
-
-        String json = JsonTestData.readResource("testdata/registration_positive.json");
-
-        String email = DataGenerator.uniqueEmail();
-        String password = DataGenerator.strongPassword();
-
-        service.register(
-                JsonTestData.getString(json, "firstName"),
-                JsonTestData.getString(json, "lastName"),
-                JsonTestData.getString(json, "dob"),
-                JsonTestData.getString(json, "street"),
-                JsonTestData.getString(json, "postal"),
-                JsonTestData.getString(json, "city"),
-                JsonTestData.getString(json, "state"),
-                JsonTestData.getString(json, "country"),
-                JsonTestData.getString(json, "phone"),
-                email,
-                password
-        );
+        RegistrationData data = UserDataFactory.validRegistrationData();
+        service.register(data);
 
         validation.assertRedirectedToLogin();
     }
@@ -60,68 +43,50 @@ public class RegistrationTests extends BaseTestUI {
     public void negative_invalid_email_should_fail() {
         service.openRegister();
 
-        String json = JsonTestData.readResource("testdata/registration_positive.json");
-        String password = DataGenerator.strongPassword();
+        RegistrationData data = UserDataFactory.validRegistrationData()
+                .withEmail("invalid-email-format");
+        service.register(data);
 
-        service.register(
-                JsonTestData.getString(json, "firstName"),
-                JsonTestData.getString(json, "lastName"),
-                JsonTestData.getString(json, "dob"),
-                JsonTestData.getString(json, "street"),
-                JsonTestData.getString(json, "postal"),
-                JsonTestData.getString(json, "city"),
-                JsonTestData.getString(json, "state"),
-                JsonTestData.getString(json, "country"),
-                JsonTestData.getString(json, "phone"),
-                "invalid-email-format",
-                password
-        );
-
-        // Stay on register page and show an error (best-effort; demo site behavior may vary)
         validation.assertStillOnRegister();
-        validation.assertAnyErrorVisibleOrPresent();
+        validation.assertErrorContains("Email format is invalid");
     }
 
     @Test(description = "Negative: duplicate email should fail on second registration attempt")
     public void negative_duplicate_email_should_fail() {
         service.openRegister();
 
-        String json = JsonTestData.readResource("testdata/registration_positive.json");
-        String email = DataGenerator.uniqueEmail();
-        String password = DataGenerator.strongPassword();
-
-        // First attempt
-        service.register(
-                JsonTestData.getString(json, "firstName"),
-                JsonTestData.getString(json, "lastName"),
-                JsonTestData.getString(json, "dob"),
-                JsonTestData.getString(json, "street"),
-                JsonTestData.getString(json, "postal"),
-                JsonTestData.getString(json, "city"),
-                JsonTestData.getString(json, "state"),
-                JsonTestData.getString(json, "country"),
-                JsonTestData.getString(json, "phone"),
-                email,
-                password
-        );
+        RegistrationData data = UserDataFactory.validRegistrationData();
+        service.register(data);
         validation.assertRedirectedToLogin();
 
-        // Second attempt with same email (expect failure / stay on register)
         service.openRegister();
-        service.register(
-                JsonTestData.getString(json, "firstName"),
-                JsonTestData.getString(json, "lastName"),
-                JsonTestData.getString(json, "dob"),
-                JsonTestData.getString(json, "street"),
-                JsonTestData.getString(json, "postal"),
-                JsonTestData.getString(json, "city"),
-                JsonTestData.getString(json, "state"),
-                JsonTestData.getString(json, "country"),
-                JsonTestData.getString(json, "phone"),
-                email,
-                password
-        );
+        service.register(data);
         validation.assertStillOnRegister();
-        validation.assertAnyErrorVisibleOrPresent();
+        validation.assertErrorContains("A customer with this email address already exists.");
     }
+
+    @Test(description = "Negative: weak password should show password policy feedback")
+    public void negative_weak_password_should_show_validation_message() {
+        service.openRegister();
+
+        RegistrationData data = UserDataFactory.validRegistrationData()
+                .withPassword("short");
+        service.register(data);
+
+        validation.assertStillOnRegister();
+        validation.assertPasswordErrorContains("Password must be minimal 6 characters long.");
+    }
+
+    @Test(description = "Negative: phone with letters should fail validation")
+    public void negative_phone_with_letters_should_fail() {
+        service.openRegister();
+
+        RegistrationData data = UserDataFactory.validRegistrationData()
+                .withPhone("abc");
+        service.register(data);
+
+        validation.assertStillOnRegister();
+        validation.assertPhoneErrorContains("Only numbers are allowed.");
+    }
+
 }

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.Base64;
 import java.util.stream.Stream;
 
@@ -87,8 +88,8 @@ public class ExtentScreenshotArtifactSmokeTest {
             runFailingUiFlow(uiEngine);
         }
 
-        Path reportFile = reportsDir.resolve("ExtentReport.html");
-        Assert.assertTrue(Files.exists(reportFile), "Extent report file must exist");
+        Path reportFile = findExtentReportFile(reportsDir, "extentSuccess_selenium");
+        Assert.assertNotNull(reportFile, "Extent report file must exist");
 
         String content = Files.readString(reportFile);
         Assert.assertTrue(content.contains("Final Screenshot"));
@@ -157,6 +158,47 @@ public class ExtentScreenshotArtifactSmokeTest {
         }
     }
 
+    private static Path findExtentReportFile(Path preferredRoot, String expectedMarker) throws IOException {
+        Path fromPreferredRoot = findExtentReportFileUnder(preferredRoot, expectedMarker);
+        if (fromPreferredRoot != null) {
+            return fromPreferredRoot;
+        }
+        return findExtentReportFileUnder(Path.of("target"), expectedMarker);
+    }
+
+    private static Path findExtentReportFileUnder(Path root, String expectedMarker) throws IOException {
+        if (!Files.exists(root)) {
+            return null;
+        }
+
+        try (Stream<Path> stream = Files.walk(root)) {
+            return stream
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().startsWith("ExtentReport"))
+                    .filter(path -> path.getFileName().toString().endsWith(".html"))
+                    .sorted(Comparator.comparingLong(ExtentScreenshotArtifactSmokeTest::lastModified).reversed())
+                    .filter(path -> fileContains(path, expectedMarker))
+                    .findFirst()
+                    .orElse(null);
+        }
+    }
+
+    private static boolean fileContains(Path path, String expectedMarker) {
+        try {
+            return Files.readString(path).contains(expectedMarker);
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    private static long lastModified(Path path) {
+        try {
+            return Files.getLastModifiedTime(path).toMillis();
+        } catch (IOException e) {
+            return Long.MIN_VALUE;
+        }
+    }
+
     private static void setEngineForCurrentThread(UIEngine engine) {
         try {
             Field field = DriverManager.class.getDeclaredField("ENGINE");
@@ -210,7 +252,9 @@ public class ExtentScreenshotArtifactSmokeTest {
         @Override public void open(String url) {}
         @Override public void click(String cssSelector) {}
         @Override public void type(String cssSelector, String text) {}
+        @Override public void select(String cssSelector, String valueOrText) {}
         @Override public String getText(String cssSelector) { return ""; }
+        @Override public String getValue(String cssSelector) { return ""; }
         @Override public boolean isVisible(String cssSelector) { return true; }
         @Override public void waitForVisible(String cssSelector, int seconds) {}
         @Override public void waitForUrlContains(String fragment, int seconds) {}

@@ -1,9 +1,11 @@
 package com.endava.ai.ui.engine.selenium;
 
+import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.ui.engine.UIEngine;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -15,7 +17,9 @@ public final class SeleniumEngine implements UIEngine {
 
     public SeleniumEngine() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new");
+        if (isHeadless()) {
+            options.addArguments("--headless=new");
+        }
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         this.driver = new ChromeDriver(options);
@@ -49,6 +53,32 @@ public final class SeleniumEngine implements UIEngine {
     }
 
     @Override
+    public void select(String cssSelector, String valueOrText) {
+        Select select = new Select(find(cssSelector));
+
+        try {
+            select.selectByValue(valueOrText);
+            return;
+        } catch (NoSuchElementException ignored) {
+        }
+
+        try {
+            select.selectByVisibleText(valueOrText);
+            return;
+        } catch (NoSuchElementException ignored) {
+        }
+
+        for (WebElement option : select.getOptions()) {
+            if (valueOrText.equalsIgnoreCase(option.getText().trim())) {
+                option.click();
+                return;
+            }
+        }
+
+        throw new NoSuchElementException("No option found for: " + valueOrText);
+    }
+
+    @Override
     public String getText(String cssSelector) {
         List<WebElement> els = driver.findElements(By.cssSelector(cssSelector));
         if (els.isEmpty()) return "";
@@ -62,6 +92,11 @@ public final class SeleniumEngine implements UIEngine {
             }
         }
         return sb.toString();
+    }
+
+    @Override
+    public String getValue(String cssSelector) {
+        return find(cssSelector).getAttribute("value");
     }
 
     @Override
@@ -103,5 +138,9 @@ public final class SeleniumEngine implements UIEngine {
 
     private WebElement find(String cssSelector) {
         return driver.findElement(By.cssSelector(cssSelector));
+    }
+
+    private static boolean isHeadless() {
+        return Boolean.parseBoolean(ConfigManager.get("ui.headless", "true"));
     }
 }

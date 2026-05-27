@@ -4,7 +4,10 @@ import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.ui.core.DriverManager;
 
-import java.util.Objects;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public final class WaitUtils {
 
@@ -25,12 +28,44 @@ public final class WaitUtils {
     }
 
     public static void waitForVisible(String cssSelector) {
-        StepLogger.logDetail("Wait for visible: " + cssSelector);
+        logDetailIfPossible("Wait for visible: " + cssSelector);
         DriverManager.getEngine().waitForVisible(cssSelector, EXPLICIT_WAIT_SECONDS);
     }
 
     public static void waitForUrlContains(String fragment) {
-        StepLogger.logDetail("Wait for URL contains: " + fragment);
+        logDetailIfPossible("Wait for URL contains: " + fragment);
         DriverManager.getEngine().waitForUrlContains(fragment, EXPLICIT_WAIT_SECONDS);
+    }
+
+    public static <T> T waitUntil(Supplier<T> supplier,
+                                  Predicate<T> condition,
+                                  Duration pollInterval) {
+        Instant end = Instant.now().plusSeconds(EXPLICIT_WAIT_SECONDS);
+        T value;
+
+        do {
+            value = supplier.get();
+            if (condition.test(value)) {
+                return value;
+            }
+            sleep(pollInterval);
+        } while (Instant.now().isBefore(end));
+
+        return value;
+    }
+
+    private static void logDetailIfPossible(String detail) {
+        try {
+            StepLogger.logDetail(detail);
+        } catch (IllegalStateException ignored) {
+        }
+    }
+
+    private static void sleep(Duration d) {
+        try {
+            Thread.sleep(d.toMillis());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }

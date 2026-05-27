@@ -3,9 +3,11 @@ package com.endava.ai.ui.engine.playwright;
 import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.ui.engine.UIEngine;
 import com.microsoft.playwright.*;
+import com.microsoft.playwright.options.SelectOption;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
 import java.util.Base64;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,7 @@ public final class PlaywrightEngine implements UIEngine {
     public PlaywrightEngine() {
         this.playwright = Playwright.create();
         this.browser = playwright.chromium()
-                .launch(new BrowserType.LaunchOptions().setHeadless(true));
+                .launch(new BrowserType.LaunchOptions().setHeadless(isHeadless()));
         this.context = browser.newContext();
         this.page = context.newPage();
 
@@ -60,6 +62,21 @@ public final class PlaywrightEngine implements UIEngine {
     }
 
     @Override
+    public void select(String cssSelector, String valueOrText) {
+        Locator loc = page.locator(cssSelector).first();
+        List<String> selected = loc.selectOption(valueOrText);
+        if (!selected.isEmpty()) return;
+
+        selected = loc.selectOption(new SelectOption().setLabel(valueOrText));
+        if (!selected.isEmpty()) return;
+
+        selected = loc.selectOption(new SelectOption().setValue(valueOrText));
+        if (!selected.isEmpty()) return;
+
+        throw new PlaywrightException("No option found for: " + valueOrText);
+    }
+
+    @Override
     public String getText(String cssSelector) {
         Locator loc = page.locator(cssSelector);
         if (loc.count() == 0) {
@@ -69,6 +86,11 @@ public final class PlaywrightEngine implements UIEngine {
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.joining("\n"));
+    }
+
+    @Override
+    public String getValue(String cssSelector) {
+        return page.locator(cssSelector).first().inputValue();
     }
 
     @Override
@@ -108,5 +130,9 @@ public final class PlaywrightEngine implements UIEngine {
         context.close();
         browser.close();
         playwright.close();
+    }
+
+    private static boolean isHeadless() {
+        return Boolean.parseBoolean(ConfigManager.get("ui.headless", "true"));
     }
 }

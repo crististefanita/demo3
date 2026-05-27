@@ -9,7 +9,11 @@ public interface UIEngine {
 
     void type(String cssSelector, String text);
 
+    void select(String cssSelector, String valueOrText);
+
     String getText(String cssSelector);
+
+    String getValue(String cssSelector);
 
     boolean isVisible(String cssSelector);
 

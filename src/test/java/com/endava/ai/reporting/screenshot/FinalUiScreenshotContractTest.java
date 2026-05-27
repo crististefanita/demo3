@@ -347,7 +347,9 @@ public class FinalUiScreenshotContractTest {
         @Override public void open(String url) {}
         @Override public void click(String cssSelector) {}
         @Override public void type(String cssSelector, String text) {}
+        @Override public void select(String cssSelector, String valueOrText) {}
         @Override public String getText(String cssSelector) { return ""; }
+        @Override public String getValue(String cssSelector) { return ""; }
         @Override public boolean isVisible(String cssSelector) { return true; }
         @Override public void waitForVisible(String cssSelector, int seconds) {}
         @Override public void waitForUrlContains(String fragment, int seconds) {}
