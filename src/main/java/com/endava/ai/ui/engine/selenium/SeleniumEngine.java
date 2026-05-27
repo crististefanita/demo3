@@ -2,6 +2,7 @@ package com.endava.ai.ui.engine.selenium;
 
 import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.ui.engine.UIEngine;
+import com.endava.ai.ui.engine.window.UIWindowConfiguration;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,8 +15,11 @@ import java.util.List;
 
 public final class SeleniumEngine implements UIEngine {
     private final WebDriver driver;
+    private final UIWindowConfiguration windowConfiguration;
+    private boolean browserZoomConfigured;
 
-    public SeleniumEngine() {
+    public SeleniumEngine(UIWindowConfiguration windowConfiguration) {
+        this.windowConfiguration = windowConfiguration;
         ChromeOptions options = new ChromeOptions();
         if (isHeadless()) {
             options.addArguments("--headless=new");
@@ -24,6 +28,8 @@ public final class SeleniumEngine implements UIEngine {
         options.addArguments("--disable-dev-shm-usage");
         this.driver = new ChromeDriver(options);
         this.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
+        applyWindowConfiguration(windowConfiguration);
+        assertSingleStartupTarget("after init");
     }
 
     @Override
@@ -36,7 +42,9 @@ public final class SeleniumEngine implements UIEngine {
 
     @Override
     public void open(String url) {
+        ensureBrowserZoomConfigured();
         driver.get(url);
+        assertSingleStartupTarget("after open");
     }
 
     @Override
@@ -138,6 +146,59 @@ public final class SeleniumEngine implements UIEngine {
 
     private WebElement find(String cssSelector) {
         return driver.findElement(By.cssSelector(cssSelector));
+    }
+
+    private void applyWindowConfiguration(UIWindowConfiguration windowConfiguration) {
+        if (windowConfiguration.isFullscreen() && !isHeadless()) {
+            driver.manage().window().maximize();
+            return;
+        }
+
+        setWindowSize(windowConfiguration.width(), windowConfiguration.height());
+    }
+
+    private void ensureBrowserZoomConfigured() {
+        if (browserZoomConfigured || windowConfiguration.zoomPercent() == UIWindowConfiguration.DEFAULT_ZOOM_PERCENT) {
+            return;
+        }
+
+        driver.get("chrome://settings/appearance");
+        Object hasSettingsPrivate = ((JavascriptExecutor) driver)
+                .executeScript("return typeof chrome !== 'undefined' && !!chrome.settingsPrivate;");
+        if (!Boolean.TRUE.equals(hasSettingsPrivate)) {
+            throw new IllegalStateException("chrome.settingsPrivate is not available for browser zoom configuration");
+        }
+
+        double expectedZoomFactor = windowConfiguration.zoomPercent() / 100.0d;
+        ((JavascriptExecutor) driver).executeScript(
+                "chrome.settingsPrivate.setDefaultZoom(arguments[0]);",
+                expectedZoomFactor
+        );
+
+        Object configuredZoom = ((JavascriptExecutor) driver).executeAsyncScript(
+                "const done = arguments[arguments.length - 1];"
+                        + "chrome.settingsPrivate.getDefaultZoom(done);"
+        );
+        if (!(configuredZoom instanceof Number)
+                || Math.abs(((Number) configuredZoom).doubleValue() - expectedZoomFactor) > 0.01d) {
+            throw new IllegalStateException("Browser zoom was not applied correctly");
+        }
+
+        browserZoomConfigured = true;
+    }
+
+    private void assertSingleStartupTarget(String phase) {
+        int handleCount = driver.getWindowHandles().size();
+        logStartupDebug("Selenium window handles " + phase + ": " + handleCount);
+        if (handleCount != 1) {
+            throw new IllegalStateException("Expected exactly one Selenium window " + phase + " but found " + handleCount);
+        }
+    }
+
+    private static void logStartupDebug(String message) {
+        if (Boolean.parseBoolean(ConfigManager.get("console.details.enabled", "false"))) {
+            System.out.println("  • " + message);
+        }
     }
 
     private static boolean isHeadless() {

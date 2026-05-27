@@ -1,6 +1,9 @@
 package com.endava.ai.ui.engine;
 
 public interface UIEngine {
+    int DEFAULT_WINDOW_WIDTH = 2560;
+    int DEFAULT_WINDOW_HEIGHT = 1440;
+
     boolean supportsAutoWait();
 
     void open(String url);
@@ -26,10 +29,6 @@ public interface UIEngine {
     String captureScreenshotAsBase64();
 
     void quit();
-
-    default void standardizeWindow() {
-        setWindowSize(2560, 1440);
-    }
 
     void setWindowSize(int width, int height);
 }
