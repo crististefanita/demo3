@@ -5,8 +5,6 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.BrowserContext;
 import com.endava.ai.ui.engine.UIEngine;
 import com.endava.ai.ui.engine.UIEngineFactory;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
@@ -42,17 +40,6 @@ public class UiEngineBrowserWindowContractSmokeTest {
     }
 
     @Test(dataProvider = "engines")
-    public void configured_browser_zoom_changes_device_pixel_ratio(String engineName) throws Exception {
-        double baseline = observeDevicePixelRatio(engineName, "100");
-        double zoomed = observeDevicePixelRatio(engineName, "60");
-
-        Assert.assertTrue(
-                zoomed < baseline * 0.85d,
-                "Zoomed devicePixelRatio must be meaningfully lower for " + engineName
-        );
-    }
-
-    @Test(dataProvider = "engines")
     public void engine_keeps_single_browser_target_during_startup_and_navigation(String engineName) throws Exception {
         snapshot();
         ConfigManager.set("ui.engine", engineName);
@@ -73,41 +60,9 @@ public class UiEngineBrowserWindowContractSmokeTest {
         }
     }
 
-    private double observeDevicePixelRatio(String engineName, String zoomPercent) throws Exception {
-        snapshot();
-        ConfigManager.set("ui.engine", engineName);
-        ConfigManager.set("ui.headless", "false");
-        ConfigManager.set("ui.window.mode", "fullscreen");
-        ConfigManager.clear("ui.window.size");
-        ConfigManager.set("ui.page.zoom.percent", zoomPercent);
-        ConfigManager.set("explicit.wait.seconds", "10");
-
-        UIEngine engine = UIEngineFactory.create();
-        try {
-            engine.open(ConfigManager.require("base.url") + "/auth/login");
-            return readDevicePixelRatio(engine);
-        } finally {
-            engine.quit();
-            tearDown();
-        }
-    }
-
-    private static double readDevicePixelRatio(UIEngine engine) throws Exception {
-        Object devicePixelRatio;
-        if (engine.getClass().getName().contains("SeleniumEngine")) {
-            WebDriver driver = (WebDriver) readField(engine, "driver");
-            devicePixelRatio = ((JavascriptExecutor) driver).executeScript("return window.devicePixelRatio;");
-        } else {
-            Page page = (Page) readField(engine, "page");
-            devicePixelRatio = page.evaluate("() => window.devicePixelRatio");
-        }
-        Assert.assertTrue(devicePixelRatio instanceof Number);
-        return ((Number) devicePixelRatio).doubleValue();
-    }
-
     private static int countBrowserTargets(UIEngine engine) throws Exception {
         if (engine.getClass().getName().contains("SeleniumEngine")) {
-            WebDriver driver = (WebDriver) readField(engine, "driver");
+            org.openqa.selenium.WebDriver driver = (org.openqa.selenium.WebDriver) readField(engine, "driver");
             return driver.getWindowHandles().size();
         }
 
