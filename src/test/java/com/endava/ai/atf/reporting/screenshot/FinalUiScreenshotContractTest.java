@@ -103,6 +103,18 @@ public class FinalUiScreenshotContractTest {
         };
     }
 
+    @DataProvider
+    public Object[][] screenshotConfigMatrix() {
+        Object[][] matrix = screenshotMatrix();
+        Object[][] configOnly = new Object[matrix.length][5];
+
+        for (int i = 0; i < matrix.length; i++) {
+            System.arraycopy(matrix[i], 0, configOnly[i], 0, 5);
+        }
+
+        return configOnly;
+    }
+
     @Test(dataProvider = "screenshotMatrix")
     public void successful_ui_tests_follow_final_screenshot_contract(
             String uiEngine,
@@ -125,7 +137,7 @@ public class FinalUiScreenshotContractTest {
         Assert.assertEquals(engine.captureCalls(), expectFinalScreenshot ? 1 : 0);
     }
 
-    @Test(dataProvider = "screenshotMatrix")
+    @Test(dataProvider = "screenshotConfigMatrix")
     public void failed_ui_tests_preserve_existing_failure_screenshot_contract(
             String uiEngine,
             String reportingEngine,
@@ -146,7 +158,7 @@ public class FinalUiScreenshotContractTest {
         Assert.assertEquals(engine.captureCalls(), enabled ? 1 : 0);
     }
 
-    @Test(dataProvider = "screenshotMatrix")
+    @Test(dataProvider = "screenshotConfigMatrix")
     public void non_ui_success_flow_never_attempts_ui_screenshots(
             String uiEngine,
             String reportingEngine,
@@ -163,7 +175,7 @@ public class FinalUiScreenshotContractTest {
         assertTitles(List.of());
     }
 
-    @Test(dataProvider = "screenshotMatrix")
+    @Test(dataProvider = "screenshotConfigMatrix")
     public void non_ui_failure_flow_never_attempts_ui_screenshots(
             String uiEngine,
             String reportingEngine,

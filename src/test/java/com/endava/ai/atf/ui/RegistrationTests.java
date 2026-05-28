@@ -1,4 +1,4 @@
-package com.endava.ai.ui.tests;
+package com.endava.ai.atf.ui;
 
 import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.ui.core.BaseTestUI;
