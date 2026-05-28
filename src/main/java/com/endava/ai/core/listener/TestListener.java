@@ -6,6 +6,7 @@ import com.endava.ai.core.reporting.ReportingManager;
 import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.core.reporting.attachment.FailureAttachmentRegistry;
 import com.endava.ai.core.reporting.internal.ReportingEngineCleanup;
+import com.endava.ai.ui.reporting.UiScreenshotFailureHandler;
 import org.testng.*;
 
 public final class TestListener
@@ -16,6 +17,8 @@ public final class TestListener
     private final TestLifecycleController lifecycle = new TestLifecycleController(context);
     private final FlowPolicy flowPolicy = new FlowPolicy();
     private final LifecycleFlusher flusher = new LifecycleFlusher(buffers);
+    private final UiScreenshotFailureHandler uiScreenshotHandler =
+            new UiScreenshotFailureHandler();
 
     private final ThreadLocal<TestExecutionState> state =
             ThreadLocal.withInitial(TestExecutionState::new);
@@ -87,6 +90,7 @@ public final class TestListener
 
     @Override
     public void onTestSuccess(ITestResult result) {
+        uiScreenshotHandler.captureFinalStateIfEligible();
         closeGroups(result);
         StepLogger.clearDelegate();   // 🔑 IMPORTANT
         context.markTestEnded();

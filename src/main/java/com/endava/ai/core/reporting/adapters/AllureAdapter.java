@@ -82,7 +82,7 @@ public final class AllureAdapter implements ReportLogger {
 
     @Override
     public void logCodeBlock(String content) {
-        if (isInactive() || content == null) return;
+        if (isInactive() || isBlank(content)) return;
         reporter.attachText("Payload", "application/json", ".json", content);
     }
 

@@ -10,6 +10,8 @@ import com.endava.ai.api.utils.JsonUtils;
 import com.endava.ai.api.validation.ResponseValidator;
 import io.restassured.response.Response;
 
+import java.util.Map;
+
 import static com.endava.ai.api.client.HttpMethod.*;
 
 public class UsersSteps {
@@ -29,6 +31,10 @@ public class UsersSteps {
         return createAndValidateUser(
                 UserFactory.validUser(CREATE_VALID_USER)
         );
+    }
+
+    public Response createUserResponse(UserRequest request) {
+        return createUser(request);
     }
 
     public Response createUserWithInvalidEmail(String invalidEmail) {
@@ -51,6 +57,31 @@ public class UsersSteps {
         );
     }
 
+    public Response createUserWithAuthToken(UserRequest request, String token) {
+        return ApiActions.execute(
+                POST,
+                svc.basePath(),
+                svc.basePath(),
+                JsonUtils.toJson(request),
+                () -> ApiClient.requestWithoutAuth()
+                        .header("Authorization", "Bearer " + token)
+                        .body(request)
+                        .post(svc.basePath())
+        );
+    }
+
+    public Response createUserWithRawJson(String rawJson) {
+        return ApiActions.execute(
+                POST,
+                svc.basePath(),
+                svc.basePath(),
+                rawJson,
+                () -> ApiClient.request()
+                        .body(rawJson)
+                        .post(svc.basePath())
+        );
+    }
+
     public Response getUser(Integer id) {
         String path = svc.basePath() + "/" + id;
 
@@ -63,6 +94,16 @@ public class UsersSteps {
         );
     }
 
+    public Response listUsers(Map<String, ?> queryParams) {
+        return ApiActions.execute(
+                GET,
+                svc.basePath(),
+                svc.basePath(),
+                null,
+                () -> svc.listUsers(queryParams)
+        );
+    }
+
     public Response waitUntilAvailable(Integer userId) {
         return ResponseValidator.waitForStatus(
                 () -> svc.getUser(userId),
@@ -70,7 +111,7 @@ public class UsersSteps {
         );
     }
 
-     public Response patchUser(Integer id, UserRequest patch) {
+    public Response patchUser(Integer id, UserRequest patch) {
         String path = svc.basePath() + "/" + id;
 
         return ApiActions.execute(
@@ -79,6 +120,18 @@ public class UsersSteps {
                 path,
                 JsonUtils.toJson(patch),
                 () -> svc.patchUser(id, patch)
+        );
+    }
+
+    public Response replaceUser(Integer id, UserRequest replacement) {
+        String path = svc.basePath() + "/" + id;
+
+        return ApiActions.execute(
+                PUT,
+                path,
+                path,
+                JsonUtils.toJson(replacement),
+                () -> svc.putUser(id, replacement)
         );
     }
 

@@ -9,6 +9,7 @@ public final class RegisterPage {
     public static final String DOB        = "input[data-test='dob']";
     public static final String STREET     = "input[data-test='street']";
     public static final String POSTAL     = "input[data-test='postal_code']";
+    public static final String HOUSE_NUMBER = "input[data-test='house_number']";
     public static final String CITY       = "input[data-test='city']";
     public static final String STATE      = "input[data-test='state']";
     public static final String COUNTRY    = "select[data-test='country']";
@@ -32,4 +33,6 @@ public final class RegisterPage {
             "div[data-test='email-error']";
     public static final String PASSWORD_ERROR =
             "div[data-test='password-error']";
+    public static final String PHONE_ERROR =
+            "div[data-test='phone-error']";
 }

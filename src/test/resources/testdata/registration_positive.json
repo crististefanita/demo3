@@ -4,8 +4,9 @@
   "dob": "1990-01-01",
   "street": "Main Street 1",
   "postal": "10001",
+  "houseNumber": "5",
   "city": "Bucharest",
   "state": "B",
-  "country": "Romania",
+  "country": "RO",
   "phone": "0712345678"
 }

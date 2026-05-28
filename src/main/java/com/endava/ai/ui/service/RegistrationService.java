@@ -1,5 +1,8 @@
 package com.endava.ai.ui.service;
 
+import com.endava.ai.ui.factory.UserDataFactory;
+import com.endava.ai.ui.model.CustomerData;
+import com.endava.ai.ui.model.RegistrationData;
 import com.endava.ai.ui.pages.RegisterPage;
 import com.endava.ai.ui.utils.UIActions;
 
@@ -12,8 +15,54 @@ public final class RegistrationService {
         UIActions.navigateToRelative("/auth/register");
     }
 
+    public RegistrationData registerValidUser() {
+        RegistrationData data = UserDataFactory.validRegistrationData();
+        register(data);
+        return data;
+    }
+
+    public CustomerData registerValidCustomer() {
+        CustomerData data = com.endava.ai.ui.factory.CustomerDataFactory.validCustomer();
+        register(data);
+        return data;
+    }
+
+    public void register(RegistrationData data) {
+        register(
+                data.firstName(),
+                data.lastName(),
+                data.dob(),
+                data.street(),
+                data.postal(),
+                data.houseNumber(),
+                data.city(),
+                data.state(),
+                data.country(),
+                data.phone(),
+                data.email(),
+                data.password()
+        );
+    }
+
+    public void register(CustomerData data) {
+        register(
+                data.getFirstName(),
+                data.getLastName(),
+                data.getDob(),
+                data.getStreet(),
+                data.getPostalCode(),
+                data.getHouseNumber(),
+                data.getCity(),
+                data.getState(),
+                data.getCountry(),
+                data.getPhone(),
+                data.getEmail(),
+                data.getPassword()
+        );
+    }
+
     public void register(String firstName, String lastName, String dob, String street,
-                         String postal, String city, String state, String country,
+                         String postal, String houseNumber, String city, String state, String country,
                          String phone, String email, String password) {
 
         UIActions.type(RegisterPage.FIRST_NAME, "First name", firstName);
@@ -26,15 +75,23 @@ public final class RegistrationService {
 
         UIActions.type(RegisterPage.STREET, "Street", street);
         UIActions.type(RegisterPage.POSTAL, "Postal code", postal);
+        UIActions.type(RegisterPage.HOUSE_NUMBER, "House number", houseNumber);
         UIActions.type(RegisterPage.CITY, "City", city);
         UIActions.type(RegisterPage.STATE, "State", state);
-        UIActions.type(RegisterPage.COUNTRY, "Country", country);
-//        UIActions.select(RegisterPage.COUNTRY, "Country", country);
+        UIActions.select(RegisterPage.COUNTRY, "Country", country);
         UIActions.type(RegisterPage.PHONE, "Phone", phone);
 
         UIActions.type(RegisterPage.EMAIL, "Email address", email);
         UIActions.type(RegisterPage.PASSWORD, "Password", password);
 
+        UIActions.click(RegisterPage.REGISTER_BUTTON, "Register");
+    }
+
+    public void submitEmptyForm() {
+        UIActions.click(RegisterPage.REGISTER_BUTTON, "Register");
+    }
+
+    public void submitRegistration() {
         UIActions.click(RegisterPage.REGISTER_BUTTON, "Register");
     }
 }
