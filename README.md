@@ -2,20 +2,125 @@
 
 ## Purpose
 
-This repository is an existing enterprise-style Automation Testing Framework (ATF) for:
+This repository contains an Automation Testing Framework (ATF) built with production-code quality standards, clear separation of responsibilities, and reusable automation layers.
 
-- UI automation
-- API automation
-- unified reporting
-- framework contract validation
+The primary goal of this repository is to strengthen the existing ATF core through safe, iterative improvement of:
 
-It is not a greenfield sample. The existing repository structure, base classes, reporting lifecycle, listeners, utilities, and test patterns are the source of truth.
+- UI automation layers
+- API automation layers
+- unified reporting behavior
+- framework contract validation and diagnostics
+
+The existing repository structure, base classes, reporting lifecycle, listeners, utilities, and test patterns are the source of truth.
 
 The canonical architecture reference is:
 
 - `docs/Living_Architecture_UI_API_doc_v1_0.html`
 
-This README translates that architecture into practical day-to-day usage for engineers and future AI/MCP-assisted contributors.
+The same architecture is also available as a collapsible Markdown companion:
+
+- `docs/Living_Architecture_UI_API_doc_v1_0.md`
+
+This README translates that architecture into practical day-to-day usage for engineers and for AI/MCP-assisted contributors working through Codex or similar tools.
+
+At a high level, work in this repository should follow one simple rule:
+
+- start from the ATF that already exists
+- extend the current package structure and lifecycle
+- use prompt templates and documentation as guidance
+- generate changes inside existing layers only
+- validate iteratively with narrow Maven runs and reporting artifacts
+
+The target is iterative improvement with full architectural continuity: MCP/Codex can accelerate change, but the existing classes, contracts, lifecycle ownership, and reporting model must remain the implementation backbone of the repository.
+
+This means MCP/Codex work is valuable here only when it helps evolve the ATF itself:
+
+- new tests should reinforce existing classes, contracts, and reporting behavior
+- new prompts should become reusable examples of good ATF practice
+- each safe iteration should improve the clarity of generated tests and the strength of the shared framework core
+
+### Continuous Improvement Priority
+
+The most important long-term goal of this project is not only to add more tests.
+
+It is to continuously strengthen the core ATF so that:
+
+- UI and API automation remain consistent
+- reporting becomes easier to read and diagnose
+- lifecycle behavior stays predictable
+- generated tests are easier to understand
+- Agentic AI / MCP contributions become safer and more reusable over time
+
+In other words, the most valuable outcome is a stronger `UI + API + reporting` core that helps both humans and AI produce better tests.
+
+### MCP Usage Models
+
+This repository is intended to support repeatable agentic workflows, not just manual editing.
+
+Common MCP/Codex usage models are:
+
+- API Framework Evolution
+  - use when improving API coverage, validators, diagnostics, schemas, or reporting-aware API behavior
+  - primary prompt: [docs/prompts/api-framework-evolution.md](docs/prompts/api-framework-evolution.md)
+- UI Recording To ATF Tests
+  - use when starting from Playwright recording or recorder-style browser behavior
+  - primary prompt: [docs/prompts/ui-recording-to-atf-tests.md](docs/prompts/ui-recording-to-atf-tests.md)
+- ATF Framework Test Evolution
+  - use when improving ATF-level tests around reporting adapters, lifecycle contracts, validators, waits, engines, and reusable framework helpers
+  - primary prompt: [docs/prompts/atf-framework-test-evolution.md](docs/prompts/atf-framework-test-evolution.md)
+- Playwright-assisted UI workflow
+  - use when you need recording, codegen, raw flow capture, or Codex-assisted refactoring into ATF layers
+  - supporting guide: [docs/playwright_mcp_codex_java_guide.md](docs/playwright_mcp_codex_java_guide.md)
+- Framework hardening
+  - use when changing reporting, adapters, lifecycle ownership, or other ATF contracts
+  - follow the same rule: generate only inside existing framework layers and validate against ATF self-tests
+
+Prompt files should be treated as an evolving practice library:
+
+- they capture proven task patterns
+- they can be adapted to other sites, APIs, and exploratory targets
+- they are reusable examples, not hardcoded one-off instructions
+- they should keep improving as the framework improves
+
+What matters most in this repository is that these prompts feed back into the ATF and help improve the reusable architecture, especially in the UI, API, and reporting core.
+
+In other words:
+
+- prompts are reusable working templates
+- MCP iterations are how those templates get exercised and refined
+- the real product of that loop is a stronger ATF core with clearer tests, clearer reporting, and safer future automation generation
+
+Visible operating model:
+
+1. choose the correct prompt or guide
+2. inspect the existing ATF layers before generating anything
+3. generate code inside the current package structure only
+4. run the narrowest relevant tests
+5. inspect reports, logs, failures, and artifacts
+6. refine iteratively until the change is stable
+
+```mermaid
+flowchart LR
+    UseCase["API / UI / Framework task"] --> Prompt["Choose prompt or guide"]
+    Prompt --> Inspect["Inspect existing ATF layers"]
+    Inspect --> Generate["Generate inside existing packages"]
+    Generate --> Run["Run narrow Maven validation"]
+    Run --> Analyze["Inspect reporting, logs, artifacts"]
+    Analyze --> Refine["Refine iteratively"]
+    Refine --> Stable["Broaden validation when stable"]
+```
+
+```mermaid
+flowchart TD
+    Prompts["Prompt library and MCP examples"] --> Experiments["Generated or evolved tests"]
+    Guides["Architecture docs and guides"] --> Experiments
+    Experiments --> Reports["Reporting clarity and diagnostics"]
+    Experiments --> Contracts["UI/API contract quality"]
+    Reports --> Core["ATF core improvement"]
+    Contracts --> Core
+    Core["UI + API + reporting core"] --> BetterPrompts["Better reusable prompts and practices"]
+    BetterPrompts --> Prompts
+```
 
 ## Quick Start
 
@@ -44,44 +149,57 @@ For a fast local start:
      mvn allure:serve
      ```
 
+7. If you are using Codex or another MCP-capable workflow, keep these references open:
+   - `docs/prompts/api-framework-evolution.md`
+   - `docs/prompts/ui-recording-to-atf-tests.md`
+   - `docs/prompts/atf-framework-test-evolution.md`
+   - `docs/playwright_mcp_codex_java_guide.md`
+
 Recommended onboarding order:
 
 1. Read `Purpose`
 2. Read `Source Of Truth`
 3. Read `High-Level Architecture`
-4. Read `Core Design Patterns`
+4. Read `MCP / AI-Assisted Test Generation Guidance`
 5. Use `How To Run Tests`
 6. Use `How To View Reports`
 
-## Table of Contents
+## Navigation
 
-### Onboarding
+Fast path:
 
-- [Purpose](#purpose)
-- [Quick Start](#quick-start)
 - [Source Of Truth](#source-of-truth)
 - [High-Level Architecture](#high-level-architecture)
+- [MCP / AI-Assisted Test Generation Guidance](#mcp--ai-assisted-test-generation-guidance)
+- [How To Run Tests](#how-to-run-tests)
+- [How To View Reports](#how-to-view-reports)
+
+<details>
+<summary>Full navigation index</summary>
+
+### Start Here
+
 - [Repository Structure](#repository-structure)
 - [Core Design Patterns](#core-design-patterns)
 
-### Daily Usage
+### Agentic AI
+
+- [AI / MCP Setup](#ai--mcp-setup)
+- [Practical Conventions For Contributors](#practical-conventions-for-contributors)
+
+### Deep Reference
 
 - [UI vs API vs Reporting](#ui-vs-api-vs-reporting)
 - [Configuration](#configuration)
 - [Test Data And Schemas](#test-data-and-schemas)
-- [How To Run Tests](#how-to-run-tests)
-- [How To View Reports](#how-to-view-reports)
-
-### Extending The Framework
-
 - [Adding New API Tests](#adding-new-api-tests)
 - [Adding New UI Tests](#adding-new-ui-tests)
 - [Adding New Framework / Contract Tests](#adding-new-framework--contract-tests)
 - [Reporting Semantics](#reporting-semantics)
 - [What Was Extracted From The Living Architecture Document](#what-was-extracted-from-the-living-architecture-document)
-- [MCP / AI-Assisted Test Generation Guidance](#mcp--ai-assisted-test-generation-guidance)
-- [Practical Conventions For Contributors](#practical-conventions-for-contributors)
 - [Final Guidance](#final-guidance)
+
+</details>
 
 ## Source Of Truth
 
@@ -90,8 +208,9 @@ When extending the framework, use this priority order:
 1. Existing Java code in `src/main/java`
 2. Existing tests in `src/test/java`
 3. `docs/Living_Architecture_UI_API_doc_v1_0.html`
-4. `src/main/resources/framework.properties`
-5. `pom.xml`
+4. `docs/Living_Architecture_UI_API_doc_v1_0.md`
+5. `src/main/resources/framework.properties`
+6. `pom.xml`
 
 Do not invent parallel abstractions if an equivalent framework component already exists.
 
@@ -117,6 +236,8 @@ The intent is:
 
 This distinction matters. New product-facing tests should normally go into `com.endava.ai.api.tests` or `com.endava.ai.ui.tests`, while framework contract tests belong under `com.endava.ai.atf.*`.
 
+When MCP or Codex is used, generation should still land inside these same layers. The assistant should not invent new top-level modules or alternate framework ownership.
+
 ```mermaid
 flowchart TD
     Product["Product-facing tests"] --> APIT["com.endava.ai.api.tests"]
@@ -124,7 +245,29 @@ flowchart TD
     Framework["ATF self-tests"] --> ATF["com.endava.ai.atf.*"]
 ```
 
+```mermaid
+flowchart LR
+    Docs["Architecture docs + README"] --> Prompt["Prompt examples"]
+    Prompt --> Codex["Codex / MCP workflow"]
+    Codex --> Layers["Existing ATF layers"]
+    Layers --> Tests["Generated or evolved tests"]
+    Tests --> Validate["Run narrow Maven validation"]
+    Validate --> Refine["Iterate until stable"]
+```
+
+Visible working model:
+
+1. inspect the existing ATF structure and lifecycle
+2. choose a prompt example, not a blank instruction set
+3. generate changes inside `api`, `ui`, `core`, and existing test packages
+4. run the narrowest relevant suite
+5. inspect reporting output and failures
+6. refine iteratively until the implementation matches ATF standards
+
 ## Repository Structure
+
+<details>
+<summary>Open section</summary>
 
 Use this mental map first:
 
@@ -141,7 +284,13 @@ Use this mental map first:
 ```text
 .
 |-- docs/
-|   `-- Living_Architecture_UI_API_doc_v1_0.html
+|   |-- Living_Architecture_UI_API_doc_v1_0.html
+|   |-- Living_Architecture_UI_API_doc_v1_0.md
+|   |-- playwright_mcp_codex_java_guide.md
+|   `-- prompts/
+|       |-- api-framework-evolution.md
+|       |-- ui-recording-to-atf-tests.md
+|       `-- atf-framework-test-evolution.md
 |-- pom.xml
 |-- README.md
 |-- src/
@@ -187,9 +336,15 @@ Use this mental map first:
 
 </details>
 
+</details>
+
 ## Core Design Patterns
 
-### 1. Base Test Pattern
+<details>
+<summary>Open section</summary>
+
+<details>
+<summary>1. Base Test Pattern</summary>
 
 The framework uses dedicated base classes:
 
@@ -209,7 +364,10 @@ Current behavior:
 
 The base classes own setup/teardown concerns. Tests should not manually rebuild framework lifecycle behavior.
 
-### 2. Steps -> Services -> Validation
+</details>
+
+<details>
+<summary>2. Steps -> Services -> Validation</summary>
 
 For API, the dominant pattern is:
 
@@ -241,7 +399,10 @@ flowchart LR
     Services --> Client["ApiClient / ApiActions"]
 ```
 
-### 3. Page Object + Service Pattern
+</details>
+
+<details>
+<summary>3. Page Object + Service Pattern</summary>
 
 For UI, the dominant pattern is:
 
@@ -267,7 +428,10 @@ flowchart LR
     Service --> Actions["UIActions / WaitUtils"]
 ```
 
-### 4. Centralized Engine Abstraction
+</details>
+
+<details>
+<summary>4. Centralized Engine Abstraction</summary>
 
 UI engine selection is centralized:
 
@@ -281,7 +445,10 @@ Supported engines:
 
 Selection is controlled by `ui.engine` in `framework.properties`.
 
-### 5. Semantic Action Layer
+</details>
+
+<details>
+<summary>5. Semantic Action Layer</summary>
 
 UI interactions go through:
 
@@ -300,7 +467,10 @@ This is important because these layers also carry:
 - reporting integration
 - engine-aware behavior
 
-### 6. Centralized Reporting Contract
+</details>
+
+<details>
+<summary>6. Centralized Reporting Contract</summary>
 
 Reporting is unified through:
 
@@ -324,7 +494,14 @@ flowchart LR
     ReportLogger --> Engines["Allure / Extent"]
 ```
 
+</details>
+
+</details>
+
 ## UI vs API vs Reporting
+
+<details>
+<summary>Open section</summary>
 
 At a glance:
 
@@ -414,7 +591,12 @@ Reporting is cross-cutting, but it must remain isolated from business logic.
 
 </details>
 
+</details>
+
 ## Configuration
+
+<details>
+<summary>Open section</summary>
 
 Runtime configuration is centralized in:
 
@@ -524,7 +706,12 @@ console.details.enabled=true
 
 </details>
 
+</details>
+
 ## Test Data And Schemas
+
+<details>
+<summary>Open section</summary>
 
 Current convention:
 
@@ -556,7 +743,12 @@ Supporting utilities/factories:
 
 </details>
 
+</details>
+
 ## How To Run Tests
+
+<details>
+<summary>Open section</summary>
 
 ### Summary
 
@@ -640,7 +832,12 @@ mvn "-Dtest=com.endava.ai.api.tests.PositiveUserTests,com.endava.ai.atf.api.test
 
 </details>
 
+</details>
+
 ## How To View Reports
+
+<details>
+<summary>Open section</summary>
 
 Quick lookup:
 
@@ -719,7 +916,12 @@ Use these when changing:
 
 </details>
 
+</details>
+
 ## Adding New API Tests
+
+<details>
+<summary>Open section</summary>
 
 New business/API tests should go under:
 
@@ -805,7 +1007,12 @@ Prefer extending those layers over introducing new abstractions. If a test valid
 
 </details>
 
+</details>
+
 ## Adding New UI Tests
+
+<details>
+<summary>Open section</summary>
 
 New business/UI tests should go under:
 
@@ -870,7 +1077,12 @@ When converting a recorded flow into a production-ready test, treat `com.endava.
 
 </details>
 
+</details>
+
 ## Adding New Framework / Contract Tests
+
+<details>
+<summary>Open section</summary>
 
 Use `com.endava.ai.atf.*` for tests that validate the framework itself.
 
@@ -896,7 +1108,12 @@ If a test validates ATF behavior rather than product behavior, it belongs here.
 
 </details>
 
+</details>
+
 ## Reporting Semantics
+
+<details>
+<summary>Open section</summary>
 
 The architecture document strongly implies these runtime semantics, and the code follows them:
 
@@ -945,7 +1162,12 @@ When changing payload, step, adapter, screenshot, or listener behavior, validate
 
 </details>
 
+</details>
+
 ## What Was Extracted From The Living Architecture Document
+
+<details>
+<summary>Open section</summary>
 
 The file `docs/Living_Architecture_UI_API_doc_v1_0.html` reinforces these core principles:
 
@@ -966,12 +1188,103 @@ Use the living architecture document to confirm intent, not to override the code
 
 </details>
 
+</details>
+
+## AI / MCP Setup
+
+<details>
+<summary>Open section</summary>
+
+The ATF does not require a separate framework-side MCP bootstrap layer. What contributors usually need is a small, practical environment setup so Codex or another MCP-capable agent can work inside the repository without bypassing the existing ATF structure.
+
+Minimum practical setup:
+
+1. local Java and Maven available
+2. Node.js and `npx` available if you want Playwright recording or codegen-assisted UI capture
+3. the repository opened in Codex or another MCP-capable tool with filesystem access
+4. a valid `auth.token` in `src/main/resources/framework.properties` for API write scenarios
+5. a chosen reporting engine in `framework.properties`
+
+Keep the reusable prompt templates alongside this setup:
+
+- [docs/prompts/api-framework-evolution.md](docs/prompts/api-framework-evolution.md)
+- [docs/prompts/ui-recording-to-atf-tests.md](docs/prompts/ui-recording-to-atf-tests.md)
+- [docs/prompts/atf-framework-test-evolution.md](docs/prompts/atf-framework-test-evolution.md)
+
+<details>
+<summary>Recommended MCP / Codex setup checklist</summary>
+
+### Local prerequisites
+
+- Java 17+ or Java 21
+- Maven
+- Node.js
+- `npm` / `npx`
+- an IDE such as IntelliJ IDEA
+- Codex or another agent runner with workspace access
+
+### Project-side expectations
+
+- keep `src/main/resources/framework.properties` aligned with the intended run
+- use `ui.engine=selenium` or `ui.engine=playwright` explicitly when working on UI
+- set `reporting.engine=allure` or `reporting.engine=extent`
+- set `auth.token` before API mutation scenarios
+
+### When Playwright recording is part of the workflow
+
+- use Playwright Codegen to capture the first realistic browser flow
+- treat the generated output as a behavior reference only
+- convert the flow into the existing ATF layering instead of committing raw recorder code
+
+### Why this belongs in README
+
+These setup notes are short, stable, and directly useful to contributors. They fit well in the README because they help people start using agentic workflows without hunting through a separate guide.
+
+</details>
+
+</details>
+
 ## MCP / AI-Assisted Test Generation Guidance
+
+<details>
+<summary>Open section</summary>
 
 Future MCP or AI-assisted generation should preserve the ATF, not bypass it.
 
+Use this section as the navigation hub for agentic contributions:
+
+- prompt library for repeatable tasks: `docs/prompts`
+- Playwright/Codex workflow reference: `docs/playwright_mcp_codex_java_guide.md`
+- README for guardrails, package placement, and contribution rules
+- `docs/Living_Architecture_UI_API_doc_v1_0.html` for architectural intent
+
+Agentic work in this repository should follow one repeatable loop:
+
+1. start from the existing ATF as the source of truth
+2. choose the right prompt for the task
+3. generate changes inside existing layers only
+4. run the narrowest relevant tests
+5. inspect failures, reports, and artifacts
+6. refine iteratively until the branch is stable
+
+Primary prompt files:
+
+- [docs/prompts/api-framework-evolution.md](docs/prompts/api-framework-evolution.md)
+- [docs/prompts/ui-recording-to-atf-tests.md](docs/prompts/ui-recording-to-atf-tests.md)
+- [docs/prompts/atf-framework-test-evolution.md](docs/prompts/atf-framework-test-evolution.md)
+
+```mermaid
+flowchart LR
+    Prompt["Choose prompt"] --> Context["Use ATF as source of truth"]
+    Context --> Generate["Generate inside existing layers"]
+    Generate --> Run["Run narrow tests"]
+    Run --> Inspect["Inspect reports and failures"]
+    Inspect --> Refine["Refine iteratively"]
+    Refine --> Stable["Broader validation when stable"]
+```
+
 <details>
-<summary>Goal, guardrails, prompt templates, and review checklist</summary>
+<summary>Agentic operating model and ATF guardrails</summary>
 
 ### Goal
 
@@ -1007,6 +1320,47 @@ AI-generated code must not:
 - call Allure/Extent directly from tests
 - add direct Selenium/Playwright code into business tests
 - duplicate page objects, validators, or builders unnecessarily
+
+</details>
+
+<details>
+<summary>Prompt library: when to use each prompt</summary>
+
+Use [docs/prompts/api-framework-evolution.md](docs/prompts/api-framework-evolution.md) when:
+
+- the task is API-only
+- the goal is framework evolution, contract quality, diagnostics, or reusable validators
+- UI behavior must remain untouched
+
+Use [docs/prompts/ui-recording-to-atf-tests.md](docs/prompts/ui-recording-to-atf-tests.md) when:
+
+- the starting point is a recorded UI flow
+- the goal is to convert recorder output into ATF-style UI tests
+- the task must preserve `BaseTestUI`, services, pages, validations, reporting, and screenshot lifecycle
+
+Use [docs/prompts/atf-framework-test-evolution.md](docs/prompts/atf-framework-test-evolution.md) when:
+
+- the goal is to improve framework-level tests instead of business-facing suites
+- uncovered behavior exists in reporting adapters, lifecycle-safe helpers, validators, waits, engines, or utility contracts
+- you need incremental hardening around classes that were already modified and should now be covered more deeply
+
+Prompt intent at a glance:
+
+- `api-framework-evolution.md`: evolve API coverage and framework quality without drifting from contracts
+- `ui-recording-to-atf-tests.md`: transform recorded UI behavior into maintainable ATF-compliant tests
+- `atf-framework-test-evolution.md`: harden reusable ATF components and contract tests around the current framework core
+
+Why these prompts should live in separate files:
+
+- they are long
+- they evolve independently from the main README
+- they are easier to copy into Codex or MCP tools as standalone instructions
+- they reduce clutter in the README while keeping the AI section clear
+
+</details>
+
+<details>
+<summary>Prompt quick-start excerpts</summary>
 
 ### MCP Prompt Template: Add New API Tests
 
@@ -1065,7 +1419,7 @@ Output:
 - focused business-oriented tests
 ```
 
-### MCP Prompt Template: Reporting / Framework Changes
+### MCP Prompt Template: ATF Framework Test Evolution
 
 Use a prompt like:
 
@@ -1083,7 +1437,117 @@ Rules:
 - Add or update framework self-tests under com.endava.ai.atf.reporting
 - Do not change UI/API business tests unless compatibility requires it
 - Validate both Allure and Extent behavior
+
+Task:
+- strengthen reporting or lifecycle contracts around <component>
+- prefer narrow framework contract tests over broad end-to-end suites
+- treat docs/prompts/atf-framework-test-evolution.md as the reusable base template
 ```
+
+</details>
+
+<details>
+<summary>Iterative MCP / Codex workflow for this ATF</summary>
+
+The repository encourages a controlled iterative approach, not one-shot generation.
+
+### API evolution loop
+
+```text
+prompt -> inspect existing API layers -> generate small change -> run narrow API suite -> inspect reporting/contracts -> refine -> broaden validation
+```
+
+Use this when:
+
+- extending API contract coverage
+- improving validators
+- improving diagnostics
+- strengthening reporting-aware API behavior
+
+The expected generation targets are:
+
+- `com.endava.ai.api.tests`
+- `com.endava.ai.api.steps`
+- `com.endava.ai.api.service`
+- `com.endava.ai.api.validation`
+- `com.endava.ai.api.factory`
+- `src/test/resources/schemas`
+- `src/test/resources/testdata`
+
+### UI recording conversion loop
+
+```text
+record -> save raw behavioral reference -> prompt Codex -> refactor into pages/services/validation -> run narrow UI test -> inspect failures and screenshots -> refine -> rerun
+```
+
+Use this when:
+
+- starting from Playwright recording or codegen
+- converting exploratory browser behavior into production-style ATF tests
+- preserving screenshot and reporting lifecycle
+
+The expected generation targets are:
+
+- `com.endava.ai.ui.tests`
+- `com.endava.ai.ui.pages`
+- `com.endava.ai.ui.service`
+- `com.endava.ai.ui.validation`
+- `com.endava.ai.ui.factory`
+
+### Why iterative MCP through Codex works well here
+
+- the framework already has strong layering
+- reporting and lifecycle behavior are centralized
+- contract tests already exist
+- narrow Maven loops provide fast feedback
+- generated changes can be validated against real ATF contracts, not only against local assumptions
+
+</details>
+
+<details>
+<summary>Playwright-assisted UI flow and supplementary guide notes</summary>
+
+For UI work, the practical agentic flow remains:
+
+```text
+record -> generate Playwright Java flow -> refactor into ATF layers -> run -> inspect -> self-heal -> rerun
+```
+
+This is consistent with:
+
+- `com.endava.ai.ui.tests.Example` as behavior reference only
+- `com.endava.ai.atf.ui.RegistrationTests` as the better ATF style reference
+- the prompt file [docs/prompts/ui-recording-to-atf-tests.md](docs/prompts/ui-recording-to-atf-tests.md)
+
+The Playwright/Codex workflow guide is versioned in this repository as:
+
+- [docs/playwright_mcp_codex_java_guide.md](docs/playwright_mcp_codex_java_guide.md)
+
+It is intentionally kept outside the main README so the root documentation stays compact, while the guide can preserve detailed Playwright/Codex setup, recording, codegen, and self-healing workflow notes.
+
+Useful guide sections for day-to-day work:
+
+- required local tooling
+- Playwright browser installation
+- initial smoke-test setup
+- Playwright Codegen usage
+- handling raw recordings as behavioral references
+- optional Playwright MCP notes
+- common Windows / PowerShell issues
+
+Recommended reuse pattern:
+
+1. capture the first realistic browser flow with Playwright Codegen
+2. preserve the raw output as a behavior reference
+3. use Codex with the repository prompt and ATF rules
+4. refactor into existing pages, services, validations, and tests
+5. validate iteratively with narrow Maven runs
+6. only broaden execution after the generated test stabilizes
+
+</details>
+
+<details>
+<summary>Extended MCP contribution guidance and review checklist</summary>
 
 ### MCP Review Checklist
 
@@ -1097,10 +1561,32 @@ Before accepting AI-generated changes, verify:
 - test names are business-readable
 - cleanup exists where needed
 - targeted Maven runs pass
+- the generated code still looks like ATF code, not recorder code or framework-v2 code
+
+### Acceptance heuristics for generated changes
+
+Prefer the change when:
+
+- it extends an existing ATF layer instead of creating a new one
+- it reuses validators, steps, services, pages, factories, and config
+- it keeps tests thin and business-readable
+- it improves reporting clarity without changing reporting ownership
+
+Challenge the change when:
+
+- it adds direct adapter calls
+- it hardcodes waits, browser logic, or request logic inside tests
+- it duplicates selectors, assertions, or helper layers
+- it treats recorded output as final production code
+
+</details>
 
 </details>
 
 ## Practical Conventions For Contributors
+
+<details>
+<summary>Open section</summary>
 
 Quick reminders:
 
@@ -1139,7 +1625,12 @@ When you are unsure where a new test belongs, ask whether it validates product b
 
 </details>
 
+</details>
+
 ## Final Guidance
+
+<details>
+<summary>Open section</summary>
 
 If you are adding coverage:
 
@@ -1158,3 +1649,5 @@ That answer usually tells you whether the code belongs in:
 
 - `com.endava.ai.api.tests` / `com.endava.ai.ui.tests`
 - or `com.endava.ai.atf.*`
+
+</details>

@@ -32,8 +32,9 @@ public final class ExtentAdapter implements ReportLogger {
 
     @Override
     public void startTest(String testName, String description) {
-        ensureTestStarted(testName, description);
         clearSteps();
+        testContext.end();
+        ensureTestStarted(testName, description);
     }
 
     @Override

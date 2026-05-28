@@ -12,6 +12,7 @@ public class ExtentAdapterTest {
         ExtentAdapter adapter = ExtentAdapter.getInstance();
 
         adapter.startTest("Test Suite", "missing target reports dir");
+        adapter.endTest("PASS");
         adapter.flush();
 
         assertTrue(true); // contract: no exception
