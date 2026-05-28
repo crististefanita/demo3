@@ -1,4 +1,4 @@
-package com.endava.ai.reporting.screenshot;
+package com.endava.ai.atf.reporting.screenshot;
 
 import com.endava.ai.core.config.ConfigManager;
 import com.microsoft.playwright.Page;

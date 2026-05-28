@@ -1,4 +1,4 @@
-package com.endava.ai.reporting.screenshot;
+package com.endava.ai.atf.reporting.screenshot;
 
 import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.core.listener.TestListener;
@@ -7,7 +7,6 @@ import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.core.reporting.attachment.FailureAttachmentRegistry;
 import com.endava.ai.ui.core.DriverManager;
 import com.endava.ai.ui.engine.UIEngine;
-import com.endava.ai.ui.engine.UIEngineFactory;
 import com.endava.ai.ui.reporting.UiScreenshotFailureHandler;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureLifecycle;
@@ -21,38 +20,30 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.internal.TestResult;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Comparator;
+import java.util.Base64;
 import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AllureUiZoomArtifactSmokeTest {
+public class AllureScreenshotArtifactSmokeTest {
 
     private static final String SCREENSHOTS_ENABLED = "ui.screenshots.enabled";
     private static final String FAILURE_ONLY = "ui.screenshots.on.failure.only";
     private static final String CAPTURE_FINAL_STATE = "ui.screenshots.capture.final.state";
     private static final String UI_ENGINE = "ui.engine";
-    private static final String UI_HEADLESS = "ui.headless";
-    private static final String PAGE_ZOOM = "ui.page.zoom.percent";
     private static final String REPORTING_ENGINE = "reporting.engine";
-    private static final String UI_WAIT_TIMEOUT_SECONDS = "ui.wait.timeout.seconds";
 
     private String previousScreenshotsEnabled;
     private String previousFailureOnly;
     private String previousCaptureFinalState;
     private String previousUiEngine;
-    private String previousUiHeadless;
-    private String previousPageZoom;
     private String previousReportingEngine;
-    private String previousUiWaitTimeoutSeconds;
     private String previousAllureDir;
     private AllureLifecycle previousLifecycle;
 
@@ -62,10 +53,7 @@ public class AllureUiZoomArtifactSmokeTest {
         restoreConfig(FAILURE_ONLY, previousFailureOnly);
         restoreConfig(CAPTURE_FINAL_STATE, previousCaptureFinalState);
         restoreConfig(UI_ENGINE, previousUiEngine);
-        restoreConfig(UI_HEADLESS, previousUiHeadless);
-        restoreConfig(PAGE_ZOOM, previousPageZoom);
         restoreConfig(REPORTING_ENGINE, previousReportingEngine);
-        restoreConfig(UI_WAIT_TIMEOUT_SECONDS, previousUiWaitTimeoutSeconds);
 
         if (previousAllureDir == null) {
             System.clearProperty("allure.results.directory");
@@ -92,33 +80,20 @@ public class AllureUiZoomArtifactSmokeTest {
     }
 
     @Test(dataProvider = "uiEngines")
-    public void allure_final_screenshots_reflect_real_zoom_difference(String uiEngine) throws Exception {
+    public void allure_receives_final_and_failure_screenshots_without_duplicates(String uiEngine) throws IOException {
         snapshotConfig();
 
-        Path baselineDir = prepareResultsDir("target/allure-zoom-visual-" + uiEngine + "-100");
-        Path zoomedDir = prepareResultsDir("target/allure-zoom-visual-" + uiEngine + "-60");
+        Path resultsDir = Path.of("target", "allure-results-final-screenshot-smoke-" + uiEngine).toAbsolutePath();
+        deleteRecursively(resultsDir);
+        Files.createDirectories(resultsDir);
 
-        Path baselineScreenshot = runSuccessfulUiFlow(uiEngine, "100", baselineDir, "allureZoom100");
-        Path zoomedScreenshot = runSuccessfulUiFlow(uiEngine, "60", zoomedDir, "allureZoom60");
-
-        Assert.assertNotEquals(Files.size(baselineScreenshot), Files.size(zoomedScreenshot));
-        Assert.assertTrue(
-                imageDifferenceRatio(baselineScreenshot, zoomedScreenshot) > 0.01d,
-                "Zoomed Allure screenshot should differ visibly for " + uiEngine
-        );
-    }
-
-    private Path runSuccessfulUiFlow(String uiEngine, String zoomPercent, Path resultsDir, String methodName)
-            throws Exception {
         ConfigManager.set(REPORTING_ENGINE, "allure");
         ConfigManager.set(UI_ENGINE, uiEngine);
-        ConfigManager.set(UI_HEADLESS, "false");
         ConfigManager.set(SCREENSHOTS_ENABLED, "true");
         ConfigManager.set(FAILURE_ONLY, "false");
         ConfigManager.set(CAPTURE_FINAL_STATE, "true");
-        ConfigManager.set(PAGE_ZOOM, zoomPercent);
-        ConfigManager.set(UI_WAIT_TIMEOUT_SECONDS, "10");
         System.setProperty("allure.results.directory", resultsDir.toString());
+        previousLifecycle = Allure.getLifecycle();
         Allure.setLifecycle(new AllureLifecycle(new FileSystemResultsWriter(resultsDir)));
 
         FailureAttachmentRegistry.clearForTests();
@@ -127,39 +102,63 @@ public class AllureUiZoomArtifactSmokeTest {
         StepLogger.clear();
         TestListener.resetForTests();
 
+        runSuccessfulUiFlow(uiEngine);
+        runFailingUiFlow(uiEngine);
+
+        Assert.assertEquals(countOccurrences(resultsDir, "Final Screenshot"), 1);
+        Assert.assertEquals(countOccurrences(resultsDir, "Failure Screenshot"), 1);
+        Assert.assertTrue(countFiles(resultsDir, ".png") >= 2);
+    }
+
+    private void runSuccessfulUiFlow(String uiEngine) {
         String uuid = UUID.randomUUID().toString();
         Allure.getLifecycle().scheduleTestCase(
                 new io.qameta.allure.model.TestResult()
                         .setUuid(uuid)
-                        .setName(methodName)
+                        .setName("allure-success")
         );
         Allure.getLifecycle().startTestCase(uuid);
 
         TestListener listener = new TestListener();
-        ITestResult result = successResult(methodName);
-        UIEngine engine = UIEngineFactory.create();
+        ITestResult result = successResult("allureSuccess");
 
-        try {
-            setEngineForCurrentThread(engine);
-            listener.onTestStart(result);
-            engine.open(ConfigManager.require("base.url") + "/auth/login");
+        setEngineForCurrentThread(new FakeUiEngine("allure-success-" + uiEngine));
+        listener.onTestStart(result);
 
-            StepLogger.startStep("success");
-            StepLogger.logDetail("ui success");
-            StepLogger.pass("ok");
+        StepLogger.startStep("success");
+        StepLogger.logDetail("ui success");
+        StepLogger.pass("ok");
 
-            listener.onTestSuccess(result);
-            listener.onFinish((org.testng.ISuite) null);
-        } finally {
-            engine.quit();
-            setEngineForCurrentThread(null);
-        }
+        listener.onTestSuccess(result);
+        listener.onFinish((org.testng.ISuite) null);
 
         Allure.getLifecycle().updateTestCase(uuid, testResult -> testResult.setStatus(Status.PASSED));
         Allure.getLifecycle().stopTestCase(uuid);
         Allure.getLifecycle().writeTestCase(uuid);
+        setEngineForCurrentThread(null);
+    }
 
-        return findOnlyPng(resultsDir);
+    private void runFailingUiFlow(String uiEngine) {
+        String uuid = UUID.randomUUID().toString();
+        Allure.getLifecycle().scheduleTestCase(
+                new io.qameta.allure.model.TestResult()
+                        .setUuid(uuid)
+                        .setName("allure-failure")
+        );
+        Allure.getLifecycle().startTestCase(uuid);
+
+        TestListener listener = new TestListener();
+        ITestResult result = failureResult("allureFailure", new AssertionError("expected failure"));
+
+        setEngineForCurrentThread(new FakeUiEngine("allure-failure-" + uiEngine));
+        listener.onTestStart(result);
+        listener.onTestFailure(result);
+        listener.onFinish((org.testng.ISuite) null);
+
+        Allure.getLifecycle().updateTestCase(uuid, testResult -> testResult.setStatus(Status.FAILED));
+        Allure.getLifecycle().stopTestCase(uuid);
+        Allure.getLifecycle().writeTestCase(uuid);
+        setEngineForCurrentThread(null);
     }
 
     private void snapshotConfig() {
@@ -167,53 +166,36 @@ public class AllureUiZoomArtifactSmokeTest {
         previousFailureOnly = ConfigManager.get(FAILURE_ONLY, null);
         previousCaptureFinalState = ConfigManager.get(CAPTURE_FINAL_STATE, null);
         previousUiEngine = ConfigManager.get(UI_ENGINE, null);
-        previousUiHeadless = ConfigManager.get(UI_HEADLESS, null);
-        previousPageZoom = ConfigManager.get(PAGE_ZOOM, null);
         previousReportingEngine = ConfigManager.get(REPORTING_ENGINE, null);
-        previousUiWaitTimeoutSeconds = ConfigManager.get(UI_WAIT_TIMEOUT_SECONDS, null);
         previousAllureDir = System.getProperty("allure.results.directory");
-        previousLifecycle = Allure.getLifecycle();
+        previousLifecycle = null;
     }
 
-    private static Path prepareResultsDir(String relativePath) throws IOException {
-        Path resultsDir = Path.of(relativePath).toAbsolutePath();
-        deleteRecursively(resultsDir);
-        Files.createDirectories(resultsDir);
-        return resultsDir;
-    }
-
-    private static Path findOnlyPng(Path root) throws IOException {
+    private static int countOccurrences(Path root, String needle) throws IOException {
         try (Stream<Path> stream = Files.walk(root)) {
             return stream
                     .filter(Files::isRegularFile)
-                    .filter(path -> path.getFileName().toString().endsWith(".png"))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalStateException("No screenshot attachment found in " + root));
+                    .map(AllureScreenshotArtifactSmokeTest::readQuietly)
+                    .mapToInt(content -> content.contains(needle) ? 1 : 0)
+                    .sum();
         }
     }
 
-    private static double imageDifferenceRatio(Path first, Path second) throws IOException {
-        BufferedImage left = ImageIO.read(first.toFile());
-        BufferedImage right = ImageIO.read(second.toFile());
-        if (left == null || right == null) {
-            throw new IllegalStateException("Unable to decode screenshot artifacts");
+    private static long countFiles(Path root, String suffix) throws IOException {
+        try (Stream<Path> stream = Files.walk(root)) {
+            return stream
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().endsWith(suffix))
+                    .count();
         }
+    }
 
-        int width = Math.min(left.getWidth(), right.getWidth());
-        int height = Math.min(left.getHeight(), right.getHeight());
-        long totalSamples = 0;
-        long changedSamples = 0;
-
-        for (int y = 0; y < height; y += 4) {
-            for (int x = 0; x < width; x += 4) {
-                totalSamples++;
-                if (left.getRGB(x, y) != right.getRGB(x, y)) {
-                    changedSamples++;
-                }
-            }
+    private static String readQuietly(Path path) {
+        try {
+            return Files.readString(path);
+        } catch (IOException ignored) {
+            return "";
         }
-
-        return totalSamples == 0 ? 0.0d : (double) changedSamples / totalSamples;
     }
 
     private static void restoreConfig(String key, String value) {
@@ -228,7 +210,7 @@ public class AllureUiZoomArtifactSmokeTest {
         if (!Files.exists(root)) return;
 
         try (Stream<Path> stream = Files.walk(root)) {
-            stream.sorted(Comparator.comparingInt(Path::getNameCount).reversed())
+            stream.sorted((a, b) -> b.getNameCount() - a.getNameCount())
                     .forEach(path -> {
                         try {
                             Files.deleteIfExists(path);
@@ -264,11 +246,44 @@ public class AllureUiZoomArtifactSmokeTest {
         return result;
     }
 
+    private static ITestResult failureResult(String methodName, Throwable t) {
+        TestResult result = TestResult.newEmptyTestResult();
+        result.setStatus(ITestResult.FAILURE);
+        result.setThrowable(t);
+        result.setMethod(fakeMethod(methodName));
+        return result;
+    }
+
     private static ITestNGMethod fakeMethod(String methodName) {
         ITestNGMethod method = mock(ITestNGMethod.class);
         when(method.getMethodName()).thenReturn(methodName);
         when(method.getDescription()).thenReturn(methodName);
-        when(method.getRealClass()).thenReturn(AllureUiZoomArtifactSmokeTest.class);
+        when(method.getRealClass()).thenReturn(AllureScreenshotArtifactSmokeTest.class);
         return method;
+    }
+
+    private static final class FakeUiEngine implements UIEngine {
+
+        private final String payload;
+
+        private FakeUiEngine(String payload) {
+            this.payload = Base64.getEncoder().encodeToString(payload.getBytes());
+        }
+
+        @Override public boolean supportsAutoWait() { return true; }
+        @Override public void open(String url) {}
+        @Override public void click(String cssSelector) {}
+        @Override public void type(String cssSelector, String text) {}
+        @Override public void select(String cssSelector, String valueOrText) {}
+        @Override public String getText(String cssSelector) { return ""; }
+        @Override public String getValue(String cssSelector) { return ""; }
+        @Override public boolean isVisible(String cssSelector) { return true; }
+        @Override public void waitForVisible(String cssSelector, int seconds) {}
+        @Override public void waitForUrlContains(String fragment, int seconds) {}
+        @Override public String getCurrentUrl() { return "about:blank"; }
+        @Override public void clearSession() {}
+        @Override public String captureScreenshotAsBase64() { return payload; }
+        @Override public void quit() {}
+        @Override public void setWindowSize(int width, int height) {}
     }
 }

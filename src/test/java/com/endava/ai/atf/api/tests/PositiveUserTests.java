@@ -1,4 +1,4 @@
-package com.endava.ai.api.tests;
+package com.endava.ai.atf.api.tests;
 
 import com.endava.ai.api.core.BaseTestAPI;
 import com.endava.ai.api.model.UserResponse;

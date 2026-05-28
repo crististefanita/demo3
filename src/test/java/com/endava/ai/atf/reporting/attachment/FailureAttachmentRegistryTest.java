@@ -1,4 +1,4 @@
-package com.endava.ai.reporting.attachment;
+package com.endava.ai.atf.reporting.attachment;
 
 import com.endava.ai.core.listener.TestListener;
 import com.endava.ai.core.reporting.ReportingManager;

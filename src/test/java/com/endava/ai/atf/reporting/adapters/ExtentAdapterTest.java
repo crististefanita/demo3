@@ -1,4 +1,4 @@
-package com.endava.ai.reporting.adapters;
+package com.endava.ai.atf.reporting.adapters;
 
 import com.endava.ai.core.reporting.adapters.ExtentAdapter;
 import org.testng.annotations.Test;

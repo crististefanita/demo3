@@ -1,4 +1,4 @@
-package com.endava.ai.reporting.regression;
+package com.endava.ai.atf.reporting.regression;
 
 import com.endava.ai.core.reporting.StepLogger;
 import org.testng.Assert;

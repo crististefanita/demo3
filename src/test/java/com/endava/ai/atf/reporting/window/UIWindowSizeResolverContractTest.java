@@ -1,4 +1,4 @@
-package com.endava.ai.reporting.window;
+package com.endava.ai.atf.reporting.window;
 
 import com.endava.ai.ui.engine.UIEngine;
 import com.endava.ai.ui.engine.window.UIWindowConfiguration;

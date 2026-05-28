@@ -1,4 +1,4 @@
-package com.endava.ai.reporting.lifecycle;
+package com.endava.ai.atf.reporting.lifecycle;
 
 import com.endava.ai.core.listener.TestListener;
 import com.endava.ai.core.reporting.ReportLogger;
