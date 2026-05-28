@@ -118,27 +118,6 @@ The intent is:
 This distinction matters. New product-facing tests should normally go into `com.endava.ai.api.tests` or `com.endava.ai.ui.tests`, while framework contract tests belong under `com.endava.ai.atf.*`.
 
 ```mermaid
-flowchart LR
-    subgraph Runtime["Runtime Areas"]
-        API["com.endava.ai.api"]
-        UI["com.endava.ai.ui"]
-        CORE["com.endava.ai.core"]
-    end
-
-    subgraph Tests["Test Areas"]
-        APIT["com.endava.ai.api.tests"]
-        UIT["com.endava.ai.ui.tests"]
-        ATF["com.endava.ai.atf.*"]
-    end
-
-    APIT --> API
-    UIT --> UI
-    ATF --> CORE
-    ATF --> API
-    ATF --> UI
-```
-
-```mermaid
 flowchart TD
     Product["Product-facing tests"] --> APIT["com.endava.ai.api.tests"]
     Product --> UIT["com.endava.ai.ui.tests"]
@@ -441,18 +420,22 @@ Runtime configuration is centralized in:
 
 - `src/main/resources/framework.properties`
 
-Important keys are grouped below.
+Most-used groups:
+
+- URLs and auth
+- UI engine, wait, and screenshot behavior
+- API wait and rate-limit behavior
+- reporting engine and output location
 
 <details>
-<summary>URLs</summary>
+<summary>Configuration groups</summary>
+
+### URLs
 
 - `base.url=https://practicesoftwaretesting.com`
 - `base.url.api=https://gorest.co.in`
 
-</details>
-
-<details>
-<summary>UI</summary>
+### UI
 
 - `ui.engine=selenium|playwright`
 - `ui.headless=true|false`
@@ -461,10 +444,7 @@ Important keys are grouped below.
 - `ui.page.zoom.percent=...`
 - `ui.wait.timeout.seconds=...`
 
-</details>
-
-<details>
-<summary>API</summary>
+### API
 
 - `auth.token=...`
 - `api.wait.timeout.seconds=...`
@@ -472,10 +452,7 @@ Important keys are grouped below.
 - `api.rate.limit.retry.default.delay.seconds=...`
 - `api.rate.limit.retry.max.delay.seconds=...`
 
-</details>
-
-<details>
-<summary>Reporting</summary>
+### Reporting
 
 - `reporting.engine=allure|extent`
 - `reports.dir=target/reports`
@@ -483,10 +460,7 @@ Important keys are grouped below.
 - `reports.timestamp.format=...`
 - `console.details.enabled=true|false`
 
-</details>
-
-<details>
-<summary>Screenshots</summary>
+### Screenshots
 
 - `ui.screenshots.enabled=true|false`
 - `ui.screenshots.on.failure.only=true|false`
@@ -760,7 +734,7 @@ Short rule set:
 - keep tests isolated and rerunnable
 
 <details>
-<summary>Recommended recipe and API rules</summary>
+<summary>API recipe, rules, skeleton, and extended notes</summary>
 
 ### Recommended Recipe
 
@@ -791,11 +765,6 @@ Put framework-level API lifecycle or legacy contract tests here:
 
 - `com.endava.ai.atf.api.*`
 
-</details>
-
-<details>
-<summary>Minimal API skeleton example</summary>
-
 ```java
 package com.endava.ai.api.tests;
 
@@ -822,11 +791,6 @@ public class UserLookupTests extends BaseTestAPI {
     }
 }
 ```
-
-</details>
-
-<details>
-<summary>Extended API contribution guidance</summary>
 
 Before adding a new API helper, check whether the framework already has a suitable layer in:
 
@@ -861,7 +825,7 @@ Short rule set:
 - reuse `UIActions`, `WaitUtils`, factories, and validations
 
 <details>
-<summary>Recommended recipe and UI rules</summary>
+<summary>UI recipe, rules, skeleton, and extended notes</summary>
 
 ### Recommended Recipe
 
@@ -879,11 +843,6 @@ Short rule set:
 - validations own assertions
 - tests stay readable and business-oriented
 - no direct `DriverManager.getEngine()` in normal business tests
-
-</details>
-
-<details>
-<summary>Minimal UI skeleton example</summary>
 
 ```java
 package com.endava.ai.ui.tests;
@@ -906,11 +865,6 @@ public class RegistrationSmokeTests extends BaseTestUI {
     }
 }
 ```
-
-</details>
-
-<details>
-<summary>Extended UI contribution guidance</summary>
 
 When converting a recorded flow into a production-ready test, treat `com.endava.ai.ui.tests.Example` as behavior reference only. The preferred structural reference is `com.endava.ai.atf.ui.RegistrationTests`. Keep selectors in page objects, flow in services, and verdicts in validation classes. Preserve screenshot and reporting behavior by reusing `BaseTestUI`, `UIActions`, `WaitUtils`, `DriverManager`, page objects, services, and validations.
 
@@ -965,6 +919,9 @@ This means:
 - UI-specific attachments are guarded by active UI engine/session
 - API tests must not accidentally trigger screenshot behavior
 
+<details>
+<summary>Reporting flow diagram and contract notes</summary>
+
 ```mermaid
 sequenceDiagram
     participant Runtime as UIActions / Services / Validation
@@ -983,6 +940,8 @@ sequenceDiagram
 <summary>Reporting contract notes</summary>
 
 When changing payload, step, adapter, screenshot, or listener behavior, validate the relevant framework self-tests under `com.endava.ai.atf.reporting.*`. These contract tests exist specifically to keep Allure and Extent behavior aligned and to keep business tests insulated from reporting implementation changes.
+
+</details>
 
 </details>
 
@@ -1010,6 +969,9 @@ Use the living architecture document to confirm intent, not to override the code
 ## MCP / AI-Assisted Test Generation Guidance
 
 Future MCP or AI-assisted generation should preserve the ATF, not bypass it.
+
+<details>
+<summary>Goal, guardrails, prompt templates, and review checklist</summary>
 
 ### Goal
 
@@ -1045,9 +1007,6 @@ AI-generated code must not:
 - call Allure/Extent directly from tests
 - add direct Selenium/Playwright code into business tests
 - duplicate page objects, validators, or builders unnecessarily
-
-<details>
-<summary>MCP Prompt Templates</summary>
 
 ### MCP Prompt Template: Add New API Tests
 
@@ -1126,11 +1085,6 @@ Rules:
 - Validate both Allure and Extent behavior
 ```
 
-</details>
-
-<details>
-<summary>Extended MCP contribution guidance and review checklist</summary>
-
 ### MCP Review Checklist
 
 Before accepting AI-generated changes, verify:
@@ -1158,9 +1112,13 @@ Quick reminders:
 <details>
 <summary>Preferred layers and stability anchors</summary>
 
+Preferred layers:
+
 - API: `tests -> steps -> service -> validation`
 - UI: `tests -> service -> pages / validation`
 - reporting: `StepLogger -> ReportingManager -> ReportLogger -> adapter`
+
+Stability anchors:
 
 - `BaseTestAPI`
 - `BaseTestUI`
