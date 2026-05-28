@@ -43,7 +43,7 @@ public class AllureUiZoomArtifactSmokeTest {
     private static final String UI_HEADLESS = "ui.headless";
     private static final String PAGE_ZOOM = "ui.page.zoom.percent";
     private static final String REPORTING_ENGINE = "reporting.engine";
-    private static final String EXPLICIT_WAIT_SECONDS = "explicit.wait.seconds";
+    private static final String UI_WAIT_TIMEOUT_SECONDS = "ui.wait.timeout.seconds";
 
     private String previousScreenshotsEnabled;
     private String previousFailureOnly;
@@ -52,7 +52,7 @@ public class AllureUiZoomArtifactSmokeTest {
     private String previousUiHeadless;
     private String previousPageZoom;
     private String previousReportingEngine;
-    private String previousExplicitWaitSeconds;
+    private String previousUiWaitTimeoutSeconds;
     private String previousAllureDir;
     private AllureLifecycle previousLifecycle;
 
@@ -65,7 +65,7 @@ public class AllureUiZoomArtifactSmokeTest {
         restoreConfig(UI_HEADLESS, previousUiHeadless);
         restoreConfig(PAGE_ZOOM, previousPageZoom);
         restoreConfig(REPORTING_ENGINE, previousReportingEngine);
-        restoreConfig(EXPLICIT_WAIT_SECONDS, previousExplicitWaitSeconds);
+        restoreConfig(UI_WAIT_TIMEOUT_SECONDS, previousUiWaitTimeoutSeconds);
 
         if (previousAllureDir == null) {
             System.clearProperty("allure.results.directory");
@@ -117,7 +117,7 @@ public class AllureUiZoomArtifactSmokeTest {
         ConfigManager.set(FAILURE_ONLY, "false");
         ConfigManager.set(CAPTURE_FINAL_STATE, "true");
         ConfigManager.set(PAGE_ZOOM, zoomPercent);
-        ConfigManager.set(EXPLICIT_WAIT_SECONDS, "10");
+        ConfigManager.set(UI_WAIT_TIMEOUT_SECONDS, "10");
         System.setProperty("allure.results.directory", resultsDir.toString());
         Allure.setLifecycle(new AllureLifecycle(new FileSystemResultsWriter(resultsDir)));
 
@@ -170,7 +170,7 @@ public class AllureUiZoomArtifactSmokeTest {
         previousUiHeadless = ConfigManager.get(UI_HEADLESS, null);
         previousPageZoom = ConfigManager.get(PAGE_ZOOM, null);
         previousReportingEngine = ConfigManager.get(REPORTING_ENGINE, null);
-        previousExplicitWaitSeconds = ConfigManager.get(EXPLICIT_WAIT_SECONDS, null);
+        previousUiWaitTimeoutSeconds = ConfigManager.get(UI_WAIT_TIMEOUT_SECONDS, null);
         previousAllureDir = System.getProperty("allure.results.directory");
         previousLifecycle = Allure.getLifecycle();
     }

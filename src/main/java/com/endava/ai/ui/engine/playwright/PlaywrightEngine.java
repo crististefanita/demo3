@@ -19,8 +19,15 @@ import java.util.stream.Stream;
 
 public final class PlaywrightEngine implements UIEngine {
 
-    private static final int EXPLICIT_WAIT_SECONDS =
-            Integer.parseInt(Objects.requireNonNull(ConfigManager.get("explicit.wait.seconds", "10")));
+    private static final String UI_WAIT_TIMEOUT_SECONDS_KEY = "ui.wait.timeout.seconds";
+    private static final String LEGACY_WAIT_TIMEOUT_SECONDS_KEY = "explicit.wait.seconds";
+    private static final int UI_WAIT_TIMEOUT_SECONDS =
+            Integer.parseInt(Objects.requireNonNull(
+                    ConfigManager.get(
+                            UI_WAIT_TIMEOUT_SECONDS_KEY,
+                            ConfigManager.get(LEGACY_WAIT_TIMEOUT_SECONDS_KEY, "10")
+                    )
+            ));
 
     private final Playwright playwright;
     private final Browser browser;
@@ -51,7 +58,7 @@ public final class PlaywrightEngine implements UIEngine {
         }
         this.page = acquireStartupPage(context);
 
-        int timeoutMs = EXPLICIT_WAIT_SECONDS * 1000;
+        int timeoutMs = UI_WAIT_TIMEOUT_SECONDS * 1000;
         page.setDefaultTimeout(timeoutMs);
         page.setDefaultNavigationTimeout(timeoutMs);
         applyWindowConfiguration(windowConfiguration, headless);
@@ -149,6 +156,12 @@ public final class PlaywrightEngine implements UIEngine {
     @Override
     public String getCurrentUrl() {
         return page.url();
+    }
+
+    @Override
+    public void clearSession() {
+        context.clearCookies();
+        page.evaluate("() => { localStorage.clear(); sessionStorage.clear(); }");
     }
 
     @Override

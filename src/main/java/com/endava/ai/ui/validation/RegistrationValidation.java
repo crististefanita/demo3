@@ -30,6 +30,10 @@ public final class RegistrationValidation {
         assertTextContains(RegisterPage.ANY_ERROR, "Any error message container", expectedText);
     }
 
+    public void assertRegistrationFormContains(String expectedText) {
+        assertErrorContains(expectedText);
+    }
+
     public void assertPasswordErrorContains(String expectedText) {
         assertTextContains(RegisterPage.PASSWORD_ERROR, "Password validation message", expectedText);
     }

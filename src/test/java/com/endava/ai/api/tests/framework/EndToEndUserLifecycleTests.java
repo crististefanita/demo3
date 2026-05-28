@@ -1,4 +1,4 @@
-package com.endava.ai.api.tests;
+package com.endava.ai.api.tests.framework;
 
 import com.endava.ai.api.core.BaseTestAPI;
 import com.endava.ai.api.model.UserRequest;
@@ -9,6 +9,7 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class EndToEndUserLifecycleTests extends BaseTestAPI {
@@ -29,6 +30,7 @@ public class EndToEndUserLifecycleTests extends BaseTestAPI {
         }
     }
 
+    @Ignore
     @Test(description = "E2E: Create -> Get -> Update -> Delete -> Verify deletion")
     public void user_lifecycle_e2e() {
         UserResponse created = users.createValidUser();

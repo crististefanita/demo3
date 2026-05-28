@@ -281,6 +281,7 @@ public class AllureScreenshotArtifactSmokeTest {
         @Override public void waitForVisible(String cssSelector, int seconds) {}
         @Override public void waitForUrlContains(String fragment, int seconds) {}
         @Override public String getCurrentUrl() { return "about:blank"; }
+        @Override public void clearSession() {}
         @Override public String captureScreenshotAsBase64() { return payload; }
         @Override public void quit() {}
         @Override public void setWindowSize(int width, int height) {}

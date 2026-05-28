@@ -1,6 +1,7 @@
 package com.endava.ai.ui.service;
 
 import com.endava.ai.ui.factory.UserDataFactory;
+import com.endava.ai.ui.model.CustomerData;
 import com.endava.ai.ui.model.RegistrationData;
 import com.endava.ai.ui.pages.RegisterPage;
 import com.endava.ai.ui.utils.UIActions;
@@ -20,6 +21,12 @@ public final class RegistrationService {
         return data;
     }
 
+    public CustomerData registerValidCustomer() {
+        CustomerData data = com.endava.ai.ui.factory.CustomerDataFactory.validCustomer();
+        register(data);
+        return data;
+    }
+
     public void register(RegistrationData data) {
         register(
                 data.firstName(),
@@ -34,6 +41,23 @@ public final class RegistrationService {
                 data.phone(),
                 data.email(),
                 data.password()
+        );
+    }
+
+    public void register(CustomerData data) {
+        register(
+                data.getFirstName(),
+                data.getLastName(),
+                data.getDob(),
+                data.getStreet(),
+                data.getPostalCode(),
+                data.getHouseNumber(),
+                data.getCity(),
+                data.getState(),
+                data.getCountry(),
+                data.getPhone(),
+                data.getEmail(),
+                data.getPassword()
         );
     }
 
@@ -64,6 +88,10 @@ public final class RegistrationService {
     }
 
     public void submitEmptyForm() {
+        UIActions.click(RegisterPage.REGISTER_BUTTON, "Register");
+    }
+
+    public void submitRegistration() {
         UIActions.click(RegisterPage.REGISTER_BUTTON, "Register");
     }
 }

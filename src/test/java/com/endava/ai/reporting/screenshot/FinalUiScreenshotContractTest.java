@@ -131,8 +131,7 @@ public class FinalUiScreenshotContractTest {
             String reportingEngine,
             boolean enabled,
             boolean captureFinalState,
-            boolean failureOnly,
-            boolean expectFinalScreenshot
+            boolean failureOnly
     ) {
         configureScreenshots(uiEngine, reportingEngine, enabled, failureOnly, captureFinalState);
 
@@ -153,8 +152,7 @@ public class FinalUiScreenshotContractTest {
             String reportingEngine,
             boolean enabled,
             boolean captureFinalState,
-            boolean failureOnly,
-            boolean expectFinalScreenshot
+            boolean failureOnly
     ) {
         configureScreenshots(uiEngine, reportingEngine, enabled, failureOnly, captureFinalState);
 
@@ -171,8 +169,7 @@ public class FinalUiScreenshotContractTest {
             String reportingEngine,
             boolean enabled,
             boolean captureFinalState,
-            boolean failureOnly,
-            boolean expectFinalScreenshot
+            boolean failureOnly
     ) {
         configureScreenshots(uiEngine, reportingEngine, enabled, failureOnly, captureFinalState);
 
@@ -354,6 +351,7 @@ public class FinalUiScreenshotContractTest {
         @Override public void waitForVisible(String cssSelector, int seconds) {}
         @Override public void waitForUrlContains(String fragment, int seconds) {}
         @Override public String getCurrentUrl() { return "about:blank"; }
+        @Override public void clearSession() {}
 
         @Override
         public String captureScreenshotAsBase64() {

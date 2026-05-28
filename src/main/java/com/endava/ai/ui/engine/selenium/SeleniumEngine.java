@@ -135,6 +135,14 @@ public final class SeleniumEngine implements UIEngine {
     }
 
     @Override
+    public void clearSession() {
+        driver.manage().deleteAllCookies();
+        ((JavascriptExecutor) driver).executeScript(
+                "window.localStorage.clear(); window.sessionStorage.clear();"
+        );
+    }
+
+    @Override
     public String captureScreenshotAsBase64() {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
     }

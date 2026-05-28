@@ -4,6 +4,8 @@ import com.endava.ai.api.client.ApiClient;
 import com.endava.ai.api.model.UserRequest;
 import io.restassured.response.Response;
 
+import java.util.Map;
+
 public class UsersService {
     private static final String BASE_PATH = "/public/v2/users";
 
@@ -17,6 +19,13 @@ public class UsersService {
     public Response getUser(int id) {
         return ApiClient.request()
                 .get(BASE_PATH + "/" + id)
+                .andReturn();
+    }
+
+    public Response listUsers(Map<String, ?> queryParams) {
+        return ApiClient.request()
+                .queryParams(queryParams)
+                .get(BASE_PATH)
                 .andReturn();
     }
 

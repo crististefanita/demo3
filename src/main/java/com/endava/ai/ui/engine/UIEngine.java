@@ -26,6 +26,8 @@ public interface UIEngine {
 
     String getCurrentUrl();
 
+    void clearSession();
+
     String captureScreenshotAsBase64();
 
     void quit();

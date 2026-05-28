@@ -10,12 +10,14 @@ import org.testng.annotations.Test;
 
 public class UiEngineScreenshotSmokeTest {
 
+    private static final String UI_WAIT_TIMEOUT_SECONDS = "ui.wait.timeout.seconds";
+
     private String previousUiEngine;
     private String previousUiHeadless;
     private String previousWindowMode;
     private String previousWindowSize;
     private String previousPageZoomPercent;
-    private String previousExplicitWaitSeconds;
+    private String previousUiWaitTimeoutSeconds;
 
     @AfterMethod
     public void tearDown() {
@@ -49,10 +51,10 @@ public class UiEngineScreenshotSmokeTest {
             ConfigManager.set("ui.page.zoom.percent", previousPageZoomPercent);
         }
 
-        if (previousExplicitWaitSeconds == null) {
-            ConfigManager.clear("explicit.wait.seconds");
+        if (previousUiWaitTimeoutSeconds == null) {
+            ConfigManager.clear(UI_WAIT_TIMEOUT_SECONDS);
         } else {
-            ConfigManager.set("explicit.wait.seconds", previousExplicitWaitSeconds);
+            ConfigManager.set(UI_WAIT_TIMEOUT_SECONDS, previousUiWaitTimeoutSeconds);
         }
     }
 
@@ -68,7 +70,18 @@ public class UiEngineScreenshotSmokeTest {
 
     @Test(dataProvider = "engines")
     public void engine_can_open_base_url_and_capture_screenshot(String engineName, boolean headless) {
-        configureEngine(engineName, headless, null, null, null);
+        previousUiEngine = ConfigManager.get("ui.engine", null);
+        previousUiHeadless = ConfigManager.get("ui.headless", null);
+        previousWindowMode = ConfigManager.get("ui.window.mode", null);
+        previousWindowSize = ConfigManager.get("ui.window.size", null);
+        previousPageZoomPercent = ConfigManager.get("ui.page.zoom.percent", null);
+        previousUiWaitTimeoutSeconds = ConfigManager.get(UI_WAIT_TIMEOUT_SECONDS, null);
+        ConfigManager.set("ui.engine", engineName);
+        ConfigManager.set("ui.headless", Boolean.toString(headless));
+        ConfigManager.clear("ui.window.mode");
+        ConfigManager.clear("ui.window.size");
+        ConfigManager.clear("ui.page.zoom.percent");
+        ConfigManager.set(UI_WAIT_TIMEOUT_SECONDS, "10");
 
         UIEngine engine = UIEngineFactory.create();
         try {
@@ -87,7 +100,18 @@ public class UiEngineScreenshotSmokeTest {
 
     @Test(dataProvider = "engines")
     public void engine_accepts_custom_window_size_configuration(String engineName, boolean headless) {
-        configureEngine(engineName, headless, null, "1920x1080", null);
+        previousUiEngine = ConfigManager.get("ui.engine", null);
+        previousUiHeadless = ConfigManager.get("ui.headless", null);
+        previousWindowMode = ConfigManager.get("ui.window.mode", null);
+        previousWindowSize = ConfigManager.get("ui.window.size", null);
+        previousPageZoomPercent = ConfigManager.get("ui.page.zoom.percent", null);
+        previousUiWaitTimeoutSeconds = ConfigManager.get(UI_WAIT_TIMEOUT_SECONDS, null);
+        ConfigManager.set("ui.engine", engineName);
+        ConfigManager.set("ui.headless", Boolean.toString(headless));
+        ConfigManager.clear("ui.window.mode");
+        ConfigManager.set("ui.window.size", "1920x1080");
+        ConfigManager.clear("ui.page.zoom.percent");
+        ConfigManager.set(UI_WAIT_TIMEOUT_SECONDS, "10");
 
         UIEngine engine = UIEngineFactory.create();
         try {
@@ -105,36 +129,65 @@ public class UiEngineScreenshotSmokeTest {
         }
     }
 
-    private void configureEngine(
-            String engineName,
-            boolean headless,
-            String windowMode,
-            String windowSize,
-            String pageZoomPercent
-    ) {
+    @Test(dataProvider = "engines")
+    public void engine_accepts_fullscreen_window_mode_when_window_size_is_missing(String engineName, boolean headless) {
         previousUiEngine = ConfigManager.get("ui.engine", null);
         previousUiHeadless = ConfigManager.get("ui.headless", null);
         previousWindowMode = ConfigManager.get("ui.window.mode", null);
         previousWindowSize = ConfigManager.get("ui.window.size", null);
         previousPageZoomPercent = ConfigManager.get("ui.page.zoom.percent", null);
-        previousExplicitWaitSeconds = ConfigManager.get("explicit.wait.seconds", null);
+        previousUiWaitTimeoutSeconds = ConfigManager.get(UI_WAIT_TIMEOUT_SECONDS, null);
         ConfigManager.set("ui.engine", engineName);
         ConfigManager.set("ui.headless", Boolean.toString(headless));
-        if (windowMode == null) {
-            ConfigManager.clear("ui.window.mode");
-        } else {
-            ConfigManager.set("ui.window.mode", windowMode);
+        ConfigManager.set("ui.window.mode", "fullscreen");
+        ConfigManager.clear("ui.window.size");
+        ConfigManager.clear("ui.page.zoom.percent");
+        ConfigManager.set(UI_WAIT_TIMEOUT_SECONDS, "10");
+
+        UIEngine engine = UIEngineFactory.create();
+        try {
+            engine.open(ConfigManager.require("base.url"));
+            String screenshot = engine.captureScreenshotAsBase64();
+
+            Assert.assertNotNull(screenshot);
+            Assert.assertFalse(
+                    screenshot.isBlank(),
+                    "Screenshot must not be blank for ui.window.mode=fullscreen on "
+                            + engineName + " headless=" + headless
+            );
+        } finally {
+            engine.quit();
         }
-        if (windowSize == null) {
-            ConfigManager.clear("ui.window.size");
-        } else {
-            ConfigManager.set("ui.window.size", windowSize);
+    }
+
+    @Test(dataProvider = "engines")
+    public void engine_accepts_custom_page_zoom_percent(String engineName, boolean headless) {
+        previousUiEngine = ConfigManager.get("ui.engine", null);
+        previousUiHeadless = ConfigManager.get("ui.headless", null);
+        previousWindowMode = ConfigManager.get("ui.window.mode", null);
+        previousWindowSize = ConfigManager.get("ui.window.size", null);
+        previousPageZoomPercent = ConfigManager.get("ui.page.zoom.percent", null);
+        previousUiWaitTimeoutSeconds = ConfigManager.get(UI_WAIT_TIMEOUT_SECONDS, null);
+        ConfigManager.set("ui.engine", engineName);
+        ConfigManager.set("ui.headless", Boolean.toString(headless));
+        ConfigManager.set("ui.window.mode", "fullscreen");
+        ConfigManager.clear("ui.window.size");
+        ConfigManager.set("ui.page.zoom.percent", "67");
+        ConfigManager.set(UI_WAIT_TIMEOUT_SECONDS, "10");
+
+        UIEngine engine = UIEngineFactory.create();
+        try {
+            engine.open(ConfigManager.require("base.url"));
+            String screenshot = engine.captureScreenshotAsBase64();
+
+            Assert.assertNotNull(screenshot);
+            Assert.assertFalse(
+                    screenshot.isBlank(),
+                    "Screenshot must not be blank for ui.page.zoom.percent=67 on "
+                            + engineName + " headless=" + headless
+            );
+        } finally {
+            engine.quit();
         }
-        if (pageZoomPercent == null) {
-            ConfigManager.clear("ui.page.zoom.percent");
-        } else {
-            ConfigManager.set("ui.page.zoom.percent", pageZoomPercent);
-        }
-        ConfigManager.set("explicit.wait.seconds", "10");
     }
 }

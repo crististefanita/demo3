@@ -104,6 +104,15 @@ public final class UIActions {
         return result[0];
     }
 
+    public static void clearSession() {
+        execute(
+                "Clear browser session",
+                () -> DriverManager.getEngine().clearSession(),
+                "Session cleared",
+                "Failed clearing browser session"
+        );
+    }
+
     private static void execute(String stepTitle, Runnable action, String successMessage, String failureMessage) {
         StepLogger.startStep(stepTitle);
         try {
