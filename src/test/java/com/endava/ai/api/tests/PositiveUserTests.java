@@ -12,12 +12,13 @@ import org.testng.annotations.Test;
 public class PositiveUserTests extends BaseTestAPI {
     private UsersSteps users;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp() {
         users = new UsersSteps();
     }
 
-    @Test(description = "Create a user and validate response schema")
+    @Test(description = "Create a user and validate response schema",
+            groups = {"api", "api.users", "api.flow"})
     public void create_user_success() {
         Response resp = users.createValidUserResponse();
         SchemaValidator.validate(resp, "schemas/user.json");
@@ -26,7 +27,8 @@ public class PositiveUserTests extends BaseTestAPI {
         Assert.assertNotNull(created.id);
     }
 
-    @Test(description = "Create user, wait until available, then delete")
+    @Test(description = "Create user, wait until available, then delete",
+            groups = {"api", "api.users", "api.flow"})
     public void create_wait_and_delete_user() {
         UserResponse created = users.createValidUser();
         Assert.assertNotNull(created.id);

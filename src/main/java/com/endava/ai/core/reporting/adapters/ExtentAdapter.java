@@ -95,7 +95,7 @@ public final class ExtentAdapter implements ReportLogger {
     @Override
     public void logCodeBlock(String content) {
         ExtentTest test = testContext.get();
-        if (test == null) return;
+        if (test == null || content == null || content.isBlank()) return;
 
         reporter.logCodeBlock(getActiveNode(), content);
     }

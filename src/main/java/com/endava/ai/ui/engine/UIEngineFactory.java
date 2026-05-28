@@ -3,6 +3,8 @@ package com.endava.ai.ui.engine;
 import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.ui.engine.playwright.PlaywrightEngine;
 import com.endava.ai.ui.engine.selenium.SeleniumEngine;
+import com.endava.ai.ui.engine.window.UIWindowConfiguration;
+import com.endava.ai.ui.engine.window.UIWindowSizeResolver;
 
 /*
 Test start
@@ -11,7 +13,7 @@ UIEngineFactory.create()
   ↓
 UIEngine.start()
     ├─ init driver / browser
-    ├─ SET window size (2560×1440)
+    ├─ APPLY semantic window configuration
     └─ engine ready
   ↓
 Test steps
@@ -26,19 +28,15 @@ public final class UIEngineFactory {
      */
     public static UIEngine create() {
         String v = ConfigManager.require("ui.engine").toLowerCase();
-        UIEngine engine;
+        UIWindowConfiguration windowConfiguration = UIWindowSizeResolver.resolve();
         switch (v) {
             case "playwright":
-                engine = new PlaywrightEngine();
-                break;
+                return new PlaywrightEngine(windowConfiguration);
             case "selenium":
             case "default":
-                engine = new SeleniumEngine();
-                break;
+                return new SeleniumEngine(windowConfiguration);
             default:
                 throw new IllegalArgumentException("Unsupported ui.engine: " + v);
         }
-        engine.standardizeWindow();
-        return engine;
     }
 }

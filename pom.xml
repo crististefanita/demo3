@@ -15,7 +15,7 @@
 
         <testng.version>7.10.2</testng.version>
         <selenium.version>4.22.0</selenium.version>
-        <playwright.version>1.48.0</playwright.version>
+        <playwright.version>1.53.0</playwright.version>
         <extentreports.version>5.1.2</extentreports.version>
         <slf4j.version>2.0.13</slf4j.version>
         <allure.version>2.27.0</allure.version>
@@ -26,8 +26,6 @@
     <!-- ========================================================= -->
     <dependencyManagement>
         <dependencies>
-
-            <!-- Jackson: fixes multiple CVEs -->
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
@@ -35,8 +33,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <!-- Commons Codec -->
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
@@ -53,9 +49,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <!-- ========================================================= -->
-    <!-- Dependencies                                             -->
-    <!-- ========================================================= -->
     <dependencies>
 
         <!-- Test execution (runtime required) -->

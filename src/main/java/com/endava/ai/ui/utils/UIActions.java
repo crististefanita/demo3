@@ -60,13 +60,8 @@ public final class UIActions {
                 () -> {
                     StepLogger.logDetail("locator=" + cssSelector);
                     StepLogger.logDetail("value=" + value);
-
-                    if (!DriverManager.getEngine().supportsAutoWait()) {
-                        WaitUtils.waitForVisible(cssSelector);
-                    }
-
-                    DriverManager.getEngine().click(cssSelector);
-                    DriverManager.getEngine().click(cssSelector + " option[value='" + value + "']");
+                    waitIfRequired(cssSelector);
+                    DriverManager.getEngine().select(cssSelector, value);
                 },
                 "Selected",
                 "Failed selecting: " + description
@@ -89,6 +84,33 @@ public final class UIActions {
         );
 
         return result[0];
+    }
+
+    public static String getValue(String cssSelector, String description) {
+        final String[] result = new String[1];
+
+        execute(
+                "Get value from: " + description,
+                () -> {
+                    StepLogger.logDetail("locator=" + cssSelector);
+                    waitIfRequired(cssSelector);
+                    result[0] = DriverManager.getEngine().getValue(cssSelector);
+                    StepLogger.logDetail("value=" + result[0]);
+                },
+                "Value captured",
+                "Failed getting value from: " + description
+        );
+
+        return result[0];
+    }
+
+    public static void clearSession() {
+        execute(
+                "Clear browser session",
+                () -> DriverManager.getEngine().clearSession(),
+                "Session cleared",
+                "Failed clearing browser session"
+        );
     }
 
     private static void execute(String stepTitle, Runnable action, String successMessage, String failureMessage) {

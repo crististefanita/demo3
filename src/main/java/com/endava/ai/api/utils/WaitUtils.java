@@ -11,15 +11,21 @@ import java.util.function.Supplier;
  */
 public final class WaitUtils {
 
+    private static final String API_WAIT_TIMEOUT_SECONDS_KEY = "api.wait.timeout.seconds";
+    private static final String LEGACY_WAIT_TIMEOUT_SECONDS_KEY = "explicit.wait.seconds";
     private static final int DEFAULT_WAIT_SECONDS = getExplicitWait();
 
     private WaitUtils() {
     }
 
     private static int getExplicitWait() {
-        String key = "explicit.wait.seconds";
+        String key = API_WAIT_TIMEOUT_SECONDS_KEY;
+        String value = ConfigManager.get(
+                API_WAIT_TIMEOUT_SECONDS_KEY,
+                ConfigManager.get(LEGACY_WAIT_TIMEOUT_SECONDS_KEY, "10")
+        );
         try {
-            return Integer.parseInt(ConfigManager.get(key,"10"));
+            return Integer.parseInt(value);
         } catch (Exception e) {
             throw new RuntimeException(
                     "Missing or invalid integer config key: " + key, e
