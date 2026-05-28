@@ -13,13 +13,9 @@ The primary goal of this repository is to strengthen the existing ATF core throu
 
 The existing repository structure, base classes, reporting lifecycle, listeners, utilities, and test patterns are the source of truth.
 
-The canonical architecture reference is:
+The living architecture reference is available here:
 
-- `docs/Living_Architecture_UI_API_doc_v1_0.html`
-
-The same architecture is also available as a collapsible Markdown companion:
-
-- `docs/Living_Architecture_UI_API_doc_v1_0.md`
+- [docs/Living_Architecture_UI_API_doc_v1_0.md](docs/Living_Architecture_UI_API_doc_v1_0.md)
 
 This README translates that architecture into practical day-to-day usage for engineers and for AI/MCP-assisted contributors working through Codex or similar tools.
 
@@ -207,10 +203,9 @@ When extending the framework, use this priority order:
 
 1. Existing Java code in `src/main/java`
 2. Existing tests in `src/test/java`
-3. `docs/Living_Architecture_UI_API_doc_v1_0.html`
-4. `docs/Living_Architecture_UI_API_doc_v1_0.md`
-5. `src/main/resources/framework.properties`
-6. `pom.xml`
+3. `docs/Living_Architecture_UI_API_doc_v1_0.md`
+4. `src/main/resources/framework.properties`
+5. `pom.xml`
 
 Do not invent parallel abstractions if an equivalent framework component already exists.
 
@@ -284,7 +279,6 @@ Use this mental map first:
 ```text
 .
 |-- docs/
-|   |-- Living_Architecture_UI_API_doc_v1_0.html
 |   |-- Living_Architecture_UI_API_doc_v1_0.md
 |   |-- playwright_mcp_codex_java_guide.md
 |   `-- prompts/
@@ -1169,7 +1163,7 @@ When changing payload, step, adapter, screenshot, or listener behavior, validate
 <details>
 <summary>Open section</summary>
 
-The file `docs/Living_Architecture_UI_API_doc_v1_0.html` reinforces these core principles:
+The living architecture companion [docs/Living_Architecture_UI_API_doc_v1_0.md](docs/Living_Architecture_UI_API_doc_v1_0.md) reinforces these core principles:
 
 - one shared core module for config/listeners/reporting
 - strict separation between UI, API, and reporting responsibilities
@@ -1256,7 +1250,7 @@ Use this section as the navigation hub for agentic contributions:
 - prompt library for repeatable tasks: `docs/prompts`
 - Playwright/Codex workflow reference: `docs/playwright_mcp_codex_java_guide.md`
 - README for guardrails, package placement, and contribution rules
-- `docs/Living_Architecture_UI_API_doc_v1_0.html` for architectural intent
+- [docs/Living_Architecture_UI_API_doc_v1_0.md](docs/Living_Architecture_UI_API_doc_v1_0.md) for architectural intent
 
 Agentic work in this repository should follow one repeatable loop:
 
@@ -1374,7 +1368,7 @@ Source of truth:
 - src/test/java/com/endava/ai/api/tests
 - src/test/java/com/endava/ai/atf/api
 - src/main/resources/framework.properties
-- docs/Living_Architecture_UI_API_doc_v1_0.html
+- docs/Living_Architecture_UI_API_doc_v1_0.md
 
 Rules:
 - Reuse BaseTestAPI, ApiClient, ApiActions, Steps, Services, validators, factories.
@@ -1430,7 +1424,7 @@ Source of truth:
 - com.endava.ai.core.reporting
 - com.endava.ai.core.listener
 - com.endava.ai.atf.reporting
-- docs/Living_Architecture_UI_API_doc_v1_0.html
+- docs/Living_Architecture_UI_API_doc_v1_0.md
 
 Rules:
 - Preserve ReportLogger, ReportingManager, StepLogger, TestListener contracts
