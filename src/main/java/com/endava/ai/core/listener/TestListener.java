@@ -50,16 +50,19 @@ public final class TestListener
 
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult tr) {
+        if (isReportingDisabled(method, tr)) return;
         invocations.get().beforeInvocation(method);
     }
 
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult tr) {
+        if (isReportingDisabled(method, tr)) return;
         invocations.get().afterInvocation(method, tr);
     }
 
     @Override
     public void onTestStart(ITestResult result) {
+        if (isReportingDisabled(result)) return;
         StepLogger.clear();
         FailureAttachmentRegistry.onTestStart();
 
@@ -90,6 +93,7 @@ public final class TestListener
 
     @Override
     public void onTestSuccess(ITestResult result) {
+        if (isReportingDisabled(result)) return;
         uiScreenshotHandler.captureFinalStateIfEligible();
         closeGroups(result);
         StepLogger.clearDelegate();   // 🔑 IMPORTANT
@@ -98,11 +102,13 @@ public final class TestListener
 
     @Override
     public void onTestFailure(ITestResult result) {
+        if (isReportingDisabled(result)) return;
         endWithThrowable(result, true);
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
+        if (isReportingDisabled(result)) return;
         endWithThrowable(result, false);
         context.markTestEnded();
     }
@@ -208,5 +214,24 @@ public final class TestListener
     public static void resetForTests() {
         ReportingManager.reset();
         StepLogger.clear();
+    }
+
+    private static boolean isReportingDisabled(ITestResult result) {
+        if (result == null || result.getMethod() == null) {
+            return false;
+        }
+        Class<?> realClass = result.getMethod().getRealClass();
+        return realClass != null && realClass.isAnnotationPresent(NoFrameworkReporting.class);
+    }
+
+    private static boolean isReportingDisabled(IInvokedMethod method, ITestResult result) {
+        if (isReportingDisabled(result)) {
+            return true;
+        }
+        if (method == null || method.getTestMethod() == null) {
+            return false;
+        }
+        Class<?> realClass = method.getTestMethod().getRealClass();
+        return realClass != null && realClass.isAnnotationPresent(NoFrameworkReporting.class);
     }
 }

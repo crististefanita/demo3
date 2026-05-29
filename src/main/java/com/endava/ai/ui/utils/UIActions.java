@@ -120,7 +120,7 @@ public final class UIActions {
             StepLogger.pass(successMessage);
         } catch (Throwable e) {
             StepLogger.fail(failureMessage, e);
-            throw new AssertionError("UI Action failed: " + stepTitle);
+            throw new AssertionError("UI Action failed: " + stepTitle, e);
         }
     }
 

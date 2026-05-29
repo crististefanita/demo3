@@ -96,8 +96,7 @@ public final class PlaywrightEngine implements UIEngine {
     @Override
     public void type(String cssSelector, String text) {
         Locator loc = page.locator(cssSelector).first();
-        loc.fill("");
-        loc.type(text);
+        loc.fill(text);
     }
 
     @Override
@@ -161,7 +160,10 @@ public final class PlaywrightEngine implements UIEngine {
     @Override
     public void clearSession() {
         context.clearCookies();
-        page.evaluate("() => { localStorage.clear(); sessionStorage.clear(); }");
+        try {
+            page.evaluate("() => { localStorage.clear(); sessionStorage.clear(); }");
+        } catch (PlaywrightException ignored) {
+        }
     }
 
     @Override

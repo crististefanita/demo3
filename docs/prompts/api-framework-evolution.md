@@ -1,1076 +1,481 @@
-﻿# API Framework Evolution Prompt
+# API Framework Evolution Prompt
 
-Reusable Codex/MCP prompt template for iterative API-focused evolution inside the existing ATF. Use it when API coverage, validators, contracts, diagnostics, or reporting-aware API behavior must improve without changing the established framework architecture.
+Reusable Codex/MCP prompt for evolving the existing Java API automation framework inside this repository.
 
-You are continuing evolution of an EXISTING enterprise-grade Java Automation Testing Framework (ATF).
+Use it when API coverage, validators, contracts, diagnostics, reporting clarity, or reusable helpers must improve without changing the established ATF architecture.
 
+You are evolving an EXISTING enterprise-grade Java Automation Testing Framework (ATF).
 
+The repository implementation is the source of truth:
 
-The repository, framework architecture, lifecycle orchestration, reporting system, execution model, utilities, services, validations, schemas, factories, existing API tests, and reporting contracts are the SOURCE OF TRUTH.
+- code in `src/main/java`
+- tests in `src/test/java`
+- reporting behavior
+- lifecycle behavior
+- configuration
+- schemas
+- factories
+- existing conventions
 
+This is NOT:
 
+- a greenfield project
+- a framework rewrite
+- a license to invent framework-v2 abstractions
 
-IMPORTANT:
+Your job is to improve the current framework carefully, incrementally, and iteratively.
 
-This is NOT a greenfield project.
-
-This is NOT a framework rewrite task.
-
-
-
-Your role is to EVOLVE the framework carefully, incrementally, and intelligently.
-
-
-
-DO NOT:
-
-\- invent a parallel framework
-
-\- redesign the architecture
-
-\- replace existing framework patterns
-
-\- introduce framework-v2 abstractions
-
-\- introduce speculative architecture
-
-\- bypass existing utilities/services
-
-\- replace reporting engines
-
-\- rewrite lifecycle orchestration
-
-
-
-PRIMARY STRATEGIC GOAL
-
+PRIMARY GOAL
 ==================================================
 
-The framework already contains strong API automation coverage.
+Do not optimize for raw test count.
 
+Optimize for a better API automation platform:
 
+- stronger contracts
+- better coverage
+- clearer reporting
+- better diagnostics
+- more reusable validators/helpers
+- better maintainability
+- better AI/MCP readiness
 
-The next objective is NOT blindly adding more tests.
+The expected operating model is:
 
-
-
-The next objective is evolving the framework into a more:
-
-\- semantic
-
-\- contract-driven
-
-\- maintainable
-
-\- observable
-
-\- reusable
-
-\- AI-friendly
-
-\- diagnostics-oriented
-
-\- reporting-intelligent
-
-API automation platform.
-
-
+1. inspect the existing API framework
+2. inspect the live API and docs
+3. find the weakest useful gap
+4. implement the smallest safe improvement
+5. run the narrowest relevant Maven validation
+6. reassess
+7. continue iterating until no obvious safe improvement remains
 
 PRIORITY ORDER
-
 ==================================================
 
 Always prioritize in this order:
 
+1. preserve existing contracts
+2. preserve reporting behavior
+3. preserve deterministic execution
+4. preserve API/UI isolation
+5. improve semantic clarity
+6. improve maintainability
+7. reduce duplication
+8. improve diagnostics
+9. improve reusable validations/helpers
+10. expand valuable coverage
 
-
-1\. Preserve existing contracts
-
-2\. Preserve reporting behavior
-
-3\. Preserve deterministic execution
-
-4\. Preserve API/UI isolation
-
-5\. Improve semantic clarity
-
-6\. Improve maintainability
-
-7\. Reduce duplication
-
-8\. Improve diagnostics
-
-9\. Improve reusable validations/helpers
-
-10\. Expand valuable coverage
-
-
-
-IMPORTANT SCOPE
-
+SCOPE BOUNDARY
 ==================================================
 
-This task is STRICTLY focused on API automation.
+This prompt is API-only.
 
+UI behavior must remain unchanged.
 
+Do NOT:
 
-UI tests and UI framework behavior MUST remain unchanged.
-
-
-
-DO NOT:
-
-\- generate UI tests
-
-\- modify existing UI tests
-
-\- change Playwright behavior
-
-\- change Selenium behavior
-
-\- initialize browsers in API tests
-
-\- introduce screenshots/browser logic into API flows
-
-\- introduce UI lifecycle assumptions
-
-\- introduce UI dependencies into API execution
-
-
-
-UI tests are OUT OF SCOPE.
-
-
+- add UI tests
+- modify existing UI tests
+- change Playwright behavior
+- change Selenium behavior
+- initialize browsers in API tests
+- introduce screenshots/browser logic into API execution
+- leak UI lifecycle assumptions into API flows
 
 TARGET API
-
 ==================================================
 
-Use the existing framework together with:
-
-
+Use the existing framework against:
 
 https://gorest.co.in
 
+Do not treat GoRest as a static endpoint list.
 
+You must inspect:
 
-IMPORTANT:
+- documentation
+- live behavior
+- resource relationships
+- nested resources
+- pagination
+- filtering
+- sorting
+- validation behavior
+- auth behavior
+- error contracts
+- rate-limit behavior
+- docs vs live inconsistencies
 
-Do NOT treat GoRest only as a static endpoint list.
+Explore and evolve coverage around:
 
-
-
-Act agentically:
-
-\- inspect the GoRest website/documentation
-
-\- inspect live API behavior
-
-\- inspect endpoint relationships
-
-\- inspect nested resources
-
-\- inspect pagination/filtering/sorting
-
-\- inspect validation behavior
-
-\- inspect auth behavior
-
-\- inspect real error contracts
-
-\- inspect rate-limit behavior carefully
-
-\- inspect inconsistencies between docs and live API
-
-
-
-Explore and understand:
-
-\- users
-
-\- posts
-
-\- comments
-
-\- todos
-
-\- nested relationships
-
-\- lifecycle relationships
-
-\- validation rules
-
-\- response patterns
-
-
-
-Use discoveries to improve:
-
-\- coverage
-
-\- contracts
-
-\- validators
-
-\- diagnostics
-
-\- reporting semantics
-
-\- reusable helpers
-
-
+- users
+- posts
+- comments
+- todos
+- nested relationships
+- lifecycle relationships
+- response patterns
+- validation rules
 
 SOURCE OF TRUTH PRIORITY
-
 ==================================================
 
-Use this priority order for implementation decisions:
+Use this order for implementation decisions:
 
+1. existing repository architecture
+2. existing framework conventions
+3. existing tests and validators
+4. existing reporting contracts
+5. verified live API behavior
+6. GoRest documentation/examples
+7. reasonable inference
 
+Never present inferred behavior as verified behavior.
 
-1\. Existing repository architecture
-
-2\. Existing framework conventions
-
-3\. Existing tests and validators
-
-4\. Existing reporting contracts
-
-5\. Verified live API behavior
-
-6\. GoRest documentation/examples
-
-7\. Reasonable inference
-
-
-
-Never treat inferred behavior as verified behavior.
-
-
-
-REUSE EXISTING FRAMEWORK
-
+NON-NEGOTIABLE REUSE RULES
 ==================================================
 
-Strictly reuse existing:
+Strictly reuse existing framework layers where possible:
 
-\- API services
+- `BaseTestAPI`
+- API steps
+- API services
+- `ApiClient`
+- `ApiActions`
+- validators
+- schemas
+- configuration
+- reporting
+- factories
+- cleanup patterns
 
-\- request builders
+Do NOT:
 
-\- response validators
+- create a parallel API client
+- create parallel reporting
+- create giant speculative abstractions
+- introduce orchestration frameworks
+- replace Allure / Extent / StepLogger
 
-\- reporting
-
-\- logging
-
-\- configuration
-
-\- auth handling
-
-\- assertions
-
-\- lifecycle hooks
-
-\- factories
-
-\- schemas
-
-\- serializers/deserializers
-
-\- cleanup patterns
-
-\- test structure conventions
-
-
-
-Preserve:
-
-\- reporting lifecycle
-
-\- StepLogger behavior
-
-\- Allure behavior
-
-\- Extent behavior
-
-\- API logging behavior
-
-\- existing validators
-
-\- existing assertions
-
-\- existing cleanup strategies
-
-
-
-DO NOT:
-
-\- create a parallel API client
-
-\- create parallel reporting
-
-\- create giant abstractions
-
-\- create magic DSLs
-
-\- introduce event buses
-
-\- introduce orchestration frameworks
-
-
-
-ARCHITECTURE RULES
-
+PACKAGE RULES
 ==================================================
 
-Keep API tests under:
+Keep:
 
-src/test/java/com/endava/ai/api/tests
+- business API tests under `src/test/java/com/endava/ai/api/tests`
+- reusable API logic under `src/main/java/com/endava/ai/api`
 
-
-
-Keep reusable API/business logic under:
-
-src/main/java/com/endava/ai/api
-
-
-
-Follow REAL repository conventions.
-
-Do NOT invent new conventions unnecessarily.
-
-
+Follow repository conventions.
+Do not invent new top-level patterns unless clearly justified by existing code style.
 
 STRATEGIC FOCUS AREAS
-
 ==================================================
 
-
-
-1\. CONTRACT QUALITY
-
-\--------------------------------------------------
+1. Contract quality
 
 Strengthen:
 
-\- status validation
+- status validation
+- schema validation
+- error validation
+- relationship validation
+- pagination validation
+- filtering validation
+- sorting validation
+- content-type validation
+- serialization consistency
+- response consistency
 
-\- schema validation
+2. Semantic execution clarity
 
-\- error validation
+Improve readability of:
 
-\- relationship validation
+- test intent
+- validators
+- reporting
+- logs
+- API actions
+- lifecycle flows
 
-\- pagination validation
+Prefer explicit semantic names such as:
 
-\- filtering validation
+- `CREATE_RESOURCE`
+- `VALIDATE_SCHEMA`
+- `NEGATIVE_CONTRACT`
+- `RELATIONSHIP_VALIDATION`
+- `PAGINATION_VALIDATION`
+- `AUTH_VALIDATION`
 
-\- serialization consistency
-
-\- content-type validation
-
-\- response consistency
-
-
-
-2\. SEMANTIC EXECUTION CLARITY
-
-\--------------------------------------------------
-
-Improve semantic readability of:
-
-\- reporting
-
-\- logs
-
-\- validators
-
-\- assertions
-
-\- API intent
-
-\- resource lifecycle flows
-
-
-
-Prefer explicit semantic intent:
-
-\- CREATE\_RESOURCE
-
-\- VALIDATE\_SCHEMA
-
-\- NEGATIVE\_CONTRACT
-
-\- RELATIONSHIP\_VALIDATION
-
-\- PAGINATION\_VALIDATION
-
-\- AUTH\_VALIDATION
-
-
-
-IMPORTANT:
-
-Keep implementation lightweight.
-
-Avoid overengineering.
-
-
-
-3\. REPORTING INTELLIGENCE
-
-\--------------------------------------------------
+3. Reporting intelligence
 
 Improve:
 
-\- semantic reporting clarity
+- semantic reporting clarity
+- request/response visibility
+- validation traceability
+- failure diagnostics
+- nested-resource visibility
 
-\- validation traceability
+Preserve the existing reporting lifecycle completely.
 
-\- failure diagnostics
+4. Maintainability
 
-\- contract visibility
+Before adding tests, look for:
 
-\- nested-resource visibility
+- duplicated assertions
+- duplicated validators
+- duplicated builders
+- duplicated pagination checks
+- duplicated relationship checks
+- repeated error validations
 
-\- request/response diagnostics
+Prefer consolidation over raw test count.
 
-
-
-Reuse the existing reporting lifecycle completely.
-
-
-
-Do NOT replace:
-
-\- Extent
-
-\- Allure
-
-\- StepLogger
-
-\- reporting orchestration
-
-
-
-4\. MAINTAINABILITY
-
-\--------------------------------------------------
-
-Before adding new tests:
-
-\- detect duplicated validations
-
-\- detect duplicated assertions
-
-\- detect duplicated builders
-
-\- detect duplicated pagination checks
-
-\- detect duplicated relationship checks
-
-\- detect repeated error validations
-
-
-
-Prefer:
-
-\- consolidation
-
-\- reusable validators
-
-\- reusable helpers
-
-\- reusable diagnostics
-
-over raw test count expansion.
-
-
-
-5\. API OBSERVABILITY
-
-\--------------------------------------------------
+5. API observability
 
 Improve:
 
-\- failure diagnostics
+- failure diagnostics
+- contract mismatch clarity
+- validator diagnostics
+- semantic logging
+- request/response visibility
+- rate-limit diagnostics
 
-\- validator diagnostics
+6. AI / MCP readiness
 
-\- request/response visibility
+Prepare the framework for:
 
-\- contract mismatch clarity
-
-\- retry diagnostics
-
-\- rate-limit diagnostics
-
-\- semantic logging
-
-
-
-6\. AI / MCP READINESS
-
-\--------------------------------------------------
-
-Prepare the framework for future:
-
-\- MCP integrations
-
-\- AI-assisted analysis
-
-\- semantic execution tracing
-
-\- structured diagnostics
-
-\- intelligent debugging
-
-\- execution observability
-
-
-
-Focus on:
-
-\- semantic metadata
-
-\- deterministic diagnostics
-
-\- explicit validation intent
-
-\- reusable contract helpers
-
-\- reporting traceability
-
-
-
-Keep implementation incremental and lightweight.
-
-
+- semantic execution traces
+- structured diagnostics
+- reusable contract helpers
+- easier future agentic extension
 
 API COVERAGE GOALS
-
 ==================================================
 
-Expand realistic and valuable coverage only where meaningful.
-
-
+Aim for realistic, valuable, iterative coverage.
 
 Positive coverage:
 
-\- create resource
-
-\- get resource
-
-\- update resource
-
-\- delete resource
-
-\- collection/list validation
-
-\- pagination validation
-
-\- filtering validation
-
-\- sorting validation
-
-\- nested relationships
-
-\- persistence validation
-
-\- schema validation
-
-\- serialization/deserialization validation
-
-
+- create resource
+- get resource
+- update resource
+- delete resource
+- list/collection validation
+- pagination validation
+- filtering validation
+- sorting validation
+- nested relationships
+- persistence validation
+- schema validation
+- serialization/deserialization validation
 
 Negative coverage:
 
-\- invalid payloads
-
-\- missing required fields
-
-\- auth failures
-
-\- invalid relationships
-
-\- malformed requests
-
-\- invalid IDs
-
-\- invalid query params
-
-\- duplicate resources where meaningful
-
-\- boundary conditions
-
-\- error contracts
-
-\- rate-limit handling if safely testable
-
-
+- invalid payloads
+- missing required fields
+- auth failures
+- invalid relationships
+- malformed requests
+- invalid IDs
+- invalid query params
+- duplicate resources where meaningful
+- boundary conditions
+- error contracts
+- rate-limit handling if safely testable
 
 TEST DESIGN RULES
-
 ==================================================
 
-\- Split flows into focused tests
-
-\- Group tests logically
-
-\- Prefer reusable assertions
-
-\- Prefer reusable validators
-
-\- Prefer reusable diagnostics
-
-\- Prefer business-oriented naming
-
-\- Prefer deterministic assertions
-
-\- Avoid giant end-to-end API monsters
-
-\- Avoid duplicated validation logic
-
-\- Avoid brittle assumptions
-
-\- Avoid hardcoded timing
-
-
+- split flows into focused tests
+- keep tests business-readable
+- prefer reusable validators/assertions
+- prefer deterministic assertions
+- avoid giant API end-to-end monsters
+- avoid duplicated validation logic
+- avoid brittle assumptions
+- avoid hardcoded timing
 
 DETERMINISTIC EXECUTION RULES
-
 ==================================================
 
-\- Avoid execution-order dependency
+- avoid execution-order dependency
+- avoid shared mutable state
+- preserve parallel-safety where supported
+- clean up created resources when possible
+- prefer deterministic data generation
 
-\- Avoid shared mutable state
-
-\- Avoid hidden singleton coupling
-
-\- Preserve parallel-safety where supported
-
-\- Clean up created resources when possible
-
-\- Prefer deterministic data generation
-
-
-
-SELF-HEALING / AUTONOMOUS EXECUTION
-
+MANDATORY ITERATIVE LOOP
 ==================================================
 
-When failures happen:
+You are expected to work in small safe iterations.
 
-\- inspect request payloads
+Baseline loop:
 
-\- inspect response payloads
+1. analyze existing API implementation
+2. analyze existing API tests
+3. analyze validators / builders / reporting
+4. inspect GoRest docs and live behavior
+5. detect the current weakest useful gap
+6. implement the smallest safe improvement
+7. run narrow Maven validation
+8. inspect failures and reporting artifacts
+9. fix the smallest real root cause
+10. reassess what still remains weak
+11. continue
 
-\- inspect headers/status codes
-
-\- inspect reporting artifacts
-
-\- inspect validators
-
-\- inspect duplicated logic
-
-\- inspect semantic inconsistencies
-
-\- inspect live API behavior
-
-\- compare docs vs live behavior
-
-\- repair smallest root cause
-
-\- rerun affected suites
-
-\- continue iterating autonomously
-
-
-
-Do NOT hide:
-
-\- flaky behavior
-
-\- inconsistent live behavior
-
-\- rate-limit instability
-
-\- contract inconsistencies
-
-
-
-Document them explicitly.
-
-
-
-INCREMENTAL IMPLEMENTATION STRATEGY
-
+ITERATION STOP RULE
 ==================================================
 
-Mandatory iterative loop:
+Do NOT stop at the first green run.
 
+A passing narrow suite is only a checkpoint.
 
+After each successful validation pass:
 
-1\. Analyze existing API implementation
+1. reassess the changed area
+2. identify the lowest-scoring in-scope category
+3. ask whether one more small safe improvement is possible
+4. if yes, implement it and rerun validation
+5. repeat until:
+   - no obvious safe improvement remains, or
+   - the remaining gaps are blocked, flaky, out of scope, or too risky
 
-2\. Analyze existing API tests
+Treat unfinished weak areas as unfinished work unless they are explicitly blocked.
 
-3\. Analyze existing validators/builders/reporting
-
-4\. Inspect GoRest docs and live behavior
-
-5\. Detect:
-
-&#x20;  - missing coverage
-
-&#x20;  - duplicated logic
-
-&#x20;  - weak contracts
-
-&#x20;  - weak diagnostics
-
-&#x20;  - weak reporting semantics
-
-6\. Propose smallest safe improvement
-
-7\. Implement incrementally
-
-8\. Run narrow Maven suites
-
-9\. Validate:
-
-&#x20;  - API behavior
-
-&#x20;  - reporting behavior
-
-&#x20;  - serialization
-
-&#x20;  - validators
-
-&#x20;  - deterministic execution
-
-&#x20;  - API/UI isolation
-
-10\. Fix smallest root cause
-
-11\. Continue iteratively
-
-
-
-Avoid large rewrites.
-
-
+Bias toward one more safe iteration when there is a clear next improvement.
 
 EXECUTION RULES
-
 ==================================================
 
-\- Run Maven tests continuously
-
-\- Prefer narrow suites first
-
-\- Run broader suites after meaningful changes
-
-\- Automatically fix compile/runtime/test failures
-
-\- Do NOT stop at first failure
-
-\- Re-run unstable suites
-
-\- Validate reporting behavior after changes
-
-
+- run Maven tests continuously
+- prefer narrow suites first
+- run broader suites after meaningful changes
+- automatically fix compile/runtime/test failures
+- do not stop at first failure
+- rerun unstable suites at least once
+- validate reporting behavior after changes
 
 Existing tests are contracts.
 
+If tests pass, do one more improvement check across:
 
+- contract quality
+- negative coverage
+- validator reuse
+- diagnostics
+- reporting validation
 
-Any regression introduced into existing API tests is considered a real regression until proven otherwise.
+If any of those can be improved safely, continue.
 
-
-
-TRACEABILITY REQUIREMENTS
-
+LIVE API DISCIPLINE
 ==================================================
 
-For every significant enhancement explain explicitly:
+When docs and live behavior differ:
 
+- trust verified live behavior over examples
+- document the inconsistency explicitly
+- do not encode fragile assumptions as hard contracts
 
+When failures happen:
 
-\- what was derived from repository conventions
+- inspect request payloads
+- inspect response payloads
+- inspect headers and status codes
+- inspect validators
+- inspect reporting artifacts
+- compare docs vs live behavior
+- repair the smallest root cause
+- rerun the affected suites
 
-\- what was derived from existing tests
+Do not hide:
 
-\- what was derived from existing validators/builders
-
-\- what was derived from GoRest documentation
-
-\- what was derived from live API behavior
-
-\- what assumptions were made
-
-\- what inconsistencies were discovered
-
-\- what validations were reused
-
-\- what validations were newly introduced
-
-
-
-Do NOT present inferred behavior as verified behavior.
-
-
-
-If:
-
-\- docs
-
-\- live API
-
-\- examples
-
-\- repository behavior
-
-
-
-are inconsistent,
-
-explicitly document the inconsistency.
-
-
+- flaky behavior
+- inconsistent live behavior
+- rate-limit instability
+- contract inconsistencies
 
 FINAL VALIDATION
-
 ==================================================
 
 Before finishing:
 
-
-
-1\. Run relevant Maven suites
-
-2\. Verify existing API tests still pass
-
-3\. Verify UI tests remain untouched
-
-4\. Verify reporting behavior remains stable
-
-5\. Verify deterministic execution
-
-6\. Verify validators remain backward compatible
-
-7\. Verify no API/UI cross-contamination
-
-8\. Verify semantic/reporting improvements remain backward compatible
-
-
+1. run relevant Maven suites
+2. verify affected API tests still pass
+3. verify UI tests remain untouched
+4. verify reporting behavior remains stable
+5. verify deterministic execution
+6. verify validators remain backward compatible
+7. verify no API/UI cross-contamination
 
 FINAL OUTPUT
-
 ==================================================
 
-Generate a concise but structured implementation report including:
+Produce a concise structured report that includes:
 
+- tests added or updated
+- files modified
+- endpoints/resources covered
+- reusable helpers introduced
+- duplicated logic reduced
+- semantic/reporting improvements added
+- diagnostics improvements added
+- validators standardized
+- validations reused
+- validations newly introduced
+- repository patterns reused
+- GoRest docs/pages inspected
+- live API behaviors validated
+- inconsistencies discovered
+- reporting validations performed
+- API/UI isolation checks performed
+- Maven commands run
+- final Maven results
+- assumptions made
+- remaining risky/flaky/unverified areas
+- recommended next step
 
-
-\- tests added
-
-\- files modified
-
-\- endpoints/resources covered
-
-\- reusable helpers introduced
-
-\- duplicated logic reduced
-
-\- semantic/reporting improvements added
-
-\- diagnostics improvements added
-
-\- validators standardized
-
-\- validations reused
-
-\- validations newly introduced
-
-\- repository patterns reused
-
-\- existing tests used as references
-
-\- GoRest docs/pages inspected
-
-\- live API behaviors validated
-
-\- inconsistencies discovered
-
-\- reporting validations performed
-
-\- API/UI isolation checks performed
-
-\- failures fixed
-
-\- request/response fixes
-
-\- serialization fixes
-
-\- Maven commands run
-
-\- final Maven results
-
-\- assumptions made
-
-\- remaining risky/flaky/unverified areas
-
-\- recommended next architectural evolution steps
-
-
-
-FINAL SELF-VALIDATION AND ANALYSIS TASK
-
+FINAL SELF-ASSESSMENT
 ==================================================
 
-
-
-Before finishing, perform a final verification pass over your own changes.
-
-
-
-1\. Run validation
-
-\- Run the narrowest relevant API suites first.
-
-\- Run all affected API tests.
-
-\- Run existing API regression tests.
-
-\- Run broader Maven validation if practical.
-
-\- Re-run any unstable/failing test at least once.
-
-\- Do not ignore failures.
-
-
-
-2\. Verify scope
-
-Confirm explicitly:
-
-\- no UI tests were added
-
-\- no UI tests were modified
-
-\- no Playwright/Selenium behavior was changed
-
-\- no browser dependency leaked into API flows
-
-\- existing API tests still pass
-
-\- reporting behavior remains stable
-
-
-
-3\. Verify quality
-
-Analyze your changes for:
-
-\- duplicated assertions
-
-\- duplicated validators
-
-\- duplicated request builders
-
-\- weak contracts
-
-\- brittle assumptions
-
-\- shared mutable state
-
-\- execution-order dependency
-
-\- missing cleanup
-
-\- weak diagnostics
-
-\- reporting gaps
-
-
-
-4\. Verify reporting artifacts
-
-Inspect generated reports/logs where available and confirm:
-
-\- API steps are readable
-
-\- request/response logging is preserved
-
-\- failures would be diagnosable
-
-\- semantic intent is visible
-
-\- no UI screenshots appear in API tests
-
-
-
-5\. Produce final analysis report
-
-At the end, provide a concise table with scores from 1–10:
-
-
+At the end, provide a score table:
 
 | Area | What was verified | Score | Risk / Note |
-
 |---|---|---:|---|
-
-
 
 Include at least:
 
-\- API coverage
+- API coverage
+- contract quality
+- negative scenarios
+- validator reuse
+- reporting quality
+- diagnostics quality
+- deterministic execution
+- cleanup strategy
+- API/UI isolation
+- maintainability
+- traceability
+- GoRest docs/live behavior usage
+- regression safety
+- AI/MCP readiness
 
-\- contract quality
+FINALIZATION GUARD
+==================================================
 
-\- negative scenarios
+Do not claim completion merely because:
 
-\- validator reuse
+- code compiles
+- one enhancement was implemented
+- the first affected suite passed
 
-\- reporting quality
+Completion requires both:
 
-\- diagnostics quality
+- passing validation
+- no remaining obvious safe iterative improvements in scope
 
-\- deterministic execution
-
-\- cleanup strategy
-
-\- API/UI isolation
-
-\- maintainability
-
-\- traceability
-
-\- GoRest docs/live behavior usage
-
-\- regression safety
-
-\- AI/MCP readiness
-
-
-
-6\. Final verdict
-
-End with:
-
-\- overall score
-
-\- strongest improvements
-
-\- remaining risks
-
-\- recommended next step
-
-
-
-Do not claim success unless Maven commands actually passed.
+If multiple in-scope areas still score below 9/10, assume more iteration is expected unless clearly blocked.
 
 If something was not verified, say it explicitly.
-

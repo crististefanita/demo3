@@ -63,11 +63,19 @@ public final class WaitUtils {
     public static void waitForInputValue(String cssSelector,
                                          String description,
                                          Predicate<String> condition) {
+        waitForInputValue(cssSelector, description, condition, Duration.ofSeconds(UI_WAIT_TIMEOUT_SECONDS));
+    }
+
+    public static void waitForInputValue(String cssSelector,
+                                         String description,
+                                         Predicate<String> condition,
+                                         Duration timeout) {
         logDetailIfPossible("Wait for input value: " + description);
 
         String value = waitUntil(
                 () -> DriverManager.getEngine().getValue(cssSelector),
                 current -> current != null && condition.test(current),
+                timeout,
                 Duration.ofMillis(250)
         );
 
@@ -79,7 +87,14 @@ public final class WaitUtils {
     public static <T> T waitUntil(Supplier<T> supplier,
                                   Predicate<T> condition,
                                   Duration pollInterval) {
-        Instant end = Instant.now().plusSeconds(UI_WAIT_TIMEOUT_SECONDS);
+        return waitUntil(supplier, condition, Duration.ofSeconds(UI_WAIT_TIMEOUT_SECONDS), pollInterval);
+    }
+
+    public static <T> T waitUntil(Supplier<T> supplier,
+                                  Predicate<T> condition,
+                                  Duration timeout,
+                                  Duration pollInterval) {
+        Instant end = Instant.now().plus(timeout);
         T value;
 
         do {
