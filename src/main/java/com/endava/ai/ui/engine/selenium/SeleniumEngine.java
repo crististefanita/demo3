@@ -49,8 +49,16 @@ public final class SeleniumEngine implements UIEngine {
 
     @Override
     public void click(String cssSelector) {
-        WebElement el = find(cssSelector);
-        el.click();
+        By locator = By.cssSelector(cssSelector);
+        WebElement el = new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.elementToBeClickable(locator));
+
+        try {
+            el.click();
+        } catch (WebDriverException e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", el);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", el);
+        }
     }
 
     @Override
@@ -137,9 +145,12 @@ public final class SeleniumEngine implements UIEngine {
     @Override
     public void clearSession() {
         driver.manage().deleteAllCookies();
-        ((JavascriptExecutor) driver).executeScript(
-                "window.localStorage.clear(); window.sessionStorage.clear();"
-        );
+        try {
+            ((JavascriptExecutor) driver).executeScript(
+                    "window.localStorage.clear(); window.sessionStorage.clear();"
+            );
+        } catch (WebDriverException ignored) {
+        }
     }
 
     @Override

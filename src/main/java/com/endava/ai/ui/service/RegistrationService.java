@@ -5,6 +5,7 @@ import com.endava.ai.ui.model.CustomerData;
 import com.endava.ai.ui.model.RegistrationData;
 import com.endava.ai.ui.pages.RegisterPage;
 import com.endava.ai.ui.utils.UIActions;
+import com.endava.ai.ui.utils.WaitUtils;
 
 /**
  * Services → workflows only. Must remain UI-engine agnostic.
@@ -13,6 +14,7 @@ import com.endava.ai.ui.utils.UIActions;
 public final class RegistrationService {
     public void openRegister() {
         UIActions.navigateToRelative("/auth/register");
+        WaitUtils.waitForVisible(RegisterPage.FIRST_NAME);
     }
 
     public RegistrationData registerValidUser() {
