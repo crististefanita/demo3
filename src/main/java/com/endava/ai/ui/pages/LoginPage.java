@@ -1,0 +1,12 @@
+package com.endava.ai.ui.pages;
+
+public final class LoginPage {
+
+    private LoginPage() {
+    }
+
+    public static final String EMAIL = "input[data-test='email']";
+    public static final String PASSWORD = "input[data-test='password']";
+    public static final String LOGIN_BUTTON = "input[data-test='login-submit']";
+    public static final String LOGIN_ERROR = "div[data-test='login-error']";
+}
