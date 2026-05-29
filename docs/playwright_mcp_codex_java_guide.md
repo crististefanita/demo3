@@ -10,23 +10,6 @@ For this repository, the existing ATF remains the source of truth. Use Playwrigh
 configure MCP -> verify tools -> record browser flow -> generate/refactor in existing ATF -> run -> inspect -> harden -> rerun
 ```
 
-## Table of Contents
-
-- [0. Workflow Goal](#0-workflow-goal)
-- [1. Required Tooling](#1-required-tooling)
-- [2. Configure Playwright MCP In Codex](#2-configure-playwright-mcp-in-codex)
-- [3. Verify The MCP Setup](#3-verify-the-mcp-setup)
-- [4. Create Or Open The Java Maven Project](#4-create-or-open-the-java-maven-project)
-- [5. Minimal pom.xml](#5-minimal-pomxml)
-- [6. Install Playwright Browsers](#6-install-playwright-browsers)
-- [7. Create An Initial Smoke Test](#7-create-an-initial-smoke-test)
-- [8. Record The First Real Flow With Playwright Codegen](#8-record-the-first-real-flow-with-playwright-codegen)
-- [9. What To Do With The Raw Recording](#9-what-to-do-with-the-raw-recording)
-- [10. Prompts For Codex](#10-prompts-for-codex)
-- [11. How To Run The Tests](#11-how-to-run-the-tests)
-- [12. Common Problems And Fixes](#12-common-problems-and-fixes)
-- [13. Operational Summary](#13-operational-summary)
-
 ## 0. Workflow Goal
 
 <details>

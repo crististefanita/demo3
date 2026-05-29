@@ -45,7 +45,7 @@ In other words, the most valuable outcome is a stronger `UI + API + reporting` c
 
 ## Project Model
 
-<details open>
+<details>
 <summary>Purpose And Iterative Operating Model</summary>
 
 This repository is a controlled environment for improving an existing ATF step by step.
@@ -132,7 +132,7 @@ flowchart TD
 
 ## Setup Path
 
-<details open>
+<details>
 <summary>Minimum Local And Project Setup</summary>
 
 Local prerequisites:
@@ -311,7 +311,7 @@ Typical reporting values:
 
 ## How-To Guides
 
-<details open>
+<details>
 <summary>Run Tests And View Reports</summary>
 
 Recommended progression:
@@ -448,7 +448,7 @@ When changing reporting behavior, validate the relevant self-tests under `com.en
 
 ## AI / MCP Workflow
 
-<details open>
+<details>
 <summary>Prompt Library And When To Use It</summary>
 
 Use:
