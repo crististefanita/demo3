@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>Prompt Evolution Orchestration Standard</title>
+<style>
+  :root {
+    --bg: #0b0f14;
+    --panel: #111826;
+    --text: #e6edf3;
+    --muted: #a8b3cf;
+    --border: #243044;
+    --accent: #7aa2ff;
+    --accent2: #6ee7b7;
+    --warn: #fbbf24;
+    --good: #34d399;
+    --shadow: rgba(0,0,0,.35);
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    background: radial-gradient(1200px 800px at 10% 0%, #142038 0%, var(--bg) 45%) fixed;
+    color: var(--text);
+    line-height: 1.58;
+  }
+  a { color: #9ddcff; text-decoration: underline; text-decoration-color: rgba(157,220,255,.55); text-underline-offset: 2px; }
+  a:hover { color: #d8f1ff; text-decoration-color: rgba(216,241,255,.9); }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 28px 18px 60px; }
+  header {
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(17,24,38,.88), rgba(17,24,38,.42));
+    box-shadow: 0 12px 30px var(--shadow);
+    padding: 22px 22px 18px;
+    margin-bottom: 16px;
+  }
+  h1 { margin: 0 0 6px; font-size: 27px; letter-spacing: .2px; }
+  .sub { color: var(--muted); font-size: 14px; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(15,23,36,.75);
+    color: var(--muted);
+    font-size: 12px;
+    margin-left: 8px;
+  }
+  .pill {
+    display: inline-block;
+    margin: 8px 8px 0 0;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(15,23,36,.72);
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .note, .warn, .good, .rule {
+    padding: 10px 12px;
+    border-radius: 12px;
+    margin-top: 10px;
+  }
+  .note { border-left: 3px solid var(--accent); background: rgba(122,162,255,.08); }
+  .warn { border-left: 3px solid var(--warn); background: rgba(251,191,36,.08); }
+  .good { border-left: 3px solid var(--good); background: rgba(52,211,153,.08); }
+  .rule { border-left: 3px solid var(--accent2); background: rgba(110,231,183,.08); }
+  details {
+    border: 1px solid var(--border);
+    background: rgba(17,24,38,.72);
+    border-radius: 16px;
+    padding: 10px 12px;
+    margin: 12px 0;
+    box-shadow: 0 8px 22px var(--shadow);
+  }
+  summary {
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 2px 2px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  .summary-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sumhint {
+    color: var(--muted);
+    font-weight: 400;
+    font-size: 12px;
+    margin-left: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: rgba(17,24,38,.92); }
+  ul, ol { margin: 8px 0 0 18px; }
+  li { margin: 4px 0; }
+  code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: rgba(10,15,24,.75);
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    border-radius: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Prompt Evolution Orchestration Standard <span class="badge">shared standard</span></h1>
+    <p class="sub">
+      Reusable orchestration contract for prompt-evolution workflows.
+      This file standardizes only the durable supervision shape: preserve-reset-rerun discipline, run-package integrity,
+      winner selection by evidence, promotion trust, and upstream ownership boundaries.
+      Repository-local thresholds, path roots, loop depth, execution commands, and family-specific stop policy must stay upstream.
+    </p>
+    <div>
+      <span class="pill">shared orchestration shape</span>
+      <span class="pill">run-package rigor</span>
+      <span class="pill">winner by evidence</span>
+      <span class="pill">promotion gate</span>
+      <span class="pill">upstream-governed</span>
+    </div>
+  </header>
+
+  <details open>
+    <summary>
+      <span class="summary-title">0) Standard at a glance</span>
+      <span class="badge">OPEN</span>
+      <span class="sumhint">keep visible by default</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Shared orchestration standard owns</th>
+          <th>Calling supervisor keeps local</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Preserve-reset-rerun discipline, run-package contract, failure patterns, cross-run winner logic, and promotion expectations.</td>
+          <td>Loop depth, quality targets, path roots, reset scope, comparison scope, and family-specific stop rules.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="good"><b>Goal:</b> every governed loop should preserve evidence, improve the governed prompt family when needed, reset only superseded generated output, rerun from a cleaner state, and promote the strongest run by evidence rather than chronology.</div>
+    <div class="note"><b>Use this standard when:</b> you want multiple prompt families to share one honest orchestration model instead of reinventing preserve/reset/rerun and winner selection every time.</div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">1) Purpose and adoption contract</span>
+      <span class="sumhint">what this standard is for</span>
+    </summary>
+    <ul>
+      <li>Preserve every governed run as a reviewable evidence package.</li>
+      <li>Require prompt evolution when weaknesses are traced to wording, structure, or ownership.</li>
+      <li>Reset only superseded generated output, not the kept evidence family.</li>
+      <li>Force cross-run winner selection by evidence, not chronology.</li>
+    </ul>
+    <div class="rule">Concrete supervising prompts should stay directly executable, but they should reference this file instead of cloning the generic orchestration contract inline.</div>
+    <ul>
+      <li>The execution layer should own discovery, generation, and run-local artifact production.</li>
+      <li>The supervising layer should own scoring, prompt evolution, rerun discipline, and final promotion.</li>
+      <li>Future prompt families should improve this shared contract directly when the reusable orchestration model gets better.</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">2) Mandatory orchestration contract</span>
+      <span class="sumhint">the shared loop shape</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Concern</th>
+          <th>Status</th>
+          <th>What it must accomplish</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Layer contract</td><td>MUST</td><td>Keep execution-layer ownership separate from supervising-layer ownership.</td></tr>
+        <tr><td>Per-run package</td><td>MUST</td><td>Preserve the full run package before any reset or promotion.</td></tr>
+        <tr><td>Preserve-reset-rerun sequence</td><td>MUST</td><td>Make reruns honest and explainable, not decorative.</td></tr>
+        <tr><td>Cross-run winner selection</td><td>MUST</td><td>Prevent the latest run from auto-winning.</td></tr>
+        <tr><td>Promotion and preservation rules</td><td>MUST</td><td>Let only the selected winner become canonical or exemplar material.</td></tr>
+      </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th>Run folder</th>
+          <th>Status</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>run_##/analysis</code></td><td>MUST</td><td>Run-local canonical analysis artifact and its supporting history.</td></tr>
+        <tr><td><code>run_##/review</code></td><td>MUST</td><td>Run-specific review artifact and scoring record.</td></tr>
+        <tr><td><code>run_##/prompt</code></td><td>MUST</td><td>Snapshots of the governed prompts actually used in the run.</td></tr>
+        <tr><td><code>run_##/manifests</code></td><td>MUST</td><td>Keep/reset manifests plus promotion notes.</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>A losing run still MUST remain reviewable enough to explain why it lost.</li>
+      <li>The loop MUST NOT rely on terminal output alone as the preserved memory of a run.</li>
+      <li>The latest run is not automatically the best run.</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">3) Improve, reset, rerun, and failure rules</span>
+      <span class="sumhint">how the loop stays honest</span>
+    </summary>
+    <ol>
+      <li>Review the active run package.</li>
+      <li>Identify prompt-caused weaknesses in analysis quality, reporting quality, generated output quality, or history usefulness.</li>
+      <li>Improve the relevant governed prompt or shared standard reference.</li>
+      <li>Preserve the full run package.</li>
+      <li>Reset only superseded generated output.</li>
+      <li>Rerun from a cleaner state.</li>
+      <li>Score again and compare against the best-so-far run.</li>
+    </ol>
+    <div class="warn"><b>Reset rule:</b> preserve analysis memory, review evidence, and prompt history first; revert only generated output and generated support that were superseded by the prior run.</div>
+    <div class="rule"><b>Winner rule:</b> the latest run is not automatically the winner. Promotion must explain why the selected run displaced the previous best and why the losing runs were not promoted.</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Failure mode to reject</th>
+          <th>Why it is invalid</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Prompt weakness was diagnosed, but no relevant prompt evolution happened before rerun.</td><td>The rerun is not a meaningful test of improvement.</td></tr>
+        <tr><td>The run passed validation, but the canonical analysis artifact is too thin to justify trust.</td><td>Passing validation alone does not make the package trustworthy.</td></tr>
+        <tr><td>The run improved breadth but weakened determinism or honesty.</td><td>Coverage growth does not excuse weaker trust.</td></tr>
+        <tr><td>The loop preserved artifacts, but not enough evidence to explain why a previous run lost.</td><td>Cross-run promotion becomes decorative instead of evidence-based.</td></tr>
+        <tr><td>The loop claimed a clean rerun even though reset safety allowed only a partial rollback.</td><td>The claimed rerun state is misleading.</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">4) Quality gates, promotion, and reference rules</span>
+      <span class="sumhint">what must be judged before promotion</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Gate</th>
+          <th>Expectation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Analysis quality</td><td>The run-local canonical analysis artifact must be truthful, rich, rendered correctly, and useful as a reusable artifact.</td></tr>
+        <tr><td>Reporting overall quality</td><td>The reporting family must be strong enough to support onboarding, trust, and winner selection.</td></tr>
+        <tr><td>Generated output quality</td><td>The produced generated output must be stable, meaningful, maintainable, and validated by the expected evidence model.</td></tr>
+        <tr><td>Prompt baseline quality</td><td>The governed prompt baseline must have improved if the prior run exposed prompt weakness.</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>The loop must score all gates; a run is not best merely because one gate is strong.</li>
+      <li>The winner MUST be justified by analysis quality, reporting quality, generated output quality, history usefulness, and trust honesty.</li>
+      <li>The winner MUST be promoted explicitly into canonical locations and, when useful, into reference exemplars.</li>
+      <li>Promoted reference exemplars MUST be copied only from the selected winner.</li>
+      <li>A promoted baseline MUST remain traceable back to the winning run package that justified it.</li>
+    </ul>
+    <div class="good"><b>Promotion bar:</b> a run deserves promotion only if a later reviewer can understand why it won, what it proves, what it still defers, and which evidence package justified it without reconstructing the decision from chat or terminal logs.</div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">5) Upstream ownership and consistency gate</span>
+      <span class="sumhint">keep thresholds out of the standard</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Ownership rule</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>The standard defines loop behavior, run-package shape, failure patterns, and promotion rules.</td><td>Use this file to declare what the workflow must preserve, compare, and justify.</td></tr>
+        <tr><td>The calling supervisor defines numeric targets, loop depth, path roots, and reset scope.</td><td>Use upstream documents to decide how strict the governed family should be.</td></tr>
+        <tr><td>The kept review artifacts may display thresholds or targets.</td><td>Those values should come from the governing prompt family, not from this shared standard.</td></tr>
+      </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th>Reusable upstream concept</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>QUALITY_TARGETS</code></td><td>Upstream-owned target set for analysis quality, reporting overall quality, generated output quality, and optional prompt-baseline quality.</td></tr>
+        <tr><td><code>META_ITERATION_COUNT</code></td><td>Upstream-owned limit for how many governed reruns may be attempted before an under-target stop can be accepted.</td></tr>
+        <tr><td><code>RUN_ARCHIVE_ROOT</code></td><td>Upstream-owned root where preserved run packages are kept for audit and cross-run comparison.</td></tr>
+        <tr><td><code>PROMOTED_BASELINE_ROOT</code></td><td>Upstream-owned root where only selected winning artifacts are copied for long-term reuse.</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>Parameter rule:</b> keep the shared standard intentionally small. Reusable parameter groups are enough; numeric thresholds, formulas, exact naming patterns, and family-specific stop severity stay upstream.</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Using prompt consistency check</th>
+          <th>Expected state</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Overview alignment with this orchestration contract</td><td>Required</td><td>The prompt overview should explain the loop clearly without cloning the whole contract inline.</td></tr>
+        <tr><td>Local-vs-generic separation</td><td>Required</td><td>Only reusable loop rules belong here; workflow-local thresholds, roots, and stop rules stay upstream.</td></tr>
+        <tr><td>Cross-file consistency</td><td>Required</td><td>The execution and supervising prompts should agree on run folders, promotion logic, and delegated ownership.</td></tr>
+      </tbody>
+    </table>
+  </details>
+</div>
+</body>
+</html>

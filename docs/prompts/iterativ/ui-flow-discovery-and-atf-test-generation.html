@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>UI Flow Discovery And ATF Test Generation - Local Execution Prompt</title>
+<style>
+  :root {
+    --bg: #0b0f14;
+    --panel: #121a27;
+    --text: #e6edf3;
+    --muted: #a8b3cf;
+    --border: #273449;
+    --accent: #7aa2ff;
+    --accent2: #6ee7b7;
+    --warn: #fbbf24;
+    --good: #34d399;
+    --shadow: rgba(0,0,0,.35);
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    background: radial-gradient(1200px 800px at 12% 0%, #17253f 0%, var(--bg) 45%) fixed;
+    color: var(--text);
+    line-height: 1.58;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 28px 18px 60px; }
+  header {
+    background: linear-gradient(180deg, rgba(18,26,39,.9), rgba(18,26,39,.46));
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 30px var(--shadow);
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  h1 { margin: 0 0 6px; font-size: 27px; letter-spacing: .2px; }
+  h2 { margin: 0 0 10px; font-size: 19px; }
+  h3 { margin: 0 0 8px; font-size: 16px; color: var(--accent); }
+  h4 { margin: 10px 0 6px; font-size: 14px; }
+  p { margin: 8px 0; }
+  .sub { color: var(--muted); font-size: 13.5px; line-height: 1.45; max-width: 980px; }
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(15,23,36,.75);
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: 8px;
+  }
+  .pill {
+    display: inline-block;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(15,23,36,.7);
+    color: var(--muted);
+    margin-right: 6px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .docmap {
+    display: grid;
+    grid-template-columns: minmax(220px, .42fr) minmax(0, 1fr);
+    gap: 8px 14px;
+    margin-top: 6px;
+    font-size: 13.5px;
+    align-items: start;
+  }
+  .docmap b {
+    color: var(--text);
+    overflow-wrap: anywhere;
+    line-height: 1.35;
+  }
+  .docmap span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    line-height: 1.45;
+  }
+  @media (max-width: 980px) {
+    .grid, .split, .docmap { grid-template-columns: 1fr; }
+  }
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: rgba(18,26,39,.82);
+    box-shadow: 0 10px 26px var(--shadow);
+    padding: 15px;
+  }
+  .card h2 { margin-top: 0; }
+  code.inline {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: rgba(10,15,24,.75);
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    border-radius: 8px;
+  }
+  pre {
+    background: rgba(10,15,24,.88);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px;
+    overflow: auto;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
+    margin: 10px 0 0;
+  }
+  pre code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: #dbe7ff;
+    white-space: pre;
+  }
+  .note {
+    border-left: 3px solid var(--accent);
+    padding: 10px 12px;
+    background: rgba(122,162,255,.08);
+    border-radius: 12px;
+  }
+  .warn {
+    border-left: 3px solid var(--warn);
+    padding: 10px 12px;
+    background: rgba(251,191,36,.08);
+    border-radius: 12px;
+  }
+  .rule {
+    border-left: 3px solid var(--accent2);
+    padding: 10px 12px;
+    background: rgba(110,231,183,.08);
+    border-radius: 12px;
+    margin: 10px 0;
+  }
+  details {
+    border: 1px solid var(--border);
+    background: rgba(18,26,39,.72);
+    border-radius: 16px;
+    padding: 10px 12px;
+    margin: 12px 0;
+    box-shadow: 0 8px 22px var(--shadow);
+  }
+  summary {
+    cursor: pointer;
+    list-style: none;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 2px 2px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  .summary-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sumhint {
+    color: var(--muted);
+    font-weight: 400;
+    font-size: 12px;
+    margin-left: auto;
+  }
+  ul, ol { margin: 6px 0 8px 20px; }
+  li { margin: 4px 0; }
+  hr.sep { border: 0; border-top: 1px solid var(--border); margin: 16px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    vertical-align: top;
+    text-align: left;
+  }
+  th { background: rgba(17,24,38,.92); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>UI Flow Discovery And ATF Test Generation <span class="badge">local execution prompt</span></h1>
+<div class="sub">
+  Convert <code class="inline">SEED_RECORDING_CLASS</code> into maintainable ATF UI tests through live discovery, validation, shared-layer hardening, and local evidence.
+</div>
+</header>
+
+<div class="grid">
+<div class="card">
+<h2>1) Approach</h2>
+
+<details open>
+<summary>
+  <span class="summary-title">1.0 Execution Map</span>
+  <span class="badge">OPEN</span>
+</summary>
+<div class="docmap">
+  <b>Local prompt produces</b><span>Discovery, ATF tests, hardening, validation, scores, and run evidence.</span>
+  <b>Shared inputs</b><span><code class="inline">REPORTING_STANDARD_PATH</code>, <code class="inline">ORCHESTRATION_STANDARD_PATH</code>, and <code class="inline">LIVING_ARCHITECTURE_DOC_PATH</code>.</span>
+  <b>Boundary</b><span>Reusable contracts stay in standards; run-specific proof and implementation decisions stay here.</span>
+</div>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">1.1 Operating Principles</span>
+  <span class="badge">CORE</span>
+</summary>
+<ul>
+  <li><span class="pill">DISCOVERY</span> understand live business behavior before shaping tests.</li>
+  <li><span class="pill">UI</span> generate business-readable ATF tests and harden shared support only where the run proves reusable weakness.</li>
+  <li><span class="pill">HTML</span> keep local evidence aligned with what the ATF package actually proves.</li>
+  <li><span class="pill">QUALITY</span> validate, score, and avoid coverage claims beyond observed behavior.</li>
+</ul>
+<div class="rule">
+  <code class="inline">SEED_RECORDING_CLASS</code> is the first clue, not the suite design or coverage boundary.
+</div>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">1.2 Product Truth Rules</span>
+  <span class="badge">CORE</span>
+</summary>
+<ol>
+  <li>Live observable UI behavior wins over recorder artifacts, assumptions, and style preferences.</li>
+  <li>Business domains, actor states, and journeys must be discovered, not hardcoded from examples.</li>
+  <li>ATF tests are the primary generated product; the HTML family is evidence and memory.</li>
+</ol>
+<div class="warn">
+  Never let a prior assumption, recorder sequence, or framework inventory become the product model.
+</div>
+</details>
+
+</div>
+
+<div class="card">
+<h2>Local Configuration</h2>
+<div class="note">
+  Keep only values that change this execution.
+</div>
+<details>
+<summary>
+  <span class="summary-title">Execution Constants</span>
+  <span class="badge">CORE</span>
+  <span class="sumhint">single source of truth</span>
+</summary>
+<pre><code>EXECUTION_ITERATION_COUNT = 10
+EXECUTION_OVERALL_QUALITY_TARGET = 9.99
+
+SEED_RECORDING_CLASS = src/test/java/com/endava/ai/ui/tests/Example.java
+TARGET_TEST_PACKAGE = com.endava.ai.ui.tests
+UI_TEST_ROOT = src/test/java/com/endava/ai/ui/tests
+UI_SUPPORT_ROOT = src/main/java/com/endava/ai/ui
+
+LIVING_ARCHITECTURE_DOC_PATH = docs/Living_Architecture_UI_API_doc_v1_0.html
+REPORTING_STANDARD_PATH = docs/prompts/iterativ/langgraph-business-understanding-reporting-standard.html
+ORCHESTRATION_STANDARD_PATH = docs/prompts/iterativ/prompt-evolution-orchestration-standard.html
+
+CANONICAL_HTML = docs/analysis/langgraph-business-understanding.html
+ANALYSIS_MILESTONE_PREFIX = docs/analysis/history/langgraph-business-understanding_it</code></pre>
+<div class="warn">
+  <b>Critical execution rule:</b> hitting <code class="inline">EXECUTION_OVERALL_QUALITY_TARGET</code> early does not authorize stopping.
+  Continue through <code class="inline">EXECUTION_ITERATION_COUNT</code> unless the remaining work is explicitly blocked, unsafe,
+  low-value, or would require architectural drift.
+</div>
+<div class="note">
+  Default output belongs in <code class="inline">TARGET_TEST_PACKAGE</code>. Any safer repo-fit exception must be justified in <code class="inline">CANONICAL_HTML</code>.
+</div>
+</details>
+</div>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>2) Discovery And Implementation Rules</h2>
+
+<details>
+<summary>
+  <span class="summary-title">2.1 Business-First Discovery</span>
+  <span class="badge">DISCOVERY</span>
+</summary>
+<h4>Primary questions</h4>
+<ul>
+  <li>What capabilities, journeys, actor states, and transitions does the application expose?</li>
+  <li>Which flows are covered, partial, deferred, blocked, or still undiscovered?</li>
+</ul>
+<h4>Required behavior</h4>
+<ul>
+  <li><b>MUST</b> inspect <code class="inline">SEED_RECORDING_CLASS</code> first.</li>
+  <li><b>MUST</b> inspect existing tests under <code class="inline">UI_TEST_ROOT</code> and reusable support under <code class="inline">UI_SUPPORT_ROOT</code>.</li>
+  <li><b>MUST</b> inspect live routes, menus, hyperlinks, forms, validations, protected areas, and state transitions whenever confidence is not high enough.</li>
+  <li><b>MUST</b> attempt meaningful accessible internal links and classify skipped links as duplicate, blocked, external, deferred, or low-value.</li>
+  <li><b>MUST</b> treat separate environments, examples, external docs, and third-party destinations as distinct variants, not baseline coverage.</li>
+  <li><b>MUST</b> treat <code class="inline">LIVING_ARCHITECTURE_DOC_PATH</code> as implementation guidance only, never as behavioral truth.</li>
+  <li><b>MUST NOT</b> let page objects or support packages become the product model.</li>
+</ul>
+<table>
+  <thead>
+    <tr>
+      <th>Discovery layer</th>
+      <th>Expected evidence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Route frontier</td><td>Observed URLs, guarded routes, redirects, overlays, in-page states, and blocked routes.</td></tr>
+    <tr><td>Hyperlink frontier</td><td>Meaningful internal links attempted or classified with a reason.</td></tr>
+    <tr><td>Actor state frontier</td><td>Only states discovered from UI evidence.</td></tr>
+    <tr><td>Capability frontier</td><td>Business capabilities described in product language, not page-object language.</td></tr>
+    <tr><td>Invariant frontier</td><td>Stable assertions that remain true across reruns and are safe to automate.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.2 Seed Conversion Discipline</span>
+  <span class="badge">UI</span>
+</summary>
+<ul>
+  <li><b>MUST</b> treat the seed as a recorder artifact and initial evidence set.</li>
+  <li><b>MUST</b> decompose it into routes, forms, validations, actor transitions, and business goals.</li>
+  <li><b>MUST</b> remove recorder noise and split the seed into focused business tests.</li>
+  <li><b>MUST</b> generate resulting business tests under <code class="inline">TARGET_TEST_PACKAGE</code> by default.</li>
+  <li><b>MAY</b> override the default only with concrete repo-fit evidence.</li>
+  <li><b>MUST NOT</b> preserve giant replay tests, recorder naming, redundant clicks, or selector noise.</li>
+  <li><b>MUST</b> document how meaningful iterations changed understanding from seed clue to ATF outcome.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.3 ATF Ownership And Shared-Layer Hardening</span>
+  <span class="badge">UI</span>
+</summary>
+<ul>
+  <li><b>MUST</b> create or update business tests under <code class="inline">UI_TEST_ROOT</code>.</li>
+  <li><b>MUST</b> create or update reusable support under <code class="inline">UI_SUPPORT_ROOT</code>.</li>
+  <li><b>MUST</b> preserve Playwright, Selenium, Extent, Allure, screenshot, and lifecycle compatibility.</li>
+  <li><b>MUST</b> fix shared weaknesses where they belong: waits, route helpers, navigation helpers, menu helpers, validations.</li>
+  <li><b>MUST</b> harden deterministic session setup when user, cart, account, or comparable state can leak between tests.</li>
+  <li><b>MUST NOT</b> invent a framework-v2 abstraction layer or duplicate reporting/screenshot systems.</li>
+  <li><b>MUST NOT</b> solve a shared weakness by scattering the same workaround across many tests.</li>
+</ul>
+<div class="rule">
+  Use the smallest safe improvement, but prefer shared repairs once a weakness is clearly reusable.
+</div>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.3.1 Business-Oriented Test Organization</span>
+  <span class="badge">UI</span>
+</summary>
+<ul>
+  <li><b>MUST</b> organize generated tests around discovered business domains and journeys, not recorder order.</li>
+  <li><b>MUST</b> use focused class names that communicate user intent, state, and capability.</li>
+  <li><b>MUST</b> split positive, negative, boundary, and recovery coverage when combining them would hide intent.</li>
+  <li><b>MUST</b> keep page objects, services, validators, and fixtures as support layers.</li>
+  <li><b>MUST</b> avoid hardcoded domain examples unless the live application actually exposes those domains.</li>
+</ul>
+<div class="note">
+  Good organization should let a new engineer infer the business journey from the test package and class names before reading the implementation.
+</div>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.4 Locator, Wait, And Determinism Rules</span>
+  <span class="badge">UI</span>
+</summary>
+<h4>Preferred locator order</h4>
+<ol>
+  <li><code class="inline">data-test</code></li>
+  <li>accessible label</li>
+  <li>role</li>
+  <li>placeholder</li>
+  <li>stable visible text</li>
+  <li>stable CSS</li>
+  <li>XPath only as a last resort</li>
+</ol>
+<ul>
+  <li><b>MUST</b> prefer business-visible waits over passive waiting.</li>
+  <li><b>MUST</b> keep tests rerunnable and isolated.</li>
+  <li><b>MUST</b> investigate whether instability belongs to the product, the ATF helper layer, or test design.</li>
+  <li><b>MUST NOT</b> use sleeps, arbitrary retries, brittle nth-child selectors, or catch-and-ignore logic that hides flakiness.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.5 Honest Contract Rules</span>
+  <span class="badge">DISCOVERY</span>
+</summary>
+<ul>
+  <li><b>MUST</b> automate only behavior the UI actually exposes.</li>
+  <li><b>MUST</b> assert only outcomes, messages, states, and transitions that are truly observable.</li>
+  <li>If the UI exposes only the start of a flow, test the visible entry point honestly.</li>
+  <li>If a route settles correctly before a full load event, harden the route or wait helper instead of rejecting a valid flow.</li>
+  <li>If a discovered experience is rendered as an overlay, split-screen guide, or in-page workflow instead of a route change, assert the overlay-specific text, step state, and controls instead of forcing URL-based assertions.</li>
+  <li>If visible UI discovery leads to a route that is more stable to revisit directly in ATF, it is acceptable to validate that route directly after the initial discovery path has already been proven and documented.</li>
+  <li><b>MUST NOT</b> overclaim invisible, unsupported, or speculative behavior.</li>
+</ul>
+</details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>3) Run Evidence HTML</h2>
+<div class="note">
+  This section defines only the run-specific evidence this prompt must produce.
+</div>
+
+<details>
+<summary>
+  <span class="summary-title">3.1 Local Evidence Contract</span>
+  <span class="badge">HTML</span>
+</summary>
+<ul>
+  <li><b>MUST</b> create or update <code class="inline">CANONICAL_HTML</code> after meaningful discovery, implementation, validation, or scoring changes.</li>
+  <li><b>MUST</b> save <code class="inline">ANALYSIS_MILESTONE_PREFIX*</code> only when understanding, coverage interpretation, ATF trust, or next priorities materially changed.</li>
+  <li><b>MUST</b> keep the HTML family business-first and tied to generated ATF trust.</li>
+  <li><b>MUST NOT</b> restate generic reporting, milestone, render, or promotion contracts here.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">3.2 Business Flow Inventory</span>
+  <span class="badge">HTML</span>
+</summary>
+<ul>
+  <li><b>MUST</b> capture business domains and capabilities only when evidence exists.</li>
+  <li><b>MUST</b> capture actor states, allowed transitions, blocked transitions, and guarded transitions.</li>
+  <li><b>MUST</b> capture route and hyperlink discovery, including explored, duplicate, external, blocked, deferred, and covered links.</li>
+  <li><b>MUST</b> maintain a business flow inventory with actor, entry point, trigger, preconditions, happy path, alternative paths, negative paths, postconditions, observable assertions, automation status, and confidence.</li>
+  <li><b>MUST</b> keep stable invariants separate from tentative assumptions.</li>
+  <li><b>MUST</b> show which ATF tests prove each covered or partially covered flow.</li>
+</ul>
+<pre><code>| Flow | Actor | Entry point | Trigger | Preconditions | Happy path | Alternatives | Negative paths | Postconditions | Observable assertions | ATF coverage | Confidence |
+|---|---|---|---|---|---|---|---|---|---|---|---:|</code></pre>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">3.3 Coverage And ATF Mapping</span>
+  <span class="badge">HTML</span>
+</summary>
+<ul>
+  <li><b>MUST</b> map business capabilities and journeys before mapping test classes.</li>
+  <li><b>MUST</b> keep automation status, confidence, and ATF quality visible.</li>
+  <li><b>MUST</b> map each covered or partial flow to the generated package, class, and test count.</li>
+  <li><b>MUST</b> use explicit statuses such as Covered, Partially Covered, Discovered But Untested, Blocked, and Deferred.</li>
+</ul>
+<pre><code>Business Flow -&gt; Test Package -&gt; Test Class -&gt; Test Count</code></pre>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">3.4 Confidence And Snapshot Decision</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<ul>
+  <li><b>MUST</b> distinguish observed behavior from inferred behavior.</li>
+  <li><b>MUST</b> label tentative areas explicitly when evidence is weak or indirect.</li>
+  <li><b>MUST</b> keep the seed-to-business-to-ATF path readable.</li>
+  <li><b>MUST</b> preserve a hyperlink ledger and separate duplicates from new flows.</li>
+  <li><b>MUST</b> show which assumptions were promoted, corrected, deferred, or superseded.</li>
+  <li><b>MUST NOT</b> silently upgrade a flow from deferred or tentative to covered without new proof.</li>
+  <li><b>MUST</b> save standalone milestones only when they are rich enough to teach what changed and why.</li>
+  <li><b>MUST NOT</b> create thin milestone files for cosmetic or implementation-only changes.</li>
+</ul>
+<pre><code>| Iteration | Discovery / changed understanding | Tests added or updated | Support added or hardened | Validation evidence | Score delta |
+|---|---|---|---|---|---:|</code></pre>
+</details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>4) Iteration Loop</h2>
+
+<details>
+<summary>
+  <span class="summary-title">4.1 Mandatory Loop</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<pre><code>discovery -&gt; business_flow_extraction -&gt; invariant_detection -&gt; coverage_analysis -&gt;
+implementation -&gt; validation -&gt; reassessment -&gt; HTML update -&gt;
+milestone save decision -&gt; score update -&gt; next iteration</code></pre>
+<div class="rule">
+  An iteration is complete only after implementation, validation, reassessment, HTML update, milestone decision, and score update.
+</div>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.2 No Premature Stop Rule</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<ul>
+  <li><b>MUST</b> plan to execute all <code class="inline">EXECUTION_ITERATION_COUNT</code>.</li>
+  <li><b>MUST</b> continue even if a narrow suite passes or the score crosses <code class="inline">EXECUTION_OVERALL_QUALITY_TARGET</code> early.</li>
+  <li><b>MUST</b> use later iterations to deepen coverage, challenge assumptions, and revisit valuable deferred areas.</li>
+  <li><b>MAY</b> stop early only if the remaining work is blocked, unsafe, low-value, or would require architectural drift.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.3 Evidence Package Per Iteration</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<ul>
+  <li><b>MUST</b> record what changed in the business model.</li>
+  <li><b>MUST</b> record what changed in tests or shared support.</li>
+  <li><b>MUST</b> record validation evidence and what it proved.</li>
+  <li><b>MUST</b> record whether a milestone HTML was saved and why.</li>
+  <li><b>MUST</b> record the next highest-value safe improvement candidate.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.4 Coverage Prioritization</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<ul>
+  <li><b>MUST</b> prioritize high-signal user journeys before shallow page pokes.</li>
+  <li><b>MUST</b> prioritize stable observable contracts before speculative edge cases.</li>
+  <li><b>MUST</b> prefer one honest product slice plus reusable hardening over many brittle shallow checks.</li>
+  <li><b>MUST</b> derive coverage from discovered behavior, not assumptions about what a typical app should contain.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.4.1 Coverage Dimensions</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<ul>
+  <li><b>Positive:</b> stable happy paths that prove real business value.</li>
+  <li><b>Negative:</b> visible validation, blocked transitions, rejected inputs, and guarded areas.</li>
+  <li><b>Boundary:</b> deterministic limits or messages exposed by the UI.</li>
+  <li><b>Navigation/state:</b> route transitions, CTAs, accessible links, overlays, actor transitions, and blocked states.</li>
+  <li><b>Regression:</b> high-value journeys and reusable framework contracts discovered during the run.</li>
+</ul>
+</details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>5) Implementation Workflow</h2>
+
+<details>
+<summary>
+  <span class="summary-title">5.1 Convert The Seed Flow</span>
+  <span class="badge">UI</span>
+</summary>
+<ol>
+  <li>inspect the recorded actions</li>
+  <li>identify the real business journey</li>
+  <li>remove recorder noise</li>
+  <li>identify pages, actions, outcomes, and reusable steps</li>
+  <li>identify missing support or weak support in the ATF</li>
+  <li>split the journey into focused tests</li>
+  <li>place the resulting tests under <code class="inline">TARGET_TEST_PACKAGE</code></li>
+</ol>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">5.2 Discover Around The Seed</span>
+  <span class="badge">DISCOVERY</span>
+</summary>
+<ol>
+  <li>flows directly implied by the seed</li>
+  <li>adjacent flows sharing routes, menus, or actor transitions</li>
+  <li>guarded or conditional behavior the application visibly exposes</li>
+  <li>visible navigation, progressive disclosure, internal hyperlinks, and menu entries</li>
+  <li>recovery, fallback, cancellation, retry, or alternative-path entry points when actually present</li>
+  <li>detail, edit, search, filter, confirm, or submit flows only if they expose a clear observable contract</li>
+</ol>
+<div class="rule">
+  Treat hyperlink discovery as safe exhaustion: cover, defer with reason, mark blocked, or prove duplicate.
+</div>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">5.3 Test Data And Isolation</span>
+  <span class="badge">UI</span>
+</summary>
+<ul>
+  <li><b>MUST</b> generate unique or collision-safe data where uniqueness matters.</li>
+  <li><b>MUST</b> use isolated, rerunnable data.</li>
+  <li><b>MUST NOT</b> couple tests by execution order.</li>
+  <li>If the application does not support cleanup, design data to avoid collisions instead of hiding the problem.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">5.4 Engine And Reporting Validation</span>
+  <span class="badge">UI</span>
+</summary>
+<ul>
+  <li><b>MUST</b> preserve Playwright, Selenium, Extent, and Allure compatibility when those paths are maintained by the repo.</li>
+  <li><b>MUST</b> validate the narrowest useful engine and reporting path first, then broaden when confidence increases.</li>
+  <li><b>MUST NOT</b> treat compile-only validation as sufficient.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">5.5 Source-To-Artifact Traceability</span>
+  <span class="badge">TRACE</span>
+</summary>
+<ul>
+  <li><b>MUST</b> preserve a readable chain from <code class="inline">SEED_RECORDING_CLASS</code> to discovered behavior, generated test, support change, validation command, and HTML evidence.</li>
+  <li><b>MUST</b> mark whether a test was seed-derived, live-discovered, regression-hardening-driven, or support-layer-hardening-driven.</li>
+  <li><b>MUST</b> record when a test mainly protects framework behavior exposed during discovery.</li>
+  <li><b>MUST NOT</b> leave a generated test without a visible business reason or framework-hardening reason.</li>
+</ul>
+</details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>6) Validation And Close-Out</h2>
+
+<details>
+<summary>
+  <span class="summary-title">6.1 Functional Reassessment</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<ul>
+  <li><b>MUST</b> reassess business understanding, route discovery, hyperlink discovery, actor-state discovery, invariant quality, seed conversion, coverage, maintainability, and generated ATF test-result quality.</li>
+  <li><b>MUST</b> reassess positive, negative, boundary, navigation, state, recovery, and fallback coverage when the live UI exposes those dimensions.</li>
+  <li><b>MUST</b> report reporting, screenshot, engine, and AI/MCP readiness only as confidence signals.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">6.2 Maven Validation Expectations</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<ul>
+  <li><b>MUST</b> run the narrowest useful Maven validation first.</li>
+  <li><b>MUST</b> broaden validation once narrow runs are green.</li>
+  <li><b>MUST</b> report all Maven commands actually run.</li>
+  <li><b>MUST</b> report command, scope, failure if any, root cause, fix applied, and final result.</li>
+  <li><b>MUST NOT</b> hide failing runs that led to a useful fix.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">6.3 Finalization Guard</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<ul>
+  <li><b>MUST NOT</b> claim completion merely because code compiles, one suite passed, or the recorded flow replayed successfully.</li>
+  <li>Completion requires passing validation.</li>
+  <li>Completion also requires no remaining obvious safe iterative improvements in scope, or a clearly documented reason why they were not pursued.</li>
+  <li><b>MUST</b> state clearly whether full iteration depth was completed and whether the score target was achieved.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">6.4 Final Report And Scoring</span>
+  <span class="badge">CORE</span>
+</summary>
+<ul>
+  <li><b>MUST</b> state business discoveries, generated or updated ATF tests, shared support hardening, validation evidence, HTML artifacts updated, remaining partial/deferred/blocked areas, and the next safe iteration.</li>
+  <li><b>MUST</b> be explicit about anything not verified and avoid claiming coverage beyond observed product behavior.</li>
+</ul>
+<pre><code>| Area | What was verified | Score | Risk / Note |
+|---|---|---:|---|</code></pre>
+<ul>
+  <li><b>MUST</b> include at least business understanding, route discovery, hyperlink discovery, actor-state discovery, invariant quality, seed conversion quality, discovered flow coverage, generated ATF test-result quality, maintainability, reporting confidence, screenshot confidence, AI/MCP readiness, and <code class="inline">overall_score</code>.</li>
+  <li><b>MAY</b> add domain-specific rows when relevant to the actual application under test.</li>
+</ul>
+</details>
+</div>
+
+</div>
+</body>
+</html>

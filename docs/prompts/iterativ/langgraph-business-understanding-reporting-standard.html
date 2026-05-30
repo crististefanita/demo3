@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LangGraph Business Understanding Reporting Standard</title>
+<style>
+  :root {
+    --bg:#0b0f14; --panel:#121a27; --text:#e6edf3; --muted:#a8b3cf; --line:#273449;
+    --accent:#7aa2ff; --accent2:#6ee7b7; --good:#39d98a; --warn:#fbbf24;
+    --sans:"Segoe UI",Arial,sans-serif; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  body{margin:0;background:radial-gradient(1200px 800px at 12% 0%,#17253f 0%,var(--bg) 45%);color:var(--text);font:14px/1.6 var(--sans)}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 18px 60px}
+  header,details{background:rgba(18,26,39,.9);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 28px rgba(0,0,0,.28)}
+  header{padding:18px;margin-bottom:14px} details{padding:10px 12px;margin:12px 0}
+  summary{cursor:pointer;font-weight:700}
+  h1,h2,h3{margin:0 0 10px} h1{font-size:28px} h2{font-size:19px} h3{font-size:16px;color:var(--accent)}
+  .sub{color:var(--muted)}
+  .pill,.badge{display:inline-block;padding:4px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted);background:rgba(11,15,20,.65);font-size:12px}
+  .pill{margin:0 8px 8px 0}
+  .badge{margin-left:8px}
+  .good,.warn,.rule,.note{padding:10px 12px;border-radius:12px;margin-top:10px}
+  .good{border-left:3px solid var(--good);background:rgba(57,217,138,.08)}
+  .warn{border-left:3px solid var(--warn);background:rgba(251,191,36,.08)}
+  .rule{border-left:3px solid var(--accent2);background:rgba(110,231,183,.08)}
+  .note{border-left:3px solid var(--accent);background:rgba(122,162,255,.08)}
+  table{width:100%;border-collapse:collapse;margin-top:10px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:rgba(15,23,35,.92)}
+  code{font-family:var(--mono);font-size:12.5px;background:rgba(9,13,19,.92);border:1px solid var(--line);padding:2px 6px;border-radius:8px}
+  ul{margin:8px 0 0 18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>LangGraph Business Understanding Reporting Standard <span class="badge">shared standard</span></h1>
+    <p class="sub">
+      Reusable reporting contract for the <code>langgraph-business-understanding.html</code> family.
+      This file standardizes only the durable reporting shape: business-memory structure, rendered-diagram trust,
+      milestone usefulness, ATF-confidence visibility, and cross-run promotion evidence.
+      Product-local thresholds, paths, frontier choices, and execution logic must stay upstream.
+    </p>
+    <div>
+      <span class="pill">business-first reporting</span>
+      <span class="pill">ATF trust visibility</span>
+      <span class="pill">rendered diagrams</span>
+      <span class="pill">cross-run evidence</span>
+      <span class="pill">single upstream target</span>
+    </div>
+  </header>
+
+  <details open>
+    <summary>1) Purpose and ownership</summary>
+    <div class="good"><b>Goal:</b> every kept analysis family must explain the product, show what the generated ATF package truly proves, preserve how understanding evolved, and justify why the promoted baseline deserves trust.</div>
+    <div class="warn"><b>Anti-pattern:</b> a thin status page with a few scores and sections but without rendered diagrams, frontier truth, cross-run judgment, or visible ATF-quality evidence.</div>
+    <table>
+      <thead><tr><th>This standard owns</th><th>Calling prompt keeps local</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Canonical section shape, milestone contract, diagram/render rules, scoreboard dimensions, history usefulness, and promotion trust rules.</td>
+          <td>Business scope, route frontier, local score targets, run roots, validation matrix, commands, package names, and environment-specific interpretation.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note"><b>Intent:</b> standardize the reporting contract, not the execution strategy.</div>
+  </details>
+
+  <details>
+    <summary>2) Canonical HTML contract</summary>
+    <table>
+      <thead><tr><th>Section</th><th>Status</th><th>What it must accomplish</th></tr></thead>
+      <tbody>
+        <tr><td>Executive Summary</td><td>MUST</td><td>Frame the product, current winner, trust level, and remaining frontier in plain business language.</td></tr>
+        <tr><td>Current Baseline Decision</td><td>MUST</td><td>State which run is kept and why it displaced the prior best.</td></tr>
+        <tr><td>Run Identity And Current Scoreboard</td><td>MUST</td><td>Show analysis quality, generated ATF quality, reporting overall quality, and overall score early and clearly.</td></tr>
+        <tr><td>Business Domain Graph</td><td>MUST</td><td>Model the application as a business system, not as a test inventory.</td></tr>
+        <tr><td>Actor State Graph</td><td>MUST</td><td>Expose state transitions, protected states, and blocked or guarded edges.</td></tr>
+        <tr><td>Business Flow Graph</td><td>MUST</td><td>Map major journeys, entry points, goals, and completion logic in business terms.</td></tr>
+        <tr><td>Accessible Hyperlink Exploration Ledger</td><td>MUST</td><td>Keep the visible navigation frontier explicit, searchable, and honest.</td></tr>
+        <tr><td>Business Flow Inventory</td><td>MUST</td><td>Track covered, partial, deferred, blocked, variant, and excluded journeys cleanly.</td></tr>
+        <tr><td>Coverage Overlay</td><td>MUST</td><td>Keep covered, partial, discovered-but-untested, blocked, and deferred states honest.</td></tr>
+        <tr><td>Generated ATF Test-Result Quality Scoreboard</td><td>MUST</td><td>Treat ATF trust as a first-class concern inside the analysis artifact itself.</td></tr>
+        <tr><td>Reporting Overall Quality</td><td>MUST</td><td>Expose one explicit overall quality judgment for the reporting family itself, backed by a visible breakdown.</td></tr>
+        <tr><td>Cross-Run Comparison</td><td>MUST</td><td>Prevent latest-run bias and explain promotion by evidence.</td></tr>
+        <tr><td>HTML History Index</td><td>MUST</td><td>Make every milestone explorable and worth revisiting.</td></tr>
+        <tr><td>Iteration History And Score Evolution</td><td>MUST</td><td>Show how business understanding and trust changed over time.</td></tr>
+        <tr><td>Deferred Frontier / Recommended Next Iteration</td><td>MUST</td><td>Keep future work concrete, bounded, and honest.</td></tr>
+        <tr><td>Render Verification Status</td><td>MUST</td><td>Confirm that the final HTML renders cleanly and the diagrams are visible.</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details>
+    <summary>3) Milestone contract</summary>
+    <div class="rule">Milestones must read like rich case notes. They are not numbered breadcrumbs and they are not trimmed copies of the canonical page.</div>
+    <table>
+      <thead><tr><th>Field</th><th>Expectation</th></tr></thead>
+      <tbody>
+        <tr><td>Milestone theme</td><td>One real shift in business understanding, frontier truth, stability, trust, or prompt quality.</td></tr>
+        <tr><td>Delta</td><td>What changed since the previous kept state.</td></tr>
+        <tr><td>Observed pressure</td><td>What weakness, ambiguity, or failure triggered the iteration.</td></tr>
+        <tr><td>Fix or decision</td><td>What changed in prompt, code, or interpretation.</td></tr>
+        <tr><td>Score snapshot</td><td>Analysis quality, generated ATF quality, prompt quality, and reporting overall quality at that milestone.</td></tr>
+        <tr><td>Next frontier</td><td>What should be attempted next if the loop continues.</td></tr>
+      </tbody>
+    </table>
+    <div class="warn"><b>Hard failure:</b> milestone families made of near-identical “still green” pages or snapshots that repeat the final winner without adding new learning.</div>
+  </details>
+
+  <details>
+    <summary>4) Diagram and render contract</summary>
+    <div class="rule"><b>Preferred baseline:</b> static inline SVG diagrams, because they do not rely on runtime Mermaid rendering and remain stable across local file open, simple static hosting, and artifact promotion.</div>
+    <ul>
+      <li>Diagrams MUST render without external dependencies.</li>
+      <li>Diagrams MUST remain readable on local file open and simple static hosting.</li>
+      <li>If a source format is kept for editing, the rendered SVG still MUST be present in the final HTML.</li>
+      <li>Raw diagram source MUST NOT be the final user-facing output.</li>
+      <li>Every canonical HTML MUST include a readable business domain graph, actor-state graph, and flow graph.</li>
+      <li>Dense diagrams MUST be backed by ledgers or inventories that make them teachable.</li>
+      <li>Render verification is mandatory before promotion.</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>5) Scoreboard and trust rules</summary>
+    <table>
+      <thead><tr><th>Dimension</th><th>Expectation</th></tr></thead>
+      <tbody>
+        <tr><td>business-first clarity</td><td>The artifact teaches the product before it teaches the framework.</td></tr>
+        <tr><td>canonical section completeness</td><td>The mandatory sections are present and useful, not nominal only.</td></tr>
+        <tr><td>milestone distinctness</td><td>The history snapshots capture real shifts, not repetitive confirmations.</td></tr>
+        <tr><td>render and diagram quality</td><td>The visual layer renders correctly and helps comprehension.</td></tr>
+        <tr><td>ATF trust linkage</td><td>The artifact explains clearly what the generated ATF package really proves.</td></tr>
+        <tr><td>cross-run explainability</td><td>The winner decision is explicit, comparable, and evidence-based.</td></tr>
+        <tr><td>history usefulness</td><td>The milestone family is worth revisiting, not just archiving.</td></tr>
+        <tr><td>onboarding value</td><td>A new engineer can understand scope, trust, and next frontier quickly.</td></tr>
+        <tr><td>reporting overall quality</td><td>The combined quality of the reporting package as a reusable business-understanding artifact.</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>ATF trust rule:</b> the canonical HTML must contain the generated ATF quality score and the reasoning that supports it, not hide that truth only in meta review artifacts.</div>
+    <div class="rule"><b>Single upstream parameter:</b> this standard requires one upstream target only: <code>REPORTING_OVERALL_QUALITY_TARGET</code>. Numeric target, gating strength, and stop behavior belong to the governing prompt family, not to this shared standard.</div>
+  </details>
+
+  <details>
+    <summary>6) Promotion and upstream integration</summary>
+    <ul>
+      <li>The canonical HTML MUST explain why the current run won when multiple governed runs exist.</li>
+      <li>The canonical HTML MUST keep deferred areas explicit and honest.</li>
+      <li>The canonical HTML MUST be rich enough to become a reference exemplar without requiring separate chat memory.</li>
+      <li>The execution prompt should reference this reporting contract instead of cloning it inline.</li>
+      <li>Only reusable reporting rules should live here; run-specific discovery, validation, and frontier logic should stay upstream.</li>
+      <li>The execution and meta prompts should point to the same canonical sections, milestone expectations, and trust rules.</li>
+    </ul>
+    <div class="good"><b>Promotion bar:</b> a canonical HTML can become a reference exemplar only if a new reader can understand scope, trust level, cross-run winner logic, generated ATF confidence, and remaining frontier without opening any additional artifact first.</div>
+  </details>
+</div>
+</body>
+</html>

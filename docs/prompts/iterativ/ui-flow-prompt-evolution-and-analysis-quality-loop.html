@@ -1,0 +1,754 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>UI Flow Prompt Evolution And Analysis Quality Loop - Standardized Working Prompt</title>
+<style>
+  :root {
+    --bg: #0b0f14;
+    --panel: #121a27;
+    --text: #e6edf3;
+    --muted: #a8b3cf;
+    --border: #273449;
+    --accent: #7aa2ff;
+    --accent2: #6ee7b7;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --good: #39d98a;
+    --shadow: rgba(0,0,0,.35);
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    background: radial-gradient(1200px 800px at 12% 0%, #17253f 0%, var(--bg) 45%) fixed;
+    color: var(--text);
+    line-height: 1.58;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 28px 18px 60px; }
+  header {
+    background: linear-gradient(180deg, rgba(18,26,39,.9), rgba(18,26,39,.46));
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 30px var(--shadow);
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  h1 { margin: 0 0 6px; font-size: 27px; letter-spacing: .2px; }
+  h2 { margin: 0 0 10px; font-size: 19px; }
+  h3 { margin: 0 0 8px; font-size: 16px; }
+  h4 { margin: 10px 0 6px; font-size: 14px; }
+  p { margin: 8px 0; }
+  .sub { color: var(--muted); font-size: 13.5px; line-height: 1.45; max-width: 980px; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(15,23,36,.75);
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: 8px;
+  }
+  .pill {
+    display: inline-block;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(15,23,36,.7);
+    color: var(--muted);
+    margin-right: 6px;
+  }
+  .grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 12px; margin-top: 14px; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 980px) {
+    .grid, .split, .docmap { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 18px 12px 44px; }
+    header, .card { padding: 14px; }
+    h1 { font-size: 23px; line-height: 1.18; }
+    .badge { margin-left: 0; margin-top: 6px; }
+    .kvs, .docmap { grid-template-columns: 1fr; gap: 4px 10px; }
+  }
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: rgba(18,26,39,.82);
+    box-shadow: 0 10px 26px var(--shadow);
+    padding: 15px;
+    margin-bottom: 14px;
+  }
+  .card h2 { margin-top: 0; }
+  .kvs, .docmap {
+    display: grid;
+    grid-template-columns: minmax(220px, .42fr) minmax(0, 1fr);
+    gap: 8px 14px;
+    margin-top: 6px;
+    font-size: 13.5px;
+    align-items: start;
+  }
+  .k { color: var(--muted); }
+  .docmap b {
+    color: var(--text);
+    overflow-wrap: anywhere;
+    line-height: 1.35;
+  }
+  .docmap span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    line-height: 1.45;
+  }
+  code.inline {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: rgba(10,15,24,.75);
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    border-radius: 8px;
+  }
+  pre {
+    background: rgba(10,15,24,.88);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px;
+    overflow: auto;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
+    margin: 10px 0 0;
+  }
+  pre code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: #dbe7ff;
+    white-space: pre;
+  }
+  .note, .warn, .rule, .good {
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+  .note { border-left: 3px solid var(--accent); background: rgba(122,162,255,.08); }
+  .warn { border-left: 3px solid var(--warn); background: rgba(251,191,36,.08); }
+  .rule { border-left: 3px solid var(--accent2); background: rgba(110,231,183,.08); }
+  .good { border-left: 3px solid var(--good); background: rgba(52,211,153,.08); }
+  details {
+    border: 1px solid var(--border);
+    background: rgba(18,26,39,.72);
+    border-radius: 16px;
+    padding: 10px 12px;
+    margin: 12px 0;
+    box-shadow: 0 8px 22px var(--shadow);
+  }
+  summary {
+    cursor: pointer;
+    list-style: none;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 2px 2px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  .summary-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sumhint {
+    color: var(--muted);
+    font-weight: 400;
+    font-size: 12px;
+    margin-left: auto;
+  }
+  ul, ol { margin: 6px 0 8px 20px; }
+  li { margin: 4px 0; }
+  hr.sep { border: 0; border-top: 1px solid var(--border); margin: 16px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    vertical-align: top;
+    text-align: left;
+  }
+  th { background: rgba(18,26,39,.94); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>UI Flow Prompt Evolution And Analysis Quality Loop <span class="badge">meta prompt</span></h1>
+<div class="sub">
+  Judge the run packages produced by <code class="inline">ui-flow-discovery-and-atf-test-generation.html</code>,
+  evolve that prompt when evidence proves a reusable gap, and promote only the strongest baseline by evidence.
+</div>
+</header>
+
+<div class="grid">
+<div class="card">
+<h2>1) Meta Loop Map</h2>
+
+<details open>
+<summary>
+  <span class="summary-title">1.0 At A Glance</span>
+  <span class="badge">OPEN</span>
+</summary>
+<div class="docmap">
+  <b>Consumes</b><span>Run packages, analysis HTML, generated ATF tests, validation evidence, history, and promoted baselines.</span>
+  <b>Produces</b><span>Comparative review, scores, gap/frontier detection, winner selection, prompt guidance, and baseline recommendation.</span>
+  <b>Shared inputs</b><span><code class="inline">REPORTING_STANDARD_PATH</code>, <code class="inline">ORCHESTRATION_STANDARD_PATH</code>, and <code class="inline">LIVING_ARCHITECTURE_DOC_PATH</code>.</span>
+  <b>Boundary</b><span>This prompt judges and evolves; the discovery prompt executes product discovery and ATF generation.</span>
+</div>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">1.1 Ownership</span>
+  <span class="badge">CORE</span>
+</summary>
+<ul>
+  <li><b>This meta prompt owns:</b> cross-run analysis, score comparison, regression detection, reset/rerun decisions, winner selection, and promotion recommendation.</li>
+  <li><b>The discovery prompt owns:</b> live UI discovery, generated ATF output, run-local analysis HTML, validation evidence, and run-specific coverage truth.</li>
+  <li><b>Shared standards own:</b> reusable reporting shape, orchestration discipline, and framework architecture constraints.</li>
+  <li><b>MUST NOT</b> duplicate those standards here or turn this prompt into a second UI-generation prompt.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">1.2 Loop Rules</span>
+  <span class="badge">CORE</span>
+</summary>
+<ul>
+  <li><b>MUST</b> treat weak generated tests or weak analysis HTML as evidence that the base prompt may need improvement.</li>
+  <li><b>MUST</b> consider the loop complete only when the base prompt is strong enough to produce both the expected ATF test quality and the expected analysis HTML quality.</li>
+  <li><b>MUST NOT</b> patch generated output manually and call the prompt improved.</li>
+</ul>
+</details>
+
+</div>
+
+<div class="card">
+<h2>Local Configuration</h2>
+<div class="note">
+  Keep only local path roots and quality gates here.
+</div>
+<details>
+<summary>
+  <span class="summary-title">Execution Constants</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>META_ITERATION_COUNT = 10
+QUALITY_TARGET_OVERALL = 9.99
+SCORE_SCALE = 1-10
+
+DISCOVERY_ATF_PROMPT_PATH = docs/prompts/iterativ/ui-flow-discovery-and-atf-test-generation.html
+REPORTING_STANDARD_PATH = docs/prompts/iterativ/langgraph-business-understanding-reporting-standard.html
+ORCHESTRATION_STANDARD_PATH = docs/prompts/iterativ/prompt-evolution-orchestration-standard.html
+LIVING_ARCHITECTURE_DOC_PATH = docs/Living_Architecture_UI_API_doc_v1_0.html
+
+RUN_ARCHIVE_ROOT = docs/prompts/evolution-runs
+PROMOTED_BASELINE_ROOT = docs/prompts/reference-exemplars</code></pre>
+<div class="warn">
+  <b>Critical reset rule:</b> revert only the ATF code changes introduced by the previous run.
+  Do not remove or overwrite the canonical analysis artifacts, any prior run folder, prompt-evolution artifacts, or unrelated user changes.
+</div>
+<div class="rule">
+  The execution prompt owns product discovery and generated ATF output. This meta prompt evaluates its run packages and decides whether to preserve, reset, rerun, or promote.
+</div>
+<div class="note">
+  The best run is chosen by explicit cross-run scoring, not by recency.
+</div>
+</details>
+</div>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>2) Mandatory Quality Review Of Analysis HTML</h2>
+<div class="note">
+  This section stays in the working meta prompt because the supervisor still owns local acceptance, local scoring thresholds, and local run-package decisions.
+  The reusable orchestration baseline now also lives in
+  <a href="prompt-evolution-orchestration-standard.html">prompt-evolution-orchestration-standard.html</a>.
+</div>
+
+<details>
+<summary>
+  <span class="summary-title">2.1 Review Scope</span>
+  <span class="badge">ANALYSIS</span>
+</summary>
+<ul>
+  <li><b>MUST</b> review the canonical analysis HTML generated by the discovery prompt.</li>
+  <li><b>MUST</b> review every meaningful milestone preserved in the run-local analysis history.</li>
+  <li><b>MUST</b> review the grouped package for the current run under <code class="inline">RUN_ARCHIVE_ROOT/run_##</code>, especially <code class="inline">analysis/</code>, <code class="inline">review/</code>, and <code class="inline">manifests/</code>.</li>
+  <li><b>MUST</b> review whether the canonical artifact exposes a usable history index for the milestone family.</li>
+  <li><b>MUST</b> review whether the per-run analysis package is coherent enough for an external audit without reading previous runs first.</li>
+  <li><b>MUST</b> compare all completed <code class="inline">run_##/analysis</code> packages before promoting a best baseline.</li>
+  <li><b>MUST</b> score the canonical artifact and the package as a whole.</li>
+  <li><b>MUST NOT</b> score only the final HTML while ignoring whether the milestone history is coherent and useful.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.2 Required Scoring Table</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<pre><code>| Area | What was verified | Score | Risk / Note |
+|---|---|---:|---|</code></pre>
+<div class="note">
+  The reusable scoring dimensions are standardized in the reporting and orchestration standards. Here, keep the local rule simple:
+  score both the canonical analysis and the run package broadly enough to expose weaknesses in understanding, diagrams, history quality, package coherence, cross-run comparative strength, and explicit reporting-level overall quality.
+</div>
+<div class="warn">
+  The final analysis package is still below target if any one of these remains weak even when the overall score looks acceptable:
+  <code class="inline">business domain graph quality</code>,
+  <code class="inline">actor state graph quality</code>,
+  <code class="inline">business flow graph quality</code>,
+  or <code class="inline">iteration-history quality</code>.
+</div>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.3 Mandatory Interpretation</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<ul>
+  <li><b>MUST</b> explain why the final score is below target when it is below target.</li>
+  <li><b>MUST</b> identify whether the weakness came from discovery depth, HTML modeling, diagram quality, traceability, or prompt quality.</li>
+  <li><b>MUST</b> identify whether the HTML family failed to explain the quality of the generated ATF package clearly enough.</li>
+  <li><b>MUST</b> treat a low-quality analysis artifact as a signal that the execution prompt itself may need improvement.</li>
+  <li><b>MUST NOT</b> treat the generated HTML as "good enough" merely because the tests passed.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.4 Comparative Scoring Rule</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<ul>
+  <li><b>MUST</b> compare the current analysis package against the immediately previous meta iteration when one exists.</li>
+  <li><b>MUST</b> compare the full set of completed run folders, not only the newest run.</li>
+  <li><b>MUST</b> decide explicitly which run currently represents the best execution-prompt baseline and why.</li>
+  <li><b>MUST NOT</b> call the rerun "better" unless the score movement, weak-area improvement, or evidence package is materially stronger.</li>
+  <li><b>MUST NOT</b> assume the latest run is automatically the best run.</li>
+  <li><b>MUST</b> treat improved honesty and improved diagram readability as legitimate progress, even when raw coverage stayed similar.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.5 Analysis Score As Test Quality Gate</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<ul>
+  <li><b>MUST</b> treat the analysis score as a trust gate for the generated UI tests and shared-layer changes.</li>
+  <li><b>MUST NOT</b> treat generated tests as sufficiently trustworthy when <code class="inline">overall analysis quality</code> is below <code class="inline">QUALITY_TARGET_OVERALL</code>.</li>
+  <li><b>MUST</b> assume that weak business understanding, weak diagrams, or weak milestone history can invalidate apparent test quality even when the code compiles or the tests pass.</li>
+  <li><b>MUST</b> rerun the process when the analysis package does not provide enough confidence to justify the generated tests.</li>
+  <li><b>MUST</b> reject otherwise passing tests when flow modeling, actor-state modeling, or business diagrams are still too weak to explain what the tests truly validate.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.6 Generated Test-Result Quality Table</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<pre><code>| Test Result Area | What was verified | Score | Risk / Note |
+|---|---|---:|---|</code></pre>
+<h4>Minimum generated test-result dimensions</h4>
+<ul>
+  <li>business-flow fidelity</li>
+  <li>test maintainability</li>
+  <li>ATF layering compliance</li>
+  <li>shared-support reuse quality</li>
+  <li>assertion and validation strength</li>
+  <li>reporting and screenshot contract fit</li>
+  <li>engine compatibility confidence</li>
+  <li>regression safety and honesty</li>
+  <li>overall generated test-result quality</li>
+</ul>
+<ul>
+  <li><b>MUST</b> score the generated tests and support changes explicitly, not only the analysis HTML package.</li>
+  <li><b>MUST</b> rerun when <code class="inline">overall generated test-result quality</code> is below <code class="inline">QUALITY_TARGET_OVERALL</code> and a safe prompt improvement is still available.</li>
+  <li><b>MUST</b> treat generated test-result quality as this meta prompt's direct acceptance gate for ATF output.</li>
+  <li><b>MUST NOT</b> let strong tests hide weak business understanding, and <b>MUST NOT</b> let strong business understanding hide weak tests.</li>
+</ul>
+</details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>3) Prompt Improvement Rule</h2>
+
+<details>
+<summary>
+  <span class="summary-title">3.1 When To Improve The Base Prompt</span>
+  <span class="badge">PROMPT</span>
+</summary>
+<ul>
+  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when <code class="inline">overall analysis quality</code> is below <code class="inline">QUALITY_TARGET_OVERALL</code>.</li>
+  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when <code class="inline">overall generated test-result quality</code> is below <code class="inline">QUALITY_TARGET_OVERALL</code>.</li>
+  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when diagrams are weak, missing, or hard to read.</li>
+  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when milestone history is too thin, repetitive, or not useful as iteration evidence.</li>
+  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when run folders are not self-contained enough to support cross-run comparison.</li>
+  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when constants drift from the desired execution model, especially seed ownership, target package ownership, or HTML-family ownership.</li>
+  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when the final HTML is too framework-centered instead of business-centered.</li>
+  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when the generated ATF code is weak in layering, assertions, reuse, maintainability, or executable trustworthiness.</li>
+  <li><b>MUST NOT</b> keep the prompt unchanged if the same analysis weaknesses are recurring.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">3.2 What Can Be Improved</span>
+  <span class="badge">PROMPT</span>
+</summary>
+<ul>
+  <li>business-first framing</li>
+  <li>analysis HTML section requirements</li>
+  <li>diagram requirements and readability constraints</li>
+  <li>run-folder grouping and per-run auditability</li>
+  <li>execution constants and repo-anchor clarity</li>
+  <li>milestone-history expectations</li>
+  <li>coverage-overlay rules</li>
+  <li>iteration evidence requirements</li>
+  <li>accessible-hyperlink exploration requirements</li>
+  <li>final scoring requirements</li>
+  <li>stop conditions and rerun conditions</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">3.3 Prompt Evolution Artifacts</span>
+  <span class="badge">PROMPT</span>
+</summary>
+<ul>
+  <li><b>MUST</b> save each improved prompt version inside the current run package under <code class="inline">RUN_ARCHIVE_ROOT</code>.</li>
+  <li><b>MUST</b> save a short review/scoring HTML or markdown artifact for each meta iteration explaining what changed in the prompt and why.</li>
+  <li><b>MUST</b> preserve prompt history even when ATF code is reverted.</li>
+  <li><b>MUST</b> keep the active discovery prompt and any maintained companion format aligned when both exist.</li>
+  <li><b>MUST</b> explain any intentional divergence from the strongest known previous prompt version.</li>
+  <li><b>MUST</b> state explicitly when the HTML is the canonical prompt and the markdown file is only a concise companion.</li>
+  <li><b>MUST NOT</b> lose the lesson trail that explains why prompt version N+1 is better than prompt version N.</li>
+  <li><b>MUST</b> preserve promoted best-of references separately from raw run artifacts when a run produces especially strong prompt or analysis outputs.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">3.4 Prompt Self-Scoring</span>
+  <span class="badge">PROMPT</span>
+</summary>
+<p>Each meta iteration may score the improved base prompt itself as a secondary diagnostic, but this must never replace scoring of the generated analysis output and generated ATF result package.</p>
+<pre><code>| Prompt Area | What was improved | Score | Risk / Note |
+|---|---|---:|---|</code></pre>
+<h4>Minimum prompt scoring dimensions</h4>
+<ul>
+  <li>business-first clarity</li>
+  <li>diagram governance clarity</li>
+  <li>analysis HTML completeness guidance</li>
+  <li>iteration and rerun discipline</li>
+  <li>reset safety clarity</li>
+  <li>repo-fit and ATF alignment</li>
+  <li>conciseness versus completeness</li>
+  <li>overall prompt quality</li>
+</ul>
+<ul>
+  <li><b>MUST</b> explain why the prompt is still below <code class="inline">QUALITY_TARGET_OVERALL</code> when it is below target.</li>
+  <li><b>MUST NOT</b> promote the new prompt as the effective baseline if it is weaker or less clear than the previous prompt version.</li>
+  <li><b>MUST NOT</b> use prompt self-score alone as a stop condition.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">3.5 Baseline Promotion Rule</span>
+  <span class="badge">PROMPT</span>
+</summary>
+<ul>
+  <li><b>MUST</b> promote a prompt version as the new effective baseline only after the rerun proves it produced an equal-or-better analysis package.</li>
+  <li><b>MUST</b> keep the prior prompt version in history even when the new one becomes the baseline.</li>
+  <li><b>MUST NOT</b> overwrite the lesson trail that explains why the new baseline won.</li>
+  <li><b>MUST</b> fall back to the previous baseline if the rerun reveals weaker clarity, honesty, readability, or repo-fit.</li>
+</ul>
+</details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>4) Reset And Rerun Rule</h2>
+
+<details>
+<summary>
+  <span class="summary-title">4.1 Preserve Then Reset</span>
+  <span class="badge">RESET</span>
+</summary>
+<ol>
+  <li>preserve the canonical analysis HTML and run-local analysis history</li>
+  <li>preserve every completed run folder under <code class="inline">RUN_ARCHIVE_ROOT</code></li>
+  <li>preserve prompt-evolution artifacts and prompt-review artifacts</li>
+  <li>identify the ATF code/test/support changes introduced by the previous run</li>
+  <li>revert only those ATF execution changes</li>
+  <li>do not preserve superseded generated ATF code unless it is explicitly promoted as a kept baseline</li>
+  <li>keep the improved base prompt</li>
+  <li>rerun the UI-flow discovery process from a clean ATF code state</li>
+</ol>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.2 Reset Safety Rules</span>
+  <span class="badge">RESET</span>
+</summary>
+<ul>
+  <li><b>MUST</b> revert only the changes created by the run being superseded.</li>
+  <li><b>MUST</b> preserve unrelated user changes and unrelated parallel work.</li>
+  <li><b>MUST</b> preserve prompt files, analysis files, prompt-history files, and review artifacts.</li>
+  <li><b>MUST NOT</b> carry forward superseded generated UI code just because it exists in the worktree.</li>
+  <li><b>MUST NOT</b> use destructive reset logic that wipes the worktree indiscriminately.</li>
+  <li><b>MUST</b> explain exactly what was reverted and why before the rerun begins.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.3 Rerun Trigger</span>
+  <span class="badge">RESET</span>
+</summary>
+<ul>
+  <li><b>MUST</b> rerun the full UI-flow process after a meaningful prompt improvement, unless the remaining gap is clearly blocked by the product or by the environment.</li>
+  <li><b>MUST</b> rerun when the analysis score is below target, even if the generated tests look superficially acceptable.</li>
+  <li><b>MUST</b> rerun when the generated test-result quality is below target, even if the analysis package improved.</li>
+  <li><b>MUST</b> rerun while the completed meta-run count is still below <code class="inline">META_ITERATION_COUNT</code>, even if the current run already looks strong.</li>
+  <li><b>MUST NOT</b> stop at "prompt improved" without testing whether the improved prompt produces a better analysis artifact.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.4 Keep And Reset Manifests</span>
+  <span class="badge">RESET</span>
+</summary>
+<ul>
+  <li><b>MUST</b> save a keep-manifest artifact for each meta iteration under the current run package.</li>
+  <li><b>MUST</b> save a reset-manifest artifact for each meta iteration under the current run package.</li>
+  <li><b>MUST</b> save run-grouped copies under the current <code class="inline">run_##</code> package, not only flat files in the archive root.</li>
+  <li><b>MUST</b> list exactly which analysis files, prompt-history files, and review artifacts were preserved.</li>
+  <li><b>MUST</b> list exactly which generated ATF files, support classes, and test files were reverted before the rerun.</li>
+  <li><b>MUST</b> list any artifacts promoted into <code class="inline">PROMOTED_BASELINE_ROOT</code> and the reason they were promoted.</li>
+  <li><b>MUST NOT</b> leave the reset decision implicit or reconstruct it later from memory.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.5 Manifest Templates</span>
+  <span class="badge">RESET</span>
+</summary>
+<pre><code>keep-manifest
+- preserved analysis canonical html
+- preserved analysis milestone html files
+- preserved current run-folder analysis package
+- preserved prompt history files
+- preserved prompt review files
+- preserved files intentionally kept as baseline
+
+reset-manifest
+- reverted generated ui tests
+- reverted generated ui support classes
+- reverted generated helper/config changes tied to the superseded run
+- untouched unrelated user changes
+- untouched analysis and prompt-evolution artifacts</code></pre>
+<ul>
+  <li><b>MUST</b> keep these manifests short, explicit, and file-oriented.</li>
+  <li><b>MUST NOT</b> replace them with vague prose like "reset previous changes".</li>
+</ul>
+</details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>5) Meta Iteration Loop</h2>
+
+<details>
+<summary>
+  <span class="summary-title">5.1 Mandatory Loop Contract</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<pre><code>run base UI-flow prompt -&gt; generate langgraph-business-understanding artifacts -&gt;
+score analysis artifacts -&gt; score generated test-result package -&gt; detect weaknesses -&gt; improve base prompt -&gt;
+save prompt evolution artifacts -&gt; group current run artifacts under docs/prompts/history/run_## -&gt; preserve analysis artifacts -&gt;
+revert previous ATF code changes -&gt; rerun from clean ATF state -&gt; score again</code></pre>
+<div class="rule">
+  This loop is complete only after the rerun proves whether the prompt improvement produced a better analysis artifact and a better generated test-result package.
+</div>
+<div class="good">
+  The artifact that must keep getting better across reruns is <code class="inline">langgraph-business-understanding.html</code> plus its history,
+  while the ATF code produced by weak runs is disposable unless explicitly promoted.
+</div>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">5.2 Quality Gates Before Rerun</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<ul>
+  <li><b>MUST</b> finish the analysis scoring before deciding the next prompt improvement.</li>
+  <li><b>MUST</b> finish the generated test-result scoring before deciding whether the current run is acceptable.</li>
+  <li><b>MUST</b> finish the prompt self-scoring before promoting the new prompt as the rerun baseline.</li>
+  <li><b>MUST</b> finish the current run package under <code class="inline">RUN_ARCHIVE_ROOT/run_##</code> before considering the iteration auditable.</li>
+  <li><b>MUST</b> verify whether the execution prompt completed its own declared iteration depth and whether its canonical HTML met the execution prompt's own business-model and diagram expectations.</li>
+  <li><b>MUST</b> finish the keep/reset manifests before the ATF state is cleaned for the next run.</li>
+  <li><b>MUST</b> record whether the run improved breadth, determinism, truthfulness, prompt clarity, or only one of those dimensions.</li>
+  <li><b>MUST NOT</b> rerun blindly without explaining what this next iteration is expected to improve.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">5.3 Stop Conditions</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<ul>
+  <li><b>MUST</b> continue until <code class="inline">overall analysis quality &gt;= QUALITY_TARGET_OVERALL</code> and <code class="inline">overall generated test-result quality &gt;= QUALITY_TARGET_OVERALL</code>, or a justified stop condition is reached.</li>
+  <li><b>MUST</b> continue until <code class="inline">META_ITERATION_COUNT</code> run folders exist and are scored, unless an explicit documented block makes additional runs dishonest or impossible.</li>
+  <li><b>MUST</b> continue when the execution prompt failed to complete its own required iteration depth, unless a real and documented block proved that more execution iterations were impossible or unsafe.</li>
+  <li><b>MUST</b> continue when the generated canonical HTML is still weak in business domains, actor-state clarity, business-flow diagrams, or milestone usefulness, even if headline scores improved.</li>
+  <li><b>MUST</b> continue when the analysis is still below target and there is an obvious safe prompt improvement left.</li>
+  <li><b>MUST</b> continue when generated test-result quality is still below target and there is an obvious safe prompt improvement left.</li>
+  <li><b>MUST</b> continue when obvious accessible-link frontier slices, distinct account routes, or meaningful CTA-driven flows were not yet attempted in the clean baseline environment.</li>
+  <li><b>MUST NOT</b> treat a single strong run as completion when the configured loop depth has not yet been honored.</li>
+  <li><b>MAY</b> stop only if the remaining weaknesses are blocked, unsafe, low-value, or clearly product-limited rather than prompt-limited.</li>
+  <li><b>MUST NOT</b> stop merely because one rerun improved the score somewhat.</li>
+  <li><b>MUST NOT</b> stop if the analysis score improved but the prompt self-score or reset discipline still regressed.</li>
+  <li><b>MUST NOT</b> stop if the current base prompt still cannot repeatedly generate the expected reporting structure, diagrams, business traceability, and ATF code quality in the same run.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">5.4 Cross-Run Baseline Selection</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<ul>
+  <li><b>MUST</b> score every completed <code class="inline">run_##/analysis</code> package on the same 1-10 scale before choosing the best baseline.</li>
+  <li><b>MUST</b> include an explicit cross-run comparison table and a named winner.</li>
+  <li><b>MUST</b> keep the cross-run comparison table cumulative until all configured runs are complete.</li>
+  <li><b>MUST</b> choose the best execution-prompt baseline through comparative quality, not chronology.</li>
+  <li><b>MUST</b> allow a later run to win because it is more honest and more stable, even if it covers slightly fewer speculative claims than an earlier run.</li>
+  <li><b>MUST</b> preserve the non-winning runs as historical evidence unless they are explicitly redundant and documented as such.</li>
+  <li><b>MUST NOT</b> assume <code class="inline">run_10</code> wins just because it is newest.</li>
+</ul>
+<pre><code>| Run | Analysis Score | Generated ATF Score | Prompt Baseline Quality | Better Than Current Best? | Why |
+|---|---:|---:|---:|---|---|</code></pre>
+</details>
+
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>6) Final Output</h2>
+
+<details>
+<summary>
+  <span class="summary-title">6.1 What Must Be Reported</span>
+  <span class="badge">CORE</span>
+</summary>
+<ul>
+  <li>analysis-artifact scoring table</li>
+  <li>generated test-result scoring table</li>
+  <li>final cross-run review artifact path under <code class="inline">RUN_ARCHIVE_ROOT</code></li>
+  <li>cross-run comparison table across all completed <code class="inline">run_##/analysis</code> packages</li>
+  <li>explicit best-run decision and why it won</li>
+  <li>analysis-versus-previous-iteration score delta</li>
+  <li>current run folder path and what it contains</li>
+  <li>what was weak in the generated HTML package</li>
+  <li>what was weak in the generated tests and support changes</li>
+  <li>what changed in the base UI-flow prompt</li>
+  <li>prompt self-scoring table</li>
+  <li>where the improved prompt was saved</li>
+  <li>which analysis artifacts were preserved</li>
+  <li>keep-manifest and reset-manifest artifact locations</li>
+  <li>which ATF changes were reverted before the rerun</li>
+  <li>which artifacts were promoted into <code class="inline">PROMOTED_BASELINE_ROOT</code></li>
+  <li>what the rerun improved and what it did not improve</li>
+  <li>the final analysis overall score and whether the target was reached</li>
+  <li>the final generated test-result overall score and whether the target was reached</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">6.2 Review Artifact Template</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>| Meta Iteration | Analysis Overall | Prompt Overall | Better Than Previous? | Why |
+|---|---:|---:|---|---|</code></pre>
+<ul>
+  <li><b>MUST</b> append one row per meta iteration.</li>
+  <li><b>MUST</b> include generated test-result quality in the review artifact body, even if the compact summary table stays short.</li>
+  <li><b>MUST</b> state the decisive reason why the iteration was accepted, rejected, or rerun.</li>
+  <li><b>MUST</b> state whether the run promoted a stronger baseline because of additional coverage, improved determinism, improved honesty, or a better prompt formulation.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">6.3 Final Cross-Run Review Artifact</span>
+  <span class="badge">CORE</span>
+</summary>
+<ul>
+  <li><b>MUST</b> create or overwrite the final cross-run review artifact when two or more completed run folders exist.</li>
+  <li><b>MUST</b> compare all kept run folders on analysis quality, reporting overall quality, generated test-result quality, history usefulness, and trust honesty.</li>
+  <li><b>MUST</b> name the winning run explicitly and explain why it beat the previous best run.</li>
+  <li><b>MUST</b> align the final cross-run review with the artifacts promoted into <code class="inline">PROMOTED_BASELINE_ROOT</code>.</li>
+  <li><b>MUST NOT</b> let the promoted best run differ from the run named in the final cross-run review artifact.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">6.4 Core Principle</span>
+  <span class="badge">CORE</span>
+</summary>
+<div class="rule">
+  The generated <code class="inline">langgraph-business-understanding</code> HTML family is a secondary output and a feedback layer about prompt quality.
+  If the analysis artifact is still weak, or if the generated tests are still below the required quality level, improve the base prompt, keep the analysis evidence, undo only the superseded ATF execution changes,
+  and rerun from a clean framework state until both the analysis quality and the generated test-result quality are strong enough or a real block is proven.
+</div>
+<div class="note">
+  Promote known-good artifacts separately from raw run evidence. Keep the raw run folders immutable enough for audit, and copy the best analysis HTML, best prompt baselines, and best run summaries into
+  <code class="inline">PROMOTED_BASELINE_ROOT</code> for future prompt evolution and comparison.
+</div>
+</details>
+</div>
+
+</div>
+</body>
+</html>
+
+
+
+
