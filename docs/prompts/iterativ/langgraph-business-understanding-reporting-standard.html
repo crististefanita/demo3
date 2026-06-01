@@ -6,30 +6,65 @@
 <title>LangGraph Business Understanding Reporting Standard</title>
 <style>
   :root {
-    --bg:#0b0f14; --panel:#121a27; --text:#e6edf3; --muted:#a8b3cf; --line:#273449;
-    --accent:#7aa2ff; --accent2:#6ee7b7; --good:#39d98a; --warn:#fbbf24;
+    --bg:#0a1118; --panel:#0f1a25; --panel2:#132231; --text:#e8eef7; --muted:#95a9bf; --line:#284055;
+    --accent:#68c5ff; --accent2:#58d8c7; --good:#62e7b0; --warn:#ffcd6d;
     --sans:"Segoe UI",Arial,sans-serif; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   }
-  body{margin:0;background:radial-gradient(1200px 800px at 12% 0%,#17253f 0%,var(--bg) 45%);color:var(--text);font:14px/1.6 var(--sans)}
-  .wrap{max-width:1180px;margin:0 auto;padding:28px 18px 60px}
-  header,details{background:rgba(18,26,39,.9);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 28px rgba(0,0,0,.28)}
-  header{padding:18px;margin-bottom:14px} details{padding:10px 12px;margin:12px 0}
-  summary{cursor:pointer;font-weight:700}
-  h1,h2,h3{margin:0 0 10px} h1{font-size:28px} h2{font-size:19px} h3{font-size:16px;color:var(--accent)}
+  body{margin:0;background:radial-gradient(1000px 680px at 14% 0%,#13283d 0%,var(--bg) 46%);color:var(--text);font:13.6px/1.64 var(--sans)}
+  .wrap{max-width:1180px;margin:0 auto;padding:24px 18px 56px}
+  header,details{background:rgba(15,26,37,.94);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 28px rgba(0,0,0,.28)}
+  header{padding:18px;margin-bottom:14px}
+  details{padding:10px 12px;margin:12px 0}
+  .subdetails{margin:10px 0 0 10px;background:rgba(11,20,31,.84)}
+  summary{
+    cursor:pointer;
+    list-style:none;
+    font-weight:700;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:2px 2px;
+  }
+  summary::-webkit-details-marker{display:none}
+  .summary-title{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .sumhint{
+    color:var(--muted);
+    font-weight:400;
+    font-size:12px;
+    margin-left:auto;
+  }
+  h1,h2,h3{margin:0 0 10px}
+  h1{font-size:25px}
+  h2{font-size:16.5px}
+  h3{font-size:13.5px;color:var(--accent)}
   .sub{color:var(--muted)}
-  .pill,.badge{display:inline-block;padding:4px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted);background:rgba(11,15,20,.65);font-size:12px}
+  .pill,.badge{display:inline-block;padding:4px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted);background:rgba(9,14,20,.68);font-size:11px}
   .pill{margin:0 8px 8px 0}
   .badge{margin-left:8px}
   .good,.warn,.rule,.note{padding:10px 12px;border-radius:12px;margin-top:10px}
-  .good{border-left:3px solid var(--good);background:rgba(57,217,138,.08)}
-  .warn{border-left:3px solid var(--warn);background:rgba(251,191,36,.08)}
-  .rule{border-left:3px solid var(--accent2);background:rgba(110,231,183,.08)}
-  .note{border-left:3px solid var(--accent);background:rgba(122,162,255,.08)}
+  .good{border-left:3px solid var(--good);background:rgba(98,231,176,.08)}
+  .warn{border-left:3px solid var(--warn);background:rgba(255,205,109,.08)}
+  .rule{border-left:3px solid var(--accent2);background:rgba(88,216,199,.08)}
+  .note{border-left:3px solid var(--accent);background:rgba(104,197,255,.08)}
   table{width:100%;border-collapse:collapse;margin-top:10px}
   th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
-  th{background:rgba(15,23,35,.92)}
-  code{font-family:var(--mono);font-size:12.5px;background:rgba(9,13,19,.92);border:1px solid var(--line);padding:2px 6px;border-radius:8px}
+  th{background:rgba(12,20,30,.95)}
+  code{font-family:var(--mono);font-size:12px;background:rgba(8,12,18,.92);border:1px solid var(--line);padding:2px 6px;border-radius:8px}
   ul{margin:8px 0 0 18px}
+  .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .pill-row .pill{margin:0}
+  .quickmap{display:grid;grid-template-columns:minmax(220px,.42fr) minmax(0,1fr);gap:8px 14px;margin-top:10px}
+  .quickmap b{line-height:1.35}
+  .quickmap span{color:var(--muted);line-height:1.45}
+  @media (max-width: 920px){
+    .quickmap{grid-template-columns:1fr}
+  }
 </style>
 </head>
 <body>
@@ -37,63 +72,263 @@
   <header>
     <h1>LangGraph Business Understanding Reporting Standard <span class="badge">shared standard</span></h1>
     <p class="sub">
-      Reusable reporting contract for the <code>langgraph-business-understanding.html</code> family.
-      This file standardizes only the durable reporting shape: business-memory structure, rendered-diagram trust,
-      milestone usefulness, ATF-confidence visibility, and cross-run promotion evidence.
-      Product-local thresholds, paths, frontier choices, and execution logic must stay upstream.
+      Canonical reporting contract for the <code>langgraph-business-understanding.html</code> family.
+      This file owns the durable analysis shape: sober dark presentation, compact graph language, proof mapping,
+      nuanced coverage vocabulary, narrative history, hyperlink frontier treatment, validation artifact references,
+      and benchmark-aware trust explanation.
     </p>
-    <div>
+    <div class="pill-row">
       <span class="pill">business-first reporting</span>
-      <span class="pill">ATF trust visibility</span>
-      <span class="pill">rendered diagrams</span>
-      <span class="pill">cross-run evidence</span>
-      <span class="pill">single upstream target</span>
+      <span class="pill">dark compact layout</span>
+      <span class="pill">inline SVG graphs</span>
+      <span class="pill">proof mapping</span>
+      <span class="pill">benchmark trust</span>
+      <span class="pill">validation references</span>
     </div>
   </header>
 
   <details open>
-    <summary>1) Purpose and ownership</summary>
-    <div class="good"><b>Goal:</b> every kept analysis family must explain the product, show what the generated ATF package truly proves, preserve how understanding evolved, and justify why the promoted baseline deserves trust.</div>
-    <div class="warn"><b>Anti-pattern:</b> a thin status page with a few scores and sections but without rendered diagrams, frontier truth, cross-run judgment, or visible ATF-quality evidence.</div>
+    <summary>
+      <span class="summary-title">0) Standard at a glance</span>
+      <span class="badge">OPEN</span>
+      <span class="sumhint">keep visible by default</span>
+    </summary>
+    <div class="quickmap">
+      <b>What this standard owns</b>
+      <span>Canonical section shape, proof mapping, diagram/render contract, milestone usefulness, benchmark/trust comparison, and reporting density rules.</span>
+      <b>What the calling prompt keeps local</b>
+      <span>Business scope, route frontier, local budgets, commands, validation depth, score thresholds, and repo-specific interpretation.</span>
+      <b>Local exemplar root</b>
+      <span>When present, <code>docs/goldenCopies/html-exemplars-to-follow</code> is the local exemplar library. Reports stored there are reusable reporting benchmarks, not just old winners.</span>
+      <b>Why this page exists</b>
+      <span>To keep reporting rules reusable and converged across ATF families instead of rediscovering them in each local run.</span>
+    </div>
+    <div class="good"><b>Best reading order:</b> start with canonical contract, then presentation/diagram rules, then proof vocabulary, then milestone/history, and only then promotion details.</div>
+  </details>
+
+  <details open>
+    <summary>
+      <span class="summary-title">1) Purpose and ownership</span>
+      <span class="sumhint">what this standard owns</span>
+    </summary>
+    <div class="good"><b>Goal:</b> every kept analysis family must explain the product, show what the generated ATF package truly proves, preserve how understanding evolved, and remain comparable across future quality-loop runs.</div>
+    <div class="warn"><b>Anti-pattern:</b> a page that looks polished but is still shallow: giant hero, oversized diagrams, table spam, weak coverage vocabulary, superficial hyperlink treatment, or benchmark comparison that says only "better / worse" without why.</div>
     <table>
       <thead><tr><th>This standard owns</th><th>Calling prompt keeps local</th></tr></thead>
       <tbody>
         <tr>
-          <td>Canonical section shape, milestone contract, diagram/render rules, scoreboard dimensions, history usefulness, and promotion trust rules.</td>
-          <td>Business scope, route frontier, local score targets, run roots, validation matrix, commands, package names, and environment-specific interpretation.</td>
+          <td>Canonical section shape, presentation contract, graph quality, proof-mapping structure, validation-reference rules, milestone usefulness, history form, run-lineage readability, and benchmark comparison rules.</td>
+          <td>Business scope, route frontier, run roots, local scores, validation matrix values, commands, package names, and environment-specific interpretation.</td>
         </tr>
       </tbody>
     </table>
-    <div class="note"><b>Intent:</b> standardize the reporting contract, not the execution strategy.</div>
+    <div class="note"><b>Intent:</b> good reporting rules must live here so future runs reproduce them automatically instead of relying on one locally improved artifact.</div>
   </details>
 
   <details>
-    <summary>2) Canonical HTML contract</summary>
-    <table>
-      <thead><tr><th>Section</th><th>Status</th><th>What it must accomplish</th></tr></thead>
-      <tbody>
-        <tr><td>Executive Summary</td><td>MUST</td><td>Frame the product, current winner, trust level, and remaining frontier in plain business language.</td></tr>
-        <tr><td>Current Baseline Decision</td><td>MUST</td><td>State which run is kept and why it displaced the prior best.</td></tr>
-        <tr><td>Run Identity And Current Scoreboard</td><td>MUST</td><td>Show analysis quality, generated ATF quality, reporting overall quality, and overall score early and clearly.</td></tr>
-        <tr><td>Business Domain Graph</td><td>MUST</td><td>Model the application as a business system, not as a test inventory.</td></tr>
-        <tr><td>Actor State Graph</td><td>MUST</td><td>Expose state transitions, protected states, and blocked or guarded edges.</td></tr>
-        <tr><td>Business Flow Graph</td><td>MUST</td><td>Map major journeys, entry points, goals, and completion logic in business terms.</td></tr>
-        <tr><td>Accessible Hyperlink Exploration Ledger</td><td>MUST</td><td>Keep the visible navigation frontier explicit, searchable, and honest.</td></tr>
-        <tr><td>Business Flow Inventory</td><td>MUST</td><td>Track covered, partial, deferred, blocked, variant, and excluded journeys cleanly.</td></tr>
-        <tr><td>Coverage Overlay</td><td>MUST</td><td>Keep covered, partial, discovered-but-untested, blocked, and deferred states honest.</td></tr>
-        <tr><td>Generated ATF Test-Result Quality Scoreboard</td><td>MUST</td><td>Treat ATF trust as a first-class concern inside the analysis artifact itself.</td></tr>
-        <tr><td>Reporting Overall Quality</td><td>MUST</td><td>Expose one explicit overall quality judgment for the reporting family itself, backed by a visible breakdown.</td></tr>
-        <tr><td>Cross-Run Comparison</td><td>MUST</td><td>Prevent latest-run bias and explain promotion by evidence.</td></tr>
-        <tr><td>HTML History Index</td><td>MUST</td><td>Make every milestone explorable and worth revisiting.</td></tr>
-        <tr><td>Iteration History And Score Evolution</td><td>MUST</td><td>Show how business understanding and trust changed over time.</td></tr>
-        <tr><td>Deferred Frontier / Recommended Next Iteration</td><td>MUST</td><td>Keep future work concrete, bounded, and honest.</td></tr>
-        <tr><td>Render Verification Status</td><td>MUST</td><td>Confirm that the final HTML renders cleanly and the diagrams are visible.</td></tr>
+    <summary>
+      <span class="summary-title">2) Canonical HTML contract</span>
+      <span class="sumhint">required reusable section shape</span>
+    </summary>
+    <details class="subdetails" open>
+      <summary>
+        <span class="summary-title">2.1 Core verdict and identity</span>
+        <span class="sumhint">first-screen truths</span>
+      </summary>
+      <table>
+        <thead><tr><th>Section</th><th>Status</th><th>What it must accomplish</th></tr></thead>
+        <tbody>
+          <tr><td>Executive Summary</td><td>MUST</td><td>Frame the product, current run identity, trust level, and remaining frontier in plain business language.</td></tr>
+          <tr><td>Trust stance</td><td>MUST</td><td>Name the artifact honestly as a benchmark-grade winner, stronger local candidate, validated learning candidate, or non-promotable retained package. If a stronger benchmark still exists, say so plainly near the top.</td></tr>
+          <tr><td>Semantic Pill Rail</td><td>MUST</td><td>Keep a small top-level pill strip that carries useful truths such as primary run, baseline count, new promoted frontier, explicit non-promotion, main benchmark gap, and only the shortest useful provenance label when bootstrap or borrowed support mattered.</td></tr>
+          <tr><td>Business Summary / Trust Summary</td><td>MUST</td><td>Separate what the product appears to be from what the current ATF package truly proves.</td></tr>
+        <tr><td>Current Baseline Decision</td><td>MUST</td><td>State which run is kept and why it displaced or failed to displace the prior best.</td></tr>
+        <tr><td>Primary Retained Validation Run</td><td>MUST</td><td>Name one primary kept run package that anchors the final verdict, and keep the wording aligned across Trust Summary, Validation Artifact References, and lineage sections.</td></tr>
+        <tr><td>Run Identity And Current Scoreboard</td><td>MUST</td><td>Show run identity, stop decision, Business HTML score, ATF Package score, Overall score, target status, configured budget, and effective meaningful iterations early and clearly.</td></tr>
+        <tr><td>Winner split note</td><td>MUST when relevant</td><td>If output winner and business-understanding winner differ, state that split near the top instead of hiding it in history.</td></tr>
+        <tr><td>Proof-origin note</td><td>MUST when relevant</td><td>If the run that first closed the active truth is different from the retained output winner, keep that split visible near the top.</td></tr>
+        <tr><td>Deepest defended flow note</td><td>MUST</td><td>Name the deepest business chain actually defended by evidence in this round, not just the active frontier label.</td></tr>
+        <tr><td>Exploration-versus-proof note</td><td>MUST when relevant</td><td>Say explicitly whether broad exploration exceeded strong proof, so a reader can distinguish explored surface from defended business depth.</td></tr>
+        <tr><td>Short provenance note</td><td>MUST when relevant</td><td>If execution depended on bootstrap, borrowed generated support, or rebuilt execution scaffolding, keep the first-screen wording short and neutral, for example <code class="inline">execution-layer rebuilt from explicit bootstrap</code>. Do not dump long benchmark-memory prose into the hero summary.</td></tr>
       </tbody>
     </table>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">2.2 Graphs, mapping, and coverage</span>
+        <span class="sumhint">business model plus proof surface</span>
+      </summary>
+      <table>
+        <thead><tr><th>Section</th><th>Status</th><th>What it must accomplish</th></tr></thead>
+        <tbody>
+          <tr><td>Business Domain Graph</td><td>MUST</td><td>Model the application as a business system, not as a test inventory.</td></tr>
+          <tr><td>Actor State Graph</td><td>MUST</td><td>Expose state transitions, protected states, and blocked or guarded edges.</td></tr>
+          <tr><td>Business Flow Graph</td><td>MUST</td><td>Map major journeys, entry points, goals, and completion logic in business terms.</td></tr>
+          <tr><td>Coverage Vocabulary</td><td>MUST</td><td>Define covered, partial, deferred, blocked, regressed, variant, and excluded states in one explicit place so later tables and graphs do not silently drift between meanings.</td></tr>
+          <tr><td>Flow-To-Test-To-Support-To-Proof Mapping</td><td>MUST</td><td>Show how business flows map to generated support, generated test classes, and observable proof.</td></tr>
+          <tr><td>Validation Matrix</td><td>MUST</td><td>Make engine/report proof depth explicit instead of burying it in review notes or run folders.</td></tr>
+          <tr><td>Accessible Hyperlink Exploration Ledger</td><td>MUST</td><td>Keep the visible navigation frontier explicit, searchable, honest, and useful for next-frontier selection.</td></tr>
+          <tr><td>Route-Proof Versus Flow-Proof Delta</td><td>MUST</td><td>Show clearly when the round moved from route reachability into deeper business continuation such as autofill, payment, persistence, or success signals.</td></tr>
+          <tr><td>Truth-Ladder Split</td><td>MUST when relevant</td><td>Keep route truth, protected-shell truth, flow truth, mechanism truth, and blocked truth visibly separate whenever guarded transitions or login-route volatility would otherwise flatten the story.</td></tr>
+          <tr><td>Business Flow Inventory</td><td>MUST</td><td>Track covered, partial, deferred, blocked, regressed, variant, and excluded journeys cleanly.</td></tr>
+          <tr><td>Coverage Overlay</td><td>MUST</td><td>Keep covered, partial, blocked, regressed, and deferred states explicit and honest.</td></tr>
+          <tr><td>Deepest Defended Flow / Max Retained Chain</td><td>MUST</td><td>Show the longest business continuation that remained defended by evidence, and name which kept run anchors that claim.</td></tr>
+          <tr><td>Exploration Breadth Versus Proven Depth</td><td>MUST</td><td>Separate what the round explored widely from what it actually proved deeply, especially when iteration count was high.</td></tr>
+          <tr><td>Deferred Or Tentative Areas</td><td>MUST</td><td>Explain separately what remains deferred, tentative, blocked, or regressed and why those states were not promoted.</td></tr>
+          <tr><td>Disconfirmed Frontier Notes</td><td>MUST when relevant</td><td>Explain when a tempting frontier was actively disproved by automation, what evidence broke it, and why the round pivoted elsewhere.</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">2.3 Evidence, comparison, and memory</span>
+        <span class="sumhint">why this run wins and what remains open</span>
+      </summary>
+      <table>
+        <thead><tr><th>Section</th><th>Status</th><th>What it must accomplish</th></tr></thead>
+        <tbody>
+          <tr><td>Cross-Run Lineage And Significant Run Packages</td><td>MUST</td><td>Show which kept runs matter, what they taught, and why the lineage remains explorable.</td></tr>
+          <tr><td>Validation Artifact References</td><td>MUST</td><td>Link the exact kept run package, exact result XML or surefire proof, and any verified report artifact that supports the verdict.</td></tr>
+          <tr><td>Ledger readability</td><td>MUST</td><td>Keep validation ledgers readable even when commands, paths, or artifact references are long: wrap safely, stack details, or collapse per-run detail instead of letting one wide field dominate the row.</td></tr>
+          <tr><td>Generated ATF Test-Result Quality Scoreboard</td><td>MUST</td><td>Treat ATF trust as a first-class concern inside the analysis artifact itself.</td></tr>
+          <tr><td>Reporting Overall Quality</td><td>MUST</td><td>Expose one explicit overall quality judgment for the reporting family, backed by visible reasoning.</td></tr>
+          <tr><td>Cross-Run Comparison</td><td>MUST</td><td>Prevent latest-run bias and explain promotion by evidence.</td></tr>
+          <tr><td>Checkpoint Self-Evaluation</td><td>MUST</td><td>Show which checkpoint scores or benchmark rereads actually changed the next action, so the loop does not look like ten decorative runs with no steering logic.</td></tr>
+          <tr><td>Comparative Family Split</td><td>MUST when relevant</td><td>Say explicitly which family changed business direction, which family improved only reporting/orchestration, and which family produced the retained output winner.</td></tr>
+          <tr><td>Proof-Origin / Retained-Close Split</td><td>MUST when relevant</td><td>Say explicitly which run first closed or reconfirmed the active truth and which broader retained-close run became the strongest audit anchor.</td></tr>
+          <tr><td>Benchmark Comparison</td><td>MUST</td><td>Name the relevant benchmark explicitly and explain where the current artifact is stronger, weaker, or merely different.</td></tr>
+          <tr><td>Local Exemplar Comparison</td><td>MUST when relevant</td><td>If a local exemplar library exists under <code>docs/goldenCopies/html-exemplars-to-follow</code>, state which exemplar reports were compared and whether the current report actually beat them.</td></tr>
+          <tr><td>Benchmark Gap</td><td>MUST</td><td>Name the closest benchmark, where the current package is above it, and where it still remains below the stronger reference.</td></tr>
+          <tr><td>Frontier Gap</td><td>MUST</td><td>State the most valuable unfinished frontier in business language and why it matters more than cosmetic reruns.</td></tr>
+          <tr><td>HTML History Index</td><td>MUST</td><td>Make every semantic milestone explorable, descriptively named, and worth revisiting.</td></tr>
+          <tr><td>Iteration History And Score Evolution</td><td>MUST</td><td>Show how business understanding and trust changed over time.</td></tr>
+          <tr><td>Iteration Budget And Early-Stop Legitimacy</td><td>MUST</td><td>State the planned iteration budget, the consumed depth, and whether any early stop was legitimate.</td></tr>
+          <tr><td>Effective Meaningful Iterations</td><td>MUST</td><td>Say how many iterations materially changed business proof, evidence diversity, or benchmark/ frontier understanding. Decorative reruns, command-shape misses, and packaging-only touches must not be counted as meaningful depth.</td></tr>
+          <tr><td>Self-Perfection Audit Trail</td><td>MUST</td><td>Record what reusable lessons were pushed upstream versus what remained contextual to the current run.</td></tr>
+          <tr><td>Deferred Frontier / Recommended Next Iteration</td><td>MUST</td><td>Keep future work concrete, bounded, and honest; include the target gap when the target is not reached.</td></tr>
+          <tr><td>Render Verification Status</td><td>MUST</td><td>Confirm that the final HTML renders cleanly and the graphs remain visible and legible, then update the status rows to reflect actual verified, partial, or blocked state instead of leaving placeholder text.</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <div class="warn"><b>Reporting failure:</b> omitting a MUST section, shrinking it into one vague paragraph, or hiding it only in milestones means the canonical page is incomplete.</div>
   </details>
 
   <details>
-    <summary>3) Milestone contract</summary>
+    <summary>
+      <span class="summary-title">3) Presentation and density contract</span>
+      <span class="sumhint">how the page should feel and scan</span>
+    </summary>
+    <div class="rule"><b>Core presentation rule:</b> the canonical page should feel like a sober analysis dossier, not a poster or dashboard mockup.</div>
+    <ul>
+      <li>The final page MUST use a consistent dark theme with restrained accents and stable contrast.</li>
+      <li>Typography MUST be compact and refined, but should read like a calm report rather than a dashboard: body text around 12.8-14px, tables around 11.5-12.8px, badges compact, and headline sizes restrained.</li>
+      <li>Typography MUST use one calm primary sans stack consistently across body, cards, tables, and graph labels. Do not mix legacy alternates such as <code>Candara</code> or <code>Trebuchet MS</code> into the canonical page when the standard stack is available.</li>
+      <li>The canonical page SHOULD prefer approximately: <code>h1</code> in the 21-24px range, <code>h2</code> in the 14.5-16.5px range, <code>h3</code> in the 12-13px range, and a visually quieter lede than the main title.</li>
+      <li>Body text SHOULD usually stay near 13.2-14px with line-height around 1.58-1.64. Body sizes around 16-17px and oversized hero typography should be treated as legacy drift unless the page proves an exceptional readability need.</li>
+      <li>Score numerals and score cards MUST be readable but not aggressive, and should usually stay in the low-to-mid-20px band rather than dominating the first screen.</li>
+      <li>Score cards, summary pills, and hero blocks SHOULD share the same baseline font rhythm. If cards, body text, headings, or graph labels visibly feel like different design systems, normalize the CSS before treating the report as polished.</li>
+      <li>Above-the-fold space MUST be efficient: hero text, score chips, and trust framing should appear early without oversized empty space.</li>
+      <li>Vertical rhythm SHOULD be slightly more generous than a dense dashboard: paragraph spacing, table cell padding, and section separation should help scanning without creating poster whitespace.</li>
+      <li>Analytical density MUST come from distinct information layers: summary, graphs, mapping, comparison, history, hyperlink ledger, and deferred areas.</li>
+      <li>The page MUST NOT rely on giant cards, giant typography, oversized whitespace, or oversized SVGs to simulate quality.</li>
+      <li>Tables MUST be compact enough to scan but not so compressed that proof becomes unreadable.</li>
+      <li>Long command strings, file paths, selector chains, class lists, and dense proof details MUST NOT force horizontal overflow or visually broken rows in the canonical page.</li>
+      <li>When a ledger cell would become too wide, the report SHOULD prefer wrapped multiline code, stacked proof blocks, or a short inline summary plus a collapsible detail block instead of one giant unbroken line.</li>
+      <li>Monospace proof cells such as commands, paths, selector chains, and artifact references SHOULD render with wrapping-safe CSS such as <code>white-space:pre-wrap</code>, <code>overflow-wrap:anywhere</code>, and <code>word-break:break-word</code> when needed; a stable multiline cell is preferable to horizontal clipping.</li>
+      <li>Tables that still become too wide after sane wrapping SHOULD be split into coordinated narrower tables or converted into a compact ledger plus expandable per-run details.</li>
+      <li>Dense or secondary sections SHOULD be rendered as collapsible blocks that are closed by default unless they carry first-view truths needed to judge the run.</li>
+      <li>The closed state MUST be visually economical: one concise summary row, minimal padding, and no large near-empty shells.</li>
+      <li>The default open set SHOULD stay small and calm: the hero, core summaries, and the three primary graphs can remain visible, while proof-heavy ledgers and long histories should usually stay closed.</li>
+      <li>Hero styling SHOULD stay disciplined: moderate padding, restrained border radius, and no oversized title/lede pairing that makes the page feel like a separate visual system from the sections below it.</li>
+      <li>Collapsed sections SHOULD use short ASCII-safe summary hints when possible so the default closed view remains stable across renderers and encoding paths.</li>
+      <li>Proof Mapping, Validation Matrix, Iteration History And Score Evolution, Deferred Or Tentative Areas, Benchmark Comparison, Self-Perfection Audit Trail, Validation Artifact References, and long hyperlink ledgers SHOULD default to collapsed unless the page becomes less readable that way.</li>
+      <li>The report SHOULD keep one explicit primary retained validation run visible near the top so a reviewer can tell immediately which kept package anchors the verdict.</li>
+      <li>The report SHOULD keep pills discrete and semantic: a few useful truths are good, decorative score confetti is not.</li>
+      <li>The report SHOULD keep first-screen phrasing calm and slightly larger than earlier local drafts, but still sober and dossier-like rather than dashboard-aggressive.</li>
+      <li>Graph text SHOULD visually harmonize with body typography: avoid a graph-label style that looks heavier, larger, or more playful than the surrounding report.</li>
+      <li>The report SHOULD keep bootstrap or borrowed-support provenance near the top as one short pill or one short sentence only. Detailed bootstrap caveats belong lower in audit sections, not in the hero prose.</li>
+      <li>The top-of-page trust stance SHOULD stay shorter and more decision-dense than any provenance caveat. Readers should learn the artifact class, primary retained run, and main benchmark/frontier gap before they read deeper audit notes.</li>
+      <li>The first screen SHOULD not spend more vertical space on bootstrap or benchmark caveats than on the actual current baseline decision.</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">4) Diagram and render contract</span>
+      <span class="sumhint">compact graphs, real render trust</span>
+    </summary>
+    <div class="rule"><b>Preferred baseline:</b> static inline SVG graphs, because they remain stable across local file open, simple static hosting, and artifact promotion.</div>
+    <ul>
+      <li>Diagrams MUST render without external dependencies.</li>
+      <li>Every canonical HTML MUST include a readable business domain graph, actor-state graph, and flow graph as distinct inline SVG blocks.</li>
+      <li>Graphs MUST be compact and fine-grained, not poster-style: thin strokes, concise labels, restrained node sizes, and minimal dead space.</li>
+      <li>SVG text inside graphs SHOULD use smaller sizes than surrounding prose, typically around 9.5-12px depending on hierarchy.</li>
+      <li>Primary node labels SHOULD be concise enough to avoid oversized boxes, and viewBoxes SHOULD stay tight.</li>
+      <li>Padding around SVG containers SHOULD be minimal and purposeful rather than poster-like.</li>
+      <li>Graphs MUST teach something different from the tables around them; they are not decorative restatements.</li>
+      <li>When the round promotes continuity across relogin, session clear, or another actor-state reset, the actor-state and business-flow graphs SHOULD show that boundary explicitly instead of implying only same-session depth.</li>
+      <li>Render verification is mandatory before promotion.</li>
+    </ul>
+    <div class="warn"><b>Graph failure:</b> oversized diagrams, thick strokes, sparse labels, or giant node boxes that waste space and reduce analytical density.</div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">5) Proof mapping and coverage vocabulary</span>
+      <span class="sumhint">what is really proven and how to say it</span>
+    </summary>
+    <details class="subdetails" open>
+      <summary>
+        <span class="summary-title">5.1 Core proof semantics</span>
+        <span class="sumhint">status words and mapping honesty</span>
+      </summary>
+      <table>
+        <thead><tr><th>Topic</th><th>Expectation</th></tr></thead>
+        <tbody>
+          <tr><td>Coverage vocabulary</td><td>The canonical page MUST use explicit statuses such as Covered, Partial, Deferred, Blocked, and Regressed when those states are the truthful fit.</td></tr>
+          <tr><td>Flow mapping columns</td><td>The main proof-mapping view SHOULD make business flow, status, generated support, test class, and observable proof visible in one place.</td></tr>
+          <tr><td>Proof-mapping width control</td><td>If one wide table becomes hard to scan, the report SHOULD compact wording, split the mapping into coordinated tables, or use stacked proof blocks.</td></tr>
+          <tr><td>Long-line containment</td><td>Long commands, paths, class lists, selector chains, and artifact references MUST wrap cleanly inside their cell or move into stacked/collapsible detail blocks; the page should never depend on horizontal overflow to preserve fidelity.</td></tr>
+          <tr><td>Proof wording</td><td>Observable proof MUST name what was actually seen: UI text, route behavior, stable XML result, screenshot-backed report verification, or other concrete signal.</td></tr>
+          <tr><td>Generated-support visibility</td><td>Generated support MUST be visible in the mapping, not hidden behind test names only.</td></tr>
+          <tr><td>Partial honesty</td><td>If only the entry contract or UI shell is proven, the flow MUST stay Partial or Deferred rather than being upgraded to Covered.</td></tr>
+          <tr><td>Visible-surface honesty</td><td>If a route or account surface is visible after a meaningful upstream success but no concrete record materializes there, the report SHOULD classify it as Partial or Deferred rather than upgrading it because the page exists.</td></tr>
+          <tr><td>Sub-contract split honesty</td><td>If a broader same-slice matrix proves only the core of a flow across engines or reports, the canonical page SHOULD split the claim into a covered core sub-contract and a partial or deferred richer sub-contract.</td></tr>
+          <tr><td>Regression honesty</td><td>If a flow failed during the run and was later restored, the final page SHOULD preserve that regression history instead of erasing it.</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><b>Coverage model rule:</b> the page should help a reviewer answer "what is really proven?" without opening test classes first.</div>
+      <div class="note"><b>Width rule:</b> proof mapping should stay scanable on a normal laptop viewport.</div>
+      <div class="note"><b>Good-versus-bad ledger rule:</b> a good long command row wraps into a few calm lines inside the cell, or uses a short summary plus expandable details. A bad row stays as one unbroken line that stretches the table, clips content, or makes nearby columns unreadable.</div>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">5.2 Frontier depth and hyperlink interpretation</span>
+        <span class="sumhint">beyond route names and shell proof</span>
+      </summary>
+      <div class="note"><b>Hyperlink frontier rule:</b> the ledger should not stop at route names. It should separate guest versus authenticated shells, note support and trust pages, distinguish internal versus external destinations, mark redirects, hidden descendants, duplicates, and visible product-card descendants, and explain which links changed trust, product map, side journeys, or frontier priority.</div>
+      <div class="note"><b>Depth-preference rule:</b> once the report shows a shell or hyperlink frontier as stable, the next promoted section should prefer deeper observable business continuation when reachable, such as autofill, payment-method selection, success confirmation, persistence, or post-action continuity, instead of celebrating another shell-only hop.</div>
+      <div class="note"><b>Same-frontier rerun rule:</b> if a later rerun proves the same frontier with cleaner package shape but without deeper business continuation, the canonical page should classify the delta as stronger retained proof or packaging gain, not as a new frontier.</div>
+      <div class="note"><b>Proof-origin / retained-close rule:</b> when a round claims a family-level comparison, the canonical page should say which run first closed or reconfirmed the active truth and which run became the broader retained close. If the round only repeated one narrow command, say that the comparison stayed thin.</div>
+      <div class="note"><b>Max-flow rule:</b> the canonical page should state the deepest defended chain in plain business terms, for example <code>registration -> login -> profile -> messages -> invoices -> relogin continuity</code>, and should not force the reader to infer that chain from multiple tables.</div>
+      <div class="note"><b>Iteration-depth rule:</b> when the execution budget is high, the page should say whether later iterations increased defended depth, only broadened exploration, or merely hardened the same retained proof.</div>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">5.3 Compatibility and persistence honesty</span>
+        <span class="sumhint">cross-engine slices and session-reset truth</span>
+      </summary>
+      <div class="rule"><b>Compatibility evidence rule:</b> cross-engine, cross-browser, or alternate-reporting slices are supporting evidence unless they exercise the same promoted business contract and preserve machine-readable proof. Separate product truth from runner/process warnings; a Selenium or CDP warning is compatibility context, not product failure and not full-suite parity by itself.</div>
+      <div class="rule"><b>Business-critical compatibility rule:</b> after shell/link compatibility is stable, prefer cross-engine slices for promoted business-critical flows such as checkout/payment, account state, support propagation, recovery, or persistence before spending more effort on static-route reruns.</div>
+      <div class="rule"><b>Session-reset rule:</b> when the business claim is persistence rather than logout correctness, a cleared-session plus re-login proof may legitimately anchor the canonical truth more strongly than a flaky sign-out branch. The page should say so explicitly instead of implying that sign-out was the validated contract.</div>
+    </details>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">6) Milestone and history contract</span>
+      <span class="sumhint">history as active memory</span>
+    </summary>
     <div class="rule">Milestones must read like rich case notes. They are not numbered breadcrumbs and they are not trimmed copies of the canonical page.</div>
     <table>
       <thead><tr><th>Field</th><th>Expectation</th></tr></thead>
@@ -102,58 +337,109 @@
         <tr><td>Delta</td><td>What changed since the previous kept state.</td></tr>
         <tr><td>Observed pressure</td><td>What weakness, ambiguity, or failure triggered the iteration.</td></tr>
         <tr><td>Fix or decision</td><td>What changed in prompt, code, or interpretation.</td></tr>
-        <tr><td>Score snapshot</td><td>Analysis quality, generated ATF quality, prompt quality, and reporting overall quality at that milestone.</td></tr>
+        <tr><td>Score snapshot</td><td>Business HTML, ATF Package, Overall, and Target status at that milestone.</td></tr>
+        <tr><td>Compact milestone shape</td><td>New understanding, tests added, support added, evidence, score delta, and next gap.</td></tr>
         <tr><td>Next frontier</td><td>What should be attempted next if the loop continues.</td></tr>
       </tbody>
     </table>
-    <div class="warn"><b>Hard failure:</b> milestone families made of near-identical “still green” pages or snapshots that repeat the final winner without adding new learning.</div>
+    <div class="note"><b>Narrative contract:</b> each milestone should say clearly what was discovered, what was confirmed, what was disproved, what was retained, and what moved next.</div>
+    <div class="note"><b>Canonical history contract:</b> the main page SHOULD combine one compact score-evolution table with a more narrative history view so the history is not only numeric.</div>
+    <div class="note"><b>Dynamic memory contract:</b> the next round should reread the canonical page, the milestone family, and meaningful prior run packages before deciding what to improve. History is active memory, not passive archive.</div>
+    <div class="note"><b>Pattern-detection contract:</b> history exists to reveal repeated failure shapes, repeated misleading claims, recurring engine/report gaps, recurring hyperlink frontier misses, and promising next frontiers.</div>
+    <div class="note"><b>Message-to-artifact integrity contract:</b> the user-facing verdict, canonical page, milestone family, and active run archive should all describe the same concrete round. If they drift apart, the report should downgrade trust and call the round audit-inconsistent.</div>
+    <div class="note"><b>Transient-stability contract:</b> if an engine or report path first failed and then passed on an immediate same-slice rerun, the canonical history should keep both states visible and explain the lesson.</div>
+    <div class="note"><b>Run-lineage contract:</b> the canonical page should make it obvious which preserved run packages are worth reopening and what each one contributes to the audit trail.</div>
+    <div class="note"><b>Run-numbering contract:</b> when a workspace-local run archive is reset, the next local lineage should restart cleanly at <code>run_01</code> and remain contiguous. External lineage can stay external, but inherited numbering inside a fresh local archive is an audit defect.</div>
+      <div class="note"><b>Winner-split history rule:</b> if one run is the business-understanding winner and another run is the output or retained-package winner, history should preserve both roles explicitly instead of flattening them into one generic "best run".</div>
+      <div class="note"><b>Exemplar-beat rule:</b> a report may be a valid round winner without being exemplar-grade. If the page did not clearly beat the local exemplar library on trust, proof mapping, benchmark/frontier explainability, artifact references, and readable audit density, the report must not be copied into <b>docs/goldenCopies/html-exemplars-to-follow</b>.</div>
+    <div class="warn"><b>Hard failure:</b> milestone families made of near-identical "still green" pages, or a long run that preserves only one thin summary instead of an explorable milestone family.</div>
   </details>
 
   <details>
-    <summary>4) Diagram and render contract</summary>
-    <div class="rule"><b>Preferred baseline:</b> static inline SVG diagrams, because they do not rely on runtime Mermaid rendering and remain stable across local file open, simple static hosting, and artifact promotion.</div>
-    <ul>
-      <li>Diagrams MUST render without external dependencies.</li>
-      <li>Diagrams MUST remain readable on local file open and simple static hosting.</li>
-      <li>If a source format is kept for editing, the rendered SVG still MUST be present in the final HTML.</li>
-      <li>Raw diagram source MUST NOT be the final user-facing output.</li>
-      <li>Every canonical HTML MUST include a readable business domain graph, actor-state graph, and flow graph.</li>
-      <li>Dense diagrams MUST be backed by ledgers or inventories that make them teachable.</li>
-      <li>Render verification is mandatory before promotion.</li>
-    </ul>
+    <summary>
+      <span class="summary-title">7) Scoreboard and trust rules</span>
+      <span class="sumhint">how the page justifies trust</span>
+    </summary>
+    <details class="subdetails" open>
+      <summary>
+        <span class="summary-title">7.1 Core trust dimensions</span>
+        <span class="sumhint">what the page is scored on</span>
+      </summary>
+      <table>
+        <thead><tr><th>Dimension</th><th>Expectation</th></tr></thead>
+        <tbody>
+          <tr><td>business-first clarity</td><td>The artifact teaches the product before it teaches the framework.</td></tr>
+          <tr><td>score separation</td><td>Business HTML quality, ATF Package quality, Overall quality, and target status are visible as separate truths.</td></tr>
+          <tr><td>canonical section completeness</td><td>The mandatory sections are present and useful, not nominal only.</td></tr>
+          <tr><td>analytical density</td><td>The page contains enough distinct visual, narrative, and mapping material to stand as a reference-grade artifact.</td></tr>
+          <tr><td>render and graph quality</td><td>The visual layer renders correctly and helps comprehension without becoming oversized.</td></tr>
+          <tr><td>ATF trust linkage</td><td>The artifact explains clearly what the generated ATF package really proves.</td></tr>
+          <tr><td>benchmark explainability</td><td>The relevant benchmark is named explicitly, and the gaps versus that benchmark are concrete.</td></tr>
+          <tr><td>history usefulness</td><td>The milestone family is worth revisiting, not just archiving.</td></tr>
+          <tr><td>validation reference quality</td><td>The page points directly to the evidence paths that justify the verdict.</td></tr>
+          <tr><td>reporting overall quality</td><td>The combined quality of the reporting package as a reusable business-understanding artifact.</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><b>ATF trust rule:</b> the canonical HTML must contain the ATF Package score and the reasoning that supports it, not hide that truth only in meta review artifacts.</div>
+      <div class="rule"><b>Single upstream parameter:</b> this standard requires one upstream target only: <code>REPORTING_OVERALL_QUALITY_TARGET</code>.</div>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">7.2 Verification and evidence integrity</span>
+        <span class="sumhint">render, hydration, screenshots, references</span>
+      </summary>
+      <div class="note"><b>Early-stop truth rule:</b> if the loop consumed fewer iterations than planned, the canonical HTML must justify that exception explicitly against open seed-adjacent flows, meaningful hyperlinks, and the benchmark gap.</div>
+      <div class="note"><b>Render-verification rule:</b> completion requires actually opening the generated report and judging readability, graph proportion, table width, heading aggression, and scanability.</div>
+      <div class="note"><b>Hydrated-render rule:</b> when a referenced report bundle is JS-driven, visual verification is valid only after the report is shown in a hydrated state.</div>
+      <div class="note"><b>Visual-evidence rule:</b> the run package should preserve at least one screenshot or comparable visual artifact for the verified canonical page and for any benchmark-significant report comparison that influenced the verdict.</div>
+      <div class="note"><b>Verification-status rule:</b> once screenshots or equivalent proof are captured, the canonical page should replace pending render placeholders with explicit verified status and point to the preserved evidence paths.</div>
+      <div class="note"><b>Validation-reference rule:</b> the canonical page must include a dedicated <b>Validation Artifact References</b> section that links directly to the kept run package, the exact XML or surefire proof, the preserved Extent report when relevant, and the preserved Allure report only when that Allure artifact was visually verified in a hydrated state.</div>
+      <div class="note"><b>Ledger-readability rule:</b> before calling the page reporting-complete, perform a quick pass for long command, path, and artifact rows: no horizontal overflow, no clipped command cells, and no single unwrapped field dominating the row.</div>
+      <div class="note"><b>Primary-run alignment rule:</b> the final page must point to one explicit primary retained validation run and keep that choice consistent across the summary, lineage, and validation-reference sections.</div>
+      <div class="note"><b>Source-lock reporting rule:</b> when the round compares families or borrowed standards, the canonical page should list exact files used, exact files excluded, and any explicit WIP exclusion that governed the round.</div>
+      <div class="note"><b>Bootstrap-provenance placement rule:</b> if the round reused generated support, rebuilt an execution layer from a benchmark snapshot, or depended on a shared precursor bootstrap, the page should keep only a short first-screen provenance note and move the detailed explanation into <b>Reset And Source Lock</b>, <b>Validation Artifact References</b>, or a dedicated provenance block. Do not frame bootstrap provenance as if it were a business benchmark victory.</div>
+      <div class="note"><b>Benchmark-versus-bootstrap rule:</b> distinguish <b>benchmark memory reopened for comparative judgment</b> from <b>execution bootstrap provenance</b>. The first changes how the round was judged; the second explains how the round became runnable. Do not collapse them into one generic benchmark-memory sentence.</div>
+      <div class="note"><b>Output-versus-business rule:</b> when the retained output winner differs from the business-understanding winner, the page should say that explicitly in the comparative summary and cross-run comparison.</div>
+      <div class="note"><b>Proof-origin memory rule:</b> when the run that first closed the truth is different from the retained output winner, the page should keep both visible instead of letting the later cleaner package erase the origin of the business proof.</div>
+      <div class="note"><b>Report-log preservation rule:</b> if a log or preserved report explains a repair, engine difference, hydration issue, or final trust claim, the canonical page should link it from the validation references instead of leaving it trapped only in terminal memory or transient target output.</div>
+      <div class="note"><b>Blocked-visual rule:</b> if local rendering is blocked by file policy, hosting limitations, or incomplete hydration, the page must downgrade render verification to Partial or Blocked and link the blocker note or screenshot instead of pretending success.</div>
+      <div class="note"><b>Checkpoint-self-eval rule:</b> the canonical page should make visible how comparative self-evaluation against the direct predecessor and primary benchmark changed the round direction, not just the final score.</div>
+      <div class="rule"><b>Final readability checklist:</b> no horizontal overflow in proof-heavy tables; no visibly clipped command or artifact cells; long-path and long-command rows remain readable on a normal laptop viewport; if not, wrap, stack, split, or collapse before promotion.</div>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">7.3 Frontier-specific honesty rules</span>
+        <span class="sumhint">hard cases that must stay explicit</span>
+      </summary>
+      <div class="note"><b>Password-proof rule:</b> when a round claims deeper password lifecycle coverage, the report should state whether it proved only a success confirmation, or the stronger contract of old-password invalidation plus new-password relogin, and score the frontier accordingly.</div>
+      <div class="note"><b>Profile-update rule:</b> when a round explores profile-edit persistence, the report should state whether changed values actually survived save plus reload. If the page accepts edits but reverts to the prior values, classify the frontier as blocked or deferred instead of implying persistence.</div>
+      <div class="note"><b>Disconfirmed-proof rule:</b> when automation shows that a visible UI surface throws a client error, issues no real request, or fails stronger state-transition proof, the report should classify that frontier as blocked or deferred rather than preserving the earlier manual optimism.</div>
+      <div class="note"><b>Displaced-frontier reporting rule:</b> if the direct predecessor was already beaten on a shallower frontier, the canonical page should say so explicitly and explain which deeper benchmark gap replaced it as the round's main story.</div>
+      <div class="note"><b>Compare-proof rule:</b> when comparison is promoted, the report should show selection-state proof, comparison-table proof, at least one divergent attribute proof, and any empty-state or clear-all recovery proof used to justify the claim.</div>
+      <div class="note"><b>Support-continuity rule:</b> when a support or contact action continues into a protected message center, detail route, or reply thread, the canonical page should promote the persisted protected continuation as the real frontier rather than stopping at the public success confirmation.</div>
+      <div class="note"><b>Session-continuity rule:</b> when the new retained truth depends on relogin, session clear, or another actor reset, the canonical page should make that boundary visible in the graphs, proof mapping, and benchmark comparison instead of burying it only in one sentence.</div>
+      <div class="note"><b>Borrowed-family rule:</b> if external standards improved only provenance, source lock, or packaging clarity, the page should say that directly and avoid implying that borrowed prompts created the business frontier.</div>
+      <div class="note"><b>Bootstrap honesty rule:</b> when a shared-engine precursor remains blocked and the round advances only through an explicit bootstrap or workaround, the report should say where the real blocker still lives instead of implying a fully native path.</div>
+      <div class="note"><b>Pill-value rule:</b> the pill rail should carry a few immediately useful truths such as primary run, baseline count, explicit non-promotion, or benchmark gap. If a pill does not help a reviewer judge trust quickly, it should not be there.</div>
+      <div class="note"><b>Self-perfection rule:</b> the canonical page should end with a clear trail of what stable lessons were upstreamed into shared prompts or standards, what stayed local, and why.</div>
+    </details>
   </details>
 
   <details>
-    <summary>5) Scoreboard and trust rules</summary>
-    <table>
-      <thead><tr><th>Dimension</th><th>Expectation</th></tr></thead>
-      <tbody>
-        <tr><td>business-first clarity</td><td>The artifact teaches the product before it teaches the framework.</td></tr>
-        <tr><td>canonical section completeness</td><td>The mandatory sections are present and useful, not nominal only.</td></tr>
-        <tr><td>milestone distinctness</td><td>The history snapshots capture real shifts, not repetitive confirmations.</td></tr>
-        <tr><td>render and diagram quality</td><td>The visual layer renders correctly and helps comprehension.</td></tr>
-        <tr><td>ATF trust linkage</td><td>The artifact explains clearly what the generated ATF package really proves.</td></tr>
-        <tr><td>cross-run explainability</td><td>The winner decision is explicit, comparable, and evidence-based.</td></tr>
-        <tr><td>history usefulness</td><td>The milestone family is worth revisiting, not just archiving.</td></tr>
-        <tr><td>onboarding value</td><td>A new engineer can understand scope, trust, and next frontier quickly.</td></tr>
-        <tr><td>reporting overall quality</td><td>The combined quality of the reporting package as a reusable business-understanding artifact.</td></tr>
-      </tbody>
-    </table>
-    <div class="note"><b>ATF trust rule:</b> the canonical HTML must contain the generated ATF quality score and the reasoning that supports it, not hide that truth only in meta review artifacts.</div>
-    <div class="rule"><b>Single upstream parameter:</b> this standard requires one upstream target only: <code>REPORTING_OVERALL_QUALITY_TARGET</code>. Numeric target, gating strength, and stop behavior belong to the governing prompt family, not to this shared standard.</div>
-  </details>
-
-  <details>
-    <summary>6) Promotion and upstream integration</summary>
+    <summary>
+      <span class="summary-title">8) Promotion and upstream integration</span>
+      <span class="sumhint">when this artifact is strong enough to reuse</span>
+    </summary>
     <ul>
       <li>The canonical HTML MUST explain why the current run won when multiple governed runs exist.</li>
       <li>The canonical HTML MUST keep deferred areas explicit and honest.</li>
       <li>The canonical HTML MUST be rich enough to become a reference exemplar without requiring separate chat memory.</li>
       <li>The execution prompt should reference this reporting contract instead of cloning it inline.</li>
       <li>Only reusable reporting rules should live here; run-specific discovery, validation, and frontier logic should stay upstream.</li>
-      <li>The execution and meta prompts should point to the same canonical sections, milestone expectations, and trust rules.</li>
+      <li>The execution and meta prompts should point to the same canonical sections, presentation expectations, milestone expectations, validation-reference expectations, and trust rules.</li>
     </ul>
-    <div class="good"><b>Promotion bar:</b> a canonical HTML can become a reference exemplar only if a new reader can understand scope, trust level, cross-run winner logic, generated ATF confidence, and remaining frontier without opening any additional artifact first.</div>
+    <div class="good"><b>Promotion bar:</b> a canonical HTML can become a reference exemplar only if a new reader can understand scope, trust level, benchmark relation, generated ATF confidence, evidence paths, and remaining frontier without opening any additional artifact first.</div>
+    <div class="rule"><b>Golden-copy bar:</b> copying into <b>docs/goldenCopies/html-exemplars-to-follow</b> is allowed only when the current report beats every relevant stored exemplar overall, not just when it wins the current round. A prettier page, a narrower local frontier win, or one stronger subsection is not enough by itself.</div>
   </details>
 </div>
 </body>

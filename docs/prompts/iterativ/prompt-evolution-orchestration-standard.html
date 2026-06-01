@@ -59,6 +59,15 @@
     color: var(--muted);
     font-size: 12px;
   }
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .pill-row .pill {
+    margin: 0;
+  }
   .note, .warn, .good, .rule {
     padding: 10px 12px;
     border-radius: 12px;
@@ -75,6 +84,10 @@
     padding: 10px 12px;
     margin: 12px 0;
     box-shadow: 0 8px 22px var(--shadow);
+  }
+  .subdetails {
+    margin: 10px 0 0 10px;
+    background: rgba(11,20,31,.84);
   }
   summary {
     cursor: pointer;
@@ -134,11 +147,12 @@
       winner selection by evidence, promotion trust, and upstream ownership boundaries.
       Repository-local thresholds, path roots, loop depth, execution commands, and family-specific stop policy must stay upstream.
     </p>
-    <div>
+    <div class="pill-row">
       <span class="pill">shared orchestration shape</span>
       <span class="pill">run-package rigor</span>
       <span class="pill">winner by evidence</span>
       <span class="pill">promotion gate</span>
+      <span class="pill">proof-origin vs retained-close</span>
       <span class="pill">upstream-governed</span>
     </div>
   </header>
@@ -159,7 +173,7 @@
       <tbody>
         <tr>
           <td>Preserve-reset-rerun discipline, run-package contract, failure patterns, cross-run winner logic, and promotion expectations.</td>
-          <td>Loop depth, quality targets, path roots, reset scope, comparison scope, and family-specific stop rules.</td>
+          <td>Loop depth, quality targets, path roots, reset scope, comparison scope, family-specific stop rules, and any local exemplar-library path.</td>
         </tr>
       </tbody>
     </table>
@@ -172,18 +186,30 @@
       <span class="summary-title">1) Purpose and adoption contract</span>
       <span class="sumhint">what this standard is for</span>
     </summary>
-    <ul>
-      <li>Preserve every governed run as a reviewable evidence package.</li>
-      <li>Require prompt evolution when weaknesses are traced to wording, structure, or ownership.</li>
-      <li>Reset only superseded generated output, not the kept evidence family.</li>
-      <li>Force cross-run winner selection by evidence, not chronology.</li>
-    </ul>
-    <div class="rule">Concrete supervising prompts should stay directly executable, but they should reference this file instead of cloning the generic orchestration contract inline.</div>
-    <ul>
-      <li>The execution layer should own discovery, generation, and run-local artifact production.</li>
-      <li>The supervising layer should own scoring, prompt evolution, rerun discipline, and final promotion.</li>
-      <li>Future prompt families should improve this shared contract directly when the reusable orchestration model gets better.</li>
-    </ul>
+    <details class="subdetails" open>
+      <summary>
+        <span class="summary-title">1.1 Core purpose</span>
+        <span class="sumhint">why the file exists</span>
+      </summary>
+      <ul>
+        <li>Preserve every governed run as a reviewable evidence package.</li>
+        <li>Require prompt evolution when weaknesses are traced to wording, structure, or ownership.</li>
+        <li>Reset only superseded generated output, not the kept evidence family.</li>
+        <li>Force cross-run winner selection by evidence, not chronology.</li>
+      </ul>
+      <div class="rule">Concrete supervising prompts should stay directly executable, but they should reference this file instead of cloning the generic orchestration contract inline.</div>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">1.2 Layer ownership</span>
+        <span class="sumhint">who owns what</span>
+      </summary>
+      <ul>
+        <li>The execution layer should own discovery, generation, and run-local artifact production.</li>
+        <li>The supervising layer should own scoring, prompt evolution, rerun discipline, and final promotion.</li>
+        <li>Future prompt families should improve this shared contract directly when the reusable orchestration model gets better.</li>
+      </ul>
+    </details>
   </details>
 
   <details>
@@ -191,42 +217,72 @@
       <span class="summary-title">2) Mandatory orchestration contract</span>
       <span class="sumhint">the shared loop shape</span>
     </summary>
-    <table>
-      <thead>
-        <tr>
-          <th>Concern</th>
-          <th>Status</th>
-          <th>What it must accomplish</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Layer contract</td><td>MUST</td><td>Keep execution-layer ownership separate from supervising-layer ownership.</td></tr>
-        <tr><td>Per-run package</td><td>MUST</td><td>Preserve the full run package before any reset or promotion.</td></tr>
-        <tr><td>Preserve-reset-rerun sequence</td><td>MUST</td><td>Make reruns honest and explainable, not decorative.</td></tr>
-        <tr><td>Cross-run winner selection</td><td>MUST</td><td>Prevent the latest run from auto-winning.</td></tr>
-        <tr><td>Promotion and preservation rules</td><td>MUST</td><td>Let only the selected winner become canonical or exemplar material.</td></tr>
-      </tbody>
-    </table>
-    <table>
-      <thead>
-        <tr>
-          <th>Run folder</th>
-          <th>Status</th>
-          <th>Purpose</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td><code>run_##/analysis</code></td><td>MUST</td><td>Run-local canonical analysis artifact and its supporting history.</td></tr>
-        <tr><td><code>run_##/review</code></td><td>MUST</td><td>Run-specific review artifact and scoring record.</td></tr>
-        <tr><td><code>run_##/prompt</code></td><td>MUST</td><td>Snapshots of the governed prompts actually used in the run.</td></tr>
-        <tr><td><code>run_##/manifests</code></td><td>MUST</td><td>Keep/reset manifests plus promotion notes.</td></tr>
-      </tbody>
-    </table>
-    <ul>
-      <li>A losing run still MUST remain reviewable enough to explain why it lost.</li>
-      <li>The loop MUST NOT rely on terminal output alone as the preserved memory of a run.</li>
-      <li>The latest run is not automatically the best run.</li>
-    </ul>
+    <details class="subdetails" open>
+      <summary>
+        <span class="summary-title">2.1 Shared loop gates</span>
+        <span class="sumhint">non-negotiable orchestration truths</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Concern</th>
+            <th>Status</th>
+            <th>What it must accomplish</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Layer contract</td><td>MUST</td><td>Keep execution-layer ownership separate from supervising-layer ownership.</td></tr>
+          <tr><td>Per-run package</td><td>MUST</td><td>Preserve the full run package before any reset or promotion, using a stable shape that supports cross-run comparison.</td></tr>
+          <tr><td>Preserve-reset-rerun sequence</td><td>MUST</td><td>Make reruns honest and explainable, not decorative.</td></tr>
+          <tr><td>Cross-run winner selection</td><td>MUST</td><td>Prevent the latest run from auto-winning.</td></tr>
+          <tr><td>Proof-origin / retained-close split</td><td>MUST when relevant</td><td>Keep visible which run first closed the active truth and which run became the strongest broader retained close.</td></tr>
+          <tr><td>Promotion and preservation rules</td><td>MUST</td><td>Let only the selected winner become canonical or exemplar material.</td></tr>
+          <tr><td>Golden-copy gate</td><td>MUST when relevant</td><td>Copy into a local exemplar library only after the final supervising review proves the new report beats the stored exemplars overall.</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">2.2 Run package shape</span>
+        <span class="sumhint">what every kept run must contain</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Run folder</th>
+            <th>Status</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr><td><code>run_##/analysis</code></td><td>MUST</td><td>Run-local canonical analysis artifact, semantic milestone history, score evolution, and target-gap evidence. Numbering must be clean and gap-free inside the current run family: <code>run_01</code>, <code>run_02</code>, ...</td></tr>
+          <tr><td><code>run_##/review</code></td><td>MUST</td><td>Run-specific review artifact and scoring record.</td></tr>
+          <tr><td><code>run_##/prompt</code></td><td>MUST</td><td>Snapshots of the governed prompts actually used in the run.</td></tr>
+          <tr><td><code>run_##/manifests</code></td><td>MUST</td><td>Keep/reset manifests plus promotion notes.</td></tr>
+          <tr><td><code>run_##/validation</code></td><td>MUST</td><td>Validation note, command output, report paths, screenshots, render checks, test results, or explicit no-validation reason.</td></tr>
+          <tr><td><code>run_##/SUMMARY.md</code></td><td>MUST</td><td>Quick audit entry: run purpose, execution shape, engine/report, exact executed command or exact executable command description, exact result numbers, defect/repair/proof/comparison, promoted lesson vs contextual lesson, and why the run deserves preservation. Placeholder command tokens are audit-invalid.</td></tr>
+          <tr><td><code>run_##/atf</code></td><td>MUST</td><td>Non-empty ATF audit summary: generated-tests summary, shared-support summary, validation summary, and iteration ledger when the run changes strategy or trust.</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">2.3 Retention and lineage discipline</span>
+        <span class="sumhint">how archives stay honest</span>
+      </summary>
+      <ul>
+        <li>A losing run still MUST remain reviewable enough to explain why it lost.</li>
+        <li>The loop MUST NOT rely on terminal output alone as the preserved memory of a run.</li>
+        <li>Every preserved run MUST be intelligible in under one minute from its <code>SUMMARY.md</code>; folder presence without a clear audit explanation is not sufficient evidence.</li>
+        <li>Run retention MUST preserve every real run with a distinct defect, repair, rerun, strategy change, benchmark comparison, or reusable lesson. Do not compress meaningful lineage to only the last two or three runs; do delete or complete decorative run folders that add no new evidence.</li>
+        <li>The final retained validation folder MUST be clean: keep the final verdict report and exact supporting logs/evidence, and move unrelated earlier reports to their own run packages instead of mixing them into the final folder.</li>
+        <li>Fresh family-comparison or quality-loop validation rounds SHOULD live under one explicitly named active-scope subfolder beneath <code>evolution-runs</code> rather than dumping new <code>run_01..run_##</code> directly into a root that may later mix lineages.</li>
+        <li>If the loop continues over retained run packages instead of rebuilding from an empty archive, the SUMMARY and canonical report MUST call it a continuation round, list inherited runs, list new runs, and avoid stale wording from previous run counts or budgets.</li>
+        <li>The loop MUST NOT inflate run count by alternating engines or report adapters over the same unchanged hypothesis. A counted run needs new proof, exposed defect, confirmed repair, changed trust, or a documented blocked/low-value frontier.</li>
+        <li>The loop MUST NOT present four identical reruns of the same narrow command as a sufficient full-family comparison unless the review proves that no broader symmetric retained-close evidence class was feasible.</li>
+        <li>The latest run is not automatically the best run.</li>
+      </ul>
+    </details>
   </details>
 
   <details>
@@ -234,32 +290,66 @@
       <span class="summary-title">3) Improve, reset, rerun, and failure rules</span>
       <span class="sumhint">how the loop stays honest</span>
     </summary>
-    <ol>
-      <li>Review the active run package.</li>
-      <li>Identify prompt-caused weaknesses in analysis quality, reporting quality, generated output quality, or history usefulness.</li>
-      <li>Improve the relevant governed prompt or shared standard reference.</li>
-      <li>Preserve the full run package.</li>
-      <li>Reset only superseded generated output.</li>
-      <li>Rerun from a cleaner state.</li>
-      <li>Score again and compare against the best-so-far run.</li>
-    </ol>
-    <div class="warn"><b>Reset rule:</b> preserve analysis memory, review evidence, and prompt history first; revert only generated output and generated support that were superseded by the prior run.</div>
-    <div class="rule"><b>Winner rule:</b> the latest run is not automatically the winner. Promotion must explain why the selected run displaced the previous best and why the losing runs were not promoted.</div>
-    <table>
-      <thead>
-        <tr>
-          <th>Failure mode to reject</th>
-          <th>Why it is invalid</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Prompt weakness was diagnosed, but no relevant prompt evolution happened before rerun.</td><td>The rerun is not a meaningful test of improvement.</td></tr>
-        <tr><td>The run passed validation, but the canonical analysis artifact is too thin to justify trust.</td><td>Passing validation alone does not make the package trustworthy.</td></tr>
-        <tr><td>The run improved breadth but weakened determinism or honesty.</td><td>Coverage growth does not excuse weaker trust.</td></tr>
-        <tr><td>The loop preserved artifacts, but not enough evidence to explain why a previous run lost.</td><td>Cross-run promotion becomes decorative instead of evidence-based.</td></tr>
-        <tr><td>The loop claimed a clean rerun even though reset safety allowed only a partial rollback.</td><td>The claimed rerun state is misleading.</td></tr>
-      </tbody>
-    </table>
+    <details class="subdetails" open>
+      <summary>
+        <span class="summary-title">3.1 Core rerun sequence</span>
+        <span class="sumhint">the step order</span>
+      </summary>
+      <ol>
+        <li>Review the active run package.</li>
+        <li>Identify prompt-caused weaknesses in analysis quality, reporting quality, generated output quality, or history usefulness.</li>
+        <li>Classify each lesson as reusable prompt knowledge or contextual run evidence before changing shared standards.</li>
+        <li>Improve the relevant governed prompt or shared standard reference.</li>
+        <li>Preserve the full run package.</li>
+        <li>Reset only superseded generated output.</li>
+        <li>Rerun from a cleaner state.</li>
+        <li>Score again and compare against the best-so-far run.</li>
+      </ol>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">3.2 Reset and learning rules</span>
+        <span class="sumhint">how resets and lessons stay trustworthy</span>
+      </summary>
+      <div class="warn"><b>Reset rule:</b> preserve analysis memory, review evidence, manifests, and prompt history first; revert only generated output and generated support that were superseded by the prior run.</div>
+      <div class="note"><b>Reset-proof rule:</b> when a round claims a fresh reset, preserve a small reset-evidence note in the active scope that records what was reverted or removed, what remained intentionally, and a concise workspace status check before the first kept run.</div>
+      <div class="note"><b>Self-perfection audit rule:</b> every standard or prompt improvement should be traceable to a run package, failure, validation gap, render inspection, hyperlink-frontier discovery, or benchmark comparison. If no such evidence exists, keep the observation local instead of changing the standard.</div>
+      <div class="rule"><b>Dynamic-history rule:</b> significant prior runs must be reread for repeated failures, repaired weaknesses, score drift, benchmark gaps, unresolved frontiers, and reusable engine/report lessons before the next rerun plan is declared. History is active memory, not passive archive.</div>
+      <div class="rule"><b>Prompt snapshot learning rule:</b> when benchmark packages contain the prompt snapshots that produced strong results, inspect those snapshots as first-class evidence before changing shared standards. Learn the reusable execution or supervision rule that produced the trust improvement; do not copy local product wording or promote style-only differences.</div>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">3.3 Special comparison cases</span>
+        <span class="sumhint">how to classify tricky reruns</span>
+      </summary>
+      <div class="rule"><b>Targeted-rerun classification rule:</b> when a full retained-candidate suite fails and a targeted rerun later passes, classify the targeted pass as diagnostic, repair, or flake-isolation evidence. It may guide the next action, but it MUST NOT replace the failed full-suite verdict or become the promoted baseline until a clean full rerun confirms the whole candidate package.</div>
+      <div class="rule"><b>Proof-origin / retained-close rule:</b> when a round claims a full-family comparison, each family SHOULD contribute one proof-origin checkpoint and one broader retained-close checkpoint. If the run only reconfirms the same narrow command, call it repeatability evidence, not mature family comparison.</div>
+      <div class="rule"><b>Sub-contract refinement rule:</b> when a broader same-slice matrix shows that one engine or report path proves only the core of a business contract while another proves richer fields, refine the promoted claim into covered core proof plus partial or deferred sub-claims instead of forcing false equivalence.</div>
+      <div class="rule"><b>Transient evidence rule:</b> a first-fail then pass sequence is not noise by default. Preserve it when it reveals timing, hydration, selector, or environment sensitivity; only downgrade it to contextual noise when the run package proves no trust decision changed.</div>
+      <div class="rule"><b>Winner rule:</b> the latest run is not automatically the winner. Promotion must explain why the selected run displaced the previous best and why the losing runs were not promoted.</div>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">3.4 Failure modes to reject</span>
+        <span class="sumhint">invalid or misleading loop behavior</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Failure mode to reject</th>
+            <th>Why it is invalid</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Prompt weakness was diagnosed, but no relevant prompt evolution happened before rerun.</td><td>The rerun is not a meaningful test of improvement.</td></tr>
+          <tr><td>The run passed validation, but the canonical analysis artifact is too thin to justify trust.</td><td>Passing validation alone does not make the package trustworthy.</td></tr>
+          <tr><td>The run improved breadth but weakened determinism or honesty.</td><td>Coverage growth does not excuse weaker trust.</td></tr>
+          <tr><td>The loop preserved artifacts, but not enough evidence to explain why a previous run lost.</td><td>Cross-run promotion becomes decorative instead of evidence-based.</td></tr>
+          <tr><td>The loop claimed a clean rerun even though reset safety allowed only a partial rollback.</td><td>The claimed rerun state is misleading.</td></tr>
+          <tr><td>The loop called a family comparison complete even though one or both families lacked a broader retained-close checkpoint.</td><td>The comparison stayed too thin to justify a strong family-level verdict.</td></tr>
+        </tbody>
+      </table>
+    </details>
   </details>
 
   <details>
@@ -267,28 +357,48 @@
       <span class="summary-title">4) Quality gates, promotion, and reference rules</span>
       <span class="sumhint">what must be judged before promotion</span>
     </summary>
-    <table>
-      <thead>
-        <tr>
-          <th>Gate</th>
-          <th>Expectation</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Analysis quality</td><td>The run-local canonical analysis artifact must be truthful, rich, rendered correctly, and useful as a reusable artifact.</td></tr>
-        <tr><td>Reporting overall quality</td><td>The reporting family must be strong enough to support onboarding, trust, and winner selection.</td></tr>
-        <tr><td>Generated output quality</td><td>The produced generated output must be stable, meaningful, maintainable, and validated by the expected evidence model.</td></tr>
-        <tr><td>Prompt baseline quality</td><td>The governed prompt baseline must have improved if the prior run exposed prompt weakness.</td></tr>
-      </tbody>
-    </table>
-    <ul>
-      <li>The loop must score all gates; a run is not best merely because one gate is strong.</li>
-      <li>The winner MUST be justified by analysis quality, reporting quality, generated output quality, history usefulness, and trust honesty.</li>
-      <li>The winner MUST be promoted explicitly into canonical locations and, when useful, into reference exemplars.</li>
-      <li>Promoted reference exemplars MUST be copied only from the selected winner.</li>
-      <li>A promoted baseline MUST remain traceable back to the winning run package that justified it.</li>
-    </ul>
-    <div class="good"><b>Promotion bar:</b> a run deserves promotion only if a later reviewer can understand why it won, what it proves, what it still defers, and which evidence package justified it without reconstructing the decision from chat or terminal logs.</div>
+    <details class="subdetails" open>
+      <summary>
+        <span class="summary-title">4.1 Quality gates</span>
+        <span class="sumhint">what must be scored</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Gate</th>
+            <th>Expectation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Business HTML quality</td><td>The run-local canonical analysis artifact and semantic history must be truthful, rich, rendered correctly, and useful as reusable business evidence.</td></tr>
+          <tr><td>Reporting overall quality</td><td>The reporting family must be strong enough to support onboarding, trust, and winner selection.</td></tr>
+          <tr><td>Generated output quality</td><td>The produced generated output must be stable, meaningful, maintainable, mapped to the analysis artifact, and validated by the expected evidence model.</td></tr>
+          <tr><td>Prompt baseline quality</td><td>The governed prompt baseline must have improved if the prior run exposed prompt weakness.</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">4.2 Promotion rules</span>
+        <span class="sumhint">how a winner gets promoted</span>
+      </summary>
+      <ul>
+        <li>The loop must score all gates; a run is not best merely because one gate is strong.</li>
+        <li>The winner MUST be justified by analysis quality, reporting quality, generated output quality, history usefulness, and trust honesty.</li>
+        <li>The winner MUST be promoted explicitly into canonical locations and, when useful, into reference exemplars.</li>
+        <li>Promoted reference exemplars MUST be copied only from the selected winner.</li>
+        <li>Promoted reference exemplars under <code>docs/goldenCopies/html-exemplars-to-follow</code> MUST be copied only after the supervising quality-loop proves that the final report beats every relevant exemplar already stored there.</li>
+        <li>A local round winner that does not beat the current exemplar library MUST stay a preserved winner without exemplar copying.</li>
+        <li>A promoted baseline MUST remain traceable back to the winning run package that justified it.</li>
+        <li>The promotion note MUST classify the artifact honestly as benchmark-grade winner, stronger local candidate, validated learning candidate, or non-promotable retained package. If a stronger benchmark still exists, the note MUST say so explicitly.</li>
+        <li>The promotion note MUST say whether the winning run is also the proof-origin run, or only the strongest retained-close package.</li>
+        <li>The promotion note MUST name the displaced predecessor when one exists, and explain whether the new winner changed business depth, only absorbed prior proof more broadly, or only improved orchestration/reporting discipline.</li>
+        <li>Prompt-only improvement MUST NOT be promoted as generated-output success until a later execution proves better output evidence.</li>
+        <li>Visual/reporting-only improvement MUST NOT create a promoted generated-output candidate unless paired with executable evidence that improves or stabilizes a meaningful frontier.</li>
+      </ul>
+      <div class="good"><b>Promotion bar:</b> a run deserves promotion only if a later reviewer can understand why it won, what it proves, what it still defers, and which evidence package justified it without reconstructing the decision from chat or terminal logs.</div>
+      <div class="rule"><b>Golden-copy bar:</b> exemplar copying is stricter than normal promotion. The selected winner must beat the local exemplar library overall, not merely win the current round or look visually cleaner.</div>
+    </details>
   </details>
 
   <details>
@@ -296,48 +406,66 @@
       <span class="summary-title">5) Upstream ownership and consistency gate</span>
       <span class="sumhint">keep thresholds out of the standard</span>
     </summary>
-    <table>
-      <thead>
-        <tr>
-          <th>Ownership rule</th>
-          <th>Meaning</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>The standard defines loop behavior, run-package shape, failure patterns, and promotion rules.</td><td>Use this file to declare what the workflow must preserve, compare, and justify.</td></tr>
-        <tr><td>The calling supervisor defines numeric targets, loop depth, path roots, and reset scope.</td><td>Use upstream documents to decide how strict the governed family should be.</td></tr>
-        <tr><td>The kept review artifacts may display thresholds or targets.</td><td>Those values should come from the governing prompt family, not from this shared standard.</td></tr>
-      </tbody>
-    </table>
-    <table>
-      <thead>
-        <tr>
-          <th>Reusable upstream concept</th>
-          <th>Meaning</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td><code>QUALITY_TARGETS</code></td><td>Upstream-owned target set for analysis quality, reporting overall quality, generated output quality, and optional prompt-baseline quality.</td></tr>
-        <tr><td><code>META_ITERATION_COUNT</code></td><td>Upstream-owned limit for how many governed reruns may be attempted before an under-target stop can be accepted.</td></tr>
-        <tr><td><code>RUN_ARCHIVE_ROOT</code></td><td>Upstream-owned root where preserved run packages are kept for audit and cross-run comparison.</td></tr>
-        <tr><td><code>PROMOTED_BASELINE_ROOT</code></td><td>Upstream-owned root where only selected winning artifacts are copied for long-term reuse.</td></tr>
-      </tbody>
-    </table>
-    <div class="note"><b>Parameter rule:</b> keep the shared standard intentionally small. Reusable parameter groups are enough; numeric thresholds, formulas, exact naming patterns, and family-specific stop severity stay upstream.</div>
-    <table>
-      <thead>
-        <tr>
-          <th>Using prompt consistency check</th>
-          <th>Expected state</th>
-          <th>Meaning</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Overview alignment with this orchestration contract</td><td>Required</td><td>The prompt overview should explain the loop clearly without cloning the whole contract inline.</td></tr>
-        <tr><td>Local-vs-generic separation</td><td>Required</td><td>Only reusable loop rules belong here; workflow-local thresholds, roots, and stop rules stay upstream.</td></tr>
-        <tr><td>Cross-file consistency</td><td>Required</td><td>The execution and supervising prompts should agree on run folders, promotion logic, and delegated ownership.</td></tr>
-      </tbody>
-    </table>
+    <details class="subdetails" open>
+      <summary>
+        <span class="summary-title">5.1 Ownership boundaries</span>
+        <span class="sumhint">what stays shared vs local</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Ownership rule</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>The standard defines loop behavior, run-package shape, failure patterns, and promotion rules.</td><td>Use this file to declare what the workflow must preserve, compare, and justify.</td></tr>
+          <tr><td>The calling supervisor defines numeric targets, loop depth, path roots, and reset scope.</td><td>Use upstream documents to decide how strict the governed family should be.</td></tr>
+          <tr><td>The kept review artifacts may display thresholds or targets.</td><td>Those values should come from the governing prompt family, not from this shared standard.</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><b>Parameter rule:</b> keep the shared standard intentionally small. Reusable parameter groups are enough; numeric thresholds, formulas, exact naming patterns, and family-specific stop severity stay upstream.</div>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">5.2 Reusable upstream parameters</span>
+        <span class="sumhint">concepts the caller must bind</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Reusable upstream concept</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>QUALITY_TARGETS</code></td><td>Upstream-owned target set for analysis quality, reporting overall quality, generated output quality, and optional prompt-baseline quality.</td></tr>
+          <tr><td><code>META_ITERATION_COUNT</code></td><td>Upstream-owned limit for how many governed reruns may be attempted before an under-target stop can be accepted.</td></tr>
+          <tr><td><code>RUN_ARCHIVE_ROOT</code></td><td>Upstream-owned root where preserved run packages are kept for audit and cross-run comparison.</td></tr>
+          <tr><td><code>PROMOTED_BASELINE_ROOT</code></td><td>Upstream-owned root where only selected winning artifacts are copied for long-term reuse.</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">5.3 Cross-file consistency checks</span>
+        <span class="sumhint">how calling prompts stay aligned</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Using prompt consistency check</th>
+            <th>Expected state</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Overview alignment with this orchestration contract</td><td>Required</td><td>The prompt overview should explain the loop clearly without cloning the whole contract inline.</td></tr>
+          <tr><td>Local-vs-generic separation</td><td>Required</td><td>Only reusable loop rules belong here; workflow-local thresholds, roots, and stop rules stay upstream.</td></tr>
+          <tr><td>Cross-file consistency</td><td>Required</td><td>The execution and supervising prompts should agree on run folders, promotion logic, and delegated ownership.</td></tr>
+        </tbody>
+      </table>
+    </details>
   </details>
 </div>
 </body>

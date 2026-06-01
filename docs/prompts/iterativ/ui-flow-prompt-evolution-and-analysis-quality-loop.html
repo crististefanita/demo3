@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1" name="viewport">
-<title>UI Flow Prompt Evolution And Analysis Quality Loop - Standardized Working Prompt</title>
+<title>UI Flow Prompt Evolution And Analysis Quality Loop</title>
 <style>
   :root {
     --bg: #0b0f14;
@@ -14,8 +14,7 @@
     --accent: #7aa2ff;
     --accent2: #6ee7b7;
     --warn: #fbbf24;
-    --bad: #fb7185;
-    --good: #39d98a;
+    --good: #34d399;
     --shadow: rgba(0,0,0,.35);
     --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
@@ -41,13 +40,13 @@
   }
   h1 { margin: 0 0 6px; font-size: 27px; letter-spacing: .2px; }
   h2 { margin: 0 0 10px; font-size: 19px; }
-  h3 { margin: 0 0 8px; font-size: 16px; }
+  h3 { margin: 0 0 8px; font-size: 16px; color: var(--accent); }
   h4 { margin: 10px 0 6px; font-size: 14px; }
   p { margin: 8px 0; }
-  .sub { color: var(--muted); font-size: 13.5px; line-height: 1.45; max-width: 980px; }
+  .sub { color: var(--muted); font-size: 14px; line-height: 1.5; max-width: 980px; }
   .badge {
     display: inline-block;
-    padding: 3px 10px;
+    padding: 4px 10px;
     border-radius: 999px;
     border: 1px solid var(--border);
     background: rgba(15,23,36,.75);
@@ -58,35 +57,20 @@
   .pill {
     display: inline-block;
     font-size: 12px;
-    padding: 2px 8px;
+    padding: 4px 10px;
     border-radius: 999px;
     border: 1px solid var(--border);
     background: rgba(15,23,36,.7);
     color: var(--muted);
     margin-right: 6px;
   }
-  .grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 12px; margin-top: 14px; }
-  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 980px) {
-    .grid, .split, .docmap { grid-template-columns: 1fr; }
+  .grid {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 12px;
+    margin-top: 14px;
   }
-  @media (max-width: 640px) {
-    .wrap { padding: 18px 12px 44px; }
-    header, .card { padding: 14px; }
-    h1 { font-size: 23px; line-height: 1.18; }
-    .badge { margin-left: 0; margin-top: 6px; }
-    .kvs, .docmap { grid-template-columns: 1fr; gap: 4px 10px; }
-  }
-  .card {
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    background: rgba(18,26,39,.82);
-    box-shadow: 0 10px 26px var(--shadow);
-    padding: 15px;
-    margin-bottom: 14px;
-  }
-  .card h2 { margin-top: 0; }
-  .kvs, .docmap {
+  .docmap {
     display: grid;
     grid-template-columns: minmax(220px, .42fr) minmax(0, 1fr);
     gap: 8px 14px;
@@ -94,7 +78,6 @@
     font-size: 13.5px;
     align-items: start;
   }
-  .k { color: var(--muted); }
   .docmap b {
     color: var(--text);
     overflow-wrap: anywhere;
@@ -105,6 +88,17 @@
     overflow-wrap: anywhere;
     line-height: 1.45;
   }
+  @media (max-width: 980px) {
+    .grid, .docmap { grid-template-columns: 1fr; }
+  }
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: rgba(18,26,39,.82);
+    box-shadow: 0 10px 26px var(--shadow);
+    padding: 15px;
+  }
+  .card h2 { margin-top: 0; }
   code.inline {
     font-family: var(--mono);
     font-size: 12.5px;
@@ -128,14 +122,25 @@
     color: #dbe7ff;
     white-space: pre;
   }
-  .note, .warn, .rule, .good {
+  .note {
+    border-left: 3px solid var(--accent);
     padding: 10px 12px;
+    background: rgba(122,162,255,.08);
     border-radius: 12px;
   }
-  .note { border-left: 3px solid var(--accent); background: rgba(122,162,255,.08); }
-  .warn { border-left: 3px solid var(--warn); background: rgba(251,191,36,.08); }
-  .rule { border-left: 3px solid var(--accent2); background: rgba(110,231,183,.08); }
-  .good { border-left: 3px solid var(--good); background: rgba(52,211,153,.08); }
+  .warn {
+    border-left: 3px solid var(--warn);
+    padding: 10px 12px;
+    background: rgba(251,191,36,.08);
+    border-radius: 12px;
+  }
+  .rule {
+    border-left: 3px solid var(--accent2);
+    padding: 10px 12px;
+    background: rgba(110,231,183,.08);
+    border-radius: 12px;
+    margin: 10px 0;
+  }
   details {
     border: 1px solid var(--border);
     background: rgba(18,26,39,.72);
@@ -143,6 +148,10 @@
     padding: 10px 12px;
     margin: 12px 0;
     box-shadow: 0 8px 22px var(--shadow);
+  }
+  .subdetails {
+    margin: 10px 0 0 10px;
+    background: rgba(11,20,31,.84);
   }
   summary {
     cursor: pointer;
@@ -182,405 +191,453 @@
     vertical-align: top;
     text-align: left;
   }
-  th { background: rgba(18,26,39,.94); }
+  th { background: rgba(17,24,38,.92); }
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-<h1>UI Flow Prompt Evolution And Analysis Quality Loop <span class="badge">meta prompt</span></h1>
+<h1>UI Flow Prompt Evolution And Analysis Quality Loop <span class="badge">local supervising prompt</span></h1>
 <div class="sub">
-  Judge the run packages produced by <code class="inline">ui-flow-discovery-and-atf-test-generation.html</code>,
-  evolve that prompt when evidence proves a reusable gap, and promote only the strongest baseline by evidence.
+  Execute this file as the supervising prompt for the local quality-loop. Consume the governed run packages produced by
+  <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code>, score them comparatively, detect frontier and honesty gaps,
+  evolve the discovery prompt when the gap is prompt-caused, and promote only the strongest baseline by evidence.
+  Treat shared standards as consumed contracts, not as separate workflows to run.
+</div>
+<div style="margin-top:10px">
+  <span class="pill">business-winner vs output-winner</span>
+  <span class="pill">source-lock honesty</span>
+  <span class="pill">same-frontier rerun restraint</span>
+  <span class="pill">family-loss causality</span>
 </div>
 </header>
 
-<div class="grid">
+<div>
 <div class="card">
-<h2>1) Meta Loop Map</h2>
+<h2>1) Approach</h2>
 
 <details open>
 <summary>
-  <span class="summary-title">1.0 At A Glance</span>
+  <span class="summary-title">1.0 Meta Execution Map</span>
   <span class="badge">OPEN</span>
 </summary>
 <div class="docmap">
-  <b>Consumes</b><span>Run packages, analysis HTML, generated ATF tests, validation evidence, history, and promoted baselines.</span>
-  <b>Produces</b><span>Comparative review, scores, gap/frontier detection, winner selection, prompt guidance, and baseline recommendation.</span>
+  <b>Execution stance</b><span>Run this file directly as the local supervising prompt. Do not summarize it, do not treat it as passive documentation, and do not replace execution with editorial cleanup.</span>
+  <b>Path discipline</b><span>Interpret project paths relative to the current project root unless a path is explicitly externalized by the local repo.</span>
+  <b>Consumes</b><span>Run packages, canonical analysis HTML, milestone history, generated ATF output, validation evidence, prior reviews, and the promoted baseline when one exists.</span>
+  <b>Produces</b><span>Comparative scoring, frontier and gap detection, winner selection, prompt evolution guidance, rerun guidance, and promotion guidance.</span>
   <b>Shared inputs</b><span><code class="inline">REPORTING_STANDARD_PATH</code>, <code class="inline">ORCHESTRATION_STANDARD_PATH</code>, and <code class="inline">LIVING_ARCHITECTURE_DOC_PATH</code>.</span>
-  <b>Boundary</b><span>This prompt judges and evolves; the discovery prompt executes product discovery and ATF generation.</span>
+  <b>Required local inputs</b><span><code class="inline">RUN_ARCHIVE_ROOT</code>, canonical analysis HTML, analysis history, promoted baseline when present, and the local exemplar library when exemplar-grade promotion is under review.</span>
+  <b>Missing-input recovery</b><span>If the active run family is missing but <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> is available, execute discovery first, materialize the first governed run, preserve it under the active supervising roots, then resume this quality-loop on the produced artifacts.</span>
+  <b>Benchmark memory</b><span>When relevant, reopen benchmark canonical HTML, history, run summaries, and prompt snapshots before deciding that a current run really improved trust.</span>
+  <b>Local exemplar root</b><span>When present, use <code class="inline">docs/goldenCopies/html-exemplars-to-follow</code> as the local exemplar library. Final artifact copying into that library is allowed only after the full comparative review proves the new report beats the stored exemplars.</span>
+  <b>Boundary</b><span>The discovery prompt executes one governed run. This prompt judges the run family, evolves the discovery prompt when needed, and decides what deserves promotion.</span>
 </div>
 </details>
 
 <details>
 <summary>
-  <span class="summary-title">1.1 Ownership</span>
+  <span class="summary-title">1.1 Execution States And Required Action</span>
   <span class="badge">CORE</span>
 </summary>
-<ul>
-  <li><b>This meta prompt owns:</b> cross-run analysis, score comparison, regression detection, reset/rerun decisions, winner selection, and promotion recommendation.</li>
-  <li><b>The discovery prompt owns:</b> live UI discovery, generated ATF output, run-local analysis HTML, validation evidence, and run-specific coverage truth.</li>
-  <li><b>Shared standards own:</b> reusable reporting shape, orchestration discipline, and framework architecture constraints.</li>
-  <li><b>MUST NOT</b> duplicate those standards here or turn this prompt into a second UI-generation prompt.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">1.2 Loop Rules</span>
-  <span class="badge">CORE</span>
-</summary>
-<ul>
-  <li><b>MUST</b> treat weak generated tests or weak analysis HTML as evidence that the base prompt may need improvement.</li>
-  <li><b>MUST</b> consider the loop complete only when the base prompt is strong enough to produce both the expected ATF test quality and the expected analysis HTML quality.</li>
-  <li><b>MUST NOT</b> patch generated output manually and call the prompt improved.</li>
-</ul>
-</details>
-
+<table>
+  <thead>
+    <tr>
+      <th>State</th>
+      <th>Required action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Comparative state</td><td>Active run archive, canonical analysis, and usable review artifacts exist. Compare candidates, rank them, and decide promotion by evidence.</td></tr>
+    <tr><td>Single-candidate state</td><td>One kept governed run exists. Evaluate it honestly, publish no-baseline or single-candidate verdicts where needed, and do not invent a comparative winner.</td></tr>
+    <tr><td>Bootstrap or missing-input state</td><td>If the missing artifacts are expected outputs of <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code>, execute discovery first, preserve the produced artifacts under the active supervising roots, and then resume this prompt. Stop at bootstrap only if discovery is blocked or fails honestly.</td></tr>
+    <tr><td>No-incumbent-baseline state</td><td>Proceed with local comparison if governed candidates exist, but publish explicit no-baseline verdicts instead of pretending an incumbent comparison exists.</td></tr>
+    <tr><td>Exemplar-review state</td><td>Open the local exemplar library only after a local winner exists and exemplar-grade promotion is under review.</td></tr>
+  </tbody>
+</table>
+<div class="rule">
+  Bootstrap is an execution state, not an automatic stopping point. When discovery can materialize the missing active artifacts, this prompt must continue through discovery and then reopen the produced run family.
 </div>
-
-<div class="card">
-<h2>Local Configuration</h2>
 <div class="note">
-  Keep only local path roots and quality gates here.
+  Absence of <code class="inline">RUN_ARCHIVE_ROOT</code> or <code class="inline">PROMOTED_BASELINE_ROOT</code> declarations inside <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> is not, by itself, a path mismatch. Those roots are supervising-layer concepts inherited from the orchestration contract. Discovery owns canonical HTML, history, and run-local evidence; this prompt owns preservation into the active archive and promoted-baseline roots.
+</div>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">1.2 Operating Rules</span>
+  <span class="badge">CORE</span>
+</summary>
+<ul>
+  <li><span class="pill">COMPARE</span> score every governed run as a candidate, not as an isolated success.</li>
+  <li><span class="pill">VERIFY</span> trust only what is visible in the run package, validation evidence, and inherited reporting artifact.</li>
+  <li><span class="pill">LEARN</span> separate prompt-caused weaknesses from execution-caused or product-caused weaknesses.</li>
+  <li><span class="pill">RERUN</span> evolve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> only when comparative evidence proves a reusable prompt gap.</li>
+  <li><span class="pill">PROMOTE</span> select the winner by evidence, never by chronology.</li>
+  <li><span class="pill">PUBLISH</span> preserve kept runs, update canonical plus history, and authorize golden-copy only after exemplar-beat review.</li>
+</ul>
+<div class="rule">
+  Execute the local judgment here. Consume the shared standards as contracts. Do not re-author their reusable rules here, and do not stop at commentary about the prompt itself.
+</div>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">1.3 Execution Contract</span>
+  <span class="badge">CORE</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Concern</th>
+      <th>Execute this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Inputs</td><td>Load governed run packages under <code class="inline">RUN_ARCHIVE_ROOT</code>, canonical analysis HTML, analysis history, generated ATF output, validation evidence, prior review artifacts, promoted baseline when present, and local exemplars when exemplar-grade promotion is in scope. Report missing inputs explicitly.</td></tr>
+    <tr><td>Analysis duties</td><td>Execute score comparison, evidence verification, coverage delta, regression detection, frontier detection, and candidate ranking on every governed run under review.</td></tr>
+    <tr><td>Quality-loop duties</td><td>Decide whether the current weakness belongs to prompt wording, execution behavior, product limitations, or inherited shared layers, then decide whether the round is bootstrap, single-candidate, comparative, or blocked by missing inputs.</td></tr>
+    <tr><td>Comparison duties</td><td>Explain why the current run is stronger, equal, weaker, or not promotable compared with the best kept baseline.</td></tr>
+    <tr><td>Winner duties</td><td>Name the winner only when comparative evidence supports one. Otherwise publish explicit no-winner, no-baseline, or bootstrap-state verdicts without inventing promotion.</td></tr>
+    <tr><td>Output duties</td><td>Publish execution state, ranking or no-ranking verdict, 1-10 scores when comparable, prompt guidance, promotion guidance, canonical/history/golden-copy decision, and next-run targets.</td></tr>
+    <tr><td>Honesty and failure rules</td><td>Never invent results, never auto-promote the latest run, never merge partial / blocked / failed / validated states, never confuse bootstrap support with business superiority, and never claim a stronger run when honesty or traceability regressed.</td></tr>
+  </tbody>
+</table>
+</details>
+</div>
+</div>
+
+<div class="card" style="margin-top:12px">
+<h2>1.4 Local Configuration</h2>
+<div class="note">
+  Keep only the constants that make this supervising prompt executable in the current repo.
 </div>
 <details>
 <summary>
   <span class="summary-title">Execution Constants</span>
   <span class="badge">CORE</span>
+  <span class="sumhint">single source of truth</span>
 </summary>
-<pre><code>META_ITERATION_COUNT = 10
-QUALITY_TARGET_OVERALL = 9.99
-SCORE_SCALE = 1-10
-
-DISCOVERY_ATF_PROMPT_PATH = docs/prompts/iterativ/ui-flow-discovery-and-atf-test-generation.html
+<pre><code>DISCOVERY_ATF_PROMPT_PATH = docs/prompts/iterativ/ui-flow-discovery-and-atf-test-generation.html
 REPORTING_STANDARD_PATH = docs/prompts/iterativ/langgraph-business-understanding-reporting-standard.html
 ORCHESTRATION_STANDARD_PATH = docs/prompts/iterativ/prompt-evolution-orchestration-standard.html
 LIVING_ARCHITECTURE_DOC_PATH = docs/Living_Architecture_UI_API_doc_v1_0.html
 
 RUN_ARCHIVE_ROOT = docs/prompts/evolution-runs
-PROMOTED_BASELINE_ROOT = docs/prompts/reference-exemplars</code></pre>
+PROMOTED_BASELINE_ROOT = docs/prompts/reference-exemplars
+META_ITERATION_COUNT = 4
+
+QUALITY_TARGETS
+</code></pre>
 <div class="warn">
-  <b>Critical reset rule:</b> revert only the ATF code changes introduced by the previous run.
-  Do not remove or overwrite the canonical analysis artifacts, any prior run folder, prompt-evolution artifacts, or unrelated user changes.
+  Execute from project root and interpret these paths relatively. Preserve every kept run before reset. Revert only superseded generated output. Keep analysis, reviews, prompt history, and benchmark memory intact.
+</div>
+</details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>2) Comparative Review Rules</h2>
+
+<details>
+<summary>
+  <span class="summary-title">2.1 Inherited Scoring Frame</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<h4>Separate prompt weakness from product weakness</h4>
+<ul>
+  <li><b>MUST</b> load the reporting shape and milestone expectations from <code class="inline">REPORTING_STANDARD_PATH</code> before scoring.</li>
+  <li><b>MUST</b> load preserve-reset-rerun and promotion semantics from <code class="inline">ORCHESTRATION_STANDARD_PATH</code> before making rerun or promotion decisions.</li>
+  <li><b>MUST</b> judge repo-fit and shared-layer compatibility against <code class="inline">LIVING_ARCHITECTURE_DOC_PATH</code>.</li>
+  <li><b>MUST</b> evaluate only the outputs actually produced by <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code>.</li>
+  <li><b>MUST</b> treat <code class="inline">RUN_ARCHIVE_ROOT</code> and <code class="inline">PROMOTED_BASELINE_ROOT</code> as supervising-layer roots even when the discovery prompt does not declare them locally.</li>
+  <li><b>MUST</b> treat those files as consumed contracts and inherited context. Do not restate their reusable rules locally when a direct reference is enough for the current decision.</li>
+  <li><b>MUST</b> inspect prompt snapshots when benchmark or comparative run packages include them, and use them as evidence of why a family produced stronger or weaker output.</li>
+  <li><b>MUST</b> open and review the current run package, current canonical HTML, local history, preserved run packages, and promoted baseline before scoring any new winner claim.</li>
+  <li><b>MUST</b> state which benchmark artifacts were actually reopened during the round: canonical reports, history pages, run packages, and prompt snapshots.</li>
+  <li><b>MUST</b> distinguish benchmark memory reopened for comparative judgment from execution bootstrap provenance that only made the run runnable.</li>
+  <li><b>MUST</b> reopen the local exemplar reports under <code class="inline">docs/goldenCopies/html-exemplars-to-follow</code> whenever the round is considering exemplar-grade promotion or artifact copying.</li>
+  <li><b>MUST</b> name which exemplar reports were actually compared and which exemplar remained stronger if the new report failed to beat the local exemplar library.</li>
+</ul>
+<div class="note">
+  Own the comparative judgment here. Consume the reusable shape of that judgment from the shared contracts.
+</div>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.2 Comparative Analysis Duties</span>
+  <span class="badge">QUALITY</span>
+</summary>
+<div class="note">
+  Execute the comparison in layers: first integrity and evidence, then coverage and frontier movement, then ranking and exemplar verdicts.
+</div>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">2.2.1 Integrity And Evidence Checks</span>
+  <span class="badge">QUALITY</span>
+  <span class="sumhint">trust the package before you rank it</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Duty</th>
+      <th>Execute this decision</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Score comparison</td><td>Decide which run is stronger on analysis quality, reporting quality, generated ATF quality, and comparative usefulness.</td></tr>
+    <tr><td>Evidence verification</td><td>Decide whether the reporting story, generated code, and validation proof still agree.</td></tr>
+    <tr><td>Package completeness</td><td>Decide whether the preserved run package is audit-ready by itself: real summary, real review, real command/result, prompt snapshots, validation evidence, manifests, and iteration ledger.</td></tr>
+    <tr><td>Ledger readability</td><td>Decide whether long commands, paths, and artifact references remain readable in the canonical ledger without horizontal overflow, clipping, or one unwrapped field dominating the row.</td></tr>
+    <tr><td>Evidence-class symmetry</td><td>Decide whether the comparison is like with like: targeted proof versus targeted proof, or full-suite candidate proof versus full-suite candidate proof. If not, mark it inconclusive.</td></tr>
+    <tr><td>Source-lock integrity</td><td>Decide whether the comparative family actually used the requested files, explicitly excluded WIP/temp/experimental files when required, and stayed execution-symmetric. If the requested source lock was missing, renamed, or silently substituted, mark source-lock blocked truth immediately.</td></tr>
+    <tr><td>Bootstrap-provenance integrity</td><td>Decide whether external generated support or rebuilt execution scaffolding was classified honestly as bootstrap provenance, kept separate from benchmark-memory judgment, and prevented from inflating business-winner logic.</td></tr>
+    <tr><td>Trust-stance integrity</td><td>Decide whether the canonical page labeled the artifact honestly as a benchmark-grade winner, stronger local candidate, validated learning candidate, or non-promotable retained package. If a stronger benchmark still exists, the report must say so explicitly.</td></tr>
+    <tr><td>Coverage-vocabulary integrity</td><td>Decide whether covered, partial, deferred, blocked, regressed, and excluded states stayed stable across trust summary, mapping tables, graphs, and deferred sections.</td></tr>
+    <tr><td>Current-baseline-decision discipline</td><td>Decide whether the kept run, displaced predecessor, and non-promoted supporting runs were explained explicitly instead of being implied by latest-run ordering.</td></tr>
+    <tr><td>Meaningful-budget accounting</td><td>Decide whether the round separated configured budget from effective meaningful iterations and whether later iterations changed business depth, evidence diversity, or frontier selection instead of only repackaging the same truth.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">2.2.2 Coverage, Gaps, And Frontier Movement</span>
+  <span class="badge">QUALITY</span>
+  <span class="sumhint">what actually moved</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Duty</th>
+      <th>Execute this decision</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Disconfirmed-frontier preservation</td><td>Decide whether an actively disproved frontier remained visible in the canonical report and actually changed direction, rather than disappearing after the pivot.</td></tr>
+    <tr><td>Coverage delta</td><td>Decide which capabilities expanded, regressed, stayed partial, stayed deferred, or became blocked.</td></tr>
+    <tr><td>Gap delta</td><td>Decide whether the run reduced a benchmark gap, reduced a frontier gap, or only improved orchestration / reporting around the same business truth.</td></tr>
+    <tr><td>Failure honesty</td><td>Decide whether the run preserved honest state labels and did not overclaim validated behavior.</td></tr>
+    <tr><td>Loss causality</td><td>Decide why a losing family lost: business weakness, selector/support weakness, timing/wait weakness, suite-order fragility, governance side effect, or inconclusive noise.</td></tr>
+    <tr><td>Frontier detection</td><td>Decide what highest-value next frontier remains after the current run.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">2.2.3 Candidate And Exemplar Verdicts</span>
+  <span class="badge">QUALITY</span>
+  <span class="sumhint">promotion pressure</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Duty</th>
+      <th>Execute this decision</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Candidate ranking</td><td>Decide whether the current run deserves promotion, archival only, or rerun after prompt evolution.</td></tr>
+    <tr><td>Exemplar-beat verdict</td><td>Decide whether the final canonical report beats every relevant local exemplar in <code class="inline">docs/goldenCopies/html-exemplars-to-follow</code> on trust stance, proof mapping, benchmark/frontier explainability, validation references, render readability, and reusable audit value.</td></tr>
+  </tbody>
+</table>
+</details>
+<div class="warn">
+  Hard failure: a run is not stronger if it looks cleaner but weakens honesty, traceability, or comparative evidence value.
 </div>
 <div class="rule">
-  The execution prompt owns product discovery and generated ATF output. This meta prompt evaluates its run packages and decides whether to preserve, reset, rerun, or promote.
+  Comparative rounds MUST compare like with like. If one family only proved a targeted frontier pass while the other family only produced full-suite evidence, the ranking is inconclusive until the evidence classes match.
 </div>
 <div class="note">
-  The best run is chosen by explicit cross-run scoring, not by recency.
-</div>
-</details>
-</div>
-</div>
-
-<hr class="sep">
-
-<div class="card">
-<h2>2) Mandatory Quality Review Of Analysis HTML</h2>
-<div class="note">
-  This section stays in the working meta prompt because the supervisor still owns local acceptance, local scoring thresholds, and local run-package decisions.
-  The reusable orchestration baseline now also lives in
-  <a href="prompt-evolution-orchestration-standard.html">prompt-evolution-orchestration-standard.html</a>.
-</div>
-
-<details>
-<summary>
-  <span class="summary-title">2.1 Review Scope</span>
-  <span class="badge">ANALYSIS</span>
-</summary>
-<ul>
-  <li><b>MUST</b> review the canonical analysis HTML generated by the discovery prompt.</li>
-  <li><b>MUST</b> review every meaningful milestone preserved in the run-local analysis history.</li>
-  <li><b>MUST</b> review the grouped package for the current run under <code class="inline">RUN_ARCHIVE_ROOT/run_##</code>, especially <code class="inline">analysis/</code>, <code class="inline">review/</code>, and <code class="inline">manifests/</code>.</li>
-  <li><b>MUST</b> review whether the canonical artifact exposes a usable history index for the milestone family.</li>
-  <li><b>MUST</b> review whether the per-run analysis package is coherent enough for an external audit without reading previous runs first.</li>
-  <li><b>MUST</b> compare all completed <code class="inline">run_##/analysis</code> packages before promoting a best baseline.</li>
-  <li><b>MUST</b> score the canonical artifact and the package as a whole.</li>
-  <li><b>MUST NOT</b> score only the final HTML while ignoring whether the milestone history is coherent and useful.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">2.2 Required Scoring Table</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<pre><code>| Area | What was verified | Score | Risk / Note |
-|---|---|---:|---|</code></pre>
-<div class="note">
-  The reusable scoring dimensions are standardized in the reporting and orchestration standards. Here, keep the local rule simple:
-  score both the canonical analysis and the run package broadly enough to expose weaknesses in understanding, diagrams, history quality, package coherence, cross-run comparative strength, and explicit reporting-level overall quality.
+  <b>ATF3-derived comparison rule:</b> when two families prove the same frontier but one changes direction and the other only improves packaging,
+  provenance, or rerun hygiene, the review MUST say so explicitly instead of collapsing both into a generic winner label.
 </div>
 <div class="warn">
-  The final analysis package is still below target if any one of these remains weak even when the overall score looks acceptable:
-  <code class="inline">business domain graph quality</code>,
-  <code class="inline">actor state graph quality</code>,
-  <code class="inline">business flow graph quality</code>,
-  or <code class="inline">iteration-history quality</code>.
+  <b>Proof-origin plus retained-close rule:</b> a full-family comparison is too thin if each family only repeats the same narrow command.
+  Each family SHOULD contribute a <b>proof-origin</b> checkpoint that first closes or reconfirms the active truth and a <b>retained-close</b> checkpoint that absorbs the same truth into a broader retained slice, broader sanity, or heavier symmetric evidence class.
 </div>
 </details>
 
 <details>
 <summary>
-  <span class="summary-title">2.3 Mandatory Interpretation</span>
+  <span class="summary-title">2.3 Winner Selection By Evidence</span>
   <span class="badge">QUALITY</span>
 </summary>
+<ol>
+  <li>Compare the current run against the strongest kept run and the current promoted baseline.</li>
+  <li>Name the decisive strength that makes the winner better.</li>
+  <li>Name the decisive blocker that keeps each loser from promotion.</li>
+  <li>Recommend promotion only if the winner clears <code class="inline">QUALITY_TARGETS</code> more honestly or more usefully than the incumbent, and publish an explicit no-winner / no-promotion verdict when the evidence does not support replacement.</li>
+</ol>
+<h4>Promotion gates</h4>
 <ul>
-  <li><b>MUST</b> explain why the final score is below target when it is below target.</li>
-  <li><b>MUST</b> identify whether the weakness came from discovery depth, HTML modeling, diagram quality, traceability, or prompt quality.</li>
-  <li><b>MUST</b> identify whether the HTML family failed to explain the quality of the generated ATF package clearly enough.</li>
-  <li><b>MUST</b> treat a low-quality analysis artifact as a signal that the execution prompt itself may need improvement.</li>
-  <li><b>MUST NOT</b> treat the generated HTML as "good enough" merely because the tests passed.</li>
+  <li><b>MUST NOT</b> auto-promote the latest run.</li>
+  <li><b>MUST NOT</b> promote a run whose comparative story cannot survive a later audit.</li>
+  <li><b>MUST</b> classify targeted frontier passes as supporting proof when the full generated suite still fails. A targeted run may improve business understanding and guide the next patch, but it cannot become the promoted generated-output candidate until a clean retained full-suite rerun confirms the package.</li>
+  <li><b>MUST</b> name whether the winning run won on business proof, reporting quality, orchestration discipline, execution robustness, or a combination, and avoid saying "better overall" without that split.</li>
+  <li><b>MUST NOT</b> call a run a reliable winner if its package is too thin to reopen later without chat reconstruction.</li>
+  <li><b>MUST NOT</b> call a run reporting-complete if its canonical ledger still has clipped command cells, horizontal overflow, or unreadable long-line rows that the reporting standard explicitly forbids.</li>
+  <li><b>MUST NOT</b> present four identical reruns of the same narrow command as a sufficient full-family comparison unless the review explicitly proves that no broader symmetric retained-close evidence class was feasible.</li>
+  <li><b>MUST</b> keep losing runs reviewable enough for later comparison.</li>
+  <li><b>MUST</b> state one unambiguous <code class="inline">Primary Retained Validation Run</code> for the final verdict and explain why that run, rather than another preserved package, anchors trust.</li>
+  <li><b>MUST</b> separate <code class="inline">business-understanding winner</code>, <code class="inline">output / retained winner</code>, and <code class="inline">execution-robustness winner</code> whenever they diverge. A cleaner retained package is not allowed to silently replace the stronger business-steering run.</li>
+  <li><b>MUST</b> keep bootstrap-provenance wording short near the top of the report and move the detailed caveat into the audit sections. Long provenance paragraphs in the hero summary are a reporting-quality defect even when the underlying honesty is correct.</li>
+  <li><b>MUST</b> say whether the winner is benchmark-grade, only a stronger local candidate, or merely a validated learning candidate. If the benchmark still leads, the final wording must not sound like unconditional graduation.</li>
+  <li><b>MUST</b> penalize rounds that consume large budgets but cannot name their effective meaningful iterations or what each late checkpoint materially changed.</li>
+  <li><b>MUST</b> treat copying into <code class="inline">docs/goldenCopies/html-exemplars-to-follow</code> as stricter than ordinary winner promotion. A round may win locally without earning exemplar status.</li>
+  <li><b>MUST</b> allow golden-copy promotion only when the final canonical report beats every relevant local exemplar already stored there and no major reporting dimension regresses.</li>
+  <li><b>MUST NOT</b> copy the current artifacts into the local exemplar library when the new report is merely prettier, merely different, or only stronger on one narrow frontier while a stored exemplar remains stronger overall as a reusable report.</li>
+  <li><b>MUST</b> make the final golden-copy decision here, after the comparative review is closed. Discovery may produce candidate artifacts; only the quality-loop may authorize exemplar copying.</li>
+</ul>
+</details>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">2.3.1 Comparative Close-Out Questions</span>
+  <span class="badge">CORE</span>
+  <span class="sumhint">fast final sanity check</span>
+</summary>
+<ul>
+  <li><b>MUST</b> answer whether the round changed business direction or only improved retained-run clarity.</li>
+  <li><b>MUST</b> answer whether the output winner is also the business-understanding winner, or only the strongest retained package.</li>
+  <li><b>MUST</b> answer whether the strongest remaining gap is business depth, execution fragility, or packaging/provenance only.</li>
+  <li><b>MUST</b> answer whether borrowed-family influence changed frontier depth or only reporting/orchestration quality.</li>
+  <li><b>MUST</b> answer whether external bootstrap provenance changed only executability or also changed business depth. If it changed only executability, the review must keep that caveat out of the business-winner reasoning.</li>
+  <li><b>MUST</b> answer whether the next move should deepen the same flow or pivot honestly to a new frontier.</li>
+  <li><b>MUST</b> answer whether any seed-adjacent frontier or benchmark-significant branch remains materially open before allowing an early stop recommendation.</li>
+  <li><b>MUST</b> answer whether the final report beat the local exemplar library or only beat the current round competitors.</li>
 </ul>
 </details>
 
 <details>
 <summary>
-  <span class="summary-title">2.4 Comparative Scoring Rule</span>
+  <span class="summary-title">2.4 Winner Split And Comparative Causality</span>
   <span class="badge">QUALITY</span>
 </summary>
-<ul>
-  <li><b>MUST</b> compare the current analysis package against the immediately previous meta iteration when one exists.</li>
-  <li><b>MUST</b> compare the full set of completed run folders, not only the newest run.</li>
-  <li><b>MUST</b> decide explicitly which run currently represents the best execution-prompt baseline and why.</li>
-  <li><b>MUST NOT</b> call the rerun "better" unless the score movement, weak-area improvement, or evidence package is materially stronger.</li>
-  <li><b>MUST NOT</b> assume the latest run is automatically the best run.</li>
-  <li><b>MUST</b> treat improved honesty and improved diagram readability as legitimate progress, even when raw coverage stayed similar.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">2.5 Analysis Score As Test Quality Gate</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<ul>
-  <li><b>MUST</b> treat the analysis score as a trust gate for the generated UI tests and shared-layer changes.</li>
-  <li><b>MUST NOT</b> treat generated tests as sufficiently trustworthy when <code class="inline">overall analysis quality</code> is below <code class="inline">QUALITY_TARGET_OVERALL</code>.</li>
-  <li><b>MUST</b> assume that weak business understanding, weak diagrams, or weak milestone history can invalidate apparent test quality even when the code compiles or the tests pass.</li>
-  <li><b>MUST</b> rerun the process when the analysis package does not provide enough confidence to justify the generated tests.</li>
-  <li><b>MUST</b> reject otherwise passing tests when flow modeling, actor-state modeling, or business diagrams are still too weak to explain what the tests truly validate.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">2.6 Generated Test-Result Quality Table</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<pre><code>| Test Result Area | What was verified | Score | Risk / Note |
-|---|---|---:|---|</code></pre>
-<h4>Minimum generated test-result dimensions</h4>
-<ul>
-  <li>business-flow fidelity</li>
-  <li>test maintainability</li>
-  <li>ATF layering compliance</li>
-  <li>shared-support reuse quality</li>
-  <li>assertion and validation strength</li>
-  <li>reporting and screenshot contract fit</li>
-  <li>engine compatibility confidence</li>
-  <li>regression safety and honesty</li>
-  <li>overall generated test-result quality</li>
-</ul>
-<ul>
-  <li><b>MUST</b> score the generated tests and support changes explicitly, not only the analysis HTML package.</li>
-  <li><b>MUST</b> rerun when <code class="inline">overall generated test-result quality</code> is below <code class="inline">QUALITY_TARGET_OVERALL</code> and a safe prompt improvement is still available.</li>
-  <li><b>MUST</b> treat generated test-result quality as this meta prompt's direct acceptance gate for ATF output.</li>
-  <li><b>MUST NOT</b> let strong tests hide weak business understanding, and <b>MUST NOT</b> let strong business understanding hide weak tests.</li>
-</ul>
-</details>
+<table>
+  <thead>
+    <tr>
+      <th>Judgment</th>
+      <th>What the review must say explicitly</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Business-understanding winner</td><td>Which family pushed the deeper business frontier, exposed the decisive contradiction, or clarified the stronger blocked truth.</td></tr>
+    <tr><td>Output / retained winner</td><td>Which family produced the cleanest primary retained validation run and why that package is the strongest audit anchor.</td></tr>
+    <tr><td>Execution-robustness winner</td><td>Which family survived the same frontier or retained slice with fewer timing, suite-order, or packaging failures.</td></tr>
+    <tr><td>Reporting / orchestration-only delta</td><td>Which family improved only comparison clarity, source lock, provenance, or winner hygiene without adding business depth.</td></tr>
+    <tr><td>Proof-origin versus absorption split</td><td>Whether the family proved the active truth at proof-origin but then failed to absorb it into retained-close, in which case the review must classify the weakness as retained absorption / execution robustness weakness, not missing business proof.</td></tr>
+    <tr><td>Bootstrap-provenance split</td><td>Whether any external bootstrap changed only executability, or whether it genuinely affected frontier depth, retained package strength, or comparative robustness. Keep that split explicit.</td></tr>
+    <tr><td>Losing-family cause</td><td>Whether the loss was business weakness, execution fragility, support weakness, suite-order fragility, or only local noise.</td></tr>
+  </tbody>
+</table>
+<div class="warn">
+  Same-frontier reruns MUST be downgraded to <b>packaging / orchestration gain only</b> when they do not deepen business proof,
+  reduce a real frontier gap, or materially strengthen retained evidence.
 </div>
-
-<hr class="sep">
-
-<div class="card">
-<h2>3) Prompt Improvement Rule</h2>
-
-<details>
-<summary>
-  <span class="summary-title">3.1 When To Improve The Base Prompt</span>
-  <span class="badge">PROMPT</span>
-</summary>
-<ul>
-  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when <code class="inline">overall analysis quality</code> is below <code class="inline">QUALITY_TARGET_OVERALL</code>.</li>
-  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when <code class="inline">overall generated test-result quality</code> is below <code class="inline">QUALITY_TARGET_OVERALL</code>.</li>
-  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when diagrams are weak, missing, or hard to read.</li>
-  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when milestone history is too thin, repetitive, or not useful as iteration evidence.</li>
-  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when run folders are not self-contained enough to support cross-run comparison.</li>
-  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when constants drift from the desired execution model, especially seed ownership, target package ownership, or HTML-family ownership.</li>
-  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when the final HTML is too framework-centered instead of business-centered.</li>
-  <li><b>MUST</b> improve <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code> when the generated ATF code is weak in layering, assertions, reuse, maintainability, or executable trustworthiness.</li>
-  <li><b>MUST NOT</b> keep the prompt unchanged if the same analysis weaknesses are recurring.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">3.2 What Can Be Improved</span>
-  <span class="badge">PROMPT</span>
-</summary>
-<ul>
-  <li>business-first framing</li>
-  <li>analysis HTML section requirements</li>
-  <li>diagram requirements and readability constraints</li>
-  <li>run-folder grouping and per-run auditability</li>
-  <li>execution constants and repo-anchor clarity</li>
-  <li>milestone-history expectations</li>
-  <li>coverage-overlay rules</li>
-  <li>iteration evidence requirements</li>
-  <li>accessible-hyperlink exploration requirements</li>
-  <li>final scoring requirements</li>
-  <li>stop conditions and rerun conditions</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">3.3 Prompt Evolution Artifacts</span>
-  <span class="badge">PROMPT</span>
-</summary>
-<ul>
-  <li><b>MUST</b> save each improved prompt version inside the current run package under <code class="inline">RUN_ARCHIVE_ROOT</code>.</li>
-  <li><b>MUST</b> save a short review/scoring HTML or markdown artifact for each meta iteration explaining what changed in the prompt and why.</li>
-  <li><b>MUST</b> preserve prompt history even when ATF code is reverted.</li>
-  <li><b>MUST</b> keep the active discovery prompt and any maintained companion format aligned when both exist.</li>
-  <li><b>MUST</b> explain any intentional divergence from the strongest known previous prompt version.</li>
-  <li><b>MUST</b> state explicitly when the HTML is the canonical prompt and the markdown file is only a concise companion.</li>
-  <li><b>MUST NOT</b> lose the lesson trail that explains why prompt version N+1 is better than prompt version N.</li>
-  <li><b>MUST</b> preserve promoted best-of references separately from raw run artifacts when a run produces especially strong prompt or analysis outputs.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">3.4 Prompt Self-Scoring</span>
-  <span class="badge">PROMPT</span>
-</summary>
-<p>Each meta iteration may score the improved base prompt itself as a secondary diagnostic, but this must never replace scoring of the generated analysis output and generated ATF result package.</p>
-<pre><code>| Prompt Area | What was improved | Score | Risk / Note |
-|---|---|---:|---|</code></pre>
-<h4>Minimum prompt scoring dimensions</h4>
-<ul>
-  <li>business-first clarity</li>
-  <li>diagram governance clarity</li>
-  <li>analysis HTML completeness guidance</li>
-  <li>iteration and rerun discipline</li>
-  <li>reset safety clarity</li>
-  <li>repo-fit and ATF alignment</li>
-  <li>conciseness versus completeness</li>
-  <li>overall prompt quality</li>
-</ul>
-<ul>
-  <li><b>MUST</b> explain why the prompt is still below <code class="inline">QUALITY_TARGET_OVERALL</code> when it is below target.</li>
-  <li><b>MUST NOT</b> promote the new prompt as the effective baseline if it is weaker or less clear than the previous prompt version.</li>
-  <li><b>MUST NOT</b> use prompt self-score alone as a stop condition.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">3.5 Baseline Promotion Rule</span>
-  <span class="badge">PROMPT</span>
-</summary>
-<ul>
-  <li><b>MUST</b> promote a prompt version as the new effective baseline only after the rerun proves it produced an equal-or-better analysis package.</li>
-  <li><b>MUST</b> keep the prior prompt version in history even when the new one becomes the baseline.</li>
-  <li><b>MUST NOT</b> overwrite the lesson trail that explains why the new baseline won.</li>
-  <li><b>MUST</b> fall back to the previous baseline if the rerun reveals weaker clarity, honesty, readability, or repo-fit.</li>
-</ul>
 </details>
 </div>
 
 <hr class="sep">
 
 <div class="card">
-<h2>4) Reset And Rerun Rule</h2>
+<h2>3) Prompt Evolution And Rerun Rules</h2>
 
 <details>
 <summary>
-  <span class="summary-title">4.1 Preserve Then Reset</span>
+  <span class="summary-title">3.1 Frontier Pressure And Prompt-Caused Gap Detection</span>
+  <span class="badge">PROMPT</span>
+</summary>
+<ul>
+  <li><b>MUST</b> evolve the discovery prompt when the weakness belongs to prompt wording, structure, missing guidance, weak boundaries, or insufficient evidence pressure.</li>
+  <li><b>MUST NOT</b> call a rerun meaningful if a prompt-caused gap was diagnosed but the discovery prompt was not improved first.</li>
+  <li><b>MUST</b> separate prompt-caused weakness from product limits, environment limits, and honest execution failure.</li>
+  <li><b>MUST</b> keep prompt guidance concrete enough that the next run can be judged against it.</li>
+  <li><b>MUST</b> treat a newly disproved frontier as a useful supervisory outcome, not just a failed attempt: the review must say what evidence broke the earlier hypothesis and why the next move stays, deepens, or pivots.</li>
+  <li><b>MUST</b> treat benchmark comparison as a steering mechanism, not just a reporting appendix: if the comparison shows the current family only improved style or governance while frontier proof stayed flat, the next move must deepen proof or explicitly stop.</li>
+  <li><b>MUST</b> ask whether a public or shell-level success has a visible continuation into a deeper protected or downstream state before declaring the frontier complete.</li>
+  <li><b>MUST</b> treat visible downstream surfaces that fail materialization proof as a successful supervisory outcome when they prevent overclaiming and force a better frontier choice.</li>
+  <li><b>MUST</b> keep route truth, protected-shell truth, flow truth, mechanism truth, and blocked truth distinct after login or other guarded transitions. If authenticated content is real while the route marker remains stale, delayed, or misleading, do not collapse shell/mechanism truth into fake route truth and do not discard the deeper proof just because the URL stayed noisy.</li>
+  <li><b>MUST</b> flag frontier choice as weak when the round merely repeats a predecessor-displaced shell or route victory instead of deepening it materially or moving to a more important benchmark gap.</li>
+  <li><b>MUST</b> flag frontier choice as weak when a round prefers another navigation-only increment even though a higher-value downstream business continuation was already reachable and observable in the live app.</li>
+  <li><b>MUST</b> flag the supervising prompt as too permissive when it allows early stop without explicit closure of seed-adjacent frontiers, meaningful hyperlinks, and benchmark-significant gaps.</li>
+  <li><b>MUST</b> ask whether the current round reduced a real business frontier gap or only reduced a comparison-honesty / package-traceability gap.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">3.2 Preserve, Reset, Rerun</span>
   <span class="badge">RESET</span>
 </summary>
 <ol>
-  <li>preserve the canonical analysis HTML and run-local analysis history</li>
-  <li>preserve every completed run folder under <code class="inline">RUN_ARCHIVE_ROOT</code></li>
-  <li>preserve prompt-evolution artifacts and prompt-review artifacts</li>
-  <li>identify the ATF code/test/support changes introduced by the previous run</li>
-  <li>revert only those ATF execution changes</li>
-  <li>do not preserve superseded generated ATF code unless it is explicitly promoted as a kept baseline</li>
-  <li>keep the improved base prompt</li>
-  <li>rerun the UI-flow discovery process from a clean ATF code state</li>
+  <li>Preserve the full run package and review artifacts.</li>
+  <li>Preserve prompt snapshots and comparative notes.</li>
+  <li>Perform explicit pre-run cleanup of rerunnable generated output outside <code class="inline">docs/prompts/iterativ</code>, especially transient <code class="inline">target/</code> artifacts, while keeping useful history and preserved run packages intact.</li>
+  <li>Reset only superseded generated output under the governed execution layer.</li>
+  <li>Keep the inherited reporting evidence and review history.</li>
+  <li>Rerun the discovery prompt from a cleaner execution state.</li>
+  <li>Re-score the new run against the previously kept winner.</li>
 </ol>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">4.2 Reset Safety Rules</span>
-  <span class="badge">RESET</span>
-</summary>
+<div class="rule">
+  Preserve learned business memory. Replace only execution output that the improved prompt is expected to regenerate more strongly.
+</div>
+<div class="warn">
+  Thin-package rule: if a kept run lacks a real review artifact, a real iteration ledger, or concrete command/result evidence, the next meta-iteration must repair package completeness before that run can anchor promotion.
+</div>
 <ul>
-  <li><b>MUST</b> revert only the changes created by the run being superseded.</li>
-  <li><b>MUST</b> preserve unrelated user changes and unrelated parallel work.</li>
-  <li><b>MUST</b> preserve prompt files, analysis files, prompt-history files, and review artifacts.</li>
-  <li><b>MUST NOT</b> carry forward superseded generated UI code just because it exists in the worktree.</li>
-  <li><b>MUST NOT</b> use destructive reset logic that wipes the worktree indiscriminately.</li>
-  <li><b>MUST</b> explain exactly what was reverted and why before the rerun begins.</li>
+  <li><b>MUST</b> preserve analysis HTML, history, prompt snapshot, review, manifests, validation evidence, and run summary together for every kept run.</li>
+  <li><b>MUST</b> reject or repair preserved run packages that cannot explain purpose, command shape, result, lesson, and promotion/context status from their own files.</li>
+  <li><b>MUST</b> preserve every distinct real run that changed what the team knows: defect exposure, hardening, strategy shift, contract split, reporting lesson, or final validation.</li>
+  <li><b>MUST</b> treat unused planned iteration depth as a defect unless the review proves that remaining frontiers were already blocked, unsafe, already exhausted against the benchmark, or honestly below value.</li>
 </ul>
 </details>
 
-<details>
+<details class="subdetails">
 <summary>
-  <span class="summary-title">4.3 Rerun Trigger</span>
+  <span class="summary-title">3.2.1 Fresh-Round Comparative Reset</span>
   <span class="badge">RESET</span>
+  <span class="sumhint">history stays memory, not active winner</span>
 </summary>
 <ul>
-  <li><b>MUST</b> rerun the full UI-flow process after a meaningful prompt improvement, unless the remaining gap is clearly blocked by the product or by the environment.</li>
-  <li><b>MUST</b> rerun when the analysis score is below target, even if the generated tests look superficially acceptable.</li>
-  <li><b>MUST</b> rerun when the generated test-result quality is below target, even if the analysis package improved.</li>
-  <li><b>MUST</b> rerun while the completed meta-run count is still below <code class="inline">META_ITERATION_COUNT</code>, even if the current run already looks strong.</li>
-  <li><b>MUST NOT</b> stop at "prompt improved" without testing whether the improved prompt produces a better analysis artifact.</li>
+  <li><b>MUST</b> reset active comparative state at the start of every new 2+2 or family-comparison round: no prior run keeps implicit winner status, retained status, or business-winner status just because it won a previous round.</li>
+  <li><b>MUST</b> treat prior rounds as benchmark memory only unless the current round explicitly reopens them as named comparison anchors.</li>
+  <li><b>MUST</b> rebuild the active scoreboard, winner split, frontier gap, and retained-run decision from the current round's own preserved runs.</li>
+  <li><b>MUST</b> say explicitly which older runs were reopened as benchmark context and which older verdicts were intentionally reset out of active comparison scope.</li>
+  <li><b>MUST NOT</b> let a prior winner, prior family verdict, or prior retained-close run survive into the new round as active evidence without fresh comparative reopening.</li>
+  <li><b>MUST</b> reset proof-origin and retained-close labels for the new round and award them again only from evidence produced or explicitly reopened for that round.</li>
+  <li><b>MUST</b> start every fresh dictated 2+2 or family-comparison round in a fresh round-scoped archive context with local numbering restarted at <code class="inline">run_01</code>. If older preserved runs remain on disk, move them out of the active round scope or mark them benchmark-only outside the active archive root before the new round begins.</li>
+  <li><b>MUST</b> stop the round as invalid before counting any new meta-iteration if the task is validating the prompt family itself and the active archive scope still contains prior-round folders that were not explicitly reset out of scope.</li>
+  <li><b>MUST NOT</b> excuse continued numbering such as <code class="inline">run_55</code> by saying ranking reset semantically; for prompt-family validation rounds, archive-scope reset is part of the contract, not an optional implementation detail.</li>
+  <li><b>MUST</b> reject the round as audit-invalid if the final user-facing verdict, canonical HTML, history HTML, and active run archive do not all describe the same concrete round. Style quality or green tests cannot compensate for message-to-artifact mismatch.</li>
+  <li><b>MUST</b> reject the page as reporting-incomplete if validation ledgers or artifact-reference tables still violate the reporting standard's long-line containment rules after the final render-verification pass.</li>
 </ul>
+<div class="warn">
+  Historical memory is allowed. Historical carry-over verdicts are not. A new round starts with an empty active ranking unless the review explicitly reopens older anchors as benchmark evidence.
+</div>
 </details>
 
 <details>
 <summary>
-  <span class="summary-title">4.4 Keep And Reset Manifests</span>
+  <span class="summary-title">3.3 Honesty And Failure Rules</span>
   <span class="badge">RESET</span>
 </summary>
 <ul>
-  <li><b>MUST</b> save a keep-manifest artifact for each meta iteration under the current run package.</li>
-  <li><b>MUST</b> save a reset-manifest artifact for each meta iteration under the current run package.</li>
-  <li><b>MUST</b> save run-grouped copies under the current <code class="inline">run_##</code> package, not only flat files in the archive root.</li>
-  <li><b>MUST</b> list exactly which analysis files, prompt-history files, and review artifacts were preserved.</li>
-  <li><b>MUST</b> list exactly which generated ATF files, support classes, and test files were reverted before the rerun.</li>
-  <li><b>MUST</b> list any artifacts promoted into <code class="inline">PROMOTED_BASELINE_ROOT</code> and the reason they were promoted.</li>
-  <li><b>MUST NOT</b> leave the reset decision implicit or reconstruct it later from memory.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">4.5 Manifest Templates</span>
-  <span class="badge">RESET</span>
-</summary>
-<pre><code>keep-manifest
-- preserved analysis canonical html
-- preserved analysis milestone html files
-- preserved current run-folder analysis package
-- preserved prompt history files
-- preserved prompt review files
-- preserved files intentionally kept as baseline
-
-reset-manifest
-- reverted generated ui tests
-- reverted generated ui support classes
-- reverted generated helper/config changes tied to the superseded run
-- untouched unrelated user changes
-- untouched analysis and prompt-evolution artifacts</code></pre>
-<ul>
-  <li><b>MUST</b> keep these manifests short, explicit, and file-oriented.</li>
-  <li><b>MUST NOT</b> replace them with vague prose like "reset previous changes".</li>
+  <li><b>MUST NOT</b> invent evidence that is not visible in the run package.</li>
+  <li><b>MUST NOT</b> confuse partial, blocked, failed, and validated states.</li>
+  <li><b>MUST NOT</b> claim a clean rerun when reset safety forced a partial reset.</li>
+  <li><b>MUST NOT</b> treat prompt edits as success until another governed run proves a stronger result.</li>
+  <li><b>MUST NOT</b> stop at prompt commentary, HTML cleanup, or standards editing when the local task is to execute the quality-loop.</li>
+  <li><b>MUST NOT</b> publish ad hoc execution notes, path-contract checks, or temporary review scratch files inside <code class="inline">docs/prompts/iterativ</code>. That directory is reserved for governed prompt artifacts.</li>
+  <li><b>MUST NOT</b> treat public-support success, shell success, or navigation success alone as frontier closure when the application already exposed a deeper protected or downstream continuation.</li>
+  <li><b>MUST</b> downgrade the claim when the rerun is partial, blocked, or below target.</li>
+  <li><b>MUST</b> name when a shared-engine bootstrap or precursor defect remains unresolved and the round advances only through an explicit local bootstrap or workaround.</li>
+  <li><b>MUST</b> say explicitly when borrowed-family influence changed only form, provenance, or packaging, and not frontier depth.</li>
+  <li><b>MUST</b> publish bootstrap-state, missing-input-state, no-incumbent-baseline-state, or single-candidate-state explicitly when those are the honest execution outcomes.</li>
 </ul>
 </details>
 </div>
@@ -588,159 +645,123 @@ reset-manifest
 <hr class="sep">
 
 <div class="card">
-<h2>5) Meta Iteration Loop</h2>
+<h2>4) Final Output Contract</h2>
 
 <details>
 <summary>
-  <span class="summary-title">5.1 Mandatory Loop Contract</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<pre><code>run base UI-flow prompt -&gt; generate langgraph-business-understanding artifacts -&gt;
-score analysis artifacts -&gt; score generated test-result package -&gt; detect weaknesses -&gt; improve base prompt -&gt;
-save prompt evolution artifacts -&gt; group current run artifacts under docs/prompts/history/run_## -&gt; preserve analysis artifacts -&gt;
-revert previous ATF code changes -&gt; rerun from clean ATF state -&gt; score again</code></pre>
-<div class="rule">
-  This loop is complete only after the rerun proves whether the prompt improvement produced a better analysis artifact and a better generated test-result package.
-</div>
-<div class="good">
-  The artifact that must keep getting better across reruns is <code class="inline">langgraph-business-understanding.html</code> plus its history,
-  while the ATF code produced by weak runs is disposable unless explicitly promoted.
-</div>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">5.2 Quality Gates Before Rerun</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<ul>
-  <li><b>MUST</b> finish the analysis scoring before deciding the next prompt improvement.</li>
-  <li><b>MUST</b> finish the generated test-result scoring before deciding whether the current run is acceptable.</li>
-  <li><b>MUST</b> finish the prompt self-scoring before promoting the new prompt as the rerun baseline.</li>
-  <li><b>MUST</b> finish the current run package under <code class="inline">RUN_ARCHIVE_ROOT/run_##</code> before considering the iteration auditable.</li>
-  <li><b>MUST</b> verify whether the execution prompt completed its own declared iteration depth and whether its canonical HTML met the execution prompt's own business-model and diagram expectations.</li>
-  <li><b>MUST</b> finish the keep/reset manifests before the ATF state is cleaned for the next run.</li>
-  <li><b>MUST</b> record whether the run improved breadth, determinism, truthfulness, prompt clarity, or only one of those dimensions.</li>
-  <li><b>MUST NOT</b> rerun blindly without explaining what this next iteration is expected to improve.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">5.3 Stop Conditions</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<ul>
-  <li><b>MUST</b> continue until <code class="inline">overall analysis quality &gt;= QUALITY_TARGET_OVERALL</code> and <code class="inline">overall generated test-result quality &gt;= QUALITY_TARGET_OVERALL</code>, or a justified stop condition is reached.</li>
-  <li><b>MUST</b> continue until <code class="inline">META_ITERATION_COUNT</code> run folders exist and are scored, unless an explicit documented block makes additional runs dishonest or impossible.</li>
-  <li><b>MUST</b> continue when the execution prompt failed to complete its own required iteration depth, unless a real and documented block proved that more execution iterations were impossible or unsafe.</li>
-  <li><b>MUST</b> continue when the generated canonical HTML is still weak in business domains, actor-state clarity, business-flow diagrams, or milestone usefulness, even if headline scores improved.</li>
-  <li><b>MUST</b> continue when the analysis is still below target and there is an obvious safe prompt improvement left.</li>
-  <li><b>MUST</b> continue when generated test-result quality is still below target and there is an obvious safe prompt improvement left.</li>
-  <li><b>MUST</b> continue when obvious accessible-link frontier slices, distinct account routes, or meaningful CTA-driven flows were not yet attempted in the clean baseline environment.</li>
-  <li><b>MUST NOT</b> treat a single strong run as completion when the configured loop depth has not yet been honored.</li>
-  <li><b>MAY</b> stop only if the remaining weaknesses are blocked, unsafe, low-value, or clearly product-limited rather than prompt-limited.</li>
-  <li><b>MUST NOT</b> stop merely because one rerun improved the score somewhat.</li>
-  <li><b>MUST NOT</b> stop if the analysis score improved but the prompt self-score or reset discipline still regressed.</li>
-  <li><b>MUST NOT</b> stop if the current base prompt still cannot repeatedly generate the expected reporting structure, diagrams, business traceability, and ATF code quality in the same run.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">5.4 Cross-Run Baseline Selection</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<ul>
-  <li><b>MUST</b> score every completed <code class="inline">run_##/analysis</code> package on the same 1-10 scale before choosing the best baseline.</li>
-  <li><b>MUST</b> include an explicit cross-run comparison table and a named winner.</li>
-  <li><b>MUST</b> keep the cross-run comparison table cumulative until all configured runs are complete.</li>
-  <li><b>MUST</b> choose the best execution-prompt baseline through comparative quality, not chronology.</li>
-  <li><b>MUST</b> allow a later run to win because it is more honest and more stable, even if it covers slightly fewer speculative claims than an earlier run.</li>
-  <li><b>MUST</b> preserve the non-winning runs as historical evidence unless they are explicitly redundant and documented as such.</li>
-  <li><b>MUST NOT</b> assume <code class="inline">run_10</code> wins just because it is newest.</li>
-</ul>
-<pre><code>| Run | Analysis Score | Generated ATF Score | Prompt Baseline Quality | Better Than Current Best? | Why |
-|---|---:|---:|---:|---|---|</code></pre>
-</details>
-
-</div>
-
-<hr class="sep">
-
-<div class="card">
-<h2>6) Final Output</h2>
-
-<details>
-<summary>
-  <span class="summary-title">6.1 What Must Be Reported</span>
+  <span class="summary-title">4.1 Required Deliverables</span>
   <span class="badge">CORE</span>
 </summary>
-<ul>
-  <li>analysis-artifact scoring table</li>
-  <li>generated test-result scoring table</li>
-  <li>final cross-run review artifact path under <code class="inline">RUN_ARCHIVE_ROOT</code></li>
-  <li>cross-run comparison table across all completed <code class="inline">run_##/analysis</code> packages</li>
-  <li>explicit best-run decision and why it won</li>
-  <li>analysis-versus-previous-iteration score delta</li>
-  <li>current run folder path and what it contains</li>
-  <li>what was weak in the generated HTML package</li>
-  <li>what was weak in the generated tests and support changes</li>
-  <li>what changed in the base UI-flow prompt</li>
-  <li>prompt self-scoring table</li>
-  <li>where the improved prompt was saved</li>
-  <li>which analysis artifacts were preserved</li>
-  <li>keep-manifest and reset-manifest artifact locations</li>
-  <li>which ATF changes were reverted before the rerun</li>
-  <li>which artifacts were promoted into <code class="inline">PROMOTED_BASELINE_ROOT</code></li>
-  <li>what the rerun improved and what it did not improve</li>
-  <li>the final analysis overall score and whether the target was reached</li>
-  <li>the final generated test-result overall score and whether the target was reached</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">6.2 Review Artifact Template</span>
-  <span class="badge">CORE</span>
-</summary>
-<pre><code>| Meta Iteration | Analysis Overall | Prompt Overall | Better Than Previous? | Why |
-|---|---:|---:|---|---|</code></pre>
-<ul>
-  <li><b>MUST</b> append one row per meta iteration.</li>
-  <li><b>MUST</b> include generated test-result quality in the review artifact body, even if the compact summary table stays short.</li>
-  <li><b>MUST</b> state the decisive reason why the iteration was accepted, rejected, or rerun.</li>
-  <li><b>MUST</b> state whether the run promoted a stronger baseline because of additional coverage, improved determinism, improved honesty, or a better prompt formulation.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">6.3 Final Cross-Run Review Artifact</span>
-  <span class="badge">CORE</span>
-</summary>
-<ul>
-  <li><b>MUST</b> create or overwrite the final cross-run review artifact when two or more completed run folders exist.</li>
-  <li><b>MUST</b> compare all kept run folders on analysis quality, reporting overall quality, generated test-result quality, history usefulness, and trust honesty.</li>
-  <li><b>MUST</b> name the winning run explicitly and explain why it beat the previous best run.</li>
-  <li><b>MUST</b> align the final cross-run review with the artifacts promoted into <code class="inline">PROMOTED_BASELINE_ROOT</code>.</li>
-  <li><b>MUST NOT</b> let the promoted best run differ from the run named in the final cross-run review artifact.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">6.4 Core Principle</span>
-  <span class="badge">CORE</span>
-</summary>
-<div class="rule">
-  The generated <code class="inline">langgraph-business-understanding</code> HTML family is a secondary output and a feedback layer about prompt quality.
-  If the analysis artifact is still weak, or if the generated tests are still below the required quality level, improve the base prompt, keep the analysis evidence, undo only the superseded ATF execution changes,
-  and rerun from a clean framework state until both the analysis quality and the generated test-result quality are strong enough or a real block is proven.
-</div>
 <div class="note">
-  Promote known-good artifacts separately from raw run evidence. Keep the raw run folders immutable enough for audit, and copy the best analysis HTML, best prompt baselines, and best run summaries into
-  <code class="inline">PROMOTED_BASELINE_ROOT</code> for future prompt evolution and comparison.
+  Publish the final result in three layers: comparative verdicts, guidance and promotion, then concrete file outputs.
+</div>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.1.1 Comparative Verdicts</span>
+  <span class="badge">CORE</span>
+  <span class="sumhint">what the round proved</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Output</th>
+      <th>Publish this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Execution-state verdict</td><td>State explicitly whether the round is comparative, bootstrap, missing-input, single-candidate, no-incumbent-baseline, or another honesty-preserving state required by the evidence.</td></tr>
+    <tr><td>Final ranking</td><td>Ordered run ranking with explicit winner and loser rationale.</td></tr>
+    <tr><td>Scores 1-10</td><td>Main comparative score table across the governed dimensions.</td></tr>
+    <tr><td>Evidence-class verdict</td><td>State whether the comparison was truly symmetric or remained inconclusive because the evidence classes did not match.</td></tr>
+    <tr><td>Proof-origin / retained-close verdict</td><td>State which run first closed the active truth and which run became the strongest broader retained close. If one or both are missing, say so explicitly.</td></tr>
+    <tr><td>Deepest defended flow verdict</td><td>State the deepest business chain actually defended by evidence and name the kept run that anchors that chain.</td></tr>
+    <tr><td>Exploration-versus-proof verdict</td><td>State whether the family mainly increased defended depth, only broadened explored surface, or mostly hardened an already known proof.</td></tr>
+    <tr><td>Package-completeness verdict</td><td>State whether each kept run package is audit-ready or still too thin, and name the missing pieces explicitly.</td></tr>
+    <tr><td>Gap verdict</td><td>State the strongest benchmark gap, strongest frontier gap, and whether the winning family actually reduced one of them.</td></tr>
+    <tr><td>Loser-cause verdict</td><td>State exactly why the losing family lost and whether that loss is structural, local, or still inconclusive.</td></tr>
+    <tr><td>Winner split verdict</td><td>State whether business-understanding winner, output winner, and execution-robustness winner are the same run or different runs.</td></tr>
+    <tr><td>Frontier-gap verdict</td><td>State whether the round reduced a business frontier gap, only a benchmark-comparison gap, or only a packaging/provenance gap.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.1.2 Guidance And Promotion</span>
+  <span class="badge">CORE</span>
+  <span class="sumhint">what should happen next</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Output</th>
+      <th>Publish this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Improvement plan</td><td>Short next-step plan tied to the frontier and current weaknesses.</td></tr>
+    <tr><td>Prompt guidance</td><td>Concrete changes for <code class="inline">DISCOVERY_ATF_PROMPT_PATH</code>, if any.</td></tr>
+    <tr><td>Promotion recommendation</td><td>Keep or replace the current promoted baseline.</td></tr>
+    <tr><td>Golden-copy recommendation</td><td>Copy into <code class="inline">docs/goldenCopies/html-exemplars-to-follow</code> only if the final report beat every relevant exemplar already stored there. Otherwise preserve the round normally but reject exemplar copying explicitly.</td></tr>
+    <tr><td>Next-run targets</td><td>Frontier, validation, and evidence targets.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.1.3 Published Artifacts And Cleanup</span>
+  <span class="badge">CORE</span>
+  <span class="sumhint">what changed on disk</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Output</th>
+      <th>Publish this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Published artifact list</td><td>State exactly which files were written or updated under run archive, canonical analysis, analysis history, promoted baseline, and exemplar locations.</td></tr>
+    <tr><td>Cleanup verification</td><td>What was cleaned, what was preserved intentionally, and whether leftover artifacts still risk comparison pollution.</td></tr>
+  </tbody>
+</table>
+</details>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.2 Review Artifact Shape</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>| Run | Analysis | Reporting | Generated ATF | Winner? | Why |
+|---|---:|---:|---:|---|---|
+</code></pre>
+<h4>What the review must let a future reader answer quickly</h4>
+<ul>
+  <li><b>MUST</b> separate observed evidence from comparative conclusions.</li>
+  <li><b>MUST</b> show why the winner won and why the losers remained archived.</li>
+  <li><b>MUST</b> show when no winner was allowed and why bootstrap, missing inputs, or asymmetric evidence blocked promotion.</li>
+  <li><b>MUST</b> classify each kept checkpoint as business progress, reporting-only improvement, orchestration-only improvement, or no durable progress.</li>
+  <li><b>MUST</b> include a short causal split for each family: what changed execution, what only changed reporting, and what only changed supervision.</li>
+  <li><b>MUST</b> name whether the current result is still too thin because the family stopped at a targeted slice or because the package itself stayed incomplete.</li>
+  <li><b>MUST</b> say whether the round created a new business frontier or only clarified trust, packaging, provenance, or comparison honesty.</li>
+  <li><b>MUST</b> say what the deepest defended business flow is in one explicit chain, rather than leaving the reviewer to reconstruct it from scattered rows.</li>
+  <li><b>MUST</b> say whether a large execution budget materially deepened business proof or mostly produced breadth, retries, or packaging improvement.</li>
+  <li><b>MUST</b> say whether borrowed standards changed direction or only improved retained-run packaging and traceability.</li>
+  <li><b>MUST</b> say explicitly when proof-origin succeeded but retained-close failed: treat that as absorption / robustness weakness, not as evidence that the original business proof never existed.</li>
+  <li><b>MUST</b> keep the artifact short enough to reuse in the next comparison cycle.</li>
+</ul>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.3 Core Principle</span>
+  <span class="badge">CORE</span>
+</summary>
+<div class="rule">
+  Treat the governed HTML family and generated ATF package as evidence about prompt quality. If the evidence remains weak, evolve the discovery prompt, preserve the learning, reset only superseded execution output, and rerun until the strongest run is genuinely promotable or a real block is proven.
 </div>
 </details>
 </div>
@@ -748,7 +769,3 @@ revert previous ATF code changes -&gt; rerun from clean ATF state -&gt; score ag
 </div>
 </body>
 </html>
-
-
-
-

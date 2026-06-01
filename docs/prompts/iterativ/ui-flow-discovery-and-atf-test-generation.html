@@ -154,6 +154,10 @@
     margin: 12px 0;
     box-shadow: 0 8px 22px var(--shadow);
   }
+  .subdetails {
+    margin: 10px 0 0 10px;
+    background: rgba(11,20,31,.84);
+  }
   summary {
     cursor: pointer;
     list-style: none;
@@ -216,6 +220,7 @@
 <div class="docmap">
   <b>Local prompt produces</b><span>Discovery, ATF tests, hardening, validation, scores, and run evidence.</span>
   <b>Shared inputs</b><span><code class="inline">REPORTING_STANDARD_PATH</code>, <code class="inline">ORCHESTRATION_STANDARD_PATH</code>, and <code class="inline">LIVING_ARCHITECTURE_DOC_PATH</code>.</span>
+  <b>Local exemplar root</b><span>When present, <code class="inline">docs/goldenCopies/html-exemplars-to-follow</code> is the local exemplar library used later by the quality-loop. This prompt may prepare candidate artifacts, but it must not copy them there on its own authority.</span>
   <b>Boundary</b><span>Reusable contracts stay in standards; run-specific proof and implementation decisions stay here.</span>
 </div>
 </details>
@@ -225,6 +230,7 @@
   <span class="summary-title">1.1 Operating Principles</span>
   <span class="badge">CORE</span>
 </summary>
+<h4>Canonical contract</h4>
 <ul>
   <li><span class="pill">DISCOVERY</span> understand live business behavior before shaping tests.</li>
   <li><span class="pill">UI</span> generate business-readable ATF tests and harden shared support only where the run proves reusable weakness.</li>
@@ -233,6 +239,12 @@
 </ul>
 <div class="rule">
   <code class="inline">SEED_RECORDING_CLASS</code> is the first clue, not the suite design or coverage boundary.
+</div>
+<div class="note">
+  Discovery may produce an exemplar candidate, but only the final quality-loop may decide whether the resulting canonical report beats the local exemplar library strongly enough to justify copying it into <code class="inline">docs/goldenCopies/html-exemplars-to-follow</code>.
+</div>
+<div class="rule">
+  <code class="inline">RUN_ARCHIVE_ROOT</code> and <code class="inline">PROMOTED_BASELINE_ROOT</code> are supervising-layer roots inherited from the orchestration contract. This prompt owns canonical HTML, analysis history, generated ATF output, validation evidence, and run-local review material, but it does not own the final archive-root naming or baseline-root naming.
 </div>
 </details>
 
@@ -264,7 +276,7 @@
   <span class="badge">CORE</span>
   <span class="sumhint">single source of truth</span>
 </summary>
-<pre><code>EXECUTION_ITERATION_COUNT = 10
+<pre><code>EXECUTION_ITERATION_COUNT = 50
 EXECUTION_OVERALL_QUALITY_TARGET = 9.99
 
 SEED_RECORDING_CLASS = src/test/java/com/endava/ai/ui/tests/Example.java
@@ -277,14 +289,22 @@ REPORTING_STANDARD_PATH = docs/prompts/iterativ/langgraph-business-understanding
 ORCHESTRATION_STANDARD_PATH = docs/prompts/iterativ/prompt-evolution-orchestration-standard.html
 
 CANONICAL_HTML = docs/analysis/langgraph-business-understanding.html
+ANALYSIS_HISTORY_ROOT = docs/analysis/history
 ANALYSIS_MILESTONE_PREFIX = docs/analysis/history/langgraph-business-understanding_it</code></pre>
 <div class="warn">
   <b>Critical execution rule:</b> hitting <code class="inline">EXECUTION_OVERALL_QUALITY_TARGET</code> early does not authorize stopping.
   Continue through <code class="inline">EXECUTION_ITERATION_COUNT</code> unless the remaining work is explicitly blocked, unsafe,
   low-value, or would require architectural drift.
 </div>
+<div class="warn">
+  <b>Strict stop gate:</b> do not classify remaining work as low-value while any seed-adjacent frontier, meaningful internal hyperlink,
+  visible downstream continuation, or benchmark-significant gap remains materially open.
+</div>
 <div class="note">
   Default output belongs in <code class="inline">TARGET_TEST_PACKAGE</code>. Any safer repo-fit exception must be justified in <code class="inline">CANONICAL_HTML</code>.
+</div>
+<div class="warn">
+  Do not publish ad hoc execution notes, path-contract checks, or round review scratch files under <code class="inline">docs/prompts/iterativ</code>. That directory is reserved for governed prompt artifacts. Publish operative outputs under canonical analysis, history, validation, or the active supervising archive roots.
 </div>
 </details>
 </div>
@@ -308,7 +328,12 @@ ANALYSIS_MILESTONE_PREFIX = docs/analysis/history/langgraph-business-understandi
 <h4>Required behavior</h4>
 <ul>
   <li><b>MUST</b> inspect <code class="inline">SEED_RECORDING_CLASS</code> first.</li>
+  <li><b>MUST</b> open and analyze the current local <code class="inline">CANONICAL_HTML</code>, <code class="inline">ANALYSIS_HISTORY_ROOT</code>, and preserved run packages when they exist before deciding the next frontier; if the repo was intentionally reset and these artifacts are absent, record that absence explicitly and use benchmark packages plus live discovery as the starting memory.</li>
+  <li><b>MUST</b> reopen the strongest relevant benchmark canonical HTML in a real browser when it is locally reachable, and SHOULD reopen the benchmark history, run summary, and iterative prompt snapshot that most directly explain how that benchmark earned trust.</li>
+  <li><b>MUST</b> distinguish benchmark memory reopened for judgment from execution bootstrap provenance needed only to make the run executable. If generated support, scaffolding, or execution-layer code is rebuilt from an external snapshot, record that as bootstrap provenance rather than as the benchmark itself.</li>
   <li><b>MUST</b> inspect existing tests under <code class="inline">UI_TEST_ROOT</code> and reusable support under <code class="inline">UI_SUPPORT_ROOT</code>.</li>
+  <li><b>MUST</b> prefer deeper continuation of the same business flow when a visible next step exists and the current truth is still only shell-level, route-level, or narrowly targeted.</li>
+  <li><b>MUST</b> keep a seed-adjacent frontier ledger so every meaningful route, CTA, tab, or hyperlink touched directly by the seed ends as covered, blocked, duplicate, or explicitly deferred with a concrete reason.</li>
   <li><b>MUST</b> inspect live routes, menus, hyperlinks, forms, validations, protected areas, and state transitions whenever confidence is not high enough.</li>
   <li><b>MUST</b> attempt meaningful accessible internal links and classify skipped links as duplicate, blocked, external, deferred, or low-value.</li>
   <li><b>MUST</b> treat separate environments, examples, external docs, and third-party destinations as distinct variants, not baseline coverage.</li>
@@ -365,9 +390,12 @@ ANALYSIS_MILESTONE_PREFIX = docs/analysis/history/langgraph-business-understandi
 <div class="rule">
   Use the smallest safe improvement, but prefer shared repairs once a weakness is clearly reusable.
 </div>
+<div class="note">
+  Flow pressure rule: do not abandon a business flow after the first decent proof if the next business step is visible, important, and realistically reachable. Either deepen it or state exactly where it blocked.
+</div>
 </details>
 
-<details>
+<details class="subdetails">
 <summary>
   <span class="summary-title">2.3.1 Business-Oriented Test Organization</span>
   <span class="badge">UI</span>
@@ -441,6 +469,16 @@ ANALYSIS_MILESTONE_PREFIX = docs/analysis/history/langgraph-business-understandi
   <li><b>MUST</b> create or update <code class="inline">CANONICAL_HTML</code> after meaningful discovery, implementation, validation, or scoring changes.</li>
   <li><b>MUST</b> save <code class="inline">ANALYSIS_MILESTONE_PREFIX*</code> only when understanding, coverage interpretation, ATF trust, or next priorities materially changed.</li>
   <li><b>MUST</b> keep the HTML family business-first and tied to generated ATF trust.</li>
+  <li><b>MUST</b> keep <code class="inline">Trust stance</code>, <code class="inline">Current Baseline Decision</code>, <code class="inline">Run Identity And Current Scoreboard</code>, <code class="inline">Generated ATF Test-Result Quality Scoreboard</code>, <code class="inline">Reporting Overall Quality</code>, <code class="inline">Cross-Run Comparison</code>, <code class="inline">HTML History Index</code>, and <code class="inline">Render Verification Status</code> visibly explicit in the canonical page.</li>
+  <li><b>MUST</b> keep <code class="inline">Coverage Vocabulary</code>, <code class="inline">Accessible Hyperlink Exploration Ledger</code>, <code class="inline">Route-Proof Versus Flow-Proof Delta</code>, <code class="inline">Disconfirmed Frontier Notes</code>, and <code class="inline">Checkpoint Self-Evaluation</code> explicit whenever the round is deep enough that those distinctions matter.</li>
+  <li><b>MUST</b> keep explicit <code class="inline">Benchmark Gap</code> and <code class="inline">Frontier Gap</code> sections visible in the canonical HTML, not only implied by prose elsewhere.</li>
+  <li><b>MUST</b> make the canonical page say which benchmark artifacts were actually reopened for this round: rendered canonical HTML, history page, run summary, and prompt snapshot when available.</li>
+  <li><b>MUST</b> keep bootstrap or borrowed execution provenance short near the top of the canonical page and move the detailed explanation into <code class="inline">Reset And Source Lock</code>, <code class="inline">Validation Artifact References</code>, or an equivalent audit section.</li>
+  <li><b>MUST NOT</b> write a long benchmark-memory sentence in the hero summary when the real point is only that execution scaffolding was rebuilt from a known bootstrap.</li>
+  <li><b>MUST</b> keep the canonical HTML and milestone family comparable across runs: stable section names, explicit score evolution, history links, and frontier/deferred areas.</li>
+  <li><b>MUST</b> include a dedicated <code class="inline">Validation Artifact References</code> section with direct links to the kept run package, the exact XML or surefire proof, and any visually verified report artifacts that support the verdict.</li>
+  <li><b>MUST</b> make the canonical page state the <code class="inline">deepest defended flow</code>, the <code class="inline">max retained business chain</code>, and the split between <code class="inline">exploration breadth</code> and <code class="inline">proven depth</code>.</li>
+  <li><b>MUST</b> report configured iteration budget separately from <code class="inline">effective meaningful iterations</code>; decorative reruns, packaging-only cleanups, and command-shape misses are not allowed to inflate the meaningful-depth count.</li>
   <li><b>MUST NOT</b> restate generic reporting, milestone, render, or promotion contracts here.</li>
 </ul>
 </details>
@@ -450,13 +488,16 @@ ANALYSIS_MILESTONE_PREFIX = docs/analysis/history/langgraph-business-understandi
   <span class="summary-title">3.2 Business Flow Inventory</span>
   <span class="badge">HTML</span>
 </summary>
+<h4>Flow semantics</h4>
 <ul>
   <li><b>MUST</b> capture business domains and capabilities only when evidence exists.</li>
   <li><b>MUST</b> capture actor states, allowed transitions, blocked transitions, and guarded transitions.</li>
   <li><b>MUST</b> capture route and hyperlink discovery, including explored, duplicate, external, blocked, deferred, and covered links.</li>
   <li><b>MUST</b> maintain a business flow inventory with actor, entry point, trigger, preconditions, happy path, alternative paths, negative paths, postconditions, observable assertions, automation status, and confidence.</li>
+  <li><b>MUST</b> classify each promoted claim on a truth ladder: shell truth, route truth, semantic flow truth, or blocked truth. Route visibility is not equivalent to semantic business proof.</li>
   <li><b>MUST</b> keep stable invariants separate from tentative assumptions.</li>
   <li><b>MUST</b> show which ATF tests prove each covered or partially covered flow.</li>
+  <li><b>MUST</b> keep semantic pills discrete, readable, and useful for quickly separating baseline, new truth, blocked truth, benchmark gap, and retained run identity.</li>
 </ul>
 <pre><code>| Flow | Actor | Entry point | Trigger | Preconditions | Happy path | Alternatives | Negative paths | Postconditions | Observable assertions | ATF coverage | Confidence |
 |---|---|---|---|---|---|---|---|---|---|---|---:|</code></pre>
@@ -467,6 +508,7 @@ ANALYSIS_MILESTONE_PREFIX = docs/analysis/history/langgraph-business-understandi
   <span class="summary-title">3.3 Coverage And ATF Mapping</span>
   <span class="badge">HTML</span>
 </summary>
+<h4>Confidence and memory rules</h4>
 <ul>
   <li><b>MUST</b> map business capabilities and journeys before mapping test classes.</li>
   <li><b>MUST</b> keep automation status, confidence, and ATF quality visible.</li>
@@ -487,8 +529,13 @@ ANALYSIS_MILESTONE_PREFIX = docs/analysis/history/langgraph-business-understandi
   <li><b>MUST</b> keep the seed-to-business-to-ATF path readable.</li>
   <li><b>MUST</b> preserve a hyperlink ledger and separate duplicates from new flows.</li>
   <li><b>MUST</b> show which assumptions were promoted, corrected, deferred, or superseded.</li>
+  <li><b>MUST</b> state whether the next best frontier is a continuation of the same flow, a sibling flow, or a blocked branch that needs honest deferment.</li>
+  <li><b>MUST</b> say whether the current frontier was materially deepened, merely repackaged, honestly blocked, or displaced by a stronger seed-adjacent frontier.</li>
+  <li><b>MUST</b> say whether this run is best described as a benchmark-grade winner, a stronger local candidate, a validated learning candidate, or a non-promotable retained package. If a stronger benchmark still exists, name that gap explicitly instead of letting the score imply full graduation.</li>
+  <li><b>MUST</b> distinguish breadth work from depth work: if many hyperlinks or sibling descendants were explored but only one or two chains became defensible business proof, compress that split explicitly in the canonical report.</li>
   <li><b>MUST NOT</b> silently upgrade a flow from deferred or tentative to covered without new proof.</li>
   <li><b>MUST</b> save standalone milestones only when they are rich enough to teach what changed and why.</li>
+  <li><b>MUST</b> make each kept milestone answer four memory questions clearly: what changed, why it matters, what rule was learned, and what frontier became next.</li>
   <li><b>MUST NOT</b> create thin milestone files for cosmetic or implementation-only changes.</li>
 </ul>
 <pre><code>| Iteration | Discovery / changed understanding | Tests added or updated | Support added or hardened | Validation evidence | Score delta |
@@ -523,7 +570,10 @@ milestone save decision -&gt; score update -&gt; next iteration</code></pre>
   <li><b>MUST</b> plan to execute all <code class="inline">EXECUTION_ITERATION_COUNT</code>.</li>
   <li><b>MUST</b> continue even if a narrow suite passes or the score crosses <code class="inline">EXECUTION_OVERALL_QUALITY_TARGET</code> early.</li>
   <li><b>MUST</b> use later iterations to deepen coverage, challenge assumptions, and revisit valuable deferred areas.</li>
-  <li><b>MAY</b> stop early only if the remaining work is blocked, unsafe, low-value, or would require architectural drift.</li>
+  <li><b>MUST</b> use large budgets such as <code class="inline">50</code> to explore accessible hyperlink descendants, seed-adjacent continuations, and guarded state branches until they are either promoted, deferred, or blocked with evidence. Budget size alone is not learning.</li>
+  <li><b>MUST</b> report after the round how many iterations were actually meaningful and what each meaningful checkpoint changed: business depth, evidence diversity, benchmark understanding, frontier rejection, or retained absorption.</li>
+  <li><b>MAY</b> stop early only if the remaining work is blocked, unsafe, low-value, or would require architectural drift, and only after proving that no seed-adjacent frontier, meaningful accessible hyperlink, or benchmark-significant gap remains open.</li>
+  <li><b>MUST NOT</b> use low-value alone as an early-stop justification while seed-adjacent frontiers or benchmark-significant gaps remain open.</li>
 </ul>
 </details>
 
@@ -536,6 +586,7 @@ milestone save decision -&gt; score update -&gt; next iteration</code></pre>
   <li><b>MUST</b> record what changed in the business model.</li>
   <li><b>MUST</b> record what changed in tests or shared support.</li>
   <li><b>MUST</b> record validation evidence and what it proved.</li>
+  <li><b>MUST</b> preserve the generated Extent report for every kept iteration under <code class="inline">validation/reports/ExtentReport_*.html</code> whenever Extent reporting is supported by the repo. A kept run package that lacks its Extent artifact is audit-incomplete even if canonical HTML, summary text, and XML are present.</li>
   <li><b>MUST</b> record whether a milestone HTML was saved and why.</li>
   <li><b>MUST</b> record the next highest-value safe improvement candidate.</li>
 </ul>
@@ -554,7 +605,7 @@ milestone save decision -&gt; score update -&gt; next iteration</code></pre>
 </ul>
 </details>
 
-<details>
+<details class="subdetails">
 <summary>
   <span class="summary-title">4.4.1 Coverage Dimensions</span>
   <span class="badge">QUALITY</span>
@@ -638,10 +689,19 @@ milestone save decision -&gt; score update -&gt; next iteration</code></pre>
   <span class="summary-title">5.5 Source-To-Artifact Traceability</span>
   <span class="badge">TRACE</span>
 </summary>
+<h4>Run package richness</h4>
 <ul>
   <li><b>MUST</b> preserve a readable chain from <code class="inline">SEED_RECORDING_CLASS</code> to discovered behavior, generated test, support change, validation command, and HTML evidence.</li>
   <li><b>MUST</b> mark whether a test was seed-derived, live-discovered, regression-hardening-driven, or support-layer-hardening-driven.</li>
   <li><b>MUST</b> record when a test mainly protects framework behavior exposed during discovery.</li>
+  <li><b>MUST</b> snapshot the exact discovery prompt and referenced standards used for the kept run package so later comparison can explain why this run produced stronger or weaker output.</li>
+  <li><b>MUST</b> keep comparative source-lock provenance explicit whenever the round intentionally compares or borrows another family's standards: list exact external files used, exact external files excluded, whether WIP/temp/experimental files were excluded, and whether the run stayed execution-symmetric.</li>
+  <li><b>MUST</b> keep execution-bootstrap provenance explicit whenever the run rebuilds generated support, services, pages, or tests from an external snapshot. State the exact snapshot once, classify it as bootstrap provenance, and do not let it masquerade as reopened business benchmark evidence.</li>
+  <li><b>MUST</b> make every kept run package auditable from its own files: concise summary, prompt snapshot, validation evidence or honest no-validation note, and generated/support deltas rich enough for later comparison.</li>
+  <li><b>MUST</b> update <code class="inline">iteration-ledger.md</code> for every attempted iteration, including attempts that produced no code change and no milestone.</li>
+  <li><b>MUST</b> preserve a defect-discovery run separately when a later greener retained slice narrows or bypasses the unstable frontier instead of truly closing it.</li>
+  <li><b>MUST</b> copy stable validation artifacts into the kept run package instead of leaving proof only in transient <code class="inline">target/</code> folders.</li>
+  <li><b>MUST</b> treat the per-run Extent artifact as required validation evidence when Extent is supported: copy it into <code class="inline">validation/reports/ExtentReport_*.html</code> for each kept run and downgrade package completeness if it is missing.</li>
   <li><b>MUST NOT</b> leave a generated test without a visible business reason or framework-hardening reason.</li>
 </ul>
 </details>
@@ -661,6 +721,7 @@ milestone save decision -&gt; score update -&gt; next iteration</code></pre>
   <li><b>MUST</b> reassess business understanding, route discovery, hyperlink discovery, actor-state discovery, invariant quality, seed conversion, coverage, maintainability, and generated ATF test-result quality.</li>
   <li><b>MUST</b> reassess positive, negative, boundary, navigation, state, recovery, and fallback coverage when the live UI exposes those dimensions.</li>
   <li><b>MUST</b> report reporting, screenshot, engine, and AI/MCP readiness only as confidence signals.</li>
+  <li><b>MUST</b> keep pushing seed-adjacent frontiers before treating distant optional exploration as more important.</li>
 </ul>
 </details>
 
@@ -669,12 +730,15 @@ milestone save decision -&gt; score update -&gt; next iteration</code></pre>
   <span class="summary-title">6.2 Maven Validation Expectations</span>
   <span class="badge">QUALITY</span>
 </summary>
+<h4>Validation and render honesty</h4>
 <ul>
   <li><b>MUST</b> run the narrowest useful Maven validation first.</li>
   <li><b>MUST</b> broaden validation once narrow runs are green.</li>
   <li><b>MUST</b> report all Maven commands actually run.</li>
   <li><b>MUST</b> report command, scope, failure if any, root cause, fix applied, and final result.</li>
   <li><b>MUST NOT</b> hide failing runs that led to a useful fix.</li>
+  <li><b>MUST</b> preserve the actual generated report artifact even when the repo writes Extent or Allure output to a framework-default location instead of the requested run path; copy the produced artifact into the run package and record the mismatch honestly.</li>
+  <li><b>MUST</b> preserve Extent per kept iteration, not only for the final retained winner. If an intermediate kept run changed what the team knows, its own Extent artifact must remain reopenable from that run package.</li>
 </ul>
 </details>
 
@@ -699,12 +763,22 @@ milestone save decision -&gt; score update -&gt; next iteration</code></pre>
 <ul>
   <li><b>MUST</b> state business discoveries, generated or updated ATF tests, shared support hardening, validation evidence, HTML artifacts updated, remaining partial/deferred/blocked areas, and the next safe iteration.</li>
   <li><b>MUST</b> be explicit about anything not verified and avoid claiming coverage beyond observed product behavior.</li>
+  <li><b>MUST</b> state whether each kept checkpoint delivered business progress, reporting-only improvement, orchestration-only improvement, or no durable progress.</li>
+  <li><b>MUST</b> state the strongest current <code class="inline">Benchmark Gap</code>, the strongest current <code class="inline">Frontier Gap</code>, and whether this round materially reduced either one.</li>
+  <li><b>MUST</b> state which exact step of the active flow was closed more deeply, and which exact step remains blocked if the flow still did not close.</li>
+  <li><b>MUST</b> state the deepest defended business chain reached in the run, in one explicit arrow-like sequence, and identify the kept run package that anchors that claim.</li>
+  <li><b>MUST</b> state separately what the round explored broadly versus what it proved deeply, especially when a high execution budget produced many side journeys or retained hardening passes.</li>
+  <li><b>MUST</b> state whether a broader retained-close actually absorbed the proof-origin truth, or whether the broader slice only reran, narrowed, bypassed, or failed around that truth.</li>
+  <li><b>MUST</b> mark render verification as <code class="inline">Partial</code> or <code class="inline">Blocked</code> if local visual reopening fails, and preserve a screenshot or blocker note instead of pretending success.</li>
+  <li><b>MUST</b> say whether any remaining open work is still seed-adjacent, benchmark-significant, or only distant optional exploration.</li>
+  <li><b>MUST</b> say whether any bootstrap provenance changed only executability or whether it also changed business depth. If it changed only executability, keep that claim out of the business-winner reasoning.</li>
 </ul>
 <pre><code>| Area | What was verified | Score | Risk / Note |
 |---|---|---:|---|</code></pre>
 <ul>
   <li><b>MUST</b> include at least business understanding, route discovery, hyperlink discovery, actor-state discovery, invariant quality, seed conversion quality, discovered flow coverage, generated ATF test-result quality, maintainability, reporting confidence, screenshot confidence, AI/MCP readiness, and <code class="inline">overall_score</code>.</li>
   <li><b>MAY</b> add domain-specific rows when relevant to the actual application under test.</li>
+  <li><b>SHOULD</b> add explicit rows for <code class="inline">deepest_defended_flow</code>, <code class="inline">max_retained_business_chain</code>, and <code class="inline">exploration_breadth_vs_proven_depth</code> when the round used a large execution budget or covered multiple neighboring continuations.</li>
 </ul>
 </details>
 </div>
