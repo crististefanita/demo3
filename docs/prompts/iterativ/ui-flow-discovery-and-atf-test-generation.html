@@ -127,6 +127,14 @@
     color: #dbe7ff;
     white-space: pre;
   }
+  .cheatbox {
+    max-width: 62ch;
+  }
+  .cheatbox code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
   .note {
     border-left: 3px solid var(--accent);
     padding: 10px 12px;
@@ -186,17 +194,28 @@
   hr.sep { border: 0; border-top: 1px solid var(--border); margin: 16px 0; }
   table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     margin-top: 10px;
     font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(10,15,24,.42);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
   }
   th, td {
-    border: 1px solid var(--border);
     padding: 8px 10px;
     vertical-align: top;
     text-align: left;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
   }
+  th:last-child, td:last-child { border-right: 0; }
+  tbody tr:last-child td { border-bottom: 0; }
   th { background: rgba(17,24,38,.92); }
+  td { background: rgba(11,20,31,.58); }
+  tbody tr:nth-child(even) td { background: rgba(15,23,36,.62); }
 </style>
 </head>
 <body>
@@ -204,108 +223,84 @@
 <header>
 <h1>UI Flow Discovery And ATF Test Generation <span class="badge">local execution prompt</span></h1>
 <div class="sub">
-  Convert <code class="inline">SEED_RECORDING_CLASS</code> into maintainable ATF UI tests through live discovery, validation, shared-layer hardening, and local evidence.
+  Start from <code class="inline">SEED_RECORDING_CLASS</code> as the first visible clue, then turn the live UI journey
+  into maintainable ATF tests through discovery, focused support changes, and honest defended coverage.
 </div>
 </header>
 
 <div class="grid">
 <div class="card">
-<h2>1) Approach</h2>
+<h2>1) UI Adapter Approach</h2>
 
-<details open>
-<summary>
-  <span class="summary-title">1.0 Execution Map</span>
-  <span class="badge">OPEN</span>
-</summary>
-<div class="docmap">
-  <b>Local prompt produces</b><span>Discovery, ATF tests, hardening, validation, scores, and run evidence.</span>
-  <b>Shared inputs</b><span><code class="inline">REPORTING_STANDARD_PATH</code>, <code class="inline">ORCHESTRATION_STANDARD_PATH</code>, and <code class="inline">LIVING_ARCHITECTURE_DOC_PATH</code>.</span>
-  <b>Local exemplar root</b><span>When present, <code class="inline">docs/goldenCopies/html-exemplars-to-follow</code> is the local exemplar library used later by the quality-loop. This prompt may prepare candidate artifacts, but it must not copy them there on its own authority.</span>
-  <b>Boundary</b><span>Reusable contracts stay in standards; run-specific proof and implementation decisions stay here.</span>
-</div>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">1.1 Operating Principles</span>
-  <span class="badge">CORE</span>
-</summary>
-<h4>Canonical contract</h4>
-<ul>
-  <li><span class="pill">DISCOVERY</span> understand live business behavior before shaping tests.</li>
-  <li><span class="pill">UI</span> generate business-readable ATF tests and harden shared support only where the run proves reusable weakness.</li>
-  <li><span class="pill">HTML</span> keep local evidence aligned with what the ATF package actually proves.</li>
-  <li><span class="pill">QUALITY</span> validate, score, and avoid coverage claims beyond observed behavior.</li>
-</ul>
-<div class="rule">
-  <code class="inline">SEED_RECORDING_CLASS</code> is the first clue, not the suite design or coverage boundary.
-</div>
 <div class="note">
-  Discovery may produce an exemplar candidate, but only the final quality-loop may decide whether the resulting canonical report beats the local exemplar library strongly enough to justify copying it into <code class="inline">docs/goldenCopies/html-exemplars-to-follow</code>.
+  Keep this file narrow. Start from the seed, choose the next visible UI frontier, change the smallest meaningful UI slice, and feed the shared run package with UI-specific truth only.
 </div>
-<div class="rule">
-  <code class="inline">RUN_ARCHIVE_ROOT</code> and <code class="inline">PROMOTED_BASELINE_ROOT</code> are supervising-layer roots inherited from the orchestration contract. This prompt owns canonical HTML, analysis history, generated ATF output, validation evidence, and run-local review material, but it does not own the final archive-root naming or baseline-root naming.
+<pre><code>reopen old docs/out memory
+        ->
+discover next meaningful frontier
+        ->
+change only the minimal ATF code/support needed
+        ->
+validate the decisive truth
+        ->
+publish kept runs + changed-class slices + canonical evidence
+</code></pre>
+<div class="docmap">
+  <b>Execution owner</b><span><code class="inline">ORCHESTRATION_PATH</code> owns run package, validation bundle, saved artifacts, memory reuse, and retention discipline.</span>
+  <b>Report owner</b><span><code class="inline">REPORTING_PATH</code> owns canonical HTML shape, graph family, score cards, and proof-link composition.</span>
+  <b>This file owns</b><span>seed-first discovery, visible UI frontier ranking, UI test/support deltas, and the local UI meaning of the proof.</span>
+  <b>Exemplar boundary</b><span>A run may prepare candidate artifacts, but only the supervising layer may copy anything into <code class="inline">docs/html-ex</code>.</span>
 </div>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">1.2 Product Truth Rules</span>
-  <span class="badge">CORE</span>
-</summary>
-<ol>
-  <li>Live observable UI behavior wins over recorder artifacts, assumptions, and style preferences.</li>
-  <li>Business domains, actor states, and journeys must be discovered, not hardcoded from examples.</li>
-  <li>ATF tests are the primary generated product; the HTML family is evidence and memory.</li>
-</ol>
-<div class="warn">
-  Never let a prior assumption, recorder sequence, or framework inventory become the product model.
-</div>
-</details>
-
 </div>
 
 <div class="card">
-<h2>Local Configuration</h2>
+<h2>UI Bindings And Shortcut</h2>
 <div class="note">
-  Keep only values that change this execution.
+  Keep only local bindings here, then use the shortcut to remember what this file should decide fast.
 </div>
 <details>
 <summary>
-  <span class="summary-title">Execution Constants</span>
+  <span class="summary-title">UI-local bindings</span>
   <span class="badge">CORE</span>
-  <span class="sumhint">single source of truth</span>
+  <span class="sumhint">shared bindings live in shared-constants.properties</span>
 </summary>
-<pre><code>EXECUTION_ITERATION_COUNT = 50
-EXECUTION_OVERALL_QUALITY_TARGET = 9.99
+<pre><code>SHARED_CONSTANTS_FILE = docs/prompts/iterativ/shared-constants.properties
 
-SEED_RECORDING_CLASS = src/test/java/com/endava/ai/ui/tests/Example.java
-TARGET_TEST_PACKAGE = com.endava.ai.ui.tests
-UI_TEST_ROOT = src/test/java/com/endava/ai/ui/tests
-UI_SUPPORT_ROOT = src/main/java/com/endava/ai/ui
+Names reopened from that file for this execution:
+- SEED_RECORDING_CLASS
+- TARGET_TEST_PACKAGE
+- UI_TEST_ROOT
+- UI_SUPPORT_ROOT
+</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">Seed-first shortcut</span>
+  <span class="sumhint">seed-first reading in one place</span>
+</summary>
+<pre class="cheatbox"><code>SEED
+  = inspect SEED_RECORDING_CLASS first
+  = treat it as the first observed clue only
 
-LIVING_ARCHITECTURE_DOC_PATH = docs/Living_Architecture_UI_API_doc_v1_0.html
-REPORTING_STANDARD_PATH = docs/prompts/iterativ/langgraph-business-understanding-reporting-standard.html
-ORCHESTRATION_STANDARD_PATH = docs/prompts/iterativ/prompt-evolution-orchestration-standard.html
+UI FRONTIER
+  = explore meaningful hyperlinks, descendants,
+    guarded states, and downstream continuations
+  = if one branch stalls, pivot to another uncovered UI branch
 
-CANONICAL_HTML = docs/analysis/langgraph-business-understanding.html
-ANALYSIS_HISTORY_ROOT = docs/analysis/history
-ANALYSIS_MILESTONE_PREFIX = docs/analysis/history/langgraph-business-understanding_it</code></pre>
-<div class="warn">
-  <b>Critical execution rule:</b> hitting <code class="inline">EXECUTION_OVERALL_QUALITY_TARGET</code> early does not authorize stopping.
-  Continue through <code class="inline">EXECUTION_ITERATION_COUNT</code> unless the remaining work is explicitly blocked, unsafe,
-  low-value, or would require architectural drift.
-</div>
-<div class="warn">
-  <b>Strict stop gate:</b> do not classify remaining work as low-value while any seed-adjacent frontier, meaningful internal hyperlink,
-  visible downstream continuation, or benchmark-significant gap remains materially open.
-</div>
-<div class="note">
-  Default output belongs in <code class="inline">TARGET_TEST_PACKAGE</code>. Any safer repo-fit exception must be justified in <code class="inline">CANONICAL_HTML</code>.
-</div>
-<div class="warn">
-  Do not publish ad hoc execution notes, path-contract checks, or round review scratch files under <code class="inline">docs/prompts/iterativ</code>. That directory is reserved for governed prompt artifacts. Publish operative outputs under canonical analysis, history, validation, or the active supervising archive roots.
-</div>
+UI CODE
+  = default tests belong under TARGET_TEST_PACKAGE
+  = test classes live under UI_TEST_ROOT
+  = shared UI support lives under UI_SUPPORT_ROOT
+
+UI EVIDENCE
+  = say which anchors, form steps, overlays,
+    route states, or descendant pages actually closed the claim
+
+BOUNDARY
+  = package shape comes from ORCHESTRATION_PATH
+  = report shape comes from REPORTING_PATH
+  = this file decides only the local UI frontier and local UI code delta
+</code></pre>
 </details>
 </div>
 </div>
@@ -313,151 +308,508 @@ ANALYSIS_MILESTONE_PREFIX = docs/analysis/history/langgraph-business-understandi
 <hr class="sep">
 
 <div class="card">
-<h2>2) Discovery And Implementation Rules</h2>
+<h2>2) Seed-First UI Execution</h2>
 
-<details>
+<details open>
 <summary>
-  <span class="summary-title">2.1 Business-First Discovery</span>
-  <span class="badge">DISCOVERY</span>
+  <span class="summary-title">2.1 UI adapter guardrails</span>
+  <span class="badge">CORE</span>
+  <span class="sumhint">keep the boundary and local responsibility clear before discovery starts</span>
 </summary>
-<h4>Primary questions</h4>
-<ul>
-  <li>What capabilities, journeys, actor states, and transitions does the application expose?</li>
-  <li>Which flows are covered, partial, deferred, blocked, or still undiscovered?</li>
-</ul>
-<h4>Required behavior</h4>
-<ul>
-  <li><b>MUST</b> inspect <code class="inline">SEED_RECORDING_CLASS</code> first.</li>
-  <li><b>MUST</b> open and analyze the current local <code class="inline">CANONICAL_HTML</code>, <code class="inline">ANALYSIS_HISTORY_ROOT</code>, and preserved run packages when they exist before deciding the next frontier; if the repo was intentionally reset and these artifacts are absent, record that absence explicitly and use benchmark packages plus live discovery as the starting memory.</li>
-  <li><b>MUST</b> reopen the strongest relevant benchmark canonical HTML in a real browser when it is locally reachable, and SHOULD reopen the benchmark history, run summary, and iterative prompt snapshot that most directly explain how that benchmark earned trust.</li>
-  <li><b>MUST</b> distinguish benchmark memory reopened for judgment from execution bootstrap provenance needed only to make the run executable. If generated support, scaffolding, or execution-layer code is rebuilt from an external snapshot, record that as bootstrap provenance rather than as the benchmark itself.</li>
-  <li><b>MUST</b> inspect existing tests under <code class="inline">UI_TEST_ROOT</code> and reusable support under <code class="inline">UI_SUPPORT_ROOT</code>.</li>
-  <li><b>MUST</b> prefer deeper continuation of the same business flow when a visible next step exists and the current truth is still only shell-level, route-level, or narrowly targeted.</li>
-  <li><b>MUST</b> keep a seed-adjacent frontier ledger so every meaningful route, CTA, tab, or hyperlink touched directly by the seed ends as covered, blocked, duplicate, or explicitly deferred with a concrete reason.</li>
-  <li><b>MUST</b> inspect live routes, menus, hyperlinks, forms, validations, protected areas, and state transitions whenever confidence is not high enough.</li>
-  <li><b>MUST</b> attempt meaningful accessible internal links and classify skipped links as duplicate, blocked, external, deferred, or low-value.</li>
-  <li><b>MUST</b> treat separate environments, examples, external docs, and third-party destinations as distinct variants, not baseline coverage.</li>
-  <li><b>MUST</b> treat <code class="inline">LIVING_ARCHITECTURE_DOC_PATH</code> as implementation guidance only, never as behavioral truth.</li>
-  <li><b>MUST NOT</b> let page objects or support packages become the product model.</li>
-</ul>
+<pre><code>0-4 total score
+  -> pivot now
+
+5-7 total score
+  -> stay only if one clear support unlock or next class exists
+
+8-12 total score
+  -> strong next-run candidate
+
+re-score after class one, class two, and defended-branch close
+  -> do not let a once-good branch auto-stay good forever</code></pre>
 <table>
   <thead>
     <tr>
-      <th>Discovery layer</th>
-      <th>Expected evidence</th>
+      <th>UI guardrail</th>
+      <th>MUST do this</th>
+      <th>Avoid this drift</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td>Route frontier</td><td>Observed URLs, guarded routes, redirects, overlays, in-page states, and blocked routes.</td></tr>
-    <tr><td>Hyperlink frontier</td><td>Meaningful internal links attempted or classified with a reason.</td></tr>
-    <tr><td>Actor state frontier</td><td>Only states discovered from UI evidence.</td></tr>
-    <tr><td>Capability frontier</td><td>Business capabilities described in product language, not page-object language.</td></tr>
-    <tr><td>Invariant frontier</td><td>Stable assertions that remain true across reruns and are safe to automate.</td></tr>
+    <tr><td>Seed interpretation</td><td>Treat <code class="inline">SEED_RECORDING_CLASS</code> as the first visible clue only, not as the final suite design and not as the final coverage boundary.</td><td>Recorder artifact becoming the flow model.</td></tr>
+    <tr><td>Local decision scope</td><td>Decide only which visible UI frontier to explore next, which UI test/support slice to change, and what the preserved proof means in local UI terms.</td><td>Owning generic loop or retention rules here.</td></tr>
+    <tr><td>Code placement</td><td>Keep generated UI tests under <code class="inline">UI_TEST_ROOT</code> and shared UI support under <code class="inline">UI_SUPPORT_ROOT</code>, unless repo-fit evidence justifies a safer local exception.</td><td>Mixed placement that hides business intent.</td></tr>
+    <tr><td>Owner split</td><td>Leave generic execution, reset, memory, validation bundles, accounting, retention, and benchmark-memory rules to <code class="inline">ORCHESTRATION_PATH</code>, and canonical page shape to <code class="inline">REPORTING_PATH</code>.</td><td>Domain adapter becoming a second orchestrator or report owner.</td></tr>
+    <tr><td>Weak-value branch restraint</td><td>Do not stay too long on a UI branch that is real but weak-value when a richer reachable frontier is already visible.</td><td>Elegant but low-yield replay.</td></tr>
+    <tr><td>UI blocker memory</td><td>Capture UI-only blockers or missing-input needs early enough that the next calibration can help instead of rediscovering them from zero.</td><td>Forgetting local UI pain points after the run.</td></tr>
   </tbody>
 </table>
 </details>
 
 <details>
 <summary>
-  <span class="summary-title">2.2 Seed Conversion Discipline</span>
-  <span class="badge">UI</span>
+  <span class="summary-title">2.2 Reopen The Seed And Local UI Memory</span>
+  <span class="badge">DISCOVERY</span>
 </summary>
-<ul>
-  <li><b>MUST</b> treat the seed as a recorder artifact and initial evidence set.</li>
-  <li><b>MUST</b> decompose it into routes, forms, validations, actor transitions, and business goals.</li>
-  <li><b>MUST</b> remove recorder noise and split the seed into focused business tests.</li>
-  <li><b>MUST</b> generate resulting business tests under <code class="inline">TARGET_TEST_PACKAGE</code> by default.</li>
-  <li><b>MAY</b> override the default only with concrete repo-fit evidence.</li>
-  <li><b>MUST NOT</b> preserve giant replay tests, recorder naming, redundant clicks, or selector noise.</li>
-  <li><b>MUST</b> document how meaningful iterations changed understanding from seed clue to ATF outcome.</li>
-</ul>
-</details>
-
-<details>
+<details class="subdetails">
 <summary>
-  <span class="summary-title">2.3 ATF Ownership And Shared-Layer Hardening</span>
-  <span class="badge">UI</span>
+    <span class="summary-title">2.2.1 Round-start reread</span>
+  <span class="sumhint">seed first, then local UI memory</span>
 </summary>
-<ul>
-  <li><b>MUST</b> create or update business tests under <code class="inline">UI_TEST_ROOT</code>.</li>
-  <li><b>MUST</b> create or update reusable support under <code class="inline">UI_SUPPORT_ROOT</code>.</li>
-  <li><b>MUST</b> preserve Playwright, Selenium, Extent, Allure, screenshot, and lifecycle compatibility.</li>
-  <li><b>MUST</b> fix shared weaknesses where they belong: waits, route helpers, navigation helpers, menu helpers, validations.</li>
-  <li><b>MUST</b> harden deterministic session setup when user, cart, account, or comparable state can leak between tests.</li>
-  <li><b>MUST NOT</b> invent a framework-v2 abstraction layer or duplicate reporting/screenshot systems.</li>
-  <li><b>MUST NOT</b> solve a shared weakness by scattering the same workaround across many tests.</li>
-</ul>
-<div class="rule">
-  Use the smallest safe improvement, but prefer shared repairs once a weakness is clearly reusable.
-</div>
-<div class="note">
-  Flow pressure rule: do not abandon a business flow after the first decent proof if the next business step is visible, important, and realistically reachable. Either deepen it or state exactly where it blocked.
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>Round-start reread</th>
+      <th>Why it comes early</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Inspect <code class="inline">SEED_RECORDING_CLASS</code> first.</td><td>It is the closest visible clue to the next reachable UI truth.</td></tr>
+    <tr><td>Inspect existing tests under <code class="inline">UI_TEST_ROOT</code> and reusable support under <code class="inline">UI_SUPPORT_ROOT</code>.</td><td>It prevents rediscovering already-governed support or test slices.</td></tr>
+    <tr><td>Reopen the strongest relevant prior UI canonical report in a real browser when locally reachable.</td><td>It lets the next visible frontier be chosen from evidence rather than recollection.</td></tr>
+    <tr><td>Treat preserved packages under <code class="inline">docs/out</code> as reusable UI memory when they already prove the same UI truth through decisive evidence.</td><td>It reduces rediscovery cost without forcing active carry-over.</td></tr>
+    <tr><td>Make that reuse explicit later in the new package: what UI slice was reopened or copied early, what was newly changed now, and what was only re-validated.</td><td>It keeps inherited proof reuse audit-visible.</td></tr>
+  </tbody>
+</table>
 </details>
 
 <details class="subdetails">
 <summary>
-  <span class="summary-title">2.3.1 Business-Oriented Test Organization</span>
-  <span class="badge">UI</span>
+    <span class="summary-title">2.2.2 Discovery questions</span>
+  <span class="sumhint">what the seed should make you ask next</span>
 </summary>
-<ul>
-  <li><b>MUST</b> organize generated tests around discovered business domains and journeys, not recorder order.</li>
-  <li><b>MUST</b> use focused class names that communicate user intent, state, and capability.</li>
-  <li><b>MUST</b> split positive, negative, boundary, and recovery coverage when combining them would hide intent.</li>
-  <li><b>MUST</b> keep page objects, services, validators, and fixtures as support layers.</li>
-  <li><b>MUST</b> avoid hardcoded domain examples unless the live application actually exposes those domains.</li>
-</ul>
-<div class="note">
-  Good organization should let a new engineer infer the business journey from the test package and class names before reading the implementation.
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>Discovery question</th>
+      <th>Why ask it early</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Which visible routes, hyperlinks, descendants, or guarded transitions does the seed make reachable now?</td><td>It defines the real local frontier before you spend effort elsewhere.</td></tr>
+    <tr><td>Which adjacent branches are still uncovered, partial, blocked, or obviously more valuable than repeating the same thin proof?</td><td>It prevents same-branch overstay and encourages richer reachable payoff.</td></tr>
+  </tbody>
+</table>
+</details>
 </details>
 
 <details>
 <summary>
-  <span class="summary-title">2.4 Locator, Wait, And Determinism Rules</span>
-  <span class="badge">UI</span>
-</summary>
-<h4>Preferred locator order</h4>
-<ol>
-  <li><code class="inline">data-test</code></li>
-  <li>accessible label</li>
-  <li>role</li>
-  <li>placeholder</li>
-  <li>stable visible text</li>
-  <li>stable CSS</li>
-  <li>XPath only as a last resort</li>
-</ol>
-<ul>
-  <li><b>MUST</b> prefer business-visible waits over passive waiting.</li>
-  <li><b>MUST</b> keep tests rerunnable and isolated.</li>
-  <li><b>MUST</b> investigate whether instability belongs to the product, the ATF helper layer, or test design.</li>
-  <li><b>MUST NOT</b> use sleeps, arbitrary retries, brittle nth-child selectors, or catch-and-ignore logic that hides flakiness.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">2.5 Honest Contract Rules</span>
+  <span class="summary-title">2.3 Explore Adjacent UI Frontier</span>
   <span class="badge">DISCOVERY</span>
 </summary>
-<ul>
-  <li><b>MUST</b> automate only behavior the UI actually exposes.</li>
-  <li><b>MUST</b> assert only outcomes, messages, states, and transitions that are truly observable.</li>
-  <li>If the UI exposes only the start of a flow, test the visible entry point honestly.</li>
-  <li>If a route settles correctly before a full load event, harden the route or wait helper instead of rejecting a valid flow.</li>
-  <li>If a discovered experience is rendered as an overlay, split-screen guide, or in-page workflow instead of a route change, assert the overlay-specific text, step state, and controls instead of forcing URL-based assertions.</li>
-  <li>If visible UI discovery leads to a route that is more stable to revisit directly in ATF, it is acceptable to validate that route directly after the initial discovery path has already been proven and documented.</li>
-  <li><b>MUST NOT</b> overclaim invisible, unsupported, or speculative behavior.</li>
-</ul>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.3.1 Continue the visible chain first</span>
+  <span class="sumhint">do not abandon the closest meaningful continuation too early</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Visible-chain rule</th>
+      <th>Prefer this</th>
+      <th>Avoid this mistake</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Deeper continuation</td><td>Prefer deeper continuation of the same visible flow when a next step exists and the current truth is still only shell-level, route-level, or narrowly targeted.</td><td>Jumping away from the closest meaningful continuation too early.</td></tr>
+    <tr><td>Reachable branch selection</td><td>Prefer nearby reachable branches that can become distinct defended coverage slices and then materialize into new or materially expanded tests.</td><td>Cleaner restatement or classification-only notes standing in for defended scope.</td></tr>
+    <tr><td>Shell-success restraint</td><td>Keep going when the next visible step can still turn into richer defended truth.</td><td>Treating a pretty shell continuation as enough.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.3.2 Inspect live UI before guessing</span>
+  <span class="sumhint">look at the real surface whenever confidence is still low</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Live-inspection rule</th>
+      <th>MUST inspect or classify</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Confidence still low</td><td>Inspect live routes, menus, hyperlinks, forms, validations, protected areas, and state transitions whenever confidence is not high enough.</td></tr>
+    <tr><td>Reachable local links</td><td>Sweep every meaningful reachable internal hyperlink or CTA from the current visible scope at least once before calling the nearby frontier understood.</td></tr>
+    <tr><td>Distinct variants</td><td>Treat separate environments, examples, external docs, and third-party destinations as distinct variants, not baseline coverage.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.3.3 Classify what you touched</span>
+  <span class="sumhint">every visible neighbor needs an honest label</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Neighbor class</th>
+      <th>How it must end</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Meaningful route / CTA / tab / hyperlink touched by the seed</td><td>End as covered, blocked, duplicate, or explicitly deferred with a concrete reason in the seed-adjacent frontier ledger.</td></tr>
+    <tr><td>Accessible internal links</td><td>Attempt them and classify skipped links as duplicate, blocked, external, deferred, or low-value.</td></tr>
+    <tr><td>Reachable links with remaining upside</td><td>Prefer spending new governed effort on the links that still have real coverage upside, not on links already proven low-yield, duplicate, or structurally blocked.</td></tr>
+    <tr><td>Guarded continuations / protected descendants / route-state branches</td><td>Classify them the same way: covered, blocked, duplicate, or deferred with a concrete reason.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.3.4 Decide when to pivot</span>
+  <span class="sumhint">do not keep spending on a branch that is already too thin</span>
+</summary>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.3.4.1 Pivot gate table</span>
+  <span class="sumhint">one cold gate table is enough during live execution</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Branch state</th>
+      <th>Stay only if this is already nameable</th>
+      <th>Else</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>before first useful class</td><td>one concrete class or one real 2-3 test payoff</td><td>pivot now</td></tr>
+    <tr><td>after class one landed</td><td>class two or another real 2-3 test payoff</td><td>pivot pressure starts now</td></tr>
+    <tr><td>after class two landed</td><td>class three or broader defended expansion</td><td>stop or pivot honestly</td></tr>
+    <tr><td>after defended-branch close</td><td>one more run still raises retained trust, not just breadth optics</td><td>stop spending runs here</td></tr>
+    <tr><td>remaining work feels mostly like replay</td><td>the unlock is named before the next governed run</td><td>pivot or stop</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>Cold read:</b> if you cannot name the next class, next payoff, or next unlock before the run starts, you do not still have a strong branch.</div>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.3.4.2 Pivot-truth notes</span>
+  <span class="sumhint">what to ask and what must stay explicit when the branch loses value</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>When this happens</th>
+      <th>Ask this immediately</th>
+      <th>MUST keep explicit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>before class one exists</td><td><code class="inline">what concrete class or 2-3 test payoff am I actually chasing?</code></td><td>do not claim the branch already earned another governed run</td></tr>
+    <tr><td>after class one or class two lands</td><td><code class="inline">where is the next class or broader defended payoff?</code></td><td>re-rank immediately instead of coasting on momentum</td></tr>
+    <tr><td>remaining work looks like replay, retained-close, or restatement</td><td><code class="inline">what new durable truth would the next run add?</code></td><td>if you cannot name it, pivot or stop</td></tr>
+    <tr><td>branch is downgraded</td><td><code class="inline">which richer descendant, sibling, or unlock beat it?</code></td><td>record the pivot trigger explicitly in package truth</td></tr>
+  </tbody>
+</table>
+</details>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.3.5 Default move table</span>
+  <span class="sumhint">use this when the branch feels real but no longer worth another run</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>If the remaining branch mostly looks like</th>
+      <th>Default move</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>shallow reachability with little new behavior</td><td>pivot to a richer reachable branch</td></tr>
+    <tr><td>repeated structural blockage of the same ceiling</td><td>pivot unless a real framework or engine repair is being attempted</td></tr>
+    <tr><td>cleaner restatement of an already-defended truth</td><td>stop spending governed runs there unless it unlocks new defended branch coverage</td></tr>
+    <tr><td>visible descendant or sibling likely to widen defended scope materially</td><td>prefer that branch over one more thin retry</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.3.6 Frontier ranking rubric</span>
+  <span class="sumhint">use this before spending another governed run</span>
+</summary>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.3.6.1 Fast scoring ladder</span>
+  <span class="sumhint">score once, then rerank after each real branch milestone</span>
+</summary>
+<pre><code>0-4   -> pivot now
+5-7   -> stay only with one named unlock
+8-12  -> strong candidate
+
+rerank after:
+  -> class one
+  -> class two
+  -> defended branch close</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Scoring axis</th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>New class potential</td><td>none visible</td><td>possible but thin</td><td>clearly likely</td></tr>
+    <tr><td>Coverage-expansion potential</td><td>unlikely</td><td>one small defended gain</td><td>multiple concrete defended gains</td></tr>
+    <tr><td>Support unlock fan-out</td><td>no unlock</td><td>one local unlock</td><td>one unlock helps several descendants</td></tr>
+    <tr><td>Descendant depth</td><td>shallow or route-only</td><td>one moderate continuation</td><td>clear deeper or protected continuation</td></tr>
+    <tr><td>Cross-session / state value</td><td>little state value</td><td>some persistence value</td><td>strong persistence / recovery / guarded-state value</td></tr>
+    <tr><td>Blocker risk</td><td>high blocker replay risk</td><td>mixed</td><td>low blocker replay risk</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+    <tr>
+      <th>Total score band</th>
+      <th>Default move</th>
+      <th>What must still be named</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>0-4</code></td><td>pivot now</td><td>which richer branch wins instead</td></tr>
+      <tr><td><code>5-7</code></td><td>stay only with one explicit unlock</td><td>the exact support unlock, second class, or coverage-expansion payoff being chased</td></tr>
+      <tr><td><code>8-12</code></td><td>strong next-run candidate</td><td>where class two, class three, or richer branch coverage should come from</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>Fast ranking rule:</b> if <code class="inline">new class potential</code> and <code class="inline">coverage-expansion potential</code> are both weak, pivot pressure should dominate even when the branch still feels elegant.</div>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.3.6.2 Branch comparison and checkpointing</span>
+  <span class="sumhint">how to compare two honest candidates and when to rerank</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Ranking lens</th>
+      <th>Prefer the branch that scores higher on</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>New class potential</td><td>likelier to create a distinct useful test class instead of only widening one existing class</td></tr>
+    <tr><td>Coverage-expansion potential</td><td>likelier to convert into materially wider defended scope on the same branch or its nearby descendants, not only another audit note</td></tr>
+    <tr><td>Support unlock fan-out</td><td>one local support or framework repair would likely unlock several nearby descendants instead of only saving one thin branch</td></tr>
+    <tr><td>Descendant depth</td><td>likelier to close a deeper visible continuation, protected state, or richer sibling branch</td></tr>
+    <tr><td>Cross-session / state value</td><td>likelier to prove persistence, recovery, guarded-state truth, or downstream continuity</td></tr>
+    <tr><td>Run-quality plausibility</td><td>more likely to push <code class="inline">RUN_DELTA_SCORE_ACTUAL</code> above threshold through stronger truth, branch depth, or proof, not only through cleaner packaging</td></tr>
+    <tr><td>Blocker risk</td><td>less likely to spend the next governed run on repeated structural blockage, weak-yield replay, or packaging theater</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+    <tr>
+      <th>Checkpoint</th>
+      <th>Required move</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>two branches both look honest</td><td>prefer the one more likely to create another useful class, wider defended scope, or a multi-descendant unlock</td></tr>
+    <tr><td>after class one lands</td><td>rerank immediately; do not spend the next run on inertia</td></tr>
+    <tr><td>after class two lands</td><td>prove class three / broader defended payoff or stop</td></tr>
+    <tr><td>after defended branch close</td><td>re-score only for retained trust; do not reuse the exploration score automatically</td></tr>
+    <tr><td>branch no longer scores on fan-out or coverage expansion</td><td>pivot immediately and say why the richer branch won</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>Comparison rule:</b> prefer defended scope over prettier packaging, and prefer multi-descendant unlocks over one thin rescued branch.</div>
+</details>
+</details>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.4 Convert The Seed Into Focused Tests</span>
+  <span class="badge">UI</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Seed-conversion rule</th>
+      <th>Required move</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Seed interpretation</td><td>Treat the seed as a recorder artifact and initial evidence set.</td></tr>
+    <tr><td>Decomposition</td><td>Break it into routes, forms, validations, actor transitions, and user-visible goals.</td></tr>
+    <tr><td>Noise removal</td><td>Remove recorder noise and split the seed into focused tests.</td></tr>
+    <tr><td>Placement default</td><td>Generate resulting tests under <code class="inline">TARGET_TEST_PACKAGE</code> by default; override only with concrete repo-fit evidence.</td></tr>
+    <tr><td>Recorder anti-patterns</td><td>Do not preserve giant replay tests, recorder naming, redundant clicks, or selector noise.</td></tr>
+    <tr><td>Iteration learning</td><td>Document how meaningful iterations changed understanding from seed clue to ATF outcome.</td></tr>
+    <tr><td>Richer downstream preference</td><td>Prefer branches that can generate more than one meaningful test when the local UI clearly exposes richer downstream behavior.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.5 Place UI Tests And Shared UI Support</span>
+  <span class="badge">UI</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Placement rule</th>
+      <th>Owner or location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Tests</td><td>Create or update tests under <code class="inline">UI_TEST_ROOT</code>.</td></tr>
+    <tr><td>Reusable support</td><td>Create or update reusable support under <code class="inline">UI_SUPPORT_ROOT</code>.</td></tr>
+    <tr><td>Local UI ownership</td><td>Keep tests here, support here, and frontier choices here.</td></tr>
+    <tr><td>Generic hardening and package rules</td><td>Read them from <code class="inline">ORCHESTRATION_PATH</code>.</td></tr>
+    <tr><td>Shared bindings</td><td>Read shared paths, proof bindings, the per-run quality bar, round-level accounting targets, audit roots, memory rules, stop rules, and package shape from <code class="inline">shared-constants.properties</code> plus <code class="inline">ORCHESTRATION_PATH</code>.</td></tr>
+    <tr><td>Adapter scope</td><td>Keep only UI-local additions in this file.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.6 UI Locator, Wait, And Determinism Discipline</span>
+  <span class="badge">UI</span>
+</summary>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.6.1 Interaction stability and mechanism learning</span>
+  <span class="sumhint">keep locator discipline, waits, and reusable interaction lessons together</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Locator priority</th>
+      <th>Prefer this anchor type</th>
+      <th>Why it wins here</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td><code class="inline">data-test</code></td><td>Most explicit and least presentation-coupled.</td></tr>
+    <tr><td>2</td><td>accessible label</td><td>Usually stable and semantically close to user intent.</td></tr>
+    <tr><td>3</td><td>role</td><td>Good when semantics are strong and unique enough.</td></tr>
+    <tr><td>4</td><td>placeholder</td><td>Useful for inputs when label hooks are weak or absent.</td></tr>
+    <tr><td>5</td><td>stable visible text</td><td>Acceptable when the text is durable and uniquely identifying.</td></tr>
+    <tr><td>6</td><td>stable CSS</td><td>Only when the selector is clearly durable.</td></tr>
+    <tr><td>7</td><td>XPath</td><td>Last resort only.</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+    <tr>
+      <th>Stability rule</th>
+      <th>Prefer or preserve</th>
+      <th>Avoid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Wait strategy</td><td>Prefer user-visible waits over passive waiting.</td><td>Sleeps and arbitrary retries.</td></tr>
+    <tr><td>Rerunnability</td><td>Keep tests rerunnable and isolated.</td><td>Cross-test leakage hidden as “stateful realism”.</td></tr>
+    <tr><td>Instability diagnosis</td><td>Investigate whether instability belongs to the product, the ATF helper layer, or test design.</td><td>Blaming the UI generically.</td></tr>
+    <tr><td>Selector discipline</td><td>Use the preferred locator order above.</td><td>Brittle nth-child selectors or catch-and-ignore logic that hides flakiness.</td></tr>
+    <tr><td>Mechanism-learning note</td><td>Preserve one short mechanism-learning note when a reusable way to identify, open, submit, persist, or reread a UI flow was learned.</td><td>Losing the reusable interaction lesson after the run.</td></tr>
+  </tbody>
+</table>
+<div class="note">
+  <b>Mechanism-learning contract:</b> a future reader should learn not only that the proof passed, but also which anchor type and interaction pattern made it reproducible.
+</div>
+<table>
+  <thead>
+    <tr>
+      <th>Target-identity situation</th>
+      <th>MUST preserve or prove</th>
+      <th>Avoid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Unique visible row/card anchor already exists</td><td>Use that anchor directly and name it in the mechanism-learning note when it materially helped.</td><td>Downgrading to weaker preview fragments or row-order assumptions.</td></tr>
+    <tr><td>Reopen uses preview text or a repeated snippet</td><td>Prove the preview is cold-distinct among siblings or add a stronger visible discriminator before scoring the test family highly.</td><td>Assuming a preview fragment is unique because it happened to work once.</td></tr>
+    <tr><td>Repeated rows share the same prefix or shell shape</td><td>Add or exploit a stronger anchor: attachment name, unique suffix, timestamp slice, badge, subject discriminator, or other stable visible cue.</td><td>Trusting nth-row position or human memory of ordering as the only identity proof.</td></tr>
+    <tr><td>No cold-distinct anchor yet exists</td><td>Treat target identity as a live UI risk, preserve a short target-identity note, and cap the test-quality reading until the ambiguity is removed.</td><td>Publishing the flow as cleanly defended while the target could still resolve to a sibling row.</td></tr>
+  </tbody>
+</table>
+<div class="warn">
+  <b>UI identity rule:</b> when a flow depends on reopening a repeated row, card, preview, or thread shell, the proof is only strong if the exact target identity is cold-distinct. If the identity can collide, keep the ambiguity visible and treat the test-quality reading as capped until a stronger anchor exists.
+</div>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.6.2 UI blocker and missing-input handling</span>
+  <span class="sumhint">what to do when the UI needs something you do not yet control</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>If yes</th>
+      <th>If no</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Can I repair the mechanism locally and still stay on a rich frontier?</td><td>repair now and keep the mechanism-learning note</td><td>ask whether another reachable branch is clearly richer</td></tr>
+    <tr><td>Is there another branch with stronger new-class or 2-3-test potential?</td><td>pivot now and record why that branch won</td><td>decide whether honest stop-and-preserve is now required</td></tr>
+    <tr><td>If I pivot or stop, did I already record the missing input or failed control path?</td><td>keep it in the run package and latest <code class="inline">CALIBRATION.md</code></td><td>record it immediately before closing the run</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+    <tr>
+      <th>Blocker-handling rule</th>
+      <th>MUST keep explicit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>UI blocker classification</td><td>Classify popup handling, second-window materialization, browser permission prompts, upload inputs, seeded-file dependencies, captcha-like gates, external auth boundaries, or missing local test data explicitly.</td></tr>
+    <tr><td>Completion honesty</td><td>Avoid faking completion when such a blocker prevents real closure of the flow.</td></tr>
+    <tr><td>Missing input naming</td><td>Say exactly what missing input was needed when the flow depends on extra material such as upload files, seeded records, tokens, or external credentials.</td></tr>
+    <tr><td>Preparation note</td><td>Preserve where that missing input should come from, how it should be prepared, and why the run could not continue honestly without it.</td></tr>
+    <tr><td>Blocker repetition guard</td><td>Do not keep spending governed runs on the same UI blocker when no new local mechanism learning is being added.</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+    <tr>
+      <th>Blocker class</th>
+      <th>Repair now when</th>
+      <th>Pivot now when</th>
+      <th>Stop and preserve when</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>you can repair the mechanism locally</td><td>yes: make the real ATF or support-layer repair and keep the lesson</td><td>only if a richer branch is clearly better</td><td>no</td></tr>
+    <tr><td>the blocker is real but another reachable branch is stronger</td><td>only if the repair is small and unlocks high-value proof</td><td>yes: pivot and record why the richer branch won</td><td>only if both branches stay blocked or low-yield</td></tr>
+    <tr><td>the flow needs missing files, credentials, seeded data, or browser control you do not yet have</td><td>only when the missing input can be prepared honestly in scope</td><td>yes when another honest branch can still produce better defended scope</td><td>yes when the input is truly required and no better branch exists</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+    <tr>
+      <th>If you stop or pivot because of missing input</th>
+      <th>Record this exact history</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>upload file missing</td><td>required file type, where it should come from, and what visible step depended on it</td></tr>
+    <tr><td>seeded record missing</td><td>which seeded entity was needed, how it should look, and which descendant stayed open without it</td></tr>
+    <tr><td>credential or external boundary missing</td><td>which account or external handoff blocked closure, and which stronger branch replaced it</td></tr>
+    <tr><td>browser or popup control missing</td><td>which window/prompt/action failed, what you tried, and why the next honest move was repair, pivot, or preserve-blocked</td></tr>
+  </tbody>
+</table>
+<div class="note">
+  <b>History rule:</b> when a UI blocker or missing input changed frontier choice, record it immediately in the kept run package and add a short follow-up note in the latest <code class="inline">CALIBRATION.md</code> so the next round knows exactly how to help.
+</div>
+</details>
 </details>
 </div>
 
 <hr class="sep">
 
 <div class="card">
-<h2>3) Run Evidence HTML</h2>
+<h2>3) UI Report Inputs</h2>
 <div class="note">
-  This section defines only the run-specific evidence this prompt must produce.
+  This section stays narrow on purpose. It adds only the UI-specific facts that must flow into the shared report and shared audit package.
 </div>
 
 <details>
@@ -465,324 +817,199 @@ ANALYSIS_MILESTONE_PREFIX = docs/analysis/history/langgraph-business-understandi
   <span class="summary-title">3.1 Local Evidence Contract</span>
   <span class="badge">HTML</span>
 </summary>
-<ul>
-  <li><b>MUST</b> create or update <code class="inline">CANONICAL_HTML</code> after meaningful discovery, implementation, validation, or scoring changes.</li>
-  <li><b>MUST</b> save <code class="inline">ANALYSIS_MILESTONE_PREFIX*</code> only when understanding, coverage interpretation, ATF trust, or next priorities materially changed.</li>
-  <li><b>MUST</b> keep the HTML family business-first and tied to generated ATF trust.</li>
-  <li><b>MUST</b> keep <code class="inline">Trust stance</code>, <code class="inline">Current Baseline Decision</code>, <code class="inline">Run Identity And Current Scoreboard</code>, <code class="inline">Generated ATF Test-Result Quality Scoreboard</code>, <code class="inline">Reporting Overall Quality</code>, <code class="inline">Cross-Run Comparison</code>, <code class="inline">HTML History Index</code>, and <code class="inline">Render Verification Status</code> visibly explicit in the canonical page.</li>
-  <li><b>MUST</b> keep <code class="inline">Coverage Vocabulary</code>, <code class="inline">Accessible Hyperlink Exploration Ledger</code>, <code class="inline">Route-Proof Versus Flow-Proof Delta</code>, <code class="inline">Disconfirmed Frontier Notes</code>, and <code class="inline">Checkpoint Self-Evaluation</code> explicit whenever the round is deep enough that those distinctions matter.</li>
-  <li><b>MUST</b> keep explicit <code class="inline">Benchmark Gap</code> and <code class="inline">Frontier Gap</code> sections visible in the canonical HTML, not only implied by prose elsewhere.</li>
-  <li><b>MUST</b> make the canonical page say which benchmark artifacts were actually reopened for this round: rendered canonical HTML, history page, run summary, and prompt snapshot when available.</li>
-  <li><b>MUST</b> keep bootstrap or borrowed execution provenance short near the top of the canonical page and move the detailed explanation into <code class="inline">Reset And Source Lock</code>, <code class="inline">Validation Artifact References</code>, or an equivalent audit section.</li>
-  <li><b>MUST NOT</b> write a long benchmark-memory sentence in the hero summary when the real point is only that execution scaffolding was rebuilt from a known bootstrap.</li>
-  <li><b>MUST</b> keep the canonical HTML and milestone family comparable across runs: stable section names, explicit score evolution, history links, and frontier/deferred areas.</li>
-  <li><b>MUST</b> include a dedicated <code class="inline">Validation Artifact References</code> section with direct links to the kept run package, the exact XML or surefire proof, and any visually verified report artifacts that support the verdict.</li>
-  <li><b>MUST</b> make the canonical page state the <code class="inline">deepest defended flow</code>, the <code class="inline">max retained business chain</code>, and the split between <code class="inline">exploration breadth</code> and <code class="inline">proven depth</code>.</li>
-  <li><b>MUST</b> report configured iteration budget separately from <code class="inline">effective meaningful iterations</code>; decorative reruns, packaging-only cleanups, and command-shape misses are not allowed to inflate the meaningful-depth count.</li>
-  <li><b>MUST NOT</b> restate generic reporting, milestone, render, or promotion contracts here.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">3.2 Business Flow Inventory</span>
-  <span class="badge">HTML</span>
-</summary>
-<h4>Flow semantics</h4>
-<ul>
-  <li><b>MUST</b> capture business domains and capabilities only when evidence exists.</li>
-  <li><b>MUST</b> capture actor states, allowed transitions, blocked transitions, and guarded transitions.</li>
-  <li><b>MUST</b> capture route and hyperlink discovery, including explored, duplicate, external, blocked, deferred, and covered links.</li>
-  <li><b>MUST</b> maintain a business flow inventory with actor, entry point, trigger, preconditions, happy path, alternative paths, negative paths, postconditions, observable assertions, automation status, and confidence.</li>
-  <li><b>MUST</b> classify each promoted claim on a truth ladder: shell truth, route truth, semantic flow truth, or blocked truth. Route visibility is not equivalent to semantic business proof.</li>
-  <li><b>MUST</b> keep stable invariants separate from tentative assumptions.</li>
-  <li><b>MUST</b> show which ATF tests prove each covered or partially covered flow.</li>
-  <li><b>MUST</b> keep semantic pills discrete, readable, and useful for quickly separating baseline, new truth, blocked truth, benchmark gap, and retained run identity.</li>
-</ul>
-<pre><code>| Flow | Actor | Entry point | Trigger | Preconditions | Happy path | Alternatives | Negative paths | Postconditions | Observable assertions | ATF coverage | Confidence |
-|---|---|---|---|---|---|---|---|---|---|---|---:|</code></pre>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">3.3 Coverage And ATF Mapping</span>
-  <span class="badge">HTML</span>
-</summary>
-<h4>Confidence and memory rules</h4>
-<ul>
-  <li><b>MUST</b> map business capabilities and journeys before mapping test classes.</li>
-  <li><b>MUST</b> keep automation status, confidence, and ATF quality visible.</li>
-  <li><b>MUST</b> map each covered or partial flow to the generated package, class, and test count.</li>
-  <li><b>MUST</b> use explicit statuses such as Covered, Partially Covered, Discovered But Untested, Blocked, and Deferred.</li>
-</ul>
-<pre><code>Business Flow -&gt; Test Package -&gt; Test Class -&gt; Test Count</code></pre>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">3.4 Confidence And Snapshot Decision</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<ul>
-  <li><b>MUST</b> distinguish observed behavior from inferred behavior.</li>
-  <li><b>MUST</b> label tentative areas explicitly when evidence is weak or indirect.</li>
-  <li><b>MUST</b> keep the seed-to-business-to-ATF path readable.</li>
-  <li><b>MUST</b> preserve a hyperlink ledger and separate duplicates from new flows.</li>
-  <li><b>MUST</b> show which assumptions were promoted, corrected, deferred, or superseded.</li>
-  <li><b>MUST</b> state whether the next best frontier is a continuation of the same flow, a sibling flow, or a blocked branch that needs honest deferment.</li>
-  <li><b>MUST</b> say whether the current frontier was materially deepened, merely repackaged, honestly blocked, or displaced by a stronger seed-adjacent frontier.</li>
-  <li><b>MUST</b> say whether this run is best described as a benchmark-grade winner, a stronger local candidate, a validated learning candidate, or a non-promotable retained package. If a stronger benchmark still exists, name that gap explicitly instead of letting the score imply full graduation.</li>
-  <li><b>MUST</b> distinguish breadth work from depth work: if many hyperlinks or sibling descendants were explored but only one or two chains became defensible business proof, compress that split explicitly in the canonical report.</li>
-  <li><b>MUST NOT</b> silently upgrade a flow from deferred or tentative to covered without new proof.</li>
-  <li><b>MUST</b> save standalone milestones only when they are rich enough to teach what changed and why.</li>
-  <li><b>MUST</b> make each kept milestone answer four memory questions clearly: what changed, why it matters, what rule was learned, and what frontier became next.</li>
-  <li><b>MUST NOT</b> create thin milestone files for cosmetic or implementation-only changes.</li>
-</ul>
-<pre><code>| Iteration | Discovery / changed understanding | Tests added or updated | Support added or hardened | Validation evidence | Score delta |
-|---|---|---|---|---|---:|</code></pre>
-</details>
+<div class="docmap">
+  <b>This prompt MUST add</b><span>UI truth, UI coverage/frontier interpretation, decisive UI validation anchors, changed UI test/support slices, short mechanism-learning notes, and when needed one short target-identity note.</span>
+  <b>This prompt MUST say</b><span>which hyperlinks, routes, sibling descendants, and guarded continuations were explored, blocked, deferred, duplicated, or prioritized next.</span>
+  <b>This prompt MUST NOT redefine</b><span>top-card schema, per-run delta labels, validation bundle minimum, raw-attempt schema, or milestone publication layers.</span>
+  <b>UI-specific proof focus</b><span>Make it obvious which visible anchors, form steps, route states, or descendant pages actually closed the claim.</span>
 </div>
-
-<hr class="sep">
-
-<div class="card">
-<h2>4) Iteration Loop</h2>
-
-<details>
-<summary>
-  <span class="summary-title">4.1 Mandatory Loop</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<pre><code>discovery -&gt; business_flow_extraction -&gt; invariant_detection -&gt; coverage_analysis -&gt;
-implementation -&gt; validation -&gt; reassessment -&gt; HTML update -&gt;
-milestone save decision -&gt; score update -&gt; next iteration</code></pre>
-<div class="rule">
-  An iteration is complete only after implementation, validation, reassessment, HTML update, milestone decision, and score update.
-</div>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">4.2 No Premature Stop Rule</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<ul>
-  <li><b>MUST</b> plan to execute all <code class="inline">EXECUTION_ITERATION_COUNT</code>.</li>
-  <li><b>MUST</b> continue even if a narrow suite passes or the score crosses <code class="inline">EXECUTION_OVERALL_QUALITY_TARGET</code> early.</li>
-  <li><b>MUST</b> use later iterations to deepen coverage, challenge assumptions, and revisit valuable deferred areas.</li>
-  <li><b>MUST</b> use large budgets such as <code class="inline">50</code> to explore accessible hyperlink descendants, seed-adjacent continuations, and guarded state branches until they are either promoted, deferred, or blocked with evidence. Budget size alone is not learning.</li>
-  <li><b>MUST</b> report after the round how many iterations were actually meaningful and what each meaningful checkpoint changed: business depth, evidence diversity, benchmark understanding, frontier rejection, or retained absorption.</li>
-  <li><b>MAY</b> stop early only if the remaining work is blocked, unsafe, low-value, or would require architectural drift, and only after proving that no seed-adjacent frontier, meaningful accessible hyperlink, or benchmark-significant gap remains open.</li>
-  <li><b>MUST NOT</b> use low-value alone as an early-stop justification while seed-adjacent frontiers or benchmark-significant gaps remain open.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">4.3 Evidence Package Per Iteration</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<ul>
-  <li><b>MUST</b> record what changed in the business model.</li>
-  <li><b>MUST</b> record what changed in tests or shared support.</li>
-  <li><b>MUST</b> record validation evidence and what it proved.</li>
-  <li><b>MUST</b> preserve the generated Extent report for every kept iteration under <code class="inline">validation/reports/ExtentReport_*.html</code> whenever Extent reporting is supported by the repo. A kept run package that lacks its Extent artifact is audit-incomplete even if canonical HTML, summary text, and XML are present.</li>
-  <li><b>MUST</b> record whether a milestone HTML was saved and why.</li>
-  <li><b>MUST</b> record the next highest-value safe improvement candidate.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">4.4 Coverage Prioritization</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<ul>
-  <li><b>MUST</b> prioritize high-signal user journeys before shallow page pokes.</li>
-  <li><b>MUST</b> prioritize stable observable contracts before speculative edge cases.</li>
-  <li><b>MUST</b> prefer one honest product slice plus reusable hardening over many brittle shallow checks.</li>
-  <li><b>MUST</b> derive coverage from discovered behavior, not assumptions about what a typical app should contain.</li>
-</ul>
-</details>
-
+<table>
+  <thead>
+    <tr>
+      <th>UI-local reading of run delta</th>
+      <th>Use it like this</th>
+      <th>Do not universalize it in shared core</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>T</code> truth delta in UI</td><td>Often comes from a new defended business flow, route outcome, guarded branch, or descendant state that tests now prove.</td><td>Do not redefine universal truth delta as “number of pages” or “number of hyperlinks”.</td></tr>
+    <tr><td><code>B</code> branch / depth delta in UI</td><td>Often comes from deeper descendant navigation, guarded continuation, recovery path, or clarified adjacent visible frontier.</td><td>Do not force hyperlink adjacency language into non-UI adapters.</td></tr>
+    <tr><td><code>O</code> proof fit in UI test quality</td><td>Read it through visible target identity too: a repeated row/card/preview needs one cold-distinct anchor before the test family can score high on observability.</td><td>Do not let a lucky preview match read as strong proof fit.</td></tr>
+    <tr><td>Coverage frontier support</td><td>Use visible hyperlinks, sibling descendants, route states, and CTA neighbors as UI evidence for why the branch really became richer or stayed partial.</td><td>Do not let visible adjacency alone stand in for defended semantic flow truth.</td></tr>
+  </tbody>
+</table>
 <details class="subdetails">
 <summary>
-  <span class="summary-title">4.4.1 Coverage Dimensions</span>
-  <span class="badge">QUALITY</span>
+    <span class="summary-title">3.1.1 UI-local report-regeneration support</span>
+  <span class="sumhint">what a later writer needs in order to rebuild the UI report without rerunning UI</span>
 </summary>
-<ul>
-  <li><b>Positive:</b> stable happy paths that prove real business value.</li>
-  <li><b>Negative:</b> visible validation, blocked transitions, rejected inputs, and guarded areas.</li>
-  <li><b>Boundary:</b> deterministic limits or messages exposed by the UI.</li>
-  <li><b>Navigation/state:</b> route transitions, CTAs, accessible links, overlays, actor transitions, and blocked states.</li>
-  <li><b>Regression:</b> high-value journeys and reusable framework contracts discovered during the run.</li>
-</ul>
+<table>
+  <thead>
+    <tr>
+      <th>UI-local facts to preserve in the orchestration-owned package</th>
+      <th>MUST make recoverable later</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Closure anchors</td><td>Which exact visible anchors, route states, cards, overlays, or descendant pages actually closed the winning claim.</td></tr>
+    <tr><td>Repeated-surface identity note</td><td>What cold discriminator separated the intended row/card/thread from sibling lookalikes, and whether any collision risk remained.</td></tr>
+    <tr><td>Hyperlink / route ledger</td><td>Which visible neighbors were covered, deferred, blocked, duplicated, or only explored broadly so the later writer can rebuild frontier honesty.</td></tr>
+    <tr><td>Mechanism-learning note</td><td>Which reusable UI interaction pattern made the proof reproducible so a later writer can justify support-layer trust without fresh rediscovery.</td></tr>
+    <tr><td>UI blocker note</td><td>Which UI-only blocker or missing input forced a pivot, demotion, or failure-lineage retention.</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>UI regeneration rule:</b> if a later prompt could not reconstruct the winning UI flow, repeated-surface identity, and guarded frontier honestly from saved UI notes alone, the run is not yet strong enough for report-only UI recalibration.</div>
+<div class="note"><b>Owner boundary:</b> this section adds only the extra UI-local facts that must be preserved inside the orchestration-owned package for report regeneration. The package artifact schema itself stays owned by <code class="inline">ORCHESTRATION_PATH</code>.</div>
 </details>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">3.2 UI proof additions</span>
+  <span class="sumhint">what stays specifically UI here</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>UI proof addition</th>
+      <th>MUST make visible</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Closure anchors</td><td>Which anchors, form steps, route states, overlays, or descendant pages actually closed the claim.</td></tr>
+    <tr><td>Mechanism-learning note</td><td>One short reusable UI interaction pattern that made the truth reproducible.</td></tr>
+    <tr><td>Target-identity note</td><td>When reread/reopen depended on a repeated row/card/preview, the exact visible discriminator that separated the intended target from sibling lookalikes.</td></tr>
+    <tr><td>Local meaning of proof links</td><td>The local UI meaning of the decisive proof links already required by <code class="inline">ORCHESTRATION_PATH</code>.</td></tr>
+    <tr><td>UI blocker note</td><td>Any UI-specific blocker or missing external input that forced a pivot, deferral, or preserved blocked slice.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">3.3 UI routes, hyperlinks, and guarded frontier</span>
+  <span class="sumhint">what is specifically UI about the frontier</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>UI frontier truth</th>
+      <th>MUST keep visible</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Hyperlink and route ledger</td><td>Which hyperlinks, routes, sibling descendants, guarded continuations, and route states were covered, blocked, duplicated, deferred, or intentionally skipped.</td></tr>
+    <tr><td>Repeated-surface identity ledger</td><td>Which repeated rows, cards, snippets, or thread shells needed explicit identity discrimination, what anchor separated them, and whether any residual collision risk remained.</td></tr>
+    <tr><td>Pivot reason</td><td>When a UI pivot moved laterally to a stronger uncovered neighbor instead of repeating the same thin branch.</td></tr>
+    <tr><td>Coverage honesty</td><td>That a visible route or CTA is not equivalent to defended semantic flow truth.</td></tr>
+  </tbody>
+</table>
+</details>
+
 </div>
 
 <hr class="sep">
 
 <div class="card">
-<h2>5) Implementation Workflow</h2>
+<h2>4) UI Workflow</h2>
+<div class="note">
+  Use the shared loop from <code class="inline">ORCHESTRATION_PATH</code>.
+  Decide which visible UI branch to explore next and explain the local UI meaning of the preserved proof.
+</div>
+<pre><code>recorded seed
+  -> convert into focused tests and reusable support
+  -> inspect nearby visible frontier
+  -> rank branches by class fan-out and semantic coverage upside
+  -> prove one branch honestly
+  -> widen only while real payoff remains
+  -> pivot or stop when the branch becomes thin
+  -> preserve the local UI meaning of the proof</code></pre>
+<pre><code>seed clue
+  -> proof-origin branch
+  -> second useful class?
+  -> defended branch mature enough?
+  -> retained-close only if it still teaches
+  -> stop when remaining breadth is mostly optics</code></pre>
 
 <details>
 <summary>
-  <span class="summary-title">5.1 Convert The Seed Flow</span>
+  <span class="summary-title">4.1 Convert The Seed Flow</span>
   <span class="badge">UI</span>
 </summary>
-<ol>
-  <li>inspect the recorded actions</li>
-  <li>identify the real business journey</li>
-  <li>remove recorder noise</li>
-  <li>identify pages, actions, outcomes, and reusable steps</li>
-  <li>identify missing support or weak support in the ATF</li>
-  <li>split the journey into focused tests</li>
-  <li>place the resulting tests under <code class="inline">TARGET_TEST_PACKAGE</code></li>
-</ol>
+<table>
+  <thead>
+    <tr>
+      <th>Seed-conversion step</th>
+      <th>What should come out of it</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Inspect the observed actions</td><td>The real user-visible starting clue, not recorder ceremony.</td></tr>
+    <tr><td>Identify the real journey</td><td>The product flow that the seed actually exposes.</td></tr>
+    <tr><td>Remove recorder noise</td><td>A cleaner action chain with dead clicks, redundant waits, and brittle noise stripped out.</td></tr>
+    <tr><td>Identify pages, actions, outcomes, and reusable steps</td><td>A business-facing split between page meaning, user action, expected outcome, and support candidates.</td></tr>
+    <tr><td>Identify missing or weak ATF support</td><td>A named support gap instead of repeating brittle inline mechanics.</td></tr>
+    <tr><td>Split into focused tests</td><td>One or more tests that each defend a real observable contract.</td></tr>
+    <tr><td>Place under <code class="inline">TARGET_TEST_PACKAGE</code></td><td>A local UI package that reads like intentional coverage, not recorder leftovers.</td></tr>
+  </tbody>
+</table>
 </details>
 
 <details>
 <summary>
-  <span class="summary-title">5.2 Discover Around The Seed</span>
+  <span class="summary-title">4.2 Discover Around The Seed</span>
   <span class="badge">DISCOVERY</span>
 </summary>
-<ol>
-  <li>flows directly implied by the seed</li>
-  <li>adjacent flows sharing routes, menus, or actor transitions</li>
-  <li>guarded or conditional behavior the application visibly exposes</li>
-  <li>visible navigation, progressive disclosure, internal hyperlinks, and menu entries</li>
-  <li>recovery, fallback, cancellation, retry, or alternative-path entry points when actually present</li>
-  <li>detail, edit, search, filter, confirm, or submit flows only if they expose a clear observable contract</li>
-</ol>
-<div class="rule">
-  Treat hyperlink discovery as safe exhaustion: cover, defer with reason, mark blocked, or prove duplicate.
-</div>
+<pre><code>seed-implied flow
+  -> adjacent routes / menus / actor transitions
+  -> guarded or conditional behavior
+  -> visible hyperlinks / progressive disclosure / menu entries
+  -> recovery / fallback / retry / alternatives
+  -> richer descendants with real class or test payoff
+  -> if remaining neighbors go thin: pivot out early</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Discovery ring</th>
+      <th>Explore this next</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>Flows directly implied by the seed.</td></tr>
+    <tr><td>2</td><td>Adjacent flows sharing routes, menus, or actor transitions.</td></tr>
+    <tr><td>3</td><td>Guarded or conditional behavior the application visibly exposes.</td></tr>
+    <tr><td>4</td><td>Visible navigation, progressive disclosure, internal hyperlinks, and menu entries.</td></tr>
+    <tr><td>5</td><td>Recovery, fallback, cancellation, retry, or alternative-path entry points when actually present.</td></tr>
+    <tr><td>6</td><td>Detail, edit, search, filter, confirm, or submit flows only if they expose a clear observable contract.</td></tr>
+    <tr><td>Hyperlink exhaustion rule</td><td>Treat hyperlink discovery as safe exhaustion: cover, defer with reason, mark blocked, or prove duplicate.</td></tr>
+    <tr><td>Early branch pivot</td><td>Pivot out sooner when the remaining visible neighbors are weaker than a richer reachable branch elsewhere in the active surface.</td></tr>
+  </tbody>
+</table>
 </details>
 
 <details>
 <summary>
-  <span class="summary-title">5.3 Test Data And Isolation</span>
+  <span class="summary-title">4.3 Engine And Reporting Compatibility</span>
   <span class="badge">UI</span>
 </summary>
-<ul>
-  <li><b>MUST</b> generate unique or collision-safe data where uniqueness matters.</li>
-  <li><b>MUST</b> use isolated, rerunnable data.</li>
-  <li><b>MUST NOT</b> couple tests by execution order.</li>
-  <li>If the application does not support cleanup, design data to avoid collisions instead of hiding the problem.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">5.4 Engine And Reporting Validation</span>
-  <span class="badge">UI</span>
-</summary>
-<ul>
-  <li><b>MUST</b> preserve Playwright, Selenium, Extent, and Allure compatibility when those paths are maintained by the repo.</li>
-  <li><b>MUST</b> validate the narrowest useful engine and reporting path first, then broaden when confidence increases.</li>
-  <li><b>MUST NOT</b> treat compile-only validation as sufficient.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">5.5 Source-To-Artifact Traceability</span>
-  <span class="badge">TRACE</span>
-</summary>
-<h4>Run package richness</h4>
-<ul>
-  <li><b>MUST</b> preserve a readable chain from <code class="inline">SEED_RECORDING_CLASS</code> to discovered behavior, generated test, support change, validation command, and HTML evidence.</li>
-  <li><b>MUST</b> mark whether a test was seed-derived, live-discovered, regression-hardening-driven, or support-layer-hardening-driven.</li>
-  <li><b>MUST</b> record when a test mainly protects framework behavior exposed during discovery.</li>
-  <li><b>MUST</b> snapshot the exact discovery prompt and referenced standards used for the kept run package so later comparison can explain why this run produced stronger or weaker output.</li>
-  <li><b>MUST</b> keep comparative source-lock provenance explicit whenever the round intentionally compares or borrows another family's standards: list exact external files used, exact external files excluded, whether WIP/temp/experimental files were excluded, and whether the run stayed execution-symmetric.</li>
-  <li><b>MUST</b> keep execution-bootstrap provenance explicit whenever the run rebuilds generated support, services, pages, or tests from an external snapshot. State the exact snapshot once, classify it as bootstrap provenance, and do not let it masquerade as reopened business benchmark evidence.</li>
-  <li><b>MUST</b> make every kept run package auditable from its own files: concise summary, prompt snapshot, validation evidence or honest no-validation note, and generated/support deltas rich enough for later comparison.</li>
-  <li><b>MUST</b> update <code class="inline">iteration-ledger.md</code> for every attempted iteration, including attempts that produced no code change and no milestone.</li>
-  <li><b>MUST</b> preserve a defect-discovery run separately when a later greener retained slice narrows or bypasses the unstable frontier instead of truly closing it.</li>
-  <li><b>MUST</b> copy stable validation artifacts into the kept run package instead of leaving proof only in transient <code class="inline">target/</code> folders.</li>
-  <li><b>MUST</b> treat the per-run Extent artifact as required validation evidence when Extent is supported: copy it into <code class="inline">validation/reports/ExtentReport_*.html</code> for each kept run and downgrade package completeness if it is missing.</li>
-  <li><b>MUST NOT</b> leave a generated test without a visible business reason or framework-hardening reason.</li>
-</ul>
-</details>
-</div>
-
-<hr class="sep">
-
-<div class="card">
-<h2>6) Validation And Close-Out</h2>
-
-<details>
-<summary>
-  <span class="summary-title">6.1 Functional Reassessment</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<ul>
-  <li><b>MUST</b> reassess business understanding, route discovery, hyperlink discovery, actor-state discovery, invariant quality, seed conversion, coverage, maintainability, and generated ATF test-result quality.</li>
-  <li><b>MUST</b> reassess positive, negative, boundary, navigation, state, recovery, and fallback coverage when the live UI exposes those dimensions.</li>
-  <li><b>MUST</b> report reporting, screenshot, engine, and AI/MCP readiness only as confidence signals.</li>
-  <li><b>MUST</b> keep pushing seed-adjacent frontiers before treating distant optional exploration as more important.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">6.2 Maven Validation Expectations</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<h4>Validation and render honesty</h4>
-<ul>
-  <li><b>MUST</b> run the narrowest useful Maven validation first.</li>
-  <li><b>MUST</b> broaden validation once narrow runs are green.</li>
-  <li><b>MUST</b> report all Maven commands actually run.</li>
-  <li><b>MUST</b> report command, scope, failure if any, root cause, fix applied, and final result.</li>
-  <li><b>MUST NOT</b> hide failing runs that led to a useful fix.</li>
-  <li><b>MUST</b> preserve the actual generated report artifact even when the repo writes Extent or Allure output to a framework-default location instead of the requested run path; copy the produced artifact into the run package and record the mismatch honestly.</li>
-  <li><b>MUST</b> preserve Extent per kept iteration, not only for the final retained winner. If an intermediate kept run changed what the team knows, its own Extent artifact must remain reopenable from that run package.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">6.3 Finalization Guard</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<ul>
-  <li><b>MUST NOT</b> claim completion merely because code compiles, one suite passed, or the recorded flow replayed successfully.</li>
-  <li>Completion requires passing validation.</li>
-  <li>Completion also requires no remaining obvious safe iterative improvements in scope, or a clearly documented reason why they were not pursued.</li>
-  <li><b>MUST</b> state clearly whether full iteration depth was completed and whether the score target was achieved.</li>
-</ul>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">6.4 Final Report And Scoring</span>
-  <span class="badge">CORE</span>
-</summary>
-<ul>
-  <li><b>MUST</b> state business discoveries, generated or updated ATF tests, shared support hardening, validation evidence, HTML artifacts updated, remaining partial/deferred/blocked areas, and the next safe iteration.</li>
-  <li><b>MUST</b> be explicit about anything not verified and avoid claiming coverage beyond observed product behavior.</li>
-  <li><b>MUST</b> state whether each kept checkpoint delivered business progress, reporting-only improvement, orchestration-only improvement, or no durable progress.</li>
-  <li><b>MUST</b> state the strongest current <code class="inline">Benchmark Gap</code>, the strongest current <code class="inline">Frontier Gap</code>, and whether this round materially reduced either one.</li>
-  <li><b>MUST</b> state which exact step of the active flow was closed more deeply, and which exact step remains blocked if the flow still did not close.</li>
-  <li><b>MUST</b> state the deepest defended business chain reached in the run, in one explicit arrow-like sequence, and identify the kept run package that anchors that claim.</li>
-  <li><b>MUST</b> state separately what the round explored broadly versus what it proved deeply, especially when a high execution budget produced many side journeys or retained hardening passes.</li>
-  <li><b>MUST</b> state whether a broader retained-close actually absorbed the proof-origin truth, or whether the broader slice only reran, narrowed, bypassed, or failed around that truth.</li>
-  <li><b>MUST</b> mark render verification as <code class="inline">Partial</code> or <code class="inline">Blocked</code> if local visual reopening fails, and preserve a screenshot or blocker note instead of pretending success.</li>
-  <li><b>MUST</b> say whether any remaining open work is still seed-adjacent, benchmark-significant, or only distant optional exploration.</li>
-  <li><b>MUST</b> say whether any bootstrap provenance changed only executability or whether it also changed business depth. If it changed only executability, keep that claim out of the business-winner reasoning.</li>
-</ul>
-<pre><code>| Area | What was verified | Score | Risk / Note |
-|---|---|---:|---|</code></pre>
-<ul>
-  <li><b>MUST</b> include at least business understanding, route discovery, hyperlink discovery, actor-state discovery, invariant quality, seed conversion quality, discovered flow coverage, generated ATF test-result quality, maintainability, reporting confidence, screenshot confidence, AI/MCP readiness, and <code class="inline">overall_score</code>.</li>
-  <li><b>MAY</b> add domain-specific rows when relevant to the actual application under test.</li>
-  <li><b>SHOULD</b> add explicit rows for <code class="inline">deepest_defended_flow</code>, <code class="inline">max_retained_business_chain</code>, and <code class="inline">exploration_breadth_vs_proven_depth</code> when the round used a large execution budget or covered multiple neighboring continuations.</li>
-</ul>
+<table>
+  <thead>
+    <tr>
+      <th>Compatibility rule</th>
+      <th>MUST keep true</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Framework/report compatibility</td><td>Preserve Playwright, Selenium, Extent, and Allure compatibility when those paths are maintained by the repo.</td></tr>
+    <tr><td>Shared proof-bundle ownership</td><td>Read generic validation-order and proof-bundle rules from <code class="inline">ORCHESTRATION_PATH</code>.</td></tr>
+  </tbody>
+</table>
 </details>
 </div>
 
 </div>
 </body>
 </html>
+
+
+

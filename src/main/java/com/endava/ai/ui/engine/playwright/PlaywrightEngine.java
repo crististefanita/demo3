@@ -6,6 +6,7 @@ import com.endava.ai.ui.engine.window.UIWindowConfiguration;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.SelectOption;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import com.microsoft.playwright.options.WaitUntilState;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -80,7 +81,7 @@ public final class PlaywrightEngine implements UIEngine {
         if (!usesHeadlessZoomFallback()) {
             ensureBrowserZoomConfigured();
         }
-        page.navigate(url);
+        navigateWithRetry(url);
         if (usesHeadlessZoomFallback()) {
             applyHeadlessPageZoomFallback();
         }
@@ -89,8 +90,9 @@ public final class PlaywrightEngine implements UIEngine {
 
     @Override
     public void click(String cssSelector) {
-        // Playwright auto-wait applies (uses default timeout)
-        page.locator(cssSelector).first().click();
+        Locator locator = page.locator(cssSelector).first();
+        locator.scrollIntoViewIfNeeded();
+        locator.click();
     }
 
     @Override
@@ -115,6 +117,11 @@ public final class PlaywrightEngine implements UIEngine {
     }
 
     @Override
+    public void uploadFile(String cssSelector, String absolutePath) {
+        page.locator(cssSelector).first().setInputFiles(Path.of(absolutePath));
+    }
+
+    @Override
     public String getText(String cssSelector) {
         Locator loc = page.locator(cssSelector);
         if (loc.count() == 0) {
@@ -134,6 +141,11 @@ public final class PlaywrightEngine implements UIEngine {
     @Override
     public boolean isVisible(String cssSelector) {
         return page.locator(cssSelector).first().isVisible();
+    }
+
+    @Override
+    public boolean isEnabled(String cssSelector) {
+        return page.locator(cssSelector).first().isEnabled();
     }
 
     @Override
@@ -168,8 +180,47 @@ public final class PlaywrightEngine implements UIEngine {
 
     @Override
     public String captureScreenshotAsBase64() {
-        byte[] bytes = page.screenshot(new Page.ScreenshotOptions().setFullPage(true));
-        return Base64.getEncoder().encodeToString(bytes);
+        try {
+            byte[] bytes = page.screenshot(
+                    new Page.ScreenshotOptions()
+                            .setFullPage(true)
+                            .setTimeout(Math.max(UI_WAIT_TIMEOUT_SECONDS, 15) * 1000.0)
+            );
+            return Base64.getEncoder().encodeToString(bytes);
+        } catch (PlaywrightException firstFailure) {
+            byte[] bytes = page.screenshot(
+                    new Page.ScreenshotOptions()
+                            .setFullPage(false)
+                            .setTimeout(Math.max(UI_WAIT_TIMEOUT_SECONDS, 15) * 1000.0)
+            );
+            return Base64.getEncoder().encodeToString(bytes);
+        }
+    }
+
+    private void navigateWithRetry(String url) {
+        try {
+            navigate(url, Math.max(UI_WAIT_TIMEOUT_SECONDS, 10) * 1000.0);
+        } catch (PlaywrightException firstFailure) {
+            try {
+                page.navigate(
+                        "about:blank",
+                        new Page.NavigateOptions()
+                                .setWaitUntil(WaitUntilState.DOMCONTENTLOADED)
+                                .setTimeout(5_000)
+                );
+            } catch (PlaywrightException ignored) {
+            }
+            navigate(url, Math.max(UI_WAIT_TIMEOUT_SECONDS, 20) * 1000.0);
+        }
+    }
+
+    private void navigate(String url, double timeoutMillis) {
+        page.navigate(
+                url,
+                new Page.NavigateOptions()
+                        .setWaitUntil(WaitUntilState.DOMCONTENTLOADED)
+                        .setTimeout(timeoutMillis)
+        );
     }
 
     @Override

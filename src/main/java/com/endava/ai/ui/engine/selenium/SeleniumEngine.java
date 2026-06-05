@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.nio.file.Path;
 import java.time.Duration;
 import java.util.List;
 
@@ -95,6 +96,11 @@ public final class SeleniumEngine implements UIEngine {
     }
 
     @Override
+    public void uploadFile(String cssSelector, String absolutePath) {
+        find(cssSelector).sendKeys(Path.of(absolutePath).toAbsolutePath().toString());
+    }
+
+    @Override
     public String getText(String cssSelector) {
         List<WebElement> els = driver.findElements(By.cssSelector(cssSelector));
         if (els.isEmpty()) return "";
@@ -120,6 +126,15 @@ public final class SeleniumEngine implements UIEngine {
         try {
             WebElement el = driver.findElement(By.cssSelector(cssSelector));
             return el.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isEnabled(String cssSelector) {
+        try {
+            return driver.findElement(By.cssSelector(cssSelector)).isEnabled();
         } catch (NoSuchElementException e) {
             return false;
         }

@@ -4,6 +4,8 @@ import com.endava.ai.core.config.ConfigManager;
 import com.endava.ai.core.reporting.StepLogger;
 import com.endava.ai.ui.core.DriverManager;
 
+import java.nio.file.Path;
+
 public final class UIActions {
 
     private UIActions() {
@@ -23,6 +25,22 @@ public final class UIActions {
                 },
                 "Navigated",
                 "Failed navigating to: " + fullUrl
+        );
+    }
+
+    public static void openRelativeWithoutUrlWait(String relativePath) {
+        String baseUrl = ConfigManager.require("base.url");
+        String fullUrl = baseUrl + relativePath;
+
+        execute(
+                "Open URL: " + fullUrl,
+                () -> {
+                    StepLogger.logDetail("base.url=" + baseUrl);
+                    StepLogger.logDetail("relativePath=" + relativePath);
+                    DriverManager.getEngine().open(fullUrl);
+                },
+                "Opened",
+                "Failed opening: " + fullUrl
         );
     }
 
@@ -65,6 +83,21 @@ public final class UIActions {
                 },
                 "Selected",
                 "Failed selecting: " + description
+        );
+    }
+
+    public static void uploadFile(String cssSelector, String description, String path) {
+        execute(
+                "Upload file into element: " + description,
+                () -> {
+                    String absolutePath = Path.of(path).toAbsolutePath().toString();
+                    StepLogger.logDetail("locator=" + cssSelector);
+                    StepLogger.logDetail("path=" + absolutePath);
+                    waitIfRequired(cssSelector);
+                    DriverManager.getEngine().uploadFile(cssSelector, absolutePath);
+                },
+                "Uploaded",
+                "Failed uploading file into: " + description
         );
     }
 

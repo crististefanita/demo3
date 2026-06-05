@@ -1,718 +1,327 @@
 ﻿# UI Recording To ATF Tests Prompt
 
-Reusable Codex/MCP prompt template for converting recorded UI behavior into ATF-compliant tests while preserving the existing framework layers, reporting lifecycle, and screenshot contracts.
+Reusable Codex/MCP prompt for converting a recorded Playwright flow into ATF-compliant UI tests inside this repository.
 
-You are continuing work inside an EXISTING enterprise-grade Java Automation Testing Framework (ATF).
+Use this prompt when a raw UI recording exists and must be transformed into maintainable framework tests without rewriting the framework.
 
-
-
-The current repository structure, framework architecture, lifecycle orchestration, reporting system, and execution model are the SOURCE OF TRUTH.
-
-
-
-Do NOT invent a parallel framework.
-
-Do NOT redesign the architecture.
-
-Do NOT replace existing framework patterns.
-
-
-
-The goal is to EXTEND and STRENGTHEN the current framework incrementally while preserving behavior and compatibility.
-
-
-
-CURRENT FRAMEWORK CHARACTERISTICS
-
+SOURCE OF TRUTH
 ==================================================
 
-The framework already contains:
+You are working inside an EXISTING enterprise-grade Java Automation Testing Framework.
 
-\- TestNG lifecycle
+The current repository is the source of truth:
 
-\- BaseTestUI
+- framework structure
+- TestNG lifecycle
+- `BaseTestUI`
+- `DriverManager`
+- Selenium / Playwright engines
+- reporting lifecycle
+- screenshot lifecycle
+- listeners
+- waits
+- services
+- validations
+- page objects
+- factories
+- existing conventions
 
-\- DriverManager
+Do NOT:
 
-\- PlaywrightEngine
+- invent framework-v2 abstractions
+- redesign the architecture
+- replace framework patterns
+- create duplicate reporting or screenshot pipelines
 
-\- Selenium support
+Extend the current framework carefully and incrementally.
 
-\- Allure reporting
-
-\- Extent reporting
-
-\- ScreenshotManager
-
-\- FailureAttachmentRegistry
-
-\- reporting lifecycle orchestration
-
-\- thread-aware execution
-
-\- UI/API separation
-
-\- reporting contract tests
-
-\- final screenshot support
-
-\- Playwright recorded flow examples
-
-\- reusable framework utilities
-
-
-
-Existing framework behavior is considered stable and must be preserved.
-
-
-
-REFERENCE FLOW
-
+MAIN FOCUS
 ==================================================
 
-Important:
+The PRIMARY behavioral source is:
 
-\- com.endava.ai.ui.tests.Example is ONLY a behavioral reference generated from Playwright recording.
+- `src/test/java/com/endava/ai/ui/tests/Example.java`
 
-\- RegistrationTests is the preferred framework style and architecture reference.
+Treat `Example` as the flow that must be understood, decomposed, and transformed into proper ATF tests.
 
+The PRIMARY target location for the resulting business tests is:
 
+- `src/test/java/com/endava/ai/ui/tests`
 
-Reuse the framework completely:
+The SECONDARY style reference is:
 
-\- BaseTestUI
+- `RegistrationTests`
 
-\- DriverManager
+Use `RegistrationTests` mainly as a framework-style example, not as the main functional target.
 
-\- PlaywrightEngine
+In short:
 
-\- Selenium infrastructure
-
-\- reporting
-
-\- screenshot lifecycle
-
-\- logging
-
-\- validations
-
-\- waits
-
-\- services
-
-\- page objects
-
-\- utils
-
-\- factories
-
-\- lifecycle hooks
-
-\- reporting contracts
-
-
+1. understand the business flow from `Example`
+2. split it into focused tests
+3. place those focused UI tests under `com.endava.ai.ui.tests`
+4. add reusable support under `src/main/java/com/endava/ai/ui`
 
 GOAL
-
 ==================================================
 
-Transform the Example flow into a production-grade UI automation suite with:
+Transform the recorded flow into a production-grade UI suite with:
 
+- broad positive coverage
+- broad negative coverage
+- reusable page/service/validation layers
+- stable reporting integration
+- stable screenshot lifecycle
+- cross-engine compatibility
+- deterministic execution
+- AI-friendly observability
 
+Do not optimize for raw test count.
 
-1\. Broad positive coverage
-
-2\. Broad negative coverage
-
-3\. Stable reporting integration
-
-4\. Stable screenshot lifecycle
-
-5\. Cross-engine compatibility
-
-6\. Cross-reporting compatibility
-
-7\. Reusable architecture
-
-8\. Deterministic execution
-
-9\. AI-friendly observability
-
-
+Optimize for a stronger UI automation core and stronger business coverage.
 
 ARCHITECTURE RULES
-
 ==================================================
 
-Keep tests under:
+Keep:
 
-src/test/java/com/endava/ai/ui/tests
+- business UI tests under `src/test/java/com/endava/ai/ui/tests`
+- reusable UI logic under `src/main/java/com/endava/ai/ui`
 
+Strictly reuse existing:
 
+- pages
+- services
+- validations
+- logging
+- waits
+- factories
+- configuration
+- listeners
+- screenshot handling
+- reporting lifecycle
 
-Keep reusable UI/business logic under:
+Do not create parallel abstractions when an existing layer can be extended.
 
-src/main/java/com/endava/ai/ui
-
-
-
-STRICTLY reuse existing:
-
-\- pages
-
-\- services
-
-\- validation utilities
-
-\- reporting
-
-\- logging
-
-\- waits
-
-\- screenshot handling
-
-\- factories
-
-\- listeners
-
-\- configuration
-
-\- lifecycle orchestration
-
-
-
-Extend the framework consistently instead of introducing duplicate abstractions.
-
-
-
-DO NOT:
-
-\- create framework-v2 abstractions
-
-\- create parallel execution models
-
-\- create duplicate screenshot pipelines
-
-\- introduce speculative architecture
-
-\- rewrite the framework
-
-
-
-TESTING GOALS
-
+COVERAGE TARGETS
 ==================================================
 
-Generate multiple focused business-oriented tests instead of recorder-style flows.
+Use the recorded flow to derive meaningful focused tests.
 
+Positive targets:
 
+- successful registration
+- successful login after registration
+- profile validation
+- password change
+- login with changed password
+- account persistence validation
+- navigation validation
+- session persistence validation
+- protected route behavior for authenticated users
 
-Create meaningful positive and negative scenarios.
+Negative targets:
 
+- duplicate email validation
+- invalid email validation
+- weak password validation
+- invalid password policy validation
+- invalid current password
+- invalid login
+- empty required fields
+- invalid phone
+- invalid form state validation
+- validation message assertions
+- protected route behavior for unauthenticated users
+- boundary conditions where the live UI supports them clearly
 
+Do NOT force speculative negatives if the live application does not support a stable contract for them.
 
-POSITIVE COVERAGE:
-
-\- successful registration
-
-\- successful login after registration
-
-\- profile validation
-
-\- password change
-
-\- login with changed password
-
-\- account persistence validation
-
-\- navigation validation
-
-\- session persistence validation
-
-
-
-NEGATIVE COVERAGE:
-
-\- duplicate email validation
-
-\- invalid email validation
-
-\- weak password validation
-
-\- invalid password policy validation
-
-\- invalid current password
-
-\- invalid login
-
-\- empty required fields
-
-\- invalid postal code
-
-\- invalid phone
-
-\- invalid country/state combinations
-
-\- invalid form state validation
-
-\- validation message assertions
-
-\- boundary conditions
-
-
-
-CODE ORGANIZATION RULES
-
-==================================================
-
-\- Split flows into focused tests.
-
-\- Group tests logically into dedicated test classes.
-
-\- Reuse helper methods.
-
-\- Reuse assertions.
-
-\- Reuse validations.
-
-\- Centralize locators ONLY in Page Objects.
-
-\- Create reusable data builders/factories.
-
-\- Keep utilities under src/main.
-
-\- Prefer business-oriented method names.
-
-
-
-PAGE OBJECT RULES
-
+PAGE OBJECT / TEST DESIGN RULES
 ==================================================
 
 Use Page Object Model strictly.
 
-
-
 Preferred locator strategy order:
 
-1\. data-test
+1. `data-test`
+2. label
+3. role
+4. placeholder
+5. text only as last resort
 
-2\. label
+Test design rules:
 
-3\. role
-
-4\. placeholder
-
-5\. text only as last resort
-
-
+- split recorder flows into focused tests
+- reuse helper methods
+- reuse assertions
+- reuse validations
+- centralize locators in page objects
+- keep utilities under `src/main`
+- prefer business-oriented method names
 
 Avoid:
 
-\- brittle CSS selectors
-
-\- deep DOM traversal
-
-\- recorder-generated selectors
-
-\- duplicated locators
-
-
+- recorder-generated selector noise
+- deep DOM traversal
+- duplicated locators
+- giant end-to-end test monsters
+- duplicated assertions across tests
 
 TECHNICAL RULES
-
 ==================================================
 
-1\. Generate unique emails automatically.
+- generate unique emails automatically
+- avoid magic sleeps
+- avoid flaky waits
+- keep browser visible by default unless current config says otherwise
+- keep tests isolated and rerunnable
+- preserve existing reporting integration
+- preserve existing screenshot lifecycle
+- preserve existing listener ownership
 
-2\. Avoid flaky waits.
-
-3\. Avoid magic sleeps.
-
-4\. Use Playwright assertions whenever possible.
-
-5\. Keep browser visible by default.
-
-6\. Keep tests isolated and rerunnable.
-
-7\. Avoid click-spam recorder flows.
-
-8\. Preserve existing reporting integration.
-
-9\. Preserve existing logging style.
-
-10\. Preserve existing screenshot lifecycle.
-
-
-
-FINAL SCREENSHOT / REPORTING REQUIREMENTS
-
+ITERATIVE EXECUTION MODEL
 ==================================================
 
-The framework already supports:
-
-\- final-state screenshots
-
-\- failure screenshots
-
-\- Allure reporting
-
-\- Extent reporting
-
-
-
-Reuse the existing reporting lifecycle completely.
-
-
-
-Every successful UI test should:
-
-\- automatically attach the configured final-state screenshot
-
-\- preserve existing failure screenshot behavior
-
-\- avoid duplicate screenshots
-
-\- preserve reporting lifecycle ordering
-
-
-
-Do NOT introduce:
-
-\- duplicate screenshot systems
-
-\- competing attachment flows
-
-\- reporting timing changes
-
-
-
-REPORTING CONTRACT REQUIREMENTS
-
-==================================================
-
-Treat reporting behavior as a stable contract.
-
-
-
-New tests should validate:
-
-\- final screenshot presence
-
-\- screenshot uniqueness
-
-\- failure screenshot preservation
-
-\- reporting lifecycle consistency
-
-\- Allure/Extent parity
-
-\- Selenium/Playwright parity
-
-
-
-Prefer reusable reporting assertions/utilities over adapter-specific assertions spread across tests.
-
-
-
-VALIDATION MATRIX REQUIREMENTS
-
-==================================================
-
-Continuously validate combinations of:
-
-
-
-ui.engine:
-
-\- selenium
-
-\- playwright
-
-
-
-reporting.engine:
-
-\- allure
-
-\- extent
-
-
-
-ui.screenshots.enabled:
-
-\- true
-
-\- false
-
-
-
-ui.screenshots.capture.final.state:
-
-\- true
-
-\- false
-
-
-
-ui.screenshots.on.failure.only:
-
-\- true
-
-\- false
-
-
-
-Treat every combination as a supported framework contract.
-
-
-
-DETERMINISTIC EXECUTION RULES
-
-==================================================
-
-\- Avoid tests depending on execution order.
-
-\- Avoid shared mutable state.
-
-\- Avoid hidden singleton coupling.
-
-\- Avoid timing-based assertions.
-
-\- Prefer deterministic reporting assertions.
-
-\- Ensure tests are parallel-safe where current infrastructure supports it.
-
-
-
-LIFECYCLE OWNERSHIP RULES
-
-==================================================
-
-Do NOT:
-
-\- change driver ownership lifecycle
-
-\- move teardown responsibility
-
-\- alter listener execution order
-
-\- change reporting flush timing
-
-\- change reporting orchestration ownership
-
-
-
-Preserve:
-
-\- BaseTestUI ownership
-
-\- TestListener lifecycle
-
-\- ScreenshotManager ownership
-
-\- FailureAttachmentRegistry behavior
-
-
-
-SELF-HEALING / AUTONOMOUS EXECUTION
-
-==================================================
-
-When tests fail:
-
-\- inspect the exact failure
-
-\- inspect screenshots
-
-\- inspect reporting artifacts
-
-\- inspect DOM state
-
-\- inspect Playwright traces if available
-
-\- inspect logs if available
-
-\- repair selectors automatically
-
-\- repair waits automatically
-
-\- repair assertions automatically
-
-\- rerun failing tests
-
-\- continue iterating autonomously until green or until a real blocker exists
-
-
-
-EXECUTION RULES
-
-==================================================
-
-\- Run mvn test continuously during implementation.
-
-\- Fix compile/runtime/test failures automatically.
-
-\- Do NOT stop after first failure.
-
-\- Continue incremental autonomous iteration.
-
-\- Re-run unstable tests multiple times for stability verification.
-
-\- Validate reporting artifacts after meaningful changes.
-
-
-
-INCREMENTAL IMPLEMENTATION STRATEGY
-
-==================================================
-
-Work incrementally.
-
-
+Work in small safe iterations.
 
 Required loop:
 
-1\. Analyze existing implementation.
+1. inspect `Example`
+2. inspect existing UI framework code
+3. inspect the live UI if needed
+4. identify the weakest useful gap
+5. implement the smallest safe improvement
+6. run the narrowest relevant Maven validation
+7. inspect failures, screenshots, logs, and DOM behavior
+8. fix the smallest real root cause
+9. reassess coverage
+10. continue iterating
 
-2\. Identify the smallest safe improvement.
+Do NOT stop at the first green run.
 
-3\. Implement one small localized change.
+A passing narrow suite is only a checkpoint.
 
-4\. Compile and run the narrowest relevant tests.
+If an in-scope area can still be improved safely, continue.
 
-5\. Validate:
-
-&#x20;  - reporting
-
-&#x20;  - screenshots
-
-&#x20;  - lifecycle
-
-&#x20;  - engine compatibility
-
-&#x20;  - adapter compatibility
-
-6\. Fix the smallest root cause if something fails.
-
-7\. Continue iterating.
-
-
-
-Avoid large rewrites.
-
-
-
-TEST QUALITY RULES
-
+FUNCTIONAL COVERAGE EVALUATION
 ==================================================
 
-Prefer:
+After each meaningful validation pass, reassess coverage across:
 
-\- reusable assertions
+- registration flow
+- login flow
+- profile flow
+- password change flow
+- navigation / route protection
+- validation feedback quality
+- negative scenario depth
+- deterministic behavior
+- Selenium compatibility
+- Playwright compatibility
+- reporting confidence
+- screenshot lifecycle confidence
 
-\- reusable reporting checks
+Treat low-scoring but safely improvable areas as unfinished work.
 
-\- reusable validation helpers
-
-\- reusable data builders
-
-
-
-Avoid:
-
-\- duplicated assertions
-
-\- duplicated reporting logic
-
-\- duplicated screenshot verification
-
-\- hardcoded timing
-
-\- fragile selectors
-
-
-
-AI / MCP FUTURE COMPATIBILITY
-
+REPORTING AND SCREENSHOT CONTRACTS
 ==================================================
 
-Implement new tests/utilities in a way that supports future:
+Preserve the existing reporting lifecycle completely.
 
-\- MCP integrations
+New tests must not:
 
-\- AI artifact analysis
+- create duplicate screenshot systems
+- create competing attachment flows
+- change reporting timing
+- change teardown ownership
 
-\- autonomous debugging
+Validate where relevant:
 
-\- intelligent retries
-
-\- structured reporting events
-
-\- execution observability
-
-\- artifact normalization
-
-\- failure summarization
-
-
+- final screenshot presence
+- failure screenshot preservation
+- screenshot uniqueness
+- reporting lifecycle consistency
+- Selenium / Playwright parity
+- Extent / Allure parity
 
 FINAL VALIDATION
-
 ==================================================
 
 Before finishing:
 
-
-
-1\. Run the relevant Maven suites.
-
-2\. Run Selenium coverage.
-
-3\. Run Playwright coverage.
-
-4\. Run Allure reporting validation.
-
-5\. Run Extent reporting validation.
-
-6\. Re-run unstable tests multiple times.
-
-7\. Verify screenshot contracts.
-
-8\. Verify no duplicate screenshots.
-
-9\. Verify teardown safety.
-
-10\. Verify reporting lifecycle consistency.
-
-
+1. run the relevant Maven suites
+2. run the affected business tests under `com.endava.ai.ui.tests`
+3. validate Selenium coverage
+4. validate Playwright coverage where practical
+5. validate Extent behavior where practical
+6. validate Allure behavior where practical
+7. verify screenshot behavior remains compatible
+8. verify teardown/session isolation
+9. reassess coverage gaps
+10. repeat if meaningful safe improvements still remain
 
 FINAL OUTPUT
-
 ==================================================
 
-At the end provide:
+Provide:
 
-\- tests created
+- tests created or updated under `com.endava.ai.ui.tests`
+- support files created or updated under `src/main/java/com/endava/ai/ui`
+- behavior extracted from `Example`
+- coverage added
+- reporting validations performed
+- screenshot validations performed
+- engine validations performed
+- failures fixed
+- selector or wait repairs performed
+- lifecycle or isolation fixes performed
+- Maven commands run
+- final Maven results
+- remaining flaky / risky / unsupported areas
+- recommended next step
 
-\- files created/modified
+FINAL SELF-ASSESSMENT
+==================================================
 
-\- reporting validations performed
+At the end, provide a score table:
 
-\- screenshot validations performed
+| Area | What was verified | Score | Risk / Note |
+|---|---|---:|---|
 
-\- failures fixed
+Include at least:
 
-\- selector repairs performed
+- `Example` flow coverage
+- registration coverage
+- login coverage
+- profile coverage
+- password change coverage
+- negative scenario coverage
+- validation message quality
+- reusable service/page/validation design
+- deterministic execution
+- Selenium coverage
+- Playwright coverage
+- Extent validation
+- Allure validation
+- screenshot lifecycle confidence
+- reporting lifecycle confidence
+- maintainability
+- AI/MCP readiness
 
-\- lifecycle fixes performed
+FINALIZATION GUARD
+==================================================
 
-\- test commands run
+Do not claim completion merely because:
 
-\- final Maven results
+- code compiles
+- one enhancement was implemented
+- one suite passed
 
-\- remaining flaky/risky areas
+Completion requires both:
 
-\- recommended next architectural improvements
+- passing validation
+- no remaining obvious safe iterative improvements in scope
 
+If multiple in-scope areas still score below 9/10, assume more iteration is expected unless clearly blocked.
+
+If something was not verified, say it explicitly.

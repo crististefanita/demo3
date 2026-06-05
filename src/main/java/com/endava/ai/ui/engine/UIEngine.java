@@ -14,11 +14,19 @@ public interface UIEngine {
 
     void select(String cssSelector, String valueOrText);
 
+    default void uploadFile(String cssSelector, String absolutePath) {
+        throw new UnsupportedOperationException("File upload is not supported by this UI engine.");
+    }
+
     String getText(String cssSelector);
 
     String getValue(String cssSelector);
 
     boolean isVisible(String cssSelector);
+
+    default boolean isEnabled(String cssSelector) {
+        return isVisible(cssSelector);
+    }
 
     void waitForVisible(String cssSelector, int seconds);
 
