@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -29,7 +29,7 @@
   }
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
-  .wrap { max-width: 1160px; margin: 0 auto; padding: 28px 18px 60px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 24px 18px 56px; }
   header {
     background: linear-gradient(180deg, rgba(18,26,39,.9), rgba(18,26,39,.46));
     border: 1px solid var(--border);
@@ -43,7 +43,7 @@
   h3 { margin: 0 0 8px; font-size: 16px; color: var(--accent); }
   h4 { margin: 10px 0 6px; font-size: 14px; }
   p { margin: 8px 0; }
-  .sub { color: var(--muted); font-size: 13.5px; line-height: 1.45; max-width: 980px; }
+  .sub { color: var(--muted); font-size: 14px; line-height: 1.5; max-width: 940px; }
   .badge {
     display: inline-block;
     padding: 4px 10px;
@@ -68,9 +68,10 @@
   .pill-row .pill { margin: 0; }
   .grid{
     display:grid;
-    grid-template-columns:.82fr 1.18fr;
+    grid-template-columns:1.1fr .9fr;
     gap:12px;
     margin-top:14px;
+    align-items:start;
   }
   .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .card{
@@ -174,10 +175,10 @@
     color: #dbe7ff;
   }
   hr.sep { border: 0; border-top: 1px solid var(--border); margin: 16px 0; }
-  .quickmap{display:grid;grid-template-columns:minmax(220px,.42fr) minmax(0,1fr);gap:8px 14px;margin-top:10px}
+  .quickmap{display:grid;grid-template-columns:minmax(190px,.38fr) minmax(0,1fr);gap:8px 14px;margin-top:10px}
   .quickmap b{line-height:1.35}
   .quickmap span{color:var(--muted);line-height:1.45}
-  .docmap{display:grid;grid-template-columns:minmax(220px,.42fr) minmax(0,1fr);gap:8px 14px;margin-top:10px}
+  .docmap{display:grid;grid-template-columns:minmax(190px,.38fr) minmax(0,1fr);gap:8px 14px;margin-top:10px}
   .docmap b{line-height:1.35}
   .docmap span{color:var(--muted);line-height:1.45}
   @media (max-width: 980px) {
@@ -191,228 +192,601 @@
     <h1>Prompt Evolution Orchestration Standard <span class="badge">shared standard</span></h1>
     <p class="sub">
       Reusable generic execution contract for one governed <code>run_##</code> at a time.
-      This file owns the effective work of a run: reopen relevant historical memory, explore and validate the active frontier,
-      save the proof-carrying artifacts, preserve code and patch deltas, and publish a reviewable run package.
-      It does not manage the whole family by itself; the supervising layer coordinates multiple runs and final aggregation around the packages produced here.
+      This file governs saved run packages: what must be preserved, how a kept run stays reopenable,
+      how closure stays honest, and how saved artifacts stay comparable across reruns.
+      Family choice, winner promotion, and broader benchmark pressure stay upstream.
     </p>
     <div class="pill-row">
-      <span class="pill">shared execution contract</span>
-      <span class="pill">run-package rigor</span>
-      <span class="pill">validation evidence minimum</span>
-      <span class="pill">round evolution retention</span>
-      <span class="pill">retention by evidence</span>
-      <span class="pill">retention gate</span>
-      <span class="pill">adapter-ready</span>
-      <span class="pill">upstream-governed</span>
+      <span class="pill">open package fast</span>
+      <span class="pill">validate kept run</span>
+      <span class="pill">save only decisive carriers</span>
+      <span class="pill">count honestly</span>
     </div>
   </header>
 
   <div class="grid">
     <div class="card overview-card">
       <h2>1) Overview</h2>
-      <details class="subdetails" open>
+      <div class="sub">
+        Use this opening to recover one saved run package cold:
+        scope first, package map second, recovery path third, validity lower.
+      </div>
+<pre><code>opening lane
+  -> scope
+  -> artifact map
+  -> recovery card
+  -> cold-open sequence
+  -> 2-7 for validity</code></pre>
+      <details class="subdetails">
         <summary>
-<span class="summary-title">1.1 Shared-Rule Boundary</span>
-          <span class="sumhint">what stays shared, what moves up, what stays local</span>
+<span class="summary-title">1.1 Execution Boundary</span>
+          <span class="sumhint">ownership and handoff</span>
         </summary>
-        <div class="quickmap">
-          <b>Keep it here</b><span>When the rule still makes sense for UI, API, service, or framework-hardening rounds.</span>
-          <b>Push it upward</b><span>When the rule is about round-entry cleanup, family comparison, retention, or promotion judgment.</span>
-          <b>Push it local</b><span>When the rule depends on domain-specific seed choice, frontier logic, surface behavior, or framework-specific implementation details.</span>
-          <b>No cloning</b><span>Do not repeat shared orchestration rules inside a domain adapter unless the adapter adds a real local exception.</span>
-        </div>
+      <div class="docmap">
+        <b>Package</b><span><code>save / reopen / close</code> one run package here.</span>
+        <b>Family</b><span><code>compare / retain / displace</code> stays upstream.</span>
+        <b>Local</b><span><code>seed / frontier / implementation</code> stays local.</span>
+        <b>Validity</b><span>Artifact rules and countability start in <code>2-7</code>.</span>
+      </div>
       </details>
       <details class="subdetails" open>
         <summary>
-<span class="summary-title">1.2 Exact Saved-Artifact Spine</span>
-          <span class="sumhint">the root package and kept-run tree this file expects</span>
+<span class="summary-title">1.2 Artifact Map And Labels</span>
+          <span class="sumhint">root-relative structure and carrier meanings</span>
         </summary>
-<pre><code>exact saved-artifact spine
-  &lt;timestamp&gt;/
-    README.md
-    CALIBRATION.md
+      <div class="sub">
+        Keep structure and labels separate: map first, label meaning second.
+      </div>
+      <details class="subdetails">
+        <summary>
+<span class="summary-title">Saved Artifact Map</span>
+          <span class="sumhint">root-relative package structure</span>
+        </summary>
+<pre><code>&lt;timestamp&gt;/
+    README.md          -> MUST
+    CALIBRATION.md     -> MUST
 
-    analysis/
-      langgraph-business-understanding.html
-      canonical-render-check.png        (when render verified)
-      history/
-        index.html                      (when history exists)
-        round-support/                  (when support notes exist)
-        iteration-##-*.html            (when milestone pages were earned)
-
-    manifests/
-      package-manifest.md
-    prompt/
-      input-snapshot.md                 (or equivalent root prompt bundle)
-    review/
-      final-self-review.md              (or equivalent root review note)
+    analysis/           -> MUST canonical page + render proof
+    analysis/history/   -> EARNED late history only
+    manifests/          -> MUST package identity
+    prompt/             -> MUST root prompt provenance
+    review/             -> MUST root closure judgment
+      round-pretraining-brief.md -> CONDITIONAL thin pre-training handoff
 
     runs/
-      run_##/
-        SUMMARY.md
-        manifests/
-          run-manifest.md
-        review/
-          run-delta-score.md
-          run-delta-baselines.md        (when score is comparative)
-          run-delta-cap-triggers.md     (when caps changed the score)
-        prompt/
-          prompt-manifest.md
-        validation/
-          command-output.txt
-          command-result.md or .txt
-          rendered proof
-          decisive XML / machine result
-        atf/
-          generated-tests-summary.md
-          shared-support-summary.md
-          validation-summary.md
-          iteration-ledger.md
-          test-materialization-score.md (when tests changed materially)
-          git-derived/                  (when code changed materially)</code></pre>
+      run_##/            -> MUST each kept run package
+        SUMMARY.md       -> MUST
+        manifests/       -> MUST run identity
+        prompt/          -> MUST exact run prompt inputs
+        review/          -> MUST score support when counted
+        validation/      -> MUST trace + result + decisive proof minimum
+        atf/             -> CONDITIONAL changed tests/support</code></pre>
+      </details>
+      <details class="subdetails">
+        <summary>
+<span class="summary-title">Labels</span>
+          <span class="sumhint">what each label means</span>
+        </summary>
+<pre><code>MUST               -> required for a closeable package or countable kept run
+CONDITIONAL        -> required only when that shaping input actually existed
+EARNED             -> keep only when later cold understanding still changes
+LEGACY-EQUIVALENT  -> older carrier shape allowed only when it stays reopenable</code></pre>
+      </details>
       </details>
     </div>
 
     <div class="card artifact-overview-card">
+      <h2>Recovery</h2>
+      <div class="sub">
+        Open only what helps you trust the package quickly. Ownership and invalidity rules live lower.
+      </div>
       <details class="subdetails" open>
         <summary>
-<span class="summary-title">1.3 Run-package scope</span>
-          <span class="sumhint">what one governed run package owns and what stays outside</span>
+<span class="summary-title">1.3 Recovery Card</span>
+        <span class="sumhint">default operator lookup</span>
         </summary>
-<pre><code>run-package scope
-  -> one governed run
-  -> one reopenable kept package
-  -> preserved proof, provenance, and run-local memory
-  -> honest handoff for later family comparison
+<pre><code>2-minute recovery lane
+  -> open README.md + CALIBRATION.md
+  -> open analysis/langgraph-business-understanding.html
+  -> open the decisive runs/run_##/SUMMARY.md
+  -> open runs/run_##/validation/
+  -> open runs/run_##/review/
+  -> if the run is counted, check 4.2 + 5.2 before trusting it
 
-outside this file
-  -> round-entry cleanup and family judgment
-  -> family-wide retention and promotion
-  -> domain-local frontier and implementation rules</code></pre>
+quick open paths
+  package identity         -> README.md + CALIBRATION.md
+  canonical analysis       -> analysis/langgraph-business-understanding.html
+  render proof             -> analysis/canonical-render-check.png
+  decisive kept run        -> runs/run_##/SUMMARY.md
+  validation truth         -> runs/run_##/validation/
+  run score / caps         -> runs/run_##/review/
+  ATF / support delta      -> runs/run_##/atf/
+  corrected assumption     -> runs/run_##/atf/iteration-ledger.md
+  prompt provenance        -> prompt/input-snapshot.md + runs/run_##/prompt/
+  history, if still earned -> analysis/history/index.html</code></pre>
       </details>
-      <details class="subdetails" open>
-<summary>
-<span class="summary-title">1.4 Artifact Lookup By Exact File Name</span>
-          <span class="sumhint">fast live lookup, not the full artifact theory</span>
+      <details class="subdetails">
+        <summary>
+<span class="summary-title">1.4 Cold-Open Sequence</span>
+        <span class="sumhint">default read path</span>
         </summary>
-        <pre><code>root package
-  -> package-manifest + root prompt/review
-kept run
-  -> run-manifest + prompt-manifest + SUMMARY
-run score
-  -> run-delta-score + baselines + cap triggers
-validation truth
-  -> command-result + command-output + rendered proof + decisive XML
-ATF / support delta
-  -> generated-tests-summary + shared-support-summary + validation-summary
-  -> iteration-ledger + test-materialization-score
-history
-  -> analysis/history/index + milestone pages</code></pre>
-        <table>
-          <thead>
-            <tr>
-              <th>If you open this bundle</th>
-              <th>You should recover this immediately</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td><code>package-manifest.md</code> + root <code>prompt/</code> + root <code>review/</code></td><td>Package identity, root prompt provenance, final package judgment, open gaps.</td></tr>
-            <tr><td><code>run-manifest.md</code> + <code>prompt-manifest.md</code> + <code>SUMMARY.md</code></td><td>Exact kept run, exact prompt inputs, shortest honest run story.</td></tr>
-            <tr><td><code>run-delta-score.md</code> + baselines + cap triggers</td><td>Why the run scored as it did and what bounded it.</td></tr>
-            <tr><td><code>command-result.*</code> + <code>command-output.txt</code> + rendered proof + decisive XML</td><td>Exact command scope and decisive cold proof bundle.</td></tr>
-            <tr><td><code>generated-tests-summary.md</code> + <code>shared-support-summary.md</code> + <code>validation-summary.md</code> + <code>iteration-ledger.md</code> + <code>test-materialization-score.md</code></td><td>What changed in tests/support, how the attempt evolved, and whether added tests improved quality or only volume.</td></tr>
-            <tr><td><code>analysis/history/index.html</code> + milestone pages</td><td>Why this timestamp still matters after later packages exist.</td></tr>
-          </tbody>
-        </table>
-        <div class="note"><b>Use this as a lookup rail:</b> if you need the fuller artifact contract or save/update discipline, go deeper later. This block should stay fast enough to reread during live execution.</div>
+<pre><code>cold-open sequence
+  -> root package
+  -> canonical analysis
+  -> decisive kept run
+  -> validation cluster
+  -> review / score support
+  -> atf/support delta only if the run used it
+  -> history only if later interpretation still depends on it
+
+trust the run only after
+  -> 4.2 says the kept run is countable
+  -> 5.2 says decisive validation is sufficient</code></pre>
       </details>
     </div>
   </div>
 
   <div class="card">
-    <h2>2) Ownership, Boundaries, And Handoff</h2>
-    <details class="subdetails">
+    <h2>2) Root Package</h2>
+    <details class="subdetails" open>
       <summary>
-<span class="summary-title">2.1 Owner map</span>
-        <span class="sumhint">which document owns which concern</span>
+<span class="summary-title">2.1 Root Package</span>
+        <span class="sumhint">identity and package-level judgment</span>
       </summary>
-      <div class="docmap">
-        <b>Execution layer</b><span>Discovers product truth, edits code, validates, and publishes one complete kept run package.</span>
-        <b>Supervising layer</b><span>Reopens memory, prepares fresh-round scope, scores the family, and decides retained packages or benchmark / exemplar stance.</span>
-        <b>Domain adapter layer</b><span>Adds only domain-specific seed handling, frontier heuristics, specialized artifacts, and framework-specific implementation rules.</span>
-        <b>This file owns</b><span>the exact saved-artifact contract, kept-run package shape, validation minimum, artifact update discipline across reruns, report-only rebuild readiness, and retention handoff discipline.</span>
-      </div>
+<pre><code>root package
+  README.md
+  CALIBRATION.md
+  manifests/package-manifest.md
+  prompt/input-snapshot.md
+  review/final-self-review.md
+  review/round-pretraining-brief.md (when earned)</code></pre>
     </details>
     <details class="subdetails">
       <summary>
-<span class="summary-title">2.2 Execution-layer role</span>
-        <span class="sumhint">why this file exists after round scope is prepared</span>
-      </summary>
-      <table>
-        <thead>
-          <tr>
-            <th>Execution-layer duty</th>
-            <th>This file owns it</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Execute</td><td>Explore, edit code, validate, and close one governed run without depending on the supervising document for per-run decisions.</td></tr>
-          <tr><td>Preserve</td><td>Keep that run as a reviewable evidence package with validation, provenance, prompt influence, and changed-code truth still reopenable later.</td></tr>
-          <tr><td>Disclose</td><td>Say exactly what the run changed, what it proved, what remained open, and what should force the next move.</td></tr>
-          <tr><td>Handoff</td><td>Leave enough run truth behind that the supervising layer can compare families, retain the best package, and decide benchmark or exemplar stance later.</td></tr>
-        </tbody>
-      </table>
-    </details>
-    <details class="subdetails">
-      <summary>
-<span class="summary-title">2.3 Ownership split</span>
-        <span class="sumhint">keep shared, supervising, reporting, and domain work separate</span>
-      </summary>
-      <div class="docmap">
-        <b>This file owns</b><span>run execution, run-local memory reuse, package closure, validation bundles, provenance, and failure-state honesty for one governed run.</span>
-        <b><code>QUALITY_LOOP_PATH</code> owns</b><span>fresh-round cleanup, reopened-memory scope, family comparison, retention judgment, and prompt-evolution decisions that belong above one run.</span>
-        <b><code>REPORTING_PATH</code> owns</b><span>canonical-page composition, top-card layout, graph family, and proof-link presentation.</span>
-        <b>Domain adapter owns</b><span>seed choice, local frontier heuristics, framework-specific implementation rules, and domain-only evidence additions.</span>
-      </div>
-    </details>
-    <details class="subdetails">
-      <summary>
-<span class="summary-title">2.4 Supervising handoff</span>
-        <span class="sumhint">what this file should inherit instead of re-deciding</span>
+<span class="summary-title">2.2 Root closure minimum</span>
+        <span class="sumhint">what must already exist before the timestamp package reads as real memory</span>
       </summary>
       <table>
         <thead>
           <tr>
-            <th>Supervising handoff rule</th>
-            <th>What this file should inherit or do</th>
+            <th>Root artifact</th>
+            <th>Minimum required</th>
+            <th>Invalid if missing or stale</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Upstream ownership</td><td>Let <code>QUALITY_LOOP_PATH</code> own round-entry cleanup, reopened-memory scope, stop pressure, and active-scope preparation.</td></tr>
-          <tr><td>Execution takeover</td><td>Treat this file as the execution-package contract that takes over once the active round is underway.</td></tr>
-          <tr><td>No duplicated cheat sheet</td><td>Do not duplicate the supervising cheat sheet here when the same guidance already lives in <code>QUALITY_LOOP_PATH</code>.</td></tr>
-          <tr><td>Reusable lesson capture</td><td>Improve this shared execution contract directly when a reusable run-level lesson is discovered, instead of hiding that lesson only in chat or calibration prose.</td></tr>
+          <tr><td><code>README.md</code></td><td>MUST orient a cold reader to package identity, winner family, and canonical page.</td><td>The reader is forced to guess which artifact to open first.</td></tr>
+          <tr><td><code>CALIBRATION.md</code></td><td>MUST publish package-level self-judgment, remaining gaps, and reusable lessons.</td><td>Package-level judgment survives only in chat memory.</td></tr>
+          <tr><td><code>manifests/package-manifest.md</code></td><td>MUST freeze identity, naming discipline, and root provenance.</td><td>The package can look equivalent to another timestamp while not preserving the same closure.</td></tr>
+          <tr><td><code>prompt/input-snapshot.md</code></td><td>MUST preserve the exact root-level prompt / provenance snapshot.</td><td>Later relearning cannot separate root guidance from lower run-local influence.</td></tr>
+          <tr><td><code>review/final-self-review.md</code></td><td>MUST keep one short final package judgment and trust note.</td><td>The final retained stance is diffused across lower files.</td></tr>
+          <tr><td><code>review/round-pretraining-brief.md</code></td><td>Conditional: keep one thin pre-training brief only when sequential reopen materially shaped launch pressure, benchmark restraint, or branch-memory reuse.</td><td>Pre-training conclusions survive only in chat memory or are rediscovered expensively from scratch.</td></tr>
         </tbody>
       </table>
+      <pre><code>package closure invalid unless
+  -> root closure carriers exist and are current
+  -> canonical analysis exists and is current
+  -> render proof exists when the page changed
+  -> at least one kept run is countable
+  -> active-window accounting is explicit
+  -> winner naming agrees across root / analysis / runs</code></pre>
     </details>
     <details class="subdetails">
       <summary>
-<span class="summary-title">2.5 Package memory and retained outputs</span>
-        <span class="sumhint">what the package preserves for later comparison</span>
+<span class="summary-title">2.3 Root-level placement</span>
+        <span class="sumhint">what stays root-level and what must not be nested lower</span>
       </summary>
       <div class="quickmap">
-        <b>Current round package</b><span>Keep the active round under <code>AUDIT_OUTPUT_PATH_PATTERN</code> with canonical analysis, history, and governed runs together.</span>
-        <b>Kept run memory</b><span>Each kept run must remain independently reviewable through its own summary, validation bundle, ATF audit slice, and when relevant its own compact git-derived delta.</span>
-        <b>Older docs memory</b><span>Prior <code>docs/out</code> packages remain comparison and relearning input; reopen them intentionally when they help the current run close truth faster or preserve code evolution more honestly.</span>
+        <b>Keep at root</b><span>Package identity, final winner naming, package-level self-review, and the short explanation of why this timestamp still matters overall.</span>
+        <b>Push lower</b><span>Run-local proof, run-local scoring, run-local validation, and changed-code provenance belong in lower clusters.</span>
+        <b>Prompt and review restraint</b><span>Preserve only the root prompt snapshot and the package-level review that materially shaped the package.</span>
+        <b>Nesting rule</b><span>Do not infer nesting from prose. Root-level carriers remain root-level unless the artifact spine explicitly places them lower.</span>
       </div>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">2.4 Root refresh discipline</span>
+        <span class="sumhint">what must update when package-level truth changes</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Stale-state detector</th>
+            <th>MUST refresh here</th>
+            <th>Fail signal if left stale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Canonical page changed materially</td><td><code>README.md</code>, <code>CALIBRATION.md</code>, <code>manifests/package-manifest.md</code>, and root review note.</td><td>The canonical package page says one thing while root closure still names older truth.</td></tr>
+          <tr><td>Winner package or winning kept run changed</td><td>Root carriers plus the winning run summary and review spine.</td><td>Only the newest run folder shows the new truth.</td></tr>
+          <tr><td>Prompt or audit stance changed</td><td><code>prompt/input-snapshot.md</code> and root review note.</td><td>Prompt provenance still points to a prior package logic.</td></tr>
+          <tr><td>Kept-run set changed</td><td><code>README.md</code>, <code>CALIBRATION.md</code>, and history index if it cites run counts or winner displacement.</td><td>Run references or kept-run counts no longer match disk.</td></tr>
+        </tbody>
+      </table>
     </details>
   </div>
 
   <div class="card">
-    <h2>3) Quality, Scoring, And Audit Support</h2>
+    <h2>3) Analysis Cluster</h2>
+    <details class="subdetails" open>
+      <summary>
+<span class="summary-title">3.1 Analysis Cluster</span>
+        <span class="sumhint">canonical page, render truth, and later history</span>
+      </summary>
+<pre><code>analysis cluster
+  analysis/langgraph-business-understanding.html
+  analysis/canonical-render-check.png
+  analysis/history/
+  analysis/history/round-support/</code></pre>
+    </details>
     <details class="subdetails">
       <summary>
-<span class="summary-title">3.1 Shared constants and quality-control bindings</span>
+<span class="summary-title">3.2 Canonical page and render proof</span>
+        <span class="sumhint">what the analysis cluster must preserve before package truth is trusted</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Analysis artifact</th>
+            <th>Minimum required</th>
+            <th>Invalid if missing or stale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>analysis/langgraph-business-understanding.html</code></td><td>MUST be the canonical package page for the timestamp package.</td><td>Another artifact silently behaves like the real package page.</td></tr>
+          <tr><td><code>analysis/canonical-render-check.png</code></td><td>MUST be regenerated if the canonical page changed and render verification is claimed.</td><td>Visual closure is claimed with stale, missing, or unrelated render proof.</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">3.3 History location under analysis</span>
+        <span class="sumhint">where history lives; section 7 decides when it is allowed</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>History carrier</th>
+            <th>Keep it as</th>
+            <th>Location rule</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>analysis/history/index.html</code></td><td>Earned</td><td>Use as the top history index only when history is still allowed by section <code>7</code>.</td></tr>
+          <tr><td><code>analysis/history/round-support/</code></td><td>Conditional</td><td>Keep only named support that history later points to.</td></tr>
+          <tr><td><code>analysis/history/iteration-##-*.html</code></td><td>Earned</td><td>Keep only milestone pages that survived as later timestamp memory.</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>4) Kept-Run Cluster</h2>
+    <details class="subdetails" open>
+      <summary>
+<span class="summary-title">4.1 Kept-Run Cluster</span>
+        <span class="sumhint">the smallest full unit of governed execution</span>
+      </summary>
+<pre><code>kept-run cluster
+  runs/run_##/SUMMARY.md
+  runs/run_##/manifests/run-manifest.md
+  runs/run_##/prompt/prompt-manifest.md
+  runs/run_##/review/
+  runs/run_##/validation/
+  runs/run_##/atf/</code></pre>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">4.2 Minimum kept-run shape</span>
+        <span class="sumhint">what every governed run package must contain before it counts as preserved</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Run artifact</th>
+            <th>Minimum required</th>
+            <th>Invalid if missing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>runs/run_##/SUMMARY.md</code></td><td>MUST explain what the run changed, proved, and why it was kept.</td><td>The run cannot be reopened cold as a unit.</td></tr>
+          <tr><td><code>runs/run_##/manifests/run-manifest.md</code></td><td>MUST freeze run identity and run-local provenance.</td><td>Run identity and lineage become guesswork.</td></tr>
+          <tr><td><code>runs/run_##/prompt/prompt-manifest.md</code></td><td>MUST preserve exact prompt files that materially shaped the run.</td><td>Prompt influence cannot be audited later.</td></tr>
+          <tr><td><code>runs/run_##/review/</code></td><td>MUST carry run judgment, score support, baselines, and caps when they materially mattered.</td><td>Standing and retained-vs-thin judgment cannot be recomputed.</td></tr>
+          <tr><td><code>runs/run_##/validation/</code></td><td>MUST hold decisive reopenable proof.</td><td>The run can sound real without direct evidence.</td></tr>
+          <tr><td><code>runs/run_##/atf/</code></td><td>MUST hold changed-test, support, iteration, and materialization deltas when the run used them.</td><td>Changed-code plus-value collapses into prose.</td></tr>
+        </tbody>
+      </table>
+      <pre><code>kept run invalid unless
+  -> SUMMARY.md exists
+  -> run-manifest exists
+  -> prompt-manifest exists
+  -> review score support exists when the run is counted
+  -> validation bundle exists
+  -> atf/support delta carrier exists when code or support changed</code></pre>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">4.3 Review and scoring spine</span>
+        <span class="sumhint">what a later reader must recover without guesswork</span>
+      </summary>
+<pre><code>minimum run scoring spine
+  SUMMARY.md
+  review/run-delta-score.md
+  review/run-delta-baselines.md      (when comparative pressure mattered)
+  review/run-delta-cap-triggers.md   (when floors or caps fired)
+  review/target-identity-note.md     (when UI identity was not obvious)</code></pre>
+      <div class="quickmap">
+        <b>Judge the run fast</b><span>Keep one run verdict, one score line, and one cap line.</span>
+        <b>Show scoring support</b><span>Expose baselines and cap triggers whenever the run is counted in standing.</span>
+        <b>Keep levels distinct</b><span>Run review explains the run; root review explains the package.</span>
+        <b>Match active accounting</b><span>Counted runs and saved review carriers must agree on the active governed-run window.</span>
+      </div>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">4.4 Governed-run counting and freeze</span>
+        <span class="sumhint">what counts as a real run and when the kept package becomes stable</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Counting rule</th>
+            <th>MUST read it this way</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Governed run meaning</td><td>A governed run is a preserved comparison unit such as <code>run_01</code> or <code>run_02</code>, not every raw command or probe inside it.</td></tr>
+          <tr><td>Intermediate attempts</td><td>Promote one into a governed run only if all are true: distinct business or trust delta exists, dedicated validation bundle exists, dedicated <code>SUMMARY.md</code> exists, dedicated score support exists, and later package accounting counts it explicitly inside the active window.</td></tr>
+          <tr><td>Strong diagnostic, incomplete bundle</td><td>If a diagnostic changed causal understanding but still fails the promotion bundle, keep it only in <code>runs/run_##/atf/iteration-ledger.md</code>. Add only the narrowest supporting validation/context note needed to explain winner honesty. If it changes package-level truth or standing, also name it in <code>CALIBRATION.md</code>. Do not count it as a governed run.</td></tr>
+          <tr><td>Freeze rule</td><td>Once a kept run turns green, freeze its summary, review, validation, and manifest before continuing.</td></tr>
+          <tr><td>Anti-inflation</td><td>Do not let repeated probes inside one kept run look like extra governed runs.</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>5) Validation Cluster</h2>
+    <details class="subdetails" open>
+      <summary>
+<span class="summary-title">5.1 Validation Cluster</span>
+        <span class="sumhint">what proves the run actually happened</span>
+      </summary>
+<pre><code>validation cluster
+  command-output.txt
+  command-result.md or .txt
+  rendered proof
+  decisive XML / machine result</code></pre>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">5.2 Decisive validation minimum</span>
+        <span class="sumhint">the smallest trustworthy proof set for one kept run</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Validation carrier</th>
+            <th>Minimum keep</th>
+            <th>Insufficient if</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Command trace</td><td>Keep the exact executed command and raw output when a command actually ran.</td><td>The command scope is only paraphrased later.</td></tr>
+          <tr><td>Command result summary</td><td>Keep one compact result summary that states purpose, scope, and result.</td><td>The result is recoverable only from raw logs.</td></tr>
+          <tr><td>Decisive proof minimum</td><td>Keep one decisive proof minimum; save every rendered, machine-readable, command, or XML carrier that materially supports the winner, cap, or blocker.</td><td>Only summary prose survives even though decisive proof could have been saved directly.</td></tr>
+          <tr><td>Mechanism note</td><td>Keep only when the decisive step sequence or locator truth materially reduces reopen cost.</td><td>The note merely repeats what the saved proof already shows.</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">5.3 Attempt visibility and narrow lineage</span>
+        <span class="sumhint">how to preserve run-local attempt truth without inflating package weight</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Attempt artifact</th>
+            <th>Keep it for</th>
+            <th>Do not turn it into</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>validation/command-output.txt</code></td><td>Cold replay of the exact command scope.</td><td>Forcing the reader to infer command scope from HTML alone.</td></tr>
+          <tr><td><code>atf/iteration-ledger.md</code></td><td>Run-local accounting across internal attempts, corrected assumptions, and kept checkpoints.</td><td>Letting internal attempts masquerade as extra governed runs.</td></tr>
+          <tr><td>Corrected-assumption memory note</td><td>Keep one strong diagnostic that changed causal understanding but was not yet promotable into a governed run. Name it in <code>atf/iteration-ledger.md</code>; if it changes package-level truth or standing, also name it in <code>CALIBRATION.md</code>.</td><td>Counting it as a governed run, letting it replace decisive validation, or scattering it across multiple folders.</td></tr>
+          <tr><td>Contextual proof folders</td><td>Keep only when they explain trust, causality, or blocker lineage that the decisive bundle cannot.</td><td>Dumping all debug bulk into the default validation cluster.</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">5.4 Oversized proof to avoid by default</span>
+        <span class="sumhint">keep debug bulk contextual, not implicit</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Oversized proof temptation</th>
+            <th>Preferred default</th>
+            <th>Escalate only when</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Whole report tree</td><td>Keep one decisive rendered proof and one decisive machine-readable result.</td><td>The bulk tree teaches something the decisive pair cannot explain.</td></tr>
+          <tr><td>Whole dashboard history</td><td>Keep the exact decisive scope first.</td><td>The broader dashboard materially changes causality or trust.</td></tr>
+          <tr><td>Bulky debug dump</td><td>Leave it out of the default kept-run package.</td><td>A named lineage reason proves the smaller decisive bundle is not enough.</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>6) ATF / Support Delta Cluster</h2>
+    <details class="subdetails" open>
+      <summary>
+<span class="summary-title">6.1 ATF / Support Delta Cluster</span>
+        <span class="sumhint">what changed in tests, support, and iteration memory</span>
+      </summary>
+<pre><code>atf / support delta cluster
+  generated-tests-summary.md
+  shared-support-summary.md
+  validation-summary.md
+  iteration-ledger.md
+  test-materialization-score.md
+  git-derived/</code></pre>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">6.2 Delta interpretation and materialization</span>
+        <span class="sumhint">how this cluster explains plus-value instead of volume</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Artifact</th>
+            <th>MUST make clear</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>generated-tests-summary.md</code></td><td>Which tests were added or expanded, why they matter to business truth, and what they newly defend.</td></tr>
+          <tr><td><code>shared-support-summary.md</code></td><td>Which support or <code>src/main</code> changes materially changed the frontier or made proof durable.</td></tr>
+          <tr><td><code>validation-summary.md</code></td><td>Which validation truth actually carried the run.</td></tr>
+          <tr><td><code>test-materialization-score.md</code></td><td>Whether new tests added semantic value, not just more lines.</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">6.3 Traceability and provenance</span>
+        <span class="sumhint">the minimum delta carriers when code or prompt changed</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Delta carrier</th>
+            <th>MUST preserve</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Changed tests</td><td>Save the exact generated or edited test carriers that materially shaped the run verdict.</td></tr>
+          <tr><td>Changed support</td><td>Save only the support slices that materially lowered reopen cost or changed target identity.</td></tr>
+          <tr><td>Iteration ledger</td><td>Keep the run-local ledger when internal attempts or corrected assumptions materially explain the final winner honesty.</td></tr>
+          <tr><td>Git-derived state</td><td>Save a compact branch-state bundle only when changed code matters to later audit.</td></tr>
+          <tr><td>Prompt provenance</td><td>Save the exact reopened prompt and local feedback files only when they materially shaped the run.</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>7) History Cluster</h2>
+    <details class="subdetails" open>
+      <summary>
+<span class="summary-title">7.1 History Cluster</span>
+        <span class="sumhint">late memory only</span>
+      </summary>
+<pre><code>history cluster
+  analysis/history/index.html
+  analysis/history/round-support/
+  analysis/history/iteration-##-*.html</code></pre>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">7.2 Allowed history only</span>
+        <span class="sumhint">keep history only when later cold understanding still changes</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>History carrier</th>
+            <th>Allow it only when</th>
+            <th>Invalid if it becomes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>analysis/history/index.html</code></td><td>The timestamp still changes later cold interpretation and needs one late entry point.</td><td>A second canonical page or a dump of all prior attempts.</td></tr>
+          <tr><td><code>analysis/history/round-support/</code></td><td>Named support still changes why the timestamp matters later.</td><td>Generic spare notes with no winner / cap / blocker effect.</td></tr>
+          <tr><td><code>analysis/history/iteration-##-*.html</code></td><td>A milestone page still reduces relearning cost later.</td><td>Replayed active accounting or repeated run summaries.</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">7.3 Invalid history signals</span>
+        <span class="sumhint">history stays late and never re-enters the active package window</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Fail signal</th>
+            <th>Treat it this way</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>History starts carrying active proof or score claims</td><td>Move the claim back into the kept run or cut the history carrier.</td></tr>
+          <tr><td>History exists only because “it might help later”</td><td>Cut it; history must still change later cold understanding.</td></tr>
+          <tr><td>Bulk screenshots / XML / notes repeat active validation</td><td>Cut the duplicates; keep only named late-memory support.</td></tr>
+        </tbody>
+      </table>
+      <pre><code>history never re-enters
+  -> active proof
+  -> active standing
+  -> active closure accounting</code></pre>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>8) Ownership, Boundaries, And Handoff</h2>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">8.1 Owner map</span>
+        <span class="sumhint">which layer owns which decision</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Owner</th>
+            <th>Defines</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Execution layer</td><td>Discovers product truth, edits code, validates, and publishes one complete kept run package.</td></tr>
+          <tr><td>Supervising layer</td><td>Reopens memory, prepares fresh-round scope, compares families, and decides retention or benchmark stance.</td></tr>
+          <tr><td>Domain adapter</td><td>Seed choice, frontier heuristics, specialized artifacts, and implementation detail that is not shared across families.</td></tr>
+          <tr><td>This file</td><td>Saved-artifact contract, kept-run package shape, validation minimum, update discipline, rebuild readiness, and handoff honesty.</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">8.2 Handoff boundaries</span>
+        <span class="sumhint">what this file owns and what stays upstream</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Boundary</th>
+            <th>Required stance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Round-entry scope</td><td>Inherit it from <code>QUALITY_LOOP_PATH</code>; do not re-decide family cleanup, winner comparison, or fresh-round pressure here.</td></tr>
+          <tr><td>Execution takeover</td><td>Once scope is prepared, this file owns run execution, saved artifacts, invalidity gates, and package closure.</td></tr>
+          <tr><td>Reusable lesson</td><td>Push reusable run-level lessons back into this shared contract instead of leaving them only in chat or calibration prose.</td></tr>
+          <tr><td>Exact-name discipline</td><td>Keep required carrier names exact when the caller treats the artifact spine as a benchmark contract.</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>9) Quality Controls And Audit Support</h2>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">9.1 Shared constants and quality-control bindings</span>
         <span class="sumhint">which shared values are reopened before the run is judged</span>
       </summary>
 <pre><code>SHARED_CONSTANTS_FILE
@@ -420,7 +794,6 @@ history
 
 reuse from that file:
 - audit output bindings
-- report style binding
 - round target binding
 - decisive proof bindings</code></pre>
       <table>
@@ -428,42 +801,26 @@ reuse from that file:
           <tr>
             <th>Shared binding</th>
             <th>What it controls</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><code>AUDIT_OUTPUT_*</code> + <code>RUN_ARCHIVE_ROOT</code></td><td>Where the timestamped round package lives and where each governed run is stored inside it.</td></tr>
-          <tr><td><code>RUN_EXPECTED_DELTA_QUALITY</code></td><td>The primary per-run quality gate on a <code>0-10</code> scale.</td></tr>
-          <tr><td><code>ROUND_TARGET_TEST_COUNT</code></td><td>The round-level accounting target for how much defended scope was materially turned into new or expanded tests.</td></tr>
-          <tr><td><code>META_ITERATION_COUNT</code></td><td>Loop pressure: how many governed reruns remain acceptable before weak progress needs stronger justification.</td></tr>
-          <tr><td><code>PRIMARY_*_PROOF*</code></td><td>The preferred rendered proof, command trace, command summary, and machine-readable result files.</td></tr>
-          <tr><td><code>REPORT_STYLE_REFERENCE_PATH</code></td><td>The shared stylesheet binding for the reporting family.</td></tr>
-          <tr><td><code>QUALITY_TARGETS</code></td><td>Optional caller-owned evaluation language only; it must not override the shared quality model.</td></tr>
-        </tbody>
-      </table>
-      <div class="note"><b>Timestamp-package reading:</b> the saved artifact root is the full <code>&lt;timestamp&gt;/</code> package under <code>RUN_ARCHIVE_ROOT</code>; <code>analysis/langgraph-business-understanding.html</code> is only its canonical page.</div>
-      <table>
-        <thead>
-          <tr>
-            <th>Binding stance</th>
-            <th>Configurable in <code>shared-constants.properties</code>?</th>
+            <th>Configurable?</th>
             <th>Why</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td><code>RUN_EXPECTED_DELTA_QUALITY</code></td><td>Yes</td><td>It is a policy threshold.</td></tr>
-          <tr><td><code>ROUND_TARGET_TEST_COUNT</code></td><td>Yes</td><td>It is round-level accounting.</td></tr>
-          <tr><td><code>META_ITERATION_COUNT</code></td><td>Yes</td><td>It is loop pressure.</td></tr>
-          <tr><td>Paths and proof bindings</td><td>Yes</td><td>They are repo / adapter wiring.</td></tr>
-          <tr><td><code>RUN_DELTA_SCORE_ACTUAL</code> formula</td><td>No</td><td>It must stay stable for comparability and auditability.</td></tr>
-          <tr><td><code>T/B/P/H/C</code> weights</td><td>No</td><td>Changing them locally would silently break score comparability.</td></tr>
-          <tr><td>Floors and caps</td><td>No</td><td>They are anti-inflation rules, not tuning knobs.</td></tr>
-          <tr><td>Artifact naming contract</td><td>No</td><td>Rigid naming is part of cold recompute discipline.</td></tr>
+          <tr><td><code>AUDIT_OUTPUT_*</code> + <code>RUN_ARCHIVE_ROOT</code></td><td>Where the timestamped round package lives and where each governed run is stored. Read the full <code>&lt;timestamp&gt;/</code> folder as the saved artifact root; <code>analysis/langgraph-business-understanding.html</code> is only its canonical package page.</td><td>Yes</td><td>Repo or adapter wiring.</td></tr>
+          <tr><td><code>RUN_EXPECTED_DELTA_QUALITY</code></td><td>The primary per-run quality gate on a <code>0-10</code> scale.</td><td>Yes</td><td>Policy threshold.</td></tr>
+          <tr><td><code>ROUND_TARGET_TEST_COUNT</code></td><td>The round-level accounting target for how much defended scope was materially turned into new or expanded tests.</td><td>Yes</td><td>Round accounting target.</td></tr>
+          <tr><td><code>META_ITERATION_COUNT</code></td><td>Active governed-run window <code>run_01 .. run_N</code>; runs outside it are comparative memory only and must not re-enter active-package accounting or closure claims.</td><td>Yes</td><td>Governed-run hard cap first; loop pressure only as a secondary effect.</td></tr>
+          <tr><td><code>PRIMARY_*_PROOF*</code></td><td>Preferred rendered proof, command trace, command summary, and machine-readable result files.</td><td>Yes</td><td>Proof wiring.</td></tr>
+          <tr><td><code>QUALITY_TARGETS</code></td><td>Optional caller-owned evaluation language only; it must not override the shared quality model.</td><td>Yes</td><td>Caller hint only.</td></tr>
+          <tr><td><code>RUN_DELTA_SCORE_ACTUAL</code> formula</td><td>The stable scoring formula itself.</td><td>No</td><td>Must stay comparable across packages.</td></tr>
+          <tr><td><code>T/B/P/H/C</code> weights</td><td>The stable score weights.</td><td>No</td><td>Changing them locally would silently break comparability.</td></tr>
+          <tr><td>Floors, caps, and artifact naming contract</td><td>Anti-inflation rules and cold-recompute naming discipline.</td><td>No</td><td>They are contract rules, not tuning knobs.</td></tr>
         </tbody>
       </table>
     </details>
     <details class="subdetails">
       <summary>
-<span class="summary-title">3.2 Run-quality threshold and formula</span>
+<span class="summary-title">9.2 Run-quality threshold and formula</span>
         <span class="sumhint">judge one run by verdict-moving delta, not by volume</span>
       </summary>
 <pre><code>quality-control schema
@@ -476,24 +833,8 @@ reuse from that file:
   -> secondary round accounting
      ROUND_TARGET_TEST_COUNT
 
-  -> loop pressure
+  -> active governed-run window
      META_ITERATION_COUNT</code></pre>
-      <table>
-        <thead>
-          <tr>
-            <th>Quality-control item</th>
-            <th>Role now</th>
-            <th>Importance `1-100`</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><code>RUN_EXPECTED_DELTA_QUALITY</code></td><td>Primary run gate.</td><td><code>100</code></td></tr>
-          <tr><td><code>RUN_DELTA_SCORE_ACTUAL</code></td><td>Computed support behind the gate.</td><td><code>98</code></td></tr>
-          <tr><td><code>ROUND_TARGET_TEST_COUNT</code></td><td>Secondary accounting target.</td><td><code>72</code></td></tr>
-          <tr><td><code>META_ITERATION_COUNT</code></td><td>Loop-pressure guard.</td><td><code>64</code></td></tr>
-          <tr><td>new fuzzy overall-quality constant</td><td>Do not add it.</td><td><code>0</code></td></tr>
-        </tbody>
-      </table>
 <pre><code>RUN_DELTA_SCORE_ACTUAL
   = 10 * (
       0.30 * T
@@ -508,7 +849,7 @@ where
   B = branch / depth delta
   P = proof strength delta
   H = benchmark / promotion honesty delta
-  C = closure / publication trust delta
+  C = closure trust delta
 
 clear the run-quality bar only when
   RUN_DELTA_SCORE_ACTUAL >= RUN_EXPECTED_DELTA_QUALITY
@@ -518,28 +859,27 @@ clear the run-quality bar only when
       <table>
         <thead>
           <tr>
-            <th>Component</th>
-            <th>Weight</th>
-            <th>Audit baseline to compare against</th>
+            <th>Scoring item</th>
+            <th>Role or weight</th>
+            <th>Audit baseline or stance</th>
           </tr>
         </thead>
         <tbody>
+          <tr><td><code>RUN_EXPECTED_DELTA_QUALITY</code></td><td>Primary run gate.</td><td>The run must clear this before it reads as verdict-moving.</td></tr>
+          <tr><td><code>RUN_DELTA_SCORE_ACTUAL</code></td><td>Computed support behind the gate.</td><td>Do not invent a fuzzier overall-quality constant above it.</td></tr>
+          <tr><td><code>ROUND_TARGET_TEST_COUNT</code></td><td>Secondary accounting target.</td><td>Tracks breadth converted into tests, not winner quality by itself.</td></tr>
+          <tr><td><code>META_ITERATION_COUNT</code></td><td>Governed-run hard cap and loop-pressure guard.</td><td>Constrains the active package window, not just the score.</td></tr>
           <tr><td><code>T</code> truth delta</td><td><code>0.30</code></td><td>Legacy tests plus the strongest prior kept run.</td></tr>
           <tr><td><code>B</code> branch / depth delta</td><td><code>0.25</code></td><td>The strongest prior kept run on the same branch family.</td></tr>
           <tr><td><code>P</code> proof strength delta</td><td><code>0.20</code></td><td>The prior proof chain for the same claim.</td></tr>
           <tr><td><code>H</code> benchmark / promotion honesty delta</td><td><code>0.15</code></td><td>The prior promotion-risk state and prior baseline decision.</td></tr>
-          <tr><td><code>C</code> closure / publication trust delta</td><td><code>0.10</code></td><td>The prior publication state of the same round family.</td></tr>
+          <tr><td><code>C</code> closure trust delta</td><td><code>0.10</code></td><td>The prior closure state of the same round family.</td></tr>
         </tbody>
       </table>
-      <div class="quickmap">
-        <b><code>cleared</code></b><span>The run changed round-level judgment in a way a future reader would still care about.</span>
-        <b><code>still thin</code></b><span>The run may still be useful, but mainly as retained confidence, bounded replay, package repair, or local hardening.</span>
-        <b>Floors and caps</b><span>Use them to stop polished replay, weak proof, or cosmetic closure from inflating the run score.</span>
-      </div>
     </details>
     <details class="subdetails">
       <summary>
-<span class="summary-title">3.3 Test-materialization quality</span>
+<span class="summary-title">9.3 Test-materialization quality</span>
         <span class="sumhint">judge the added tests themselves, not the whole run</span>
       </summary>
 <pre><code>TEST_MATERIALIZATION_QUALITY_SCORE
@@ -568,1242 +908,401 @@ where
     </details>
     <details class="subdetails">
       <summary>
-<span class="summary-title">3.4 Audit support and scoring artifacts</span>
-        <span class="sumhint">what must be saved so a later prompt can recompute quality cold</span>
+<span class="summary-title">9.4 Central validity contract</span>
+        <span class="sumhint">the smallest saved bundle that still counts</span>
       </summary>
+<pre><code>count only when
+  package valid   -> root closure + canonical + render proof + counted run agree
+  kept run valid  -> summary + manifests + decisive validation agree
+  proof sufficient -> every materially deciding carrier is saved
+  history earned  -> later cold understanding still changes</code></pre>
       <table>
         <thead>
           <tr>
-            <th>Minimum viable scoring bundle</th>
-            <th>Keep this under pressure</th>
+            <th>Hard gate</th>
+            <th>Minimum keep</th>
+            <th>Fail when</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Run-quality minimum</td><td><code>run_##/SUMMARY.md</code> keeps one compact <code>RUN_DELTA_SCORE_ACTUAL</code> line with <code>T/B/P/H/C</code>, a short verdict, and <code>POST-GREEN FREEZE COMPLETE: yes/no</code>.</td></tr>
-          <tr><td>Test-quality minimum</td><td>When tests changed materially, keep one short <code>TEST_MATERIALIZATION_QUALITY_SCORE</code> line and one short assertion-value note.</td></tr>
-          <tr><td>Proof minimum</td><td>Keep one decisive rendered proof anchor, one command summary, and one machine-readable result anchor.</td></tr>
-          <tr><td>UI target-identity minimum</td><td>When UI reread or reopen relies on row/card identity, keep one short target-identity note naming the unique anchor actually used.</td></tr>
+          <tr><td>Package valid unless</td><td><code>README.md</code>, <code>CALIBRATION.md</code>, canonical page, render proof when HTML changed, root manifest/prompt/review carriers, and one countable kept run.</td><td>The timestamp can be found on disk but still cannot be closed honestly.</td></tr>
+          <tr><td>Kept run valid unless</td><td>Run summary, run manifest, prompt manifest, decisive command/result carriers, decisive proof artifact, and review support when standing is published.</td><td>The run sounds real but cannot be reopened or judged cold.</td></tr>
+          <tr><td>Proof sufficient only when</td><td>At least one decisive proof exists and every rendered, machine-readable, command, or XML carrier that materially decides winner, cap, blocker, or score is saved.</td><td>Only summary prose survives even though decisive proof carriers existed.</td></tr>
+          <tr><td>History earned only when</td><td>Late memory still changes why the timestamp matters.</td><td>History becomes a dump, repeats active accounting, or adds no later judgment value.</td></tr>
         </tbody>
       </table>
-<pre><code>run_##/
-  SUMMARY.md
-  review/run-delta-score.md
-  review/run-delta-baselines.md
-  review/run-delta-cap-triggers.md
-  review/target-identity-note.md
-  atf/generated-tests-summary.md
-  atf/shared-support-summary.md
-  atf/run-delta-score.json
-  validation/validation-summary.md
-  validation/target-identity-proof/</code></pre>
-      <table>
-        <thead>
-          <tr>
-            <th>Named score-support artifact</th>
-            <th>When it becomes required</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><code>review/run-delta-score.md</code></td><td>When the run score is reused for benchmark comparison, retention conflict, shadow scoring, or later promotion debate.</td></tr>
-          <tr><td><code>review/run-delta-baselines.md</code></td><td>When <code>P</code>, <code>H</code>, or <code>C</code> materially carry the score.</td></tr>
-          <tr><td><code>review/run-delta-cap-triggers.md</code></td><td>When any floor or cap materially changed the score.</td></tr>
-          <tr><td><code>review/target-identity-note.md</code></td><td>When UI proof depends on repeated rows/cards/previews and the target anchor is not obviously unique.</td></tr>
-        </tbody>
-      </table>
-      <div class="note"><b>Exact-name gate:</b> once a family uses a <code>P1</code> artifact spine as benchmark, do not downgrade required carriers into vague “equivalent bundle” language during live execution. For hard gates, prefer the exact filenames above and name the trigger explicitly when one stays conditional.</div>
-      <div class="warn"><b>Shadow-scoring gate:</b> do not call the model hard-contract ready until two cold readers can reproduce the same clear / thin verdict from the saved artifact set without local reinterpretation.</div>
     </details>
   </div>
 
   <div class="card">
-<h2>4) Flow Maps And Package Schemes</h2>
-    <details>
+<h2>10) Validity Shortcut</h2>
+    <details open>
       <summary>
-<span class="summary-title">4.1 Run package quick view and closure minimum</span>
+<span class="summary-title">10.1 Trust this package only after these gates</span>
         <span class="badge">MAP</span>
-        <span class="sumhint">compact checklist before the denser semantic contract</span>
+        <span class="sumhint">shortest route from package identity to valid counted truth</span>
       </summary>
-      <table>
-        <thead>
-          <tr>
-            <th>Package part</th>
-            <th>Minimum expectation</th>
-            <th>Why it exists</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Round root</td><td><code>README.md</code>, <code>CALIBRATION.md</code>, <code>analysis/</code>, <code>runs/</code></td><td>keeps the canonical page, round commentary, and governed runs together; missing root <code>README.md</code> or <code>CALIBRATION.md</code> makes the timestamp package closure-incomplete</td></tr>
-          <tr><td>Root memory spine</td><td><code>manifests/package-manifest.md</code>, root <code>prompt/</code>, root <code>review/</code></td><td>lets a later prompt rebuild the package stance and prompt provenance without chat memory</td></tr>
-          <tr><td>Every kept run</td><td><code>SUMMARY.md</code>, <code>validation/</code>, <code>atf/</code></td><td>keeps the run independently reviewable later</td></tr>
-          <tr><td>Run scoring spine</td><td><code>run-manifest.md</code>, <code>run-delta-score.md</code>, and when relevant test-materialization support</td><td>lets a later prompt rebuild harsh score cards and historical accounting without guessing</td></tr>
-          <tr><td>Changed-code run</td><td><code>atf-generated/</code> plus full <code>git-derived/</code></td><td>shows what code changed and how that run differs from the current branch baseline</td></tr>
-          <tr><td>Prompt provenance</td><td>compact <code>prompt/</code> bundle only for files actually reopened</td><td>shows which instructions really shaped the run</td></tr>
-          <tr><td>Render closure</td><td><code>analysis/canonical-render-check.png</code> when verification is claimed</td><td>proves the canonical page was reopened and visually checked</td></tr>
-        </tbody>
-      </table>
-    </details>
-    <div class="warn"><b>Round-root closure guard:</b> do not treat a timestamp package as publishable when the root is missing <code>README.md</code>, missing <code>CALIBRATION.md</code>, or split across side paths that hide the canonical page from the round commentary.</div>
-    <details>
-      <summary>
-<span class="summary-title">4.2 Minimum sufficient run package</span>
-        <span class="badge">MAP</span>
-        <span class="sumhint">the shortest closure checklist before a run can be judged later</span>
-      </summary>
-      <table>
-        <thead>
-          <tr>
-            <th>Trigger</th>
-            <th>Required artifacts</th>
-            <th>Why missing means not fully closed</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Always</td><td><code>SUMMARY.md</code>, <code>validation/command-result.md</code>, <code>validation/command-output.txt</code>, one decisive rendered proof link, and one decisive machine-readable result link</td><td>without these, the run cannot be reopened or judged quickly</td></tr>
-          <tr><td>Prompt guidance reopened</td><td>compact <code>prompt/</code> bundle with only the files that actually shaped the run</td><td>later comparison cannot explain which instructions changed behavior</td></tr>
-          <tr><td>Code changed materially</td><td><code>git-derived/</code> plus <code>atf-generated/</code> for the changed slices</td><td>the run may look stronger than it is because provenance and changed-code truth stay hidden</td></tr>
-          <tr><td>Review or packaging judgment mattered</td><td><code>review/</code> and any required <code>manifests/</code> outputs</td><td>closure reasoning becomes too thin for later audit or package displacement</td></tr>
-          <tr><td>Render verification claimed</td><td><code>analysis/canonical-render-check.png</code></td><td>visual closure is asserted without local proof</td></tr>
-        </tbody>
-      </table>
-      <div class="note"><b>Closure rule:</b> if one of these conditions was true and the matching artifact is missing, the run is still useful, but the package is not fully closed.</div>
-      <div class="warn"><b>Fully-closed claim guard:</b> do not let a run read as <code>contract fully closed = yes</code> while any triggered artifact above is still missing or while first-screen/report closure text still contradicts the package state.</div>
-      <div class="warn"><b>Freeze rule:</b> after a kept run turns green, stop before any new command and freeze the local bundle first: save validation proof, write <code>SUMMARY.md</code>, write run scoring/review files, and update the run manifest. Only then continue.</div>
-      <div class="note"><b>Freeze marker:</b> a kept run is not frozen until <code>SUMMARY.md</code> explicitly says <code>POST-GREEN FREEZE COMPLETE: yes</code>. If that line is missing or still <code>no</code>, the next command is not yet allowed.</div>
-      <div class="note"><b>Root-skeleton rule:</b> create the round-root spine early enough that <code>README.md</code>, <code>CALIBRATION.md</code>, root <code>analysis/</code>, and the root memory helpers are not deferred to the last packaging pass.</div>
-      <div class="note"><b>Root marker:</b> a timestamp package is not root-complete until root <code>README.md</code> explicitly says <code>ROOT PACKAGE SKELETON COMPLETE: yes</code>. If that line is missing or still <code>no</code>, the package is not closure-ready yet.</div>
-      <table>
-        <thead>
-          <tr>
-            <th>P1 artifact spine gate</th>
-            <th>Required exact carrier</th>
-            <th>May stay conditional only when...</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Root closure</td><td><code>manifests/package-manifest.md</code>, <code>prompt/input-snapshot.md</code>, <code>review/final-self-review.md</code></td><td>never; these are root-cold carriers, not optional helpers</td></tr>
-          <tr><td>Kept-run scoring</td><td><code>review/run-delta-score.md</code></td><td>never for any kept run that influences comparison, promotion, or canonical score cards</td></tr>
-          <tr><td>Comparative carry</td><td><code>review/run-delta-baselines.md</code></td><td>the run score did not materially depend on comparative baseline pressure</td></tr>
-          <tr><td>Cap honesty</td><td><code>review/run-delta-cap-triggers.md</code></td><td>no floor or cap materially changed the score</td></tr>
-          <tr><td>Command provenance</td><td><code>run-command.txt</code> or an equally explicit command carrier named in the run manifest</td><td>never as an unnamed implication hidden inside prose</td></tr>
-          <tr><td>Per-run history support</td><td><code>analysis/history/round-support/</code> under the kept run when the run materially changed benchmark hierarchy or family learning</td><td>the run truly adds no benchmark-memory or lineage-learning value, and that non-applicability is stated explicitly</td></tr>
-        </tbody>
-      </table>
-      <div class="warn"><b>P1 gate rule:</b> if these carriers are still missing, the family is not yet in a legitimate <code>reporting-only refinement</code> phase. Keep repairing the real package first; do not hide missing kept-run structure behind a prettier canonical page.</div>
-      <div class="note"><b>Reporting-only boundary:</b> once the artifact spine is already <code>&gt;95</code> and the missing work is mainly first-screen calm, history density, or package-manifest authority, a later experiment may clone the package and refine only reporting-facing files. That phase must not create new proof, rerun product behavior, or backfill missing kept-run carriers that should have been created in the real run.</div>
-<pre><code>cold audit open order
-  1. root README.md
-  2. root CALIBRATION.md
-  3. root canonical analysis
-  4. root package-manifest.md
-  5. latest kept SUMMARY.md
-  6. latest kept run-delta-score.md
-  7. latest kept command-result.md
-  8. latest kept command-output.txt
-  9. latest kept rendered proof
- 10. latest kept decisive XML / machine result</code></pre>
-    </details>
-    <details>
-      <summary>
-<span class="summary-title">4.3 Loop shape in one view</span>
-        <span class="badge">MAP</span>
-        <span class="sumhint">how one round turns into trusted memory</span>
-      </summary>
-<pre><code>round-entry scope prepared
-        ->
-new docs/out/&lt;timestamp&gt; created
-        ->
-run_01 .. run_0N preserved under one round
-        ->
-delta / proof-origin / retained-close decided by evidence
-        ->
-package preserved for next round memory
-</code></pre>
-      <table>
-        <thead>
-          <tr>
-            <th>Loop-shape guardrail</th>
-            <th>MUST read it this way</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Round boundary</td><td>Treat the boundary between rounds as the supervising handoff point for the next active package.</td></tr>
-          <tr><td>Within-round continuity</td><td>Preserve the active ATF context and audited class evolution inside one round.</td></tr>
-          <tr><td>Package ownership</td><td>Let this file own package tree, retained-package truth, and retention discipline.</td></tr>
-          <tr><td>Owner-boundary restraint</td><td>Do not let this file become a second owner of business graphs or repo-specific exploration strategy.</td></tr>
-        </tbody>
-      </table>
-    </details>
-    <details>
-      <summary>
-<span class="summary-title">4.4 One-view rerun diagram</span>
-        <span class="badge">MAP</span>
-        <span class="sumhint">what the next rerun should do after scope is prepared</span>
-      </summary>
-<pre><code>round-entry scope prepared
-        ->
-reopen OUT_FEEDBACK_FILE
-        ->
-new AUDIT_OUTPUT_PATH_PATTERN created
-        ->
-discovery / execution rebuilds run_01 .. run_0N
-        ->
-iterative core reviews package and lessons
-        ->
-shared prompt or standard changes only if reusable
-        ->
-package preserved
-        ->
-next rerun starts from newly prepared scope
-        ->
-compare against strongest retained package
-</code></pre>
+<pre><code>root package trusted?
+  -> 2.2
+kept run trusted?
+  -> 4.2
+decisive proof sufficient?
+  -> 5.2
+counting honest?
+  -> 11.3 + 13.4
+final close-out ready?
+  -> 14.1</code></pre>
     </details>
   </div>
 
   <details>
     <summary>
-<span class="summary-title">5) Run execution contract</span>
-      <span class="sumhint">everything this file must govern for one run</span>
+<span class="summary-title">11) Run execution contract</span>
+      <span class="sumhint">what a governed run must know before it starts and before it stops</span>
     </summary>
     <details class="subdetails">
       <summary>
-<span class="summary-title">5.1 Reopen and normalize run inputs</span>
-        <span class="sumhint">everything one run needs before real execution begins</span>
+<span class="summary-title">11.1 Run-start memory and execution scope</span>
+        <span class="sumhint">reopen only the memory that sharpens the current move</span>
       </summary>
-      <div class="note"><b>Run-start rule:</b> this section should be enough to reopen memory, frontier pressure, and execution scope for one governed run without falling back to the supervising document for per-run decisions.</div>
-      <details class="subdetails">
-      <summary>
-<span class="summary-title">5.1.1 Run-start memory and execution scope</span>
-        <span class="sumhint">what one run should reopen and what should stay only as context</span>
-      </summary>
-      <pre><code>shared constants first
-  -> docs/out/README.md as active branch memory
-  -> strongest relevant prior package artifacts
-  -> strongest relevant html-ex exemplar only when comparison pressure is real
-  -> local feedback / active adapter / orchestration / reporting
-  -> decisive benchmark-memory only
-  -> prior changed slices only if they shorten truth discovery
-  -> next-best alternative frontier named before coding starts
-  -> code and validation happen after the memory order is stable</code></pre>
+<pre><code>shared constants first
+  -> docs/html-ex
+  -> docs/html-ex/README.md
+  -> docs/out
+  -> docs/out/README.md as active branch-memory guide
+  -> relevant docs/out/&lt;timestamp&gt;/ packages
+  -> decisive package artifacts
+  -> relevant git-derived memory per package / project
+  -> local feedback / active adapter / shared contracts
+  -> code and validation happen after scope is stable</code></pre>
       <table>
         <thead>
           <tr>
-            <th>Run-start memory rule</th>
-            <th>What one run should do</th>
+            <th>Run-start rule</th>
+            <th>Required move</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Reopen branch memory first</td><td>Start from <code>docs/out/README.md</code>: identify the active package, current benchmark-memory, displaced or companion memory, carry-forward risks, and any explicit weak-spot warning before choosing the next frontier.</td></tr>
-          <tr><td>Reopen strongest prior package artifacts</td><td>Before execution, inspect the strongest relevant older package artifacts, not just recollected conclusions: canonical page, kept-run summaries, validation anchors, and calibration notes when they materially shape the next move.</td></tr>
-          <tr><td>Reopen <code>html-ex</code> only under comparison pressure</td><td>If benchmark authority, promotion pressure, or reporting shape is in question, reopen the strongest relevant <code>docs/html-ex</code> exemplar explicitly and treat it as comparison memory, not as silent template copying.</td></tr>
-          <tr><td>Reopen active guidance</td><td>Reopen <code>OUT_FEEDBACK_FILE</code>, the active domain adapter, the supervising standard, this orchestration standard, and the reporting standard when they materially shape the run.</td></tr>
-          <tr><td>Reopen benchmark memory selectively</td><td>Reopen only the prior packages, changed slices, git-derived summaries, or exemplar pages that actually help the current run close truth faster or more honestly.</td></tr>
-          <tr><td>Keep active versus memory distinct</td><td>Treat older packages as relearning memory, not as silent active code carry-over or as automatic winners.</td></tr>
-          <tr><td>Name inherited influence</td><td>If an older package, reference memory, or exemplar directly shaped the plan, say so later in the kept run package.</td></tr>
-          <tr><td>Scope one run clearly</td><td>One run should know its starting clue, target frontier, decisive proof shape, and next-best alternative frontier before it starts writing code or reports.</td></tr>
-        </tbody>
-      </table>
-      <div class="note"><b>Pre-training rule:</b> run-start execution is not just reopening prompt files. It begins by reopening active branch memory from <code>docs/out/README.md</code>, then the strongest relevant saved package artifacts, and then <code>docs/html-ex</code> only when comparison pressure is real.</div>
-      <table>
-        <thead>
-          <tr>
-            <th>If pre-training already taught this</th>
-            <th>One governed run should preserve it through</th>
-            <th>So the final report can recover</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Which kept run owns which semantic delta</td><td><code>runs/run_##/SUMMARY.md</code> + <code>run-manifest.md</code></td><td>Cold run-role and delta mapping.</td></tr>
-          <tr><td>Which new classes or support slices materially changed the frontier</td><td><code>generated-tests-summary.md</code>, <code>shared-support-summary.md</code>, <code>git-derived/</code> when material</td><td>Flow-to-test and code-to-proof mapping.</td></tr>
-          <tr><td>Which blocker stayed thin and prevented false promotion</td><td><code>run-analysis.md</code> + <code>validation-summary.md</code></td><td>Failure / guardrail lineage without re-guessing the blocker later.</td></tr>
-          <tr><td>Which broad replay scope stayed green together</td><td><code>command-result.md</code> + decisive rendered proof + machine result</td><td>Replay family breadth and machine-ceiling honesty.</td></tr>
-          <tr><td>How the round evolved overall</td><td><code>analysis/history/round-support/fan-out-map.md</code> + <code>target-contribution-ledger.md</code></td><td>Automation Coverage Overlay and Iteration Delta View.</td></tr>
+          <tr><td>Reopen branch memory first</td><td>Start from <code>docs/out/README.md</code> and let it guide which older timestamp packages deserve reopening first.</td></tr>
+          <tr><td>Use <code>docs/out/README.md</code> as branch-memory guide</td><td>Read it for conclusions, constructive feedback, saturation warnings, and priority hints before opening timestamp packages one by one.</td></tr>
+          <tr><td>Use <code>html-ex</code> under pressure</td><td>Reopen <code>docs/html-ex</code> and its root <code>README.md</code> when benchmark pressure is real and exemplar authority must be recovered cold.</td></tr>
+          <tr><td>Read timestamp packages in relevance order</td><td>Open <code>docs/out/&lt;timestamp&gt;/</code> only after the root guides have narrowed which family and which packages matter first.</td></tr>
+          <tr><td>Read decisive package artifacts before code</td><td>Use the canonical page, <code>README.md</code>, <code>CALIBRATION.md</code>, decisive validation, and close-out carriers before choosing the next move.</td></tr>
+          <tr><td>Reopen git per relevant package / project</td><td>Use <code>git-derived/</code>, changed tests, changed support, and branch-state notes to learn which older classes and support changes actually moved proof.</td></tr>
+          <tr><td>Choose narrowly</td><td>Prefer one primary teacher and at most one bridge teacher for a given run-start gap.</td></tr>
+          <tr><td>Keep active versus memory distinct</td><td>Treat older packages as relearning memory, not silent active winners.</td></tr>
+          <tr><td>Scope one run clearly</td><td>Know the starting clue, target frontier, decisive proof shape, and next-best alternative frontier before coding starts.</td></tr>
         </tbody>
       </table>
     </details>
     <details class="subdetails">
       <summary>
-<span class="summary-title">5.1.2 Stop, pivot, and frontier pressure</span>
-        <span class="sumhint">when the round must keep exploring</span>
+<span class="summary-title">11.1.1 Governed pre-training brief</span>
+        <span class="sumhint">the saved audit artifact that distills pre-training before a fresh round starts</span>
+      </summary>
+<pre><code>minimum good pre-training brief
+  -> what is already strong
+  -> what is already saturated
+  -> what moved truth for real
+  -> what was replay or weak-yield
+  -> what branch-memory / benchmark-memory pressure matters now
+  -> what next-run pressure should stay primary</code></pre>
+      <table>
+        <thead>
+          <tr>
+            <th>Pre-training brief rule</th>
+            <th>Required move</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Preferred artifact</td><td>New packages SHOULD use <code>review/round-pretraining-brief.md</code>. A legacy <code>review/reporting-pretraining-brief.md</code> is acceptable only when it already preserves the same cold conclusions clearly.</td></tr>
+          <tr><td>Owner</td><td><code>ORCHESTRATION_PATH</code> owns the reopen order, the brief, and the decision that the brief is strong enough to launch a fresh governed round.</td></tr>
+          <tr><td>What it must distill</td><td>Distill sequentially reopened memory from <code>docs/html-ex</code>, <code>docs/out</code>, decisive package artifacts, and relevant git-derived memory into one cold launch brief.</td></tr>
+          <tr><td>Git obligation</td><td>Reopen relevant git-derived memory when older changed classes, support deltas, or branch-state moves materially shaped prior proof or the next-run pressure. Extract the minimum old-class / support lesson that the new round must not relearn from zero.</td></tr>
+          <tr><td>Launch gate</td><td>Launch is blocked unless the brief names, at minimum: strong branch, saturated branch, real truth moved, weak-yield replay, and live round pressure.</td></tr>
+          <tr><td>What it must not become</td><td>Do not let it become a second full report, a second full calibration log, or a loose code to-do list.</td></tr>
+          <tr><td>Why it exists</td><td>Lower relearning cost at run start without forcing iterative-core or reporting to reread the full history stack from zero.</td></tr>
+        </tbody>
+      </table>
+<pre><code>brief invalid unless
+  -> strong branch = ...
+  -> saturated branch = ...
+  -> real truth moved = ...
+  -> weak-yield replay = ...
+  -> live round pressure = ...
+  -> launch decision = launch / strengthen first</code></pre>
+      <table>
+        <thead>
+          <tr>
+            <th>Required brief field</th>
+            <th>MUST point back to</th>
+            <th>Invalid if missing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>strong branch</code></td><td>The strongest reopened <code>docs/out/&lt;timestamp&gt;/</code> package, benchmark exemplar, or decisive validation carrier that still teaches the round something real.</td><td>The round launches without naming which existing branch already holds the strongest nearby truth.</td></tr>
+          <tr><td><code>saturated branch</code></td><td>The local branch-memory guide in <code>docs/out/README.md</code> plus the timestamp package or feedback note that proves the branch is already overused or low-yield.</td><td>No branch is explicitly marked as saturated, so replay pressure stays invisible.</td></tr>
+          <tr><td><code>real truth moved</code></td><td>One decisive package artifact, canonical page, or validation/result carrier that proves a prior round moved executable truth rather than packaging only.</td><td>The brief names “progress” without an anchor to preserved proof or package truth.</td></tr>
+          <tr><td><code>weak-yield replay</code></td><td>The prior package, calibration note, or blocker lineage that proves the branch mostly replayed old learning or failed to move defended scope.</td><td>The brief cannot separate real descendants from low-yield repetition.</td></tr>
+          <tr><td><code>live round pressure</code></td><td>The single branch-memory, benchmark-memory, or blocker gap that most strongly justifies the next governed run.</td><td>The brief lists old lessons but never names what pressure now governs launch.</td></tr>
+          <tr><td><code>launch decision</code></td><td>A binary verdict: <code>launch</code> or <code>strengthen first</code>.</td><td>The brief sounds informative but does not decide whether run_01 may start.</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><b>Source-pointer rule:</b> every brief conclusion should point back cold to one source family only: <code>html-ex</code>, <code>docs/out</code>, a decisive package artifact, or <code>git-derived</code>. If <code>git-derived</code> is unavailable, say so explicitly and name the fallback source used instead.</div>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">11.2 Stop, pivot, and coverage pressure</span>
+        <span class="sumhint">when the current governed run must keep exploring or must stop honestly</span>
       </summary>
       <table>
         <thead>
           <tr>
             <th>Decision pressure</th>
-            <th>Primary signal</th>
             <th>Required move</th>
-            <th>Why it matters</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Run-quality bar is real</td><td><code>RUN_EXPECTED_DELTA_QUALITY</code> is not yet honestly cleared by this governed run</td><td>Keep pushing for a verdict-moving delta or pivot to a frontier that can still produce one.</td><td>Stops the run from claiming success after only noise, polite packaging, or shallow replay.</td></tr>
-          <tr><td>Round accounting still matters</td><td><code>ROUND_TARGET_TEST_COUNT</code> still has open gap</td><td>Keep treating the accounting target as a secondary check on how much defended branch coverage was actually materialized into durable tests across the full round.</td><td>Stops the family from pretending one good proof is enough when reachable frontier depth or defended scope still remains open.</td></tr>
-          <tr><td>No premature stop</td><td>Meaningful adjacent frontier still looks reachable</td><td>Keep exploring adjacent continuations, sibling descendants, guarded states, negative branches, downstream continuations, or benchmark-significant gaps.</td><td>Prevents under-coverage when the round still has credible business payoff.</td></tr>
-          <tr><td>Pivot honestly</td><td>Same-frontier retries stopped adding truth, confidence, or reusable mechanism learning</td><td>Pivot laterally and say why the new branch is stronger than another repetition.</td><td>Prevents elegant local polishing from consuming the whole run.</td></tr>
-          <tr><td>Detect loop early</td><td>Retained-close replay, contextual replay, or packaging-only improvement after one good proof already exists</td><td>Treat it as a pivot warning, not automatic permission for another same-family governed run.</td><td>Protects semantic branch coverage and keeps the run from over-investing in one family.</td></tr>
-          <tr><td>Name the pivot signal</td><td>Repeated old-sibling red, no new class growth, no second useful class, only packaging gain, or no stronger descendant truth</td><td>Publish the exact signal that should force the pivot.</td><td>Makes later calibration auditable instead of vague.</td></tr>
-          <tr><td>Protect deeper truth</td><td>Entry or shell success exists but a guarded or downstream continuation still matters</td><td>Do not stop until the deeper continuation is honestly covered, blocked, or deferred.</td><td>Prevents shallow entry success from masquerading as frontier closure.</td></tr>
-          <tr><td>Keep mechanism splits honest</td><td>Authenticated or guarded behavior gets noisy</td><td>Keep entry truth, outer-shell truth, deeper flow truth, and blocked/materialization truth distinct.</td><td>Stops one noisy layer from distorting the whole claim.</td></tr>
-          <tr><td>Accounting-gap truth</td><td>Round stopped below the round-level accounting target</td><td>State which reachable continuations stayed blocked, deferred, duplicate, unsafe, genuinely low-value, or simply not worth another governed run after the quality bar and branch-coverage value were already judged honestly.</td><td>Makes the stop verdict understandable and comparable later.</td></tr>
+          <tr><td>Run-quality bar not honestly cleared</td><td>Keep pushing for a verdict-moving delta or pivot to a frontier that still can produce one.</td></tr>
+          <tr><td>Reachable adjacent frontier still alive</td><td>Keep exploring sibling, negative, guarded, or downstream continuations while business payoff remains credible.</td></tr>
+          <tr><td>Same-frontier retries stopped teaching</td><td>Pivot laterally and say why the new branch is stronger than another repetition.</td></tr>
+          <tr><td>Only packaging gain remains</td><td>Stop calling it executable progress and downgrade it to packaging-only or closure-only truth.</td></tr>
+          <tr><td>Accounting gap remains</td><td>State which reachable continuations stayed blocked, deferred, duplicate, unsafe, or honestly low-value.</td></tr>
         </tbody>
       </table>
     </details>
     <details class="subdetails">
       <summary>
-<span class="summary-title">5.1.3 Iteration evidence handoff</span>
-        <span class="sumhint">what each preserved checkpoint must explain</span>
+<span class="summary-title">11.3 Active-window accounting</span>
+        <span class="sumhint">how the active governed-run window constrains package truth</span>
+      </summary>
+<pre><code>minimum active-window block
+  META_ITERATION_COUNT = N
+  active governed runs counted = run_01 .. run_N
+  kept runs used in active accounting = ...
+  outside-window memory = names only / comparative only / no score credit</code></pre>
+      <table>
+        <thead>
+          <tr>
+            <th>Accounting rule</th>
+            <th>MUST read it this way</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>META_ITERATION_COUNT</code></td><td>Defines the active governed-run window <code>run_01 .. run_N</code> for the package.</td></tr>
+          <tr><td>Active-window block</td><td>Save at minimum: <code>META_ITERATION_COUNT = N</code>, active governed runs counted, kept runs used in active accounting, and outside-window memory as names only / comparative only / no score credit.</td></tr>
+          <tr><td>Outside-window runs</td><td>May remain comparative memory only; they must not re-enter active package accounting, score justification, or closure claims.</td></tr>
+          <tr><td>Intermediate attempts</td><td>Do not become governed runs unless explicitly promoted into their own kept run. Otherwise they may survive only as corrected-assumption memory when they materially explain why the winner stayed honest.</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </details>
+
+  <details>
+    <summary>
+<span class="summary-title">12) Package evolution and rebuild discipline</span>
+      <span class="sumhint">how archives stay honest across reruns and package refinements</span>
+    </summary>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">12.1 Save and update discipline</span>
+        <span class="sumhint">what gets added, what gets refreshed, and what must stay immutable</span>
       </summary>
       <table>
         <thead>
           <tr>
-            <th>Checkpoint explanation</th>
-            <th>What the kept run must say</th>
+            <th>When package truth changes</th>
+            <th>Do this</th>
+            <th>Never do this</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Business change</td><td>What changed in the business model or blocked understanding.</td></tr>
-          <tr><td>Code change</td><td>What changed in tests or support, and whether the change was proof-carrying or only hardening.</td></tr>
-          <tr><td>Decisive proof</td><td>Which decisive validation bundle closed the claim and why.</td></tr>
-          <tr><td>Milestone reason</td><td>Whether a milestone HTML was saved and why it taught enough to survive as memory.</td></tr>
-          <tr><td>Contract lesson</td><td>If the run exposed a reusable prompt weakness, which exact shared or local HTML should absorb the lesson.</td></tr>
-          <tr><td>Next frontier</td><td>The next highest-value safe frontier instead of stopping with only one preserved green point.</td></tr>
+          <tr><td>New timestamp package starts</td><td>Create a fresh round root with its own canonical page and <code>runs/</code>.</td><td>Quietly rewrite an older timestamp package so chronology no longer matches identity.</td></tr>
+          <tr><td>New kept run inside same timestamp</td><td>Add a new <code>run_##</code> folder with its own summary, manifests, review, validation, and ATF slices.</td><td>Overwrite a prior kept run folder and pretend the lineage stayed clean.</td></tr>
+          <tr><td>Package-level judgment changes</td><td>Refresh root carriers and canonical analysis.</td><td>Leave root memory stale while only the newest run folder shows the new winner.</td></tr>
+          <tr><td>History meaning changes</td><td>Refresh history index and earned milestone/history support.</td><td>Hide winner movement only in the latest report.</td></tr>
+          <tr><td>Kept run turns green</td><td>Freeze the local bundle first: save validation proof, write <code>SUMMARY.md</code>, update run scoring/review files, then update the run manifest.</td><td>Keep executing commands against a kept run that has not been frozen yet.</td></tr>
+          <tr><td>Root closure is claimed</td><td>Make root <code>README.md</code>, <code>CALIBRATION.md</code>, and root-cold manifest / prompt / final-review carriers visible together.</td><td>Claim closure while root identity still depends on lower folders or chat memory.</td></tr>
         </tbody>
       </table>
     </details>
     <details class="subdetails">
       <summary>
-<span class="summary-title">5.1.4 Coverage prioritization and dimensions</span>
-        <span class="sumhint">how coverage should widen once a truthful slice exists</span>
+<span class="summary-title">12.2 Cold rebuild test</span>
+        <span class="sumhint">the cold check that proves the saved package is enough</span>
       </summary>
-      <table>
-        <thead>
-          <tr>
-            <th>Coverage lens</th>
-            <th>Prioritize this</th>
-            <th>Avoid this trap</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Signal first</td><td>High-signal user journeys, stable observable contracts, and reusable hardening.</td><td>Shallow pokes, speculative edges, or decorative retries that add little durable truth.</td></tr>
-          <tr><td>Discovery-led</td><td>Coverage that follows discovered behavior and real product shape.</td><td>Assumptions about what a typical UI, API, or service ought to expose.</td></tr>
-          <tr><td>Widen once stable</td><td>Adjacent positive, negative, boundary, recovery, guarded, and downstream continuations after the first trustworthy slice exists.</td><td>Staying forever on the first green slice after it already taught enough.</td></tr>
-          <tr><td>Dimension visibility</td><td>Final reporting that keeps positive, negative, boundary, navigation/state, and regression coverage readable.</td><td>Breadth work that hides the proven-depth core or makes dimensions impossible to compare.</td></tr>
-        </tbody>
-      </table>
-    </details>
-    </details>
-    <details class="subdetails">
-      <summary>
-<span class="summary-title">5.2 Run package shape</span>
-          <span class="sumhint">folders, summaries, validation, and audit slices for one kept run</span>
-      </summary>
-      <pre><code>run purpose becomes code + validation
-  -> decisive artifacts land in validation/
-  -> changed tests/support land in atf/
-  -> short truth lands in SUMMARY.md
-  -> provenance / manifests / review stay reopenable
-  -> round root stays clean: README + CALIBRATION + analysis + runs
-  -> only then can the run claim keepable closure</code></pre>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">5.2.1 Core kept-run folders</span>
-          <span class="sumhint">what makes the package reopenable</span>
-        </summary>
-        <table>
-          <thead>
-            <tr>
-              <th>Run folder</th>
-              <th>Status</th>
-              <th>Purpose</th>
-            </tr>
-          </thead>
-          <tbody>
-          <tr><td><code>run_##/analysis</code></td><td>MUST</td><td>Run-local canonical page, milestone history, score evolution, and target-gap evidence. Keep numbering gap-free: <code>run_01</code>, <code>run_02</code>, ...</td></tr>
-            <tr><td><code>run_##/review</code></td><td>MUST</td><td>Run-specific review artifact and scoring record.</td></tr>
-            <tr><td><code>run_##/prompt</code></td><td>MUST</td><td>Keep <code>prompt-manifest.md</code> plus only the exact prompt and feedback files that shaped the run.</td></tr>
-            <tr><td><code>run_##/manifests</code></td><td>MUST</td><td>Keep/reset manifests plus retention or reference notes.</td></tr>
-<tr><td><code>run_##/validation</code></td><td>MUST</td><td>Keep decisive command/result proof, render checks, screenshots, test results, or an explicit no-validation reason.</td></tr>
-<tr><td><code>analysis/canonical-render-check.png</code></td><td>SHOULD when render verified</td><td>One screenshot proving the final canonical page reopened intact.</td></tr>
-          </tbody>
-        </table>
-      </details>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">5.2.2 Run-local review and audit minimum</span>
-          <span class="sumhint">what a future reader must learn fast</span>
-        </summary>
-        <div class="quickmap">
-          <b>Judge the run fast</b><span>Keep root integrity, one short <code>SUMMARY.md</code>, and one non-empty ATF slice.</span>
-          <b>Keep tests readable</b><span>Organize test and support layers by business intent, not recorder order or helper drift.</span>
-          <b>Keep provenance cold</b><span>Preserve one visible chain from clue to code to command to final proof.</span>
-          <b>Keep coverage honest</b><span>Report only observed truth, map it to flows, and show what stayed partial or blocked.</span>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Run folder</th>
-              <th>Status</th>
-              <th>Purpose</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Round root integrity</td><td>MUST</td><td>Root must visibly contain <code>README.md</code>, <code>CALIBRATION.md</code>, <code>analysis/</code>, and <code>runs/</code>, and root <code>README.md</code> should carry <code>ROOT PACKAGE SKELETON COMPLETE: yes/no</code>.</td></tr>
-            <tr><td>Round root manifest spine</td><td>SHOULD</td><td>Prefer visible root <code>manifests/</code>, <code>prompt/</code>, and <code>review/</code> when the package should reopen without chat memory.</td></tr>
-            <tr><td><code>run_##/SUMMARY.md</code></td><td>MUST</td><td>Keep a short audit entry: purpose, command/result, delta labels, evidence anchor, compact scoring line, and <code>POST-GREEN FREEZE COMPLETE: yes/no</code>.</td></tr>
-            <tr><td><code>run_##/atf</code></td><td>MUST</td><td>Keep a non-empty ATF slice with test/support/validation summaries, attempt ledger, scoring sheets, and changed-code truth.</td></tr>
-            <tr><td>Operator-memory summaries</td><td>SHOULD</td><td>Prefer short support notes such as pivot trigger, fan-out map, target contribution, or surface-vs-flow note.</td></tr>
-            <tr><td>Manifest naming</td><td>SHOULD</td><td>Prefer one short keep/reset manifest and one short promotion or baseline note.</td></tr>
-          </tbody>
-        </table>
-        <div class="note"><b>Finish rule:</b> before a run is keepable, confirm the <b>Minimum sufficient run package</b> checklist from the flow card above.</div>
-        <details class="subdetails">
-        <summary>
-<span class="summary-title">5.2.2.1 Business-oriented test and support organization</span>
-          <span class="sumhint">how generated tests and support layers should stay understandable</span>
-        </summary>
-          <table>
-            <thead>
-              <tr>
-                <th>Test/support shaping topic</th>
-                <th>Prefer this</th>
-                <th>Avoid this drift</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Business-first structure</td><td>Organize generated tests around discovered domains, journeys, actor states, and capabilities.</td><td>Recorder order or accidental implementation sequence.</td></tr>
-              <tr><td>Naming by intent</td><td>Name classes and packages so the defended user intent is obvious before a reader opens the code.</td><td>Names that only mirror technical steps.</td></tr>
-              <tr><td>Mixed-intent split</td><td>Split positive, negative, boundary, recovery, and guarded-state coverage when needed.</td><td>One mixed class that hides which business truth was actually defended.</td></tr>
-              <tr><td>Support-layer role</td><td>Keep adapters, services, validators, fixtures, and helpers as support layers.</td><td>Letting support code absorb the business intent that belongs in tests.</td></tr>
-              <tr><td>Shared hardening</td><td>When <code>src/main</code> changes, name the changed classes, why they changed, and what reusable capability they improved.</td><td>Scattered per-test workarounds or vague shared-layer edits.</td></tr>
-              <tr><td>Determinism</td><td>Harden deterministic session setup when user, cart, account, token, or similar state can leak between tests.</td><td>Framework-v2 abstraction layers or duplicate screenshot/reporting systems.</td></tr>
-              <tr><td>Rerunnable data</td><td>Use unique or collision-safe data where uniqueness matters and keep tests isolated enough for reruns.</td><td>Order-coupled tests or hidden collisions when cleanup is unavailable.</td></tr>
-              <tr><td>Domain honesty</td><td>Use only live domain examples, labels, and flows actually exposed by the application.</td><td>Hardcoded fake product domains.</td></tr>
-            </tbody>
-          </table>
-        </details>
-        <details class="subdetails">
-          <summary>
-<span class="summary-title">5.2.2.2 Traceability and provenance</span>
-            <span class="sumhint">how later readers reconstruct what changed, why it changed, and which proof carried it</span>
-          </summary>
-          <table>
-            <thead>
-              <tr>
-                <th>Traceability topic</th>
-                <th>MUST preserve</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Readable proof chain</td><td>One visible chain from starting clue to changed code, validation command, and final evidence.</td></tr>
-              <tr><td>Reason for each test</td><td>One visible business or hardening reason for every generated or expanded test.</td></tr>
-              <tr><td>Assertion-value trace</td><td>One compact note of the most important new assertions and the defended flow truth they close.</td></tr>
-              <tr><td>Main-layer provenance</td><td>One short summary of meaningful <code>src/main</code> changes and what each class improved.</td></tr>
-              <tr><td>Git-derived branch state</td><td>One compact <code>run_##/atf/git-derived/</code> bundle with branch, head, status, changed paths, patch, and delta summary.</td></tr>
-              <tr><td>Prompt provenance</td><td><code>prompt-manifest.md</code> plus the exact reopened prompt and local feedback files.</td></tr>
-              <tr><td>Relearning memory</td><td>Which older <code>docs/out</code> packages were reopened as changed-class, validation, outcome, or calibration memory.</td></tr>
-              <tr><td>Shared delta labels</td><td>The shared delta summary using <code>Changed now</code>, <code>Inherited proof reused</code>, <code>Validation-only absorption</code>, and <code>Primary evidence anchor</code>.</td></tr>
-              <tr><td>Run-delta scoring sheet</td><td>One compact file with <code>RUN_DELTA_SCORE_ACTUAL</code>, <code>T/B/P/H/C</code>, baselines, caps, and final verdict.</td></tr>
-              <tr><td>Test-materialization scoring sheet</td><td>When tests changed materially, one compact file with <code>TEST_MATERIALIZATION_QUALITY_SCORE</code>, <code>S/A/O/M</code>, key tests, key assertions, and proof anchors.</td></tr>
-            </tbody>
-          </table>
-        </details>
-        <details class="subdetails">
-          <summary>
-<span class="summary-title">5.2.2.3 Observable coverage and report contribution</span>
-            <span class="sumhint">assert only observed truth and keep the flow-to-proof handoff readable</span>
-          </summary>
-          <table>
-            <thead>
-              <tr>
-                <th>Observable-coverage rule</th>
-                <th>Keep it this way</th>
-                <th>Do not let it drift into</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Visible behavior only</td><td>Generate tests and claims only for behavior the live surface actually exposes.</td><td>Invisible product truth inferred from architecture alone.</td></tr>
-              <tr><td>Observable assertions</td><td>Assert only visible outcomes, states, transitions, and artifacts.</td><td>Speculative backend or semantic truth the surface never shows.</td></tr>
-              <tr><td>Entry or shell honesty</td><td>If only the start of a flow is visible, defend that visible start honestly.</td><td>Overclaim the rest of the journey.</td></tr>
-              <tr><td>Business-first mapping</td><td>Map business flows before classes or helper layers and keep statuses such as <code>Covered</code>, <code>Partial</code>, <code>Blocked</code>, and <code>Deferred</code> readable.</td><td>A class-first coverage story that hides what the business flow actually gained.</td></tr>
-              <tr><td>Flow-to-proof chain</td><td>Make each covered or partial flow reconstructible as flow to package to class to test count.</td><td>Coverage claims with no readable proof chain.</td></tr>
-              <tr><td>Frontier honesty</td><td>Keep tentative, duplicate, blocked, and deeper-continuation areas explicit.</td><td>Turning broad exploration into defended business proof.</td></tr>
-              <tr><td>Shared-report contribution</td><td>Update canonical analysis or milestone history only when discovery, confidence, or next-frontier understanding materially changed.</td><td>Decorative milestone churn or helper-layer prose with no retained learning.</td></tr>
-            </tbody>
-          </table>
-          <div class="note"><b>Guardrail:</b> never claim invisible, unsupported, speculative, or merely inferred behavior as defended truth.</div>
-<pre><code>Business Flow -> Test Package -> Test Class -> Test Count</code></pre>
-<pre><code>| Flow | Actor | Entry point | Trigger | Preconditions | Happy path | Alternatives | Negative paths | Postconditions | Observable assertions | ATF coverage | Confidence |
-|---|---|---|---|---|---|---|---|---|---|---|---:|</code></pre>
-        </details>
-      </details>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">5.2.3 Validation and attempt evidence shape</span>
-          <span class="sumhint">what a kept run must make reconstructible</span>
-        </summary>
-        <details class="subdetails">
-          <summary>
-<span class="summary-title">5.2.3.1 Decisive validation minimum</span>
-            <span class="sumhint">keep the shortest trustworthy proof set</span>
-          </summary>
-          <div class="quickmap">
-            <b><code>PRIMARY_RENDERED_PROOF_GLOB</code></b><span><b>MUST when Extent exists.</b> Preferred human-readable proof for the exact decisive scope. Default: <code>validation/reports/ExtentReport_*.html</code>.</span>
-            <b><code>PRIMARY_COMMAND_TRACE_PATH</code></b><span><b>SHOULD when command ran.</b> Default: <code>validation/command-output.txt</code>. Keep the exact executed command at the top.</span>
-            <b><code>PRIMARY_COMMAND_SUMMARY_PATH</code></b><span><b>SHOULD when command ran.</b> Default: <code>validation/command-result.md</code>. <code>.txt</code> is fine if command, purpose, and result stay clear.</span>
-            <b><code>PRIMARY_MACHINE_RESULT_GLOB</code></b><span><b>MUST when available.</b> Default: <code>validation/testng-results.xml</code> or decisive <code>validation/TEST-*.xml</code>. Avoid copying the whole <code>surefire-reports</code> tree.</span>
-            <b>Mechanism note</b><span><b>SHOULD when relevant.</b> Name the decisive step sequence, visible anchors, or locator class.</span>
-            <b>Hydration screenshots</b><span><b>SHOULD when viewer trust mattered.</b> Keep one screenshot proving the report or final HTML reopened locally and was visually checked.</span>
-          </div>
-        </details>
-        <details class="subdetails">
-          <summary>
-<span class="summary-title">5.2.3.2 Attempt visibility and convenience traces</span>
-            <span class="sumhint">reconstruct one run and the whole family quickly</span>
-          </summary>
-          <table>
-            <thead>
-              <tr>
-                <th>Run folder</th>
-                <th>Status</th>
-                <th>Purpose</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr><td><code>run_##/atf/iteration-ledger.md</code></td><td>MUST</td><td>Shows round-wide accounting across attempts and kept runs.</td></tr>
-              <tr><td><code>run_##/atf/git-derived/</code></td><td>SHOULD when code changed</td><td>Keeps compact branch-state truth versus the current branch baseline.</td></tr>
-              <tr><td><code>run_##/atf</code> Raw Attempt Ledger table</td><td>MUST</td><td>Shows internal attempts one row at a time so lineage never looks like extra execution.</td></tr>
-              <tr><td>Optional package-root command index</td><td>MAY</td><td>Keep only a tiny root index when it truly improves reopenability.</td></tr>
-              <tr><td>Contextual-only retries or operator confounders</td><td>MAY when kept</td><td>Keep them under <code>validation/contextual/</code> or only in the Raw Attempt Ledger.</td></tr>
-          </tbody>
-        </table>
-          <div class="note"><b>Reader contract:</b> in under one minute, a reviewer should see which attempt was primary, which artifacts were inherited lineage, and which exact file uniquely represents each real checkpoint.</div>
-          <div class="note"><b>Family-map contract:</b> the canonical analysis must also keep one short family-level attempt map with <code>attempt_id</code>, <code>run_id</code>, <code>meaningful</code>, <code>verdict_changed</code>, <code>one-line truth gained</code>, and <code>primary evidence anchor</code>.</div>
-        </details>
-        <details class="subdetails">
-          <summary>
-<span class="summary-title">5.2.3.3 Oversized history to avoid by default</span>
-            <span class="sumhint">keep debug bulk optional, not implicit</span>
-          </summary>
-          <table>
-            <thead>
-              <tr>
-                <th>Oversized history temptation</th>
-                <th>Prefer this default</th>
-                <th>Keep the bulky tree only when</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Whole <code>surefire-reports</code> tree</td><td>Keep one decisive XML plus the compact validation bundle.</td><td>The extra tree teaches something the decisive XML cannot explain.</td></tr>
-              <tr><td>Full Allure history</td><td>Keep Extent, command trace, command summary, and decisive XML first.</td><td>The longitudinal Allure evidence materially changes trust or causality.</td></tr>
-              <tr><td>Bulky debug dump</td><td>Leave it out of the default kept-run package.</td><td>A named lineage reason requires it and the package explains why the smaller decisive bundle was not enough.</td></tr>
-            </tbody>
-          </table>
-        </details>
-        <details class="subdetails">
-          <summary>
-<span class="summary-title">5.2.3.4 Local evidence contribution and memory reuse</span>
-            <span class="sumhint">what every domain adapter must add without redefining the shared shapes</span>
-          </summary>
-          <div class="quickmap">
-            <b>Fill shared shapes</b><span>The domain adapter must populate the shared run package with local business truth, local coverage interpretation, decisive proof anchors, changed-code slices, and short mechanism-learning notes.</span>
-            <b>Keep proof reopenable</b><span>Each kept run should make the decisive proof reopenable through direct links to the kept package, decisive machine-readable result, rendered proof when relevant, and exact command trace.</span>
-            <b>Explain frontier use</b><span>Make clear which reachable branches were explored, blocked, deferred, duplicated, prioritized next, or skipped in favor of stronger uncovered coverage.</span>
-            <b>Reuse memory honestly</b><span>Say which benchmark artifacts or prior packages were reopened when they shaped the plan, and distinguish changed-now code from inherited proof reuse and validation-only absorption.</span>
-            <b>Do not clone shared rules</b><span>Do not restate generic audit-root, milestone, render, validation-bundle, or retention contracts in the domain adapter once they are already owned here.</span>
-          </div>
-        </details>
-      </details>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">5.2.3.5 Counting MUSTs</span>
-          <span class="sumhint">what is and is not a governed run</span>
-        </summary>
-        <table>
-          <thead>
-            <tr>
-              <th>Counting rule</th>
-              <th>MUST read it this way</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Governed run meaning</td><td>Treat a governed run as an archive-preserved comparison unit such as <code>run_01</code> or <code>run_02</code>.</td></tr>
-            <tr><td>Anti-inflation guard</td><td>Do not count raw Maven commands, narrow proof probes, or repair checks inside that unit as additional governed runs unless they change preserved comparative state and are saved into a new kept run folder.</td></tr>
-          </tbody>
-        </table>
-      </details>
-    </details>
-    <details class="subdetails">
-      <summary>
-<span class="summary-title">5.3 Package evolution, rebuild, and retention discipline</span>
-        <span class="sumhint">how archives stay honest</span>
-      </summary>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">5.3.1 Save and update discipline across reruns</span>
-          <span class="sumhint">what gets added, what gets refreshed, and what must stay immutable</span>
-        </summary>
-        <table>
-          <thead>
-            <tr>
-              <th>When package truth changes</th>
-              <th>Do this</th>
-              <th>Never do this</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>New timestamp package starts</td><td>Create a fresh round root with its own root memory spine, canonical page, and <code>runs/</code>.</td><td>Quietly rewrite an older timestamp package so chronology no longer matches package identity.</td></tr>
-            <tr><td>New kept run inside same timestamp</td><td>Add a new <code>run_##</code> folder with its own summary, manifests, review, validation, and ATF slices.</td><td>Overwrite a prior kept run folder and pretend the family still has clean lineage.</td></tr>
-            <tr><td>Package-level judgment changes</td><td>Refresh root manifests, root review note, README, calibration memory, and the canonical page.</td><td>Leave root package memory stale while only the newest run folder shows the new winner.</td></tr>
-            <tr><td>History meaning changes</td><td>Update <code>analysis/history/index.html</code> and any earned milestone pages so timestamp memory stays aligned with the new retained story.</td><td>Hide winner movement only in the newest report while the history index still points to old truth.</td></tr>
-            <tr><td>Scoring support changes</td><td>Refresh run-local scoring files and any package-level score references that consume them.</td><td>Patch score cards in prose while leaving saved run-delta support behind.</td></tr>
-            <tr><td>Validation proof changes</td><td>Refresh the decisive validation bundle for that kept run and keep machine-readable proof aligned with rendered proof.</td><td>Reuse a stale validation bundle after the decisive scope changed.</td></tr>
-          </tbody>
-        </table>
-      </details>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">5.3.2 Artifact roles by layer</span>
-          <span class="sumhint">what each layer of the package is supposed to remember</span>
-        </summary>
-        <table>
-          <thead>
-            <tr>
-              <th>Artifact layer</th>
-              <th>Primary job</th>
-              <th>Do not let it become</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Round root</td><td>One visible timestamp package with canonical page, calibration memory, manifests, and history.</td><td>A thin shell that forces the reader to dive into run folders to understand what package they opened.</td></tr>
-            <tr><td>Root manifests / prompt / review</td><td>Preserve package identity, prompt provenance, and final package judgment.</td><td>Decorative paperwork detached from the actual canonical page and kept runs.</td></tr>
-            <tr><td><code>run_##/SUMMARY.md</code></td><td>Give the shortest truthful explanation of what that run changed, proved, and why it was kept.</td><td>A narrative essay or vague slogan without proof and scoring spine.</td></tr>
-            <tr><td><code>run_##/review/</code></td><td>Carry run-quality support, baselines, caps, and package-mechanical review truth.</td><td>A place that tries to replace validation or ATF provenance.</td></tr>
-            <tr><td><code>run_##/validation/</code></td><td>Carry the decisive reopenable proof chain.</td><td>A dump of every possible report tree regardless of relevance.</td></tr>
-            <tr><td><code>run_##/atf/</code></td><td>Carry changed-test, shared-support, iteration, git-derived, and test-quality audit slices.</td><td>A decorative folder tree with empty placeholders or copied noise.</td></tr>
-            <tr><td><code>analysis/history/</code></td><td>Carry timestamp memory and round-support memory that survives beyond one kept run.</td><td>A second place that restates the whole report without adding historical function.</td></tr>
-          </tbody>
-        </table>
-      </details>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">5.3.3 Report-only rebuild test</span>
-          <span class="sumhint">the cold check that proves the saved package is enough</span>
-        </summary>
-<pre><code>later calibration prompt opens only saved artifacts
-  -> can it identify the package winner?
-  -> can it explain how the winner displaced prior truth?
-  -> can it reopen decisive proof?
-  -> can it justify harsh score cards from saved score-support?
-  -> can it explain what history still matters at this timestamp?
+<pre><code>later cold reader opens only saved artifacts
+  -> can they identify the package winner?
+  -> can they reopen decisive proof?
+  -> can they recompute retained standing or closure judgment?
+  -> can they explain what historical memory still matters?
 
 if any answer is no
   -> the package is still under-preserved</code></pre>
-        <div class="warn"><b>Regeneration rule:</b> a kept package is <code>report-regeneration ready</code> only if a later prompt can rebuild the final canonical HTML from preserved manifests, run summaries, validation bundle, score-support bundle, history pages, and prompt provenance alone.</div>
-      </details>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">5.3.4 Legacy-equivalent files</span>
-          <span class="sumhint">what older packages may preserve differently without losing audit value</span>
-        </summary>
-        <table>
-          <thead>
-            <tr>
-              <th>Preferred shape now</th>
-              <th>Legacy-equivalent still acceptable</th>
-              <th>Condition</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Root <code>prompt/input-snapshot.md</code></td><td>A root <code>prompts/</code> bundle or copied prompt HTML files</td><td>Accept when the preserved prompt set still makes instruction provenance reconstructible.</td></tr>
-            <tr><td>Root <code>review/final-self-review.md</code></td><td>Package judgment carried mostly in <code>README.md</code> plus <code>CALIBRATION.md</code></td><td>Accept when final package stance and remaining gaps stay explicit and reopenable.</td></tr>
-            <tr><td><code>runs/run_##/review/</code> scoring and review files</td><td><code>runs/run_##/analysis/run-analysis.md</code> plus run-local review files elsewhere</td><td>Accept when the run still has one clear place for run judgment and score support.</td></tr>
-            <tr><td><code>validation/command-result.md</code></td><td><code>validation/surefire.txt</code> or another compact command-result summary</td><td>Accept when exact command scope and exact outcome remain visible.</td></tr>
-            <tr><td>Decisive machine-readable result</td><td><code>validation/surefire.xml</code>, <code>validation/testng-results.xml</code>, or decisive <code>TEST-*.xml</code></td><td>Accept when one exact machine-readable truth file still matches the decisive kept-run scope.</td></tr>
-            <tr><td>Rendered proof under named primary-proof binding</td><td><code>validation/ExtentReport.html</code></td><td>Accept when it is the exact rendered proof for the decisive scope and is locally reopenable.</td></tr>
-            <tr><td>Run-local changed-code slice</td><td>Package-root <code>atf-generated/</code></td><td>Accept for legacy packages when changed-code truth is still reopenable and not confused with newer run-local slices.</td></tr>
-            <tr><td>Run-local prompt bundle</td><td>Copied prompt files directly under <code>run_##/prompt/</code> without a separate manifest</td><td>Accept when the exact files that shaped the run remain obvious.</td></tr>
-          </tbody>
-        </table>
-      </details>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">5.3.5 What every kept run must preserve</span>
-          <span class="sumhint">minimum honesty for weaker and stronger runs</span>
-        </summary>
-        <table>
-          <thead>
-            <tr>
-              <th>Kept-run retention rule</th>
-              <th>Why it matters</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>A kept run must remain understandable even if it lost.</td><td>Losing runs still explain defects, false leads, or repair attempts.</td></tr>
-            <tr><td>Terminal output alone is not enough.</td><td>The run also needs a clear summary and validation bundle.</td></tr>
-            <tr><td>A reviewer should understand the run in under one minute from <code>SUMMARY.md</code> plus its validation bundle.</td><td>This is the minimum reviewability bar.</td></tr>
-            <tr><td>Preserve every distinct defect, repair, rerun, strategy shift, benchmark comparison, or reusable lesson.</td><td>Decorative folders should be completed or removed.</td></tr>
-            <tr><td>The finished round stays on disk for audit.</td><td>Any later cleanup decision is made by the supervising pass before a new active round begins.</td></tr>
-          </tbody>
-        </table>
-      </details>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">5.3.6 Lineage labeling and comparison anchors</span>
-          <span class="sumhint">name inherited memory clearly and link the strongest proof first</span>
-        </summary>
-        <div class="quickmap">
-          <b>Continuation round</b><span>Say <code>continuation round</code> and list inherited runs plus new runs when retained packages were reused directly.</span>
-          <b>Fresh round with anchors</b><span>Label older comparison memory as <code>benchmark-only memory</code> or <code>inherited anchors</code>, not silent active winners.</span>
-          <b>Primary proof order</b><span><code>P1</code> rendered proof, <code>P2</code> command trace, machine result nearby in the same decisive bundle.</span>
-          <b>Contextual only</b><span>Allure or broader dashboards stay contextual unless they truly match the exact decisive scope.</span>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Lineage or anchor topic</th>
-              <th>Preferred move</th>
-              <th>Avoid this read</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Round labeling</td><td>Say clearly whether the package is a continuation round or a fresh round with inherited anchors.</td><td>Silent winner carry-over that hides what was inherited.</td></tr>
-            <tr><td>Human-readable proof first</td><td>Prefer a direct hyperlink to <code>PRIMARY_RENDERED_PROOF_GLOB</code> whenever Extent exists for the exact decisive scope.</td><td>Leading with a broader dashboard or convenience viewer.</td></tr>
-            <tr><td>Command trace second</td><td>Prefer <code>PRIMARY_COMMAND_TRACE_PATH</code> next because it preserves exact command, scope, and outcome wording together.</td><td>A command summary with no raw trace nearby.</td></tr>
-            <tr><td>Machine truth nearby</td><td>Keep <code>PRIMARY_MACHINE_RESULT_GLOB</code> in the same decisive validation bundle.</td><td>Rendered proof with no machine-readable companion.</td></tr>
-            <tr><td>Validation cleanliness</td><td>Keep only verdict-relevant proof in the retained validation folder and leave older lineage in its own run package.</td><td>A mixed folder where decisive proof and contextual lineage blur together.</td></tr>
-            <tr><td>Contextual dashboards</td><td>Treat Allure or broader suite dashboards as contextual lineage unless they truly capture the exact decisive scope and no better local artifact exists.</td><td>Main retained proof that depends on a separate server or regenerated viewer state.</td></tr>
-            <tr><td>Local reopenability</td><td>Make the canonical report readable from local hyperlinks alone.</td><td>Trust reconstruction that assumes a live external viewer.</td></tr>
-          </tbody>
-        </table>
-      </details>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">5.3.7 Counting, anti-inflation, and same-hypothesis retries</span>
-          <span class="sumhint">what deserves preserved weight</span>
-        </summary>
-        <pre><code>raw command or probe
-  -> did it become a preserved comparison checkpoint?
-     no  -> keep it only as attempt lineage
-     yes -> count it inside run-local evidence
-
-governed run
-  -> did it add new proof, real repair, changed trust, or blocker truth?
-     no  -> do not inflate family weight
-     yes -> count it as preserved family evidence
-
-same hypothesis repeated
-  -> still teaching causal truth?
-     yes -> preserve why
-     no  -> stop inflating and pivot or close honestly</code></pre>
-        <table>
-          <thead>
-            <tr>
-              <th>Counting lens</th>
-              <th>What counts as real preserved weight</th>
-              <th>What should stay only lineage or noise</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Governed family accounting</td><td>Explicitly count governed runs kept, intermediate attempts, meaningful iterations, and verdict-changing iterations.</td><td>Flattening everything into one vague "we ran a lot".</td></tr>
-            <tr><td>Run-quality ownership</td><td><code>RUN_EXPECTED_DELTA_QUALITY</code> stays the primary one-run bar and must be read from <code>SHARED_CONSTANTS_FILE</code>.</td><td>Letting a run look strong only because it added volume without a real verdict-moving delta.</td></tr>
-            <tr><td>Computed score support</td><td>Every kept run should preserve a compact <code>RUN_DELTA_SCORE_ACTUAL</code> calculation with component values, cap checks, and cited baselines.</td><td>A run-quality verdict that cannot be recomputed later.</td></tr>
-            <tr><td>What clears the run-quality bar</td><td>A governed run clears the bar only when it adds proof-origin truth, defended branch or descendant depth, meaningful retained-confidence, useful failure-lineage, or publication-quality closure that changes how the family is judged.</td><td>Treating narrow replay, cosmetic cleanup, or unchanged same-hypothesis retries as high-value run output.</td></tr>
-            <tr><td>Round accounting ownership</td><td><code>ROUND_TARGET_TEST_COUNT</code> stays the round-level accounting target and must be read from <code>SHARED_CONSTANTS_FILE</code>.</td><td>Treating the accounting target as a per-run slogan, primary success bar, or decorative ratio.</td></tr>
-            <tr><td>What the accounting target really measures</td><td>How much reachable frontier, descendant, guarded-state, and negative-path coverage was materialized into distinct new or materially expanded tests across the whole round.</td><td>Counting raw commands, local polish, or shallow replay as if they were defended branch coverage.</td></tr>
-            <tr><td>Run-local attempt reconstructibility</td><td>Every preserved <code>run_##</code> keeps a compact Raw Attempt Ledger so a reviewer can tell which attempts were primary, contextual, lineage-only, or non-meaningful.</td><td>Making readers infer attempt count from duplicated Extent files, copied artifacts, or folder sprawl.</td></tr>
-            <tr><td>Run-count anti-inflation</td><td>A counted run needs new proof, exposed defect, confirmed repair, changed trust, or a documented blocked / low-value frontier.</td><td>Alternating engines or report adapters over the same unchanged hypothesis and calling each one a new run.</td></tr>
-            <tr><td>Same-hypothesis replay guard</td><td>Repeat a narrow hypothesis only while it still teaches causal truth, trust movement, or repair value.</td><td>Presenting four near-identical reruns as if they formed a broad family comparison.</td></tr>
-            <tr><td>Final family accounting</td><td>State which kept runs cleared <code>RUN_EXPECTED_DELTA_QUALITY</code>, their <code>RUN_DELTA_SCORE_ACTUAL</code>, which stayed below it and why, what branch coverage or defended scope was actually materialized into tests in total, why any large accounting gap was accepted, which reachable frontier or adjacent continuations stayed open, and why pivot was or was not yet mandatory.</td><td>An accounting note that hides weak run deltas, weak branch coverage, or wasted same-frontier effort.</td></tr>
-            <tr><td>Latest-run bias guard</td><td>The latest run may win only if the preserved family evidence shows it really displaced the previous best.</td><td>Chronology automatically standing in for quality.</td></tr>
-          </tbody>
-        </table>
-      </details>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">5.3.8 Bulk history and contextual debug retention</span>
-          <span class="sumhint">keep decisive bundles small by default</span>
-        </summary>
-        <pre><code>decisive proof already local and exact?
-  yes -> keep the small decisive bundle
-  no  -> add only the extra history needed to explain trust
-
-large debug tree available?
-  -> keep it only when a named lineage or causality reason exists
-
-fresh comparison round starts?
-  -> one explicit active-scope root
-  -> governed runs stay under RUN_ARCHIVE_ROOT</code></pre>
-        <table>
-          <thead>
-            <tr>
-              <th>History / debug topic</th>
-              <th>Preferred default</th>
-              <th>Escalate only when</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Extent preservation</td><td>If Extent reporting is supported, keep each run's rendered <code>ExtentReport_*.html</code> because it is often the strongest reopenable framework-native report between rounds.</td><td>The framework truly has no equivalent local rendered proof for the decisive scope.</td></tr>
-            <tr><td>Historical bulk guard</td><td>Do not preserve whole historical <code>surefire-reports</code> or Allure folders by default; keep only decisive XML or equivalent machine-readable truth plus Extent and command trace.</td><td>A specific debug, lineage, or causality reason is named explicitly and the smaller decisive bundle cannot explain the trust question.</td></tr>
-            <tr><td>Contextual dashboards</td><td>Treat wider dashboards as contextual browsing, not as the main retained proof anchor.</td><td>The exact decisive scope is captured there and no stronger local artifact exists.</td></tr>
-            <tr><td>Fresh-scope root</td><td>Fresh family-comparison or iterative-core validation rounds live under one explicitly named active-scope root, with governed runs under <code>RUN_ARCHIVE_ROOT</code>.</td><td>A local repo convention demands a different named root and the mapping remains explicit.</td></tr>
-          </tbody>
-        </table>
-      </details>
+      <pre><code>cold rebuild fails if
+  -> the later reader cannot identify the winner
+  -> the decisive proof cannot be reopened
+  -> retained accounting cannot be recomputed
+  -> history still matters but no longer explains why</code></pre>
+    </details>
+    <details class="subdetails">
+      <summary>
+<span class="summary-title">12.3 Legacy-equivalent carriers</span>
+        <span class="sumhint">what older packages may preserve differently without losing audit value</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Preferred shape now</th>
+            <th>Legacy-equivalent still acceptable</th>
+            <th>Condition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Root <code>prompt/input-snapshot.md</code></td><td>A root prompt bundle or copied prompt HTML files</td><td>Only if instruction provenance stays cold-reconstructible.</td></tr>
+          <tr><td>Root <code>review/final-self-review.md</code></td><td>Package judgment mostly carried by <code>README.md</code> plus <code>CALIBRATION.md</code></td><td>Only if final stance and gaps remain explicit.</td></tr>
+          <tr><td><code>validation/command-result.md</code></td><td>Another compact command-result carrier</td><td>Only if exact command scope and outcome remain visible.</td></tr>
+          <tr><td>Run-local prompt manifest</td><td>Copied prompt files directly under <code>run_##/prompt/</code></td><td>Only if the exact shaping files remain obvious.</td></tr>
+        </tbody>
+      </table>
     </details>
   </details>
 
   <details>
     <summary>
-<span class="summary-title">6) Improve, reset, rerun, and failure rules</span>
-      <span class="sumhint">how the loop stays honest</span>
+<span class="summary-title">13) Failure, rerun, and comparison honesty</span>
+      <span class="sumhint">how reruns stay harsh, comparable, and non-inflated</span>
     </summary>
     <details class="subdetails">
       <summary>
-<span class="summary-title">6.1 Core rerun sequence</span>
-        <span class="sumhint">the step order after round-entry preparation</span>
+<span class="summary-title">13.2 Failure classification and honesty</span>
+        <span class="sumhint">classify the failure before deciding rerun, package repair, or closure</span>
       </summary>
       <table>
         <thead>
           <tr>
-            <th>Step</th>
+            <th>Failure class</th>
+            <th>Recognize it when</th>
             <th>Required move</th>
-            <th>Why this step exists</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>1. Scope inherited</td><td>Assume the supervising pass has already reopened memory and prepared the active round scope.</td><td>This file should not re-decide fresh-round cleanup or active-scope boundaries.</td></tr>
-          <tr><td>2. Package boundary</td><td>Keep packages preserved under <code>AUDIT_OUTPUT_ROOT</code> outside the active run scope, still following the timestamped pattern bound by <code>AUDIT_OUTPUT_PATH_PATTERN</code>.</td><td>So governed history remains comparable instead of merging into the new active round.</td></tr>
-          <tr><td>3. Human feedback</td><td>Treat <code>OUT_FEEDBACK_FILE</code> as governed feedback for the next round and report which items were applied, rejected, or superseded.</td><td>So human calibration becomes explicit run-shaping input, not silent memory.</td></tr>
-          <tr><td>4. Review current package</td><td>Review the active run package before deciding what really needs to change.</td><td>So the next rerun responds to actual package weakness, not vague intuition.</td></tr>
-          <tr><td>5. Detect reusable weakness</td><td>Identify whether the weakness belongs to analysis quality, reporting quality, generated output quality, or history usefulness.</td><td>So the next fix targets the right layer.</td></tr>
-          <tr><td>6. Separate reusable from local</td><td>Classify each lesson as reusable prompt knowledge or contextual run evidence before changing shared standards.</td><td>So local pain does not bloat the shared contract.</td></tr>
-          <tr><td>7. Improve upstream only when earned</td><td>Improve the relevant governed prompt or shared standard reference only when the lesson is truly reusable.</td><td>So prompt evolution stays disciplined.</td></tr>
-          <tr><td>8. Preserve the package</td><td>Keep the full run package intact.</td><td>So the supervising pass can compare and relearn honestly later.</td></tr>
-          <tr><td>9. Compare on the next pass</td><td>Rerun through the supervising pass and compare against the best-so-far run.</td><td>So improvement is judged comparatively, not narratively.</td></tr>
+          <tr><td>Execution failure</td><td>The run never reached stable execution for the intended scope.</td><td>Publish exact blocked state and decide whether another governed run is still justified.</td></tr>
+          <tr><td>Proof failure</td><td>The run may have moved truth, but the saved validation bundle cannot reopen it cold.</td><td>Do not promote; repair proof or rerun honestly.</td></tr>
+          <tr><td>Closure failure</td><td>The run looks final, but package or root carriers are still missing or stale.</td><td>Finish package closure before calling it retained.</td></tr>
+          <tr><td>Canonical closure failure</td><td>The canonical package page changed but render proof or root/package closure stayed stale.</td><td>Rebuild canonical closure and render truth before close-out.</td></tr>
+          <tr><td>Memory failure</td><td>History or run memory lost causality, corrected assumptions, or open pressure.</td><td>Restore the missing memory before compressing further.</td></tr>
         </tbody>
       </table>
-      <div class="note"><b>Reading shortcut:</b> preserve governed memory, clean non-governed state, rebuild the active round, then compare the rebuilt package against the strongest retained package.</div>
+      <pre><code>boundary
+  proof failure   -> decisive bundle missing
+  closure failure -> decisive bundle exists, root/package closure missing or stale</code></pre>
     </details>
     <details class="subdetails">
       <summary>
-<span class="summary-title">6.2 Reopened memory handoff</span>
-        <span class="sumhint">what a later supervising pass must still be able to read</span>
+<span class="summary-title">13.3 Comparison-case labels</span>
+        <span class="sumhint">how to classify tricky reruns and narrow wins</span>
       </summary>
-      <div class="note"><b>Owner boundary:</b> round-entry cleanup, reopened-memory scope, and one-time freshness judgment belong to <code>QUALITY_LOOP_PATH</code>. This standard only says what a kept package must still contain once that supervising pass reopens it.</div>
+<pre><code>rerun happened
+  -> bootstrap-recovery
+  -> diagnostic
+  -> narrow-proof
+  -> retained-close
+  -> comparative-rerun
+  -> packaging-repair
+  -> non-meaningful</code></pre>
       <table>
         <thead>
           <tr>
-            <th>Reopened-memory topic</th>
-            <th>MUST preserve or make visible</th>
-            <th>Why it matters later</th>
+            <th>Label</th>
+            <th>Use it when</th>
+            <th>Do not overclaim</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Package reopenability</td><td>Keep preserved packages under <code>docs/out</code> reopenable for class evolution, changed-class slices, prior validation, and constructive feedback.</td><td>So later comparison can reconstruct capability growth, not just final prose.</td></tr>
-          <tr><td>Inherited proof reuse</td><td>Make inherited proof reuse visible through package artifacts instead of silently through live workspace carry-over.</td><td>So trust remains attached to visible history, not to hidden continuity.</td></tr>
-          <tr><td>Readable package memory</td><td>Keep prompt snapshots, validation bundles, summaries, and semantic milestone pages readable enough that a later comparative pass can reconstruct what changed and why it mattered.</td><td>So reopening cost stays low.</td></tr>
-          <tr><td>Binding inheritance</td><td>Inherit names such as <code>AUDIT_OUTPUT_ROOT</code>, <code>AUDIT_OUTPUT_PATH_PATTERN</code>, and <code>OUT_FEEDBACK_FILE</code> from the executable prompt instead of silently renaming them locally.</td><td>So later passes do not misread equivalent artifacts as different ones.</td></tr>
-          <tr><td>Thin-package guard</td><td>Do not leave a kept package too thin to support later comparison, memory reopening, or retained-package selection.</td><td>So the package is still useful after the immediate run is over.</td></tr>
+          <tr><td><code>bootstrap-recovery</code></td><td>Executability or prerequisites were restored.</td><td>New business proof.</td></tr>
+          <tr><td><code>diagnostic</code></td><td>The run isolated a failure cause that changed causal understanding.</td><td>Broad family victory.</td></tr>
+          <tr><td><code>narrow-proof</code></td><td>The run closed one focused truth slice with exact evidence.</td><td>Retained-close breadth.</td></tr>
+          <tr><td><code>retained-close</code></td><td>The run widened trust around an earlier proof-origin checkpoint.</td><td>Proof-origin ownership.</td></tr>
+          <tr><td><code>packaging-repair</code></td><td>A previously thin package became judgeable.</td><td>Executable gain.</td></tr>
+          <tr><td><code>non-meaningful</code></td><td>No durable lesson survived beyond noise or duplicate replay.</td><td>A kept checkpoint.</td></tr>
         </tbody>
       </table>
     </details>
     <details class="subdetails">
       <summary>
-<span class="summary-title">6.3 Honesty and failure-state rules</span>
-        <span class="sumhint">what a single run may not overclaim</span>
-      </summary>
-      <pre><code>claim only what the kept run can reopen
-  -> name the real state
-  -> name shaping dependency
-  -> separate packaging gain from executable gain
-  -> downgrade shallow or qualified success early</code></pre>
-      <table>
-        <thead>
-          <tr>
-            <th>Honesty risk</th>
-            <th>MUST NOT overclaim</th>
-            <th>MUST say or do instead</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Invented proof</td><td>Invent evidence that is not visible in the kept run package.</td><td>Keep every claim anchored to visible package evidence.</td></tr>
-          <tr><td>State confusion</td><td>Confuse partial, blocked, failed, flaky, and validated states.</td><td>Publish the exact execution state that actually happened.</td></tr>
-          <tr><td>Reset overclaim</td><td>Claim a clean rerun when reset safety allowed only a partial rollback or partial rebuild.</td><td>Name the partial-reset condition explicitly.</td></tr>
-          <tr><td>Packaging-only success</td><td>Treat prompt edits, HTML cleanup, standards cleanup, or packaging cleanup alone as run success.</td><td>Require another governed run to prove a stronger executable result.</td></tr>
-          <tr><td>Commentary substitution</td><td>Stop at prompt commentary or standards editing while the local task is still to execute the iterative family.</td><td>Return to executable work or state clearly why execution could not continue.</td></tr>
-          <tr><td>Artifact pollution</td><td>Publish ad hoc execution notes, scratch checks, or temporary review debris inside <code>docs/prompts/iterativ</code>.</td><td>Keep that directory reserved for governed prompt artifacts only.</td></tr>
-          <tr><td>Shallow frontier closure</td><td>Treat public-support success, shell success, or entry success alone as frontier closure when deeper continuation was already exposed.</td><td>Downgrade the claim and keep deeper truth explicitly separate.</td></tr>
-          <tr><td>Qualified outcome</td><td>Let a partial, blocked, flaky, bootstrap-dependent, or below-target run sound fully strong.</td><td>Downgrade the run claim in the package and final verdict.</td></tr>
-          <tr><td>Shaping dependency</td><td>Hide that bootstrap, precursor defect, missing input, or workaround shaped the outcome.</td><td>Name the dependency and how it changed trust.</td></tr>
-          <tr><td>Borrowed-family distortion</td><td>Let borrowed-family influence sound like frontier-depth progress when it changed only form, provenance, or packaging.</td><td>Say explicitly that the influence changed packaging/form, not deeper proof.</td></tr>
-          <tr><td>Named execution state</td><td>Leave bootstrap-state or missing-input-state implicit.</td><td>Publish <code>bootstrap-state</code>, <code>missing-input-state</code>, <code>no-incumbent-baseline-state</code>, <code>partial-reset-state</code>, or <code>single-candidate-state</code> explicitly when honest.</td></tr>
-        </tbody>
-      </table>
-    </details>
-    <details class="subdetails">
-      <summary>
-<span class="summary-title">6.4 Special comparison cases</span>
-        <span class="sumhint">how to classify tricky reruns</span>
-      </summary>
-        <pre><code>rerun happened
-  -> did it restore executability?      => bootstrap-recovery
-  -> did it isolate a failure cause?    => diagnostic
-  -> did it win a narrow new truth?     => narrow-proof
-  -> did it widen trust only?           => retained-close
-  -> did it only repair packaging?      => packaging-repair
-  -> did nothing durable change?        => non-meaningful</code></pre>
-        <details class="subdetails">
-          <summary>
-<span class="summary-title">6.4.1 Case classification</span>
-            <span class="sumhint">what the rerun is actually being compared against</span>
-          </summary>
-          <table>
-            <thead>
-              <tr>
-                <th>Comparison case</th>
-                <th>Compare against</th>
-                <th>Do not overclaim</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td><code>bootstrap-recovery</code></td><td>the earlier broken start state</td><td>new business proof or accounting-close</td></tr>
-              <tr><td><code>diagnostic</code></td><td>the earlier unclear failure cause</td><td>broad family win</td></tr>
-              <tr><td><code>narrow-proof</code></td><td>the earlier unclosed local contract</td><td>retained-close breadth</td></tr>
-              <tr><td><code>retained-close</code></td><td>the earlier proof-origin checkpoint</td><td>proof-origin output</td></tr>
-              <tr><td><code>comparative-rerun</code></td><td>the sibling or displaced family being ranked</td><td>auto-promotion because it is later</td></tr>
-              <tr><td><code>packaging-repair</code></td><td>the earlier thin package</td><td>execution progress or business depth</td></tr>
-              <tr><td><code>non-meaningful</code></td><td>nothing durable</td><td>a kept checkpoint</td></tr>
-            </tbody>
-          </table>
-        </details>
-        <details class="subdetails">
-          <summary>
-<span class="summary-title">6.4.2 Labels and kept-run weight</span>
-            <span class="sumhint">when the label is honest and whether it can justify retention</span>
-          </summary>
-          <table>
-            <thead>
-              <tr>
-                <th>Label</th>
-                <th>Use it when</th>
-                <th>Can justify a kept run?</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td><code>bootstrap-recovery</code></td><td>restored executability or prerequisites</td><td>only if durable trust or future capability improved</td></tr>
-              <tr><td><code>diagnostic</code></td><td>isolated a failure cause that changed causal understanding</td><td>yes, when the diagnosis mattered later</td></tr>
-              <tr><td><code>narrow-proof</code></td><td>closed one focused truth slice with exact evidence</td><td>yes</td></tr>
-              <tr><td><code>retained-close</code></td><td>widened trust around an earlier proof-origin checkpoint</td><td>yes, when retained trust materially improved</td></tr>
-              <tr><td><code>comparative-rerun</code></td><td>retested siblings for ranking or displacement judgment</td><td>only when ranking or trust actually changed</td></tr>
-              <tr><td><code>packaging-repair</code></td><td>made a previously thin package judgeable</td><td>only when earlier judgment was blocked by packaging</td></tr>
-              <tr><td><code>non-meaningful</code></td><td>added no durable lesson beyond noise or duplicate replay</td><td>no</td></tr>
-            </tbody>
-          </table>
-        </details>
-        <details class="subdetails">
-          <summary>
-<span class="summary-title">6.4.3 Edge-case rules</span>
-            <span class="sumhint">how tricky rerun sequences should be narrated</span>
-          </summary>
-          <table>
-            <thead>
-              <tr>
-                <th>Special-case rule</th>
-                <th>MUST or SHOULD do this</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Failed full-suite then targeted rerun</td><td>Classify it as diagnostic, repair, or flake-isolation evidence. It must not replace the failed full-suite verdict until a clean full rerun confirms the package.</td></tr>
-              <tr><td>Full-family comparison claimed</td><td>Keep one proof-origin checkpoint and one broader retained-close checkpoint per family.</td></tr>
-              <tr><td>Same-slice asymmetry</td><td>Refine the claim when one engine proves only the core contract while another proves richer fields.</td></tr>
-              <tr><td>First-fail then pass</td><td>Preserve the sequence when it reveals timing, hydration, selector, or environment sensitivity that changed trust.</td></tr>
-              <tr><td>Latest-run bias</td><td>Do not let the latest run auto-win; promotion must explain displacement of the previous best and non-promotion of the others.</td></tr>
-            </tbody>
-          </table>
-        </details>
-    </details>
-    <details class="subdetails">
-      <summary>
-<span class="summary-title">6.5 Failure modes to reject</span>
-        <span class="sumhint">invalid or misleading loop behavior</span>
+<span class="summary-title">13.4 Anti-inflation counting</span>
+        <span class="sumhint">what deserves preserved weight and what must stay only lineage</span>
       </summary>
       <table>
         <thead>
           <tr>
-            <th>Failure mode to reject</th>
-            <th>Why it is invalid</th>
+            <th>Counting lens</th>
+            <th>Keep it this way</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Prompt weakness was diagnosed, but no relevant prompt evolution happened before rerun.</td><td>The rerun is not a meaningful test of improvement.</td></tr>
-          <tr><td>The run passed validation, but the canonical analysis artifact is too thin to justify trust.</td><td>Passing validation alone does not make the package trustworthy.</td></tr>
-          <tr><td>The run improved breadth but weakened determinism or honesty.</td><td>Coverage growth does not excuse weaker trust.</td></tr>
-          <tr><td>The loop preserved artifacts, but not enough evidence to explain why a previous run lost.</td><td>Cross-run promotion becomes decorative instead of evidence-based.</td></tr>
-          <tr><td>The loop claimed a clean rerun even though reset safety allowed only a partial rollback.</td><td>The claimed rerun state is misleading.</td></tr>
-          <tr><td>The loop called a family comparison complete even though one or both families lacked a broader retained-close checkpoint.</td><td>The comparison stayed too thin to justify a strong family-level verdict.</td></tr>
+          <tr><td>Governed family accounting</td><td>Count governed runs kept, intermediate attempts, meaningful iterations, and verdict-changing iterations explicitly.</td></tr>
+          <tr><td>Run-count anti-inflation</td><td>A counted run needs new proof, exposed defect, confirmed repair, changed trust, or documented blocked frontier truth.</td></tr>
+          <tr><td>Same-hypothesis replay guard</td><td>Repeat a narrow hypothesis only while it still teaches causal truth, trust movement, or repair value.</td></tr>
+          <tr><td>Latest-run bias guard</td><td>The latest run may win only if preserved evidence shows real displacement of the previous best.</td></tr>
+          <tr><td>Same proof repackaged</td><td>Does not count as a new governed run or truth move.</td></tr>
+          <tr><td>Packaging-only wording change</td><td>Counts only as packaging repair, never as executable progress.</td></tr>
+          <tr><td>Same command rerun, no new truth</td><td>May support trust, but does not count as a new governed gain.</td></tr>
+          <tr><td>New validation branch, distinct evidence</td><td>May count when it creates a new reopenable claim or materially changes trust.</td></tr>
+          <tr><td>New kept run after changed frontier</td><td>Counts when the frontier, evidence, or honest cap really changed.</td></tr>
         </tbody>
       </table>
-    </details>
-    <details class="subdetails">
-      <summary>
-<span class="summary-title">6.6 Functional reassessment and validation honesty</span>
-        <span class="sumhint">what every rerun must reassess before it claims progress</span>
-      </summary>
-      <div class="quickmap">
-        <b>Reassess understanding</b><span>Each round should reassess business understanding, frontier discovery, actor-state discovery, invariant quality, and generated test trust instead of assuming the previous mental model stayed correct.</span>
-        <b>Prefer nearby frontier</b><span>Keep pushing seed-adjacent or proof-adjacent frontiers before treating distant optional exploration as more important, unless the local review proves that a lateral pivot gives stronger uncovered value.</span>
-        <b>Validate narrow first</b><span>Run the narrowest useful validation first, then broaden only after the claim becomes stable enough to justify a wider retained-close or family-level rerun.</span>
-        <b>Keep truth visible</b><span>Command, scope, failure, and final result must stay visible through the shared validation bundle. Preserve the actual generated report artifact even when the framework writes it somewhere awkward by default.</span>
-      </div>
-      <div class="note"><b>Owner note:</b> this section now owns the generic reassessment and validation honesty rules that domain wrappers used to restate locally. Domain adapters may add only what the frontier meant in their local surface.</div>
     </details>
   </details>
 
   <details>
-    <summary>
-<span class="summary-title">7) Quality gates, retention, and reference rules</span>
-      <span class="sumhint">what must be judged before promotion</span>
+      <summary>
+<span class="summary-title">14) Quality gates and retention</span>
+      <span class="sumhint">what must pass before close-out and what stays honest later</span>
     </summary>
-    <div class="note"><b>Read order:</b> score the package first, then state the final disclosure truth, then decide retention or exemplar status.</div>
     <details class="subdetails">
       <summary>
-<span class="summary-title">7.1 Quality gates</span>
-        <span class="sumhint">what must be scored</span>
+<span class="summary-title">14.1 Quality gates</span>
+        <span class="sumhint">what must pass before a kept run or package reads as closure-ready</span>
       </summary>
       <table>
         <thead>
           <tr>
             <th>Gate</th>
-            <th>Expectation</th>
+            <th>Pass condition</th>
+            <th>Fail signal</th>
+            <th>Required remediation</th>
+            <th>Severity</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Business HTML quality</td><td>The run-local canonical analysis artifact and semantic history must be truthful, rich, rendered correctly, and useful as reusable business evidence.</td></tr>
-          <tr><td>Reporting overall quality</td><td>The reporting family must be strong enough to support onboarding, trust, and retained-package selection.</td></tr>
-          <tr><td>Generated output quality</td><td>The produced generated output must be stable, meaningful, maintainable, mapped to the analysis artifact, and validated by the expected evidence model.</td></tr>
-          <tr><td>Prompt baseline quality</td><td>The governed prompt baseline must have improved if the prior run exposed prompt weakness.</td></tr>
+          <tr><td>Root closure agreement</td><td>Root closure carriers, canonical package page, render proof, and kept-run set all agree on the same package state.</td><td>Different top-level carriers imply different winners, run counts, or closure states.</td><td>Use <code>2.2</code> plus <code>9.4</code> as the repair checklist; refresh root closure or kept-run references until the package tells one story from disk.</td><td><code>close-out blocker</code></td></tr>
+          <tr><td>Kept-run validity</td><td>Every counted kept run passes the local <code>4.2</code> gate.</td><td>A counted run sounds real but cannot be reopened cold as one unit.</td><td>Finish the missing run carriers or demote the run from active accounting.</td><td><code>close-out blocker</code></td></tr>
+          <tr><td>Decisive proof sufficiency</td><td>Every counted kept run passes the local <code>5.2</code> gate.</td><td>The package relies on prose while decisive proof could have been saved directly.</td><td>Add the missing rendered or machine-readable proof carriers and compact command/result trace.</td><td><code>close-out blocker</code></td></tr>
+          <tr><td>Delta carrier sufficiency</td><td>Changed tests, support, prompts, or target-identity clarifiers were saved whenever they shaped the run verdict.</td><td>Code or prompt shaped the winner but no carrier preserved that influence.</td><td>Save the missing <code>atf/</code>, prompt, or target-identity carriers before retention.</td><td><code>promotion blocker</code></td></tr>
+          <tr><td>History discipline</td><td>History exists only when it still changes later cold understanding.</td><td>History became a dump of prior attempts or a duplicate of active accounting.</td><td>Use <code>7.2</code> and <code>7.3</code> to cut inert history bulk or move still-needed causality back into the kept run.</td><td><code>advisory</code></td></tr>
         </tbody>
       </table>
     </details>
     <details class="subdetails">
       <summary>
-<span class="summary-title">7.2 Final report and scoring handoff</span>
-        <span class="sumhint">what the final package must say plainly before any retention or exemplar decision</span>
+<span class="summary-title">14.2 Retention and displacement honesty</span>
+        <span class="sumhint">how retained packages and displaced packages stay honest</span>
       </summary>
       <table>
         <thead>
           <tr>
-            <th>Final handoff slice</th>
-            <th>This run must disclose</th>
+            <th>Retention or promotion rule</th>
+            <th>MUST keep true</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Business delta</td><td>The strongest newly defended business truth, the deepest defended chain, the strongest remaining blocker, and whether the round reduced a benchmark gap or a frontier gap.</td></tr>
-          <tr><td>Code delta</td><td>Separately what changed under <code>src/test</code> and what changed under <code>src/main</code>, then the proof-carrying classes that mattered most.</td></tr>
-          <tr><td>Accounting</td><td>Governed runs kept, which of them cleared <code>RUN_EXPECTED_DELTA_QUALITY</code>, their <code>RUN_DELTA_SCORE_ACTUAL</code>, raw attempts, meaningful iterations, verdict-changing checkpoints, what defended branch coverage was materialized into tests, and why the round stopped where it did.</td></tr>
-          <tr><td>Truth split</td><td>What was newly changed now, what was inherited proof reused, what was validation-only absorption, and whether a broader retained-close actually absorbed the proof-origin truth.</td></tr>
-          <tr><td>Trust honesty</td><td>What was not verified, what stayed blocked or deferred, and whether any progress was only reporting cleanup, packaging cleanup, or real business depth.</td></tr>
-          <tr><td>Score-card exposure</td><td>The first screen should expose the shared high-level cards through <code>REPORTING_PATH</code>: <code>Business HTML</code>, <code>Trust</code>, <code>Coverage</code>, and <code>Overall</code>, each with a short reason and <code>x.xx</code> scoring.</td></tr>
-          <tr><td>Language migration</td><td>Prefer the new reporting language: <code>defended branch matured</code>, <code>run-quality cleared</code>, <code>materialized scope = X / Y</code>, and <code>closure closed</code>. Avoid old count-first labels such as <code>Test Target Close-Out</code> or a bare <code>target closed</code> headline.</td></tr>
-        </tbody>
-      </table>
-      <div class="note"><b>Ownership split:</b> this standard owns what the final package must disclose; <code>REPORTING_PATH</code> owns the exact canonical-page composition, card layout, graph family, and proof-link presentation.</div>
-    </details>
-    <details class="subdetails">
-      <summary>
-<span class="summary-title">7.3 Coverage, frontier, and visual explanation</span>
-        <span class="sumhint">what the final report should make visible when discovery was broad or strategic</span>
-      </summary>
-      <table>
-        <thead>
-          <tr>
-            <th>Coverage/visual handoff</th>
-            <th>Use it like this</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Coverage truth</td><td>Say whether the round materially widened defended coverage or only deepened one chain.</td></tr>
-          <tr><td>Business-facing visual</td><td>When the round claims deep or broad discovery, preserve at least one usable business-facing coverage or frontier visual that makes covered, blocked, deferred, and duplicated areas easy to scan.</td></tr>
-          <tr><td>Depth versus breadth</td><td>Separate what the round explored broadly from what it proved deeply, especially when several neighboring continuations were touched but only one or two became defensible business truth.</td></tr>
-          <tr><td>Remaining frontier</td><td>State whether the next best open work is seed-adjacent, sibling-adjacent, benchmark-significant, or only distant optional exploration.</td></tr>
-        </tbody>
-      </table>
-    </details>
-    <details class="subdetails">
-      <summary>
-<span class="summary-title">7.4 Finalization guard</span>
-        <span class="sumhint">what completion must not fake</span>
-      </summary>
-      <table>
-        <thead>
-          <tr>
-            <th>Completion topic</th>
-            <th>Invalid shortcut</th>
-            <th>Required closure truth</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Local success</td><td>Code compiles, one suite passed, or the recorded flow replayed once.</td><td>Do not call that completion by itself.</td></tr>
-          <tr><td>Validation close</td><td>Validation exists but remaining frontier is left implicit.</td><td>Completion requires passing validation plus an honest statement about reachable frontier, blocked work, deferred work, and accounting-gap reasons when output expectations stayed open.</td></tr>
-          <tr><td>Quality/accounting versus closure</td><td><code>run-quality cleared</code> or <code>accounting target met</code> is treated as identical to <code>contract fully closed</code>.</td><td>Keep them separate; run quality or accounting may be strong while render verification, decisive provenance, or another closure artifact is still missing.</td></tr>
-          <tr><td>Retained-close grade</td><td>Reporting says "complete" without saying how strong the retained close actually is.</td><td>State whether the retained close is broad, narrow, contextual, or still below exemplar grade.</td></tr>
-          <tr><td>First-screen hierarchy</td><td>The page hides score cards below the opening story or lets richer atlas sections crowd the first read.</td><td>Keep the opening literal: hero/executive summary, score cards, trust, round state, then richer sections.</td></tr>
-          <tr><td>Primary proof exposure</td><td>The decisive <code>ExtentReport_*.html</code> exists but is still hidden behind <code>command-result.md</code> or XML.</td><td>Expose the rendered proof first and keep command/result/XML as secondary support.</td></tr>
-          <tr><td>WIP sibling noise</td><td>An incomplete sibling timestamp or loose publication artifact competes with the final retained package.</td><td>Keep one clean retained package as the public winner and demote WIP siblings explicitly.</td></tr>
-        </tbody>
-      </table>
-      <div class="note"><b>Owner note:</b> this section plus <code>5.2</code> now own the generic finalization and final-report contract. Domain adapters should only contribute the local interpretation of frontier and proof, not a second completion rubric.</div>
-    </details>
-    <details class="subdetails">
-      <summary>
-<span class="summary-title">7.5 Retention and exemplar rules</span>
-        <span class="sumhint">decide final retention after the full meta-run, not too early</span>
-      </summary>
-      <pre><code>promotion-state quick read
-  weak / partial / learning-only
-    -> keep in docs/out only
-
-  strongest retained family package
-    -> keep as strongest family package
-
-  strongest local benchmark-memory winner
-    -> mark primary local reference-memory
-
-  beats stored exemplars overall
-    -> eligible for docs/html-ex
-
-  one gate strong but overall mixed
-    -> do not promote yet</code></pre>
-      <pre><code>full family reopened
-  -> is the package weaker / partial / learning-only?
-     yes -> keep local in docs/out only
-     no  -> retain as strongest family package
-            -> is it also the main local benchmark-memory winner?
-               yes -> mark primary local reference-memory
-            -> does it beat relevant stored exemplars overall?
-               yes -> eligible for docs/html-ex
-               no  -> keep as strong local memory only</code></pre>
-      <table>
-        <thead>
-          <tr>
-            <th>Retention stage</th>
-            <th>Default decision</th>
-            <th>What it should read like</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>When to decide</td><td>Decide promotion only at the end of the full meta-run, after the family has been reopened as one auditable evolution.</td><td>Earlier run-local labels stay provisional.</td></tr>
-          <tr><td>What to compare</td><td>Compare business depth, test/support delta, reporting quality, trust honesty, and retained confidence across the whole preserved family.</td><td>The winner must survive whole-family reopening, not only local enthusiasm.</td></tr>
-          <tr><td>What can be promoted</td><td>Promote only a clearly retained package, a primary local reference-memory package, or a stronger exemplar candidate.</td><td>Promotion is layered, not binary.</td></tr>
-          <tr><td>What stays local</td><td>Keep weaker, partial, or learning-only packages preserved in <code>docs/out</code>.</td><td>Preserved history is still useful even when it is not a reference winner.</td></tr>
-        </tbody>
-      </table>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">7.5.1 Promotion states and exemplar bar</span>
-          <span class="sumhint">what can be kept locally, promoted, or elevated as exemplar-grade</span>
-        </summary>
-        <table>
-          <thead>
-            <tr>
-              <th>Promotion state or guard</th>
-              <th>MUST keep true</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Correct weak intermediate impressions</td><td>Use the final meta-run view to correct weak early impressions; a run that looked strongest earlier may fall behind once broader evidence appears.</td></tr>
-            <tr><td>Latest-run bias guard</td><td>The latest run is not automatically the promoted package; the final choice may still be an earlier proof-origin package or a later retained-close package.</td></tr>
-            <tr><td>Strong local memory only</td><td>Keep the package in <code>docs/out</code> when it is useful but still weaker, partial, or below current exemplar grade.</td></tr>
-            <tr><td>Primary local reference-memory</td><td>Mark it only when it is the strongest local benchmark-memory winner after whole-family reopening.</td></tr>
-            <tr><td><code>docs/html-ex</code> eligible</td><td>Promote only when the retained package beats relevant stored exemplars overall, not just locally.</td></tr>
-            <tr><td>One-gate promotion guard</td><td>No package becomes exemplar-grade merely because one gate is strong; current contract execution, first-screen force, audit reopenability, and graph/visual authority must hold together.</td></tr>
-          </tbody>
-        </table>
-      </details>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">7.5.2 Retention note</span>
-          <span class="sumhint">what the final note must say plainly</span>
-        </summary>
-        <table>
-          <thead>
-            <tr>
-              <th>Retention-note item</th>
-              <th>MUST say this plainly</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Winner naming</td><td>Name the retained package and the main reason it won the final comparison.</td></tr>
-            <tr><td>Proof-origin versus retained-confidence</td><td>Say whether the retained package is also the proof-origin package, or mainly the strongest retained-confidence package.</td></tr>
-            <tr><td>Displaced predecessor</td><td>Name the displaced predecessor when one exists, and explain whether the change came from better business depth, better retained confidence, better reporting trust, or only packaging cleanup.</td></tr>
-            <tr><td>Exemplar-bar honesty</td><td>Say explicitly when the package is still below the current exemplar bar and should remain only strong local memory.</td></tr>
-          </tbody>
-        </table>
-      </details>
-      <div class="good"><b>Retention bar:</b> a later reviewer should understand the final retained choice from the preserved package family alone, without reconstructing the decision from chat or terminal memory.</div>
-      <details class="subdetails">
-        <summary>
-<span class="summary-title">7.5.3 Retention MUSTs</span>
-          <span class="sumhint">why early labels stay provisional</span>
-        </summary>
-        <table>
-          <thead>
-            <tr>
-              <th>Retention MUST</th>
-              <th>Meaning</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Keep early labels provisional</td><td>Do not harden intermediate winner labels too early.</td></tr>
-            <tr><td>Let the meta-run correct them</td><td>Allow the final meta-run aggregate to reverse bad intermediate decisions instead of freezing them prematurely.</td></tr>
-          </tbody>
-        </table>
-      </details>
-    </details>
-  </details>
-
-  <details>
-    <summary>
-<span class="summary-title">8) Upstream ownership and consistency gate</span>
-      <span class="sumhint">keep thresholds out of the standard</span>
-    </summary>
-    <details class="subdetails">
-      <summary>
-<span class="summary-title">8.1 Ownership boundaries</span>
-        <span class="sumhint">what stays shared vs local</span>
-      </summary>
-      <table>
-        <thead>
-          <tr>
-            <th>Ownership rule</th>
-            <th>Meaning</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>The standard defines loop behavior, run-package shape, failure patterns, and promotion rules.</td><td>Use this file to declare what the workflow must preserve, compare, and justify.</td></tr>
-          <tr><td>The calling supervisor defines numeric targets, loop depth, path roots, and reset scope.</td><td>Use upstream documents to decide how strict the governed family should be.</td></tr>
-          <tr><td>The kept review artifacts may display thresholds or targets.</td><td>Those values should come from the governing prompt family, not from this shared standard.</td></tr>
-        </tbody>
-      </table>
-      <div class="note"><b>Parameter rule:</b> keep the shared standard intentionally small. Reusable parameter groups are enough; numeric thresholds, formulas, exact naming patterns, and family-specific stop severity stay upstream.</div>
-    </details>
-    <details class="subdetails">
-      <summary>
-<span class="summary-title">8.2 Cross-file consistency checks</span>
-        <span class="sumhint">how calling prompts stay aligned</span>
-      </summary>
-      <table>
-        <thead>
-          <tr>
-            <th>Using prompt consistency check</th>
-            <th>Expected state</th>
-            <th>Meaning</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Overview alignment with this orchestration contract</td><td>Required</td><td>The prompt overview should explain the loop clearly without cloning the whole contract inline.</td></tr>
-          <tr><td>Local-vs-generic separation</td><td>Required</td><td>Only reusable loop rules belong here; workflow-local thresholds, roots, and stop rules stay upstream.</td></tr>
-          <tr><td>Cross-file consistency</td><td>Required</td><td>The execution and supervising prompts should agree on run folders, promotion logic, and delegated ownership.</td></tr>
+          <tr><td>Retained package choice</td><td>Choose by strongest preserved truth, not chronology or polish alone.</td></tr>
+          <tr><td>Proof-origin respect</td><td>A broader retained-close package may still owe its semantic root to an earlier proof-origin checkpoint.</td></tr>
+          <tr><td>Displaced package honesty</td><td>When a package is displaced, keep the reason legible in saved evidence rather than only in chat or memory.</td></tr>
+          <tr><td>Local-memory honesty</td><td>Strong local memory is not automatically exemplar-grade.</td></tr>
+          <tr><td>Early labels stay provisional</td><td>Let the final aggregate correct weak intermediate winner impressions.</td></tr>
         </tbody>
       </table>
     </details>
@@ -1811,8 +1310,3 @@ fresh comparison round starts?
 </div>
 </body>
 </html>
-
-
-
-
-

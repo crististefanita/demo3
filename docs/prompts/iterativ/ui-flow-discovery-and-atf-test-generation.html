@@ -230,37 +230,36 @@
 
 <div class="grid">
 <div class="card">
-<h2>1) UI Adapter Approach</h2>
+<h2>1) UI Adapter Contract</h2>
 
 <div class="note">
-  Keep this file narrow. Start from the seed, choose the next visible UI frontier, change the smallest meaningful UI slice, and feed the shared run package with UI-specific truth only.
+  Keep this file narrow. It decides only the next visible UI frontier, the smallest meaningful UI code/support change,
+  and the local UI meaning of the proof.
 </div>
-<pre><code>reopen old docs/out memory
-        ->
-discover next meaningful frontier
-        ->
-change only the minimal ATF code/support needed
-        ->
-validate the decisive truth
-        ->
-publish kept runs + changed-class slices + canonical evidence
+<pre><code>ui execution lane
+  -> inspect SEED_RECORDING_CLASS
+  -> identify next visible UI frontier
+  -> change smallest meaningful test/support slice
+  -> validate decisive truth
+  -> save the run package through ORCHESTRATION_PATH
+  -> feed canonical report inputs through REPORTING_PATH
 </code></pre>
 <div class="docmap">
-  <b>Execution owner</b><span><code class="inline">ORCHESTRATION_PATH</code> owns run package, validation bundle, saved artifacts, memory reuse, and retention discipline.</span>
-  <b>Report owner</b><span><code class="inline">REPORTING_PATH</code> owns canonical HTML shape, graph family, score cards, and proof-link composition.</span>
-  <b>This file owns</b><span>seed-first discovery, visible UI frontier ranking, UI test/support deltas, and the local UI meaning of the proof.</span>
-  <b>Exemplar boundary</b><span>A run may prepare candidate artifacts, but only the supervising layer may copy anything into <code class="inline">docs/html-ex</code>.</span>
+  <b>This file decides</b><span>Seed-first discovery, visible frontier ranking, UI test/support deltas, and the local UI meaning of decisive proof.</span>
+  <b>Open orchestration for</b><span>Run-package validity, validation bundle discipline, saved artifacts, active accounting, and retention.</span>
+  <b>Open reporting for</b><span>Canonical HTML shape, graph family, score cards, comparative strip, and proof-link composition.</span>
+  <b>Do not use this file for</b><span>Generic loop governance, family retention, package validity, or <code class="inline">html-ex</code> promotion.</span>
 </div>
 </div>
 
 <div class="card">
-<h2>UI Bindings And Shortcut</h2>
+<h2>Quick UI Recovery</h2>
 <div class="note">
-  Keep only local bindings here, then use the shortcut to remember what this file should decide fast.
+  Keep only local bindings and the seed-to-proof shortcut here. Everything generic should stay delegated.
 </div>
 <details>
 <summary>
-  <span class="summary-title">UI-local bindings</span>
+  <span class="summary-title">1.1 UI-local bindings</span>
   <span class="badge">CORE</span>
   <span class="sumhint">shared bindings live in shared-constants.properties</span>
 </summary>
@@ -275,8 +274,8 @@ Names reopened from that file for this execution:
 </details>
 <details class="subdetails">
 <summary>
-  <span class="summary-title">Seed-first shortcut</span>
-  <span class="sumhint">seed-first reading in one place</span>
+  <span class="summary-title">1.2 Seed-to-proof shortcut</span>
+  <span class="sumhint">default local operator lane</span>
 </summary>
 <pre class="cheatbox"><code>SEED
   = inspect SEED_RECORDING_CLASS first
@@ -296,10 +295,10 @@ UI EVIDENCE
   = say which anchors, form steps, overlays,
     route states, or descendant pages actually closed the claim
 
-BOUNDARY
-  = package shape comes from ORCHESTRATION_PATH
-  = report shape comes from REPORTING_PATH
-  = this file decides only the local UI frontier and local UI code delta
+SAVE / REPORT
+  = run package shape comes from ORCHESTRATION_PATH
+  = canonical page shape comes from REPORTING_PATH
+  = this file contributes only local frontier truth and local code delta
 </code></pre>
 </details>
 </div>

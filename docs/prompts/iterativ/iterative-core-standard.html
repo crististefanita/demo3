@@ -40,9 +40,6 @@
   }
   h1 { margin: 0 0 6px; font-size: 27px; letter-spacing: .2px; }
   h2 { margin: 0 0 10px; font-size: 19px; }
-  h3 { margin: 0 0 8px; font-size: 16px; color: var(--accent); }
-  h4 { margin: 10px 0 6px; font-size: 14px; }
-  p { margin: 8px 0; }
   .sub { color: var(--muted); font-size: 14px; line-height: 1.5; max-width: 980px; }
   .badge {
     display: inline-block;
@@ -66,30 +63,12 @@
   }
   .grid {
     display: grid;
-    grid-template-columns: 1.15fr .85fr;
+    grid-template-columns: 1.12fr .88fr;
     gap: 12px;
     margin-top: 14px;
   }
-  .docmap {
-    display: grid;
-    grid-template-columns: minmax(220px, .42fr) minmax(0, 1fr);
-    gap: 8px 14px;
-    margin-top: 6px;
-    font-size: 13.5px;
-    align-items: start;
-  }
-  .docmap b {
-    color: var(--text);
-    overflow-wrap: anywhere;
-    line-height: 1.35;
-  }
-  .docmap span {
-    min-width: 0;
-    overflow-wrap: anywhere;
-    line-height: 1.45;
-  }
   @media (max-width: 980px) {
-    .grid, .docmap { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: 1fr; }
   }
   .card {
     border: 1px solid var(--border);
@@ -98,7 +77,6 @@
     box-shadow: 0 10px 26px var(--shadow);
     padding: 15px;
   }
-  .card h2 { margin-top: 0; }
   code.inline {
     font-family: var(--mono);
     font-size: 12.5px;
@@ -127,19 +105,14 @@
     padding: 10px 12px;
     background: rgba(122,162,255,.08);
     border-radius: 12px;
-  }
-  .warn {
-    border-left: 3px solid var(--warn);
-    padding: 10px 12px;
-    background: rgba(251,191,36,.08);
-    border-radius: 12px;
+    margin-top: 10px;
   }
   .rule {
     border-left: 3px solid var(--accent2);
     padding: 10px 12px;
     background: rgba(110,231,183,.08);
     border-radius: 12px;
-    margin: 10px 0;
+    margin-top: 10px;
   }
   details {
     border: 1px solid var(--border);
@@ -176,8 +149,6 @@
     font-size: 12px;
     margin-left: auto;
   }
-  ul, ol { margin: 6px 0 8px 20px; }
-  li { margin: 4px 0; }
   hr.sep { border: 0; border-top: 1px solid var(--border); margin: 16px 0; }
   table {
     width: 100%;
@@ -208,1455 +179,536 @@
 <body>
 <div class="wrap">
 <header>
-<h1>Iterative Core Standard <span class="badge">local supervising prompt</span></h1>
+<h1>Iterative Core Standard <span class="badge">family supervisor</span></h1>
 <div class="sub">
-  Use this file to manage one full iterative family: reopen governed memory, compare multiple kept runs, judge trust and coverage,
-  delegate canonical page shape to <code class="inline">REPORTING_PATH</code>, and publish the retained family verdict.
-  The detailed work of each <code class="inline">run_##</code> stays owned by <code class="inline">ORCHESTRATION_PATH</code> plus the active domain adapter.
+  Use this file only to supervise one full family round. Its support structure is the round lane itself:
+  round preparation, pre-training gate, active governed window, delegated round launch, finished-round consumption,
+  strategic round closure, family close-out, and reporting delegation.
 </div>
 <div style="margin-top:10px">
-  <span class="pill">round evolution first</span>
-  <span class="pill">source-lock honesty</span>
-  <span class="pill">same-frontier rerun restraint</span>
-  <span class="pill">family-loss causality</span>
+  <span class="pill">round preparation</span>
+  <span class="pill">pre-training consumer only</span>
+  <span class="pill">active window judgment</span>
+  <span class="pill">family close-out</span>
 </div>
 </header>
 
 <div class="grid">
-<div class="card">
-<h2>1) Approach</h2>
-<div class="sub">
-  Read this opening card only for orientation: who owns what, what this file decides, and in what order the family should
-  be reviewed. The stricter operational rules start lower, once the flow maps and the rerun / aggregation workflow begin.
-</div>
-<pre><code>owner map first
-  -> flow maps second
-  -> comparative review third
-  -> rerun/reset judgment fourth
-  -> final aggregation and next move last</code></pre>
+  <div class="card">
+    <h2>1) Overview</h2>
+    <div class="sub">
+      Read this file as the orchestration of one family round. It does not own saved-artifact mechanics, kept-run validity,
+      or canonical page structure.
+    </div>
+<pre><code>iterative-core lane
+  1. prepare the round
+  2. require and verify pre-training
+  3. fix the active governed window
+  4. launch the round
+  5. consume finished round artifacts
+  6. supervise strategic round closure
+  7. settle family close-out
+  8. delegate reporting and stop</code></pre>
 
-<details open>
-<summary>
-  <span class="summary-title">1.1 Execution Map</span>
-  <span class="badge">OPEN</span>
-</summary>
-<div class="note"><b>Owner map:</b> keep the ownership lookup directly in <code class="inline">1.1 Execution Map</code>. A one-child subsection here only slows rereading and makes references noisier.</div>
-<table>
-  <thead>
-    <tr>
-      <th>Document owner</th>
-      <th>Primary responsibility</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td><code class="inline">DISCOVERY_PATH</code></td><td>explore product behavior, edit ATF code, run validation, and populate candidate kept runs</td></tr>
-    <tr><td><code class="inline">ORCHESTRATION_PATH</code></td><td>execute one governed run, own run-package contract, save proof/code slices/git-derived delta, and reuse historical memory while the run is active</td></tr>
-    <tr><td><code class="inline">REPORTING_PATH</code></td><td>own canonical HTML shape, section composition, graph family, proof mapping, and render/readability contract</td></tr>
-    <tr><td>Iterative core (this file)</td><td>prepare one full round family, compare preserved runs, delegate canonical reporting, decide retention/benchmark stance, and define what the next round must improve</td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>If you are trying to answer...</th>
-      <th>Read here first</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>What does one <code class="inline">run_##</code> have to save and prove?</td>
-      <td><code class="inline">ORCHESTRATION_PATH</code></td>
-    </tr>
-    <tr>
-      <td>How should the canonical HTML read and render?</td>
-      <td><code class="inline">REPORTING_PATH</code></td>
-    </tr>
-    <tr>
-      <td>How do we compare kept runs, reopen history, and publish one family verdict?</td>
-      <td>this file</td>
-    </tr>
-</tbody>
-</table>
-</details>
-</div>
+    <details open>
+      <summary>
+        <span class="summary-title">1.1 What This File Decides</span>
+        <span class="badge">OPEN</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>If you need to understand...</th>
+            <th>Open this first</th>
+            <th>Main output expected</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Which constants and roots govern the round</td><td><code class="inline">2) Round Preparation</code></td><td>shared constants + <code class="inline">ROOT_RUN</code> + fresh-round boundary</td></tr>
+          <tr><td>Whether launch may begin</td><td><code class="inline">3) Pre-Training Gate</code></td><td><code class="inline">launch</code> or <code class="inline">strengthen first</code></td></tr>
+          <tr><td>Which runs count as active evidence</td><td><code class="inline">4) Active Governed Window</code></td><td><code class="inline">run_01 .. run_N</code> and accounting boundary</td></tr>
+          <tr><td>Which round artifacts this file consumes after delegation</td><td><code class="inline">6) Consume Finished Round Artifacts</code></td><td>root package + kept runs + accounting + package conclusion</td></tr>
+          <tr><td>How the family verdict is decided</td><td><code class="inline">7) Strategic Round Closure</code></td><td>retained winner + stop verdict + next target</td></tr>
+          <tr><td>What gets settled before reporting starts</td><td><code class="inline">8) Family Close-Out</code></td><td>finished family close-out under <code class="inline">ROOT_RUN</code></td></tr>
+        </tbody>
+      </table>
+    </details>
+  </div>
 
-<div class="card">
-<h2>Local Configuration</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Local-configuration rule</th>
-      <th>MUST keep true</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Repo-bound values</td><td>Keep only repo-bound values here.</td></tr>
-    <tr><td>Readable supervisory logic</td><td>Keep the supervising logic readable even when constants change between repos or rounds.</td></tr>
-    <tr><td>No duplicated constants</td><td>Do not duplicate shared constants across multiple prose blocks.</td></tr>
-  </tbody>
-</table>
-<details>
-<summary>
-  <span class="summary-title">Supervising bindings</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">shared bindings live in shared-constants.properties</span>
-</summary>
+  <div class="card">
+    <h2>Shared Bindings</h2>
+    <div class="sub">
+      Keep only repo-bound values and thin supervisory aliases here. The most important local alias for this file is
+      <code class="inline">ROOT_RUN</code>, so the document does not need to repeat the timestamp path everywhere.
+    </div>
+    <details open>
+      <summary>
+        <span class="summary-title">1.2 Shared Constants And ROOT_RUN</span>
+        <span class="badge">CORE</span>
+      </summary>
 <pre><code>SHARED_CONSTANTS_FILE = docs/prompts/iterativ/shared-constants.properties
+ROOT_RUN = docs/out/&lt;timestamp&gt;/
 
-reopen from that file:
-- discovery / reporting / orchestration paths
-- architecture path
-- report style binding
-- audit output paths
-- proof bindings
-- round targets
-
-supervising focus:
-- compare round evolution
-- judge trust and coverage
-- decide retention / rerun pressure
-</code></pre>
-<table>
-  <thead>
-    <tr>
-      <th>Binding rule</th>
-      <th>MUST do this</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Executable alignment</td><td>Keep this card aligned with the executable prompt body.</td></tr>
-    <tr><td>Shared binding source</td><td>Reopen shared bindings from <code class="inline">shared-constants.properties</code>.</td></tr>
-    <tr><td>Memory shortcut restraint</td><td>Do not recopy bindings mentally from older rounds when the source file can be reopened directly.</td></tr>
-    <tr><td>Active output root</td><td>Read the active round root from <code class="inline">AUDIT_OUTPUT_PATH_PATTERN</code> and keep the current family under that governed root only.</td></tr>
-  </tbody>
-</table>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">Fresh-round reset cheat sheet</span>
-  <span class="sumhint">read this instead of the long paragraph</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>If this is true</th>
-      <th>Reopen <code class="inline">OUT_FEEDBACK_FILE</code></th>
-      <th>Clean non-governed workspace</th>
-      <th>Keep active run lineage</th>
-      <th>Create new round path</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Fresh full round</td><td>yes</td><td>yes: revert non-governed <code class="inline">src/**</code>; clear <code class="inline">target/**</code>; remove transient helpers/logs</td><td>no</td><td>yes</td></tr>
-    <tr><td>Within the same active round</td><td>no new round reset, but still yes</td><td>no</td><td>yes: keep <code class="inline">run_01 .. run_0N</code> continuity</td><td>no</td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Cold guardrail</th>
-      <th>Read it this way</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td><code class="inline">no new feedback</code> still written in the file</td><td>Still reopen it. Literal reread is required.</td></tr>
-    <tr><td>Thinking about a reset between governed runs</td><td>Do not do it. Reset is a round-entry boundary, not a <code class="inline">run_01</code> to <code class="inline">run_0N</code> loop.</td></tr>
-    <tr><td>Unsure whether old code or numbering should survive</td><td>Only governed docs memory survives a fresh round. Old active code, stale helpers, and old run numbering do not.</td></tr>
-  </tbody>
-</table>
-</details>
-</details>
-</div>
+reopen from shared constants:
+  -> orchestration path
+  -> reporting path
+  -> local adapter path
+  -> audit output roots
+  -> round targets
+  -> META_ITERATION_COUNT
+  -> SEED_RECORDING_CLASS when relevant</code></pre>
+      <table>
+        <thead>
+          <tr>
+            <th>Binding</th>
+            <th>MUST read it this way</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code class="inline">ROOT_RUN</code></td><td>The one active round root that later holds the root package, canonical page, kept-run packages, and family close-out.</td></tr>
+          <tr><td><code class="inline">META_ITERATION_COUNT</code></td><td>The hard cap that later becomes the active governed window <code class="inline">run_01 .. run_N</code>.</td></tr>
+          <tr><td>Shared paths</td><td>Tell the supervisor where orchestration, reporting, and the local adapter live before any delegation happens.</td></tr>
+          <tr><td>Round targets</td><td>Give the pressure context before the pre-training brief is judged.</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </div>
 </div>
 
 <hr class="sep">
 
 <div class="card">
-<h2>2) Flow Maps And Fast Schemes</h2>
-<div class="note"><b>Use this right after the overview:</b> it gives the shortest supervisory map for reset, pre-training, within-round evolution, and final family judgment before the denser rules begin.</div>
-<details>
-<summary>
-  <span class="summary-title">2.1 Steering map</span>
-  <span class="badge">MAP</span>
-  <span class="sumhint">contract gap, frontier pressure, pivot, or honest stop</span>
-</summary>
-<pre><code>review current family truth
-        ->
-is the weakness reusable contract ambiguity?
-        -> yes: tighten the right contract
-        -> no: keep contract stable
-        ->
-is the current branch still high-yield?
-        -> yes: deepen
-        -> no: pivot to richer reachable frontier
-        ->
-if no meaningful frontier remains:
-        -> stop honestly and preserve why
-</code></pre>
-</details>
-<details>
-<summary>
-  <span class="summary-title">2.2 Fresh round versus continuation</span>
-  <span class="badge">MAP</span>
-  <span class="sumhint">when reset really happens</span>
-</summary>
-<pre><code>launch iterative core
-        |
-        v
-reopen docs memory:
-- docs/out/**
-- docs/prompts/iterativ/**
-- docs/html-ex/**
-- shared report css
-        |
-        v
-clean non-governed workspace:
-- revert src/**
-- clear target/**
-- remove temp helpers/logs outside docs memory
-        |
-        v
-start fresh round at docs/out/&lt;timestamp&gt;/
+  <h2>2) Round Preparation</h2>
+  <div class="note"><b>Round rule:</b> this section prepares one fresh round only. It does not own pre-training mechanics and it does not own run artifact mechanics.</div>
 
-If old src/** changes stay intentionally active:
-  NOT fresh
-  => classify as continuation / inherited baseline
-</code></pre>
-</details>
-<details>
-<summary>
-  <span class="summary-title">2.3 Reset and pre-training map</span>
-  <span class="badge">MAP</span>
-  <span class="sumhint">clean branch baseline first, then relearn fast</span>
-</summary>
-<pre><code>close previous active exercise
-        ->
-undo non-governed active mutations
-        ->
-return repo to current branch baseline
-        ->
-reopen governed history as pre-training
-        ->
-distill one thin reporting-pretraining brief when reporting pressure is real
-        ->
-reuse prior blockers / changed slices / git-derived memory
-        ->
-start fresh run_01..run_0N for the new round
-        ->
-publish and preserve the new family for the next cycle
-</code></pre>
-</details>
-<details>
-<summary>
-  <span class="summary-title">2.4 Within-round ATF evolution</span>
-  <span class="badge">MAP</span>
-  <span class="sumhint">no second freshness reset inside one round</span>
-</summary>
-<pre><code>fresh round starts once
-        |
-        v
-run_01 -> run_02 -> run_03 -> run_04
-   |        |         |         |
-   |        |         |         +-- retained-close / broad absorption
-   |        |         +------------ proof-origin / class absorption / blocker split
-   |        +---------------------- sibling proof / repair / deeper slice
-   +------------------------------- first frontier truth
-
-Allowed inside one round:
-- reuse active code changes
-- extend tests
-- harden support
-- reuse earlier proof from the same round
-
-Required:
-- report changed classes honestly
-- report inherited classes honestly
-- keep attempt lineage reconstructible
-</code></pre>
-</details>
-<details>
-<summary>
-  <span class="summary-title">2.5 One-view aggregation scheme</span>
-  <span class="badge">MAP</span>
-  <span class="sumhint">how the family manager should think at the end</span>
-</summary>
-<pre><code>read all kept run packages
-        ->
-separate business progress from packaging / absorption
-        ->
-measure defended branch coverage versus materialization accounting
-        ->
-detect loop, weak-yield branches, and missed pivot signals
-        ->
-write or refresh the reporting-pretraining brief if later reporting depends on it
-        ->
-write calm first-screen verdict
-        ->
-delegate final page shape to reporting
-        ->
-append calibration close-out for the round
-</code></pre>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">2.6 End-to-end family flow</span>
-  <span class="badge">MAP</span>
-  <span class="sumhint">how reset, discovery, reporting, and aggregation fit together</span>
-</summary>
-<pre><code>reopen docs/out memory
-        ->
-undo active carry-over back to branch baseline
-        ->
-apply fresh-round boundary once
-        ->
-relearn from governed history and branch-state evidence
-        ->
-discovery executes a new round package
-        ->
-reporting composes canonical + history + proof links
-        ->
-iterative core judges evolution, confidence, and retention
-        ->
-preserve package intact for the next round to reopen
-</code></pre>
-</details>
-</div>
-
-<hr class="sep">
-
-<div class="card">
-<h2>3) Comparative Review Workflow</h2>
-<pre><code>reopen active family evidence
-  -> normalize comparable units
-  -> separate active proof from older memory
-  -> rank strongest / weakest checkpoints
-  -> diagnose rerun pressure
-  -> prepare aggregation handoff</code></pre>
-
-<details>
-<summary>
-  <span class="summary-title">3.1 Review stance and family scope</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">read this when deciding what kind of family you are judging</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Review mode</th>
-      <th>Use it when</th>
-      <th>Required stance</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Family manager</td><td>Always</td><td>Treat this file as reviewer and family manager: load packages, compare them, aggregate meaning, and publish the retained verdict.</td></tr>
-    <tr><td><code class="inline">COMPARE</code></td><td>Multiple kept governed runs exist and real ranking by evidence is possible</td><td>Stay in comparative mode and rank by evidence instead of chronology.</td></tr>
-    <tr><td><code class="inline">SINGLE</code></td><td>Only one kept run exists</td><td>Publish a truthful single-candidate verdict and do not invent comparison.</td></tr>
-    <tr><td><code class="inline">PROVISIONAL</code></td><td>Local family comparison exists but no stable incumbent benchmark exists yet</td><td>Keep the judgment provisional and avoid overstating benchmark replacement.</td></tr>
-    <tr><td><code class="inline">BOOTSTRAP</code></td><td>Active artifacts are missing but discovery can still materialize them honestly</td><td>Do not treat bootstrap as automatic stop; run discovery first, then reopen the produced family.</td></tr>
-    <tr><td>Owner boundary</td><td>Always</td><td>Do not turn this file into a second owner of package rules, validation rules, or report-shape rules.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details>
-  <summary>
-    <span class="summary-title">3.1.1 Active family evidence</span>
-    <span class="badge">CORE</span>
-    <span class="sumhint">what the current family evidence set actually is</span>
-  </summary>
-  <table>
-    <thead>
-      <tr>
-        <th>Active-evidence topic</th>
-        <th>MUST read it this way</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Family root</td><td>Treat the current family as living under <code class="inline">AUDIT_OUTPUT_PATH_PATTERN</code>, with its governed runs preserved under <code class="inline">RUN_ARCHIVE_ROOT</code>.</td></tr>
-      <tr><td>Ranking inputs</td><td>Reopen the canonical analysis page, the kept-run summaries, the decisive preserved summaries, and only the benchmark or lineage memory that genuinely changes family judgment.</td></tr>
-      <tr><td>Path-mismatch guard</td><td>Do not treat the absence of a local <code class="inline">RUN_ARCHIVE_ROOT</code> declaration inside <code class="inline">DISCOVERY_PATH</code> as a path mismatch by itself.</td></tr>
-    </tbody>
-  </table>
+  <details>
+    <summary>
+      <span class="summary-title">2.1 Preparation Lane</span>
+      <span class="badge">MAP</span>
+      <span class="sumhint">constants, fresh boundary, baseline</span>
+    </summary>
+<pre><code>prepare the round
+  -> reopen shared constants
+  -> fix ROOT_RUN
+  -> confirm fresh-round boundary
+  -> return repo to current branch baseline
+  -> undo previously modified active code and non-governed carry-over
+  -> only then ask whether launch may begin</code></pre>
   </details>
 
-<details>
-<summary>
-  <span class="summary-title">3.1.2 Comparison memory and family outputs</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">what comes in, what gets judged, and which memory matters</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Memory or output</th>
-      <th>How to use it</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Benchmark memory</td><td>Reopen prior timestamped packages, the current primary local reference-memory package, and exemplars only when they genuinely help trust judgment.</td></tr>
-    <tr><td>Pre-training feedback</td><td>Reopen <code class="inline">OUT_FEEDBACK_FILE</code> and relevant prior <code class="inline">CALIBRATION.md</code> notes as governed pre-training, not as silent active carry-over.</td></tr>
-    <tr><td>Memory labeling</td><td>Keep one clearly named primary local benchmark-memory package per active branch or family, and label any others as companion, structural, or lineage memory.</td></tr>
-    <tr><td>Bootstrap edge case</td><td>If the active run family is missing after round-entry cleanup, run discovery first and resume iterative-core review only after the first governed run is rebuilt.</td></tr>
-    <tr><td>Family outputs</td><td>Produce the family-level verdict: execution state, comparative ranking, retention guidance, confidence/coverage judgment, and handoff instructions for <code class="inline">REPORTING_PATH</code>.</td></tr>
-    <tr><td>Display split</td><td>Keep run-quality, round-accounting, and closure truth explicit here, but leave first-screen wording and visual display to <code class="inline">REPORTING_PATH</code>.</td></tr>
-    <tr><td>Path interpretation</td><td>Interpret project paths relative to the current project root unless a path is explicitly externalized by the local repo.</td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Memory helper</th>
-      <th>How iterative core should use it</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Run-local summaries and ledgers</td><td>Prefer them when they reduce reopening cost, but treat their exact shape and preservation rules as owned by <code class="inline">ORCHESTRATION_PATH</code>.</td></tr>
-    <tr><td>Derived summaries</td><td>Allow them only when they are exact, explicitly stamped as derived, and still point back to the preserved decisive source artifacts.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details>
-  <summary>
-  <span class="summary-title">3.1.3 Normalize family inputs for comparison</span>
-    <span class="badge">QUALITY</span>
-  </summary>
-  <pre><code>active family artifacts
-  -> reopen canonical + kept runs + decisive summaries
-  -> separate current-round evidence from benchmark memory
-  -> label proof-origin / retained-close / lineage-only checkpoints
-  -> normalize counts, roles, and target accounting
-  -> name primary benchmark-memory package
-  -> rank families only after the labels are stable</code></pre>
-  <table>
-    <thead>
-      <tr>
-        <th>Normalization topic</th>
-        <th>MUST do this before ranking</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Produced evidence only</td><td>Judge only the outputs actually produced by <code class="inline">DISCOVERY_PATH</code> and preserved under the active family package.</td></tr>
-      <tr><td>Comparison inputs</td><td>Reopen the current canonical page, kept runs under <code class="inline">RUN_ARCHIVE_ROOT</code>, local history, benchmark memory, and prompt snapshots only when they explain why one family is stronger or weaker.</td></tr>
-      <tr><td>Exemplar review scope</td><td>Reopen <code class="inline">docs/html-ex</code> only when exemplar-grade comparison is truly in scope.</td></tr>
-      <tr><td>Memory separation</td><td>Keep benchmark memory reopened for judgment separate from bootstrap provenance that only made execution possible.</td></tr>
-      <tr><td>Checkpoint naming</td><td>Name active kept runs, inherited anchors, proof-origin checkpoints, retained-close checkpoints, raw attempts, meaningful iterations, and verdict-changing checkpoints before comparing strength.</td></tr>
-      <tr><td>Count normalization</td><td>Normalize counts as raw attempts, meaningful iterations, governed runs, verdict-changing checkpoints, and round-target status.</td></tr>
-      <tr><td>Role normalization</td><td>Normalize roles as proof-origin, retained confidence anchor, broader retained-close, lineage-only support, thin package, or inconclusive comparison.</td></tr>
-      <tr><td>Memory normalization</td><td>Normalize memory as current round packages, benchmark-only anchors, active reference-memory, and exemplars compared only when exemplar review is in scope.</td></tr>
-      <tr><td>Benchmark naming</td><td>Say which package is the primary local benchmark-memory package for the active branch, which packages are companion memory, and which are lineage only.</td></tr>
-      <tr><td>Inherited contract split</td><td>Treat reusable rules as inherited contracts and read them from <code class="inline">ORCHESTRATION_PATH</code> and <code class="inline">REPORTING_PATH</code> instead of restating them here.</td></tr>
-    </tbody>
-  </table>
+  <details>
+    <summary>
+      <span class="summary-title">2.2 Fresh-Round Boundary</span>
+      <span class="badge">MAP</span>
+      <span class="sumhint">the round starts from a clean branch baseline</span>
+    </summary>
+<pre><code>fresh-round boundary
+  -> repo is returned to the current branch baseline
+  -> previously modified active code does not carry into the new round
+  -> only governed docs memory survives
+  -> ROOT_RUN becomes the active round root</code></pre>
+    <table>
+      <thead>
+        <tr>
+          <th>Boundary topic</th>
+          <th>MUST hold before the pre-training gate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Repo state</td><td>Return the repo to the current branch baseline before the round starts. Undo previously modified active code, local outputs, and stale helper state that are not governed memory.</td></tr>
+        <tr><td>What survives</td><td>Only governed docs memory survives round entry; stale active code, temporary helpers, and pre-existing local execution residue do not.</td></tr>
+        <tr><td>Round root</td><td>Treat <code class="inline">ROOT_RUN</code> as the one active round root for everything that follows.</td></tr>
+      </tbody>
+    </table>
+    <div class="rule"><b>Undo rule:</b> a fresh round does not inherit already-modified active code. If the branch is not returned to baseline first, the round is not fresh and launch must stop.</div>
   </details>
-
-<details>
-<summary>
-  <span class="summary-title">3.2 Compare Evidence, Coverage, And Drift</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">3.2.1 Evidence And Package Integrity</span>
-  <span class="badge">QUALITY</span>
-  <span class="sumhint">trust the package before you rank it</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Duty</th>
-      <th>Execute this decision</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Score comparison</td><td>Decide which run is stronger on analysis quality, reporting quality, generated ATF quality, and comparative usefulness.</td></tr>
-    <tr><td>Evidence verification</td><td>Decide whether the reporting story, generated code, and validation proof still agree.</td></tr>
-    <tr><td>Evidence-class symmetry</td><td>Decide whether the comparison is like with like: targeted proof versus targeted proof, or full-suite candidate proof versus full-suite candidate proof. If not, mark it inconclusive.</td></tr>
-    <tr><td>Source-lock integrity</td><td>Decide whether the family used the requested files, excluded forbidden alternates when needed, and stayed execution-symmetric.</td></tr>
-    <tr><td>Bootstrap-provenance integrity</td><td>Decide whether execution scaffolding or generated support was classified honestly as bootstrap provenance and kept separate from benchmark-memory judgment.</td></tr>
-    <tr><td>Package thinness</td><td>Decide whether any kept run is too thin to anchor trust, and push that weakness into the final retention/confidence judgment instead of hiding it under cleaner wording.</td></tr>
-    <tr><td>Render/report integrity</td><td>Consume the render and first-screen verdict from <code class="inline">REPORTING_PATH</code>; if that verdict is weak, downgrade trust here instead of restating report-specific rules.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-<summary>
-  <span class="summary-title">3.2.2 Coverage, Gaps, And Frontier Movement</span>
-  <span class="badge">QUALITY</span>
-  <span class="sumhint">what actually moved</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Duty</th>
-      <th>Execute this decision</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Disconfirmed-frontier preservation</td><td>Decide whether an actively disproved frontier remained visible in the canonical report and actually changed direction, rather than disappearing after the pivot.</td></tr>
-    <tr><td>Business-coverage pressure</td><td>Decide whether the run increased defended business coverage materially, not only packaging quality or one deep isolated proof. A stronger run should either deepen the kept chain or widen honest business coverage in adjacent high-value flows.</td></tr>
-    <tr><td>Coverage delta</td><td>Decide which capabilities expanded, regressed, stayed partial, stayed deferred, or became blocked.</td></tr>
-    <tr><td>Coverage shape</td><td>Decide whether breadth and depth stayed balanced: one narrow proof plus many unclosed siblings is not equivalent to broad defended business coverage, and many shallow hops are not equivalent to one deeply defended chain.</td></tr>
-    <tr><td>Gap delta</td><td>Decide whether the run reduced a benchmark gap, reduced a frontier gap, or only improved orchestration / reporting around the same business truth.</td></tr>
-    <tr><td>Failure honesty</td><td>Decide whether the run preserved honest state labels and did not overclaim validated behavior.</td></tr>
-    <tr><td>Loss causality</td><td>Decide why a losing family lost: business weakness, selector/support weakness, timing/wait weakness, suite-order fragility, governance side effect, or inconclusive noise.</td></tr>
-    <tr><td>Frontier detection</td><td>Decide what highest-value next frontier remains after the current run.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-<summary>
-  <span class="summary-title">3.2.3 Drift, Weakness, And Comparison Pressure</span>
-  <span class="badge">QUALITY</span>
-  <span class="sumhint">what only changed form, not truth</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Drift signal</th>
-      <th>Read it like this</th>
-      <th>Effect on comparison</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Packaging or readability improved</td><td>Call out that form/provenance changed without material business-coverage movement.</td><td>Do not let cleaner packaging masquerade as stronger frontier depth.</td></tr>
-    <tr><td>Same-frontier divergence</td><td>One family changed direction while another only cleaned the artifact.</td><td>Say that asymmetry plainly instead of flattening both into “improvement”.</td></tr>
-    <tr><td>Evidence-class mismatch</td><td>The families are not yet like-for-like.</td><td>Mark the comparison inconclusive until symmetry exists.</td></tr>
-    <tr><td>Bootstrap or borrowed-family influence</td><td>Keep bootstrap provenance, borrowed-family influence, and prompt drift visible when they explain why a family got stronger or weaker.</td><td>Preserve causal honesty in the final ranking and retention readout.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">3.3 Aggregate Evolution, Retention, And Confidence</span>
-  <span class="badge">QUALITY</span>
-</summary>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">3.3.1 Evolution summary</span>
-  <span class="badge">QUALITY</span>
-  <span class="sumhint">what truly moved across the family</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Evolution topic</th>
-      <th>MUST summarize</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Baseline of comparison</td><td>Compare the current round against the strongest kept local anchor and the current primary local reference-memory package.</td></tr>
-    <tr><td>Decisive deltas</td><td>Name the decisive business delta, the decisive test/support delta, and the decisive trust delta.</td></tr>
-    <tr><td>Remaining weakness</td><td>Name the strongest weakness still blocking a higher-confidence retained package or exemplar-grade report.</td></tr>
-    <tr><td>Retention threshold</td><td>Recommend retention or benchmark replacement only when the round clears the shared run-quality and reporting bars more honestly or more usefully than the incumbent memory. Optional caller-owned <code class="inline">QUALITY_TARGETS</code> may help local phrasing, but they must not overrule the shared gates.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-<summary>
-  <span class="summary-title">3.3.2 Retention and confidence split</span>
-  <span class="badge">QUALITY</span>
-  <span class="sumhint">which package is safest, strongest, or still weak</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Confidence topic</th>
-      <th>MUST make explicit</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Leader split</td><td>Separate the business evolution leader from the retained confidence anchor when they diverge.</td></tr>
-    <tr><td>Trust source</td><td>Say whether the retained package earned trust through business proof, broader retained-close, execution robustness, report quality, or only packaging clarity.</td></tr>
-    <tr><td>Confidence penalties</td><td>Push thin packages, missing symmetric proof, and large-budget-underused rounds down in confidence.</td></tr>
-    <tr><td>Losing runs</td><td>Keep losing runs reviewable enough for later comparison.</td></tr>
-    <tr><td>Anchor naming</td><td>Name one unambiguous <code class="inline">Primary Retained Validation Run</code> for the final verdict and explain why it anchors trust.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-<summary>
-  <span class="summary-title">3.3.3 Final supervisory questions</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">fast final sanity check</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Supervisory question</th>
-      <th>Answer it this way</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Did direction change?</td><td>Answer whether the round changed business direction or only improved retained-run clarity.</td></tr>
-    <tr><td>Is the confidence anchor also the evolution leader?</td><td>Answer whether the retained confidence anchor is also the strongest business-evolution package, or only the safest retained slice.</td></tr>
-    <tr><td>What gap remains strongest?</td><td>Answer whether the strongest remaining gap is business depth, execution fragility, or packaging/provenance only.</td></tr>
-    <tr><td>What did borrowed-family influence change?</td><td>Answer whether borrowed-family influence changed frontier depth or only reporting/orchestration quality.</td></tr>
-    <tr><td>What did external bootstrap change?</td><td>Answer whether external bootstrap provenance changed only executability or also changed business depth; if it changed only executability, keep that caveat out of the main business-evolution reasoning.</td></tr>
-    <tr><td>Stop or continue?</td><td>Answer whether the family is ready to stop, needs another run, or should only be kept as memory while a stronger neighboring frontier remains open.</td></tr>
-  </tbody>
-</table>
-</details>
-</details>
 </div>
 
 <hr class="sep">
 
 <div class="card">
-<h2>4) Rerun And Aggregation Workflow</h2>
+  <h2>3) Pre-Training Gate</h2>
+<pre><code>pre-training gate
+  -> require one saved pre-training brief
+  -> consume it only
+  -> accept launch or block launch</code></pre>
 
-<details>
-<summary>
-  <span class="summary-title">4.1 Rerun Diagnosis And Orchestration Delegation</span>
-  <span class="badge">PROMPT</span>
-</summary>
-<div class="note"><b>Use this block as a supervisory read:</b> diagnose what the family proved about rerun quality, frontier choice, and stop honesty, then push the corrective execution rules down into <b>ORCHESTRATION_PATH</b> instead of turning this file into a second run-worker contract.</div>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">4.1.1 Contract-clarity diagnosis</span>
-  <span class="sumhint">decide whether the family exposed a reusable prompt gap</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Diagnosis signal</th>
-      <th>Supervisory read</th>
-      <th>Required delegation</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Reusable contract weakness</td><td>Decide whether the family exposed a reusable prompt gap or only a product/environment limit or honest execution miss.</td><td>Name the exact shared or local prompt that should absorb the lesson when reusable.</td></tr>
-    <tr><td>Unformalized lesson</td><td>If a reusable contract gap was diagnosed but not captured upstream, the rerun remains incompletely learned.</td><td>Push the lesson into the owning prompt instead of leaving it as commentary only.</td></tr>
-  </tbody>
-</table>
-</details>
+  <details>
+    <summary>
+      <span class="summary-title">3.1 Required Artifact</span>
+      <span class="badge">CORE</span>
+      <span class="sumhint">iterative core consumes one auditable brief</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Pre-training gate rule</th>
+          <th>Required stance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Required artifact</td><td>Require <code class="inline">ROOT_RUN/review/round-pretraining-brief.md</code>, or legacy-equivalent <code class="inline">ROOT_RUN/review/reporting-pretraining-brief.md</code> when preserved by older packages.</td></tr>
+        <tr><td>Launch boundary</td><td>Launch is blocked if the brief is weak or missing under real history pressure.</td></tr>
+      </tbody>
+    </table>
+  </details>
 
-<details class="subdetails">
-<summary>
-  <span class="summary-title">4.1.2 Frontier and loop diagnosis</span>
-  <span class="sumhint">judge whether the family deepened usefully or overstayed one branch</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Loop or frontier signal</th>
-      <th>Read it like this</th>
-      <th>Required delegation</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Frontier reduction</td><td>Say whether the family reduced a real business frontier gap or mainly improved package honesty, traceability, or comparison clarity.</td><td>Keep rerun pressure focused on real business movement.</td></tr>
-    <tr><td>Same-family overstay</td><td>Flag when later runs spent mostly on retained-close, contextual replay, or packaging improvement after one good proof already existed.</td><td>Delegate a stronger pivot rule to orchestration.</td></tr>
-    <tr><td>Pivot signal</td><td>Name the signal that should have moved execution sooner: repeated old-sibling red, no new class growth, no second useful class, only packaging gain, or no stronger descendant truth.</td><td>Make the next run obey that signal explicitly.</td></tr>
-  </tbody>
-</table>
-</details>
+  <details>
+    <summary>
+      <span class="summary-title">3.2 Minimum Pass / Fail Check</span>
+      <span class="badge">CORE</span>
+      <span class="sumhint">what the brief must already say before run_01 may start</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Brief verdict</th>
+          <th>Iterative-core requirement</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code class="inline">strong branch</code></td><td>Must name what is already strongest nearby.</td></tr>
+        <tr><td><code class="inline">saturated branch</code></td><td>Must name what is already overused or low-yield.</td></tr>
+        <tr><td><code class="inline">real truth moved</code></td><td>Must name what prior move changed executable truth for real.</td></tr>
+        <tr><td><code class="inline">weak-yield replay</code></td><td>Must name what looked busy but was mostly replay or packaging.</td></tr>
+        <tr><td><code class="inline">live round pressure</code></td><td>Must name the one pressure that justifies launch now.</td></tr>
+        <tr><td><code class="inline">launch decision</code></td><td>Must say <code class="inline">launch</code> or <code class="inline">strengthen first</code>.</td></tr>
+      </tbody>
+    </table>
+  </details>
 
-<details class="subdetails">
-<summary>
-  <span class="summary-title">4.1.3 Protected/downstream diagnosis</span>
-  <span class="sumhint">judge whether the family stopped too early at shell or route level</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Protected/downstream signal</th>
-      <th>Supervisory read</th>
-      <th>Required family readout</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Stopped at shell or route</td><td>Say whether the family stopped at route or shell success while a visible protected or downstream continuation still mattered.</td><td>Do not let shell success read as full frontier closure.</td></tr>
-    <tr><td>Mechanism split</td><td>Keep route truth, protected-shell truth, deeper flow truth, and blocked/materialization truth distinct.</td><td>Preserve these distinct layers in the final family readout.</td></tr>
-    <tr><td>Failed materialization</td><td>Treat visible downstream surfaces that failed materialization as useful anti-overclaim evidence.</td><td>Keep them visible as causality, not decorative noise.</td></tr>
-  </tbody>
-</table>
-</details>
+  <details>
+    <summary>
+      <span class="summary-title">3.3 Launch Block</span>
+      <span class="badge">CORE</span>
+      <span class="sumhint">no governed window starts from a weak brief</span>
+    </summary>
+<pre><code>launch blocked unless
+  -> the brief exists when history pressure is real
+  -> the brief names the minimum required verdicts
+  -> the brief is specific enough to choose launch or strengthen first
 
-<details class="subdetails">
-<summary>
-  <span class="summary-title">4.1.4 Early-stop verdict</span>
-  <span class="sumhint">judge whether the stop was earned or only procedurally explained</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Stop verdict topic</th>
-      <th>MUST decide</th>
-      <th>Follow-up action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Earned versus procedural stop</td><td>Say whether the family earned stop honestly or only documented a procedural accounting-gap stop.</td><td>Keep the verdict explicit in aggregation and calibration.</td></tr>
-    <tr><td>Open meaningful frontier</td><td>Downgrade the family when meaningful hyperlinks, seed-adjacent continuations, or benchmark-significant gaps remained open without a strong blocked / unsafe / low-value case.</td><td>Prevent a soft accounting-gap stop from reading as success.</td></tr>
-    <tr><td>Delegation</td><td>Push the concrete next-run stop, pivot, and frontier rules down into <code class="inline">ORCHESTRATION_PATH</code>.</td><td>Do not create another supervisory mini-contract here.</td></tr>
-  </tbody>
-</table>
-</details>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">4.2 Round-boundary reset and reopened memory</span>
-  <span class="badge">RESET</span>
-</summary>
-<div class="note"><b>This file owns the round boundary only:</b> decide fresh versus continuation, decide which governed memory is reopened first, and judge whether the next round stayed clean enough for fair family comparison. Once the new round starts executing, package detail belongs back to <code class="inline">ORCHESTRATION_PATH</code>.</div>
-<pre><code>round boundary decided once
-  -> strongest memory reopened first
-  -> fresh active family rebuilt
-  -> only new kept runs compared as active evidence
-  -> older packages stay named memory, not silent winners</code></pre>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">4.2.1 Round-boundary split</span>
-  <span class="badge">RESET</span>
-  <span class="sumhint">who decides the boundary, who owns the new run</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Owner</th>
-      <th>What stays here</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Iterative core</td><td>Judge fresh versus continuation, reopen the strongest memory first, define comparison scope, and decide whether reset cleanliness is strong enough for fair family judgment.</td></tr>
-    <tr><td><code class="inline">ORCHESTRATION_PATH</code></td><td>Own the new run package, validation bundle, provenance bundle, retained-run semantics, and exact kept-run closure once execution starts.</td></tr>
-    <tr><td><code class="inline">REPORTING_PATH</code></td><td>Own canonical page shape, render/readability contract, graph family, score-card display, and proof-link composition.</td></tr>
-    <tr><td><code class="inline">DISCOVERY_PATH</code></td><td>Own exploration, code changes, validation, and creation of <code class="inline">run_01 .. run_0N</code> inside the fresh round.</td></tr>
-  </tbody>
-</table>
-</details>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">4.2.2 Reopen order for a fresh round</span>
-  <span class="sumhint">recover the best memory before the new run starts</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Reopen first</th>
-      <th>Use it for</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Strongest prior branch package</td><td>Recover the best nearby business truth, proof anchor, and next plausible descendants without starting blind.</td></tr>
-    <tr><td>Latest relevant <code class="inline">CALIBRATION.md</code></td><td>Recover loop warnings, weak-yield branches, and pivot signals that were already learned.</td></tr>
-    <tr><td>Latest relevant <code class="inline">review/reporting-pretraining-brief.md</code> when present</td><td>Recover the already-distilled reporting judgment: what sections are earned, what must stay collapsed, what still caps score confidence, and what should not be relearned from scratch.</td></tr>
-    <tr><td><code class="inline">git-derived/branch-diff-summary.md</code></td><td>Recover which changed classes and support deltas actually enabled prior proof.</td></tr>
-    <tr><td>Changed-class slices under <code class="inline">atf-generated/</code></td><td>Reuse real test/support code that already proved useful instead of rebuilding it from memory.</td></tr>
-    <tr><td>Named blocker or missing-input notes</td><td>Decide early whether to repair, route around, or deprioritize a branch before wasting a governed run.</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>Memory rule:</b> reopened history is governed pre-training memory. It shortens relearning cost, but it does not become silent active carry-over or an automatic winner.</div>
-</details>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">4.2.3 Reporting pretraining brief</span>
-  <span class="sumhint">thin handoff from pre-training into later reporting judgment</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Topic</th>
-      <th>Rule</th>
-      <th>Avoid this drift</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Artifact name</td><td>Use a thin root review artifact such as <code class="inline">review/reporting-pretraining-brief.md</code>.</td><td>Hiding the handoff only in long <code class="inline">CALIBRATION.md</code> prose.</td></tr>
-    <tr><td>When to create it</td><td>Create it when pre-training materially shapes later reporting judgment: benchmark-memory pressure, breadth-memory reporting, exemplar-grade comparison, or reporting-only refinement.</td><td>Making it mandatory for every tiny round or every simple local close-out.</td></tr>
-    <tr><td>Owner</td><td>Iterative core owns the decision to create it and the thin supervisory content inside it.</td><td>Pushing this artifact into the shared report contract or pretending reporting should rediscover it alone.</td></tr>
-    <tr><td>Purpose</td><td>Distill the pre-training conclusions that reporting must consume later without rereading a full history stack.</td><td>Turning it into a second full report or a second full calibration log.</td></tr>
-    <tr><td>Scope</td><td>Use it only for reporting judgment: opening pressure, section completeness, collapse posture, score restraint, benchmark hierarchy, and strongest remaining reporting blocker.</td><td>Mixing it with proof creation, rerun planning, or code-edit instruction lists.</td></tr>
-    <tr><td>Truth boundary</td><td>It may summarize what preserved evidence means for reporting, but it does not redefine saved-artifact truth.</td><td>Letting the brief overrule manifests, run summaries, or validation artifacts.</td></tr>
-  </tbody>
-</table>
-<pre><code>minimum good reporting-pretraining brief
-  -> current role = principal / companion / predecessor
-  -> benchmark truth = ...
-  -> main proof ceiling = ...
-  -> breadth-memory round = yes/no
-  -> reporting-only stage = yes/no
-
-  -> required now:
-     Business Domain Graph
-     Actor State Graph
-     Automation Coverage Overlay
-     Test Mapping
-     Iteration Delta View
-
-  -> keep collapsed:
-     Current Baseline Decision
-     Trust Summary
-     Round State Summary
-     Cross-Run Comparison
-     Iteration History And Score Evolution
-
-  -> must stay first:
-     score cards
-     benchmark verdict
-     scoring evidence spine
-
-  -> main learned restraints:
-     do not over-score beyond learned benchmark calm
-     do not let graph beat verdict on first read
-     do not overclaim machine-proof precision
-
-  -> top remaining reporting blocker = ...</code></pre>
-<div class="note"><b>Thin-handoff rule:</b> this brief should lower reread cost for the reporting step, not create a second heavy memory artifact. If the same page can be rebuilt just as fast from a short block inside <code class="inline">CALIBRATION.md</code>, do not grow the brief by reflex.</div>
-</details>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">4.2.4 Freshness verdict</span>
-  <span class="sumhint">classify the next round cleanly before comparison starts</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Boundary signal</th>
-      <th>Verdict</th>
-      <th>What to do next</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Active codebase returned to current branch baseline, then governed memory reopened</td><td><code class="inline">fresh round</code></td><td>Start the new round at <code class="inline">AUDIT_OUTPUT_PATH_PATTERN</code> and compare only its own kept runs as active evidence.</td></tr>
-    <tr><td>Intentional active code or state carried forward across the boundary</td><td><code class="inline">continuation / inherited baseline</code></td><td>Keep that inheritance explicit and do not sell the round as clean-room freshness.</td></tr>
-    <tr><td>Surviving non-governed mutations or active-files-versus-report mismatch</td><td><code class="inline">reset-contaminated</code> or <code class="inline">audit-invalid</code></td><td>Downgrade the family and repair the boundary before trusting later comparison.</td></tr>
-    <tr><td>Meaningful frontier stayed open but the round stopped early</td><td><code class="inline">underused round</code></td><td>Push the underuse into the final retention and next-move judgment instead of hiding it under cleaner packaging.</td></tr>
-  </tbody>
-</table>
-</details>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">4.2.5 Preservation expectation</span>
-  <span class="sumhint">what the next family must still preserve well enough for later judgment</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Preservation topic</th>
-      <th>Family-manager expectation</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Current round integrity</td><td>Keep the finished current round auditably intact under its timestamp root.</td></tr>
-    <tr><td>Older packages as memory</td><td>Keep older packages reopenable as benchmark or lineage memory, not as silently active comparison winners.</td></tr>
-    <tr><td>Core kept-run bundle</td><td>Expect every kept run to remain independently reviewable, but let the exact bundle contract stay owned by <code class="inline">ORCHESTRATION_PATH</code>.</td></tr>
-    <tr><td>Reporting-pretraining handoff</td><td>When reporting pressure was real, expect the round root to preserve a thin <code class="inline">review/reporting-pretraining-brief.md</code> or an equally explicit local handoff that keeps section-level reporting judgment cold.</td></tr>
-    <tr><td><code class="inline">src/main</code> versus <code class="inline">src/test</code> split</td><td>Expect the package to preserve that split clearly enough that family judgment can separate framework evolution from defended-scope materialization volume.</td></tr>
-    <tr><td>Thin-package rejection</td><td>Reject or downgrade packages that cannot explain purpose, result, lesson, and retention role fast.</td></tr>
-  </tbody>
-</table>
-</details>
-</details>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">4.3 Family honesty readout</span>
-  <span class="badge">RESET</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Family-honesty topic</th>
-      <th>MUST keep explicit</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Evidence basis</td><td>Publish the family using only evidence that is visible in preserved run packages and the canonical analysis outputs.</td></tr>
-    <tr><td>Outcome naming</td><td>State the honest family-level execution outcome when partial reset, blocked work, missing input, bootstrap dependency, single-candidate comparison, or accounting-gap stop still shaped the round.</td></tr>
-    <tr><td>Strength downgrade</td><td>Downgrade family strength when success depended mainly on prompt cleanup, packaging repair, workaround bootstrap, or shell-level truth without deeper defended continuation.</td></tr>
-    <tr><td>Per-run honesty ownership</td><td>Delegate per-run claim guard, failure-state wording, and invalid-closure prevention rules to <code class="inline">ORCHESTRATION_PATH</code>.</td></tr>
-  </tbody>
-</table>
-</details>
+if blocked
+  -> strengthen the brief first
+  -> do not start governed run_01</code></pre>
+  </details>
 </div>
 
 <hr class="sep">
 
 <div class="card">
-<h2>5) Final Aggregation Output</h2>
+  <h2>4) Active Governed Window</h2>
+<pre><code>active governed window
+  -> derive it from META_ITERATION_COUNT
+  -> define run_01 .. run_N as the one active window
+  -> keep older memory comparative only</code></pre>
 
-<details>
-<summary>
-  <span class="summary-title">5.1 Aggregation Handoff</span>
-  <span class="badge">CORE</span>
-</summary>
-<pre><code>family verdict first
-  -> opening truth blocks
-  -> attempt / artifact truth
-  -> package completeness truth
-  -> evolution and proof-class split
-  -> retention / benchmark / next move</code></pre>
-<div class="note">
-  Aggregate what the family proved, then hand the shape to <code class="inline">REPORTING_PATH</code>.
-  This file should decide the meaning, ordering, trust split, and next move; it should not become a second page-layout standard.
-</div>
-<table>
-  <thead>
-    <tr>
-      <th>Aggregation handoff stage</th>
-      <th><code class="inline">CORE</code> decides</th>
-      <th>Delegate to</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>family judgment</td><td>what truth moved, what stayed retained-only, what lost, and why</td><td>keep here</td></tr>
-    <tr><td>opening order</td><td>which truths must surface first</td><td><code class="inline">REPORTING_PATH</code> for exact section composition</td></tr>
-    <tr><td>artifact trust</td><td>attempt/accounting/package/closure truth</td><td><code class="inline">ORCHESTRATION_PATH</code> for exact artifact checklist</td></tr>
-    <tr><td>graph need</td><td>which visual family is needed</td><td><code class="inline">REPORTING_PATH</code> for exact graph choice and rendering style</td></tr>
-    <tr><td>promotion/retention</td><td>what deserves richer reporting, local benchmark memory, or exemplar review</td><td><code class="inline">REPORTING_PATH</code> and <code class="inline">docs/html-ex</code> discipline</td></tr>
-  </tbody>
-</table>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.1.1 One-view aggregation scheme</span>
-  <span class="sumhint">aggregation stance after the visual scheme above</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Aggregation stance</th>
-      <th>MUST keep true</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Visual shortcut use</td><td>Read the visual scheme from <b>Flow Maps And Fast Schemes</b> first when you need the shortest aggregation picture.</td></tr>
-    <tr><td>Family-first judgment</td><td>Judge the family first as evidence and learning, not as a winner ceremony.</td></tr>
-    <tr><td>Truth separation</td><td>Keep <code class="inline">good package</code>, <code class="inline">run-quality cleared</code>, <code class="inline">accounting target met</code>, and <code class="inline">procedural stop</code> separate.</td></tr>
-    <tr><td>Calibration end-state</td><td>End with a calibration lesson that can improve the next round, not only with a static report verdict.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.1.2 State and stop truth</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">what the family verdict must settle before reporting renders it</span>
-</summary>
-<div class="note"><b>Delegation rule:</b> this section decides the verdict bundle only. Exact first-screen block order, score-zone composition, trust phrasing, and top-of-page compression belong to <code class="inline">REPORTING_PATH</code>.</div>
-<table>
-  <thead>
-    <tr>
-      <th>Verdict bundle</th>
-      <th><code class="inline">CORE</code> must settle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Execution-state verdict</td><td>State explicitly: comparative, bootstrap, missing-input, single-candidate, no-incumbent-baseline, or another honesty-preserving state required by the evidence.</td></tr>
-    <tr><td>Opening truth bundle</td><td>Settle what truth moved, what stayed only as retained confidence, what the proof basis is, and what still remains open versus promoted.</td></tr>
-    <tr><td>State split</td><td>Keep execution state, run-quality, accounting, closure, and benchmark stance logically separate so the final page cannot collapse them into one success claim.</td></tr>
-    <tr><td>First-pass readability</td><td>Make the verdict bundle answerable on the first pass, before the reader opens individual kept runs or lower audit sections.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.1.3 Count and artifact truth</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">how to make attempts reconstructible fast</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Count or artifact topic</th>
-      <th>MUST make explicit</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Run/attempt split</td><td>Publish governed runs kept, intermediate attempts inside them, meaningful iterations counted, and verdict-changing iterations separately.</td></tr>
-    <tr><td>Reader reconstruction order</td><td>Let a tired reader reconstruct counts in this order: <code class="inline">governed runs kept</code> -> <code class="inline">real internal attempts</code> -> <code class="inline">verdict-changing checkpoints</code>.</td></tr>
-    <tr><td>Raw-command guard</td><td>Do not substitute a raw command count for real attempt accounting.</td></tr>
-    <tr><td>Family attempt map</td><td>Expose one family-level attempt map in the canonical page.</td></tr>
-    <tr><td>Budget interpretation</td><td>Make explicit that the large execution budget is round-level, not per-run.</td></tr>
-    <tr><td>Late same-frontier retry honesty</td><td>Explain what each retry materially taught, what confounder it removed, and when the evidence crossed from constructive hardening into <code class="inline">pivot should now happen</code>.</td></tr>
-    <tr><td>Run-local attempt identity</td><td>Require run-local attempt identity, but treat its exact ledger fields and artifact pointers as owned by <code class="inline">ORCHESTRATION_PATH</code>.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.1.4 Package-completeness truth</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">which kept runs are audit-ready versus thin</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Package truth topic</th>
-      <th>MUST state</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Audit readiness</td><td>State whether each kept run package is audit-ready or still too thin.</td></tr>
-    <tr><td>Missing pieces</td><td>Name the missing pieces explicitly instead of hiding them inside a soft overall score.</td></tr>
-    <tr><td>Thinness separation</td><td>Keep package thinness separate from business success and separate again from run-quality or accounting-close claims.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.1.5 Evolution and proof-class split</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">what moved and what kind of proof supports it</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Evolution split</th>
-      <th>MUST publish</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Ordering</td><td>Order the kept runs or families by useful evolution value and retained confidence, with one short causal reason for stronger versus weaker positions.</td></tr>
-    <tr><td>Proof-class split</td><td>State the split explicitly: business evolution leader, retained confidence anchor, execution-robustness leader, and whether they are the same run or different runs.</td></tr>
-    <tr><td>Proof-origin versus retained close</td><td>State which run first closed the active truth and which run became the strongest broader retained close. If one or both are missing, say so explicitly.</td></tr>
-    <tr><td>Symmetry</td><td>State whether the comparison was truly symmetric or remained inconclusive because the evidence classes did not match.</td></tr>
-    <tr><td>Test-output split</td><td>State which kept runs actually created or materially expanded tests, how many each added, and whether the family mostly spent its budget on new proof, broader absorption, or packaging recapture.</td></tr>
-    <tr><td>Quality/accounting-versus-package honesty</td><td>Say explicitly when business truth and score cards are strong but the configured run-quality bar stayed thin or the round-level accounting target stayed far below close. Good package quality must not silently read as run-quality cleared or accounting met.</td></tr>
-    <tr><td>Self-learning verdict</td><td>Keep one auditable self-learning verdict: which signal should have triggered an earlier pivot, which branch became low-yield, what mechanism or blocker was clarified, and how much of that learning became real new or materially expanded tests instead of only a cleaner package.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.1.6 Coverage and causality</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">what business truth moved and why</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Output</th>
-      <th>Publish this</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Deepest defended flow verdict</td><td>State the deepest business chain actually defended by evidence and name the kept run that anchors that chain.</td></tr>
-    <tr><td>Exploration-versus-proof verdict</td><td>State whether the family mainly increased defended depth, only broadened explored surface, or mostly hardened an already known proof.</td></tr>
-    <tr><td>Gap verdict</td><td>State the strongest benchmark gap, strongest frontier gap, and whether the winning family actually reduced one of them.</td></tr>
-    <tr><td>Frontier-gap verdict</td><td>State whether the round reduced a business frontier gap, only a benchmark-comparison gap, or only a packaging/provenance gap.</td></tr>
-    <tr><td>Loser-cause verdict</td><td>State exactly why the losing family lost and whether that loss is structural, local, or still inconclusive.</td></tr>
-    <tr><td>Graph handoff verdict</td><td>State which visuals the canonical page needs most: business flow, actor/state meaning, coverage/frontier, or lineage support. A run-lineage graphic does not replace a real business-understanding graph family.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-  <summary>
-    <span class="summary-title">5.1.7 Retention, Benchmark Review, And Next Move</span>
-    <span class="badge">CORE</span>
-    <span class="sumhint">what should happen next</span>
-  </summary>
-  <table>
-    <thead>
-      <tr>
-        <th>Next-move topic</th>
-        <th>MUST state</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Improvement plan</td><td>State a short improvement plan tied to the active frontier and the current weaknesses.</td></tr>
-      <tr><td>Prompt guidance</td><td>State any concrete prompt or discovery guidance that should change in <code class="inline">DISCOVERY_PATH</code>.</td></tr>
-      <tr><td>Reference-memory recommendation</td><td>State whether the current canonical report deserves to stay explicitly reopenable as a strong local reference candidate or benchmark-memory anchor even when it is not yet the primary local reference-memory package or an exemplar-grade benchmark.</td></tr>
-      <tr><td>Benchmark recommendation</td><td>State whether the current primary local reference-memory package should be kept or replaced.</td></tr>
-      <tr><td>Exemplar copying</td><td>Copy into <code class="inline">docs/html-ex</code> only if the final report beat every relevant exemplar already stored there; otherwise preserve the round normally but reject exemplar copying explicitly.</td></tr>
-      <tr><td>Exemplar replacement logic</td><td>When replacing an older <code class="inline">ref-*</code>, state which older exemplar lost and on which four gates: current contract execution, first-screen force, audit reopenability, and graph/visual authority for the same use case.</td></tr>
-      <tr><td>Next-run targets</td><td>State the next-run targets for frontier, validation, and evidence.</td></tr>
-    </tbody>
-  </table>
+  <details>
+    <summary>
+      <span class="summary-title">4.1 Window Definition</span>
+      <span class="badge">FLOW</span>
+      <span class="sumhint">one active family window per round</span>
+    </summary>
+<pre><code>window rule
+  META_ITERATION_COUNT = N
+  active governed window = run_01 .. run_N</code></pre>
   </details>
 
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.1.8 Artifact Publication And Cleanup</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">what changed on disk</span>
-</summary>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.1.8.1 Publication truth</span>
-  <span class="sumhint">what changed on disk and why it matters</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Publication topic</th>
-      <th>MUST state</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Written locations</td><td>State which family-level locations were updated: active round root, canonical analysis, history, reference-memory, and exemplar locations when relevant.</td></tr>
-    <tr><td><code class="inline">src/main</code> vs <code class="inline">src/test</code></td><td>State the meaningful code split and why each side mattered to the final family verdict; leave the detailed slice inventory to <code class="inline">ORCHESTRATION_PATH</code>.</td></tr>
-    <tr><td>Cleanup and preservation</td><td>State what was intentionally cleaned, what was intentionally preserved, and whether the current round remains fully preserved on disk for later audit.</td></tr>
-  </tbody>
-</table>
-</details>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.1.8.2 Close-out truth</span>
-  <span class="sumhint">budget, attempts, target gap, and fresh calibration</span>
-</summary>
-<pre><code>budget closed?
-  -> yes: say consumed / meaningful / stop verdict clearly
-  -> no : say why early stop was accepted
+  <details>
+    <summary>
+      <span class="summary-title">4.2 Window Boundary</span>
+      <span class="badge">FLOW</span>
+      <span class="sumhint">what counts and what stays only as memory</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Window topic</th>
+          <th>MUST read it this way</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Governed runs</td><td>Only <code class="inline">run_01 .. run_N</code> count as active family evidence for this round.</td></tr>
+        <tr><td>Intermediate attempts</td><td>May explain honesty, but do not count as extra governed runs unless promoted.</td></tr>
+        <tr><td>Older rounds</td><td>Remain comparative memory only; they do not silently re-enter active accounting.</td></tr>
+      </tbody>
+    </table>
+  </details>
 
-defended branch mature enough?
-  -> yes: state which kept runs cleared the bar and why
-  -> no : state why the round stayed quality-thin
-
-closure closed?
-  -> yes: root + render + provenance + package all closed
-  -> no : say exactly which closure layer stayed open</code></pre>
-<pre><code>evaluation ladder
-  -> run
-     did one kept run clear RUN_EXPECTED_DELTA_QUALITY?
-
-  -> round
-     how much defended scope was materially turned into tests?
-     did ROUND_TARGET_TEST_COUNT get met or stay open honestly?
-
-  -> closure
-     is root + render + provenance + package fully closed?
-
-  -> rollout
-     can the same verdict survive cold recompute from saved artifacts?</code></pre>
-<table>
-  <thead>
-    <tr>
-      <th>Close-out topic</th>
-      <th>MUST state</th>
-      <th>If still open, say it like this</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Budget close-out</td><td>configured <code class="inline">META_ITERATION_COUNT</code>, consumed meta-iterations, effective meaningful meta-iterations, explicit stop verdict, and why any unconsumed depth was accepted</td><td><code class="inline">budget not exhausted, stop accepted because ...</code></td></tr>
-    <tr><td>Run-versus-attempt accounting</td><td>how many governed runs were archived in the active scope, how many intermediate attempts happened inside them, and which attempts stayed lineage-only rather than becoming new kept runs</td><td><code class="inline">attempt count high, but durable kept runs remained low because ...</code></td></tr>
-    <tr><td>Run-quality close-out</td><td>configured <code class="inline">RUN_EXPECTED_DELTA_QUALITY</code>, the computed <code class="inline">RUN_DELTA_SCORE_ACTUAL</code> for each kept run, which kept runs cleared it, what kind of delta they delivered, and why any kept run stayed below the bar</td><td><code class="inline">run-quality still thin</code> or another equally explicit verdict</td></tr>
-    <tr><td>Round-accounting close-out</td><td>configured <code class="inline">ROUND_TARGET_TEST_COUNT</code>, what defended branch coverage was materially turned into tests, per-run contribution to that materialization, and the reason any remaining accounting gap was accepted</td><td><code class="inline">accounting target missed badly</code>, <code class="inline">accounting target still open</code>, or another equally explicit verdict</td></tr>
-    <tr><td>Closure close-out</td><td>whether root, render, provenance, and kept-run package closure are all fully closed; use <code class="inline">REPORTING_PATH</code> and <code class="inline">ORCHESTRATION_PATH</code> as the exact checklist owner rather than restating it here</td><td><code class="inline">run-quality or accounting may be strong, contract fully closed = no</code> when root files, closure artifacts, or consistency are still open</td></tr>
-    <tr><td>Publication-miss close-out</td><td>treat first-screen order misses, hidden decisive proof, and competing WIP siblings as real closure defects, not cosmetic issues</td><td><code class="inline">business strong, publication miss still open: ...</code></td></tr>
-    <tr><td>Fresh calibration close-out</td><td>append the self-evaluation to the current round's <code class="inline">CALIBRATION.md</code> immediately after closure while execution memory is still fresh</td><td><code class="inline">finish step skipped under pressure: ...</code> and <code class="inline">artifact still missing or too thin: ...</code></td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Close-out verdict pattern</th>
-      <th>Use wording like this</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>budget stopped early but honestly</td><td><code class="inline">budget not exhausted, stop accepted because ...</code></td></tr>
-    <tr><td>run-quality cleared but closure still open</td><td><code class="inline">run-quality cleared, contract fully closed = no</code></td></tr>
-    <tr><td>run-quality still thin</td><td><code class="inline">run-quality still thin: missing delta = ...</code></td></tr>
-    <tr><td>accounting target still open</td><td><code class="inline">accounting target still open: remaining gap = ...</code></td></tr>
-    <tr><td>business strong, publication still weak</td><td><code class="inline">business strong, publication miss still open: ...</code></td></tr>
-    <tr><td>finish step skipped</td><td><code class="inline">finish step skipped under pressure: ...</code></td></tr>
-  </tbody>
-</table>
-<pre><code>family-level aggregation example
-  -> run_02 = 8.9 / 10, cleared, proof-origin + stronger truth
-  -> run_03 = 6.2 / 10, still thin, replay / hardening only
-  -> run_04 = 8.6 / 10, cleared, non-promotion honesty + bounded retained confidence
-
-family close-out must read like:
-  -> two kept runs cleared the bar
-  -> one stayed lineage/support only
-  -> do not average them into one fake family score
-  -> keep each run's role explicit</code></pre>
-<div class="note"><b>Final-page wording delegation:</b> keep the close-out states settled here, but read the exact canonical wording rules from <code class="inline">REPORTING_PATH</code>. This file should not duplicate the report-language contract.</div>
-<table>
-  <thead>
-    <tr>
-      <th>Fresh calibration add-on</th>
-      <th>Keep it this explicit</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Carry-forward commentary</td><td><code class="inline">CALIBRATION.md</code> is local carry-forward commentary, not only a score sheet.</td></tr>
-    <tr><td>Required scores</td><td>At minimum: <code class="inline">package quality</code>, <code class="inline">test-output performance</code>, <code class="inline">frontier richness</code>, and <code class="inline">overall</code>; add <code class="inline">render discipline</code> separately when it mattered.</td></tr>
-    <tr><td>Required commentary</td><td>Say what was genuinely strong, what remained unfinished, which finish step was skipped under pressure, what artifact was still missing or too thin, and what should force better closure next time.</td></tr>
-    <tr><td>Truth split</td><td>Keep <code class="inline">run-quality</code>, <code class="inline">round accounting</code>, and <code class="inline">closure-close</code> separate, and allow the honest split <code class="inline">business win</code>, <code class="inline">run-quality win</code>, <code class="inline">accounting miss</code>, <code class="inline">finish loss</code>.</td></tr>
-    <tr><td>Guardrail</td><td>Do not let exact target hit or green retained-close erase an open render, provenance, or first-screen closure gap.</td></tr>
-    <tr><td>Rolling cold position</td><td>When the file becomes long, prefer one rolling <code class="inline">Current cold position</code> block instead of stacking many near-duplicate continuation sections.</td></tr>
-  </tbody>
-</table>
-<pre><code>Current cold position
-  -> current verdict
-  -> strongest thing now believed true
-  -> single blocker still remaining
-  -> next proof needed
-  -> confidence now
-
-update rule
-  -> append only irreducible new delta
-  -> do not restate old truths unless they changed
-  -> compress or replace older continuation blocks when they no longer add unique value</code></pre>
-<table>
-  <thead>
-    <tr>
-      <th>Current cold position field</th>
-      <th>Keep it this short</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td><code>current verdict</code></td><td>one line only</td></tr>
-    <tr><td><code>strongest thing now believed true</code></td><td>one line only</td></tr>
-    <tr><td><code>single blocker still remaining</code></td><td>one line only</td></tr>
-    <tr><td><code>next proof needed</code></td><td>one line only</td></tr>
-    <tr><td><code>confidence now</code></td><td>one short score line only</td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>If the new update does this</th>
-      <th>Then do this</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>changes the verdict</td><td>replace the current verdict line and, if needed, one blocker line</td></tr>
-    <tr><td>tightens one score materially</td><td>update only the score line and the one reason that changed it</td></tr>
-    <tr><td>turns a vague blocker into a colder blocker</td><td>replace the blocker line; do not keep both versions</td></tr>
-    <tr><td>adds one new executable gate</td><td>replace the next-proof-needed line with the new gate</td></tr>
-    <tr><td>does none of the above</td><td>do not add a new section; fold it into nothing or keep it out</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>Compactness rule:</b> prefer replacing the previous <code class="inline">Current cold position</code> block rather than appending a new near-duplicate one. If older continuation blocks no longer add unique value, compress them into one short lineage note.</div>
-<div class="note"><b>Carry-forward forcing:</b> local README notes may remind the active benchmark or companion memory, but any stable execution rule, scoring rule, hierarchy rule, or anti-bloat rule belongs in the shared HTML standards, not only in local README coaching.</div>
-<div class="warn"><b>Root-integrity guard:</b> the family should treat a round as closure-incomplete when the timestamp root is missing <code class="inline">README.md</code> or <code class="inline">CALIBRATION.md</code>, even if the canonical page and kept runs themselves look strong.</div>
-</details>
-</details>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">5.2 Reader-First Aggregation Handoff</span>
-  <span class="badge">CORE</span>
-</summary>
-<div class="note">
-  Use this section only to decide what the final aggregated artifact must say fast and in what informational order.
-  Visual composition, top-card order, graph family, and page rhythm still belong to <code class="inline">REPORTING_PATH</code>.
 </div>
-<div class="good"><b>Reader-first rule:</b> if the first screen already answers the fast questions below, stop adding framing layers and move the remaining density lower into proof, mapping, and audit sections.</div>
-<pre><code>reader lands on first screen
-  -> what truth moved?
-  -> why trust it?
-  -> run-quality cleared or still thin?
-  -> accounting target met or still open?
-  -> closure fully closed or still partial?
-  -> which kept runs mattered most?
-  -> what next move is actually recommended?
 
-only then
-  -> round evolution ledger
-  -> graph family
-  -> proof mapping
-  -> lower audit density</code></pre>
-<table>
-  <thead>
-    <tr>
-      <th>Reader-first handoff step</th>
-      <th><code class="inline">CORE</code> must settle</th>
-      <th><code class="inline">REPORTING_PATH</code> must render</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>1. opening truth</td><td>truth moved, trust basis, target/closure split, next move</td><td>top summary order and first-screen compression</td></tr>
-    <tr><td>2. proof density</td><td>which kept runs mattered most and why</td><td>ledger placement, artifact links, and collapsible depth</td></tr>
-    <tr><td>3. visual support</td><td>whether graphs, mappings, or atlas sections are really earned</td><td>which sections open by default and which stay collapsed</td></tr>
-    <tr><td>4. lower audit</td><td>what remains useful after the first minute</td><td>page rhythm, section numbering, and reader calm</td></tr>
-  </tbody>
-</table>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.2.1 Fast Reader Questions</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">reader-first aggregation frame before reporting chooses the page shape</span>
-</summary>
-<div class="note"><b>Reader-first test:</b> the questions below should be answerable in under one minute. <code class="inline">CORE</code> owns the meaning of the answers; <code class="inline">REPORTING_PATH</code> owns the exact top blocks, card set, and page ordering.</div>
-<table>
-  <thead>
-    <tr>
-      <th>Fast reader question</th>
-      <th>Expected answer shape</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>What did this round actually prove?</td><td>One short executive summary in plain product language that says what truth moved, what stayed only as retained confidence, and what still remains open.</td></tr>
-    <tr><td>Why should I trust it?</td><td>One compact trust answer naming decisive proof, supporting proof, failure lineage when relevant, closest actionable baseline, and whether a stronger benchmark still stands.</td></tr>
-    <tr><td>How good is the report itself?</td><td>One compact score zone from <code class="inline">REPORTING_PATH</code> that distinguishes local strength from replacement-grade and says what still blocks leader-level authority.</td></tr>
-    <tr><td>What changed across the kept runs?</td><td>One short evolution answer naming the kept-run roles, the main business delta, and any run that mattered only as retained confidence, lineage, or package repair.</td></tr>
-    <tr><td>What run-quality delta really happened?</td><td>One compact quality note that states the configured <code class="inline">RUN_EXPECTED_DELTA_QUALITY</code>, the computed <code class="inline">RUN_DELTA_SCORE_ACTUAL</code> for the kept runs that matter, which kept runs cleared it, and what kind of verdict-moving delta each one delivered.</td></tr>
-    <tr><td>How much defended scope was materialized?</td><td>One compact accounting note that states the configured <code class="inline">ROUND_TARGET_TEST_COUNT</code>, what defended branch coverage was actually turned into new or materially expanded tests, how much each kept run contributed, why any gap was accepted, and when helpful what the strongest new assertion quality was on the winning kept run.</td></tr>
-    <tr><td>How much of the family is depth versus breadth?</td><td>One short coverage verdict that says what chain was defended deeply, what adjacent scope was only explored broadly, and what frontier remains blocked, deferred, duplicated, or still uncovered.</td></tr>
-    <tr><td>How much real execution happened?</td><td>One compact accounting note that distinguishes raw attempts, meaningful iterations, governed runs, and verdict-changing checkpoints, and ties those counts back to the current accounting target from <code class="inline">SHARED_CONSTANTS_FILE</code> without letting the count overshadow defended branch value.</td></tr>
-    <tr><td>What should happen next?</td><td>One explicit stop or next-move decision that says whether the family should deepen the same flow, pivot to a stronger uncovered frontier, repair package thinness, or stop honestly.</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>Aggregation rule:</b> reader-first aggregation should compare kept runs, not blur them. Name the strongest kept runs, their computed verdicts, and their roles; do not compress them into one family-wide average score.</div>
-<pre><code>historical close-out triad
-  who moved?
-    -> Current Baseline Decision
+<hr class="sep">
 
-  how did it move?
-    -> Round Evolution Ledger
+<div class="card">
+  <h2>5) Round Launch</h2>
+<pre><code>round launch
+  -> start run_01 .. run_N
+  -> delegate execution
+  -> wait for the active window to finish
+  -> receive the finished round back as preserved artifacts</code></pre>
 
-  how does it reopen?
-    -> Validation Artifact References
+  <details>
+    <summary>
+      <span class="summary-title">5.1 Launch And Wait</span>
+      <span class="badge">FLOW</span>
+      <span class="sumhint">iterative core launches the window and waits for the finished round</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Launch topic</th>
+          <th>MUST read it this way</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Launch point</td><td>Start <code class="inline">run_01</code> only after the pre-training gate passes.</td></tr>
+        <tr><td>Delegation</td><td>Delegate internal run execution and saved-artifact mechanics to the appropriate owner.</td></tr>
+        <tr><td>Wait state</td><td>Wait for the finished active window and its published round artifacts before judging the family.</td></tr>
+      </tbody>
+    </table>
+  </details>
 
-  what stays lower?
-    -> only new axes, timestamp memory, or compact replay notes
-       that the triad cannot already explain</code></pre>
-<div class="note"><b>Cold close-out rule:</b> if the final family position still needs a long lower comparison section to explain what the triad above should already have made clear, the round is under-aggregated. Tighten the triad before adding more history prose.</div>
-</details>
-
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.2.2 Aggregation boundary</span>
-  <span class="sumhint">what this file decides versus what reporting should render</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Aggregation topic</th>
-      <th>Keep it this way</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Meaning before layout</td><td>Decide the verdict ordering here; let <code class="inline">REPORTING_PATH</code> decide the visual page composition.</td></tr>
-    <tr><td>Observed versus concluded</td><td>Keep observed evidence separate from comparative conclusions.</td></tr>
-    <tr><td>Business/test/revalidation split</td><td>Keep visible what changed business truth, what changed tests or support, and what only revalidated older proof.</td></tr>
-    <tr><td>Code-delta pointer</td><td>When code changed, say where the reader should open the git-derived delta instead of duplicating slice inventory here.</td></tr>
-    <tr><td>Package/quality/accounting/closure split</td><td>Force the final page to keep <code class="inline">good package</code>, <code class="inline">run-quality cleared</code>, <code class="inline">semantic branch coverage defended</code>, <code class="inline">accounting target met</code>, and <code class="inline">fully closed</code> distinct whenever those judgments diverge.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.2.3 Family learning and pivot lessons</span>
-  <span class="sumhint">keep the learning verdict short, explicit, and after the main summary</span>
-</summary>
-<div class="note"><b>Keep this section brutally short:</b> classify the checkpoint, split the cause, say the thinness verdict, then publish one next-run lesson.</div>
-<table>
-  <thead>
-    <tr>
-      <th>Learning lens</th>
-      <th>Publish it this way</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Checkpoint class</td><td><code class="inline">business progress</code>, <code class="inline">reporting-only improvement</code>, <code class="inline">orchestration-only improvement</code>, or <code class="inline">no durable progress</code></td></tr>
-    <tr><td>Causal split</td><td><code class="inline">execution changed because ...</code>, <code class="inline">reporting changed because ...</code>, <code class="inline">supervision changed because ...</code></td></tr>
-    <tr><td>Thinness verdict</td><td><code class="inline">targeted slice only</code>, <code class="inline">business coverage still narrow</code>, or <code class="inline">package still incomplete</code></td></tr>
-    <tr><td>Next-run lesson</td><td>one self-learning lesson plus, when relevant, one pivot lesson naming the missed trigger and better frontier</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>Reporting-only split:</b> once a family is already above <code class="inline">&gt;95</code> on artifact structure and the remaining gap is mainly comparative calm, benchmark authority, or page density, prefer a separate <code class="inline">reporting-only improvement</code> checkpoint over another mixed run. That checkpoint should clone the package, keep proof frozen, and refine only reporting-facing carriers.</div>
-<div class="warn"><b>No premature split:</b> do not call a checkpoint <code class="inline">reporting-only improvement</code> when kept-run scoring files, command provenance, or benchmark-memory carriers are still missing from the real package. In that case the checkpoint is still execution debt, not reporting refinement.</div>
-</details>
-
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.2.4 Coverage And Frontier Readability</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">make business coverage easy to audit</span>
-</summary>
-<div class="note"><b>Render delegation:</b> <code class="inline">CORE</code> decides what coverage truth must be visible; <code class="inline">REPORTING_PATH</code> decides whether that truth lands as graph, map, overlay, delta strip, or compact prose.</div>
-<table>
-  <thead>
-    <tr>
-      <th>Coverage readability topic</th>
-      <th>MUST make readable</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Frontier creation</td><td>Say whether the round created a new business frontier or only clarified trust, packaging, provenance, or comparison honesty.</td></tr>
-    <tr><td>Deepest chain</td><td>Say what the deepest defended business flow is in one explicit chain, rather than leaving the reviewer to reconstruct it from scattered rows.</td></tr>
-    <tr><td>Adjacent breadth</td><td>Say what adjacent business flows are now honestly defended, partial, deferred, or blocked, so the artifact makes breadth visible alongside depth.</td></tr>
-    <tr><td>Budget shape</td><td>Say whether a large execution budget materially deepened business proof or mostly produced breadth, retries, or packaging improvement.</td></tr>
-    <tr><td>Coverage mechanism</td><td>Say whether business coverage increased mainly through new flows, deeper continuation, stronger negative/recovery proof, or framework support that unlocked further coverage.</td></tr>
-    <tr><td>Run-lineage readability</td><td>Let a future reader answer instantly how many governed runs existed and why some intermediate attempts remained inside run lineage instead of becoming separate runs.</td></tr>
-  </tbody>
-</table>
-</details>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.2.5 Evolution-first table use</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">keep retention secondary</span>
-</summary>
-<div class="note"><b>Ledger delegation:</b> keep the evolution-first judgment here, but let <code class="inline">REPORTING_PATH</code> own the exact ledger/table layout, lower-audit placement, and whether a tiny <code class="inline">Iteration Delta View</code> helps more than a bigger table.</div>
-<table>
-  <thead>
-    <tr>
-      <th>Ledger use</th>
-      <th>MUST do this</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Evolution-first reading</td><td>Make the row read first as round evolution, not as a winner ceremony.</td></tr>
-    <tr><td>Retained-close column</td><td>Use <code class="inline">Retained-close only?</code> only to explain scope and confidence, not to replace business delta.</td></tr>
-    <tr><td>Inherited proof reuse</td><td>Make inherited proof reuse explicit whenever an old test or class slice was copied early instead of rediscovered from zero.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-<summary>
-  <span class="summary-title">5.2.6 Causality And Family Drift</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">why this family behaved differently</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Causality topic</th>
-      <th>MUST state</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Borrowed standards effect</td><td>Say whether borrowed standards changed direction or only improved retained-run packaging and traceability.</td></tr>
-    <tr><td>Proof-origin versus retained-close failure</td><td>Say explicitly when proof-origin succeeded but retained-close failed: treat that as absorption / robustness weakness, not as evidence that the original business proof never existed.</td></tr>
-    <tr><td>Local prompt drift</td><td>Say when local prompt HTML drift changed business coverage pressure, prompt boundaries, or only reporting/orchestration polish. If ATF1 or ATF2 modified local HTMLs during the round, keep that drift audit-visible through prompt snapshots and causal explanation.</td></tr>
-    <tr><td>Feedback usage</td><td>Say which lessons from <code class="inline">OUT_FEEDBACK_FILE</code> were applied, which were rejected, and why. Local iterative feedback is a governed input, not optional background reading.</td></tr>
-    <tr><td>Strong single-candidate preservation</td><td>Say when a strong single-candidate report deserves preservation as future benchmark memory even though it still lacks comparative benchmark replacement or full budget close-out.</td></tr>
-    <tr><td>Reuse constraint</td><td>Keep the artifact short enough to reuse in the next comparison cycle.</td></tr>
-  </tbody>
-</table>
-</details>
-
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">5.3 Core Principle</span>
-  <span class="badge">CORE</span>
-</summary>
-<div class="note">
-  Treat the kept run family as evidence to aggregate, not as a second place to redefine execution rules.
-  If the aggregate stays weak, ask for another round through the shared contracts, preserve the learning,
-  and keep the current package honest rather than over-promoting it.
+  <details>
+    <summary>
+      <span class="summary-title">5.2 Delegated Execution Boundary</span>
+      <span class="badge">FLOW</span>
+      <span class="sumhint">the round runs, but iterative core does not own its internal mechanics</span>
+    </summary>
+<pre><code>delegated execution
+  -> run_01 .. run_N execute under the active window
+  -> internal run mechanics stay delegated
+  -> iterative core waits for the finished round</code></pre>
+  </details>
 </div>
-</details>
+
+<hr class="sep">
+
+<div class="card">
+  <h2>6) Consume Finished Round Artifacts</h2>
+<pre><code>consume finished round artifacts
+  -> reopen inputs only
+  -> root package
+  -> canonical package page
+  -> kept-run packages
+  -> active accounting carriers
+  -> outside-window comparative-memory carriers
+  -> package conclusion carriers
+  -> confirm input completeness
+  -> stop here; no judgment allowed</code></pre>
+  <div class="note"><b>Consumption only:</b> this section says what iterative core reopens as a supervisor-consumer. Step 6 stops at reopen + input completeness confirmation. It does not redefine artifact validity or lower artifact contract. No ranking, no winner, and no stop verdict belong here.</div>
+
+  <details>
+    <summary>
+      <span class="summary-title">6.1 Root Package</span>
+      <span class="badge">OPEN</span>
+      <span class="sumhint">the family-level root carriers under ROOT_RUN</span>
+    </summary>
+<pre><code>ROOT_RUN root package
+  -> README.md
+  -> CALIBRATION.md
+  -> manifests/package-manifest.md
+  -> review/final-self-review.md</code></pre>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">6.2 Canonical Package Page</span>
+      <span class="badge">OPEN</span>
+      <span class="sumhint">the round page already composed from preserved artifacts</span>
+    </summary>
+<pre><code>ROOT_RUN canonical package page
+  -> analysis/langgraph-business-understanding.html
+  -> analysis/canonical-render-check.png when render verification exists</code></pre>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">6.3 Kept-Run Packages</span>
+      <span class="badge">OPEN</span>
+      <span class="sumhint">the countable run evidence inside the active window</span>
+    </summary>
+<pre><code>ROOT_RUN kept-run packages
+  -> runs/run_##/SUMMARY.md
+  -> runs/run_##/manifests/
+  -> runs/run_##/review/
+  -> runs/run_##/validation/</code></pre>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">6.4 Active Accounting, Comparative Memory, And Package Conclusion</span>
+      <span class="badge">OPEN</span>
+      <span class="sumhint">the round already says how the active window was counted, what stayed comparative only, and how it closed</span>
+    </summary>
+<pre><code>ROOT_RUN accounting and conclusion carriers
+  -> README.md
+  -> CALIBRATION.md
+  -> review/final-self-review.md
+  -> active-window accounting published there
+  -> outside-window comparative memory named there
+  -> comparative only / no score credit</code></pre>
+  </details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+  <h2>7) Strategic Round Closure</h2>
+<pre><code>strategic round closure
+  -> starts only after step 6 consumption is complete
+  -> compare kept runs in the active window
+  -> decide what moved and what stayed capped
+  -> decide retained winner / companion / displaced
+  -> judge stop
+  -> define next target</code></pre>
+
+  <details>
+    <summary>
+      <span class="summary-title">7.1 Comparison Basis</span>
+      <span class="badge">JUDGE</span>
+      <span class="sumhint">only the active window ranks as current round evidence</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Strategic rule</th>
+          <th>Required stance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Active evidence</td><td>Compare only kept runs from <code class="inline">run_01 .. run_N</code> as current round evidence.</td></tr>
+        <tr><td>Older memory</td><td>Use older rounds only as comparative memory, never as silent active accounting.</td></tr>
+        <tr><td>Ranking basis</td><td>Rank by evidence and business weight, not chronology or calmer packaging.</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">7.2 Strategic Outputs</span>
+      <span class="badge">JUDGE</span>
+      <span class="sumhint">what the family supervisor must decide after comparison</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Strategic output</th>
+          <th>MUST be decided here</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>What moved</td><td>The strongest branch or consequence the active window truly earned.</td></tr>
+        <tr><td>What stayed capped</td><td>The strongest nearby branch or trust ceiling the round still failed to clear.</td></tr>
+        <tr><td>Retained winner</td><td>The strongest current package by evidence and business weight.</td></tr>
+        <tr><td>Companion / displaced</td><td>What still matters as memory and what has been honestly surpassed.</td></tr>
+        <tr><td>Stop verdict</td><td>Whether the round stopped for strength, exhaustion, blockage, or thinness.</td></tr>
+        <tr><td>Next target</td><td>The strongest unresolved pressure worth carrying into the next round.</td></tr>
+      </tbody>
+    </table>
+  </details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+  <h2>8) Family Close-Out</h2>
+  <div class="sub">
+    This happens once, after the active governed window is over and the strategic round closure is done.
+  </div>
+
+  <details>
+      <summary>
+      <span class="summary-title">8.1 Settled Family Verdict</span>
+      <span class="badge">CLOSE</span>
+      <span class="sumhint">what iterative core settles before reporting starts</span>
+    </summary>
+<pre><code>settle in ROOT_RUN
+  -> family verdict
+  -> active accounting
+  -> stop verdict
+  -> next target</code></pre>
+    <table>
+      <thead>
+        <tr>
+          <th>Close-out carrier</th>
+          <th>MUST already say before reporting handoff</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code class="inline">ROOT_RUN/README.md</code></td><td>Retained family position and what to open first.</td></tr>
+        <tr><td><code class="inline">ROOT_RUN/CALIBRATION.md</code></td><td>Package-level judgment, remaining gaps, and reusable lessons.</td></tr>
+        <tr><td><code class="inline">ROOT_RUN/review/final-self-review.md</code></td><td>Short final family stance and trust split.</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">8.2 Active Accounting Published Once</span>
+      <span class="badge">CLOSE</span>
+      <span class="sumhint">the governed window is accounted for one time, after the round ends</span>
+    </summary>
+<pre><code>publish once
+  -> META_ITERATION_COUNT
+  -> active window = run_01 .. run_N
+  -> kept runs counted
+  -> intermediate attempts
+  -> outside-window memory = named comparative only / no score credit</code></pre>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">8.3 Stop And Next Target</span>
+      <span class="badge">CLOSE</span>
+      <span class="sumhint">the round ends with one honest stop and one next move</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Close-out decision</th>
+          <th>MUST already be explicit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Stop verdict</td><td>Why the round stopped now and why that stop is honest.</td></tr>
+        <tr><td>Next target</td><td>The strongest unresolved pressure worth carrying forward.</td></tr>
+        <tr><td>Next round?</td><td>Whether another governed round is worth starting at all.</td></tr>
+      </tbody>
+    </table>
+  </details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+  <h2>9) Reporting Delegation</h2>
+<pre><code>reporting delegation
+  -> hand the finished family verdict to reporting
+  -> reporting aggregates what already exists
+  -> iterative core stops here</code></pre>
+
+  <details>
+    <summary>
+      <span class="summary-title">9.1 Delegation Boundary</span>
+      <span class="badge">STOP</span>
+      <span class="sumhint">no second judgment after delegation</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Delegation rule</th>
+          <th>MUST read it this way</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>What reporting receives</td><td>Finished round artifacts, finished family verdict, and finished active accounting.</td></tr>
+        <tr><td>What iterative core does not do</td><td>It does not add another judgment phase after reporting starts.</td></tr>
+        <tr><td>Stopping point</td><td>After delegation, iterative core is done for that round.</td></tr>
+      </tbody>
+    </table>
+  </details>
 </div>
 
 </div>
 </body>
 </html>
-
-

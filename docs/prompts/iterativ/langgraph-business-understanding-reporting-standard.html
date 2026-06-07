@@ -229,8 +229,11 @@
 <div class="grid">
 <div class="card">
 <h2>1) Overview</h2>
-<div class="sub">Use this section only to understand the formal report contract fast. Explanations and handling rules belong lower in the document.</div>
-<details class="subdetails">
+<div class="sub">
+  Use this opening only to recover the canonical page fast: what the page must contain, where each decisive reporting job lives,
+  and which lower section owns the exact rule.
+</div>
+<details class="subdetails" open>
 <summary>
   <span class="summary-title">1.1 Canonical section contract</span>
   <span class="sumhint">the numbered order is canonical, not illustrative</span>
@@ -238,51 +241,62 @@
 <table>
   <thead>
     <tr>
-      <th>Order</th>
-      <th>Section cluster</th>
-      <th>Contract status</th>
-      <th>What it must do</th>
-      <th>Default posture</th>
+      <th>Final report zone</th>
+      <th>Canonical order</th>
+      <th>Read detailed rules in</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td><code class="inline">1</code></td><td>Hero / page identity</td><td><code class="inline">required</code></td><td>Name the package clearly and state what kind of round or retained benchmark memory the page represents.</td><td><code class="inline">always visible</code></td></tr>
-    <tr><td><code class="inline">2</code></td><td>Score cards</td><td><code class="inline">required</code></td><td>Publish exactly four top cards: <code class="inline">Business HTML</code>, <code class="inline">Trust</code>, <code class="inline">Coverage</code>, <code class="inline">Overall</code>.</td><td><code class="inline">always visible</code></td></tr>
-    <tr><td><code class="inline">3</code></td><td>Executive Summary</td><td><code class="inline">required when it adds real business decoding after the score wall</code></td><td>Be the first major summary block after the score cards. Restate the winner, defended branch, hierarchy move, and scope in compact business language.</td><td><code class="inline">normally collapsed by default; summary line must still carry the winner and defended branch clearly</code></td></tr>
-    <tr><td><code class="inline">4</code></td><td>Benchmark verdict + scoring spine</td><td><code class="inline">required</code></td><td>Land the winner, benchmark status, and scoring basis before the reader enters deeper audit material.</td><td><code class="inline">normally collapsed by default; summary line must still expose the benchmark winner and ceiling coldly</code></td></tr>
-    <tr><td><code class="inline">5</code></td><td>Opening verdict cluster</td><td><code class="inline">required</code></td><td>Carry the cold opening judgment through <code class="inline">Current Baseline Decision</code>, <code class="inline">Trust Summary</code>, and <code class="inline">Round State Summary</code> as earned.</td><td><code class="inline">grouped and compact; mostly collapsed unless one child section genuinely sharpens first read</code></td></tr>
-    <tr><td><code class="inline">6</code></td><td>Business Flow Graph</td><td><code class="inline">required</code></td><td>Surface the main defended business chain or winner family visually.</td><td><code class="inline">the usual visual leader after the opening verdict material</code></td></tr>
-    <tr><td><code class="inline">7</code></td><td>Business Domain Graph</td><td><code class="inline">required when breadth / subdomains matter</code></td><td>Show area separation when the report spans multiple public branches, product areas, or benchmark-displacing breadth.</td><td><code class="inline">usually collapsed unless needed early</code></td></tr>
-    <tr><td><code class="inline">8</code></td><td>Actor State Graph</td><td><code class="inline">required when states / guards matter</code></td><td>Show guarded transitions, protected/public states, or stateful continuity boundaries.</td><td><code class="inline">usually collapsed unless it is the main second visual</code></td></tr>
-    <tr><td><code class="inline">9</code></td><td>Coverage / Frontier Map</td><td><code class="inline">required when open neighbors matter</code></td><td>Make defended depth, explored breadth, and open or blocked neighbors visible.</td><td><code class="inline">usually collapsed</code></td></tr>
-    <tr><td><code class="inline">10</code></td><td>Failure / Guardrail Lineage</td><td><code class="inline">required when a disproved or guarded branch materially prevented false promotion</code></td><td>Keep the losing or thin branch visible as a real reporting carrier instead of letting benchmark calm erase the reason promotion stayed honest.</td><td><code class="inline">collapsed by default unless the blocker is part of first-read trust</code></td></tr>
-    <tr><td><code class="inline">11</code></td><td>Flow / proof correlation sections</td><td><code class="inline">required when multiple flows or code layers changed</code></td><td>Connect flow truth to runs, tests, support, decisive proof, and when needed failure-lineage boundaries.</td><td><code class="inline">collapsed unless needed immediately after graphs</code></td></tr>
-    <tr><td><code class="inline">12</code></td><td>Automation Coverage Overlay</td><td><code class="inline">required for breadth-memory rounds</code></td><td>Turn multi-flow status into a cold grid of covered / partial / deferred scope.</td><td><code class="inline">collapsed by default</code></td></tr>
-    <tr><td><code class="inline">13</code></td><td>Test Mapping</td><td><code class="inline">required for breadth-memory rounds</code></td><td>Show which suite or class owns which business flow family.</td><td><code class="inline">collapsed by default</code></td></tr>
-    <tr><td><code class="inline">14</code></td><td>Validation Artifact References</td><td><code class="inline">required</code></td><td>Provide direct proof reopening through rendered proof, command trace, command result, and machine-readable result.</td><td><code class="inline">collapsed by default</code></td></tr>
-    <tr><td><code class="inline">15</code></td><td>Round Evolution Ledger</td><td><code class="inline">required</code></td><td>Show how kept runs changed the business truth and test/support/proof posture over time.</td><td><code class="inline">collapsed unless the page depends on evolution very early</code></td></tr>
-    <tr><td><code class="inline">16</code></td><td>Iteration Delta View</td><td><code class="inline">required for breadth-memory rounds</code></td><td>Show what benchmark moved and what did not across iteration steps or retained checkpoints.</td><td><code class="inline">collapsed by default</code></td></tr>
-    <tr><td><code class="inline">17</code></td><td>Cross-Run / history sections</td><td><code class="inline">earned atlas depth</code></td><td>Add cross-run, historical, and benchmark-memory sections only when they reduce relearning cost materially.</td><td><code class="inline">collapsed by default</code></td></tr>
-    <tr><td><code class="inline">18</code></td><td>Render verification</td><td><code class="inline">required</code></td><td>State that the page was reopened and render-checked locally, with the saved screenshot path.</td><td><code class="inline">collapsed or compact</code></td></tr>
-  </tbody>
+    <tr><td>Top banner area</td><td><code class="inline">Hero -> Score cards -> Comparative score strip (when earned)</code></td><td><code class="inline">2.0 - 2.2</code></td></tr>
+    <tr><td>Executive Summary</td><td><code class="inline">3</code></td><td><code class="inline">3.0</code></td></tr>
+    <tr><td>Graph Family</td><td><code class="inline">4</code></td><td><code class="inline">4.0 - 4.4</code></td></tr>
+    <tr><td>Test Coverage And Proof Ownership</td><td><code class="inline">5</code></td><td><code class="inline">5.0 - 5.6</code></td></tr>
+    <tr><td>First-Screen Verdict</td><td><code class="inline">6</code></td><td><code class="inline">6.0 - 6.7</code></td></tr>
+    <tr><td>Run Evolution And Historical Audit</td><td><code class="inline">7</code></td><td><code class="inline">7.0 - 7.5</code></td></tr>
+    <tr><td>Reporting Close-Out</td><td><code class="inline">8</code></td><td><code class="inline">8.1 - 8.2</code></td></tr>
+</tbody>
 </table>
-<div class="note"><b>Canonical order rule:</b> the numeric order is the intended reading and build order of the page. Treat it as the default skeleton unless a section is explicitly marked conditional, earned, or omitted because it would be empty or redundant.</div>
 </details>
 <details class="subdetails">
 <summary>
   <span class="summary-title">1.2 Construction shortcuts</span>
-  <span class="sumhint">keep this collapsed unless you need the fast build rules</span>
+  <span class="sumhint">keep collapsed unless you are actively assembling the page</span>
 </summary>
 <div class="docmap">
-  <b>Build order</b><span>Follow the canonical order from <code class="inline">1.1</code>: opening first, verdict cluster second, graph family third, proof and history after that.</span>
+  <b>Build order</b><span>Follow the canonical order from <code class="inline">1.1</code>: opening first, graph family second, proof ownership third, first-screen verdict after that, then history and close-out.</span>
   <b>Proof-link priority</b><span>Prefer direct decisive links in this order: <code class="inline">ExtentReport</code>, then command trace / command result, then machine-readable result.</span>
   <b>Visual posture</b><span>Use one strong visual leader, keep the top cluster compact, and collapse heavier audit or atlas sections by default.</span>
+  <b>Hierarchy shape</b><span>Prefer one principal section per family, then grouped subsections when the family becomes clearer as <code class="inline">main section -> 3.1 / 3.2 / 3.3</code> instead of many flat siblings.</span>
 </div>
 </details>
 </div>
 
 <div class="card">
-<h2>1.3 Shared Inputs And Ownership</h2>
+<h2>Quick Reporting Recovery</h2>
+<div class="sub">
+  Open this card when you need one narrow reporting answer under pressure. It is lookup, not full read order.
+</div>
+<details class="subdetails" open>
+<summary>
+  <span class="summary-title">1.3 Operator Quick Reference</span>
+  <span class="sumhint">where the decisive page contract actually lives</span>
+</summary>
+<pre><code>need top opening order         -> 1.1 + 2.0
+need score wall               -> 2.2.1.2
+need comparative score strip  -> 2.2.1.3
+need executive summary        -> 3.0
+need 4.1 business graph       -> 4.1
+need proof reopening          -> 5.4 + 5.5
+need standing / comparator    -> 6.1 + 6.6
+need run memory               -> 7.1 + 7.4
+need close-out delta          -> 8.1
+need render verification      -> 8.2 + 9.2</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">1.4 Shared Inputs And Ownership</span>
+  <span class="sumhint">infra-level bindings and source ownership</span>
+</summary>
 <pre><code>SHARED_CONSTANTS_FILE
 = docs/prompts/iterativ/shared-constants.properties
 
@@ -299,7 +313,7 @@ reuse from SHARED_CONSTANTS_FILE:
 </code></pre>
 <details class="subdetails">
 <summary>
-  <span class="summary-title">1.3.1 Shared input usage map</span>
+  <span class="summary-title">1.4.1 Shared input usage map</span>
   <span class="sumhint">keep this collapsed unless you need the infra-level input map</span>
 </summary>
 <pre><code>shared input usage
@@ -360,10 +374,16 @@ reuse from SHARED_CONSTANTS_FILE:
      -> local historical carriers
      -> cousin pages that still reduce relearning cost
 
-  -> review/reporting-pretraining-brief.md (when present)
-     -> reporting restraints
+  -> review/round-pretraining-brief.md (when present)
+     -> consumed restraint input only
      -> must-stay-first reminders
-     -> top remaining reporting blocker</code></pre>
+     -> top remaining reporting blocker
+
+legacy-equivalent only
+  -> review/reporting-pretraining-brief.md
+     -> consume it when preserved by older packages
+     -> do not treat reporting as its owner or generator</code></pre>
+</details>
 </details>
 </div>
 </div>
@@ -371,41 +391,20 @@ reuse from SHARED_CONSTANTS_FILE:
 <hr class="sep">
 
 <div class="card">
-<h2>2) First-Screen Contract</h2>
+<h2>2) Top Banner Area</h2>
 
 <details open>
 <summary>
-  <span class="summary-title">2.1 Top summary blocks</span>
+  <span class="summary-title">2.0 Top banner area map</span>
   <span class="badge">CORE</span>
 </summary>
-<pre><code>hero title
-  -> one short hero truth paragraph
-  -> score cards immediately
-  -> Executive Summary
-  -> benchmark verdict + scoring spine
-  -> one grouped current baseline / trust / round-state cluster
-  -> only then deeper graphs, ledgers, proof links, and audit detail</code></pre>
-<div class="note"><b>Top-band rendering rule:</b> <code class="inline">Executive Summary</code> and <code class="inline">Benchmark verdict + scoring spine</code> should normally render as compact structured carriers and should usually stay collapsed by default. Their <code class="inline">summary</code> lines must carry the winner, branch, benchmark role, and ceiling clearly enough that the page can still be judged cold on first read.</div>
-<pre><code>preferred top-band shapes
-  Executive Summary
-    -> 2 to 4 rows max
-    -> winner / defended branch / hierarchy move / scope
-    -> short grid, short kv table, or narrow summary band
-    -> collapsed by default
-
-  Benchmark verdict + scoring spine
-    -> 4 to 6 rows max
-    -> principal / companions / threshold / cleared runs / strongest materialization / authority ceiling
-    -> one compact table or key-value band
-    -> collapsed by default
-
-avoid
-  -> full-width prose slab
-  -> two long paragraphs stacked one after another
-  -> repeating the same benchmark truth in paragraph + paragraph + cluster</code></pre>
+<pre><code>top banner area
+  -> Hero / page identity
+  -> Score cards
+  -> Comparative score strip (when earned)</code></pre>
 <details class="subdetails">
 <summary>
-  <span class="summary-title">2.1.1 Opening order</span>
+  <span class="summary-title">2.0.1 Opening order bridge</span>
   <span class="sumhint">what each opening slice must do, without repeating the wireframe</span>
 </summary>
 <table>
@@ -419,6 +418,7 @@ avoid
   <tbody>
     <tr><td>Hero truth</td><td>What new business truth was really defended, in one short product-language paragraph.</td><td>Audit chatter, packaging diary, or a large table before the reader has seen the score wall.</td></tr>
     <tr><td>Four score cards</td><td>Compact quality readout immediately under the hero truth, before any heavier summary table.</td><td>A delayed score wall or cards hidden below a big executive-summary table.</td></tr>
+    <tr><td>Comparative score strip</td><td>A tiny cold comparison strip or micro-table that tells the reader how the page stands against the most relevant pre-trained teachers or leaders, especially for <code class="inline">Overall</code> restraint.</td><td>A long comparative essay or hidden comparison posture that leaves the score wall looking absolute instead of benchmark-aware.</td></tr>
     <tr><td>Executive Summary</td><td>The first major summary block after the score wall: winner, defended branch, hierarchy move, and scope in compact business language. Prefer a short table, grid, or structured band over a long paragraph. The summary line itself should already name the winner and branch.</td><td>A giant recap table that repeats the hero without adding structure, or a wide paragraph slab that visually outweighs the score wall.</td></tr>
     <tr><td>Benchmark verdict + scoring spine</td><td>Why the page scored as it did, where the benchmark stands, and what trust ceiling still remains. Prefer one compact table or key-value band. The summary line itself should already name principal / companion / ceiling posture.</td><td>Verdict logic scattered later across lower audit sections, or one dense prose wall above the grouped opening cluster.</td></tr>
     <tr><td>Current baseline / trust / round-state cluster</td><td>Who moved, why the promotion is cold, and whether accounting / closure are really earned.</td><td>Scattered benchmark sentences that land only after lower sections.</td></tr>
@@ -427,132 +427,58 @@ avoid
 <div class="note"><b>Cold wireframe rule:</b> if the first screen still feels slow, cut explanation before adding another helper block. The opening should behave like a fixed skeleton, not a custom essay.</div>
 <div class="note"><b>Opening summary rule:</b> <code class="inline">Executive Summary</code> stays immediately after the score wall when it exists. Keep it collapsed by default unless the page would become too cryptic without opening it. Do not demote it below benchmark or trust sections unless it would be empty or purely repetitive.</div>
 </details>
+  </details>
+
+<details>
+<summary>
+  <span class="summary-title">2.1 Top banner area details</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>top banner area
+  -> Hero / page identity
+  -> Score cards
+  -> Comparative score strip (when earned)</code></pre>
 <details class="subdetails">
 <summary>
-  <span class="summary-title">2.1.2 What each top block must contain</span>
-  <span class="sumhint">what belongs in each opening slice</span>
+  <span class="summary-title">2.1.1 Hero / page identity</span>
+  <span class="sumhint">the stand-alone visible page identity</span>
 </summary>
 <table>
   <thead>
     <tr>
-      <th>Opening block</th>
+      <th>Hero requirement</th>
       <th>MUST make clear</th>
-      <th>Keep it from becoming</th>
+      <th>Avoid this</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td>Hero</td><td>Open with one hero title and one short product-language paragraph that says what moved and what the page now claims.</td><td>Audit chatter, command dump, or a mini-ledger pretending to be a hero.</td></tr>
-    <tr><td>Score Cards</td><td>Keep exactly four cards and make them a compact quality readout immediately under the hero, not under a large summary table.</td><td>Delayed cards, redundant cards, or cards that only restate nearby prose.</td></tr>
-    <tr><td>Executive Summary</td><td>Be the first major summary block after the score wall and restate the winner, defended branch, hierarchy move, and scope. Keep its summary line self-sufficient and its opened body schematic.</td><td>A detailed table that drifts below trust or benchmark carriers, or a long paragraph that visually outweighs the score wall.</td></tr>
-    <tr><td>Benchmark verdict + scoring spine</td><td>Say who currently wins, what still trails, how the score wall is justified, and what proof ceiling still caps authority. Keep its summary line self-sufficient and its opened body schematic.</td><td>Two or three separate visible prose blocks that all restate the same verdict in different tones, or one dense paragraph that should have been a compact table.</td></tr>
-    <tr><td>Opening verdict cluster</td><td>Keep <code class="inline">Current Baseline Decision</code>, <code class="inline">Trust Summary</code>, and <code class="inline">Round State Summary</code> as one grouped benchmark / trust / accounting cluster below the benchmark verdict.</td><td>Three separate heavy sections all competing with the score wall and executive summary.</td></tr>
-    <tr><td>Detailed Executive Summary</td><td>Only publish it when it materially sharpens structured reading; otherwise collapse it, compress it, or drop it.</td><td>A permanent heavy table that duplicates the hero, score cards, and benchmark verdict.</td></tr>
+    <tr><td>Title and identity</td><td>One visible title plus timestamp/package identity that tells the reader what report they are in.</td><td>A floating title with package identity only discoverable later.</td></tr>
+    <tr><td>Hero truth paragraph</td><td>One short product-language paragraph that says what changed and what the page now claims.</td><td>Audit diary, command chatter, or benchmark essay in the hero.</td></tr>
+    <tr><td>Pill rail</td><td>Only high-signal contextual pills such as benchmark role, reporting-only posture, or decisive run roles.</td><td>A second summary wall disguised as pills.</td></tr>
+    <tr><td>Stand-alone posture</td><td>Keep the hero visible, unnumbered, and self-contained before numbered report sections begin.</td><td>Making the hero behave like a collapsed section or a giant introductory table.</td></tr>
   </tbody>
 </table>
 </details>
 <details class="subdetails">
 <summary>
-  <span class="summary-title">2.1.3 Top-cluster grouping</span>
-  <span class="sumhint">which near-top carriers stay visible, and which should group or collapse</span>
+  <span class="summary-title">2.1.2 Score wall and comparative strip in the banner</span>
+  <span class="sumhint">the score wall stays visible; the deeper scoring contract still lives later in this section family</span>
 </summary>
 <table>
   <thead>
     <tr>
-      <th>Near-top carrier</th>
-      <th>Default posture</th>
-      <th>Use it this way</th>
-      <th>Avoid this failure</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Current benchmark verdict</td><td><code class="inline">always visible but short</code></td><td>One compact verdict carrier immediately after <code class="inline">Executive Summary</code> when the page needs a named benchmark sentence.</td><td>A long standalone paragraph that already duplicates <code class="inline">Current Baseline Decision</code>.</td></tr>
-    <tr><td>Scoring Evidence Spine</td><td><code class="inline">always visible but compressed</code></td><td>Keep threshold, who cleared, who stayed thin, and the strongest materialized run in one compact carrier. Prefer rows, cells, or a short key-value strip over prose.</td><td>A dense paragraph or mini-ledger that makes the top read like audit support.</td></tr>
-    <tr><td>Historical audit note</td><td><code class="inline">grouped or collapsed</code></td><td>Use it only when the timestamp move itself needs one extra explicit historical sentence.</td><td>A visible near-top essay repeating <code class="inline">Iteration Delta View</code> and <code class="inline">Current Baseline Decision</code>.</td></tr>
-    <tr><td>Comparator ladder</td><td><code class="inline">grouped or collapsed</code></td><td>Demote it below the core benchmark landing and keep it shorter than the verdict it supports.</td><td>A meta block that competes with the page's own benchmark claim.</td></tr>
-    <tr><td>Current Baseline Decision</td><td><code class="inline">grouped; usually collapsed</code></td><td>Use it as the main hierarchy carrier inside one benchmark / trust / accounting cluster.</td><td>Leaving it fully separate while nearby prose already says the same winner story.</td></tr>
-    <tr><td>Trust Summary</td><td><code class="inline">grouped; usually collapsed</code></td><td>Name proof-origin, strongest support, and the real caveat.</td><td>A fully open top section that delays the reader before the graph family starts.</td></tr>
-    <tr><td>Round State Summary</td><td><code class="inline">grouped; usually collapsed</code></td><td>Separate run-quality, accounting, and closure only after the benchmark truth already landed.</td><td>A count-heavy always-visible block that behaves like the real summary.</td></tr>
-    <tr><td>Pill rail</td><td><code class="inline">always visible but minimal</code></td><td>Keep only high-signal status labels.</td><td>A second summary wall.</td></tr>
-    <tr><td>Detailed Executive Summary</td><td><code class="inline">collapsed or omitted by default</code></td><td>Use it only when the compact executive summary cannot carry the needed business decode.</td><td>A permanent heavy table that pushes the verdict cluster downward.</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>Top-cluster rule:</b> if the page has <code class="inline">Current benchmark verdict</code>, <code class="inline">Scoring Evidence Spine</code>, <code class="inline">Historical audit note</code>, <code class="inline">Comparator ladder</code>, <code class="inline">Current Baseline Decision</code>, <code class="inline">Trust Summary</code>, and <code class="inline">Round State Summary</code> all separately visible near the top, the opening is too heavy. Compress them into one short verdict carrier, one short scoring spine, and one grouped benchmark / trust / accounting cluster.</div>
-<div class="note"><b>r4-style scanability lesson:</b> the useful lift is not to copy section names from another report, but to preserve the same scan rhythm: short labeled rows first, then deeper prose later. If the top cannot be scanned by labels and rows, it is still too heavy.</div>
-</details>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">2.1.4 First-screen guardrails</span>
-  <span class="sumhint">what may sit near the opening and what must not crowd it</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>First-screen guardrail</th>
+      <th>Top-banner score requirement</th>
       <th>MUST do this</th>
-      <th>Avoid this failure</th>
+      <th>Avoid this</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td>Beginning behavior</td><td>Let the beginning behave like a beginning: the reader should get one clear product-language story block first, then the numerical score cards immediately after it.</td><td>A page that pushes the compact quality readout too far below the fold.</td></tr>
-    <tr><td>Detailed-summary discipline</td><td>If a detailed <code class="inline">Executive Summary</code> exists, keep it immediately after the score wall as the first major summary block, and keep it compact enough that the benchmark verdict still lands quickly.</td><td>A first screen where a large summary table either lands before the score cards or grows so wide that it delays the verdict.</td></tr>
-    <tr><td>Near-top benchmark note</td><td>If the page is attacking a known incumbent, say near the top what it beats and what it still trails.</td><td>A benchmark verdict hidden too low to help first-screen judgment.</td></tr>
-    <tr><td>Score-zone benchmark sentence</td><td>Keep one cold sentence beside or immediately below the score cards saying what the page beats, what it still trails, and whether the current page is principal benchmark or companion only.</td><td>A score zone that reads cleanly but leaves the hierarchy implicit until much later.</td></tr>
-    <tr><td>Companion-only declaration</td><td>If the page is companion-only, say so almost immediately and explain why the principal benchmark still stands.</td><td>A companion page that sounds like a hidden new winner.</td></tr>
-    <tr><td>Single hierarchy source</td><td>Let <code class="inline">Current Baseline Decision</code> act as the main hierarchy block; lower sections may add proof or one genuinely new comparison axis only.</td><td>Several near-duplicate places all trying to close the same winner / incumbent / still-trails verdict.</td></tr>
-    <tr><td>Benchmark comparison demotion</td><td>If <code class="inline">Benchmark Comparison</code> adds no new axis beyond the near-top benchmark sentence and <code class="inline">Current Baseline Decision</code>, compress it hard or drop it.</td><td>A careful but repetitive page that makes the verdict land twice instead of once.</td></tr>
-    <tr><td>Early code split</td><td>Surface the important code split early when it matters to trust: what changed under <code class="inline">src/test</code>, what changed under <code class="inline">src/main</code>, and whether one side is mostly inherited.</td><td>Later buried provenance only.</td></tr>
-    <tr><td>Verdict cluster</td><td>Keep one benchmark verdict nearby when relevant, one run-quality verdict nearby, one accounting verdict nearby, and a separate closure verdict whenever those judgments diverge.</td><td>Implicit or contradictory closure language.</td></tr>
-    <tr><td>Replay explanation demotion</td><td>Let the benchmark or companion verdict land before any widened-replay explanation, retained-close nuance, or same-family confidence expansion.</td><td>A first screen where replay justification arrives before the reader knows the actual verdict.</td></tr>
-    <tr><td>Cut before explain</td><td>If the top still feels slow, cut or compress one explanatory sentence before adding another benchmarking sentence or helper block.</td><td>A careful but bloated first screen.</td></tr>
-    <tr><td>Consistency guard</td><td>Keep the hero pills, trust summary, score-card explanations, and round-state table logically consistent with each other.</td><td>A first screen that says <code class="inline">contract fully closed = yes</code> while nearby text still describes closure as unfinished.</td></tr>
-    <tr><td>Top provenance caveat</td><td>Keep bootstrap or borrowed-support provenance short near the top and move detail lower.</td><td>A top-of-page tangent.</td></tr>
-  </tbody>
+    <tr><td>Score wall position</td><td>Keep the four score cards immediately under the hero.</td><td>A delayed score wall hidden under a large summary block.</td></tr>
+    <tr><td>Stand-alone posture</td><td>Let the score wall remain visible, unnumbered, and visually separate from the numbered report body.</td><td>Turning the cards into just another subsection inside the numbered contract.</td></tr>
+    <tr><td>Comparative strip trigger</td><td>Add the comparative score strip only when benchmark-memory or pretraining materially shapes scoring restraint.</td><td>Benchmark essay prose where one tiny strip would do.</td></tr>
+    <tr><td>Comparative strip role</td><td>Use it to keep <code class="inline">Overall</code> cold: best teacher, nearest leader, overall standing, main trailing axis.</td><td>A decorative comparison rail with no real scoring consequence.</td></tr>
+</tbody>
 </table>
-</details>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">2.1.5 Replacement-grade first-screen test</span>
-  <span class="sumhint">when the opening is strong enough to attack a benchmark</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>First-screen test</th>
-      <th>Treat it as strong only when...</th>
-      <th>Treat it as still below benchmark when...</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Opening order</td><td>The opening reads in one pass: hero truth, score cards, executive summary, benchmark/scoring verdict, baseline / trust / round-state cluster, then deeper sections.</td><td>The reader has to dig through trust/accounting prose before understanding overall strength, or the executive summary is either missing when needed or demoted too low.</td></tr>
-    <tr><td>Score-card value</td><td>The four cards sharpen the first-read verdict immediately after the opening story.</td><td>The cards are correct but too low, too late, or redundant with nearby prose.</td></tr>
-    <tr><td>Hierarchy landing speed</td><td>The reader can tell quickly whether the page is a principal benchmark, strongest companion, or still below both.</td><td>The hierarchy is technically present but only obvious after lower sections.</td></tr>
-    <tr><td>Replay stays secondary</td><td>Retained replay, widened same-family confidence, or blocked family-close context stays below the first clear benchmark verdict.</td><td>Replay nuance diluting the main win or non-win.</td></tr>
-    <tr><td>Deeper-section restraint</td><td>Atlas sections wait until the opening already landed.</td><td>Rich sections compete with the first-screen verdict instead of supporting it.</td></tr>
-    <tr><td>Comparator note demotion</td><td>If a page needs a comparator note or ladder, place it below the core verdict cluster and keep it shorter than the benchmark verdict itself.</td><td>A meta-comparison note that competes with the primary promotion / non-promotion landing.</td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Run-ready forcing axis</th>
-      <th>MUST force this</th>
-      <th>Most common failure</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td><code class="inline">benchmark authority</code></td><td>Say the winner, displaced incumbent, and still-stronger benchmark before lower prose starts helping.</td><td>A page that is correct but still too polite or too late.</td></tr>
-    <tr><td><code class="inline">page win-speed</code></td><td>Let the reader understand the verdict from the opening blocks alone.</td><td>A first screen that needs lower sections to complete the thought.</td></tr>
-    <tr><td><code class="inline">graph dominance</code></td><td>Choose one graph anchor that carries the main business truth of the round.</td><td>Several correct graphs with no dominant memory anchor.</td></tr>
-    <tr><td><code class="inline">hierarchy publication</code></td><td>Keep the principal / companion / structural-memory split explicit and early.</td><td>Companion pages sounding like hidden winners, or winners sounding weaker than they are.</td></tr>
-    <tr><td><code class="inline">non-promotion honesty</code></td><td>Make withheld replay, failed widening, or blocked family-close visible before the reader over-trusts the page.</td><td>A page that quietly buries why stronger promotion was refused.</td></tr>
-  </tbody>
-</table>
-<pre><code>cold hierarchy questions before the page feels finished
-  -> what exact incumbent did I displace?
-  -> what exact incumbent still beats me?
-  -> did any replay stay unstable and therefore lose promotion?
-  -> would a cold reader see that before lower-page explanation starts helping?</code></pre>
-<div class="note"><b>Readiness rule:</b> if those four answers are not already visible from the opening stack, compress lower prose and raise the verdict rather than adding another helpful section.</div>
 </details>
 </details>
 
@@ -590,6 +516,11 @@ avoid
     <span class="summary-title">2.2.1 Card meanings and base rules</span>
   <span class="sumhint">what each card means and how the wall should behave</span>
 </summary>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.1.1 Card meanings</span>
+  <span class="sumhint">what each of the four cards is actually scoring</span>
+</summary>
 <table>
   <thead>
     <tr>
@@ -605,6 +536,12 @@ avoid
     <tr><td><code class="inline">Overall</code></td><td>How strong the final page is when story, trust, coverage, and closure are read together.</td><td>Good report with open closure gap, or clean closure with weak first-read force.</td></tr>
   </tbody>
 </table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.1.2 Base score-wall rules</span>
+  <span class="sumhint">the four-card wall and its default discipline</span>
+</summary>
 <table>
   <thead>
     <tr>
@@ -625,11 +562,38 @@ avoid
 </table>
 <div class="note"><b>Pre-learning score guard:</b> the score wall may stay local in wording, but it must not forget the strongest benchmark lessons the writer just reopened. If the page still trails those learned standards on calm, proof precision, graph authority, or comparative honesty, the cards should show that restraint even when the local package truth is strong.</div>
 </details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.1.3 Comparative score strip</span>
+  <span class="sumhint">the tiny comparison layer that keeps Overall cold</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Comparative score strip rule</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Compact placement</td><td>When benchmark-memory or pretraining materially shaped score restraint, place one compact comparative strip immediately under the score cards.</td><td>Leaving comparative posture hidden much later in the page.</td></tr>
+    <tr><td>Minimal fields</td><td>Keep the strip tiny: <code class="inline">best teacher</code>, <code class="inline">nearest leader</code>, <code class="inline">overall standing</code>, <code class="inline">main trailing axis</code>.</td><td>A large benchmark matrix at the very top.</td></tr>
+    <tr><td>Overall restraint</td><td>Use the strip to keep <code class="inline">Overall</code> benchmark-aware and cold.</td><td>Letting the top score wall read as absolute and self-sealed.</td></tr>
+    <tr><td>Language shape</td><td>Prefer labels such as <code class="inline">below</code>, <code class="inline">near</code>, <code class="inline">above ref line</code>, or <code class="inline">still trails on machine-proof framing</code>.</td><td>Dense comparative prose before the main verdict lands.</td></tr>
+  </tbody>
+</table>
+</details>
+</details>
 
 <details class="subdetails">
 <summary>
     <span class="summary-title">2.2.2 Run-quality and accounting note</span>
   <span class="sumhint">what must sit beside the cards</span>
+</summary>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.2.1 Run-quality examples</span>
+  <span class="sumhint">what counts as a real kept-run delta versus a still-thin one</span>
 </summary>
 <table>
   <thead>
@@ -644,19 +608,12 @@ avoid
     <tr><td>Closure/publication rescue</td><td>The run repaired a real closure or publication defect strongly enough that trust in the final retained page materially changed.</td><td>The run only polished wording, moved sections around, or added clean artifacts without changing how the final page should be judged.</td></tr>
   </tbody>
 </table>
-<pre><code>reporting support for run-quality
-  threshold = RUN_EXPECTED_DELTA_QUALITY
-  computed score = RUN_DELTA_SCORE_ACTUAL
-
-  publish near the score zone:
-    which kept runs cleared the threshold
-    what kind of delta each one delivered
-    optional compact score form: run_02 = 8.9 / 10
-
-  preserve lower in audit support:
-    T / B / P / H / C component values
-    baselines used
-    any cap that was applied</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.2.2 Quality and accounting note</span>
+  <span class="sumhint">the compact note that must sit beside or just below the cards</span>
+</summary>
 <table>
   <thead>
     <tr>
@@ -671,6 +628,12 @@ avoid
     <tr><td>Quality vs closure split</td><td>Avoid letting strong accounting or one strong run blur an open closure gap. When needed, let the page read like: <code class="inline">business win</code>, <code class="inline">run-quality win</code>, <code class="inline">accounting win or miss</code>, <code class="inline">finish loss</code>.</td><td>Accounting success silently implying closure success.</td></tr>
   </tbody>
 </table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.2.3 Score-zone micro-format</span>
+  <span class="sumhint">the compact wording shape near the score zone</span>
+</summary>
 <table>
   <thead>
     <tr>
@@ -685,6 +648,12 @@ avoid
     <tr><td>companion-only round</td><td><code class="inline">Run-quality: strongest companion cleared the bar, but the incumbent benchmark still stands.</code></td><td>Letting a strong companion sentence read like benchmark displacement.</td></tr>
   </tbody>
 </table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.2.4 Reporting support and authority cap</span>
+  <span class="sumhint">what the first screen shows and what must stay reopenable below</span>
+</summary>
 <table>
   <thead>
     <tr>
@@ -697,16 +666,21 @@ avoid
     <tr><td>Threshold and result</td><td>The threshold <code class="inline">RUN_EXPECTED_DELTA_QUALITY</code>, which kept runs cleared it, and the cold verdict <code class="inline">cleared</code> or <code class="inline">still thin</code>.</td><td>The computed <code class="inline">RUN_DELTA_SCORE_ACTUAL</code> per kept run when it materially helps comparison.</td></tr>
     <tr><td>Delta type</td><td>What kind of delta the winning kept run delivered: truth, branch depth, proof, honesty, or publication rescue.</td><td>The supporting component sheet <code class="inline">T / B / P / H / C</code> and cited baselines.</td></tr>
     <tr><td>Audit support</td><td>Nothing heavy on the first screen beyond a compact note or micro-table.</td><td>Direct links or lower-audit pointers to the run scoring sheet, validation bundle, and proof anchors that justify the score.</td></tr>
+    <tr><td>Authority cap</td><td>If a kept run materially drives score cards or benchmark promotion but the package still lacks the exact kept-run scoring spine, lower <code class="inline">Trust</code> or <code class="inline">Overall</code> before rhetoric outruns the saved carriers.</td><td>Letting a strong local page claim leader-grade authority while the scoring spine is still only implicit.</td></tr>
   </tbody>
 </table>
-<div class="note"><b>Micro-format rule:</b> the first screen should expose threshold, who cleared, who stayed thin, and the cold role of the winning kept run. Component math, baselines, and cap triggers stay below.</div>
-<div class="warn"><b>Authority cap:</b> if a kept run materially drives score cards or benchmark promotion but the package still lacks the exact kept-run scoring spine (<code class="inline">run-delta-score.md</code>, cited baselines when comparative, cap triggers when bounded), the canonical page may still read strong locally, but it should not claim leader-grade authority. Lower <code class="inline">Trust</code> or <code class="inline">Overall</code> before letting rhetoric outrun the saved carriers.</div>
+</details>
 </details>
 
 <details class="subdetails">
 <summary>
     <span class="summary-title">2.2.3 Harder scoring and downgrade order</span>
   <span class="sumhint">how to score more critically when support trails truth</span>
+</summary>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.3.1 Harder scoring by card</span>
+  <span class="sumhint">when strong truth still does not justify a higher card</span>
 </summary>
 <table>
   <thead>
@@ -722,19 +696,33 @@ avoid
     <tr><td><code class="inline">Business HTML</code></td><td>The opening is strong and the page also shows historical movement cleanly: what changed versus the prior winner, what stayed companion, and what replay was withheld.</td><td>The page still reads like a strong final explanation but not yet like a cold historical measurement instrument.</td></tr>
   </tbody>
 </table>
-<pre><code>hard score-card discipline
-  strong benchmark truth
-  + weak self-learning audit
-  = lower Trust and Overall than local instinct wants
-
-  strong page story
-  + weak package recomputability
-  = lower Overall than benchmark prose suggests
-
-  strong truth
-  + weak historical comparison hygiene
-  = lower Business HTML or Trust before lowering Coverage</code></pre>
-<div class="warn"><b>Anti-inflation rule:</b> do not let benchmark truth alone pull the score wall toward leader-grade if the package still under-delivers on auditable self-learning, self-correction visibility, or recomputable comparison against prior runs and prior timestamp packages.</div>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.3.2 Anti-inflation discipline</span>
+  <span class="sumhint">how to resist leader-grade scoring when support still trails truth</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>If local truth is strong but...</th>
+      <th>Then do this</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>self-learning audit is weak</td><td>Lower <code class="inline">Trust</code> and <code class="inline">Overall</code> more than local instinct wants.</td><td>Benchmark truth alone is not enough for leader-grade confidence.</td></tr>
+    <tr><td>package recomputability is weak</td><td>Lower <code class="inline">Overall</code> before lowering narrative confidence everywhere else.</td><td>A strong story does not replace an auditable scoring spine.</td></tr>
+    <tr><td>historical comparison hygiene is weak</td><td>Lower <code class="inline">Business HTML</code> or <code class="inline">Trust</code> before lowering <code class="inline">Coverage</code>.</td><td>The main exaggeration is usually in publication authority, not in raw defended scope.</td></tr>
+    <tr><td>pre-learning says the page still trails a stronger teacher</td><td>Keep the cards benchmark-aware even if the local package truth is very good.</td><td>The score wall should reflect executed learning, not assumed learning.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.3.3 Downgrade order</span>
+  <span class="sumhint">which card to lower first when support is the weak layer</span>
+</summary>
 <table>
   <thead>
     <tr>
@@ -754,11 +742,17 @@ avoid
 </table>
 <div class="note"><b>Downgrade-order rule:</b> when support trails truth, do not flatten every card equally. Lower the card that most directly overclaims what is missing.</div>
 </details>
+</details>
 
 <details class="subdetails">
 <summary>
     <span class="summary-title">2.2.4 Test-materialization note</span>
   <span class="sumhint">how to publish test quality without creating a fifth top card</span>
+</summary>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.4.1 Placement and disclosure</span>
+  <span class="sumhint">what to publish and where to publish it</span>
 </summary>
 <table>
   <thead>
@@ -775,6 +769,20 @@ avoid
     <tr><td>Proof anchor</td><td>Keep a nearby pointer to the proof anchor that best demonstrates the new assertions, and when reread/reopen targeted one row among siblings make the target-identity anchor explicit too.</td><td>A test-quality claim with no reopenable evidence.</td></tr>
   </tbody>
 </table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.4.2 Minimal canonical form</span>
+  <span class="sumhint">how small this note should stay by default</span>
+</summary>
+<pre><code>fast canonical form
+  -> do not add a top card
+  -> publish one compact test-quality line lower on the page
+  -> strongest kept run + score + strongest new assertion + proof anchor
+
+if the reader already understands why the tests mattered
+  -> stop
+do not grow a new audit block by reflex</code></pre>
 <table>
   <thead>
     <tr>
@@ -790,20 +798,18 @@ avoid
   </tbody>
 </table>
 <div class="note"><b>Reporting minimality:</b> publish only enough test-quality detail to explain why the added tests mattered semantically. If one score + one assertion + one proof anchor is enough, stop there.</div>
-<pre><code>fast canonical form
-  -> do not add a top card
-  -> publish one compact test-quality line lower on the page
-  -> strongest kept run + score + strongest new assertion + proof anchor
-
-if the reader already understands why the tests mattered
-  -> stop
-do not grow a new audit block by reflex</code></pre>
+</details>
 </details>
 
 <details class="subdetails">
 <summary>
     <span class="summary-title">2.2.5 Score bands and replacement-grade discipline</span>
   <span class="sumhint">how to avoid over-promoting strong local pages</span>
+</summary>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5.1 Score bands</span>
+  <span class="sumhint">what each high score posture actually means</span>
 </summary>
 <table>
   <thead>
@@ -821,6 +827,12 @@ do not grow a new audit block by reflex</code></pre>
     <tr><td><code class="inline">Replacement-grade</code></td><td>The page can stand beside the best current <code class="inline">html-ex</code> reports and beat or match them on the relevant axis.</td><td>Mere local improvement, same-family hardening, or clean publication alone.</td><td><code class="inline">98-100</code> only when the leader-level bar is actually met</td></tr>
   </tbody>
 </table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5.2 Replacement-grade checks</span>
+  <span class="sumhint">how to prevent local strength from being misread as leader displacement</span>
+</summary>
 <table>
   <thead>
     <tr>
@@ -836,6 +848,12 @@ do not grow a new audit block by reflex</code></pre>
     <tr><td><code class="inline">companion honesty</code> and <code class="inline">principal benchmark authority</code></td><td><code class="inline">benchmark authority</code></td><td>Refusing false promotion is excellent, but it does not itself make the page the new winner.</td></tr>
   </tbody>
 </table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5.3 Two-score rule</span>
+  <span class="sumhint">separate local strength from replacement-grade judgment</span>
+</summary>
 <table>
   <thead>
     <tr>
@@ -850,6 +868,12 @@ do not grow a new audit block by reflex</code></pre>
     <tr><td><code class="inline">Historical-learning check</code></td><td>Also ask: <code class="inline">Did this page actually internalize the strongest lessons from the relevant pre-learning exemplars, or am I scoring as if I learned more than I executed?</code></td></tr>
   </tbody>
 </table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5.4 Leader-level caps</span>
+  <span class="sumhint">hard stops before 98-100 territory</span>
+</summary>
 <table>
   <thead>
     <tr>
@@ -864,6 +888,13 @@ do not grow a new audit block by reflex</code></pre>
     <tr><td><code class="inline">One decisive gate still open</code></td><td>De-punctate first on <code class="inline">benchmark authority</code> or <code class="inline">non-promotion honesty</code>, whichever is still weak, before lowering secondary polish axes.</td><td>Hide the unresolved gap behind strong auditability, good closure, or same-family progress.</td></tr>
   </tbody>
 </table>
+</details>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5.5 Wording discipline</span>
+  <span class="sumhint">how to phrase high strength without over-promoting the page</span>
+</summary>
 <table>
   <thead>
     <tr>
@@ -879,6 +910,12 @@ do not grow a new audit block by reflex</code></pre>
     <tr><td><code class="inline">retained confidence only</code></td><td><code class="inline">0 new tests but target still stronger</code></td><td>Retained-close confidence should stay visible as secondary support, not disguised as new proof.</td></tr>
   </tbody>
 </table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5.6 Overall html-ex comparison slice</span>
+  <span class="sumhint">the four comparison questions worth publishing near the score zone</span>
+</summary>
 <table>
   <thead>
     <tr>
@@ -894,6 +931,12 @@ do not grow a new audit block by reflex</code></pre>
     <tr><td>Graph / visual authority</td><td>Does the graph family make the new truth easier to remember than the compared benchmark does?</td><td><code class="inline">beats incumbent on graph authority</code> or <code class="inline">still below incumbent on graph authority because ...</code></td></tr>
   </tbody>
 </table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5.7 Overall benchmark-comparison rule</span>
+  <span class="sumhint">how to keep comparison compact and honest</span>
+</summary>
 <table>
   <thead>
     <tr>
@@ -912,130 +955,332 @@ do not grow a new audit block by reflex</code></pre>
 </table>
 </details>
 </details>
+</details>
+
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>3) Executive Summary</h2>
 
 <details>
 <summary>
-  <span class="summary-title">2.3 Round evolution before retention</span>
+  <span class="summary-title">3.0 Executive Summary</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>3) Executive Summary
+  -> collapsed summary carrier
+  -> first major summary block after the score wall</code></pre>
+<pre><code>good opened-body micro-pattern
+  -> cluster-grid
+     -> Winner
+     -> Defended branch
+     -> Hierarchy move
+     -> Scope / descendants
+     -> Pass boundary
+
+bad opened-body pattern
+  -> long table wall
+  -> wide prose slab
+  -> rows that each carry several different truths</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Executive Summary requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Placement</td><td>Be the first major numbered summary block after the score wall.</td><td>Drifting below benchmark, trust, graph, or audit sections.</td></tr>
+    <tr><td>Posture</td><td>Behave as a collapsed summary carrier by default.</td><td>A wide always-open prose slab that outweighs the score wall.</td></tr>
+    <tr><td>Summary-line self-sufficiency</td><td>The summary line should already name the winner and defended branch clearly enough that the reader can continue without opening the body.</td><td>A vague summary line that forces the body open for the basic verdict.</td></tr>
+    <tr><td>Opened body shape</td><td>When opened, use a compact structured carrier such as a short grid, short key-value table, or narrow band.</td><td>A paragraph wall that repeats the hero using more words.</td></tr>
+    <tr><td>Mini-card preference</td><td>If the truths separate naturally, prefer a small <code class="inline">cluster-grid</code> or mini-card layout over a broad table wall.</td><td>One tidy-looking table that still reads slower than separated cards.</td></tr>
+    <tr><td>Opened-body severity</td><td>Keep each visible row or card focused on one truth only.</td><td>Compound rows or cards that carry three or four truths at once.</td></tr>
+    <tr><td>Semantic role</td><td>Restate winner, defended branch, hierarchy move, and scope in compact business language.</td><td>Turning into a mini-audit, mini-score wall, or mini-history section.</td></tr>
+  </tbody>
+</table>
+</details>
+
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>4) Graph Family</h2>
+
+<details open>
+<summary>
+  <span class="summary-title">4.0 Graph Family</span>
   <span class="badge">CORE</span>
 </summary>
 <table>
   <thead>
     <tr>
-      <th>Evolution-ledger rule</th>
-      <th>MUST do this</th>
-      <th>Why it matters</th>
+      <th>Section</th>
+      <th>Children</th>
+      <th>Default posture in the final report</th>
+      <th>What it owns</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td>Ledger placement</td><td>Place the <code class="inline">Round Evolution Ledger</code> above lower proof sections.</td><td>So the page reads as evolution first, proof detail second.</td></tr>
-    <tr><td>Per-run delta fields</td><td>Show for each kept run: <code class="inline">Business delta</code>, <code class="inline">Test / support delta</code>, <code class="inline">Inherited proof reuse</code>, <code class="inline">Validation-only absorption</code>, and <code class="inline">Primary evidence anchor</code>.</td><td>So run roles can be understood without reopening every artifact.</td></tr>
-    <tr><td>Per-run test-quality hint</td><td>When a kept run materially changed tests, add one short hint of why those tests matter: the strongest new observable assertion or the strongest flow step now defended.</td><td>So added tests do not read like raw volume only.</td></tr>
-    <tr><td>Per-run target contribution</td><td>Show for each kept run what defended branch coverage it added and how many tests were created or materially expanded there, or say explicitly <code class="inline">0</code> when the run was absorption-only.</td><td>So new proof, retained-close, and package repair do not blur together.</td></tr>
-    <tr><td>Nearby quality/accounting note</td><td>Keep one short note nearby: configured <code class="inline">RUN_EXPECTED_DELTA_QUALITY</code>, which kept runs cleared it, what branch coverage they defended, configured <code class="inline">ROUND_TARGET_TEST_COUNT</code>, how much of that scope was materially turned into tests, and why any remaining accounting gap was accepted.</td><td>So run-quality reading and output accounting stay close to evolution reading.</td></tr>
-    <tr><td>Severity wording</td><td>Say <code class="inline">run-quality still thin</code> when no kept run really moved the verdict enough, and say <code class="inline">accounting target missed badly</code> when the round remained far below output expectations.</td><td>So a soft ratio does not masquerade as quality.</td></tr>
-    <tr><td>Retained-close honesty</td><td>Say explicitly when a run spent effort mostly on retained-close, packaging repair, or audit cleanup rather than on a new delta strong enough to clear <code class="inline">RUN_EXPECTED_DELTA_QUALITY</code>.</td><td>So low-delta runs still read honestly.</td></tr>
-    <tr><td>No-new-delta honesty</td><td>Do not hide no-new-delta runs; explain why they still mattered.</td><td>So closure work stays visible but secondary.</td></tr>
+    <tr><td><code class="inline">4.1 Business Flow Graph</code></td><td><code class="inline">none required</code></td><td>Normally collapsed, opened only when the defended chain is the main story and deserves to lead the middle of the page.</td><td>The deepest defended chain first, with nearby run / proof / comparison support only when it materially lowers reconstruction cost.</td></tr>
+    <tr><td><code class="inline">4.2 Business Domain Graph</code></td><td><code class="inline">4.2.1 Business surfaces</code><br><code class="inline">4.2.2 Companion / replay memory</code></td><td>Normally collapsed unless breadth-memory or product-atlas decoding is materially earned.</td><td>Product-area atlas plus benchmark-memory layer when it helps domain relearning.</td></tr>
+    <tr><td><code class="inline">4.3 Actor State Graph</code></td><td><code class="inline">none required</code></td><td>Normally collapsed unless guarded/public state transitions materially changed judgment.</td><td>State semantics only when they materially affect judgment and cannot be carried more cheaply by flow, domain, or mapping sections.</td></tr>
   </tbody>
 </table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.1 Business Flow Graph</span>
+  <span class="badge">CORE</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Business-first chain</td><td>Show the defended business chain, mutation, or continuity path before replay nuance or benchmark comparison.</td><td>A lineage view that reads like a test inventory.</td></tr>
+    <tr><td>Guarded demotion</td><td>Keep blocker or thin branches visible only as secondary lineage when they materially bounded promotion.</td><td>Letting blocker lineage compete with the winner path.</td></tr>
+    <tr><td>Run and proof recoverability</td><td>Make the decisive <code class="inline">run_##</code>, strongest test family, and primary proof carrier recoverable in the same section or immediate companion table when the graph claims a new flow truth.</td><td>A strong flow graph the reader cannot tie back to a kept run, class family, or proof anchor.</td></tr>
+    <tr><td>Replay and ceiling support</td><td>Keep replay outcome, retained-close nuance, and authority ceiling as short support inside the same flow-owner section when they materially sharpen the lineage.</td><td>Creating a second flow-owned child section just to carry replay or ceiling support.</td></tr>
+    <tr><td>Related-flow memory</td><td>When an earlier report in the same semantic family sharpens judgment, add one short related-flow comparison note or strip naming the cousin package and exact delta.</td><td>Talking about same-family memory only in distant prose or spinning it into a separate child subsection.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.2 Business Domain Graph</span>
+  <span class="badge">CORE</span>
+</summary>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.2.1 Business surfaces</span>
+  <span class="sumhint">the product-area or subdomain atlas</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Trigger</td><td>Use this subdiagram when product areas or subdomains materially matter to the round.</td><td>Publishing it decoratively when the round only needs flow depth.</td></tr>
+    <tr><td>Atlas role</td><td>Help the reader decode the product faster than prose alone.</td><td>An internal schema that is correct but not helpful for onboarding.</td></tr>
+    <tr><td>Breathable shape</td><td>Prefer calmer grouped areas over one crowded panoramic atlas.</td><td>A wide dense grid that needs zoom before composition has been simplified.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.2.2 Companion / replay memory</span>
+  <span class="sumhint">the benchmark-memory layer that belongs under the domain family</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Trigger</td><td>Use this subdiagram when companion packages, replay memory, or displaced local carriers materially sharpen the domain read.</td><td>Forcing replay memory into the business-surfaces view.</td></tr>
+    <tr><td>Support text restraint</td><td>Keep explanation short and let the subdiagram remain the main reading target.</td><td>Heavy visible prose under the SVG.</td></tr>
+    <tr><td>Collapsed-note preference</td><td>If a short interpretation still helps, prefer a collapsed note under the subdiagram instead of longer visible helper prose.</td><td>Sentence-heavy nodes or paragraph slabs under the card.</td></tr>
+  </tbody>
+</table>
+</details>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.3 Actor State Graph</span>
+  <span class="badge">CORE</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Trigger</td><td>Use this section only when state semantics materially affect judgment and cannot be explained more cheaply through the flow graph, domain graph, or mapping sections.</td><td>Publishing state machinery when the round is really just about flow depth.</td></tr>
+    <tr><td>State clarity</td><td>If used, show the meaningful transitions and protected/public differences without flattening them into one rail.</td><td>A pipeline-like line where guarded transitions disappear.</td></tr>
+    <tr><td>Rebuilt-state restraint</td><td>Keep rebuilt comparison states inside the same actor-state owner only when they materially sharpen the judgment.</td><td>Spinning out rebuilt-state detail as a separate subfamily when the rest of the report already explains the winner well enough.</td></tr>
+    <tr><td>Optionality</td><td>Drop the whole actor-state family when it adds little beyond the other sections.</td><td>Keeping it as a decorative completeness tax.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.4 Shared graph family style rules</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>graph-style ladder
+  -> layout and medium
+  -> split and authority
+  -> text and labels
+  -> notes and helpers
+  -> replacement-grade threshold</code></pre>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.4.1 Layout and medium</span>
+  <span class="sumhint">how the graph family should occupy visual space</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Layout topic</th>
+      <th>Prefer this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Layout rhythm</td><td>Keep graphs stacked calmly instead of cramming multiple heavy visuals into one crowded grid.</td><td>Dense visual walls near the top.</td></tr>
+    <tr><td>Diagram medium</td><td>Prefer real SVG or similarly crisp diagram blocks when the graph is meant to carry business meaning.</td><td>Plain text masquerading as a diagram when a visual node graph is the real intent.</td></tr>
+    <tr><td>Horizontal breathing room</td><td>Give labels and node groups enough horizontal air that the graph can be scanned without zoom at normal laptop width whenever that is realistically possible.</td><td>Tight node packing that makes the reader want zoom before the composition has been simplified.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.4.2 Split and authority</span>
+  <span class="sumhint">when to split and when to keep one stronger visual</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Split topic</th>
+      <th>Prefer this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>One-question rule</td><td>Each diagram or subdiagram should answer one main question fast.</td><td>One visual trying to answer several different questions at once.</td></tr>
+    <tr><td>Subdiagram split trigger</td><td>Split a graph into subdiagrams when one panoramic SVG would otherwise mix lineage with outcome, surfaces with replay memory, or user-facing states with rebuilt comparison states.</td><td>Keeping one extra-wide diagram just because the truth is related.</td></tr>
+    <tr><td>Panorama avoidance</td><td>Prefer two smaller stacked or side-by-side subdiagrams over one very wide ladder when the split improves first-read clarity.</td><td>Very wide SVGs that are correct but slow to scan.</td></tr>
+    <tr><td>Anti-over-splitting</td><td>Do not split one graph into two if each child diagram becomes too weak or loses visual authority by itself.</td><td>Splitting reflexively until the reader has several underpowered diagrams instead of one strong one.</td></tr>
+    <tr><td>Subdiagram card rhythm</td><td>When a graph family is split, each subdiagram should live in its own calm card with a short title and one short semantic caption.</td><td>Subdiagrams blurred together as if they were still one crowded visual.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.4.3 Text and labels</span>
+  <span class="sumhint">how much text should live inside or around the SVG</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Text topic</th>
+      <th>Prefer this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Node-text budget</td><td>Keep node labels short and identity-first. Move longer explanation into a short caption, a collapsed note directly below the diagram, or a companion table row.</td><td>Sentence-sized node labels carrying all of the explanation.</td></tr>
+    <tr><td>HTML label-row trigger</td><td>If SVG text becomes visually dirty, crowded, or hard to read, move group labels or category labels into short HTML label rows above the SVG.</td><td>Forcing all grouping labels to remain inside the SVG when they are calmer outside it.</td></tr>
+    <tr><td>Opened-body severity</td><td>Once a diagram card is open, keep the surrounding explanation light: one short caption or one short collapsed note, with deeper detail in the companion table below.</td><td>Multi-sentence slabs or bullets that each hide several different truths.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.4.4 Notes and helpers</span>
+  <span class="sumhint">how to help interpretation without stealing focus from the graph</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Helper topic</th>
+      <th>Prefer this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Collapsed note under diagram</td><td>When a diagram needs a small interpretation aid, prefer one short collapsed note under the diagram instead of visible helper prose.</td><td>Long visible paragraphs under each SVG.</td></tr>
+    <tr><td>Support-text demotion</td><td>If a split diagram already reads clearly, shorten or collapse the support text under it so the eye stays on the nodes first.</td><td>Verbose helper prose that becomes the real reading target instead of the diagram.</td></tr>
+    <tr><td>Zoom restraint</td><td>Treat zoom as an optional helper only after composition, label compression, and subdiagram splitting have already been pushed as far as they reasonably can go.</td><td>Using zoom to excuse a diagram that should first be calmer, shorter, or more clearly split.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.4.5 Replacement-grade threshold</span>
+  <span class="sumhint">when the graph family is strong enough to compete with a leader</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Threshold topic</th>
+      <th>Read it as strong when...</th>
+      <th>Read it as still below benchmark when...</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Replacement-grade graph authority</td><td>The graph family not only explains correctly, but makes the new truth easier to remember than the incumbent report does.</td><td>The report wins on rules and density, but still loses on visual inevitability or memorability.</td></tr>
+  </tbody>
+</table>
+</details>
 </details>
 </div>
 
 <hr class="sep">
 
 <div class="card">
-<h2>3) Graph Family And Coverage Shape</h2>
+<h2>5) Test Coverage And Proof Ownership</h2>
 
-<details>
+<details open>
 <summary>
-  <span class="summary-title">3.1 Required graph family</span>
+  <span class="summary-title">5.0 Test Coverage And Proof Ownership</span>
   <span class="badge">CORE</span>
 </summary>
-<pre><code>need the deepest defended chain fast?
-  -> Business Flow Graph
-
-need product-area or subdomain meaning?
-  -> Business Domain Graph
-
-need guarded state transitions?
-  -> Actor State Graph
-
-need blocked / deferred / open neighbors visible?
+<pre><code>test coverage and proof ownership
   -> Coverage / Frontier Map
-
-if several sets are valid
-  -> choose the one that makes the new truth memorable fastest</code></pre>
+  -> Automation Coverage Overlay
+  -> Test Mapping
+  -> Flow To Support To Proof Mapping
+  -> Validation Artifact References</code></pre>
 <table>
   <thead>
     <tr>
-      <th>If the page needs one dominant visual first</th>
-      <th>Choose this anchor</th>
-      <th>Let the others do later</th>
+      <th>Family child</th>
+      <th>Default posture in the final report</th>
+      <th>What it owns</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td>deep defended chain is the story</td><td><code class="inline">Business Flow Graph</code></td><td>domain grouping and open-neighbor explanation</td></tr>
-    <tr><td>subdomain or area separation is the story</td><td><code class="inline">Business Domain Graph</code></td><td>flow depth and blocked-edge context</td></tr>
-    <tr><td>guarded states or actor transitions are the story</td><td><code class="inline">Actor State Graph</code></td><td>breadth or product-area context</td></tr>
-    <tr><td>blocked, deferred, or open neighbors are the story</td><td><code class="inline">Coverage / Frontier Map</code></td><td>secondary flow or domain support</td></tr>
+    <tr><td><code class="inline">5.1 Coverage / Frontier Map</code></td><td>Usually collapsed.</td><td>Defended depth versus open frontier, with blocked/deferred/protected-public distinctions.</td></tr>
+    <tr><td><code class="inline">5.2 Automation Coverage Overlay</code></td><td>Usually collapsed.</td><td>Cold status grid for covered / partial / blocked / deferred flow families.</td></tr>
+    <tr><td><code class="inline">5.3 Test Mapping</code></td><td>Usually collapsed.</td><td>Which suite/class defends which flow family.</td></tr>
+    <tr><td><code class="inline">5.4 Flow To Support To Proof Mapping</code></td><td>Usually collapsed.</td><td>Bridge from defended flow to support, tests, and proof anchors.</td></tr>
+    <tr><td><code class="inline">5.5 Validation Artifact References</code></td><td>Usually collapsed.</td><td>Direct proof reopening path: rendered proof, command trace, machine-readable anchor.</td></tr>
   </tbody>
 </table>
-<table>
-  <thead>
-    <tr>
-      <th>Replacement-grade visual test</th>
-      <th>The graph set should prove this</th>
-      <th>If it does not, treat it as</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>One graph clearly leads the page</td><td>The main graph can be named in one sentence as the visual reason this round mattered.</td><td>a graph-authority gap, not a cosmetic preference</td></tr>
-    <tr><td>The leader graph beats polite correctness</td><td>The winning branch, new state mutation, or benchmark-displacing chain is visually more memorable than inherited context.</td><td>a benchmark-grade reporting miss</td></tr>
-    <tr><td>Supporting graphs stay secondary</td><td>The later graphs add coverage, domain, or state context without competing with the visual anchor.</td><td>a dense but flat graph family</td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>If this reporting need is true</th>
-      <th>Include this graph or summary</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>product areas or subdomains matter to the round</td><td><code class="inline">Business Domain Graph</code></td></tr>
-    <tr><td>state transitions, protected states, or guarded flows matter</td><td><code class="inline">Actor State Graph</code></td></tr>
-    <tr><td>the reader needs the main defended chain fast</td><td><code class="inline">Business Flow Graph</code></td></tr>
-    <tr><td>the round claims broad exploration, blocked edges, or meaningful open neighbors</td><td><code class="inline">Coverage / Frontier Map</code></td></tr>
-    <tr><td>protected/public or guarded/open mix is part of the story</td><td><code class="inline">Actor State Graph</code> plus <code class="inline">Coverage / Frontier Map</code></td></tr>
-    <tr><td>scope breadth needs a fast explanation</td><td>compact <code class="inline">Business/Test Scope Summary</code></td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Graph-set decision</th>
-      <th>Default move</th>
-      <th>Avoid this mistake</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Actual trigger only</td><td>Choose only the graphs triggered by the actual reporting need.</td><td>A decorative full set.</td></tr>
-    <tr><td>Minimal good default</td><td>When in doubt, use <code class="inline">Business Flow Graph</code> + one of <code class="inline">Business Domain Graph</code> or <code class="inline">Actor State Graph</code>, then add <code class="inline">Coverage / Frontier Map</code> only when open neighbors or blocked edges materially matter.</td><td>Front-loading too many visuals.</td></tr>
-    <tr><td>Protected descendant mental model</td><td><code class="inline">protected descendant round</code> -> <code class="inline">Business Flow Graph</code> + <code class="inline">Coverage / Frontier Map</code>.</td><td>Inventing extra graphs just because the page has space.</td></tr>
-    <tr><td>Public breadth mental model</td><td><code class="inline">public breadth round</code> -> <code class="inline">Business Domain Graph</code> + <code class="inline">Business Flow Graph</code> + <code class="inline">Coverage / Frontier Map</code>.</td><td>Letting breadth stay prose-only when the frontier matters.</td></tr>
-    <tr><td>Breadth-plus-state rounds</td><td>If the round spans several public flows, guarded states, or benchmark-displacing neighbors, strongly prefer <code class="inline">Business Domain Graph</code> and <code class="inline">Actor State Graph</code> together unless one is genuinely redundant.</td><td>Omitting both richer context graphs and forcing the reader to infer area/state structure from prose alone.</td></tr>
-    <tr><td>Minimum good set</td><td>If judgment still feels expensive, start from one minimum good set and only add more if the page genuinely needs them.</td><td>Re-deciding the whole graph family from zero every round.</td></tr>
-    <tr><td>First-read force choice</td><td>If multiple graph sets are valid, choose the one that makes the strongest new business truth memorable fastest.</td><td>The safest but flattest graph set that explains correctly yet lands weakly.</td></tr>
-    <tr><td>Collapsible graph ladder</td><td>Prefer a numbered ladder of graph sections where the first or most decisive graph may stay open and the later graphs can stay collapsed by default.</td><td>Dumping every graph fully open into one long visual wall.</td></tr>
-    <tr><td>Visual priority</td><td>Make one graph feel like the visual leader and let the others support it.</td><td>Three equally polite diagrams with no obvious hero.</td></tr>
-    <tr><td>Business-facing standard</td><td>Keep visuals business-facing and semantic.</td><td>Replacing them with only test inventories or run chronology.</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>Benchmark-memory breadth bundle:</b> when the page claims broad public benchmark authority across several descendant flows, guarded states, or displaced local companions, it should normally include <code class="inline">Business Domain Graph</code> and <code class="inline">Actor State Graph</code> alongside the primary <code class="inline">Business Flow Graph</code>, unless one of them would be genuinely empty or redundant.</div>
 </details>
 
 <details>
 <summary>
-  <span class="summary-title">3.2 Graph readability rules</span>
+  <span class="summary-title">5.1 Coverage / Frontier Map</span>
   <span class="badge">CORE</span>
 </summary>
 <table>
@@ -1047,86 +1292,79 @@ if several sets are valid
     </tr>
   </thead>
   <tbody>
-    <tr><td>Layout rhythm</td><td>Keep graphs stacked calmly instead of cramming multiple heavy visuals into one crowded grid.</td><td>Dense visual walls near the top.</td></tr>
-    <tr><td>Diagram medium</td><td>Prefer real SVG or similarly crisp diagram blocks when the graph is meant to carry business meaning.</td><td>Plain text masquerading as a diagram when a visual node graph is the real intent.</td></tr>
-    <tr><td>Label clarity</td><td>Keep labels readable at normal laptop width.</td><td>Overlapping labels, clipped text, off-canvas text, or connector lines cutting through sentences.</td></tr>
-    <tr><td>Real graph shape</td><td>Use segmented node rails, labeled pills, or boxed nodes with visible grouping.</td><td>Fake graphs made only from one long monospace arrow string.</td></tr>
-    <tr><td>Node emphasis</td><td>Make the primary nodes, blocked edges, and newly defended branch visually distinct enough that the graph can be scanned in seconds.</td><td>Uniform node weight where the important branch disappears into the baseline.</td></tr>
-    <tr><td>Arrow captions</td><td>Keep any arrow-like sentence as a short supporting caption under the graph, not as the graph itself.</td><td>A code-like sentence pretending to be the main visual.</td></tr>
-    <tr><td>Caption discipline</td><td>Keep graph captions short and semantic.</td><td>Paragraph-sized explanations attached to each graph.</td></tr>
-    <tr><td>Complexity ceiling</td><td>Simplify the graph if it cannot answer its own question in a few seconds.</td><td>One huge diagram that says everything poorly.</td></tr>
-    <tr><td>Spatial economy</td><td>Use spacing that keeps comparison rhythm visible.</td><td>Oversized fonts or oversized node spacing that wastes the page.</td></tr>
-    <tr><td>Named punch point</td><td>Make at least one graph surface the round's sharpest business jump, conflict, or state mutation as a visible punch point.</td><td>Polite graphs that are correct but fail to show why this round mattered more than the previous one.</td></tr>
-    <tr><td>Visual contrast</td><td>Give the new defended truth more visual emphasis than inherited baseline truth or retained-close context.</td><td>Equal visual weight for old retained context and the actual proof-origin win.</td></tr>
-    <tr><td>Replacement-grade threshold</td><td>If the page wants to displace a strong <code class="inline">html-ex</code> benchmark, the graph family should not only explain correctly; it should make the new truth easier to remember than the incumbent report does.</td><td>A report that wins on rules and loses on visual inevitability.</td></tr>
+    <tr><td>Depth versus breadth</td><td>Distinguish defended depth from explored breadth.</td><td>One blended map where defended truth and open frontier are indistinguishable.</td></tr>
+    <tr><td>Frontier state</td><td>Say what chain was defended deeply, what adjacent scope was only explored broadly, and what frontier remains blocked, deferred, duplicated, or still uncovered.</td><td>A frontier map that behaves like just another flow graph.</td></tr>
+    <tr><td>Truth-layer split</td><td>Keep route truth, shell truth, flow truth, mechanism truth, and blocked truth separate when guarded transitions would flatten the story.</td><td>Flattening unlike truth layers into one vague coverage picture.</td></tr>
+    <tr><td>Protected/public split</td><td>Say explicitly when the round mixed public routes, protected states, guarded continuations, or downstream-only surfaces.</td><td>Leaving the reader to infer protected/public mix from context.</td></tr>
+    <tr><td>Failure-lineage wording</td><td>When a losing branch or disproved frontier still prevented false promotion, keep it visible as failure lineage rather than quietly deleting it after the pivot.</td><td>Making the frontier look cleaner than the actual evidence allowed.</td></tr>
+    <tr><td>Reachability guard</td><td>Do not present visible route reachability as equal to defended semantic flow truth.</td><td>Using a frontier map to overclaim depth.</td></tr>
   </tbody>
 </table>
 </details>
 
 <details>
 <summary>
-  <span class="summary-title">3.3 Coverage and frontier wording</span>
+  <span class="summary-title">5.2 Automation Coverage Overlay</span>
   <span class="badge">CORE</span>
 </summary>
 <table>
   <thead>
     <tr>
-      <th>Coverage/frontier wording topic</th>
-      <th>MUST make clear</th>
+      <th>This section should answer</th>
+      <th>Include it when</th>
+      <th>Expose only this</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td>Depth versus breadth</td><td>Distinguish defended depth from explored breadth.</td></tr>
-    <tr><td>Frontier state</td><td>Say what chain was defended deeply, what adjacent scope was only explored broadly, and what frontier remains blocked, deferred, duplicated, or still uncovered.</td></tr>
-    <tr><td>Truth-layer split</td><td>Keep route truth, shell truth, flow truth, mechanism truth, and blocked truth separate when guarded transitions would flatten the story.</td></tr>
-    <tr><td>Protected/public split</td><td>Say explicitly when the round mixed public routes, protected states, guarded continuations, or downstream-only surfaces so the reader can see where truth upgraded and where it stopped.</td></tr>
-    <tr><td>Lateral move honesty</td><td>Show when the round moved laterally to a stronger uncovered neighbor instead of repeating the same thin branch.</td></tr>
-    <tr><td>Failure-lineage wording</td><td>When a losing branch or disproved frontier still prevented false promotion, keep it visible as failure lineage rather than quietly deleting it after the pivot.</td></tr>
-    <tr><td>Reachability guard</td><td>Do not present visible route reachability as equal to defended semantic flow truth.</td></tr>
+    <tr><td>Which meaningful flows, states, or route families are covered, partial, blocked, or deferred?</td><td>Several semantically different flows were explored and a status grid is faster than prose.</td><td>Flow, status, coverage/confidence, and the completion or blocker rule.</td></tr>
   </tbody>
 </table>
+<div class="note"><b>Status-grid rule:</b> use the overlay for cold status compression, not for replaying the whole business story in table form.</div>
 </details>
 
 <details>
 <summary>
-  <span class="summary-title">3.3 Business Flow Graph correlation rules</span>
+  <span class="summary-title">5.3 Test Mapping</span>
   <span class="badge">CORE</span>
 </summary>
-<pre><code>Business Flow Graph
-  -> defended business chain first
-  -> decisive run_x correlation nearby
-  -> strongest test / proof anchor nearby
-  -> related-flow historical cousin only when it sharpens judgment</code></pre>
 <table>
   <thead>
     <tr>
-      <th>Correlation rule</th>
-      <th>MUST do this</th>
-      <th>Avoid this</th>
+      <th>This section should answer</th>
+      <th>Include it when</th>
+      <th>Expose only this</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td>Business-first nodes</td><td>Label the graph with business truth, state mutation, or user-visible continuity, not with test-class trivia.</td><td>A graph that reads like a renamed test inventory.</td></tr>
-    <tr><td>Run correlation</td><td>For each major winner flow or promoted branch, make the decisive <code class="inline">run_##</code> visible in the same section or in the immediate next companion table.</td><td>A graph the reader cannot tie back to the kept runs that earned it.</td></tr>
-    <tr><td>Test correlation</td><td>Expose the strongest class or family that defended each major branch when the graph claims a new flow truth.</td><td>Only broad suite labels where a class-level anchor exists.</td></tr>
-    <tr><td>Proof correlation</td><td>Make the primary proof carrier for each promoted flow recoverable within a few seconds through a nearby mapping or direct companion link.</td><td>A visually strong graph that still forces proof guessing.</td></tr>
-    <tr><td>Related-flow cousins</td><td>When the active flow displaces, extends, or learns from a closely related earlier report, add one short related-flow comparison note or strip naming the cousin package and the exact delta.</td><td>Talking about lineage only in prose far away from the flow itself.</td></tr>
-    <tr><td>Guarded blocker demotion</td><td>Keep blocker or thin branches visible when they materially bounded promotion, but visually secondary to the winner chain.</td><td>Letting a blocker node compete with the promoted branch as the visual hero.</td></tr>
-    <tr><td>No graph-only mystery</td><td>If a major node cannot be connected quickly to run, test, and proof, the graph family is still incomplete even if the diagram looks good.</td><td>Treating visual polish as enough.</td></tr>
-    <tr><td>Evidence honesty</td><td>Correlation wording and placement may improve readability, but they must not invent stronger run ownership, proof precision, or historical cousin value than the saved artifacts support.</td><td>Using graph refinement to overclaim proof authority.</td></tr>
+    <tr><td>Which suite or class defends which flow family?</td><td>The report spans multiple business flows and the reader should not infer test ownership from ledger prose alone.</td><td>Flow group, suite/class, and a compact ownership count or equivalent short map.</td></tr>
   </tbody>
 </table>
+<div class="note"><b>Ownership rule:</b> publish enough structure to lower reopening cost, but do not turn this into a flat inventory of every class in the package.</div>
 </details>
-</div>
-
-<hr class="sep">
-
-<div class="card">
-<h2>4) Proof Links And Audit Reopenability</h2>
 
 <details>
 <summary>
-  <span class="summary-title">4.1 Validation Artifact References</span>
+  <span class="summary-title">5.4 Flow To Support To Proof Mapping</span>
+  <span class="badge">CORE</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>This section should answer</th>
+      <th>Include it when</th>
+      <th>Expose only this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>How does the defended flow reach support, tests, and proof anchors?</td><td>Multiple flows, support layers, validators, or evidence anchors changed and the code-to-proof bridge would otherwise stay implicit.</td><td>Defended flow -&gt; support -&gt; test -&gt; proof.</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>Bridge rule:</b> once this section already closes the flow-to-proof chain, later sections must add a new ownership or breadth axis, not redraw the same bridge more slowly.</div>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">5.5 Validation Artifact References</span>
   <span class="badge">CORE</span>
 </summary>
 <pre><code>primary rendered proof first
@@ -1134,203 +1372,57 @@ if several sets are valid
   -> short command summary if useful
   -> decisive machine-readable result
   -> contextual extras only after the core chain is visible</code></pre>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">4.1.1 Proof-link order</span>
-  <span class="sumhint">what the reader should open first</span>
-</summary>
 <table>
   <thead>
     <tr>
-      <th>Order</th>
+      <th>Proof-link order</th>
       <th>Default artifact</th>
+      <th>Why it lands here</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td>1</td><td>primary rendered proof, typically the decisive <code class="inline">ExtentReport_*.html</code></td></tr>
-    <tr><td>2</td><td>exact command trace via <code class="inline">validation/command-output.txt</code></td></tr>
-    <tr><td>3</td><td>short command summary when present</td></tr>
-    <tr><td>4</td><td>decisive machine-readable result, typically <code class="inline">testng-results.xml</code> or the exact <code class="inline">TEST-*.xml</code></td></tr>
+    <tr><td>1</td><td>primary rendered proof, typically decisive <code class="inline">ExtentReport_*.html</code></td><td>The reader should reopen the most human-scanable proof first.</td></tr>
+    <tr><td>2</td><td>exact command trace via <code class="inline">validation/command-output.txt</code></td><td>The page should show what actually ran, not only the summary claim.</td></tr>
+    <tr><td>3</td><td>short command summary when present</td><td>Helpful when the exact trace is too noisy on first reopen.</td></tr>
+    <tr><td>4</td><td>decisive machine-readable result, typically <code class="inline">testng-results.xml</code> or exact <code class="inline">TEST-*.xml</code></td><td>The cold authority ceiling still depends on saved machine-readable proof.</td></tr>
   </tbody>
 </table>
-</details>
-
-<details class="subdetails">
-<summary>
-    <span class="summary-title">4.1.2 Proof-link rules</span>
-  <span class="sumhint">how to keep the proof chain cold and direct</span>
-</summary>
 <table>
   <thead>
     <tr>
-      <th>Proof-link rule</th>
+      <th>Validation rule</th>
       <th>MUST do this</th>
     </tr>
   </thead>
   <tbody>
     <tr><td>Section existence</td><td>Publish a <code class="inline">Validation Artifact References</code> section with direct hyperlinks.</td></tr>
-    <tr><td>Lead artifact</td><td>Lead with the decisive rendered proof when it exists, typically the exact-scope <code class="inline">ExtentReport_*.html</code>.</td></tr>
-    <tr><td>Extent visibility</td><td>If a decisive <code class="inline">ExtentReport_*.html</code> exists on disk, surface that hyperlink directly in the canonical page instead of hiding it behind only <code class="inline">command-result.md</code> or XML links.</td></tr>
-    <tr><td>Command trace</td><td>Keep the exact command trace linked directly through <code class="inline">validation/command-output.txt</code>.</td></tr>
-    <tr><td>Command summary</td><td>Keep one short command summary linked directly when present.</td></tr>
-    <tr><td>Machine result</td><td>Keep the decisive machine-readable result linked directly, typically <code class="inline">testng-results.xml</code> or the exact <code class="inline">TEST-*.xml</code> equivalent.</td></tr>
-    <tr><td>Artifact labeling</td><td>Label artifacts honestly as primary or contextual when that distinction matters.</td></tr>
-    <tr><td>Detached prose guard</td><td>Do not rely on detached prose when a real hyperlink can point to the artifact directly.</td></tr>
-    <tr><td>Allure guard</td><td>Do not treat Allure as primary proof by default when its viewer dependency makes reopening weaker than direct disk artifacts.</td></tr>
-    <tr><td>Proof-column guard</td><td>If a table has a <code class="inline">Proof</code> column or run-level proof cell, make the first visible proof link the decisive <code class="inline">ExtentReport_*.html</code> when it exists, with <code class="inline">command-result.md</code> and XML as secondary support.</td></tr>
+    <tr><td>Extent visibility</td><td>If decisive <code class="inline">ExtentReport_*.html</code> exists on disk, surface that link directly instead of hiding it behind only command-result or XML links.</td></tr>
+    <tr><td>Proof-column guard</td><td>If a table has a <code class="inline">Proof</code> column, make the first visible proof link the decisive rendered proof when it exists.</td></tr>
+    <tr><td>Detached prose guard</td><td>Do not explain a proof link in prose when a direct hyperlink can carry the same truth more coldly.</td></tr>
   </tbody>
 </table>
-</details>
-
-<details class="subdetails">
-<summary>
-    <span class="summary-title">4.1.3 Rebuild-from-evidence guard</span>
-  <span class="sumhint">what a later writer must be able to rebuild from preserved package evidence alone</span>
-</summary>
-<pre><code>to rebuild only the final page later
-  do not depend on chat memory
-  do not depend on unsaved external reconstruction
-
-  depend on:
-    package-manifest
-    run manifests
-    run summaries
-    score-support artifacts
-    validation bundle
-    history pages
-    round-support notes
-    prompt provenance bundle</code></pre>
-<table>
-  <thead>
-    <tr>
-      <th>Final-page need</th>
-      <th>Preferred preserved source</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>winner / displaced / companion hierarchy</td><td><code class="inline">Current Baseline Decision</code> inputs from <code class="inline">package-manifest.md</code>, kept-run manifests, and the strongest run summaries</td></tr>
-    <tr><td>run-quality and harsh score wall</td><td><code class="inline">run-delta-score.md</code>, baselines, cap triggers, and the nearest validation anchors</td></tr>
-    <tr><td>how truth moved</td><td><code class="inline">Round Evolution Ledger</code> inputs from kept-run summaries, iteration ledgers, and round-support notes</td></tr>
-    <tr><td>proof reopenability</td><td><code class="inline">Validation Artifact References</code> inputs from kept-run manifests and validation bundle</td></tr>
-    <tr><td>timestamp memory</td><td><code class="inline">analysis/history/index.html</code> plus earned milestone pages only</td></tr>
-    <tr><td>why the package speaks this way</td><td>root prompt provenance bundle and package-level review note</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>Rebuild rule:</b> if a later writer could not reconstruct the first screen, triad, and harsh score-card logic from preserved files alone, the package may still be locally useful but is not yet strong enough for report-only recalibration.</div>
-<div class="note"><b>Owner boundary:</b> the package artifact tree itself is owned by <code class="inline">ORCHESTRATION_PATH</code>. This section only maps reporting needs to the preserved sources it expects to find.</div>
-</details>
+<div class="note"><b>Rebuild-from-evidence guard:</b> a later writer must be able to reconstruct the first screen, verdict spine, and proof reopening path from preserved package evidence alone, not from chat memory or unsaved reconstruction.</div>
 </details>
 
 <details>
 <summary>
-  <span class="summary-title">4.2 Mapping sections</span>
-  <span class="badge">CORE</span>
-</summary>
-<div class="note"><b>Consumer map:</b> choose from package artifacts already preserved by orchestration; do not restate the saved-artifact schema here.</div>
-<pre><code>ordinary round
-  -> keep only the mappings that reduce trust reconstruction cost fast
-
-atlas-grade round
-  -> add hyperlink ledger, iteration history, and self-perfection trail
-     only when the round actually earned that reporting depth
-
-in-between round
-  -> promote one extra high-value mapping, not five decorative sections</code></pre>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">4.2.1 When richer mapping is earned</span>
-  <span class="sumhint">when to stay minimal and when to promote more atlas depth</span>
+  <span class="summary-title">5.6 Shared proof-ownership rules</span>
+  <span class="sumhint">promotion, minimum set, and duplication guard for the family</span>
 </summary>
 <table>
   <thead>
     <tr>
       <th>If the round feels like...</th>
-      <th>Default reporting move</th>
-      <th>Do not do this</th>
+      <th>Default move</th>
+      <th>Avoid this</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td>ordinary strong round</td><td>Keep only the mapping sections that remove real ambiguity fast.</td><td>Import the full atlas stack just because the page has room.</td></tr>
-    <tr><td>atlas-grade / benchmark-memory round</td><td>Add the richer ledgers and history sections because they now change relearning value, not just page density.</td><td>Under-report a rich round as if it were only a simple accounting-close package.</td></tr>
-    <tr><td>round still in between</td><td>Prefer one extra section with strong semantic value over five decorative ones.</td><td>Half-copy atlas sections without enough underlying meaning.</td></tr>
+    <tr><td>ordinary strong round</td><td>Keep only the coverage/proof sections that remove real ambiguity fast.</td><td>Importing the whole atlas stack just because the page has room.</td></tr>
+    <tr><td>atlas-grade / benchmark-memory round</td><td>Add richer mappings because they change relearning value, not just visual density.</td><td>Under-reporting a rich round as if it were only a simple close-out.</td></tr>
+    <tr><td>in-between round</td><td>Promote one extra high-value mapping, not five decorative ones.</td><td>Half-copying atlas sections without enough underlying meaning.</td></tr>
   </tbody>
 </table>
-</details>
-
-<details class="subdetails">
-<summary>
-    <span class="summary-title">4.2.2 Promotion ladder and duplication guard</span>
-  <span class="sumhint">what to promote first and what not to repeat</span>
-</summary>
-<pre><code>promotion shape
-  trigger
-    -> promote the one section that lowers reconstruction cost fastest
-    -> delay atlas extras until they add a new axis
-
-  placement
-    -> verdict-moving carriers first
-    -> proof-lowering carriers second
-    -> breadth/history carriers later
-
-  duplication guard
-    -> do not restate winner / displaced / still-trails in three sections
-    -> every later section must add a new question, not new adjectives</code></pre>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">4.2.2.1 Promotion triggers</span>
-  <span class="sumhint">which earned condition should unlock which section first</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Earning trigger</th>
-      <th>Promote this section first</th>
-      <th>Before these others</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>multiple flows and code layers changed</td><td><code class="inline">Flow To Support To Proof Mapping</code></td><td>history-heavy atlas sections</td></tr>
-    <tr><td>many hyperlinks or descendants were explored</td><td><code class="inline">Accessible Hyperlink Exploration Ledger</code></td><td>decorative extra graphs</td></tr>
-    <tr><td>many semantically different flows need one cold status map</td><td><code class="inline">Automation Coverage Overlay</code></td><td>long prose status summaries</td></tr>
-    <tr><td>many flows map to distinct suites or classes and the reader must see that bridge fast</td><td><code class="inline">Test Mapping</code></td><td>forcing the reader to infer test ownership from ledger prose or proof tables alone</td></tr>
-    <tr><td>route truth and deeper flow truth diverged</td><td><code class="inline">Route-Proof Versus Flow-Proof Delta</code></td><td>broad benchmark commentary</td></tr>
-    <tr><td>a disproved branch prevented false promotion</td><td><code class="inline">Disconfirmed Frontier Notes</code></td><td>late decorative history</td></tr>
-    <tr><td>several kept runs each changed the story</td><td><code class="inline">Cross-Run Comparison</code></td><td>long history pages</td></tr>
-    <tr><td>the local winner or displaced predecessor matters</td><td><code class="inline">Current Baseline Decision</code></td><td>generic celebration text</td></tr>
-    <tr><td>the reader must understand exactly what benchmark moved and what did not</td><td><code class="inline">Iteration Delta View</code></td><td>a long reflective iteration diary</td></tr>
-    <tr><td>history actually changes relearning value</td><td><code class="inline">Iteration History And Score Evolution</code></td><td>ledger duplication</td></tr>
-    <tr><td>upstream/local lessons matter beyond this package</td><td><code class="inline">Self-Perfection Audit Trail</code></td><td>extra atlas texture without carry-forward value</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-<summary>
-    <span class="summary-title">4.2.2.2 Placement ladder</span>
-  <span class="sumhint">which families of mapping sections should land first</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Promotion phase</th>
-      <th>Default landing rule</th>
-      <th>Why it comes here</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>1. verdict-moving promotion</td><td><code class="inline">Current Baseline Decision</code> or <code class="inline">Cross-Run Comparison</code>, whichever changes the benchmark verdict fastest</td><td>The reader first needs to know who moved and whether the incumbent still stands, trails, or was displaced.</td></tr>
-    <tr><td>2. proof-lowering promotion</td><td><code class="inline">Validation Artifact References</code> or <code class="inline">Flow To Support To Proof Mapping</code>, whichever lowers proof-reconstruction cost most</td><td>After the verdict lands, lower the cost of reopening the proof chain cold.</td></tr>
-    <tr><td>3. breadth / frontier promotion</td><td><code class="inline">Accessible Hyperlink Exploration Ledger</code>, <code class="inline">Automation Coverage Overlay</code>, or <code class="inline">Coverage / Frontier Map</code>, whichever reduces breadth ambiguity fastest</td><td>Only after verdict and proof are stable should the page widen into explored neighbors, blocked branches, or broad route coverage.</td></tr>
-    <tr><td>4. atlas / relearning depth</td><td><code class="inline">Iteration Delta View</code>, <code class="inline">Iteration History And Score Evolution</code>, <code class="inline">Benchmark Comparison</code>, then <code class="inline">Self-Perfection Audit Trail</code></td><td>These sections matter once the page already reads clearly and the extra depth truly improves future relearning.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-<summary>
-    <span class="summary-title">4.2.2.3 Duplication guard</span>
-  <span class="sumhint">how to stop rich mapping from repeating the same judgment</span>
-</summary>
 <table>
   <thead>
     <tr>
@@ -1340,141 +1432,400 @@ in-between round
     </tr>
   </thead>
   <tbody>
-    <tr><td><code class="inline">Current Baseline Decision</code> closes winner, displaced incumbent, and still-trails status</td><td>a new axis such as atlas authority, style authority, related-flow cousin logic, or withheld promotion rationale</td><td>the same winner/displaced/still-trails verdict with softer rephrasing</td></tr>
-    <tr><td><code class="inline">Cross-Run Comparison</code> already explains which kept runs changed the story</td><td>why later history still matters after the retained winner is already understood</td><td>a second mini-ledger of the same run roles</td></tr>
-    <tr><td><code class="inline">Flow To Support To Proof Mapping</code> already closes the flow-to-proof bridge</td><td>a genuinely new breadth or ownership view such as <code class="inline">Automation Coverage Overlay</code> or <code class="inline">Test Mapping</code></td><td>the same flow chain redrawn with more boxes</td></tr>
-    <tr><td><code class="inline">Validation Artifact References</code> already closes decisive proof reopening</td><td>a new framing question such as route-vs-flow delta, replay ceiling, or failure-lineage restraint</td><td>a second list of the same proof anchors</td></tr>
-    <tr><td><code class="inline">Iteration Delta View</code> already says what benchmark moved and what did not</td><td>timestamp-to-timestamp relearning value or a specific sibling benchmark lesson</td><td>a longer reflective diary that says the same move more slowly</td></tr>
+    <tr><td><code class="inline">Flow To Support To Proof Mapping</code> already closes the bridge</td><td>a genuinely new breadth or ownership view such as <code class="inline">Automation Coverage Overlay</code> or <code class="inline">Test Mapping</code></td><td>the same flow chain redrawn with more boxes</td></tr>
+    <tr><td><code class="inline">Validation Artifact References</code> already closes decisive proof reopening</td><td>a new framing question such as replay ceiling, route-vs-flow delta, or failure-lineage restraint</td><td>a second list of the same proof anchors</td></tr>
   </tbody>
 </table>
-<div class="note"><b>Cold rule:</b> every promoted section should answer one dominant question. If a later section answers the same question with different formatting, compress it, merge it, or drop it.</div>
+<div class="note"><b>Minimum breadth-memory expectation:</b> if the report spans multiple meaningful flows and explicitly competes on benchmark authority, omitting <code class="inline">Automation Coverage Overlay</code>, <code class="inline">Test Mapping</code>, and a compact <code class="inline">Iteration Delta View</code> should be treated as a real completeness gap.</div>
 </details>
-</details>
+</div>
 
-<details class="subdetails">
+<div class="card">
+<h2>6) First-Screen Verdict</h2>
+
+<details>
 <summary>
-    <span class="summary-title">4.2.3 Historical audit carriers</span>
-  <span class="sumhint">which mapping section answers which historical question</span>
+  <span class="summary-title">6.0 First-Screen Verdict</span>
+  <span class="badge">CORE</span>
 </summary>
 <table>
   <thead>
     <tr>
-      <th>Historical audit carrier</th>
-      <th>Primary question it must answer</th>
-      <th>Keep this role primary</th>
-      <th>Do not let it drift into</th>
+      <th>Verdict child</th>
+      <th>Default posture in the final report</th>
+      <th>What it owns</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td><code class="inline">Current Baseline Decision</code></td><td><code class="inline">who moved?</code></td><td>Winner, displaced incumbent, still-strong companion, and any withheld stronger promotion.</td><td>A second mini-ledger of all runs.</td></tr>
-    <tr><td><code class="inline">Round Evolution Ledger</code></td><td><code class="inline">how did it move?</code></td><td>Run-by-run semantic gain, proof widening, exact closer, replay, and failure-lineage boundaries.</td><td>Generic score recap or a second baseline verdict.</td></tr>
-    <tr><td><code class="inline">Validation Artifact References</code></td><td><code class="inline">how does it reopen?</code></td><td>Direct rendered proof, command trace, command result, and machine-readable proof links.</td><td>Long narrative about why the proof matters.</td></tr>
-    <tr><td><code class="inline">Iteration History And Score Evolution</code></td><td><code class="inline">why does this timestamp still matter later?</code></td><td>Only timestamp-to-timestamp memory or directional checkpoint history that adds true relearning value.</td><td>Repeating the same winner truth already shown by the ledger and baseline decision.</td></tr>
-    <tr><td><code class="inline">Benchmark Comparison</code></td><td><code class="inline">what new axis does the comparison add?</code></td><td>Atlas authority, style authority, reference-grade displacement, or a specific sibling lesson.</td><td>Restating incumbent displacement with different adjectives.</td></tr>
+    <tr><td><code class="inline">6.1 Benchmark verdict + scoring spine</code></td><td><code class="inline">6)</code> stays collapsed by default; inside it, keep <code class="inline">6.1</code> as the first decisive child, either as a compact visible verdict band or as a collapsed summary carrier after <code class="inline">5) Test Coverage And Proof Ownership</code>.</td><td>Benchmark hierarchy, threshold clears, materialization, authority ceiling.</td></tr>
+    <tr><td><code class="inline">6.2 Current Baseline Decision</code></td><td>Grouped with trust/accounting siblings and usually collapsed.</td><td>Winner / displaced / still-trails hierarchy closure.</td></tr>
+    <tr><td><code class="inline">6.3 Trust Summary</code></td><td>Grouped with baseline/round-state siblings and usually collapsed.</td><td>Proof-origin, strongest support, and trust caveat.</td></tr>
+    <tr><td><code class="inline">6.4 Round State Summary</code></td><td>Grouped with baseline/trust siblings and usually collapsed.</td><td>Run-quality, accounting, closure state.</td></tr>
+    <tr><td><code class="inline">6.5 Historical audit note</code></td><td>Grouped support and normally collapsed.</td><td>Short timestamp-to-timestamp support when it materially sharpens the verdict.</td></tr>
+    <tr><td><code class="inline">6.6 Comparator ladder</code></td><td>Grouped support and normally collapsed.</td><td>Cold `beats / still trails / axis` comparative restraint.</td></tr>
   </tbody>
 </table>
-<div class="note"><b>Carrier rule:</b> for historical self-learning audit, prefer <code class="inline">Current Baseline Decision = who moved</code>, <code class="inline">Round Evolution Ledger = how it moved</code>, and <code class="inline">Validation Artifact References = how it reopens</code>. Treat anything else as secondary unless it adds a genuinely new historical axis.</div>
-</details>
-
 <details class="subdetails">
 <summary>
-    <span class="summary-title">4.2.4 Mapping section catalog</span>
-  <span class="sumhint">what each optional mapping section is actually for</span>
+  <span class="summary-title">6.1 Benchmark verdict + scoring spine</span>
+  <span class="sumhint">the benchmark hierarchy and authority-ceiling carrier</span>
 </summary>
+<pre><code>good opened-body micro-pattern
+  -> compact verdict band
+     -> Principal
+     -> Companion posture
+     -> Threshold clears
+     -> Materialization
+     -> Authority ceiling
+
+bad opened-body pattern
+  -> one dense paragraph
+  -> one long table row with several verdicts fused together</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Carrier requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Placement</td><td>Land immediately after <code class="inline">Executive Summary</code>.</td><td>Letting trust or baseline blocks arrive first.</td></tr>
+    <tr><td>Shape</td><td>Use one compact table or key-value band.</td><td>A dense paragraph that looks like audit support.</td></tr>
+    <tr><td>Summary-line self-sufficiency</td><td>The summary line should already name principal / companion / ceiling posture.</td><td>A summary line that still needs the body to explain who actually leads.</td></tr>
+    <tr><td>Field/value preference</td><td>If the benchmark facts are already discrete, prefer a field/value band or mini-card band over a broader table wall.</td><td>Forcing simple verdict fields into a bulky table just because it is familiar.</td></tr>
+    <tr><td>Opened-body severity</td><td>Let each row or card close one benchmark question only.</td><td>Threshold, companions, materialization, and ceiling all bundled into one long sentence.</td></tr>
+  </tbody>
+</table>
+</details>
 <details class="subdetails">
 <summary>
-    <span class="summary-title">4.2.4.1 Coverage and proof mappings</span>
-  <span class="sumhint">sections that mainly reduce proof and flow reconstruction cost</span>
+  <span class="summary-title">6.2 Current Baseline Decision</span>
+  <span class="sumhint">winner / displaced / still-trails hierarchy closure</span>
 </summary>
 <table>
   <thead>
     <tr>
-      <th>Mapping section</th>
-      <th>Include it when</th>
-      <th>Expose only this</th>
+      <th>Carrier requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td><code class="inline">Flow-To-Test-To-Support-To-Proof Mapping</code></td><td>Tests and support both changed, or proof provenance would otherwise stay implicit.</td><td>Flow -&gt; tests -&gt; support -&gt; proof.</td></tr>
-    <tr><td><code class="inline">Flow-To-Run Correlation Strip</code></td><td>Several kept runs each earned different parts of the defended chain and the reader should not infer run ownership from memory.</td><td>Flow, decisive run, strongest class, strongest proof anchor.</td></tr>
-    <tr><td><code class="inline">Failure / Guardrail Lineage</code></td><td>A guarded blocker, disproved frontier, or thin branch materially prevented false promotion and still changes the trust read of the winner family.</td><td>Blocked flow, why it stayed thin, decisive failure or blocker artifact.</td></tr>
-    <tr><td><code class="inline">Accessible Hyperlink Exploration Ledger</code></td><td>The round explored multiple visible links, descendants, public routes, or protected edges and the reader needs to see what became proof versus partial, blocked, or abandoned.</td><td>Descendant, status, why it still matters.</td></tr>
-    <tr><td><code class="inline">Flow To Support To Proof Mapping</code></td><td>Multiple flows, support layers, validators, or evidence anchors changed and the code-to-proof bridge would otherwise stay hidden.</td><td>Defended flow -&gt; support -&gt; test -&gt; proof.</td></tr>
-    <tr><td><code class="inline">Automation Coverage Overlay</code></td><td>Several semantically different flows, states, or route families were explored and a status grid lowers reconstruction cost faster than prose.</td><td>Flow, status, coverage/confidence, completion rule.</td></tr>
-    <tr><td><code class="inline">Test Mapping</code></td><td>The report spans multiple business flows and the reader should see quickly which suites or classes defend which flow family without reopening source first.</td><td>Flow group, suite/class, count, or equivalent compact ownership map.</td></tr>
-    <tr><td><code class="inline">Coverage / Frontier Map</code></td><td>The round claims broad exploration, important blocked edges, or meaningful open neighbors.</td><td>Defended depth, explored breadth, open truth.</td></tr>
-    <tr><td><code class="inline">Coverage Vocabulary</code></td><td>The report uses multiple status labels and the reader should not infer their meaning from context.</td><td>Short legend only.</td></tr>
-    <tr><td><code class="inline">Route-Proof Versus Flow-Proof Delta</code></td><td>The round upgraded shell truth into deeper flow truth, or refused that upgrade honestly.</td><td>Old truth, deeper truth, blocked upgrade.</td></tr>
-    <tr><td>Graph family</td><td>Product, state, flow, or frontier would read faster visually than in prose.</td><td>Graph coverage strong enough to scan, but not heavier than the claim requires.</td></tr>
-    <tr><td>Collapsible section framing</td><td>The section is semantically useful but too dense for first read.</td><td>Use a numbered collapsible section so the report stays calm while the detail still remains directly reopenable.</td></tr>
-    <tr><td><code class="inline">git-derived</code> link</td><td>Code delta understanding would otherwise require reopening the whole repo.</td><td>The relevant <code class="inline">run_##/atf/git-derived/</code> summary or patch.</td></tr>
+    <tr><td>Main hierarchy owner</td><td>Carry the winner / displaced / still-trails judgment once, coldly.</td><td>Duplicating the same hierarchy closure in several nearby blocks.</td></tr>
   </tbody>
 </table>
-<div class="note"><b>Flow-atlas source minimum:</b> if the page claims breadth-memory, do not synthesize graphs or overlays from impressionistic prose alone. The minimum cold source set is usually <code class="inline">generated-tests-summary.md</code>, <code class="inline">validation-summary.md</code>, <code class="inline">run-analysis.md</code> for guarded runs, <code class="inline">command-result.md</code> for replay scope, and the history support pair <code class="inline">fan-out-map.md</code> + <code class="inline">target-contribution-ledger.md</code>.</div>
 </details>
-
 <details class="subdetails">
 <summary>
-    <span class="summary-title">4.2.4.2 Benchmark, history, and audit mappings</span>
-  <span class="sumhint">sections that mainly carry comparison memory and historical learning</span>
+  <span class="summary-title">6.3 Trust Summary</span>
+  <span class="sumhint">the short trust basis and caveat carrier</span>
 </summary>
 <table>
   <thead>
     <tr>
-      <th>Mapping section</th>
-      <th>Include it when</th>
-      <th>Expose only this</th>
+      <th>Carrier requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td><code class="inline">Current Baseline Decision</code></td><td>A local winner, displaced predecessor, or blocked frontier materially shaped trust in the final retained run.</td><td>Winner, displaced run, withheld promotion.</td></tr>
-    <tr><td><code class="inline">Related-Flow Benchmark Cousins</code></td><td>Earlier reports in the same semantic family still sharpen the judgment because the active flow extends, cleans up, or displaces them.</td><td>Cousin report, shared flow, new delta, why it still trails or still matters.</td></tr>
-    <tr><td><code class="inline">Failure / Guardrail Lineage</code></td><td>A blocked or disproved branch still teaches the benchmark boundary and the page would otherwise look overconfident.</td><td>Blocked branch, honest ceiling, why the winner stayed valid anyway.</td></tr>
-    <tr><td><code class="inline">Disconfirmed Frontier Notes</code></td><td>A failed frontier changed direction, prevented false promotion, or deserves retention as failure lineage.</td><td>Frontier, disconfirming evidence, pivot.</td></tr>
-    <tr><td><code class="inline">Cross-Run Comparison</code></td><td>Several kept runs each changed what the team knows and the reader needs a short role ladder.</td><td>Run id, role, knowledge delta.</td></tr>
-    <tr><td><code class="inline">Iteration Delta View</code></td><td>The benchmark hierarchy changed over iterations and one tiny strip will explain it faster than prose.</td><td>What moved, what did not.</td></tr>
-    <tr><td><code class="inline">Benchmark Comparison</code></td><td>A displaced local candidate or strong sibling package genuinely shaped the retained judgment.</td><td>Improved here, still trails here.</td></tr>
-    <tr><td><code class="inline">Checkpoint Self-Evaluation</code></td><td>Interim judgments materially changed the next move.</td><td>Checkpoint, self-read, pivot.</td></tr>
-    <tr><td><code class="inline">History Index</code></td><td>More than one semantic milestone page was preserved or older local memory shaped the claim.</td><td>Which history pages still matter.</td></tr>
-    <tr><td><code class="inline">Iteration History And Score Evolution</code></td><td>The round meaning depends on a sequence of directional checkpoints, not just one winning run.</td><td>Why direction changed over time.</td></tr>
-    <tr><td><code class="inline">Self-Perfection Audit Trail</code></td><td>The round produced reusable learning about what moved upstream, what stayed local, or what sibling ATFs taught this branch.</td><td>Promoted rules, local-only lessons, sibling carry-forward.</td></tr>
-    <tr><td>Inherited proof reuse note</td><td>An old test or class slice was copied early instead of rediscovered from zero.</td><td>That inherited proof reuse explicitly, not implicitly.</td></tr>
+    <tr><td>Trust basis</td><td>Name proof-origin, strongest support, and the real caveat succinctly.</td><td>A long audit paragraph that delays the graph family.</td></tr>
   </tbody>
 </table>
 </details>
-</details>
-
 <details class="subdetails">
 <summary>
-    <span class="summary-title">4.2.5 Minimum good mapping set</span>
-  <span class="sumhint">what the page minimally needs before extra atlas depth is justified</span>
+  <span class="summary-title">6.4 Round State Summary</span>
+  <span class="sumhint">the accounting and closure carrier after benchmark truth already landed</span>
 </summary>
 <table>
   <thead>
     <tr>
-      <th>Round shape</th>
-      <th>Minimum good mapping set</th>
+      <th>Carrier requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td>ordinary strong round</td><td><code class="inline">Validation Artifact References</code> + only one of <code class="inline">Flow-To-Test-To-Support-To-Proof Mapping</code> or <code class="inline">Coverage / Frontier Map</code>, whichever removes more ambiguity</td></tr>
-    <tr><td>atlas-grade / benchmark-memory round</td><td>the ordinary set plus the sections that materially improve relearning for this round. In practice this normally means <code class="inline">Automation Coverage Overlay</code>, <code class="inline">Test Mapping</code>, and <code class="inline">Iteration Delta View</code> first, then any additionally earned atlas sections such as <code class="inline">Accessible Hyperlink Exploration Ledger</code>, <code class="inline">Coverage Vocabulary</code>, <code class="inline">Route-Proof Versus Flow-Proof Delta</code>, <code class="inline">Cross-Run Comparison</code>, <code class="inline">Iteration History And Score Evolution</code>, and <code class="inline">Self-Perfection Audit Trail</code>.</td></tr>
+    <tr><td>Role</td><td>Separate run-quality, accounting, and closure only after benchmark truth already landed.</td><td>A count-heavy visible block that behaves like the real verdict.</td></tr>
   </tbody>
 </table>
-<div class="note"><b>Minimum breadth-memory expectation:</b> if the report spans multiple meaningful flows and explicitly competes on benchmark authority, omitting <code class="inline">Automation Coverage Overlay</code>, <code class="inline">Test Mapping</code>, and <code class="inline">Iteration Delta View</code> should be treated as a real completeness gap, not as mere style preference.</div>
 </details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">6.4.1 Grouped cluster shape</span>
+  <span class="sumhint">preferred opened-body form for baseline, trust, and round-state together</span>
+</summary>
+<pre><code>good grouped-cluster micro-pattern
+  -> mini-card grid
+     -> Current Baseline Decision
+     -> Trust Summary
+     -> Round State Summary
+
+bad grouped-cluster pattern
+  -> one table wall with three dense carrier rows
+  -> one prose block that merges hierarchy, trust, and accounting</code></pre>
+<div class="note"><b>Shape rule:</b> when <code class="inline">Current Baseline Decision</code>, <code class="inline">Trust Summary</code>, and <code class="inline">Round State Summary</code> are already semantically separable, a mini-card grid is usually calmer than a broad table wall.</div>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">6.5 Historical audit note</span>
+  <span class="sumhint">small timestamp-to-timestamp support only when it truly sharpens the verdict</span>
+</summary>
+<pre><code>good compressed form
+  -> moved from X to Y
+  -> why this matters
+
+bad compressed form
+  -> multi-sentence timestamp essay
+  -> mini-history repeated from lower sections</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Carrier requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Use trigger</td><td>Use it only when the timestamp move itself needs one extra explicit historical sentence.</td><td>A visible near-top essay repeating <code class="inline">Iteration Delta View</code>.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">6.6 Comparator ladder</span>
+  <span class="sumhint">cold comparative support, never the owner of the verdict</span>
+</summary>
+<pre><code>good comparator micro-format
+  -> beats X
+  -> still trails Y
+  -> axis = why
+
+bad comparator form
+  -> paragraph essay
+  -> several named leaders with no cold axis
+  -> comparative block longer than the verdict it supports</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Carrier requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Use trigger</td><td>Keep it only when one short comparative ladder materially sharpens benchmark judgment.</td><td>A meta block that competes with the page's own benchmark claim.</td></tr>
+    <tr><td>Micro-format</td><td>Prefer a three-part ladder: <code class="inline">beats</code>, <code class="inline">still trails</code>, <code class="inline">axis</code>.</td><td>Namedropping several comparators without a cold comparative axis.</td></tr>
+  </tbody>
+</table>
+</details>
+<div class="note"><b>Top-cluster compression rule:</b> if <code class="inline">Benchmark verdict + scoring spine</code>, <code class="inline">Current Baseline Decision</code>, <code class="inline">Trust Summary</code>, <code class="inline">Round State Summary</code>, <code class="inline">Historical audit note</code>, and <code class="inline">Comparator ladder</code> are all separately heavy near the top, the opening is too heavy. Compress them into one visible verdict band and one grouped benchmark / trust / accounting family.</div>
+<div class="note"><b>Scanability rule:</b> preserve a cold scan rhythm: short labeled rows first, then deeper prose later. If the top cannot be scanned by labels and rows, it is still too heavy.</div>
 </details>
 
 <details>
 <summary>
-  <span class="summary-title">4.3 History and memory sections</span>
+  <span class="summary-title">6.7 First-screen guardrails and replacement tests</span>
   <span class="badge">CORE</span>
 </summary>
-<div class="note"><b>Consumer rule:</b> this section only exposes history artifacts already preserved or earned by the orchestration-owned package spine; it does not redefine their lifecycle.</div>
 <details class="subdetails">
 <summary>
-    <span class="summary-title">4.3.1 Memory labels</span>
-  <span class="sumhint">how to name reopened history honestly</span>
+  <span class="summary-title">6.7.1 First-screen guardrails</span>
+  <span class="sumhint">what may sit near the opening and what must not crowd it</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>First-screen guardrail</th>
+      <th>MUST do this</th>
+      <th>Avoid this failure</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Beginning behavior</td><td>Let the beginning behave like a beginning: the reader should get one clear product-language story block first, then the numerical score cards immediately after it.</td><td>A page that pushes the compact quality readout too far below the fold.</td></tr>
+    <tr><td>Near-top benchmark note</td><td>If the page is attacking a known incumbent, say near the top what it beats and what it still trails.</td><td>A benchmark verdict hidden too low to help first-screen judgment.</td></tr>
+    <tr><td>Companion-only declaration</td><td>If the page is companion-only, say so almost immediately and explain why the principal benchmark still stands.</td><td>A companion page that sounds like a hidden new winner.</td></tr>
+    <tr><td>Early code split</td><td>Surface the important code split early when it matters to trust: what changed under <code class="inline">src/test</code>, what changed under <code class="inline">src/main</code>, and whether one side is mostly inherited.</td><td>Later buried provenance only.</td></tr>
+    <tr><td>Replay explanation demotion</td><td>Let the benchmark or companion verdict land before any widened-replay explanation, retained-close nuance, or same-family confidence expansion.</td><td>A first screen where replay justification arrives before the reader knows the actual verdict.</td></tr>
+    <tr><td>Cut before explain</td><td>If the top still feels slow, cut or compress one explanatory sentence before adding another helper block.</td><td>A careful but bloated first screen.</td></tr>
+    <tr><td>Consistency guard</td><td>Keep the hero pills, score-card explanations, verdict band, trust summary, and round-state language logically consistent with each other.</td><td>A first screen with contradictory closure or confidence cues.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">6.7.2 Replacement-grade first-screen test</span>
+  <span class="sumhint">what the opening must prove on its own</span>
+</summary>
+<div class="note"><b>Scope rule:</b> keep this block about first-screen replacement readiness only: can the opening displace a benchmark coldly before lower sections start helping?</div>
+<table>
+  <thead>
+    <tr>
+      <th>First-screen test</th>
+      <th>Treat it as strong only when...</th>
+      <th>Treat it as still below benchmark when...</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Opening order</td><td>The opening reads in one pass: hero truth, score cards, executive summary, benchmark/scoring verdict, baseline / trust / round-state cluster, then deeper sections.</td><td>The reader has to dig through trust/accounting prose before understanding overall strength, or the executive summary is either missing when needed or demoted too low.</td></tr>
+    <tr><td>Score-card value</td><td>The four cards sharpen the first-read verdict immediately after the opening story.</td><td>The cards are correct but too low, too late, or redundant with nearby prose.</td></tr>
+    <tr><td>Hierarchy landing speed</td><td>The reader can tell quickly whether the page is a principal benchmark, strongest companion, or still below both.</td><td>The hierarchy is technically present but only obvious after lower sections.</td></tr>
+    <tr><td>Replay stays secondary</td><td>Retained replay, widened same-family confidence, or blocked family-close context stays below the first clear benchmark verdict.</td><td>Replay nuance diluting the main win or non-win.</td></tr>
+    <tr><td>Deeper-section restraint</td><td>Atlas sections wait until the opening already landed.</td><td>Rich sections compete with the first-screen verdict instead of supporting it.</td></tr>
+    <tr><td>Comparator note demotion</td><td>If a page needs a comparator note or ladder, place it below the core verdict cluster and keep it shorter than the benchmark verdict itself.</td><td>A meta-comparison note that competes with the primary promotion / non-promotion landing.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">6.7.3 Forcing axes</span>
+  <span class="sumhint">what a benchmark-attacking opening must force early</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Run-ready forcing axis</th>
+      <th>MUST force this</th>
+      <th>Most common failure</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">benchmark authority</code></td><td>Say the winner, displaced incumbent, and still-stronger benchmark before lower prose starts helping.</td><td>A page that is correct but still too polite or too late.</td></tr>
+    <tr><td><code class="inline">page win-speed</code></td><td>Let the reader understand the verdict from the opening blocks alone.</td><td>A first screen that needs lower sections to complete the thought.</td></tr>
+    <tr><td><code class="inline">graph dominance</code></td><td>Choose one graph anchor that carries the main business truth of the round.</td><td>Several correct graphs with no dominant memory anchor.</td></tr>
+    <tr><td><code class="inline">hierarchy publication</code></td><td>Keep the principal / companion / structural-memory split explicit and early.</td><td>Companion pages sounding like hidden winners, or winners sounding weaker than they are.</td></tr>
+    <tr><td><code class="inline">non-promotion honesty</code></td><td>Make withheld replay, failed widening, or blocked family-close visible before the reader over-trusts the page.</td><td>A page that quietly buries why stronger promotion was refused.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">6.7.4 Cold readiness questions</span>
+  <span class="sumhint">questions to ask before the opening feels finished</span>
+</summary>
+<pre><code>cold hierarchy questions before the page feels finished
+  -> what exact incumbent did I displace?
+  -> what exact incumbent still beats me?
+  -> did any replay stay unstable and therefore lose promotion?
+  -> would a cold reader see that before lower-page explanation starts helping?</code></pre>
+<div class="note"><b>Readiness rule:</b> if those four answers are not already visible from the opening stack, compress lower prose and raise the verdict rather than adding another helpful section.</div>
+</details>
+</details>
+
+</div>
+<hr class="sep">
+
+<div class="card">
+<h2>7) Run Evolution And Historical Audit</h2>
+
+<details open>
+<summary>
+  <span class="summary-title">7.0 Run Evolution And Historical Audit</span>
+  <span class="badge">CORE</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Family child</th>
+      <th>Default posture in the final report</th>
+      <th>What it owns</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">7.1 Cross-Run Comparison</code></td><td>Usually collapsed.</td><td>Which kept runs changed the story and what role each one played.</td></tr>
+    <tr><td><code class="inline">7.2 Round Evolution Ledger</code></td><td>Usually collapsed.</td><td>Per-run business delta, support delta, evidence anchor, and accounting posture.</td></tr>
+    <tr><td><code class="inline">7.3 Iteration History And Score Evolution</code></td><td>Usually collapsed.</td><td>Why this timestamp still matters later in the lineage.</td></tr>
+    <tr><td><code class="inline">7.4 Iteration Delta View</code></td><td>Usually collapsed.</td><td>What benchmark moved, what stayed companion, and what still did not promote.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">7.1 Cross-Run Comparison</span>
+  <span class="badge">CORE</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>This section should answer</th>
+      <th>Include it when</th>
+      <th>Expose only this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Which kept runs changed the story and what role did each one play?</td><td>Several kept runs each changed what the team knows and one short role ladder lowers reconstruction cost.</td><td>Run id, role, and concise knowledge delta.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">7.2 Round Evolution Ledger</span>
+  <span class="badge">CORE</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Ledger rule</th>
+      <th>MUST do this</th>
+      <th>Why it matters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Ledger placement</td><td>Place the <code class="inline">Round Evolution Ledger</code> above lower proof sections.</td><td>So the page reads as evolution first, proof detail second.</td></tr>
+    <tr><td>Per-run delta fields</td><td>Show for each kept run: <code class="inline">Business delta</code>, <code class="inline">Test / support delta</code>, <code class="inline">Inherited proof reuse</code>, <code class="inline">Validation-only absorption</code>, and <code class="inline">Primary evidence anchor</code>.</td><td>So run roles can be understood without reopening every artifact.</td></tr>
+    <tr><td>Per-run target contribution</td><td>Show what defended branch coverage each kept run added and how many tests were created or materially expanded there, or say explicitly <code class="inline">0</code> when the run was absorption-only.</td><td>So new proof, retained-close, and package repair do not blur together.</td></tr>
+    <tr><td>Nearby severity note</td><td>Keep one short note nearby for <code class="inline">RUN_EXPECTED_DELTA_QUALITY</code>, who cleared it, and whether the accounting target was met or still badly missed.</td><td>So quality and accounting stay close to evolution reading.</td></tr>
+    <tr><td>Retained-close honesty</td><td>Say explicitly when a run mostly did retained-close, package repair, or audit cleanup rather than a new delta strong enough to clear the bar.</td><td>So low-delta runs still read honestly.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">7.3 Iteration History And Score Evolution</span>
+  <span class="badge">CORE</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>This section should answer</th>
+      <th>Include it when</th>
+      <th>Do not let it become</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Why does this timestamp still matter later?</td><td>The round meaning depends on multiple directional checkpoints or score movements, not just one kept winner.</td><td>A slower restatement of the winner truth already closed by the ledger and baseline decision.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">7.4 Iteration Delta View</span>
+  <span class="badge">CORE</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>This section should answer</th>
+      <th>Include it when</th>
+      <th>Expose only this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>What benchmark moved, what stayed companion, and what still did not promote?</td><td>The hierarchy changed over iterations and one compact strip explains it faster than prose.</td><td>What moved, what did not, and the cold reason.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">7.5 Shared history and memory rules</span>
+  <span class="sumhint">memory labels and universal honesty rules for the family</span>
 </summary>
 <table>
   <thead>
@@ -1491,49 +1842,103 @@ in-between round
     <tr><td><code class="inline">lineage</code></td><td>the package is preserved as traceable older history only</td><td>it should not read like an active benchmark winner</td></tr>
   </tbody>
 </table>
-</details>
-
-<details class="subdetails">
-<summary>
-  <span class="summary-title">4.3.2 History-section rules</span>
-  <span class="sumhint">when history pages and memory ladders are truly earned</span>
-</summary>
 <table>
   <thead>
     <tr>
-      <th>History-section rule</th>
+      <th>History rule</th>
       <th>MUST do this</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td>History index presence</td><td>Include a <code class="inline">History Index</code> when milestone pages exist.</td></tr>
-    <tr><td>Iteration evolution presence</td><td>Include <code class="inline">Iteration History And Score Evolution</code> when the round meaning depends on multiple directional checkpoints or score movements, not just one kept winner.</td></tr>
-    <tr><td>Related-flow history visibility</td><td>When a flow graph materially reuses or displaces a close semantic cousin from another report, expose that cousin near the flow layer or benchmark layer instead of leaving the relationship implicit.</td></tr>
-    <tr><td>Audit trail presence</td><td>Include <code class="inline">Self-Perfection Audit Trail</code> when the round produced reusable rules, upstream-worthy lessons, or sibling-benchmark learning that should survive this package.</td></tr>
-    <tr><td>Semantic-only history</td><td>Keep history pages only for semantic changes worth reopening later.</td></tr>
-    <tr><td>Mutual navigation</td><td>Keep canonical, history, and run-local links mutually navigable when that improves auditability.</td></tr>
     <tr><td>Benchmark memory visibility</td><td>Make benchmark memory reopened this round explicit when it shaped direction.</td></tr>
-    <tr><td>Memory-role naming</td><td>Identify one primary local benchmark-memory package for the active branch when one exists, and label any others as companion memory, structural memory, or lineage memory.</td></tr>
     <tr><td>Failure-lineage visibility</td><td>When a losing run or disproved frontier materially prevented false promotion, label it explicitly as lineage or failure lineage instead of letting it disappear into generic history.</td></tr>
-    <tr><td>Latest-checkpoint anchoring</td><td>When an iteration-history table spans old lineage plus the current round, make it explicit which latest checkpoints belong to the active round and which are older lineage anchors.</td></tr>
-    <tr><td>Derived-summary truth</td><td>If a helpful summary page or note is derived from other artifacts rather than written independently, stamp it clearly as <code class="inline">derived summary</code> and point to the exact source ledger, changed slices, or validation bundle used.</td></tr>
+    <tr><td>Latest-checkpoint anchoring</td><td>When an iteration-history table spans old lineage plus the current round, make explicit which latest checkpoints belong to the active round and which are older lineage anchors.</td></tr>
+    <tr><td>Derived-summary truth</td><td>If a helpful summary page is derived from other artifacts, stamp it clearly as <code class="inline">derived summary</code> and point to the exact source ledger or validation bundle used.</td></tr>
     <tr><td>No decorative history</td><td>Do not publish decorative history pages that add no new semantic value.</td></tr>
-    <tr><td>Memory hierarchy</td><td>Make the page hierarchy reflect the memory hierarchy: primary memory closest to the main verdict, companion memory below it, structural memory lower still, and lineage memory only where it still changes relearning value.</td></tr>
   </tbody>
 </table>
-<div class="note"><b>History truth guard:</b> history edits may clarify already-saved hierarchy, role labels, and audit navigation, but they must not invent new run contributions, new lineage value, or new benchmark memory that the preserved artifacts never earned.</div>
-</details>
 </details>
 </div>
 
 <hr class="sep">
 
 <div class="card">
-<h2>5) Render And Style Discipline</h2>
+<h2>8) Reporting Close-Out</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Close-out child</th>
+      <th>Default posture in the final report</th>
+      <th>What it owns</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">8.1 Reporting-Only Refinement Delta</code></td><td>Usually collapsed.</td><td>What changed only in reporting, what truth stayed fixed, and what ceiling remains.</td></tr>
+    <tr><td><code class="inline">8.2 Render Verification Status</code></td><td>Usually collapsed.</td><td>Verified / partial / blocked / not verified render status and screenshot truth.</td></tr>
+  </tbody>
+</table>
 
 <details>
 <summary>
-  <span class="summary-title">5.1 Shared style contract</span>
+  <span class="summary-title">8.1 Reporting-Only Refinement Delta</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>8.1 Reporting-Only Refinement Delta
+  -> what changed only in reporting
+  -> what truth stayed fixed
+  -> what lift was gained
+  -> what ceiling still remains
+  -> what the next honest move is</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Delta requirement</th>
+      <th>MUST state clearly</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Reporting-only boundary</td><td>What changed only in publication, grouping, ordering, graph composition, or reporting calm, without implying new proof.</td></tr>
+    <tr><td>Truth preservation</td><td>That kept-run truth, validation proof, factual scores, and factual benchmark hierarchy stayed the same when that is the case.</td></tr>
+    <tr><td>Main lift</td><td>The one or two reporting improvements that materially improved the final page.</td></tr>
+    <tr><td>Remaining ceiling</td><td>The honest reporting or proof ceiling that still remains after the refinement.</td></tr>
+    <tr><td>Next honest move</td><td>What still remains open and what the next honest move is.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">8.2 Render Verification Status</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>8.2 Render Verification Status
+  -> verified / partial / blocked / not verified
+  -> canonical-render-check.png truth
+  -> visible failure honesty when render is not clean</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Status requirement</th>
+      <th>MUST state clearly</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Status wording</td><td>Say whether render verification is verified, partial, blocked, or not verified.</td></tr>
+    <tr><td>Screenshot truth</td><td>Point to <code class="inline">analysis/canonical-render-check.png</code> when verification is claimed.</td></tr>
+    <tr><td>Failure honesty</td><td>Make visible if styling, layout, or editorial integrity still failed.</td></tr>
+  </tbody>
+</table>
+</details>
+</div>
+
+<hr class='sep'>
+
+<div class="card">
+<h2>9) Render And Style Discipline</h2>
+
+<details>
+<summary>
+  <span class="summary-title">9.1 Shared style contract</span>
   <span class="badge">CORE</span>
 </summary>
 <table>
@@ -1558,7 +1963,7 @@ in-between round
 
 <details>
 <summary>
-  <span class="summary-title">5.2 Render verification</span>
+  <span class="summary-title">9.2 Render verification</span>
   <span class="badge">CORE</span>
 </summary>
 <pre><code>write final canonical page
@@ -1576,9 +1981,9 @@ in-between round
   </thead>
   <tbody>
     <tr><td>Local reopen</td><td>Open the final canonical page locally after writing it, not just trust the generated HTML source.</td><td>Skipping the visual reopen entirely.</td></tr>
-    <tr><td>Render screenshot</td><td>Save <code class="inline">analysis/canonical-render-check.png</code> when render verification is claimed as verified.</td><td>A “verified” claim with no local screenshot.</td></tr>
+    <tr><td>Render screenshot</td><td>Save <code class="inline">analysis/canonical-render-check.png</code> when render verification is claimed as verified.</td><td>A "verified" claim with no local screenshot.</td></tr>
     <tr><td>Styling/layout truth</td><td>Treat a white, unstyled, or layout-broken page as render failure even if the HTML file exists and the links look correct in source.</td><td>CSS-path success in theory but broken local page in practice.</td></tr>
-    <tr><td>Editorial integrity</td><td>Treat visible editorial corruption such as mojibake, broken quote encoding, or contradictory first-screen closure text as a closure defect even when CSS and layout render correctly.</td><td>“Style works” being used to excuse broken text or contradictory verdicts.</td></tr>
+    <tr><td>Editorial integrity</td><td>Treat visible editorial corruption such as mojibake, broken quote encoding, or contradictory first-screen closure text as a closure defect even when CSS and layout render correctly.</td><td>"Style works" being used to excuse broken text or contradictory verdicts.</td></tr>
     <tr><td>Status wording</td><td>State render verification honestly as verified, partial, blocked, or not verified.</td><td>Implicit visual confidence.</td></tr>
     <tr><td>Failure artifact</td><td>Preserve a screenshot or blocker note when local visual reopening fails.</td><td>A missing explanation for visual failure.</td></tr>
     <tr><td>Habit formation</td><td>Recommend reopening the final page before stop, the same way a good local package already does with <code class="inline">canonical-render-check.png</code>.</td><td>Assuming the page is fine because generation succeeded.</td></tr>
@@ -1589,7 +1994,7 @@ in-between round
 
 <details>
 <summary>
-  <span class="summary-title">5.3 Section rhythm</span>
+  <span class="summary-title">9.3 Section rhythm</span>
   <span class="badge">CORE</span>
 </summary>
 <table>
@@ -1601,6 +2006,9 @@ in-between round
   </thead>
   <tbody>
     <tr><td>First-screen calm</td><td>Keep one calm first-screen cluster, then move into lower proof sections.</td></tr>
+    <tr><td>Global collapsible rule</td><td>Everything after the top banner area should be implemented as a collapsible section or collapsible subsection, even when a specific section starts open by default.</td></tr>
+    <tr><td>Only always-visible exception</td><td>Keep only <code class="inline">Hero / page identity</code> and <code class="inline">Score cards</code> always visible. Treat the rest of the report as collapsible structure.</td></tr>
+    <tr><td>Child collapsible rule</td><td>Numbered child slices under the main report families stay collapsible too. A child may start open by default, but it should still be collapsible. This includes earned graph subpieces such as <code class="inline">4.2.1 Business surfaces</code> and <code class="inline">4.2.2 Companion / replay memory</code>.</td></tr>
     <tr><td>Heavy-section collapse</td><td>Collapse heavier graphs, larger tables, and dense proof sections by default when that improves readability.</td></tr>
     <tr><td>Majority-collapsed default</td><td>On dense reports, keep the majority of deeper sections collapsed by default. Only the top verdict cluster and at most a small number of decisive follow-up sections should remain open.</td></tr>
     <tr><td>Deep-section open limit</td><td>Prefer one default-open deep section only. If the page uses a defended-chain visual, keep <code class="inline">Business Flow Graph</code> open and collapse the other heavy sections by default.</td></tr>
@@ -1608,90 +2016,26 @@ in-between round
     <tr><td>Audit-weight demotion</td><td>Sections such as <code class="inline">Cross-Run Comparison</code> and <code class="inline">Iteration History And Score Evolution</code> should normally collapse by default unless the whole page is intentionally a deep audit view.</td></tr>
     <tr><td>One-open-many-closed rhythm</td><td>Prefer one visibly open deep section at a time in the middle of the page, with sibling heavy sections collapsed unless the report has a strong reason to keep more open.</td></tr>
     <tr><td>Numbered collapsible sections</td><td>Prefer numbered collapsible blocks for graph, mapping, history, and audit sections so the page reads like a guided ladder instead of a dump.</td></tr>
+    <tr><td>Principal section with grouped subsections</td><td>When several related visuals or tables answer one family question, publish one principal section first, then group the child pieces as numbered subsections such as <code class="inline">4.2.1 Business surfaces</code> and <code class="inline">4.2.2 Companion / replay memory</code>.</td></tr>
+    <tr><td>Parent-child ownership</td><td>Let the parent section own the family question and ordering, then let each child subsection answer one narrower slice. Do not let a child silently replace the parent, and do not let sibling children repeat the same ownership.</td></tr>
+    <tr><td>Parent helper-prose ban</td><td>If a parent family already has a visible schema, table, or child map, do not add a muted explanatory sentence directly under the parent title just to restate that the family is grouped there.</td></tr>
+    <tr><td>Subsection trigger</td><td>Use grouped subsections when the child blocks are easier to understand as one family than as separate top-level siblings, especially for graph families, benchmark-memory families, and proof-correlation families.</td></tr>
+    <tr><td>Subsection restraint</td><td>Do not create subsections just to look organized. Use them only when the parent family has one shared question and the child blocks each answer one narrower slice of it.</td></tr>
     <tr><td>Low-level placement</td><td>Keep commands, raw tuples, and low-level accounting below the main story.</td></tr>
     <tr><td>Overview discipline</td><td>Do not open multiple overview-like sections at once near the top.</td></tr>
   </tbody>
 </table>
+<div class="note"><b>Good hierarchy heuristic:</b> if the reader would naturally ask <code class="inline">what does this family show?</code> before asking <code class="inline">which sub-part do I need?</code>, prefer one numbered principal section with grouped numbered subsections rather than several flat top-level sections.</div>
 </details>
 </div>
 
 <hr class="sep">
 
-<div class="card">
-<h2>6) Final Reporting MUSTs</h2>
-
-<details>
-<summary>
-  <span class="summary-title">6.1 What the final page must state clearly</span>
-  <span class="badge">CORE</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Final-page truth</th>
-      <th>MUST state clearly</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Product and proof</td><td>What the product appears to be and what the round truly proved.</td></tr>
-    <tr><td>Code delta split</td><td>What changed under <code class="inline">src/test</code> and what changed under <code class="inline">src/main</code>.</td></tr>
-    <tr><td>Run-quality and output accounting</td><td>Which kept runs cleared <code class="inline">RUN_EXPECTED_DELTA_QUALITY</code>, what defended branch coverage each one added, how much of that scope was materially turned into tests, and why the round did or did not reach <code class="inline">ROUND_TARGET_TEST_COUNT</code>.</td></tr>
-    <tr><td>Deepest chain</td><td>The deepest defended chain in one explicit arrow-like sequence when that matters to understanding.</td></tr>
-    <tr><td>Retained-close honesty</td><td>Whether broader retained-close truly absorbed the proof-origin truth or only reran around it.</td></tr>
-    <tr><td>Gap picture</td><td>The strongest current benchmark gap and strongest current frontier gap.</td></tr>
-    <tr><td>Gap reduction</td><td>Whether the round materially reduced either one.</td></tr>
-    <tr><td>Open next move</td><td>What still remains open and what the next honest move is.</td></tr>
-    <tr><td>Replacement-grade judgment</td><td>If the report is being positioned as a new strong local benchmark or <code class="inline">html-ex</code> candidate, state what older local package it displaced, what it still does not beat, and why.</td></tr>
-    <tr><td>Atlas-grade audit sections</td><td>When the round is broad enough, include the atlas-grade sections explicitly: <code class="inline">Automation Coverage Overlay</code>, <code class="inline">Test Mapping</code>, <code class="inline">Iteration Delta View</code>, <code class="inline">Accessible Hyperlink Exploration Ledger</code>, <code class="inline">Flow To Support To Proof Mapping</code>, <code class="inline">Coverage Vocabulary</code>, <code class="inline">Route-Proof Versus Flow-Proof Delta</code>, <code class="inline">Current Baseline Decision</code>, <code class="inline">Disconfirmed Frontier Notes</code>, <code class="inline">Cross-Run Comparison</code>, <code class="inline">Benchmark Comparison</code>, <code class="inline">Checkpoint Self-Evaluation</code>, <code class="inline">Iteration History And Score Evolution</code>, <code class="inline">Self-Perfection Audit Trail</code>, and <code class="inline">Render Verification Status</code> when they are genuinely earned by the round.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">6.2 Optional reporting variants when requested</span>
-  <span class="badge">OPTIONAL</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Variant rule</th>
-      <th>MUST keep true</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Primary output</td><td>Keep the canonical HTML as the primary output when this standard is invoked directly.</td></tr>
-    <tr><td>Narrow variants</td><td>Support narrower requested variants only when asked, such as a brief summary, score-only view, milestone view, history index, mapping-first page, or proof-link digest.</td></tr>
-    <tr><td>Meaning consistency</td><td>Preserve the same meaning across variants: product truth, trust basis, coverage state, retained evidence anchors, and next move stay consistent.</td></tr>
-    <tr><td>Ownership boundary</td><td>Treat alternate formats as reporting variants only. Retention, reference-memory copying, exemplar decisions, and upstream publication language stay owned by <code class="inline">ORCHESTRATION_PATH</code> and <code class="inline">QUALITY_LOOP_PATH</code>.</td></tr>
-  </tbody>
-</table>
-</details>
-
-
-<details>
-<summary>
-  <span class="summary-title">6.3 What the final page must avoid</span>
-  <span class="badge">CORE</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Final-page anti-pattern</th>
-      <th>Why it must be avoided</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Winner-centric top wording when evolution-first is clearer</td><td>It distorts what the round actually learned and defended.</td></tr>
-    <tr><td>Low-value artifacts displacing decisive links</td><td>It makes trust reconstruction slower and noisier.</td></tr>
-    <tr><td>Coverage claims exceeding observed product behavior</td><td>It turns the report into overclaim rather than defended understanding.</td></tr>
-    <tr><td>Report polish hiding package thinness, evidence mismatch, or weak retained confidence</td><td>It lets aesthetics mask an audit defect.</td></tr>
-    <tr><td>Language implying promotion, exemplar status, or upstream integration without owning contract</td><td>It crosses ownership boundaries and inflates status dishonestly.</td></tr>
-  </tbody>
-</table>
-</details>
-</div>
-
 </div>
 </body>
 </html>
+
+
+
+
+
