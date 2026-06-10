@@ -230,7 +230,7 @@
 
 <div class="grid">
 <div class="card">
-<h2>1) UI Adapter Contract</h2>
+<h2>1) Overview</h2>
 
 <div class="note">
   Keep this file narrow. It decides only the next visible UI frontier, the smallest meaningful UI code/support change,
@@ -253,13 +253,13 @@
 </div>
 
 <div class="card">
-<h2>Quick UI Recovery</h2>
+<h2>1.1) Quick UI Recovery</h2>
 <div class="note">
   Keep only local bindings and the seed-to-proof shortcut here. Everything generic should stay delegated.
 </div>
 <details>
 <summary>
-  <span class="summary-title">1.1 UI-local bindings</span>
+  <span class="summary-title">1.1.1 UI-local bindings</span>
   <span class="badge">CORE</span>
   <span class="sumhint">shared bindings live in shared-constants.properties</span>
 </summary>
@@ -274,7 +274,7 @@ Names reopened from that file for this execution:
 </details>
 <details class="subdetails">
 <summary>
-  <span class="summary-title">1.2 Seed-to-proof shortcut</span>
+  <span class="summary-title">1.1.2 Seed-to-proof shortcut</span>
   <span class="sumhint">default local operator lane</span>
 </summary>
 <pre class="cheatbox"><code>SEED
@@ -455,6 +455,19 @@ re-score after class one, class two, and defended-branch close
     <tr><td>Guarded continuations / protected descendants / route-state branches</td><td>Classify them the same way: covered, blocked, duplicate, or deferred with a concrete reason.</td></tr>
   </tbody>
 </table>
+<pre><code>seed-adjacent frontier ledger summary
+  covered = ...
+  blocked = ...
+  duplicate = ...
+  deferred = ...
+  still-open-high-value = ...
+  still-open-medium-value = ...
+  matching frontier-ranking-ledger row = F# / n/a
+  expected source/test delta from F# = new / materially expanded / none
+  expected materialization from F# = frontier-expanding / deeper-branch / sibling-variant / closure-only
+  chosen branch outranks still-open-high-value = yes / no</code></pre>
+<div class="warn"><b>High-value neighbor blocker:</b> if <code class="inline">still-open-high-value &gt; 0</code>, the chosen branch must cite the matching <code class="inline">F#</code> row from <code class="inline">frontier-ranking-ledger.md</code>. If <code class="inline">chosen branch outranks still-open-high-value = no</code>, pivot before spending another governed run on the current branch.</div>
+<div class="note"><b>UI bridge rule:</b> when the local branch cites an <code class="inline">F#</code> row, keep the same expected source/test delta and expected materialization language. Do not let the UI layer relabel a closure-only branch as frontier-expanding locally.</div>
 </details>
 <details class="subdetails">
 <summary>
