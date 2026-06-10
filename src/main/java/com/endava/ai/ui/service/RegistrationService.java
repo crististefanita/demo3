@@ -18,32 +18,24 @@ public final class RegistrationService {
     }
 
     public RegistrationData registerValidUser() {
+        openRegister();
         RegistrationData data = UserDataFactory.validRegistrationData();
         register(data);
         return data;
     }
 
     public CustomerData registerValidCustomer() {
+        openRegister();
         CustomerData data = com.endava.ai.ui.factory.CustomerDataFactory.validCustomer();
         register(data);
         return data;
     }
 
     public void register(RegistrationData data) {
-        register(
-                data.firstName(),
-                data.lastName(),
-                data.dob(),
-                data.street(),
-                data.postal(),
-                data.houseNumber(),
-                data.city(),
-                data.state(),
-                data.country(),
-                data.phone(),
-                data.email(),
-                data.password()
-        );
+        fillIdentityFields(data);
+        fillAddressLookup(data.country(), data.postal(), data.houseNumber());
+        fillManualAddress(data.street(), data.city(), data.state());
+        submitRegistration();
     }
 
     public void register(CustomerData data) {
@@ -66,7 +58,25 @@ public final class RegistrationService {
     public void register(String firstName, String lastName, String dob, String street,
                          String postal, String houseNumber, String city, String state, String country,
                          String phone, String email, String password) {
+        fillIdentityFields(firstName, lastName, dob, phone, email, password);
+        fillAddressLookup(country, postal, houseNumber);
+        fillManualAddress(street, city, state);
+        submitRegistration();
+    }
 
+    public void fillIdentityFields(RegistrationData data) {
+        fillIdentityFields(
+                data.firstName(),
+                data.lastName(),
+                data.dob(),
+                data.phone(),
+                data.email(),
+                data.password()
+        );
+    }
+
+    public void fillIdentityFields(String firstName, String lastName, String dob,
+                                   String phone, String email, String password) {
         UIActions.type(RegisterPage.FIRST_NAME, "First name", firstName);
         UIActions.type(RegisterPage.LAST_NAME, "Last name", lastName);
 
@@ -75,18 +85,31 @@ public final class RegistrationService {
             UIActions.type(RegisterPage.DOB, "Date of Birth", dob);
         } catch (Exception ignored) {}
 
-        UIActions.type(RegisterPage.STREET, "Street", street);
-        UIActions.type(RegisterPage.POSTAL, "Postal code", postal);
-        UIActions.type(RegisterPage.HOUSE_NUMBER, "House number", houseNumber);
-        UIActions.type(RegisterPage.CITY, "City", city);
-        UIActions.type(RegisterPage.STATE, "State", state);
-        UIActions.select(RegisterPage.COUNTRY, "Country", country);
         UIActions.type(RegisterPage.PHONE, "Phone", phone);
-
         UIActions.type(RegisterPage.EMAIL, "Email address", email);
         UIActions.type(RegisterPage.PASSWORD, "Password", password);
+    }
 
-        UIActions.click(RegisterPage.REGISTER_BUTTON, "Register");
+    public void fillAddressLookup(String country, String postal, String houseNumber) {
+        UIActions.select(RegisterPage.COUNTRY, "Country", country);
+        UIActions.type(RegisterPage.POSTAL, "Postal code", postal);
+        UIActions.type(RegisterPage.HOUSE_NUMBER, "House number", houseNumber);
+    }
+
+    public void changeCountry(String country) {
+        UIActions.select(RegisterPage.COUNTRY, "Country", country);
+    }
+
+    public void fillManualAddress(String street, String city, String state) {
+        UIActions.type(RegisterPage.STREET, "Street", street);
+        UIActions.type(RegisterPage.CITY, "City", city);
+        UIActions.type(RegisterPage.STATE, "State", state);
+    }
+
+    public void registerWithAutofilledAddress(RegistrationData data) {
+        fillIdentityFields(data);
+        fillAddressLookup(data.country(), data.postal(), data.houseNumber());
+        submitRegistration();
     }
 
     public void submitEmptyForm() {

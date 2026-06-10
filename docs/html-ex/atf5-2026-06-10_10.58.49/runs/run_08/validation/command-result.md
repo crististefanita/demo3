@@ -1,0 +1,9 @@
+# Command Result
+
+run id = run_08
+command = mvn -Dtest="com.endava.ai.atf.ui.component.AuthenticatedContinuationContractTest#login_service_types_credentials_and_submits_login+authenticated_account_validation_waits_for_account_url_and_profile_navigation+profile_navigation_clicks_profile_tab_and_waits_for_profile_surface+change_password_workflow_types_current_new_and_confirm_then_submits+password_change_success_validation_retries_until_banner_text_is_present+profile_validation_retries_until_expected_values_materialize+open_profile_chain_waits_for_account_then_profile_then_loaded_value+favorites_navigation_clicks_favorites_entry_from_account_surface" test
+started = 2026-06-10 11:07:19 +03:00
+finished = 2026-06-10 11:07:27 +03:00
+duration seconds = 8.19
+exit code = 0
+status = pass

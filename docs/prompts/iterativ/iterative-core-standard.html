@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>Iterative Core Standard</title>
+<style>
+  :root {
+    --bg: #0b0f14;
+    --panel: #121a27;
+    --text: #e6edf3;
+    --muted: #a8b3cf;
+    --border: #273449;
+    --accent: #7aa2ff;
+    --accent2: #6ee7b7;
+    --warn: #fbbf24;
+    --good: #34d399;
+    --shadow: rgba(0,0,0,.35);
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    background: radial-gradient(1200px 800px at 12% 0%, #17253f 0%, var(--bg) 45%) fixed;
+    color: var(--text);
+    line-height: 1.58;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 28px 18px 60px; }
+  header {
+    background: linear-gradient(180deg, rgba(18,26,39,.9), rgba(18,26,39,.46));
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 30px var(--shadow);
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  h1 { margin: 0 0 6px; font-size: 27px; letter-spacing: .2px; }
+  h2 { margin: 0 0 10px; font-size: 19px; }
+  .sub { color: var(--muted); font-size: 14px; line-height: 1.5; max-width: 980px; }
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(15,23,36,.75);
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: 8px;
+  }
+  .pill {
+    display: inline-block;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(15,23,36,.7);
+    color: var(--muted);
+    margin-right: 6px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1.12fr .88fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  @media (max-width: 980px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: rgba(18,26,39,.82);
+    box-shadow: 0 10px 26px var(--shadow);
+    padding: 15px;
+  }
+  code.inline {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: rgba(10,15,24,.75);
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    border-radius: 8px;
+  }
+  pre {
+    background: rgba(10,15,24,.88);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px;
+    overflow: auto;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
+    margin: 10px 0 0;
+  }
+  pre code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: #dbe7ff;
+    white-space: pre;
+  }
+  .note {
+    border-left: 3px solid var(--accent);
+    padding: 10px 12px;
+    background: rgba(122,162,255,.08);
+    border-radius: 12px;
+    margin-top: 10px;
+  }
+  .rule {
+    border-left: 3px solid var(--accent2);
+    padding: 10px 12px;
+    background: rgba(110,231,183,.08);
+    border-radius: 12px;
+    margin-top: 10px;
+  }
+  details {
+    border: 1px solid var(--border);
+    background: rgba(18,26,39,.72);
+    border-radius: 16px;
+    padding: 10px 12px;
+    margin: 12px 0;
+    box-shadow: 0 8px 22px var(--shadow);
+  }
+  .subdetails {
+    margin: 10px 0 0 10px;
+    background: rgba(11,20,31,.84);
+  }
+  summary {
+    cursor: pointer;
+    list-style: none;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 2px 2px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  .summary-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sumhint {
+    color: var(--muted);
+    font-weight: 400;
+    font-size: 12px;
+    margin-left: auto;
+  }
+  hr.sep { border: 0; border-top: 1px solid var(--border); margin: 16px 0; }
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 10px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(10,15,24,.42);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
+  }
+  th, td {
+    padding: 8px 10px;
+    vertical-align: top;
+    text-align: left;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  th:last-child, td:last-child { border-right: 0; }
+  tbody tr:last-child td { border-bottom: 0; }
+  th { background: rgba(17,24,38,.92); }
+  td { background: rgba(11,20,31,.58); }
+  tbody tr:nth-child(even) td { background: rgba(15,23,36,.62); }
+  .svgbox { margin-top: 10px; }
+  .svgbox svg { width: 100%; height: auto; }
+  .svgbox .n {
+    fill: rgba(17,24,38,.94);
+    stroke: rgba(122,162,255,.56);
+    stroke-width: 2;
+  }
+  .svgbox .t { fill: var(--text); font: 700 13.5px var(--sans); }
+  .svgbox .s { fill: #c0cff5; font: 10px var(--sans); }
+  .svgbox .l { stroke: rgba(122,162,255,.88); stroke-width: 2; fill: none; }
+  .svgbox .d { stroke-dasharray: 6 5; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Iterative Core Standard <span class="badge">family supervisor</span></h1>
+<div class="sub">
+  Use this file only to supervise one full family round. Its support structure is the round lane itself:
+  round preparation, pre-training gate, active governed window, delegated round launch, finished-round consumption,
+  strategic round closure, family close-out, and reporting delegation.
+</div>
+<div style="margin-top:10px">
+  <span class="pill">round preparation</span>
+  <span class="pill">pre-training consumer only</span>
+  <span class="pill">active window judgment</span>
+  <span class="pill">family close-out</span>
+</div>
+</header>
+
+<div class="grid">
+  <div class="card">
+    <h2>1) Overview</h2>
+    <div class="sub">
+      Round supervisor map only. Keep this area light, then drop into the owner sections below.
+    </div>
+<details class="subdetails" open>
+  <summary>
+    <span class="summary-title">1.1 Scope And Boundary</span>
+    <span class="sumhint">what overview owns and what it must not reteach</span>
+  </summary>
+<pre><code>overview owns
+  -> round shape
+  -> fast lookup
+  -> minimal supervisory boundary before deeper reading
+
+overview must not reteach
+  -> saved-artifact mechanics
+  -> kept-run validity
+  -> canonical HTML structure
+
+artifact validity owner
+  -> ORCHESTRATION_PATH owns freeze state,
+     checklist validity, and saved proof bundles
+
+reporting owner
+  -> REPORTING_PATH owns canonical HTML shape,
+     render verification, and checklist-to-HTML visibility</code></pre>
+</details>
+
+<details class="subdetails">
+  <summary>
+    <span class="summary-title">1.2 Canonical Round Contract</span>
+    <span class="sumhint">the supervisory order is canonical, not illustrative</span>
+  </summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Round phase</th>
+        <th>Canonical order</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Round preparation</td><td><code class="inline">3</code></td><td><code class="inline">3.0 - 3.3</code></td></tr>
+      <tr><td>Pre-training gate</td><td><code class="inline">4</code></td><td><code class="inline">4.0 - 4.3</code></td></tr>
+      <tr><td>Active governed window</td><td><code class="inline">5</code></td><td><code class="inline">5.0 - 5.4</code></td></tr>
+      <tr><td>Run advance and delegated launch</td><td><code class="inline">6</code></td><td><code class="inline">6.0 - 6.3</code></td></tr>
+      <tr><td>Finished-round consumption</td><td><code class="inline">7</code></td><td><code class="inline">7.0 - 7.6</code></td></tr>
+      <tr><td>Strategic round closure</td><td><code class="inline">8</code></td><td><code class="inline">8.0 - 8.5</code></td></tr>
+      <tr><td>Family close-out</td><td><code class="inline">9</code></td><td><code class="inline">9.0 - 9.5</code></td></tr>
+      <tr><td>Reporting delegation and final checks</td><td><code class="inline">10</code></td><td><code class="inline">10.0 - 10.4</code></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<details class="subdetails">
+  <summary>
+    <span class="summary-title">1.3 Round Control Card</span>
+    <span class="sumhint">collapsed lookup only</span>
+  </summary>
+<pre><code>30-second round control card
+  open first ->
+    shared constants + ROOT_RUN
+    pre-training brief + active window
+  decide ->
+    launch / strengthen first / continue / stop / incomplete
+  stop if ->
+    previous run is not frozen
+    checklist is missing
+    artifacts are unread
+    reporting would need to invent truth
+  hand off ->
+    family verdict settled
+    source posture boundary settled
+    artifact visibility boundary settled</code></pre>
+</details>
+
+<details class="subdetails">
+  <summary>
+    <span class="summary-title">1.4 Construction Shortcuts</span>
+    <span class="sumhint">keep collapsed unless you are actively assembling the round view</span>
+  </summary>
+  <div class="docmap">
+    <b>Owner-first reading</b><span>Read the owner section that decides the gate or verdict before reopening downstream detail.</span>
+    <b>Boundary discipline</b><span>Iterative core consumes published run and package truth; it does not reconstruct artifact validity from memory.</span>
+  </div>
+</details>
+
+<details class="subdetails">
+  <summary>
+    <span class="summary-title">1.5 Quick Reference</span>
+    <span class="sumhint">owner and gate lookup only</span>
+  </summary>
+<pre><code>need full supervisory lane   -> 2.1
+need prelaunch wall          -> 2.2
+need run loop + next-run law -> 2.3
+need roots and constants     -> 1.6.1 + 3.0
+need launch permission       -> 4.0 - 4.3
+need active evidence window  -> 5.0 - 5.4
+need next-run permission     -> 6.1
+need consumed artifacts      -> 7.0 - 7.6
+need family verdict          -> 8.0 - 8.5
+need close-out before report -> 9.0 - 9.5
+need final delegation        -> 10.0 - 10.4
+need family vocabulary       -> 1.6.2</code></pre>
+</details>
+  </div>
+
+  <div class="card">
+    <h2>1.6 Shared Inputs And Vocabulary</h2>
+    <div class="sub">
+      Shared inputs first, then thin family vocabulary. Open this card only when you need repo constants or a cold term definition.
+    </div>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">1.6.1 Shared Constants And ROOT_RUN</span>
+        <span class="sumhint">input bindings only</span>
+      </summary>
+<pre><code>SHARED_CONSTANTS_FILE = docs/prompts/iterativ/shared-constants.properties
+ROOT_RUN = docs/out/&lt;timestamp&gt;/
+
+reopen from shared constants:
+  -> orchestration path
+  -> reporting path
+  -> local adapter path
+  -> audit output roots
+  -> round targets
+  -> META_ITERATION_COUNT
+  -> SEED_RECORDING_CLASS when relevant</code></pre>
+      <table>
+        <thead>
+          <tr>
+            <th>Binding</th>
+            <th>MUST read it this way</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code class="inline">ROOT_RUN</code></td><td>The one active round root that later holds the root package, canonical page, kept-run packages, and family close-out.</td></tr>
+          <tr><td><code class="inline">META_ITERATION_COUNT</code></td><td>The hard cap that later becomes the active governed window <code class="inline">run_01 .. run_N</code>.</td></tr>
+          <tr><td>Shared paths</td><td>Tell the supervisor where orchestration, reporting, and the local adapter live before any delegation happens.</td></tr>
+          <tr><td>Round targets</td><td>Give the pressure context before the pre-training brief is judged.</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">1.6.2 Shared Micro-Glossary</span>
+        <span class="sumhint">only the terms that still create drift across the family</span>
+      </summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Term</th>
+            <th>Use it only for</th>
+            <th>Do not warm it into</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code class="inline">closure-only</code></td><td>A run or branch that mainly closed proof, replay, or package truth without adding material source/test delta.</td><td>Fresh frontier gain.</td></tr>
+          <tr><td><code class="inline">packaging-only</code></td><td>Publication, audit, or retention cleanup with no new business/test truth.</td><td>Executable learning progress.</td></tr>
+          <tr><td><code class="inline">narrow</code></td><td>An actual source/test delta that stayed thinner than planned material novelty.</td><td><code class="inline">materially expanded</code>.</td></tr>
+          <tr><td><code class="inline">support unlock</code></td><td>Materialization that explicitly names the downstream proof path or unlocked descendant made reachable by the support change.</td><td>A generic “this probably helps later” claim.</td></tr>
+          <tr><td><code class="inline">materially expanded</code></td><td>A real new or materially deeper source/test slice that changed business/test truth.</td><td>Artifact cleanliness, replay, or proof polish alone.</td></tr>
+          <tr><td><code class="inline">final cumulative state</code></td><td>The last frozen source/test image saved for audit at package level.</td><td>Clean git chronology.</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </div>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+  <h2>2) Executive Supervisory Diagrams</h2>
+  <div class="note"><b>Supervisor view only:</b> keep this section as the shortest visual read of the whole family round. Detailed contracts still live in sections <code class="inline">3 - 10</code>.</div>
+
+  <details>
+    <summary>
+      <span class="summary-title">2.1 Full Supervisory Lane</span>
+      <span class="badge">EXEC</span>
+      <span class="sumhint">the shortest cold map of the whole family lane</span>
+    </summary>
+    <div class="svgbox">
+      <svg viewBox="0 0 1180 240" role="img" aria-label="Full supervised family lane">
+        <defs><marker id="arrExec1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+        <rect class="n" x="24" y="84" width="154" height="72" rx="14"></rect>
+        <text class="t" x="101" y="112" text-anchor="middle">Reread live</text>
+        <text class="s" x="101" y="134" text-anchor="middle">owner set reopened</text>
+
+        <rect class="n" x="194" y="84" width="154" height="72" rx="14"></rect>
+        <text class="t" x="271" y="112" text-anchor="middle">Prepare clean</text>
+        <text class="s" x="271" y="134" text-anchor="middle">fresh-round boundary</text>
+
+        <rect class="n" x="364" y="84" width="154" height="72" rx="14"></rect>
+        <text class="t" x="441" y="112" text-anchor="middle">Fix ROOT_RUN</text>
+        <text class="s" x="441" y="134" text-anchor="middle">round shell fixed</text>
+
+        <rect class="n" x="534" y="84" width="154" height="72" rx="14"></rect>
+        <text class="t" x="611" y="112" text-anchor="middle">Pretrain gate</text>
+        <text class="s" x="611" y="134" text-anchor="middle">launch or strengthen</text>
+
+        <rect class="n" x="704" y="84" width="154" height="72" rx="14"></rect>
+        <text class="t" x="781" y="112" text-anchor="middle">Governed run</text>
+        <text class="s" x="781" y="134" text-anchor="middle">run_n loop starts</text>
+
+        <rect class="n" x="874" y="84" width="154" height="72" rx="14"></rect>
+        <text class="t" x="951" y="112" text-anchor="middle">Close-out</text>
+        <text class="s" x="951" y="134" text-anchor="middle">family truth frozen</text>
+
+        <rect class="n" x="1044" y="84" width="112" height="72" rx="14"></rect>
+        <text class="t" x="1100" y="112" text-anchor="middle">HTML</text>
+        <text class="s" x="1100" y="134" text-anchor="middle">publish only</text>
+
+        <path class="l" style="marker-end:url(#arrExec1)" d="M178 120 H194"></path>
+        <path class="l" style="marker-end:url(#arrExec1)" d="M348 120 H364"></path>
+        <path class="l" style="marker-end:url(#arrExec1)" d="M518 120 H534"></path>
+        <path class="l" style="marker-end:url(#arrExec1)" d="M688 120 H704"></path>
+        <path class="l" style="marker-end:url(#arrExec1)" d="M858 120 H874"></path>
+        <path class="l" style="marker-end:url(#arrExec1)" d="M1028 120 H1044"></path>
+        <path class="l d" style="marker-end:url(#arrExec1)" d="M611 156 C611 196 742 196 742 156"></path>
+        <path class="l d" style="marker-end:url(#arrExec1)" d="M781 156 C781 196 820 196 820 156"></path>
+      </svg>
+    </div>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">Legend</span>
+        <span class="sumhint">how to read the short lane</span>
+      </summary>
+      <ul>
+        <li><b>Scope:</b> this is the shortest honest lane.</li>
+        <li><b>Order only:</b> reread, prepare, pretrain, run, close-out, then HTML.</li>
+        <li><b><code>Pretrain gate</code>:</b> this is the only pre-code loop.</li>
+        <li><b><code>Governed run</code>:</b> unreachable before launch is earned.</li>
+        <li><b><code>HTML</code>:</b> downstream only. It never sends truth back upstream.</li>
+        <li><b>More detail:</b> reopen <code class="inline">docs/prompts/iterativ/iterative-governed-execution-atlas.html</code>.</li>
+      </ul>
+    </details>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">2.2 Pre-Code / Pre-Launch Wall</span>
+      <span class="badge">GATE</span>
+      <span class="sumhint">no governed code starts before this wall passes coldly</span>
+    </summary>
+    <div class="svgbox">
+      <svg viewBox="0 0 1180 410" role="img" aria-label="Pre-code and pre-launch wall">
+        <defs><marker id="arrExec2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+        <rect class="n" x="34" y="36" width="160" height="76" rx="14"></rect>
+        <text class="t" x="114" y="66" text-anchor="middle">1 Live reread</text>
+        <text class="s" x="114" y="88" text-anchor="middle">owner set reopened</text>
+
+        <rect class="n" x="220" y="36" width="160" height="76" rx="14"></rect>
+        <text class="t" x="300" y="66" text-anchor="middle">2 Inspect tree</text>
+        <text class="s" x="300" y="88" text-anchor="middle">dirty or clean</text>
+
+        <rect class="n" x="406" y="36" width="160" height="76" rx="14"></rect>
+        <text class="t" x="486" y="66" text-anchor="middle">3 Preserve dirty</text>
+        <text class="s" x="486" y="88" text-anchor="middle">stash + diff + inventory</text>
+
+        <rect class="n" x="592" y="36" width="160" height="76" rx="14"></rect>
+        <text class="t" x="672" y="66" text-anchor="middle">4 Baseline clean</text>
+        <text class="s" x="672" y="88" text-anchor="middle">fresh-round boundary</text>
+
+        <rect class="n" x="778" y="36" width="160" height="76" rx="14"></rect>
+        <text class="t" x="858" y="66" text-anchor="middle">5 Fix ROOT_RUN</text>
+        <text class="s" x="858" y="88" text-anchor="middle">README + manifest + prompt</text>
+
+        <rect class="n" x="964" y="36" width="160" height="76" rx="14"></rect>
+        <text class="t" x="1044" y="66" text-anchor="middle">6 Reopen memory</text>
+        <text class="s" x="1044" y="88" text-anchor="middle">decisive only</text>
+
+        <rect class="n" x="964" y="176" width="160" height="76" rx="14"></rect>
+        <text class="t" x="1044" y="206" text-anchor="middle">7 Brief exists</text>
+        <text class="s" x="1044" y="228" text-anchor="middle">round-pretraining-brief</text>
+
+        <rect class="n" x="778" y="176" width="160" height="76" rx="14"></rect>
+        <text class="t" x="858" y="206" text-anchor="middle">8 Pretrain</text>
+        <text class="s" x="858" y="228" text-anchor="middle">launch or strengthen</text>
+
+        <rect class="n" x="592" y="176" width="160" height="76" rx="14"></rect>
+        <text class="t" x="672" y="206" text-anchor="middle">9 Strengthen</text>
+        <text class="s" x="672" y="228" text-anchor="middle">save frontier ledger</text>
+
+        <rect class="n" x="406" y="176" width="160" height="76" rx="14"></rect>
+        <text class="t" x="486" y="206" text-anchor="middle">10 Recheck</text>
+        <text class="s" x="486" y="228" text-anchor="middle">pretrain again</text>
+
+        <rect class="n" x="220" y="176" width="160" height="76" rx="14"></rect>
+        <text class="t" x="300" y="206" text-anchor="middle">11 Launch gate</text>
+        <text class="s" x="300" y="228" text-anchor="middle">run_01 allowed?</text>
+
+        <rect class="n" x="34" y="176" width="160" height="76" rx="14"></rect>
+        <text class="t" x="114" y="206" text-anchor="middle">12 Enter run_01</text>
+        <text class="s" x="114" y="228" text-anchor="middle">governed code starts</text>
+
+        <rect class="n" x="592" y="306" width="200" height="76" rx="14"></rect>
+        <text class="t" x="692" y="336" text-anchor="middle">Hard stop only here</text>
+        <text class="s" x="692" y="358" text-anchor="middle">if strengthen still cannot close</text>
+
+        <path class="l" style="marker-end:url(#arrExec2)" d="M194 74 H220"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M380 74 H406"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M566 74 H592"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M752 74 H778"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M938 74 H964"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M1044 112 V150"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M964 214 H938"></path>
+        <path class="l d" style="marker-end:url(#arrExec2)" d="M778 214 H752"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M592 214 H566"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M406 214 H380"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M220 214 H194"></path>
+        <path class="l d" style="marker-end:url(#arrExec2)" d="M672 252 V286"></path>
+      </svg>
+    </div>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">Legend</span>
+        <span class="sumhint">what the wall blocks</span>
+      </summary>
+      <ul>
+        <li><b>Goal:</b> no governed code starts too early.</li>
+        <li><b>First come:</b> live reread, clean baseline, pretrain, strengthen if needed, then launch permission.</li>
+        <li><b><code>round-pretraining-brief.md</code>:</b> must exist before launch talk is legal.</li>
+        <li><b><code>strengthen first</code>:</b> means save the missing artifact now, then rejudge.</li>
+        <li><b>Hard stop:</b> only when strengthen still cannot close the gate coldly.</li>
+        <li><b>More detail:</b> reopen <code class="inline">docs/prompts/iterativ/iterative-governed-execution-atlas.html</code>.</li>
+      </ul>
+    </details>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">2.3 Governed Run Loop And Next-Run Lock</span>
+      <span class="badge">LOOP</span>
+      <span class="sumhint">after launch, every later slot depends on freeze, checklist truth, and legal next-run judgment</span>
+    </summary>
+    <div class="svgbox">
+      <svg viewBox="0 0 1180 360" role="img" aria-label="Governed run loop and next-run lock">
+        <defs><marker id="arrExec3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+        <rect class="n" x="468" y="24" width="244" height="78" rx="38"></rect>
+        <text class="t" x="590" y="54" text-anchor="middle">Execute run_n</text>
+        <text class="s" x="590" y="76" text-anchor="middle">chosen frontier only</text>
+
+        <rect class="n" x="884" y="128" width="212" height="78" rx="38"></rect>
+        <text class="t" x="990" y="158" text-anchor="middle">Freeze bundle</text>
+        <text class="s" x="990" y="180" text-anchor="middle">run-local carriers saved</text>
+
+        <rect class="n" x="744" y="244" width="224" height="78" rx="38"></rect>
+        <text class="t" x="856" y="274" text-anchor="middle">Artifact checklist</text>
+        <text class="s" x="856" y="296" text-anchor="middle">countable kept = yes / no</text>
+
+        <rect class="n" x="496" y="244" width="208" height="78" rx="38"></rect>
+        <text class="t" x="600" y="274" text-anchor="middle">Read run truth</text>
+        <text class="s" x="600" y="296" text-anchor="middle">consume saved artifacts coldly</text>
+
+        <rect class="n" x="224" y="244" width="232" height="78" rx="38"></rect>
+        <text class="t" x="340" y="274" text-anchor="middle">Next-run judgment</text>
+        <text class="s" x="340" y="296" text-anchor="middle">continue / rerank / block / close</text>
+
+        <rect class="n" x="54" y="128" width="170" height="78" rx="38"></rect>
+        <text class="t" x="139" y="158" text-anchor="middle">run_n+1 same round</text>
+        <text class="s" x="139" y="180" text-anchor="middle">only if copied row is honest</text>
+
+        <rect class="n" x="248" y="24" width="170" height="78" rx="38"></rect>
+        <text class="t" x="333" y="54" text-anchor="middle">Fresh rerank</text>
+        <text class="s" x="333" y="76" text-anchor="middle">new ledger first</text>
+
+        <rect class="n" x="24" y="24" width="184" height="78" rx="38"></rect>
+        <text class="t" x="116" y="54" text-anchor="middle">Exit to close-out</text>
+        <text class="s" x="116" y="76" text-anchor="middle">family verdict may start</text>
+
+        <rect class="n" x="1012" y="24" width="144" height="78" rx="38"></rect>
+        <text class="t" x="1084" y="54" text-anchor="middle">Blocked</text>
+        <text class="s" x="1084" y="76" text-anchor="middle">no legal slot spend</text>
+
+        <path class="l" style="marker-end:url(#arrExec3)" d="M712 62 C846 72 990 92 990 128"></path>
+        <path class="l" style="marker-end:url(#arrExec3)" d="M962 202 C936 220 900 236 884 244"></path>
+        <path class="l" style="marker-end:url(#arrExec3)" d="M744 283 H704"></path>
+        <path class="l" style="marker-end:url(#arrExec3)" d="M496 283 H456"></path>
+        <path class="l" style="marker-end:url(#arrExec3)" d="M224 283 C170 258 138 230 138 206"></path>
+        <path class="l" style="marker-end:url(#arrExec3)" d="M224 250 C214 176 276 112 333 102"></path>
+        <path class="l" style="marker-end:url(#arrExec3)" d="M418 62 H468"></path>
+        <path class="l d" style="marker-end:url(#arrExec3)" d="M340 322 V336 H116 V102"></path>
+        <path class="l d" style="marker-end:url(#arrExec3)" d="M340 322 V336 H1084 V102"></path>
+      </svg>
+    </div>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">Legend</span>
+        <span class="sumhint">how the loop stays legal</span>
+      </summary>
+      <ul>
+        <li><b>Scope:</b> this is the only repeating zone.</li>
+        <li><b><code>Freeze bundle</code>:</b> must exist before any later slot is judged.</li>
+        <li><b><code>Artifact checklist</code>:</b> publishes <code>countable kept = yes / no</code>.</li>
+        <li><b><code>Next-run judgment</code>:</b> may continue, rerank, block, or exit.</li>
+        <li><b>Close-out:</b> not another run. It is the terminal state of the current governed window.</li>
+        <li><b>More detail:</b> reopen <code class="inline">docs/prompts/iterativ/iterative-governed-execution-atlas.html</code>.</li>
+      </ul>
+    </details>
+  </details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+  <h2>3) Round Preparation</h2>
+  <div class="note"><b>Round rule:</b> this section prepares one fresh round only. It does not own pre-training mechanics and it does not own run artifact mechanics.</div>
+
+  <details>
+    <summary>
+      <span class="summary-title">3.1 Preparation Lane</span>
+      <span class="badge">MAP</span>
+      <span class="sumhint">constants, fresh boundary, baseline</span>
+    </summary>
+<pre><code>prepare the round
+  -> reopen shared constants
+  -> fix ROOT_RUN
+  -> confirm fresh-round boundary
+  -> return repo to current branch baseline
+  -> undo previously modified active code and non-governed carry-over
+  -> only then ask whether launch may begin</code></pre>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">3.2 Fresh-Round Boundary</span>
+      <span class="badge">MAP</span>
+      <span class="sumhint">the round starts from a clean branch baseline</span>
+    </summary>
+<pre><code>fresh-round boundary
+  -> repo is returned to the current branch baseline
+  -> previously modified active code does not carry into the new round
+  -> only governed docs memory survives
+  -> ROOT_RUN becomes the active round root</code></pre>
+    <table>
+      <thead>
+        <tr>
+          <th>Boundary topic</th>
+          <th>MUST hold before the pre-training gate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Repo state</td><td>Return the repo to the current branch baseline before the round starts. Undo previously modified active code, local outputs, and stale helper state that are not governed memory.</td></tr>
+        <tr><td>What survives</td><td>Only governed docs memory survives round entry; stale active code, temporary helpers, and pre-existing local execution residue do not.</td></tr>
+        <tr><td>Round root</td><td>Treat <code class="inline">ROOT_RUN</code> as the one active round root for everything that follows.</td></tr>
+      </tbody>
+    </table>
+    <div class="rule"><b>Undo rule:</b> a fresh round does not inherit already-modified active code. If the branch is not returned to baseline first, the round is not fresh and launch must stop.</div>
+  </details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+  <h2>4) Pre-Training Gate</h2>
+<pre><code>pre-training gate
+  -> require one saved pre-training brief
+  -> consume it only
+  -> accept launch or block launch</code></pre>
+
+  <details>
+    <summary>
+      <span class="summary-title">4.1 Required Artifact</span>
+      <span class="badge">CORE</span>
+      <span class="sumhint">iterative core consumes one auditable brief</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Pre-training gate rule</th>
+          <th>Required stance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Required artifact</td><td>Require <code class="inline">ROOT_RUN/review/round-pretraining-brief.md</code>, or legacy-equivalent <code class="inline">ROOT_RUN/review/reporting-pretraining-brief.md</code> when preserved by older packages.</td></tr>
+        <tr><td>Launch boundary</td><td>Launch is blocked if the brief is weak or missing under real history pressure.</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">4.2 Minimum Pass / Fail Check</span>
+      <span class="badge">CORE</span>
+      <span class="sumhint">what the brief must already say before run_01 may start</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Brief verdict</th>
+          <th>Iterative-core requirement</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code class="inline">strong branch</code></td><td>Must name what is already strongest nearby.</td></tr>
+        <tr><td><code class="inline">saturated branch</code></td><td>Must name what is already overused or low-yield.</td></tr>
+        <tr><td><code class="inline">real truth moved</code></td><td>Must name what prior move changed executable truth for real.</td></tr>
+        <tr><td><code class="inline">weak-yield replay</code></td><td>Must name what looked busy but was mostly replay or packaging.</td></tr>
+        <tr><td><code class="inline">heavy frontier still alive</code></td><td>Must name whether the hardest nearby frontier still owns the budget.</td></tr>
+        <tr><td><code class="inline">why new branch beats heavy frontier</code></td><td>Must say why the launch branch is strategically stronger, not only easier.</td></tr>
+        <tr><td><code class="inline">frontier-maximization precondition</code></td><td>Must be <code class="inline">yes</code>: the chosen frontier beat the top reachable unexplored alternatives in <code class="inline">review/frontier-ranking-ledger.md</code>.</td></tr>
+        <tr><td><code class="inline">risk of easier-branch escape</code></td><td>Must name the pivot-risk explicitly before run_01 may start.</td></tr>
+        <tr><td><code class="inline">live round pressure</code></td><td>Must name the one pressure that justifies launch now.</td></tr>
+        <tr><td><code class="inline">launch decision</code></td><td>Must say <code class="inline">launch</code> or <code class="inline">strengthen first</code>.</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">4.3 Launch Block</span>
+      <span class="badge">CORE</span>
+      <span class="sumhint">no governed window starts from a weak brief</span>
+    </summary>
+<pre><code>launch blocked unless
+  -> the brief exists when history pressure is real
+  -> the brief names the minimum required verdicts
+  -> the brief is specific enough to choose launch or strengthen first
+  -> if heavy frontier still lives, the brief shows why the launch branch beats it coldly
+  -> frontier-maximization precondition = yes when multiple reachable frontiers remain
+
+if blocked
+  -> strengthen the brief first
+  -> do not start governed run_01</code></pre>
+    <div class="warn"><b>Frontier-maximization blocker:</b> if <code class="inline">review/frontier-ranking-ledger.md</code> is required but missing, or if it shows a reachable higher-value frontier that the chosen branch does not beat, iterative core must return <code class="inline">strengthen first</code>.</div>
+  </details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+  <h2>5) Active Governed Window</h2>
+<pre><code>active governed window
+  -> derive it from META_ITERATION_COUNT
+  -> define run_01 .. run_N as the one active window
+  -> keep older memory comparative only</code></pre>
+
+  <details>
+    <summary>
+      <span class="summary-title">5.1 Window Definition</span>
+      <span class="badge">FLOW</span>
+      <span class="sumhint">one active family window per round</span>
+    </summary>
+<pre><code>window rule
+  META_ITERATION_COUNT = N
+  active governed window = run_01 .. run_N</code></pre>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">5.2 Window Boundary</span>
+      <span class="badge">FLOW</span>
+      <span class="sumhint">what counts and what stays only as memory</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Window topic</th>
+          <th>MUST read it this way</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Governed runs</td><td>Only <code class="inline">run_01 .. run_N</code> count as active family evidence for this round.</td></tr>
+        <tr><td>Intermediate attempts</td><td>May explain honesty, but do not count as extra governed runs unless promoted.</td></tr>
+        <tr><td>Older rounds</td><td>Remain comparative memory only; they do not silently re-enter active accounting.</td></tr>
+        <tr><td><code class="inline">active-window completeness</code></td><td>Publish only <code class="inline">full</code> or <code class="inline">incomplete</code>. If any governed slot stays unconsumed, name the slots and classify the reason coldly.</td></tr>
+      </tbody>
+    </table>
+<pre><code>if the window is incomplete
+  -> unconsumed governed slots = run_## .. run_N
+  -> incomplete reason = user-stopped / hard-blocked / environment-blocked / invalidated / failed
+  -> package is valuable if truth moved
+  -> package is not full-window closed</code></pre>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">5.3 Common Window Failure Card</span>
+      <span class="badge">FLOW</span>
+      <span class="sumhint">the mistakes that make META_ITERATION_COUNT decorative</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Failure</th>
+          <th>Cold correction</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code class="inline">N</code> treated as maximum possible budget only</td><td><code class="inline">N</code> is the governed window that must become full or incomplete.</td></tr>
+        <tr><td>Full window treated as automatically maximized</td><td>A full window is accounting-complete only. If later slots were low-yield closure runs while heavier frontier pressure stayed live, say <code class="inline">maximization = no</code>.</td></tr>
+        <tr><td>Green local run used as earned stop</td><td>Stop is valid only after the remaining heavy frontier is consumed, capped, or demoted.</td></tr>
+        <tr><td>Same-round stop treated as total exploration closure</td><td>A blocked same-round continuation may still leave rich application-level exploration open. Continue only through a fresh round with fresh reranking, not by padding the closed package.</td></tr>
+        <tr><td>Unconsumed slots hidden by good wording</td><td>Name the slots and publish <code class="inline">active-window completeness = incomplete</code>.</td></tr>
+        <tr><td>Extra run folders ignored</td><td>Count, demote, or report drift before judgment.</td></tr>
+        <tr><td>Older packages mixed into active score</td><td>Older packages stay comparator memory only.</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+</div>
+
+<hr class="sep">
+
+<div class="card">
+  <h2>6) Round Launch</h2>
+<pre><code>round launch
+  -> start run_01 only after pretrain passes
+  -> delegate execution
+  -> each next run waits for freeze + checklist + countability
+  -> receive full or incomplete active window
+  -> receive the finished round back as preserved artifacts</code></pre>
+
+  <details>
+    <summary>
+      <span class="summary-title">6.1 Run Advance Gate</span>
+      <span class="badge">GATE</span>
+      <span class="sumhint">what must exist before run_##+1</span>
+    </summary>
+<pre><code>run advance gate
+  run_## finished
+  -> orchestration freezes run package
+  -> artifact-checklist.md exists
+  -> countable kept run = yes / no is published
+  -> source authority posture exists when source/test code changed
+  -> business novelty class exists
+  -> orchestration publishes next-run-eligibility-card.md when another governed run is under consideration
+  -> one low-novelty run: next run must copy one frontier id and one expected source/test delta row from the ledger
+  -> two consecutive low-novelty runs: run_##+1 blocked unless planned target is frontier-expanding or deeper-branch with material source/test delta
+  -> iterative core reads only run_##+1 eligibility = allowed / blocked plus block reason
+  -> only then run_##+1 may start</code></pre>
+    <div class="note"><b>Low-novelty classes:</b> <code class="inline">closure-only</code>, <code class="inline">packaging-only</code>, and <code class="inline">replay-risk</code>. They can preserve proof, but they do not earn same-branch inertia.</div>
+<pre><code>after-run novelty decision card
+  actual novelty class = ...
+  actual source/test delta = new / materially expanded / narrow / none
+  low-novelty streak = 0 / 1 / 2+
+  low novelty = yes / no
+  copied frontier id for next run = F# / n/a
+  next run eligibility = allowed / blocked
+  block reason = ...</code></pre>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">6.2 Launch And Wait</span>
+      <span class="badge">FLOW</span>
+      <span class="sumhint">iterative core launches the window and waits for the finished round</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Launch topic</th>
+          <th>MUST read it this way</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Launch point</td><td>Start <code class="inline">run_01</code> only after the pre-training gate passes.</td></tr>
+        <tr><td>Delegation</td><td>Delegate internal run execution and saved-artifact mechanics to the appropriate owner.</td></tr>
+        <tr><td>Wait state</td><td>Wait for the finished active window and its published round artifacts before judging the family. If the window stops early, publish incompleteness before any close-out claim.</td></tr>
+        <tr><td>Next-run gate</td><td>Do not let <code class="inline">run_##+1</code> start until orchestration has frozen the previous run, written <code class="inline">review/artifact-checklist.md</code>, and published <code class="inline">countable kept run = yes / no</code>.</td></tr>
+        <tr><td>Source posture lock</td><td>If source/test code materially changed, the next run is blocked until orchestration also publishes the source authority posture and the real diff / no-index / source-verdict state for the finished run.</td></tr>
+        <tr><td>Drift signal intake</td><td>Before strategic closure, read whether orchestration reported extra <code class="inline">run_##</code> folders, package drift, or artifact disagreement with the supervisor mirror. Do not close strategically as if the package were clean while drift is still open.</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">6.3 Delegated Execution Boundary</span>
+      <span class="badge">FLOW</span>
+      <span class="sumhint">the round runs, but iterative core does not own its internal mechanics</span>
+    </summary>
+<pre><code>delegated execution
+  -> run_01 .. run_N execute under the active window
+  -> internal run mechanics stay delegated
+  -> iterative core waits for the finished round</code></pre>
+  </details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+  <h2>7) Consume Finished Round Artifacts</h2>
+<pre><code>consume finished round artifacts
+  -> reopen final carriers
+  -> confirm input completeness
+  -> stop before ranking
+  -> no winner / no stop verdict here</code></pre>
+
+  <details>
+    <summary>
+      <span class="summary-title">7.1 Consumption Checkpoints</span>
+      <span class="badge">CHECK</span>
+      <span class="sumhint">one table before judgment is allowed</span>
+    </summary>
+<table>
+  <thead>
+    <tr>
+      <th>Consumption checkpoint</th>
+      <th>Required before judgment</th>
+      <th>If missing</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Root package reopened</td><td><code class="inline">README.md</code>, <code class="inline">CALIBRATION.md</code>, manifest, final self-review.</td><td>Judgment blocked.</td></tr>
+    <tr><td>Counted kept runs reopened</td><td>Every counted run has summary, validation, checklist, and countability visible.</td><td>Demote or repair before ranking.</td></tr>
+    <tr><td>Source posture consumed</td><td>Source authority posture and final bundle truth are read when source/test changes mattered.</td><td>No source-authority promotion.</td></tr>
+    <tr><td>Accounting/drift consumed</td><td>Active window, incomplete state, extra run folders, and package drift are read.</td><td>No closure claim.</td></tr>
+  </tbody>
+</table>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">7.2 Consume Does Not Judge</span>
+      <span class="badge">BOUNDARY</span>
+      <span class="sumhint">pass/fail card for the boundary</span>
+    </summary>
+  <div class="note"><b>Consumption only:</b> this section says what iterative core reopens as a supervisor-consumer. Step 7 stops at reopen + input completeness confirmation. It does not redefine artifact validity or lower artifact contract. No ranking, no winner, and no stop verdict belong here.</div>
+<pre><code>consume != judge card
+pass
+  -> all final root carriers reopened
+  -> all counted kept runs reopened
+  -> decisive validation reopened
+  -> accounting + drift state reopened
+  -> no winner language yet
+
+fail
+  -> ranking before reopen complete
+  -> stop verdict before drift/accounting reopen
+  -> using memory of the run instead of final artifacts
+  -> treating one strong validation artifact as enough for family judgment</code></pre>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">7.3 Root Package Carriers</span>
+      <span class="badge">REOPEN</span>
+      <span class="sumhint">the family-level root carriers under ROOT_RUN</span>
+    </summary>
+<table>
+  <thead>
+    <tr>
+      <th>Carrier</th>
+      <th>Must confirm before judgment</th>
+      <th>If missing or stale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">README.md</code></td><td>Active package identity, opening order, and root verdict are current.</td><td>Judgment blocked.</td></tr>
+    <tr><td><code class="inline">CALIBRATION.md</code></td><td>Cold caps, stop state, and next pressure are explicit.</td><td>Demote confidence.</td></tr>
+    <tr><td><code class="inline">manifests/package-manifest.md</code></td><td>Package identity and retained artifact set are frozen.</td><td>Package drift risk.</td></tr>
+    <tr><td><code class="inline">review/final-self-review.md</code></td><td>Final family stance and trust split are saved, or explicitly unavailable.</td><td>No warm closure prose.</td></tr>
+  </tbody>
+</table>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">7.4 Canonical Package Page</span>
+      <span class="badge">REOPEN</span>
+      <span class="sumhint">the round page already composed from preserved artifacts</span>
+    </summary>
+<pre><code>ROOT_RUN canonical package page
+  -> analysis/langgraph-business-understanding.html
+  -> analysis/canonical-render-check.png when render verification exists</code></pre>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">7.5 Kept-Run Packages</span>
+      <span class="badge">REOPEN</span>
+      <span class="sumhint">the countable run evidence inside the active window</span>
+    </summary>
+<pre><code>ROOT_RUN kept-run packages
+  -> runs/run_##/SUMMARY.md
+  -> runs/run_##/manifests/
+  -> runs/run_##/review/
+  -> runs/run_##/validation/</code></pre>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">7.6 Active Accounting, Comparative Memory, And Package Conclusion</span>
+      <span class="badge">REOPEN</span>
+      <span class="sumhint">the round already says how the active window was counted, what stayed comparative only, and how it closed</span>
+    </summary>
+<pre><code>ROOT_RUN accounting and conclusion carriers
+  -> README.md
+  -> CALIBRATION.md
+  -> review/final-self-review.md
+  -> active-window accounting published there
+  -> outside-window comparative memory named there
+  -> comparative only / no score credit</code></pre>
+  </details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+  <h2>8) Strategic Round Closure</h2>
+<pre><code>judge card
+  input  -> consumed root + runs + validation + source/accounting/drift
+  decide -> what moved / what capped / retained winner / stop / next target
+  block  -> incomplete consumption, unresolved drift, unclassified extra run folders
+  output -> settled family truth, not final-page wording</code></pre>
+
+  <details>
+    <summary>
+      <span class="summary-title">8.1 Judge Permission</span>
+      <span class="badge">JUDGE</span>
+      <span class="sumhint">the permission gate before ranking</span>
+    </summary>
+<pre><code>judge permission
+  allowed only when 7) consumption checkpoints are complete
+
+if any checkpoint is missing
+  -> do not rank
+  -> do not publish stop
+  -> repair / demote / mark incomplete first</code></pre>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">8.2 Comparison Basis</span>
+      <span class="badge">JUDGE</span>
+      <span class="sumhint">only the active window ranks as current round evidence</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Strategic rule</th>
+          <th>Required stance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Active evidence</td><td>Compare only kept runs from <code class="inline">run_01 .. run_N</code> as current round evidence.</td></tr>
+        <tr><td>Consume-first gate</td><td>Strategic comparison is invalid until the consumption checkpoints in <code class="inline">7)</code> have all been completed or explicitly demoted.</td></tr>
+        <tr><td>Older memory</td><td>Use older rounds only as comparative memory, never as silent active accounting.</td></tr>
+        <tr><td>Drift boundary</td><td>If orchestration reports package drift or extra unclassified <code class="inline">run_##</code> folders, carry that defect into closure truth before any retained winner sounds final.</td></tr>
+        <tr><td>Ranking basis</td><td>Rank by evidence and business weight, not chronology or calmer packaging.</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">8.3 Strategic Outputs</span>
+      <span class="badge">JUDGE</span>
+      <span class="sumhint">what the family supervisor must decide after comparison</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Strategic output</th>
+          <th>MUST be decided here</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>What moved</td><td>The strongest branch or consequence the active window truly earned.</td></tr>
+        <tr><td>What stayed capped</td><td>The strongest nearby branch or trust ceiling the round still failed to clear.</td></tr>
+        <tr><td>Retained winner</td><td>The strongest current package by evidence and business weight.</td></tr>
+        <tr><td>Companion / displaced</td><td>What still matters as memory and what has been honestly surpassed.</td></tr>
+        <tr><td>Stop verdict</td><td>Whether the round stopped for strength, exhaustion, blockage, or thinness.</td></tr>
+        <tr><td>Next target</td><td>The strongest unresolved pressure worth carrying into the next round.</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">8.4 Run-Quality Gate</span>
+      <span class="badge">JUDGE</span>
+      <span class="sumhint">the shared threshold and formula for verdict-moving run quality</span>
+    </summary>
+<pre><code>run-quality schema
+  -> primary run gate
+     RUN_EXPECTED_DELTA_QUALITY
+
+  -> computed run result
+     RUN_DELTA_SCORE_ACTUAL
+
+  -> secondary round accounting
+     ROUND_TARGET_TEST_COUNT</code></pre>
+<pre><code>RUN_DELTA_SCORE_ACTUAL
+  = 10 * (
+      0.30 * T
+    + 0.25 * B
+    + 0.20 * P
+    + 0.15 * H
+    + 0.10 * C
+    )
+
+where
+  T = truth delta
+  B = branch / depth delta
+  P = proof strength delta
+  H = benchmark / promotion honesty delta
+  C = closure trust delta
+
+clear the run-quality bar only when
+  RUN_DELTA_SCORE_ACTUAL >= RUN_EXPECTED_DELTA_QUALITY
+  and T >= 0.67
+  and B >= 0.50
+  and P >= 0.75
+
+if T or B fails but P/H/C are strong
+  -> countable proof may remain valid
+  -> verdict-moving = no
+  -> same-branch continuation requires a new frontier target or deeper materialization</code></pre>
+    <table>
+      <thead>
+        <tr>
+          <th>Scoring item</th>
+          <th>Role</th>
+          <th>Cold reading</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code class="inline">RUN_EXPECTED_DELTA_QUALITY</code></td><td>Primary run gate.</td><td>The kept run must clear this before it reads as verdict-moving.</td></tr>
+        <tr><td><code class="inline">RUN_DELTA_SCORE_ACTUAL</code></td><td>Computed support behind the gate.</td><td>Do not replace it with softer overall-feel language.</td></tr>
+        <tr><td><code class="inline">ROUND_TARGET_TEST_COUNT</code></td><td>Secondary accounting target.</td><td>Tracks cold-distinct defended scope materially turned into tests, not raw test volume; one local test does not satisfy it by itself, and it does not replace winner quality.</td></tr>
+        <tr><td><code class="inline">T</code></td><td>Truth delta</td><td>Did the run materially change what the round can honestly claim?</td></tr>
+        <tr><td><code class="inline">B</code></td><td>Branch / depth delta</td><td>Did the run defend deeper branch scope, not just another sample?</td></tr>
+        <tr><td><code class="inline">P</code></td><td>Proof strength delta</td><td>Did the run materially improve direct proof precision?</td></tr>
+        <tr><td><code class="inline">H</code></td><td>Benchmark / promotion honesty delta</td><td>Did the run improve comparative honesty rather than over-promotion?</td></tr>
+        <tr><td><code class="inline">C</code></td><td>Closure trust delta</td><td>Did the run materially improve closure trust, not only polish?</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+</div>
+
+<hr class="sep">
+
+<div class="card">
+  <h2>9) Family Close-Out</h2>
+  <div class="sub">
+    This happens once, after the active governed window is over and the strategic round closure is done.
+  </div>
+
+  <details>
+      <summary>
+      <span class="summary-title">9.1 Settled Family Verdict</span>
+      <span class="badge">CLOSE</span>
+      <span class="sumhint">what iterative core settles before reporting starts</span>
+    </summary>
+<pre><code>settle in ROOT_RUN
+  -> family verdict
+  -> active accounting
+  -> stop verdict
+  -> next target</code></pre>
+<pre><code>active accounting publication
+  RUN_EXPECTED_DELTA_QUALITY = ...
+  ROUND_TARGET_TEST_COUNT = ...
+  strongest kept runs that cleared quality = ...
+  strongest materially test-expanding runs and TEST_MATERIALIZATION_QUALITY_SCORE when required = ...
+  materially turned into tests = x / ROUND_TARGET_TEST_COUNT
+  accounting target met = yes / no</code></pre>
+<pre><code>accounting reading
+  ROUND_TARGET_TEST_COUNT counts cold-distinct defended test scope,
+  not raw test methods, assertions, or local polish
+
+  one new test may still earn a run win
+  it does not earn round-level yield maximization by itself</code></pre>
+<pre><code>counting unit rule
+  count x only by cold-distinct defended target identities
+
+  do not count by
+    test methods
+    assertion count
+    selector count
+    repeated checks inside the same defended path
+    replay hardening on the same frontier alone
+
+  if multiple new tests defend one target identity
+    -> count as one materially turned scope
+
+  only independently defended cold business targets
+    may increase x beyond one</code></pre>
+<pre><code>ownership rule
+  root/package carriers own active accounting truth once
+  HTML republishes that frozen verdict near score cards
+  do not let README, CALIBRATION, and HTML drift semantically</code></pre>
+    <table>
+      <thead>
+        <tr>
+          <th>Close-out carrier</th>
+          <th>MUST already say before reporting handoff</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code class="inline">docs/out/README.md</code></td><td>The branch-level <code class="inline">ROOT_RUN</code> pointer must resolve to the active package that this round just closed.</td></tr>
+        <tr><td><code class="inline">ROOT_RUN/README.md</code></td><td>Retained family position, what to open first, and the compact active-accounting publication card.</td></tr>
+        <tr><td><code class="inline">ROOT_RUN/CALIBRATION.md</code></td><td>Package-level judgment, remaining gaps, reusable lessons, and any cold reason why the accounting target stayed open.</td></tr>
+        <tr><td><code class="inline">ROOT_RUN/review/final-self-review.md</code></td><td>Short final family stance and trust split.</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>Boundary rule:</b> this file checks that the active package pointer is current, but artifact-closure audit details and final-HTML release gating still belong to <code class="inline">ORCHESTRATION_PATH</code>.</div>
+    <div class="note"><b>Accounting publication rule:</b> before reporting starts, publish one compact active-accounting card with the configured threshold, configured target, strongest kept runs that cleared quality, strongest materially test-expanding runs when that disclosure is required, and whether the accounting target was met.</div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">9.2 Active Accounting Published Once</span>
+      <span class="badge">CLOSE</span>
+      <span class="sumhint">the governed window is accounted for one time, after the round ends</span>
+    </summary>
+<pre><code>publish once
+  -> META_ITERATION_COUNT
+  -> active window = run_01 .. run_N
+  -> kept runs counted
+  -> intermediate attempts
+  -> outside-window memory = named comparative only / no score credit</code></pre>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">9.3 Stop And Next Target</span>
+      <span class="badge">CLOSE</span>
+      <span class="sumhint">the round ends with one honest stop and one next move</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Close-out decision</th>
+          <th>MUST already be explicit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Stop verdict</td><td>Why the round stopped now and why that stop is honest.</td></tr>
+        <tr><td>Next target</td><td>The strongest unresolved pressure worth carrying forward.</td></tr>
+        <tr><td>Next round?</td><td>Whether another governed round is worth starting at all.</td></tr>
+      </tbody>
+    </table>
+  </details>
+  <details>
+    <summary>
+      <span class="summary-title">9.4 Ready For Reporting Gate</span>
+      <span class="badge">CLOSE</span>
+      <span class="sumhint">the final yes/no before reporting delegation</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Ready signal</th>
+          <th>Required answer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code class="inline">ROOT_RUN</code> pointer resolves to the active package</td><td><code class="inline">yes</code></td></tr>
+        <tr><td>completion state is explicit</td><td><code class="inline">full</code> or <code class="inline">incomplete</code></td></tr>
+        <tr><td>counted run set is explicit</td><td><code class="inline">run_## .. run_##</code> plus demotions when needed</td></tr>
+        <tr><td>stop verdict and next target are explicit</td><td><code class="inline">yes</code></td></tr>
+        <tr><td>known artifact/source/drift caps are handed off</td><td><code class="inline">yes</code> or <code class="inline">n/a</code></td></tr>
+      </tbody>
+    </table>
+  </details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+  <h2>10) Reporting Delegation</h2>
+<pre><code>reporting delegation
+  -> hand the finished family verdict to reporting
+  -> hand completion/source/drift caps as part of the verdict
+  -> reporting aggregates what already exists
+  -> iterative core stops here</code></pre>
+
+  <details>
+    <summary>
+      <span class="summary-title">10.1 Delegation Boundary</span>
+      <span class="badge">STOP</span>
+      <span class="sumhint">no second judgment after delegation</span>
+    </summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Delegation rule</th>
+          <th>MUST read it this way</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>What reporting receives</td><td>Finished round artifacts, finished family verdict, and finished active accounting.</td></tr>
+        <tr><td>What reporting must not invent</td><td>Reporting may format and score the settled truth, but it must not invent completion, source authority, or artifact closure not handed off here.</td></tr>
+        <tr><td>What iterative core does not do</td><td>It does not add another judgment phase after reporting starts.</td></tr>
+        <tr><td>Stopping point</td><td>After delegation, iterative core is done for that round.</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details>
+    <summary>
+      <span class="summary-title">10.2 Three-Line Handoff Contract</span>
+      <span class="badge">STOP</span>
+      <span class="sumhint">core outputs, orchestration outputs, reporting inputs</span>
+</summary>
+<pre><code>iterative-core outputs
+  -> active window state
+  -> completion state = full / incomplete
+  -> counted run set
+  -> family winner / companion / displaced
+  -> stop verdict
+  -> next target
+  -> known package drift or source authority cap
+
+orchestration outputs
+  -> auditable package + kept-run carriers + proof spine + accounting mirror
+
+reporting inputs
+  -> settled family truth + saved proof chain + frozen package/accounting state</code></pre>
+  </details>
+</div>
+
+</div>
+</body>
+</html>

@@ -89,14 +89,47 @@ public final class PlaywrightEngine implements UIEngine {
 
     @Override
     public void click(String cssSelector) {
-        // Playwright auto-wait applies (uses default timeout)
-        page.locator(cssSelector).first().click();
+        Locator locator = page.locator(cssSelector).first();
+        locator.scrollIntoViewIfNeeded();
+        try {
+            locator.click();
+        } catch (PlaywrightException firstFailure) {
+            locator.click(new Locator.ClickOptions().setForce(true));
+        }
+    }
+
+    @Override
+    public void clickVisible(String cssSelector, int oneBasedIndex) {
+        if (oneBasedIndex < 1) {
+            throw new IllegalArgumentException("Visible click index is 1-based.");
+        }
+        Locator locator = page.locator(cssSelector);
+        int count = locator.count();
+        int visibleIndex = 0;
+        for (int i = 0; i < count; i++) {
+            Locator nth = locator.nth(i);
+            if (!nth.isVisible()) {
+                continue;
+            }
+            visibleIndex++;
+            if (visibleIndex == oneBasedIndex) {
+                nth.click();
+                return;
+            }
+        }
+        throw new PlaywrightException("No visible match found for index " + oneBasedIndex + " using selector: " + cssSelector);
     }
 
     @Override
     public void type(String cssSelector, String text) {
         Locator loc = page.locator(cssSelector).first();
         loc.fill(text);
+    }
+
+    @Override
+    public void pressKey(String cssSelector, String key) {
+        Locator loc = page.locator(cssSelector).first();
+        loc.press(key);
     }
 
     @Override
@@ -115,6 +148,11 @@ public final class PlaywrightEngine implements UIEngine {
     }
 
     @Override
+    public void uploadFile(String cssSelector, String absolutePath) {
+        page.locator(cssSelector).first().setInputFiles(Path.of(absolutePath));
+    }
+
+    @Override
     public String getText(String cssSelector) {
         Locator loc = page.locator(cssSelector);
         if (loc.count() == 0) {
@@ -127,13 +165,47 @@ public final class PlaywrightEngine implements UIEngine {
     }
 
     @Override
+    public List<String> getTexts(String cssSelector) {
+        return page.locator(cssSelector).allInnerTexts().stream()
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getVisibleTexts(String cssSelector) {
+        Object raw = page.locator(cssSelector).evaluateAll(
+                "elements => elements" +
+                        ".filter(element => !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length))" +
+                        ".map(element => element.innerText.trim())" +
+                        ".filter(text => text.length > 0)"
+        );
+        if (!(raw instanceof List<?>)) {
+            return Collections.emptyList();
+        }
+        return ((List<?>) raw).stream()
+                .map(String::valueOf)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public String getValue(String cssSelector) {
         return page.locator(cssSelector).first().inputValue();
     }
 
     @Override
+    public String getAttribute(String cssSelector, String attributeName) {
+        return page.locator(cssSelector).first().getAttribute(attributeName);
+    }
+
+    @Override
     public boolean isVisible(String cssSelector) {
         return page.locator(cssSelector).first().isVisible();
+    }
+
+    @Override
+    public boolean isEnabled(String cssSelector) {
+        return page.locator(cssSelector).first().isEnabled();
     }
 
     @Override

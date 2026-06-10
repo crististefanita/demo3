@@ -7,15 +7,54 @@ import com.endava.ai.ui.utils.UIActions;
 import com.endava.ai.ui.utils.WaitUtils;
 import org.testng.Assert;
 
+import java.time.Duration;
+
 /**
  * Validations → assertions only.
  */
 public final class RegistrationValidation {
     public void assertRedirectedToLogin() {
-        WaitUtils.waitForUrlContains("/auth/login");
-        DriverManager.getEngine().waitForVisible(LoginPage.LOGIN_BUTTON, 15);
+        String outcome = WaitUtils.waitUntil(
+                () -> {
+                    String url = DriverManager.getEngine().getCurrentUrl();
+                    String body = safeText("body");
+                    boolean loginVisible = safeVisible(LoginPage.LOGIN_BUTTON);
+                    boolean registerStillVisible = safeVisible(RegisterPage.FIRST_NAME);
+                    String errorText = safeText(RegisterPage.ANY_ERROR);
+
+                    if (loginVisible && !registerStillVisible
+                            && (url.contains("/auth/login")
+                            || body.contains("Sign in with Google")
+                            || body.contains("Email address *"))) {
+                        return "login-surface";
+                    }
+
+                    if (registerStillVisible
+                            && url.contains("/auth/register")
+                            && errorText != null
+                            && !errorText.trim().isEmpty()) {
+                        return "register-error";
+                    }
+
+                    return "pending";
+                },
+                value -> !"pending".equals(value),
+                Duration.ofSeconds(20),
+                Duration.ofMillis(250)
+        );
+
+        if (!"login-surface".equals(outcome)) {
+            throw new AssertionError(
+                    "Expected registration success to resolve to login surface, but browser ended on a register error surface. Current URL: "
+                            + DriverManager.getEngine().getCurrentUrl()
+            );
+        }
+
         String url = DriverManager.getEngine().getCurrentUrl();
-        Assert.assertTrue(url.contains("/auth/login"), "Expected redirect to /auth/login, but was: " + url);
+        Assert.assertTrue(
+                url.contains("/auth/login") || DriverManager.getEngine().isVisible(LoginPage.LOGIN_BUTTON),
+                "Expected redirect to login surface, but was: " + url
+        );
     }
 
     public void assertStillOnRegister() {
@@ -63,5 +102,21 @@ public final class RegistrationValidation {
                 text.contains(expectedText),
                 "Expected " + description + " to contain '" + expectedText + "', but was: " + text
         );
+    }
+
+    private String safeText(String locator) {
+        try {
+            return DriverManager.getEngine().getText(locator);
+        } catch (Exception ignored) {
+            return "";
+        }
+    }
+
+    private boolean safeVisible(String locator) {
+        try {
+            return DriverManager.getEngine().isVisible(locator);
+        } catch (Exception ignored) {
+            return false;
+        }
     }
 }

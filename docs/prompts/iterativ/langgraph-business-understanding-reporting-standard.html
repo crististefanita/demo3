@@ -1,0 +1,2644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>LangGraph Business Understanding Reporting Standard</title>
+<style>
+  :root {
+    --bg: #0b0f14;
+    --panel: #121a27;
+    --text: #e6edf3;
+    --muted: #a8b3cf;
+    --border: #273449;
+    --accent: #7aa2ff;
+    --accent2: #6ee7b7;
+    --warn: #fbbf24;
+    --good: #34d399;
+    --shadow: rgba(0,0,0,.35);
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    background: radial-gradient(1200px 800px at 12% 0%, #17253f 0%, var(--bg) 45%) fixed;
+    color: var(--text);
+    line-height: 1.58;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 28px 18px 60px; }
+  header {
+    background: linear-gradient(180deg, rgba(18,26,39,.9), rgba(18,26,39,.46));
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 30px var(--shadow);
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  h1 { margin: 0 0 6px; font-size: 27px; letter-spacing: .2px; }
+  h2 { margin: 0 0 10px; font-size: 19px; }
+  h3 { margin: 0 0 8px; font-size: 16px; color: var(--accent); }
+  h4 { margin: 10px 0 6px; font-size: 14px; }
+  p { margin: 8px 0; }
+  .sub { color: var(--muted); font-size: 13.5px; line-height: 1.45; max-width: 980px; }
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(15,23,36,.75);
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: 8px;
+  }
+  .pill {
+    display: inline-block;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(15,23,36,.7);
+    color: var(--muted);
+    margin-right: 6px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .docmap {
+    display: grid;
+    grid-template-columns: minmax(220px, .42fr) minmax(0, 1fr);
+    gap: 8px 14px;
+    margin-top: 6px;
+    font-size: 13.5px;
+    align-items: start;
+  }
+  .docmap b {
+    color: var(--text);
+    overflow-wrap: anywhere;
+    line-height: 1.35;
+  }
+  .docmap span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    line-height: 1.45;
+  }
+  @media (max-width: 980px) {
+    .grid, .docmap { grid-template-columns: 1fr; }
+  }
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: rgba(18,26,39,.82);
+    box-shadow: 0 10px 26px var(--shadow);
+    padding: 15px;
+  }
+  .card h2 { margin-top: 0; }
+  code.inline {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: rgba(10,15,24,.75);
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    border-radius: 8px;
+  }
+  pre {
+    background: rgba(10,15,24,.88);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px;
+    overflow: auto;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
+    margin: 10px 0 0;
+  }
+  pre code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: #dbe7ff;
+    white-space: pre;
+  }
+  .note {
+    border-left: 3px solid var(--accent);
+    padding: 10px 12px;
+    background: rgba(122,162,255,.08);
+    border-radius: 12px;
+  }
+  .warn {
+    border-left: 3px solid var(--warn);
+    padding: 10px 12px;
+    background: rgba(251,191,36,.08);
+    border-radius: 12px;
+  }
+  .rule {
+    border-left: 3px solid var(--accent2);
+    padding: 10px 12px;
+    background: rgba(110,231,183,.08);
+    border-radius: 12px;
+    margin: 10px 0;
+  }
+  details {
+    border: 1px solid var(--border);
+    background: rgba(18,26,39,.72);
+    border-radius: 16px;
+    padding: 10px 12px;
+    margin: 12px 0;
+    box-shadow: 0 8px 22px var(--shadow);
+  }
+  .subdetails {
+    margin: 10px 0 0 10px;
+    background: rgba(11,20,31,.84);
+  }
+  summary {
+    cursor: pointer;
+    list-style: none;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 2px 2px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  .summary-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sumhint {
+    color: var(--muted);
+    font-weight: 400;
+    font-size: 12px;
+    margin-left: auto;
+  }
+  ul, ol { margin: 6px 0 8px 20px; }
+  li { margin: 4px 0; }
+  hr.sep { border: 0; border-top: 1px solid var(--border); margin: 16px 0; }
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 10px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(10,15,24,.42);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
+  }
+  th, td {
+    padding: 8px 10px;
+    vertical-align: top;
+    text-align: left;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  th:last-child, td:last-child { border-right: 0; }
+  tbody tr:last-child td { border-bottom: 0; }
+  th { background: rgba(17,24,38,.92); }
+  td { background: rgba(11,20,31,.58); }
+  tbody tr:nth-child(even) td { background: rgba(15,23,36,.62); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>LangGraph Business Understanding Reporting Standard <span class="badge">shared standard</span></h1>
+<div class="sub">
+  Canonical reporting contract for the <code class="inline">langgraph-business-understanding.html</code> family.
+  This file owns page shape, first-screen clarity, graph family, proof-link composition, score-card language,
+  history usefulness, and render discipline. Round package truth stays in <code class="inline">ORCHESTRATION_PATH</code>,
+  while final aggregation meaning comes from <code class="inline">QUALITY_LOOP_PATH</code>.
+</div>
+<div style="margin-top:10px">
+  <span class="pill">business-first reporting</span>
+  <span class="pill">round evolution first</span>
+  <span class="pill">score cards x.xx</span>
+  <span class="pill">calm opening rhythm</span>
+  <span class="pill">direct proof links</span>
+  <span class="pill">calm graph family</span>
+  <span class="pill">atlas only when earned</span>
+</div>
+</header>
+
+<div class="grid">
+<div class="card">
+<h2>1) Overview</h2>
+<div class="sub">
+  Canonical page map only. Keep this area light, then drop into the owner sections below.
+</div>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">1.1 Reporting Scope And Boundary</span>
+  <span class="sumhint">what overview owns and what it must not reteach</span>
+</summary>
+<div class="docmap">
+  <b>Overview owns</b><span>canonical order, fast lookup, and the minimal boundary rules needed before deeper reading.</span>
+  <b>Overview must not reteach</b><span>detailed family contracts, artifact visibility tables, or close-out self-audit that already have lower owners.</span>
+  <b>Self-audit separation</b><span>report-about-report scaffolding stays in review artifacts and reporting close-out, not in the visible opening map.</span>
+  <b>Artifact visibility owner</b><span><code class="inline">5.5.4</code> owns checklist-to-HTML observability; overview should only point there.</span>
+</div>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">1.2 Canonical Section Contract</span>
+  <span class="sumhint">the numbered order is canonical, not illustrative</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Final report zone</th>
+      <th>Canonical order</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Top banner area</td><td><code class="inline">Hero -> Score cards -> Comparative score strip (when earned)</code></td><td><code class="inline">2.0 - 2.2</code></td></tr>
+    <tr><td>Executive Summary family</td><td><code class="inline">3</code></td><td><code class="inline">3.0 - 3.3</code></td></tr>
+    <tr><td>Graph Family</td><td><code class="inline">4</code></td><td><code class="inline">4.0 - 4.4</code></td></tr>
+    <tr><td>Test Coverage And Proof Ownership</td><td><code class="inline">5</code></td><td><code class="inline">5.0 - 5.6</code></td></tr>
+    <tr><td>First-Screen Verdict</td><td><code class="inline">6</code></td><td><code class="inline">6.0 - 6.7</code></td></tr>
+    <tr><td>Run Evolution And Historical Audit</td><td><code class="inline">7</code></td><td><code class="inline">7.0 - 7.5</code></td></tr>
+    <tr><td>Reporting Close-Out</td><td><code class="inline">8</code></td><td><code class="inline">8.1 - 8.2</code></td></tr>
+    <tr><td>Render And Style Discipline</td><td><code class="inline">9</code></td><td><code class="inline">9.1 - 9.3</code></td></tr>
+</tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">1.3 Reporting Control Card</span>
+  <span class="sumhint">collapsed lookup only</span>
+</summary>
+<pre><code>30-second reporting control card
+  open first ->
+    canonical HTML
+    README.md + CALIBRATION.md
+  decide ->
+    skeleton present
+    scores capped
+    artifact reopen path visible
+  stop if ->
+    missing 3.x
+    missing graph family
+    missing 5.5 artifact visibility
+    missing render state or source posture
+  hand off ->
+    package truth read
+    scores recalibrated
+    checklist + claim-relied artifacts audit visible</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">1.4 Construction Shortcuts</span>
+  <span class="sumhint">keep collapsed unless you are actively assembling the page</span>
+</summary>
+<div class="docmap">
+  <b>Owner-first writing</b><span>Define each rule once in its owner section. Later sections should point back to that owner instead of restating the same gate with warmer prose.</span>
+  <b>Posture vocabulary</b><span>Normalize section posture to <code class="inline">open by default</code>, <code class="inline">collapsed by default</code>, <code class="inline">earned-only</code>, <code class="inline">conditional</code>, and <code class="inline">not applicable</code>. Avoid softer local synonyms when a canonical posture already exists.</span>
+</div>
+</details>
+</div>
+
+<div class="card">
+<h2>1.5) Quick Reference And Shared Inputs</h2>
+<div class="sub">
+  Use this only as lookup under pressure. Quick reference comes first; shared inputs stay second. It should not reteach the overview or the family contracts.
+</div>
+<details class="subdetails" open>
+<summary>
+  <span class="summary-title">1.5.1 Operator Quick Reference</span>
+  <span class="sumhint">where the decisive page contract actually lives</span>
+</summary>
+<pre><code>need top opening order        -> 1.2 + 2.0
+need opening scores           -> 2.2
+need executive verdict        -> 3.1 + 3.2
+need business graphs          -> 4.1
+need proof reopening          -> 5.5
+need standing / comparator    -> 6.1 + 6.6
+need run memory               -> 7.1.1 first
+need earned long history      -> 7.2 / 7.4 only when earned
+need close-out delta          -> 8.1
+need visible render verdict   -> 8.2
+need render proof workflow    -> 9.2</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">1.5.2 Shared Inputs And Ownership</span>
+  <span class="sumhint">infra-level bindings and source ownership</span>
+</summary>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">1.5.2.1 Shared Constants</span>
+  <span class="sumhint">input bindings only</span>
+</summary>
+<pre><code>SHARED_CONSTANTS_FILE
+= docs/prompts/iterativ/shared-constants.properties
+
+REPORT_STYLE_REFERENCE_PATH
+= docs/langgraph-business-understanding-reference.css
+
+reuse from SHARED_CONSTANTS_FILE:
+- audit output paths
+- report style binding
+- primary rendered proof glob
+- primary command trace path
+- primary command summary path
+- primary machine result glob
+</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">1.5.2.2 Publication Gate Inputs</span>
+  <span class="sumhint">read-only gate before final page publication</span>
+</summary>
+<pre><code>report publication gate
+  package completeness read = yes
+  business proof countable = yes
+  canonical artifact closure complete = yes
+  canonical render exists = yes / blocked-note
+  score downgrade applied = yes
+  graph legend decodes business = yes
+  no overpromotion = yes</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">1.5.2.3 Source Authority Vocabulary</span>
+  <span class="sumhint">use these labels consistently</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Label</th>
+      <th>Meaning</th>
+      <th>Do not use it for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">source authority posture</code></td><td>The page's cold confidence that saved source evidence supports the business claim: <code class="inline">strong local</code>, <code class="inline">partial</code>, <code class="inline">narrow</code>, <code class="inline">missing</code>, or <code class="inline">n/a</code>.</td><td>A synonym for many links, many changed files, or green tests.</td></tr>
+    <tr><td><code class="inline">clean git chronology</code></td><td>Tracked source evolution is recoverable as a clean ordered diff/history.</td><td>A final cumulative bundle or class snapshot.</td></tr>
+    <tr><td><code class="inline">final cumulative state</code></td><td>The last frozen source/test image is saved for audit.</td><td>Proof of per-run chronology.</td></tr>
+    <tr><td><code class="inline">source verdict</code></td><td>The interpretive carrier that says what the source evidence proves and caps.</td><td>A replacement for a real <code class="inline">Git diff</code> link.</td></tr>
+    <tr><td><code class="inline">Git diff</code></td><td>A real thin diff artifact, linked only when it exists.</td><td><code class="inline">source-delta-carrier.md</code> or prose verdicts.</td></tr>
+  </tbody>
+</table>
+</details>
+<div class="docmap">
+  <b><code class="inline">ORCHESTRATION_PATH</code></b><span>saved package truth, retained run inventory, artifact closure state, and publication gate inputs.</span>
+  <b><code class="inline">QUALITY_LOOP_PATH</code></b><span>score semantics, trust meaning, benchmark posture, and closure wording.</span>
+  <b>Run package carriers</b><span><code class="inline">runs/run_##/SUMMARY.md</code>, validation artifacts, and kept-run review carriers own run-local proof truth.</span>
+  <b>Optional legacy memory</b><span><code class="inline">review/reporting-pretraining-brief.md</code> or retained history carriers may be consumed only when preserved and still audit-useful.</span>
+</div>
+</details>
+</div>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>2) Top Banner Area</h2>
+
+<details open>
+<summary>
+  <span class="summary-title">2.0 Top banner area map</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>top banner area
+  -> Hero / page identity
+  -> Score cards
+  -> Comparative score strip (when earned)</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Opening owner</th>
+      <th>Owns exactly this</th>
+      <th>Must not repeat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Hero</td><td>One product-language claim: what moved and what remains capped.</td><td>Score math, benchmark essay, artifact ledger.</td></tr>
+    <tr><td>Score cards</td><td>Four final recalibrated scores and one reason each.</td><td>Winner/companion/cap cards that belong in <code class="inline">3.1</code>.</td></tr>
+    <tr><td><code class="inline">3.1</code></td><td>Business truth cluster: winner, bounded signal, ceiling, and pass boundary.</td><td>Comparator ranking or detailed score formula.</td></tr>
+    <tr><td><code class="inline">3.2</code></td><td>Why the page is not more: scoring spine, authority ceiling, replacement readiness.</td><td>A second hero or a proof inventory.</td></tr>
+    <tr><td><code class="inline">3.3</code></td><td>Short comparative restraint with real exemplar links.</td><td>Long benchmark story or unlinked teacher names.</td></tr>
+    <tr><td><code class="inline">6)</code></td><td>Late calibration caps only after proof ownership has landed.</td><td>Another opening verdict family.</td></tr>
+  </tbody>
+</table>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">2.0.1 Opening order bridge</span>
+  <span class="sumhint">what each opening slice must do, without repeating the wireframe</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Opening slice</th>
+      <th>Reader should get this immediately</th>
+      <th>Keep it from turning into</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Hero truth</td><td>What new business truth was really defended, in one short product-language paragraph.</td><td>Audit chatter, packaging diary, or a large table before the reader has seen the score wall.</td></tr>
+    <tr><td>Four score cards</td><td>Compact quality readout immediately under the hero truth, before any heavier summary table. Do not place standalone accounting or yield slabs between the cards and the first major summary family.</td><td>A delayed score wall, cards hidden below a big executive-summary table, or extra full-width helper bars inserted before section <code class="inline">3</code>.</td></tr>
+    <tr><td>Comparative score strip</td><td>A tiny cold comparison strip or micro-table that tells the reader how the page stands against the most relevant pre-trained teachers or leaders, especially for <code class="inline">Overall</code> restraint. When earned, keep it inside the Executive Summary family, not as a separate first-screen slab.</td><td>A long comparative essay, a hidden comparison posture that leaves the score wall looking absolute, or a standalone strip inserted between the cards and section <code class="inline">3</code>.</td></tr>
+    <tr><td>Executive Summary</td><td>The first major summary block after the score wall: winner truth first, then bounded signal, cold ceiling, active-window pressure, hierarchy move, and pass boundary in compact business language. Prefer a short cluster-grid or mini-card band over a long paragraph. The summary line itself should already name the winner and branch.</td><td>A giant recap table that repeats the hero without adding structure, or a wide paragraph slab that visually outweighs the score wall.</td></tr>
+    <tr><td>Benchmark verdict + scoring spine</td><td>Why the page scored as it did, where the benchmark stands, and what trust ceiling still remains. Prefer one compact table or key-value band. The summary line itself should already name principal / companion / ceiling posture.</td><td>Verdict logic scattered later across lower audit sections, or one dense prose wall above the grouped opening cluster.</td></tr>
+    <tr><td>Standing / comparator calibration</td><td>Why the promotion stays bounded, what still caps it, and whether one cold comparator still matters after the main verdict already landed.</td><td>Scattered benchmark sentences that land only after lower sections.</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>Opening rule:</b> if the first screen feels slow, cut explanation before adding helper blocks; keep Executive Summary immediately after the score wall unless it would be empty or purely repetitive. The visible first-screen shape should read <code class="inline">hero -> score cards -> section 3</code>, not <code class="inline">hero -> score cards -> extra bars -> section 3</code>.</div>
+</details>
+  </details>
+
+<details>
+<summary>
+  <span class="summary-title">2.1 Top banner area details</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>top banner area
+  -> Hero / page identity
+  -> Score cards
+  -> Comparative score strip (when earned)</code></pre>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">2.1.1 Hero / page identity</span>
+  <span class="sumhint">the stand-alone visible page identity</span>
+</summary>
+<pre><code>page title rule
+  business-first, verdict-first
+  default shape = earned truth ; main cap
+  use at most two short clauses
+  publish the strongest earned business truth first
+  then the strongest still-active cap that keeps authority bounded
+
+avoid
+  run counts, run ids, or accounting volume
+  package-first wording such as "the package owns"
+  section, family, or report language
+  a late local boundary as primary truth when a larger cap is more honest
+  ATF label only
+  package id only
+  timestamp only
+  generic family title only</code></pre>
+<div class="note"><b>Mini contrast:</b> prefer <code class="inline">Authenticated Continuation Owned; Live Registration Success Still External</code>, not <code class="inline">run_01 .. run_10: the package owns ...</code>.</div>
+<table>
+  <thead>
+    <tr>
+      <th>Hero requirement</th>
+      <th>MUST make clear</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Title and identity</td><td>One visible title plus timestamp/package identity that tells the reader what report they are in.</td><td>A floating title with package identity only discoverable later.</td></tr>
+    <tr><td>Hero truth paragraph</td><td>One short product-language paragraph that says what changed and what the page now claims.</td><td>Audit diary, command chatter, or benchmark essay in the hero.</td></tr>
+    <tr><td>Pill rail</td><td>Only high-signal contextual pills such as benchmark role, reporting-only posture, or decisive run roles.</td><td>A second summary wall disguised as pills.</td></tr>
+    <tr><td>Stand-alone posture</td><td>Keep the hero visible, unnumbered, and self-contained before numbered report sections begin.</td><td>Making the hero behave like a collapsed section or a giant introductory table.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">2.1.2 Score wall and comparative strip in the banner</span>
+  <span class="sumhint">the score wall stays visible; the deeper scoring contract still lives later in this section family</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Top-banner score requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Score wall position</td><td>Keep the four score cards immediately under the hero.</td><td>A delayed score wall hidden under a large summary block.</td></tr>
+    <tr><td>Artifact posture micro-strip</td><td>When artifact closure, source authority, or replacement readiness could be over-read, place one tiny strip directly under the hero or score wall: <code class="inline">Artifact freeze / Source authority / Replacement readiness</code>.</td><td>Letting <code class="inline">10/10</code>, <code class="inline">15 passed</code>, or many links imply authority before the reader sees the caps.</td></tr>
+    <tr><td>Stand-alone posture</td><td>Let the score wall remain visible, unnumbered, and visually separate from the numbered report body.</td><td>Turning the cards into just another subsection inside the numbered contract.</td></tr>
+    <tr><td>Comparative strip trigger</td><td>Add the comparative score strip only when benchmark-memory or pretraining materially shapes scoring restraint.</td><td>Benchmark essay prose where one tiny strip would do.</td></tr>
+    <tr><td>Comparative strip role</td><td>Use it to keep <code class="inline">Overall</code> cold: best teacher, nearest leader, overall standing, main trailing axis.</td><td>A decorative comparison rail with no real scoring consequence.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">2.1.3 Artifact posture micro-strip</span>
+  <span class="sumhint">three values that prevent artifact over-reading</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Strip field</th>
+      <th>What it must say</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">Artifact freeze</code></td><td>The cold artifact-freeze strength or score.</td><td><code class="inline">97</code></td></tr>
+    <tr><td><code class="inline">Source authority</code></td><td>The exact source posture, not a warmer synonym.</td><td><code class="inline">partial</code></td></tr>
+    <tr><td><code class="inline">Replacement readiness</code></td><td>The cold replacement posture or score.</td><td><code class="inline">72 / no</code></td></tr>
+  </tbody>
+</table>
+<div class="note"><b>Micro-strip rule</b></div>
+<pre><code>use exactly these three fields
+  Artifact freeze
+  Source authority
+  Replacement readiness
+
+keep it tiny
+score cards and section 3 still own scoring detail</code></pre>
+</details>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">2.2 Score cards</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>score wall in one read
+  -> Business HTML = opening force
+  -> Trust = proof confidence
+  -> Coverage = defended scope
+  -> Overall = cold combined judgment
+  -> nearby note separates run quality from accounting volume</code></pre>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.1 Card meanings and base rules</span>
+  <span class="sumhint">what each card means and how the wall should behave</span>
+</summary>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.1.1 Card meanings</span>
+  <span class="sumhint">what each of the four cards is actually scoring</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Score card</th>
+      <th>The reader should understand</th>
+      <th>Why the score is not higher</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">Business HTML</code></td><td>What business truth the page defends and whether the opening story is strong, direct, and product-first.</td><td>Weak opening force, weak graph choice, or a story that still reads too much like audit diary.</td></tr>
+    <tr><td><code class="inline">Trust</code></td><td>Why the reader should trust the claim: proof-origin, artifact ordering, machine-readable support, and visible caveats.</td><td>Missing anchors, weak recapture, or unresolved proof mismatch.</td></tr>
+    <tr><td><code class="inline">Coverage</code></td><td>How much of the relevant frontier was truly converted into defended business scope, including whether the live family pressure was consumed honestly instead of left open after a local green.</td><td>Large explicit target gap, narrow family concentration, or active-window underuse against a still-live frontier.</td></tr>
+    <tr><td><code class="inline">Overall</code></td><td>How strong the final page is when story, trust, coverage, closure, and score discipline are read together.</td><td>Good local truth with open closure gap, support trailing truth, or a score wall still warmer than the package quality allows.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.1.2 Base score-wall rules</span>
+  <span class="sumhint">the four-card wall and its default discipline</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Score-card rule</th>
+      <th>MUST do this</th>
+      <th>Avoid this failure</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Card set</td><td>Publish exactly four top cards: <code class="inline">Business HTML</code>, <code class="inline">Trust</code>, <code class="inline">Coverage</code>, and <code class="inline">Overall</code>.</td><td>Adding parallel score systems.</td></tr>
+    <tr><td>Score precision</td><td>Use precise decimal scores and keep one consistent local style across the four cards, normally one or two decimals such as <code class="inline">9.7</code> or <code class="inline">9.71</code>.</td><td>Integer-only flattening or mixed precision that feels arbitrary.</td></tr>
+    <tr><td>Card explanation</td><td>Keep each explanation short and concrete: why the score is here, what still blocks a higher score.</td><td>Soft adjectives with no blocking reason.</td></tr>
+    <tr><td>Published-card timing</td><td>Treat the visible four cards as final published scores only after the full downgrade / recalibration pass is complete.</td><td>Letting truth excitement set the cards before support, strategy, family pressure, and reporting penalties have landed.</td></tr>
+    <tr><td>Quality vs closure split</td><td>Keep <code class="inline">report strength</code> and <code class="inline">closure completeness</code> mentally separate when choosing the final <code class="inline">Overall</code> score.</td><td>A contract-clean page automatically reading as strongest report, or vice versa.</td></tr>
+    <tr><td>Comparison restraint</td><td>If brief comparison language is truly needed, keep it secondary, specific, and subordinate to the local verdict.</td><td>Benchmark chatter that overwhelms the opening.</td></tr>
+    <tr><td>Historical anchor discipline</td><td>Pressure-check the cards against the strongest relevant benchmark lessons from pre-learning. If the page still trails on calm, proof precision, graph authority, or comparison honesty, keep the affected card lower.</td><td>Scoring as if local truth alone justifies leader-grade confidence.</td></tr>
+    <tr><td>Gap honesty</td><td>Do not let strong cards imply the run-quality bar cleared or defended coverage widened when the kept runs or the explicit gap still say otherwise.</td><td>Over-scored cards masking a weak delta or weak accounting result.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.1.3 Comparative score strip</span>
+  <span class="sumhint">the tiny comparison layer that keeps Overall cold</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Comparative score strip rule</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Compact placement</td><td>When benchmark-memory or pretraining materially shaped score restraint, keep one compact comparative strip inside <code class="inline">3.3</code> or the Executive Summary family. Do not insert it as a standalone block between the score cards and section <code class="inline">3</code>.</td><td>Leaving comparative posture hidden much later in the page, or adding a separate comparison bar before the Executive Summary family starts.</td></tr>
+    <tr><td>Minimal fields</td><td>Keep the strip tiny: <code class="inline">best teacher</code>, <code class="inline">nearest leader</code>, <code class="inline">overall standing</code>, <code class="inline">main trailing axis</code>.</td><td>A large benchmark matrix at the very top.</td></tr>
+    <tr><td>Overall restraint</td><td>Use the strip to keep <code class="inline">Overall</code> benchmark-aware and cold.</td><td>Letting the top score wall read as absolute and self-sealed.</td></tr>
+    <tr><td>Language shape</td><td>Prefer labels such as <code class="inline">below</code>, <code class="inline">near</code>, <code class="inline">above ref line</code>, or <code class="inline">still trails on machine-proof framing</code>.</td><td>Dense comparative prose before the main verdict lands.</td></tr>
+  </tbody>
+</table>
+</details>
+</details>
+
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.2 Run-quality and accounting note</span>
+  <span class="sumhint">what must sit beside the cards</span>
+</summary>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.2.1 Quality and accounting note</span>
+  <span class="sumhint">the compact note that must sit beside or just below the cards</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Score-card rule</th>
+      <th>MUST do this</th>
+      <th>Avoid this failure</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Quality/accounting note</td><td>Keep one compact note immediately beside or below the cards: configured <code class="inline">RUN_EXPECTED_DELTA_QUALITY</code>, which kept runs cleared it, what defended branch coverage or semantic scope they added, configured <code class="inline">ROUND_TARGET_TEST_COUNT</code>, how much cold-distinct defended scope was materially turned into tests as <code class="inline">x / target</code>, and whether the accounting target was met. Keep it inside the score-wall footprint, not as a separate full-width slab before section <code class="inline">3</code>.</td><td>A detached accounting section far below the cards, a note that hides weak run deltas behind good volume, or a standalone accounting bar inserted between the cards and the Executive Summary family.</td></tr>
+    <tr><td>Publication shape</td><td>When active accounting shapes score posture, publish one fixed card near the score cards: configured <code class="inline">RUN_EXPECTED_DELTA_QUALITY</code>, configured <code class="inline">ROUND_TARGET_TEST_COUNT</code>, strongest kept runs that cleared quality, strongest materially test-expanding runs and <code class="inline">TEST_MATERIALIZATION_QUALITY_SCORE</code> when the live standard requires it, <code class="inline">materially turned into tests = x / target</code>, and <code class="inline">accounting target met = yes / no</code>. <code class="inline">ITERATIVE_CORE_PATH</code> owns frozen accounting truth; reporting owns first-screen republication only. The publication may live in card subcopy, a tiny integrated footer, or one compact in-cluster card, but it must not create a second standalone block between the score wall and section <code class="inline">3</code>.</td><td>Scattering accounting truth across README, score prose, and lower audit sections until the first screen becomes guesswork, or turning the opening into <code class="inline">hero -> cards -> accounting slab -> section 3</code>.</td></tr>
+    <tr><td>Verdict phrasing</td><td>Make the note read as a verdict, not just metrics: run-quality cleared or still thin, accounting target met or still open.</td><td>A neutral ratio that hides quality thinness or failure severity.</td></tr>
+    <tr><td>Anti-thin accounting</td><td>One local test may still support a real kept-run win, but if it does not materially turn cold-distinct defended scope into tests, the note must read as an accounting miss and yield cap, not as round-level test breadth progress.</td><td>Letting one new test or one assertion burst masquerade as accounting success.</td></tr>
+    <tr><td>Unit-of-count discipline</td><td>If multiple new tests defend the same target identity, publish them as one materially turned scope unless they independently defend different cold business targets.</td><td>Inflating <code class="inline">x / target</code> by splitting one defended idea into multiple tests or assertions.</td></tr>
+    <tr><td>Quality vs closure split</td><td>Avoid letting strong accounting or one strong run blur an open closure gap. When needed, let the page read like: <code class="inline">business win</code>, <code class="inline">run-quality win</code>, <code class="inline">accounting win or miss</code>, <code class="inline">finish loss</code>.</td><td>Accounting success silently implying closure success.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.2.2 Score-zone micro-format</span>
+  <span class="sumhint">the compact wording shape near the score zone</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Score-zone micro-format</th>
+      <th>Prefer this compact shape</th>
+      <th>Avoid this drift</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>single winning kept run</td><td><code class="inline">Run-quality: threshold 8.50; cleared by run_03 (8.9, proof-origin + deeper branch); run_04 stayed thin (6.2, replay hardening only).</code></td><td>A dense component table near the score cards.</td></tr>
+    <tr><td>two kept runs matter</td><td><code class="inline">Run-quality: run_02 cleared (8.7, truth/proof); run_04 cleared (8.6, non-promotion honesty); other kept runs stayed support-only.</code></td><td>A long paragraph that forces the reader to reconstruct which runs actually mattered.</td></tr>
+    <tr><td>companion-only round</td><td><code class="inline">Run-quality: strongest companion cleared the bar, but the incumbent benchmark still stands.</code></td><td>Letting a strong companion sentence read like benchmark displacement.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.2.3 Reporting support and authority cap</span>
+  <span class="sumhint">what the first screen shows and what must stay reopenable below</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Run-quality reporting support</th>
+      <th>MUST expose in canonical</th>
+      <th>MUST stay reopenable below the first screen</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Threshold and result</td><td>The threshold <code class="inline">RUN_EXPECTED_DELTA_QUALITY</code>, which kept runs cleared it, and the cold verdict <code class="inline">cleared</code> or <code class="inline">still thin</code>.</td><td>The computed <code class="inline">RUN_DELTA_SCORE_ACTUAL</code> per kept run when it materially helps comparison.</td></tr>
+    <tr><td>Delta type</td><td>What kind of delta the winning kept run delivered: truth, branch depth, proof, honesty, or publication rescue.</td><td>The supporting component sheet <code class="inline">T / B / P / H / C</code> and cited baselines.</td></tr>
+    <tr><td>Audit support</td><td>Nothing heavy on the first screen beyond a compact note or micro-table.</td><td>Direct links or lower-audit pointers to the run scoring sheet, validation bundle, and proof anchors that justify the score.</td></tr>
+    <tr><td>Authority cap</td><td>If a kept run materially drives score cards or benchmark promotion but the package still lacks the exact kept-run scoring spine, lower <code class="inline">Trust</code> or <code class="inline">Overall</code> before rhetoric outruns the saved carriers.</td><td>Letting a strong local page claim leader-grade authority while the scoring spine is still only implicit.</td></tr>
+    <tr><td>Countability prerequisite</td><td>Do not score, promote, or rely on a kept run unless its run-local checklist says <code class="inline">countable kept run = yes</code>.</td><td>Using a thin or unresolved run in score authority because the business truth sounds attractive.</td></tr>
+  </tbody>
+</table>
+</details>
+</details>
+
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.3 Harder scoring and downgrade order</span>
+  <span class="sumhint">how to score more critically when support trails truth</span>
+</summary>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.3.1 Harder scoring by card</span>
+  <span class="sumhint">when strong truth still does not justify a higher card</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Harder score-card rule</th>
+      <th>Score this higher only when...</th>
+      <th>Score this lower when...</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">Trust</code></td><td>The package not only tells the truth, but makes proof, failure-lineage, and non-promotion coldly reopenable from saved artifacts.</td><td>The truth may be good, but recomputable support is still thin, machine-readable proof is softened, or the page relies too much on prose trust.</td></tr>
+    <tr><td><code class="inline">Overall</code></td><td>The page reads strongly and the package also measures its own historical movement, self-correction, and benchmark displacement in a way another reader can audit.</td><td>The benchmark truth is strong but self-learning audit, package-history discipline, or scoring recomputability still trail the public rhetoric.</td></tr>
+    <tr><td><code class="inline">Business HTML</code></td><td>The opening is strong and the page also shows historical movement cleanly: what changed versus the prior winner, what stayed companion, and what replay was withheld.</td><td>The page still reads like a strong final explanation but not yet like a cold historical measurement instrument.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.3.2 Anti-inflation discipline</span>
+  <span class="sumhint">how to resist leader-grade scoring when support still trails truth</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>If local truth is strong but...</th>
+      <th>Then do this</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>self-learning audit or package recomputability is weak</td><td>Lower <code class="inline">Overall</code>, then <code class="inline">Trust</code>.</td><td>A strong story does not replace an auditable scoring spine.</td></tr>
+    <tr><td>historical comparison hygiene is weak or a stronger teacher still stands</td><td>Keep the cards benchmark-aware and lower <code class="inline">Business HTML</code> or <code class="inline">Trust</code> before <code class="inline">Coverage</code>.</td><td>The main exaggeration is usually publication authority, not raw defended scope.</td></tr>
+    <tr><td>truth is bounded or strategically narrower than the live heavy frontier</td><td>Lower <code class="inline">Business HTML</code> or <code class="inline">Overall</code>.</td><td>Polish must not compensate for a still-bounded branch.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.3.3 Downgrade order</span>
+  <span class="sumhint">which card to lower first when support is the weak layer</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>If this support trails truth...</th>
+      <th>Lower this first</th>
+      <th>Lower this second</th>
+      <th>Usually do not lower first</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>recomputable scoring support</td><td><code class="inline">Overall</code></td><td><code class="inline">Trust</code></td><td><code class="inline">Coverage</code></td></tr>
+    <tr><td>historical self-learning audit</td><td><code class="inline">Overall</code></td><td><code class="inline">Business HTML</code> or <code class="inline">Trust</code></td><td><code class="inline">Coverage</code></td></tr>
+    <tr><td>package-history hygiene / timestamp identity</td><td><code class="inline">Trust</code></td><td><code class="inline">Overall</code></td><td><code class="inline">Coverage</code></td></tr>
+    <tr><td>memory dominance / benchmark authority</td><td><code class="inline">Business HTML</code></td><td><code class="inline">Overall</code></td><td><code class="inline">Coverage</code></td></tr>
+    <tr><td>machine-readable proof precision</td><td><code class="inline">Trust</code></td><td><code class="inline">Overall</code></td><td><code class="inline">Business HTML</code></td></tr>
+  </tbody>
+</table>
+<div class="note"><b>Downgrade-order rule:</b> lower the card that most directly overclaims what is missing; polish, calm layout, or SVG quality never upgrades bounded truth into winner-grade rhetoric.</div>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.3.4 Truth severity vs published package scoring</span>
+  <span class="sumhint">do not treat truth gained and final page quality as one operation</span>
+</summary>
+<pre><code>keep these layers separate
+  truth severity
+    = how much new business truth or branch depth was really won
+  artifact / closure integrity
+    = how reopenable and complete the saved package is
+  reporting authority
+    = how calmly and non-inflationarily the page publishes that truth
+
+a strong local win may still publish only medium or good cards
+if integrity, discipline, or reporting authority trail the truth</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.3.5 Final Score Recalibration Pass</span>
+  <span class="sumhint">the last cold pass before publishing the visible score wall</span>
+</summary>
+<pre><code>final score recalibration pass
+  -> start from truth severity
+  -> run the cold checklist
+  -> apply artifact penalties
+  -> apply strategy penalties
+  -> apply family-pressure penalties
+  -> apply reporting penalties
+  -> freeze the four visible cards
+  -> publish only the frozen values</code></pre>
+<details class="subdetails">
+<summary><span class="summary-title">2.2.3.5a Cold checklist</span><span class="sumhint">binary pressure before scoring</span></summary>
+<table>
+  <thead><tr><th>Checklist item</th><th>Allowed answers</th><th>Score pressure</th></tr></thead>
+  <tbody>
+    <tr><td><code class="inline">artifact gaps / uneven proof</code></td><td><code class="inline">yes / no</code></td><td>Lower <code class="inline">Trust</code>, then <code class="inline">Overall</code>.</td></tr>
+    <tr><td><code class="inline">active-window underuse / incomplete</code></td><td><code class="inline">yes / no</code></td><td>Lower <code class="inline">Overall</code> and <code class="inline">Coverage</code>.</td></tr>
+    <tr><td><code class="inline">family pressure still alive</code></td><td><code class="inline">yes / no</code></td><td>Keep <code class="inline">Coverage</code> below stronger peers.</td></tr>
+    <tr><td><code class="inline">frontier-maximization evidence missing</code></td><td><code class="inline">yes / no</code></td><td>Cap <code class="inline">Coverage</code> and <code class="inline">Overall</code>; artifact polish cannot create leader-readiness.</td></tr>
+    <tr><td><code class="inline">canonical structure coverage incomplete</code></td><td><code class="inline">yes / no</code></td><td>Cap <code class="inline">Business HTML</code> and <code class="inline">Overall</code>; <code class="inline">replacement readiness = no</code>.</td></tr>
+    <tr><td><code class="inline">reporting below library bar</code></td><td><code class="inline">yes / no</code></td><td>Lower <code class="inline">Business HTML</code> and <code class="inline">Overall</code>.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary><span class="summary-title">2.2.3.5b Penalty families</span><span class="sumhint">which card moves first</span></summary>
+<table>
+  <thead><tr><th>Penalty family</th><th>Typical trigger</th><th>Lower first</th></tr></thead>
+  <tbody>
+    <tr><td>Artifact</td><td>Missing carrier, weak diff, stale render, uneven Extent/XML.</td><td><code class="inline">Trust</code></td></tr>
+    <tr><td>Strategy</td><td>Stop too early, closure-only late window, untouched frontier.</td><td><code class="inline">Coverage</code></td></tr>
+    <tr><td>Novelty</td><td>Only one or two material source/test deltas support a long governed window, or the chosen frontier was never ranked against top unexplored alternatives.</td><td><code class="inline">Coverage</code>, then <code class="inline">Overall</code></td></tr>
+    <tr><td>Completion</td><td>Supervisor says incomplete or drifted.</td><td><code class="inline">Overall</code></td></tr>
+    <tr><td>Reporting</td><td>Opening drift, weak strip, weak graph, duplicated verdict, or required canonical family silently missing.</td><td><code class="inline">Business HTML</code></td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary><span class="summary-title">2.2.3.5c Publish rules</span><span class="sumhint">freeze after penalties</span></summary>
+<table>
+  <thead><tr><th>Publish rule</th><th>MUST do this</th><th>Avoid this</th></tr></thead>
+  <tbody>
+    <tr><td>Timing</td><td>Publish cards only after the recalibration pass is complete.</td><td>Truth-severity instinct as final score.</td></tr>
+    <tr><td>Freeze</td><td>Use the same frozen values everywhere on the page.</td><td>Later prose warming the cards back up.</td></tr>
+    <tr><td>Truth/support split</td><td>Lower cards when truth outruns artifact integrity, source authority, or completion.</td><td>Leader-grade cards from truth alone.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary><span class="summary-title">2.2.3.5d Score reconciliation</span><span class="sumhint">show why the cards got colder</span></summary>
+<table>
+  <thead><tr><th>Reconciliation field</th><th>MUST show</th></tr></thead>
+  <tbody>
+    <tr><td>starting posture</td><td>Initial truth-severity score or stance.</td></tr>
+    <tr><td>artifact / strategy / reporting penalties</td><td>The cold subtraction that changed the cards.</td></tr>
+    <tr><td>final published cards</td><td>The frozen <code class="inline">Business / Trust / Coverage / Overall</code> values.</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>Mechanical-pass rule:</b> do not tune cards from feeling. Checklist, penalties, freeze, publish.</div>
+</details>
+</details>
+</details>
+
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.4 Test-materialization note</span>
+  <span class="sumhint">how to publish test quality without creating a fifth top card</span>
+</summary>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.4.1 Placement and disclosure</span>
+  <span class="sumhint">what to publish and where to publish it</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Test-materialization quality in the report</th>
+      <th>MUST do this</th>
+      <th>Avoid this failure</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Placement</td><td>Do not add a fifth top card. Publish test-materialization quality as one compact note near <code class="inline">Round Evolution Ledger</code>, <code class="inline">Flow Ownership And Proof Mapping</code>, or another earned audit section.</td><td>Turning the first screen into a second scoring wall.</td></tr>
+    <tr><td>What to disclose</td><td>When tests changed materially, say which kept run added the strongest tests, the compact <code class="inline">TEST_MATERIALIZATION_QUALITY_SCORE</code>, why the new assertions mattered to the defended flow, and when target identity was non-trivial name the cold-distinct anchor briefly.</td><td>Reporting only test count without semantic value.</td></tr>
+    <tr><td>Assertion note</td><td>Name the most important new observable assertions: state transition, message, persistence, branch-specific behavior, or guarded outcome.</td><td>Vague phrases like <code class="inline">more coverage</code> with no assertion truth.</td></tr>
+    <tr><td>Proof anchor</td><td>Keep a nearby pointer to the proof anchor that best demonstrates the new assertions, and when reread/reopen targeted one row among siblings make the target-identity anchor explicit too.</td><td>A test-quality claim with no reopenable evidence.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.4.2 Minimal canonical form</span>
+  <span class="sumhint">how small this note should stay by default</span>
+</summary>
+<pre><code>fast canonical form
+  -> do not add a top card
+  -> publish one compact test-quality line lower on the page
+  -> strongest kept run + score + strongest new assertion + proof anchor
+
+if the reader already understands why the tests mattered
+  -> stop
+do not grow a new audit block by reflex</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Minimal canonical form</th>
+      <th>Prefer this default</th>
+      <th>Escalate only when</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Default footprint</td><td>One compact sentence or one micro-row: strongest kept run, <code class="inline">TEST_MATERIALIZATION_QUALITY_SCORE</code>, strongest new assertion, proof anchor, and when needed one short target-identity cue.</td><td>The round changed multiple materially different flows and one line would hide what matters.</td></tr>
+    <tr><td>Avoid score-wall drift</td><td>Keep this below the score cards and below the first clear benchmark verdict.</td><td>Never escalate it into a fifth top card.</td></tr>
+    <tr><td>Atlas escalation</td><td>Use a fuller mapping only when the report already earned <code class="inline">Flow Ownership And Proof Mapping</code> or another atlas-grade section.</td><td>Do not create a new audit block only because a score exists.</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>Reporting minimality:</b> publish only enough test-quality detail to explain why the added tests mattered semantically. If one score + one assertion + one proof anchor is enough, stop there.</div>
+</details>
+</details>
+
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5 Score bands and replacement-grade discipline</span>
+  <span class="sumhint">how to avoid over-promoting strong local pages</span>
+</summary>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5.1 Score bands</span>
+  <span class="sumhint">what each high score posture actually means</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Scoring priority</th>
+      <th>What it really means</th>
+      <th>What it does NOT mean yet</th>
+      <th>Typical honest score band</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">Clean closure</code></td><td>The page closed target, closure, and package truth without contradiction.</td><td>That the page is automatically benchmark-displacing or visually inevitable.</td><td><code class="inline">high local strength</code>, not automatic <code class="inline">replacement-grade</code></td></tr>
+    <tr><td><code class="inline">High auditability</code></td><td>Proof links, render check, history, and retained lineage can be reopened quickly.</td><td>That the page wins on first-screen force, graph memory, or comparative authority.</td><td><code class="inline">high local strength</code>, still often below leader-level publication</td></tr>
+    <tr><td><code class="inline">Strong local benchmark</code></td><td>The page clearly beats older local siblings on defended truth, audit package, or benchmark hierarchy.</td><td>That it already displaces the strongest current <code class="inline">html-ex</code> leaders.</td><td><code class="inline">95-97</code> unless leader displacement is real</td></tr>
+    <tr><td><code class="inline">Replacement-grade</code></td><td>The page can stand beside the best current <code class="inline">html-ex</code> reports and beat or match them on the relevant axis.</td><td>Mere local improvement, same-family hardening, or clean publication alone.</td><td><code class="inline">98-100</code> only when the leader-level bar is actually met</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5.2 Replacement-grade checks</span>
+  <span class="sumhint">how to prevent local strength from being misread as leader displacement</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>If these feel too close</th>
+      <th>Depunctate this first</th>
+      <th>Because this is the real unresolved gap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">clean closure</code> and <code class="inline">replacement-grade</code></td><td><code class="inline">benchmark authority</code></td><td>The page may be correct and closed, but still not memorable or displacing enough beside stronger incumbents.</td></tr>
+    <tr><td><code class="inline">high auditability</code> and <code class="inline">replacement-grade</code></td><td><code class="inline">benchmark authority</code></td><td>Fast reopenability does not prove first-screen force, graph dominance, or public benchmark inevitability.</td></tr>
+    <tr><td><code class="inline">strong local benchmark</code> and <code class="inline">replacement-grade</code></td><td><code class="inline">non-promotion honesty</code> when the report did not displace a stronger incumbent</td><td>A strong local winner can still be over-promoted if the page does not say coldly what it still trails and why.</td></tr>
+    <tr><td><code class="inline">companion honesty</code> and <code class="inline">principal benchmark authority</code></td><td><code class="inline">benchmark authority</code></td><td>Refusing false promotion is excellent, but it does not itself make the page the new winner.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5.3 Two-score rule</span>
+  <span class="sumhint">separate local strength from replacement-grade judgment</span>
+</summary>
+<pre><code>two-score rule
+  local strength
+    = contract execution, auditability, package cleanliness, local benchmark quality
+  replacement-grade
+    = how coldly the page competes with current html-ex leaders
+
+before any 98-100 ask
+  does it displace a stronger exemplar
+  or does it only look very strong locally</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5.4 Leader-level caps</span>
+  <span class="sumhint">hard stops before 98-100 territory</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Leader-level cap</th>
+      <th>MUST read it this way</th>
+      <th>Do not do this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">Four-gate bar still partial</code></td><td>If the page still loses or only partially clears one decisive gate from the overall <code class="inline">html-ex</code> comparison, keep <code class="inline">Overall</code> below leader-level and say which gate still blocks promotion.</td><td>Leave <code class="inline">Overall</code> at the local maximum while the page still says <code class="inline">PARTIAL</code>, <code class="inline">still trails</code>, or another non-winning verdict nearby.</td></tr>
+    <tr><td><code class="inline">Best local benchmark only</code></td><td>Treat <code class="inline">best local winner so far</code> as a strong local score, not as automatic <code class="inline">9.8-10.0</code> or <code class="inline">98-100</code> territory.</td><td>Use the same ceiling for <code class="inline">clean local win</code> and <code class="inline">leader displacement</code>.</td></tr>
+    <tr><td><code class="inline">One decisive gate still open</code></td><td>De-punctate first on <code class="inline">benchmark authority</code> or <code class="inline">non-promotion honesty</code>, whichever is still weak, before lowering secondary polish axes.</td><td>Hide the unresolved gap behind strong auditability, good closure, or same-family progress.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5.5 Wording discipline</span>
+  <span class="sumhint">how to phrase high strength without over-promoting the page</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Prefer this wording</th>
+      <th>Avoid this old wording</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">defended branch matured</code></td><td><code class="inline">target closed</code> as the main story</td><td>The page should lead with business meaning, not only with a count verdict.</td></tr>
+    <tr><td><code class="inline">materialized scope = X / Y</code></td><td><code class="inline">Test Target Close-Out</code></td><td>The accounting line should describe scope turned into tests, not only a quota hit.</td></tr>
+    <tr><td><code class="inline">run-quality cleared</code></td><td><code class="inline">we hit the target</code></td><td>Clearing the count does not automatically mean the run moved the verdict enough.</td></tr>
+    <tr><td><code class="inline">retained confidence only</code></td><td><code class="inline">0 new tests but target still stronger</code></td><td>Retained-close confidence should stay visible as secondary support, not disguised as new proof.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5.6 Overall html-ex comparison slice</span>
+  <span class="sumhint">the four comparison questions worth publishing near the score zone</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Overall html-ex comparison slice</th>
+      <th>Use this benchmark question</th>
+      <th>Strong verdict wording</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Current contract execution</td><td>Does the page execute the current reporting contract more cleanly than the compared <code class="inline">html-ex</code> report?</td><td><code class="inline">beats incumbent</code> or <code class="inline">still trails because ...</code></td></tr>
+    <tr><td>First-screen force</td><td>Does the opening land faster and more inevitably than the compared benchmark?</td><td><code class="inline">beats incumbent</code> or <code class="inline">still trails because ...</code></td></tr>
+    <tr><td>Audit reopenability</td><td>Is the proof chain, baseline decision, and cross-run/history reopening at least as strong as the compared benchmark?</td><td><code class="inline">beats incumbent</code> or <code class="inline">still trails because ...</code></td></tr>
+    <tr><td>Graph / visual authority</td><td>Does the graph family make the new truth easier to remember than the compared benchmark does?</td><td><code class="inline">beats incumbent</code> or <code class="inline">still trails because ...</code></td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+    <span class="summary-title">2.2.5.7 Overall benchmark-comparison rule</span>
+  <span class="sumhint">how to keep comparison compact and honest</span>
+</summary>
+<pre><code>comparison rule
+  when the page is positioned as a strong local benchmark or html-ex candidate
+    include one short comparison note near the score cards
+  name the compared exemplar
+  judge only the four strong gates
+  if the page wins some and loses some, say that split directly
+  keep deeper comparison lower on the page</code></pre>
+</details>
+</details>
+</details>
+
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<details>
+<summary>
+  <span class="summary-title">3) Executive Summary Family</span>
+  <span class="badge">CORE</span>
+</summary>
+
+<table>
+  <thead>
+    <tr>
+      <th>Section</th>
+      <th>Children</th>
+      <th>Collapsed by default</th>
+      <th>What it owns</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">3.1 Executive Summary</code></td><td><code class="inline">none required</code></td><td><code class="inline">yes</code></td><td>Business truth cluster: winner, bounded signal, ceiling, and pass boundary.</td></tr>
+    <tr><td><code class="inline">3.2 Benchmark Verdict And Scoring Spine</code></td><td><code class="inline">none required</code></td><td><code class="inline">yes</code></td><td>Why the page is not more: scoring spine, authority ceiling, and replacement readiness.</td></tr>
+    <tr><td><code class="inline">3.3 Comparative Score Strip</code></td><td><code class="inline">3.3.1 Row cells</code><br><code class="inline">3.3.2 Strip rules</code></td><td><code class="inline">yes</code></td><td>Short comparative restraint with real exemplar links.</td></tr>
+  </tbody>
+</table>
+<pre><code>reading order
+  3.1 -> what truth moved
+  3.2 -> why this is not more than that
+  3.3 -> better or worse than what
+
+if the reader cannot answer those three questions quickly,
+the opening family is still too big or too scattered</code></pre>
+<div class="note"><b>One-pass rule</b></div>
+<pre><code>let 3.1, 3.2, and 3.3 answer the opening once
+later sections may support that opening
+do not restate it more slowly</code></pre>
+<div class="warn"><b>Top-cluster boundary</b></div>
+<pre><code>if the same sentence could live in
+  Hero
+  score card
+  3.1
+  3.2
+  6
+
+keep it only in the earliest rightful owner</code></pre>
+
+<details>
+<summary>
+  <span class="summary-title">3.1 Executive Summary</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>default 3.1 shape
+  -> cluster-grid
+     -> Winner truth
+     -> Bounded signal
+     -> Cold ceiling
+     -> Active-window pressure
+     -> Hierarchy move
+     -> Pass boundary
+     -> Artifact posture (only when incompleteness, drift, or blocked closure materially affects authority)</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>MUST do this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Placement</td><td><code class="inline">3.1</code> is the first major numbered block after the score wall. Do not move benchmark or comparative sections above it.</td></tr>
+    <tr><td>Structure, not meta-contract</td><td>Publish the summary itself, not an internal contract explainer. Do not turn <code class="inline">3)</code> into a large child-rule table that teaches the standard instead of the business verdict.</td></tr>
+    <tr><td>Shape and wording</td><td>Prefer a six-card <code class="inline">cluster-grid</code>. Compress only after checking that the summary still reads product-first and cold rather than meta-round or causal-process first.</td></tr>
+    <tr><td>Score-wall boundary</td><td>Treat the visible score wall as scoring posture only. Do not smuggle verdict cards, companion claims, or ceiling closure into the four score cards.</td></tr>
+    <tr><td>First-screen size cap</td><td>After hero + score wall, allow at most one compact summary cluster and one compact verdict/strip band. Do not stack a large table, open summary cards, and another heavy opening block at once.</td></tr>
+    <tr><td>One truth per card</td><td>Keep each card focused on one truth only. Do not let one card carry winner, ceiling, accounting, and pass boundary together.</td></tr>
+    <tr><td>Family ownership</td><td>Treat <code class="inline">3.2</code> and <code class="inline">3.3</code> as the default children of <code class="inline">3)</code>. Keep one explicit card for what the page did not win yet, and do not scatter verdict or restraint back into later sections.</td></tr>
+    <tr><td>Artifact posture</td><td>If package completeness, drift, blocked render, or source closure caps authority, surface that as one compact summary card only.</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>Family-order rule:</b> product summary first, benchmark verdict second, comparative restraint third; full closure truth still belongs in <code class="inline">5.5.3</code>.</div>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">3.2 Benchmark Verdict And Scoring Spine</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>3.2 Benchmark Verdict And Scoring Spine
+  -> winner
+  -> companion
+  -> ceiling
+  -> local governed window exhausted = yes / no
+  -> governed-yield maximized = yes / no
+  -> application-level exploration exhausted = yes / no
+  -> cold score reason
+  -> html-ex-grade closure = yes / no
+  -> compact verdict carrier after 3.1</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>MUST do this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Placement</td><td>Land immediately after <code class="inline">3.1</code>.</td></tr>
+    <tr><td>Role</td><td>Say coldly who won, who remains companion, what ceiling still holds, and why the scores stayed where they did.</td></tr>
+    <tr><td>Yield triad</td><td>Publish together: <code class="inline">local governed window exhausted = yes / no</code>, <code class="inline">governed-yield maximized = yes / no</code>, and <code class="inline">application-level exploration exhausted = yes / no</code>. Do not let one answer stand in for the other two. The full triad belongs in <code class="inline">3.2</code>; do not insert it as a standalone first-screen bar between the cards and section <code class="inline">3</code>.</td></tr>
+    <tr><td>Yield verdict</td><td>When the package is complete or stops cleanly, state <code class="inline">governed-yield maximized = yes / no</code> if visible opportunity space still matters to the page's authority. A procedurally correct same-round stop does not automatically mean the application opportunity space was well spent.</td></tr>
+    <tr><td>Opening repetition</td><td>If hero or subtitle already names the main cap, <code class="inline">3.2</code> should calibrate score, yield, or standing, not replay the full frontier list. Do not fully restate the same cap across more than two opening surfaces.</td></tr>
+    <tr><td>Shape</td><td>Prefer one compact table or key-value band, not a prose wall.</td></tr>
+    <tr><td>Supervisor truth</td><td>If iterative-core left the active window <code class="inline">incomplete</code> or orchestration reports package drift, surface that coldly here instead of hiding it later in audit-only sections.</td></tr>
+    <tr><td>Drift verdict</td><td>If <code class="inline">package drift = yes</code>, state explicitly here: <code class="inline">html-ex-grade closure = no</code>.</td></tr>
+    <tr><td>Defect visibility</td><td>When the active window is incomplete or package drift is present, surface that defect coldly in <code class="inline">3.2</code> and echo it in hero / score posture if needed, but keep <code class="inline">3.2</code> collapsed by default.</td></tr>
+    <tr><td>Boundary</td><td>Do not turn this into benchmark essay, historical audit, or long comparator ladder.</td></tr>
+    <tr><td>Opening-verdict ownership</td><td>Treat <code class="inline">3.2</code> as the opening verdict owner. Later sections may calibrate standing, trust, and closure, but they must not re-decide or re-announce the winner spine.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">3.3 Comparative Score Strip</span>
+  <span class="badge">CORE</span>
+</summary>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">3.3.1 Row cells</span>
+  <span class="sumhint">what each comparator row means</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Cell</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">exemplar</code></td><td>The concrete comparator page, linked directly to its canonical <code class="inline">analysis/langgraph-business-understanding.html</code>.</td></tr>
+    <tr><td><code class="inline">taught</code></td><td>The strongest lesson that comparator still teaches better than ordinary memory.</td></tr>
+    <tr><td><code class="inline">relevance</code></td><td>Why this comparator belongs in this strip at all.</td></tr>
+    <tr><td><code class="inline">current wins</code></td><td>The exact gate this page now clears more strongly.</td></tr>
+    <tr><td><code class="inline">current loses</code></td><td>The exact gate where the comparator still remains above this page.</td></tr>
+    <tr><td><code class="inline">verdict</code></td><td>The cold placement outcome: leader, companion, below, not replacement, or narrow teacher.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">3.3.2 Strip rules</span>
+  <span class="sumhint">compact restraint only</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>MUST do this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Placement</td><td>Land immediately after <code class="inline">3.2</code> when earned.</td></tr>
+    <tr><td>Role</td><td>Keep <code class="inline">Overall</code> and benchmark posture cold through a tiny comparative strip or micro-table.</td></tr>
+    <tr><td>Comparator scope</td><td>Use only the nearest teachers, nearest leaders, or one decisive ancestor that really shapes restraint. Prefer real comparator packages or exemplar reports by default.</td></tr>
+    <tr><td>Mechanical row format</td><td>Use one compact row per comparator with exactly: <code class="inline">Exemplar | taught | relevance | current wins | current loses | verdict</code>.</td></tr>
+    <tr><td>Exemplar hyperlink contract</td><td>If the row uses an <code class="inline">Exemplar</code> or equivalent comparator label, make that label a real hyperlink to the comparator package's canonical <code class="inline">analysis/langgraph-business-understanding.html</code>.</td></tr>
+    <tr><td>Local-memory restraint</td><td>Local review artifacts may support restraint, but they must not replace comparators by default. If no earned comparator exists, say that coldly instead of turning <code class="inline">3.3</code> into a local memory strip.</td></tr>
+    <tr><td>Missing-cell failure</td><td>If <code class="inline">taught</code> or <code class="inline">relevance</code> is absent, the strip is incomplete even when the prose sounds reasonable.</td></tr>
+    <tr><td>Opening austerity</td><td>If <code class="inline">3.3</code> is present, keep it tiny enough that the business graph can still land before the first screen feels over-explained.</td></tr>
+    <tr><td>Boundary</td><td>Do not let the strip expand into a long benchmark essay or steal weight from <code class="inline">3.1</code> and <code class="inline">3.2</code>.</td></tr>
+  </tbody>
+</table>
+</details>
+<div class="warn"><b>Negative example:</b> do not use section <code class="inline">3)</code> to publish a large child-contract table about <code class="inline">3.1 / 3.2 / 3.3</code>. That belongs in the standard, not in the final report.</div>
+</details>
+</details>
+
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>4) Graph Family</h2>
+
+<details open>
+<summary>
+  <span class="summary-title">4.0 Graph Family</span>
+  <span class="badge">CORE</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Section</th>
+      <th>Children</th>
+      <th>Collapsed by default</th>
+      <th>What it owns</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">4.1 Business Flow Graph</code></td><td><code class="inline">none required</code></td><td><code class="inline">no</code></td><td>The deepest defended chain first, with nearby run / proof / comparison support only when it materially lowers reconstruction cost.</td></tr>
+    <tr><td><code class="inline">4.2 Business Domain Graph</code></td><td><code class="inline">4.2.1 Business surfaces</code><br><code class="inline">4.2.2 Companion / replay memory</code></td><td><code class="inline">yes</code></td><td>Product-area atlas plus benchmark-memory layer when it helps domain relearning.</td></tr>
+    <tr><td><code class="inline">4.3 Actor State Graph</code></td><td><code class="inline">none required</code></td><td><code class="inline">yes</code></td><td>State semantics only when they materially affect judgment and cannot be carried more cheaply by flow, domain, or mapping sections.</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>Graph-opening rule</b></div>
+<pre><code>default open exception
+  4.1 Business Flow Graph
+  only when it is the principal business teacher
+
+otherwise
+  collapse it too</code></pre>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.1 Business Flow Graph</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>preferred graph posture
+  one dominant chain
+  one optional sibling
+  one capped or open external pressure box
+  one small collapsed legend when needed
+
+do not
+  turn 4.1 into a coverage map
+  turn 4.1 into an inventory map
+  turn 4.1 into a package summary</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Business-first chain</td><td>Show the defended business chain, mutation, or continuity path before replay nuance or benchmark comparison.</td><td>A lineage view that reads like a test inventory.</td></tr>
+    <tr><td>Graph austerity</td><td>Prefer one principal business path and at most one or two secondary branches. Keep nodes, edges, and labels only when they change business understanding materially.</td><td>A richer-looking SVG that adds visual variety faster than it adds business clarity.</td></tr>
+    <tr><td>Guarded demotion</td><td>Keep blocker or thin branches visible only as secondary lineage when they materially bounded promotion.</td><td>Letting blocker lineage compete with the winner path.</td></tr>
+    <tr><td>Run and proof recoverability</td><td>Make the decisive <code class="inline">run_##</code>, strongest test family, and primary proof carrier recoverable in the same section or immediate companion table when the graph claims a new flow truth.</td><td>A strong flow graph the reader cannot tie back to a kept run, class family, or proof anchor.</td></tr>
+    <tr><td>Replay and ceiling support</td><td>Keep replay outcome, retained-close nuance, and authority ceiling as short support inside the same flow-owner section when they materially sharpen the lineage.</td><td>Creating a second flow-owned child section just to carry replay or ceiling support.</td></tr>
+    <tr><td>Related-flow memory</td><td>When an earlier report in the same semantic family sharpens judgment, add one short related-flow comparison note or strip naming the cousin package and exact delta.</td><td>Talking about same-family memory only in distant prose or spinning it into a separate child subsection.</td></tr>
+    <tr><td>Legend meaning</td><td>If the diagram uses a legend or collapsed note, decode business meaning explicitly: what is green, what is red or amber, what is ceiling, and whether the shown closer is new truth or only closure spine.</td><td>A legend that merely restates branch shape without telling the reader what it means in business terms.</td></tr>
+    <tr><td>Legend minimum set</td><td>When a legend exists, include at minimum: <code class="inline">green</code>, <code class="inline">amber / red</code>, <code class="inline">ceiling</code>, and <code class="inline">new truth vs closure carrier</code>.</td><td>Color labels that still leave the business meaning ambiguous.</td></tr>
+    <tr><td>Collapsed-legend clarity</td><td>A collapsed legend is allowed, but the visible graph must remain intelligible enough that the reader can still identify the defended chain and the main business contrast without opening the legend first.</td><td>A graph that becomes understandable only after expanding the legend note.</td></tr>
+    <tr><td>Visual restraint</td><td>Use short business-surface labels and calm geometry. Push group explanations and colder interpretation into nearby HTML or a collapsed legend.</td><td>Sentence-heavy nodes, panoramic width, or ornamental branching that makes the graph memorable as artwork instead of as business truth.</td></tr>
+    <tr><td>Graph placement authority</td><td>If the graph is the principal business teacher, place it before heavy proof, large audit tables, or long history blocks.</td><td>Making the graph reopen too late, after the reader already crossed a long summary or audit wall.</td></tr>
+    <tr><td>Multi-lane flow split</td><td>When one report owns two materially different business chains, split <code class="inline">4.1</code> into calm lanes or subdiagrams inside the same owner section, such as <code class="inline">support/account continuity</code> and <code class="inline">checkout aftermath</code>.</td><td>One panoramic SVG that forces unrelated flows, caps, and closers into a single wide rail.</td></tr>
+    <tr><td>SVG text budget</td><td>Keep SVG node labels short. Move group labels, lane explanations, and cold interpretation into nearby HTML above or below the SVG.</td><td>Sentence-heavy SVG nodes that make the graph visually correct but hard to remember.</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>Multi-zone graph rule</b></div>
+<pre><code>if the report owns more than one business zone
+  do not force one generic graph
+
+prefer
+  4.1 Business Flow Graph
+  4.2 Business Domain Graph
+  4.3 Actor State Graph
+  or another equally clear zone split</code></pre>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.2 Business Domain Graph</span>
+  <span class="badge">CORE</span>
+</summary>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.2.1 Business surfaces</span>
+  <span class="sumhint">the product-area or subdomain atlas</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Trigger</td><td>Use this subdiagram when product areas or subdomains materially matter to the round.</td><td>Publishing it decoratively when the round only needs flow depth.</td></tr>
+    <tr><td>Atlas role</td><td>Help the reader decode the product faster than prose alone.</td><td>An internal schema that is correct but not helpful for onboarding.</td></tr>
+    <tr><td>Breathable shape</td><td>Prefer calmer grouped areas over one crowded panoramic atlas.</td><td>A wide dense grid that needs zoom before composition has been simplified.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.2.2 Companion / replay memory</span>
+  <span class="sumhint">the benchmark-memory layer that belongs under the domain family</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Trigger</td><td>Use this subdiagram when companion packages, replay memory, or displaced local carriers materially sharpen the domain read.</td><td>Forcing replay memory into the business-surfaces view.</td></tr>
+    <tr><td>Support text restraint</td><td>Keep explanation short and let the subdiagram remain the main reading target.</td><td>Heavy visible prose under the SVG.</td></tr>
+    <tr><td>Collapsed-note preference</td><td>If a short interpretation still helps, prefer a collapsed note under the subdiagram instead of longer visible helper prose.</td><td>Sentence-heavy nodes or paragraph slabs under the card.</td></tr>
+  </tbody>
+</table>
+</details>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.3 Actor State Graph</span>
+  <span class="badge">CORE</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Trigger</td><td>Use this section only when state semantics materially affect judgment and cannot be explained more cheaply through the flow graph, domain graph, or mapping sections.</td><td>Publishing state machinery when the round is really just about flow depth.</td></tr>
+    <tr><td>State clarity</td><td>If used, show the meaningful transitions and protected/public differences without flattening them into one rail.</td><td>A pipeline-like line where guarded transitions disappear.</td></tr>
+    <tr><td>Actor lane split</td><td>Separate actor/state lanes when they changed judgment: anonymous, authenticated, protected state, authority attempt, and post-cap recovery.</td><td>One mixed state graph where public support, protected account state, and checkout authority look equivalent.</td></tr>
+    <tr><td>Short node labels</td><td>Use compact state labels in the SVG and place longer interpretation in HTML helper text or a collapsed legend.</td><td>Dense state nodes that bury the actual public/protected or authority/cap contrast.</td></tr>
+    <tr><td>Rebuilt-state restraint</td><td>Keep rebuilt comparison states inside the same actor-state owner only when they materially sharpen the judgment.</td><td>Spinning out rebuilt-state detail as a separate subfamily when the rest of the report already explains the winner well enough.</td></tr>
+    <tr><td>Optionality</td><td>Drop the whole actor-state family when it adds little beyond the other sections.</td><td>Keeping it as a decorative completeness tax.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">4.4 Shared graph family style rules</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>graph-style ladder
+  -> layout and medium
+  -> split and authority
+  -> text and labels
+  -> notes and helpers
+  -> replacement-grade threshold</code></pre>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.4.1 Layout and medium</span>
+  <span class="sumhint">how the graph family should occupy visual space</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Layout topic</th>
+      <th>Prefer this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Layout rhythm</td><td>Keep graphs stacked calmly instead of cramming multiple heavy visuals into one crowded grid.</td><td>Dense visual walls near the top.</td></tr>
+    <tr><td>Diagram medium</td><td>Prefer real SVG or similarly crisp diagram blocks when the graph is meant to carry business meaning.</td><td>Plain text masquerading as a diagram when a visual node graph is the real intent.</td></tr>
+    <tr><td>Horizontal breathing room</td><td>Give labels and node groups enough horizontal air that the graph can be scanned without zoom at normal laptop width whenever that is realistically possible.</td><td>Tight node packing that makes the reader want zoom before the composition has been simplified.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.4.2 Split and authority</span>
+  <span class="sumhint">when to split and when to keep one stronger visual</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Split topic</th>
+      <th>Prefer this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>One-question rule</td><td>Each diagram or subdiagram should answer one main question fast.</td><td>One visual trying to answer several different questions at once.</td></tr>
+    <tr><td>Subdiagram split trigger</td><td>Split a graph into subdiagrams when one panoramic SVG would otherwise mix lineage with outcome, surfaces with replay memory, or user-facing states with rebuilt comparison states.</td><td>Keeping one extra-wide diagram just because the truth is related.</td></tr>
+    <tr><td>Panorama avoidance</td><td>Prefer two smaller stacked or side-by-side subdiagrams over one very wide ladder when the split improves first-read clarity.</td><td>Very wide SVGs that are correct but slow to scan.</td></tr>
+    <tr><td>Anti-over-splitting</td><td>Do not split one graph into two if each child diagram becomes too weak or loses visual authority by itself.</td><td>Splitting reflexively until the reader has several underpowered diagrams instead of one strong one.</td></tr>
+    <tr><td>Subdiagram card rhythm</td><td>When a graph family is split, each subdiagram should live in its own calm card with a short title and one short semantic caption.</td><td>Subdiagrams blurred together as if they were still one crowded visual.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.4.3 Text and labels</span>
+  <span class="sumhint">how much text should live inside or around the SVG</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Text topic</th>
+      <th>Prefer this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Node-text budget</td><td>Keep node labels short and identity-first. Move longer explanation into a short caption, a collapsed note directly below the diagram, or a companion table row.</td><td>Sentence-sized node labels carrying all of the explanation.</td></tr>
+    <tr><td>HTML label-row trigger</td><td>If SVG text becomes visually dirty, crowded, or hard to read, move group labels or category labels into short HTML label rows above the SVG.</td><td>Forcing all grouping labels to remain inside the SVG when they are calmer outside it.</td></tr>
+    <tr><td>Opened-body severity</td><td>Once a diagram card is open, keep the surrounding explanation light: one short caption or one short collapsed note, with deeper detail in the companion table below.</td><td>Multi-sentence slabs or bullets that each hide several different truths.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.4.4 Notes and helpers</span>
+  <span class="sumhint">how to help interpretation without stealing focus from the graph</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Helper topic</th>
+      <th>Prefer this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Collapsed note under diagram</td><td>When a diagram needs a small interpretation aid, prefer one short collapsed note under the diagram instead of visible helper prose.</td><td>Long visible paragraphs under each SVG.</td></tr>
+    <tr><td>Support-text demotion</td><td>If a split diagram already reads clearly, shorten or collapse the support text under it so the eye stays on the nodes first.</td><td>Verbose helper prose that becomes the real reading target instead of the diagram.</td></tr>
+    <tr><td>Zoom restraint</td><td>Treat zoom as an optional helper only after composition, label compression, and subdiagram splitting have already been pushed as far as they reasonably can go.</td><td>Using zoom to excuse a diagram that should first be calmer, shorter, or more clearly split.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">4.4.5 Replacement-grade threshold</span>
+  <span class="sumhint">when the graph family is strong enough to compete with a leader</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Threshold topic</th>
+      <th>Read it as strong when...</th>
+      <th>Read it as still below benchmark when...</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Replacement-grade graph authority</td><td>The graph family not only explains correctly, but makes the new truth easier to remember than the incumbent report does.</td><td>The report wins on rules and density, but still loses on visual inevitability or memorability.</td></tr>
+  </tbody>
+</table>
+</details>
+</details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>5) Test Coverage And Proof Ownership</h2>
+
+<details open>
+<summary>
+  <span class="summary-title">5.0 Test Coverage And Proof Ownership</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>default table contract
+  Family child | Collapsed by default | What it owns
+
+reading goal
+  coverage truth -> owned slices -> proof bridge -> artifact reopen -> proof boundary
+
+meta rule
+  keep proof families collapsed by default
+  open only when they materially lower reconstruction or audit cost</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Family child</th>
+      <th>Collapsed by default</th>
+      <th>What it owns</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">5.1 Coverage / Frontier Map</code></td><td><code class="inline">yes</code></td><td>Defended depth versus open frontier, with blocked/deferred/protected-public distinctions.</td></tr>
+    <tr><td><code class="inline">5.2 Owned Slices Overlay</code></td><td><code class="inline">yes</code></td><td>Cold status grid for defended, partial, blocked, deferred, or still-open family slices.</td></tr>
+    <tr><td><code class="inline">5.4 Flow Ownership And Proof Mapping</code></td><td><code class="inline">yes</code></td><td>Bridge from defended flow to support, test owner, and proof anchors.</td></tr>
+    <tr><td><code class="inline">5.5 Artifact Reopen Chain</code></td><td><code class="inline">yes</code></td><td>Direct proof reopening path: run matrix, audit index, closure gates, and complete checklist-to-HTML artifact visibility. Command trace is optional, but every checklist artifact must be linked, missing, or n/a somewhere in 5.5.</td></tr>
+    <tr><td><code class="inline">5.6 Proof Boundaries And Consistency</code></td><td><code class="inline">yes</code></td><td>What the proof spine still lacks, where early/late runs differ, and why support trails truth when it does.</td></tr>
+  </tbody>
+</table>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">5.0.1 Proof-family minimum contract</span>
+  <span class="sumhint">minimum child ownership before proof-family compression is allowed</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Required ownership</th>
+      <th>Default section</th>
+      <th>Failure mode it prevents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Coverage and frontier truth</td><td><code class="inline">5.1</code></td><td>Defended truth and open frontier blur together.</td></tr>
+    <tr><td>Owned slices or equivalent breadth view</td><td><code class="inline">5.2</code></td><td>Multi-surface reports hide which slices are defended, partial, capped, or open.</td></tr>
+    <tr><td>Flow ownership and proof bridge</td><td><code class="inline">5.4</code></td><td>The graph claims truth that cannot be reopened through an explicit owner and proof anchor.</td></tr>
+    <tr><td>Artifact reopen and proof-boundary clarity</td><td><code class="inline">5.5 + 5.6</code></td><td>Artifact links exist, but closure and support limits remain mentally reconstructed.</td></tr>
+  </tbody>
+</table>
+<div class="warn"><b>Compression rule</b></div>
+<pre><code>if a child is omitted
+  name the surviving child
+  give one short reason
+
+substantial report is incomplete if it skips
+  5.2 while claiming multi-surface breadth
+  5.4 while claiming graph-led truth</code></pre>
+</details>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">5.1 Coverage / Frontier Map</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>default table contract
+  preferred compact shape -> Frontier | Status | Owner
+  wider teaching shape -> Readability topic | Prefer this | Avoid this
+
+expected status vocabulary
+  owned
+  owned as expectation
+  blocked
+  demoted
+  non-owned
+  deferred
+
+meta rule
+  keep defended depth separate from explored breadth</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Readability topic</th>
+      <th>Prefer this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Depth versus breadth</td><td>Distinguish defended depth from explored breadth.</td><td>One blended map where defended truth and open frontier are indistinguishable.</td></tr>
+    <tr><td>Frontier state</td><td>Say what chain was defended deeply, what adjacent scope was only explored broadly, and what frontier remains blocked, deferred, duplicated, or still uncovered.</td><td>A frontier map that behaves like just another flow graph.</td></tr>
+    <tr><td>Owner link</td><td>When one kept run coldly owns a frontier slice, expose an <code class="inline">Owner</code> column or equivalent direct link to that run.</td><td>Making the reader infer the decisive run from distant prose or lower history tables.</td></tr>
+    <tr><td>Truth-layer split</td><td>Keep route truth, shell truth, flow truth, mechanism truth, and blocked truth separate when guarded transitions would flatten the story.</td><td>Flattening unlike truth layers into one vague coverage picture.</td></tr>
+    <tr><td>Protected/public split</td><td>Say explicitly when the round mixed public routes, protected states, guarded continuations, or downstream-only surfaces.</td><td>Leaving the reader to infer protected/public mix from context.</td></tr>
+    <tr><td>Failure-lineage wording</td><td>When a losing branch or disproved frontier still prevented false promotion, keep it visible as failure lineage rather than quietly deleting it after the pivot.</td><td>Making the frontier look cleaner than the actual evidence allowed.</td></tr>
+    <tr><td>Reachability guard</td><td>Do not present visible route reachability as equal to defended semantic flow truth.</td><td>Using a frontier map to overclaim depth.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">5.2 Owned Slices Overlay</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>default table contract
+  compact teaching shape -> This section should answer | Include it when | Expose only this
+  preferred operational shape -> Slice | Status | Owner run/test | Ceiling
+
+meta rule
+  keep this a cold overlay, not a second story</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>This section should answer</th>
+      <th>Include it when</th>
+      <th>Expose only this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Which meaningful flows, states, or route families are defended, partial, capped, blocked, deferred, or still open?</td><td>Several semantically different business slices were explored, or the report claims breadth across more than one surface.</td><td><code class="inline">Slice | status | owner run/test | ceiling</code>. Keep it a cold overlay, not a second story.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">5.4 Flow Ownership And Proof Mapping</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>default table contract
+  compact teaching shape -> This section should answer | Include it when | Expose only this
+  preferred operational shape -> Graph claim | Support slice | Test owner | Validation carrier | Boundary
+
+meta rule
+  this section normally absorbs standalone test ownership</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>This section should answer</th>
+      <th>Include it when</th>
+      <th>Expose only this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>How does the defended graph claim reopen through support, test owner, and proof anchors?</td><td>The graph family is a main teacher, several flows are defended/capped, or a reader would otherwise need to jump from <code class="inline">4.x</code> to <code class="inline">5.5</code> manually.</td><td><code class="inline">Graph claim | support slice | test owner | Extent/XML/checklist/source</code>.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">5.5 Artifact Reopen Chain</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>default table contract
+  Read step | Owns | Stop condition
+
+reading order
+  5.5.1 matrix -> 5.5.2 index -> 5.5.3 gates -> 5.5.4 crosswalk
+
+meta rule
+  5.5 owns audit-link visibility
+  every checklist artifact must be hyperlink / missing / n/a somewhere in 5.5</code></pre>
+<table>
+  <thead><tr><th>Read step</th><th>Owns</th><th>Stop condition</th></tr></thead>
+  <tbody>
+    <tr><td><code class="inline">5.5.1 matrix</code></td><td>Counted proof rows first, retained diagnostics only when they explain the cap, and the fastest reopen of what materially changed versus what did not.</td><td>The decisive run proof is immediately reopenable and the learning ladder is cold on first scan.</td></tr>
+    <tr><td><code class="inline">5.5.2 index</code></td><td>Source posture, root/render/source placement.</td><td>The artifact cap is clear without prose reconstruction.</td></tr>
+    <tr><td><code class="inline">5.5.3 gates</code></td><td>Package completeness and closure truth.</td><td>The package closes, stays capped, or stays incomplete.</td></tr>
+    <tr><td><code class="inline">5.5.4 crosswalk</code></td><td>Checklist-to-HTML completeness for every audited artifact family.</td><td>Every checklist artifact is visible as link, missing, or n/a without creating a duplicate run ledger.</td></tr>
+  </tbody>
+</table>
+<pre><code>learning-audit reading path
+  material row -> countable no-lift rows -> retained diagnostics
+  -> source posture -> closure gates</code></pre>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">5.5.1 Run-level reopen matrix</span>
+  <span class="sumhint">counted runs first, diagnostic-only only when they explain a ceiling</span>
+</summary>
+<pre><code>default table contract
+  narrow -> Run | Role | Proof bundle | Source bundle | Countability | Gap / note
+  wide once -> Run | Role | Proof bundle | Source bundle | Novelty outcome | Countability | Gap / note
+
+column intent
+  Role -> cold run class only
+  Novelty outcome -> expected / actual / materialization / score
+  Countability -> one compact countability signal
+  Gap / note -> nuance, asymmetry, or caveat
+
+do not
+  invent extra checklist-shaped columns by default</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Hard rule</th>
+      <th>MUST do this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Group by run</td><td>Keep proof and source grouped per run. Do not explode Extent, XML, checklist, diff, or prompt carriers into separate columns.</td></tr>
+    <tr><td>Bundle discipline</td><td>Use one <code class="inline">Proof bundle</code> cell and one <code class="inline">Source bundle</code> cell. Keep diff and source verdict visibly distinct inside the source cell, and never disguise a verdict carrier as a real diff link.</td></tr>
+    <tr><td>Row order</td><td>Order rows as <code class="inline">material winner -&gt; other countable proof -&gt; retained diagnostics</code>. Do not let later corroboration visually outrank the real learning move.</td></tr>
+    <tr><td>Split trigger</td><td>If one mixed matrix would make countable proof and retained diagnostics look equal-credit, split once into two short tables and keep the countable table first.</td></tr>
+    <tr><td>Countability</td><td>Include all counted runs by default. Diagnostic-only rows belong here only when they explain a blocker, ceiling, or asymmetry, and countability should appear in one compact column only.</td></tr>
+    <tr><td>Novelty compression</td><td>If novelty appears here, keep it in one short <code class="inline">Novelty outcome</code> cell. Do not spread <code class="inline">expected / actual / materialization / score</code> into multiple extra columns.</td></tr>
+    <tr><td>Link safety</td><td>If a link leaves this matrix, it must stay discoverable in <code class="inline">5.5.4</code> as <code class="inline">hyperlink</code>, <code class="inline">missing</code>, or <code class="inline">n/a</code>.</td></tr>
+    <tr><td>Role discipline</td><td>Keep run roles short and consistent across <code class="inline">SUMMARY.md</code>, <code class="inline">artifact-checklist.md</code>, <code class="inline">5.5.1</code>, and <code class="inline">7.1.1</code>. Put nuance in <code class="inline">Gap / note</code>, not in a warmer role label.</td></tr>
+  </tbody>
+</table>
+<pre><code>preferred short role labels
+  winner proof
+  green
+  blocker
+  final red
+  diagnostic
+  invalid</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">5.5.2 Source Micro-Band And Audit Artifact Index</span>
+  <span class="sumhint">source posture first, placement index second</span>
+</summary>
+<pre><code>5.5.2 layout
+  5.5.2a -> source posture strip
+  5.5.2b -> small artifact placement index
+
+carrier scope rule
+  label source carrier scope explicitly: run-local / root-level / package-level
+  name one authoritative source verdict owner in 5.5.2a or 5.5.3
+  authoritative owner = scope + exact artifact path
+
+do not
+  stack extra tables here
+  retell kept-run learning here</code></pre>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">5.5.2a Source posture micro-band</span>
+  <span class="sumhint">mandatory when source truth affects Trust or Overall</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Source authority</th>
+      <th>Clean git chronology</th>
+      <th>Final cumulative state</th>
+      <th>Trust effect</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">strong local / partial / narrow / missing</code></td><td><code class="inline">yes / no</code></td><td><code class="inline">saved / missing / n/a</code></td><td>The exact Trust cap or promotion reason.</td></tr>
+  </tbody>
+</table>
+<pre><code>trigger
+  use 5.5.2a when Git diff, Source verdict, final-source bundle,
+  dirty baseline, no-index diff, or capped source authority
+  materially affects Trust or Overall</code></pre>
+<pre><code>source ownership micro-contract
+  carrier scope = run-local / root-level / package-level
+  authoritative source verdict owner = exactly one named scope + exact artifact path
+  if multiple source carriers exist, all non-authoritative carriers must read support-only or local-only
+  if the authoritative owner is missing or ambiguous, Trust cannot promote on source strength</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">5.5.2b Audit Artifact Index</span>
+  <span class="sumhint">small placement map for artifacts not obvious in 5.5.1 or 5.5.3</span>
+</summary>
+<pre><code>default table contract
+  Audit group | Usually point here | Why it belongs here
+
+default groups
+  root / package
+  launch / continuation
+  source
+  render
+
+do not
+  invent package-local group names by default
+  repeat what is already obvious in 5.5.1 or 5.5.3
+  republish a full checklist-family inventory here
+  retell novelty hierarchy here</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Audit group</th>
+      <th>Usually point here</th>
+      <th>Why it belongs here</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">root / package</code></td><td><code class="inline">README.md</code>, <code class="inline">CALIBRATION.md</code>, package manifest, or root prompt snapshot.</td><td>Package identity, frozen closure posture, and root-level reopen.</td></tr>
+    <tr><td><code class="inline">launch / continuation</code></td><td><code class="inline">round-pretraining-brief.md</code>, frontier-ranking ledger, next-run eligibility, or pruned-review memory when retained.</td><td>Why this run launched, how continuation was governed, and what learning pressure remained.</td></tr>
+    <tr><td><code class="inline">source</code></td><td>Source verdict, real diff, no-index diff, or final source bundle.</td><td>Source authority without conflating diff and verdict.</td></tr>
+    <tr><td><code class="inline">render</code></td><td><code class="inline">canonical-render-check.png</code> or render blocker note.</td><td>Visual closure or its blocker.</td></tr>
+  </tbody>
+</table>
+</details>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">5.5.3 Closure Gates</span>
+  <span class="sumhint">package-level binary audit before trust promotion</span>
+</summary>
+<pre><code>default table contract
+  Gate | Verdict | Audit source | Cold reading
+
+core order
+  package completeness -> counted run set -> retained governed set when wider than counted
+  -> missing mandatory artifact -> countable kept runs
+
+optional order when present
+  materialized novelty set -> countable no-lift set -> retained diagnostic set
+  -> pruned review-only set -> continuation gate
+
+finish
+  render state -> source state
+
+discipline
+  keep verdict words short
+  keep nuance in Cold reading</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Gate</th>
+      <th>Verdict</th>
+      <th>Audit source</th>
+      <th>Cold reading</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">package completeness</code></td><td><code class="inline">complete / incomplete / drifted / auditable incomplete</code></td><td>Root closure carriers plus package manifest.</td><td>The package may be honest without being promotable.</td></tr>
+    <tr><td><code class="inline">counted run set</code></td><td>The exact counted window or counted set.</td><td>README ledger, package manifest, and run matrix.</td><td>Window accounting is visible before score trust is claimed.</td></tr>
+    <tr><td><code class="inline">retained governed set</code></td><td>The wider governed run set when it is broader than the counted set, otherwise <code class="inline">same as counted</code>.</td><td>README ledger, package manifest, and kept-run memory.</td><td>Retained scope is visible without being mistaken for countable authority.</td></tr>
+    <tr><td><code class="inline">missing mandatory artifact</code></td><td><code class="inline">yes / no</code></td><td>Checklist line plus audit index when needed.</td><td>No counted run is being rescued by prose.</td></tr>
+    <tr><td><code class="inline">countable kept runs</code></td><td><code class="inline">yes / no</code> plus scope when not universal.</td><td>Run-level checklist links.</td><td>The page only promotes runs whose countability is visible.</td></tr>
+    <tr><td><code class="inline">frontier hardening status</code></td><td><code class="inline">targeted-only / compatibility-parity support / full-suite absorption / n/a</code>.</td><td><code class="inline">7.1.1</code> plus supporting validation or report carriers when earned.</td><td>A targeted winner does not become a robust baseline by implication.</td></tr>
+    <tr><td><code class="inline">materialized novelty set</code></td><td>The exact run set that materially changed source/test truth, or <code class="inline">none</code>.</td><td><code class="inline">5.5.1</code> and <code class="inline">7.1.1</code>.</td><td>Run volume does not masquerade as learning volume.</td></tr>
+    <tr><td><code class="inline">countable no-lift set</code></td><td>The exact counted run set that stayed <code class="inline">no lift</code>, otherwise <code class="inline">none</code>.</td><td><code class="inline">5.5.1</code>, <code class="inline">7.1.1</code>, and kept-run checklists when present.</td><td>Countable corroboration stays visible without being mistaken for fresh materialization.</td></tr>
+    <tr><td><code class="inline">retained diagnostic set</code></td><td>The exact non-countable diagnostic set when diagnostics are kept under <code class="inline">runs/</code>, otherwise <code class="inline">none</code>.</td><td>Run matrix, run checklists, and frozen package memory when relevant.</td><td>Diagnostic corroboration stays visible without inflating proof authority.</td></tr>
+    <tr><td><code class="inline">pruned review-only set</code></td><td>The exact review-only or pseudo-run set removed from governed depth, otherwise <code class="inline">none</code>.</td><td>Pruned-memory note, review ledger, or frozen package memory when retained.</td><td>Removed memory stays auditable without re-entering governed chronology.</td></tr>
+    <tr><td><code class="inline">continuation gate</code></td><td><code class="inline">open / blocked / closed / n/a</code></td><td>Frontier ranking, next-run eligibility, and decisive continuation carrier.</td><td>Continuation pressure is explicit before the page sounds final.</td></tr>
+    <tr><td><code class="inline">render state</code></td><td><code class="inline">fresh / retained / stale / blocked / missing</code></td><td>Render proof and any blocker note.</td><td>Visual closure is explicit, not implied by tidy prose.</td></tr>
+    <tr><td><code class="inline">source state</code></td><td><code class="inline">thin diff / no-index diff / final bundle only / snapshot-only / missing</code></td><td>Source verdict carrier, real diff artifact when it exists, final package-level source bundle when earned, and git-derived note when relevant.</td><td>Source authority is capped or promoted coldly.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">5.5.4 Checklist-to-HTML crosswalk</span>
+  <span class="sumhint">complete checklist coverage, grouped not omitted</span>
+</summary>
+<pre><code>default table contract
+  Checklist artifact group | Required HTML owner | Allowed status when absent
+
+fixed family order
+  run identity -> run review -> validation
+  -> source / ATF support -> novelty / continuation -> root / package / render
+
+owner discipline
+  one primary local owner anchor
+  at most two secondary owner anchors
+
+status words
+  hyperlink | missing | n/a | hyperlink + missing | hyperlink + n/a
+
+do not
+  rename canonical families
+  turn owner cells into mini-ledgers
+  hide required artifacts for visual airiness</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Checklist artifact group</th>
+      <th>Required HTML owner</th>
+      <th>Allowed status when absent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">run identity</code></td><td>Point to the run row or one short local anchor that already owns <code class="inline">SUMMARY.md</code>, run manifest, and prompt carrier.</td><td><code class="inline">missing</code> blocks countability; legacy prompt carrier must be named.</td></tr>
+    <tr><td><code class="inline">run review</code></td><td>Point to the owner section that already exposes artifact checklist and score-support carrier for each counted run.</td><td><code class="inline">n/a</code> only when the run is not counted; otherwise <code class="inline">missing</code>.</td></tr>
+    <tr><td><code class="inline">validation</code></td><td>Point to the owner section that already exposes command output/result when audit-relevant, machine result XML, and ExtentReport when decisive.</td><td><code class="inline">missing</code> caps Trust; <code class="inline">n/a</code> only when no rendered proof existed.</td></tr>
+    <tr><td><code class="inline">source / ATF support</code></td><td>Point to the owner section that already exposes Git diff, no-index diff, source verdict, final source bundle, and ATF/support delta as separate links or statuses.</td><td><code class="inline">no thin diff</code>, <code class="inline">missing</code>, or <code class="inline">n/a</code>; never link source verdict as Git diff.</td></tr>
+    <tr><td><code class="inline">novelty / continuation</code></td><td>Point to the owner section that already exposes frontier ranking, next-run eligibility, pruned-review memory when present, and any decisive carrier that explains blocked, reranked, or closed continuation.</td><td><code class="inline">missing</code> weakens self-learning audit; <code class="inline">n/a</code> only for genuinely one-run packages with no continuation pressure.</td></tr>
+    <tr><td><code class="inline">root / package / render</code></td><td>Point to the owner section that already exposes README, CALIBRATION, package manifest, root prompt, render proof or render blocker, and final package gate carrier when present.</td><td><code class="inline">missing</code> blocks replacement readiness; render may be <code class="inline">blocked</code> only with a blocker note.</td></tr>
+  </tbody>
+</table>
+<pre><code>artifact visibility contract
+  1. every checklist artifact = hyperlink / missing / n/a somewhere in 5.5
+  2. every extra artifact that carries a published claim = visible in its named HTML owner
+  3. raw package residue does not become mandatory only because it exists on disk
+  4. if source truth exists at more than one layer, the authoritative owner must be named once
+
+extra-artifact grid rule
+  if any extra artifact carries a published claim
+    -> 5.5.4 must also publish one compact extra-artifact grid
+       artifact | carries published claim | named HTML owner
+
+reading discipline
+  5.5.2b is the placement index for leftover artifacts, not the completeness owner
+  5.5.4 is a completeness map from artifact-checklist.md to HTML ownership
+  if the same artifact is already easiest to reopen in 5.5.1 or 5.5.3, point there instead of cloning the link list here
+  named HTML owner must be canonical section + local anchor, not a broad family label
+  valid owner example = 5.5.3#artifact-root-closure
+  invalid owner example = 5.5
+  grouping is for readability only
+  single-run packages keep the same artifact contract
+  keep long artifact lists in the owner section, not here</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">5.5 final publication check</span>
+  <span class="sumhint">compact exit check, not a second ledger</span>
+</summary>
+<pre><code>before leaving 5.5
+  run proof grouped by kept run = yes
+  scored or decisive run checklist linked = yes
+  Git diff / Source verdict / final source bundle separated = yes / n/a
+  root, package, render carriers placed or judged = yes / n/a
+  command trace included only when audit-critical and browser-readable = yes / n/a
+  winner, blocker, source cap, and proof asymmetry fastest to locate = yes
+  every checklist artifact visible as hyperlink / missing / n/a = yes</code></pre>
+<div class="note"><b>Learning-boundary rule</b></div>
+<pre><code>5.5 may prove
+  completeness
+  closure
+
+5.5 must not retell business learning
+already owned by 7.1.1</code></pre>
+<div class="note"><b>Rebuild-from-evidence guard</b></div>
+<pre><code>a later writer should reconstruct
+  the verdict spine
+  the proof reopening path
+
+from these grouped tables alone
+without chat memory</code></pre>
+</details>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">5.6 Proof Boundaries And Consistency</span>
+  <span class="sumhint">promotion, minimum set, consistency penalties, and duplication guard for the family</span>
+</summary>
+<pre><code>meta rule
+  keep 5.6 about proof authority, promotion ceilings, and consistency penalties
+  do not use it for structural self-commentary</code></pre>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">5.6.1 Boundary questions</span>
+  <span class="sumhint">what still caps proof authority</span>
+</summary>
+<pre><code>default table contract
+  Consistency question | MUST answer it coldly | Avoid this</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Consistency question</th>
+      <th>MUST answer it coldly</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Is the proof spine uniform across decisive kept runs?</td><td>Name where proof ergonomics are even and where they are not.</td><td>Letting later richer proof make earlier thinner proof disappear from view.</td></tr>
+    <tr><td>Does support trail truth?</td><td>Say directly when business truth is stronger than the saved proof spine or artifact consistency.</td><td>Warm score cards with only prose caveats far later.</td></tr>
+    <tr><td>Did a combined closer add new truth?</td><td>Say explicitly whether it added new family truth or only closed the package more cleanly.</td><td>Granting new-truth credit to closure-only recombination.</td></tr>
+    <tr><td>What is still outside the saved proof chain?</td><td>Mark any ceiling, missing artifact, or reopen cost that still caps trust.</td><td>Letting closure read complete when the saved chain is still uneven.</td></tr>
+    <tr><td>Does breadth memory meet the bar?</td><td>If benchmark authority is claimed across several flows, confirm owned slices, test owners, and iteration delta are visible or explain their absorption.</td><td>Large breadth claims with missing ownership memory.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">5.6.2 Duplication guard</span>
+  <span class="sumhint">do not redraw proof that already closed</span>
+</summary>
+<pre><code>default table contract
+  If this section already closes... | Later section must add... | Do not repeat...</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>If this section already closes...</th>
+      <th>Later section must add...</th>
+      <th>Do not repeat...</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">Flow Ownership And Proof Mapping</code> already closes the bridge</td><td>a genuinely new breadth view such as <code class="inline">Owned Slices Overlay</code></td><td>the same flow chain redrawn with more boxes or a second owner table</td></tr>
+    <tr><td><code class="inline">Artifact Reopen Chain</code> already closes decisive proof reopening</td><td>a new framing question such as replay ceiling, route-vs-flow delta, or failure-lineage restraint</td><td>a second list of the same proof anchors</td></tr>
+  </tbody>
+</table>
+</details>
+</details>
+</div>
+
+<div class="card">
+<h2>6) First-Screen Verdict</h2>
+
+<details>
+<summary>
+  <span class="summary-title">6.0 First-Screen Verdict</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>default table contract
+  Verdict child | Collapsed by default | What it owns
+
+meta rule
+  section 3 owns the opening verdict
+  section 5.5 owns closure / trust / artifact gates
+  section 6 is standing restraint only
+  it may calibrate threshold, authority ceiling, and one cold comparator when earned
+  it must not reopen artifact chains, recount run history,
+  or restate source/novelty truth already owned by 5.5 or 7.1.1
+  do not repeat countable-run sets, novelty sets, diagnostic sets,
+  or source-state tables here; point downward instead</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Verdict child</th>
+      <th>Collapsed by default</th>
+      <th>What it owns</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">6.1 Standing calibration</code></td><td><code class="inline">yes</code></td><td>Standing calibration only: threshold posture, authority ceiling restraint, and why the earlier verdict stays bounded.</td></tr>
+    <tr><td><code class="inline">6.6 Comparator ladder</code></td><td><code class="inline">yes</code></td><td>Cold `beats / still trails / axis` comparative restraint.</td></tr>
+  </tbody>
+</table>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">6.1 Standing calibration</span>
+  <span class="sumhint">standing restraint only after the opening verdict already landed in 3.2</span>
+</summary>
+<pre><code>good opened-body micro-pattern
+  -> compact calibration band
+     -> Threshold posture
+     -> Ceiling restraint
+     -> Why the earlier winner still stands
+     -> Why the page still stays bounded
+
+bad opened-body pattern
+  -> one dense paragraph
+  -> one long table row with several verdicts fused together
+  -> re-announcing the winner as if 3.2 never existed
+
+default table contract
+  Carrier requirement | MUST do this | Avoid this</code></pre>
+<pre><code>preferred operational shape
+  Standing question | Cold answer
+
+keep at most three rows
+  local win
+  authority ceiling
+  replacement posture
+
+preferred verdict words
+  best local
+  still capped
+  still trails
+  replacement-ready no</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Carrier requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Placement</td><td>Land after section <code class="inline">5)</code>, not in the opening cluster.</td><td>Letting <code class="inline">6.1</code> behave like a second opening verdict.</td></tr>
+    <tr><td>Shape</td><td>Use one compact table or key-value band.</td><td>A dense paragraph that looks like audit support.</td></tr>
+    <tr><td>Boundary</td><td>Calibrate the standing that <code class="inline">3.2</code> already declared. Do not re-spend this section on re-announcing winner / companion / ceiling from scratch.</td><td>Rebuilding the same verdict logic a second time.</td></tr>
+    <tr><td>Field/value preference</td><td>If the calibration facts are already discrete, prefer a field/value band or mini-card band over a broader table wall.</td><td>Forcing simple standing-restraint fields into a bulky table just because it is familiar.</td></tr>
+    <tr><td>Opened-body severity</td><td>Let each row or card close one calibration question only.</td><td>Threshold, trust, materialization, and closure all bundled into one long sentence.</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">6.6 Comparator ladder</span>
+  <span class="sumhint">cold comparative support, never the owner of the verdict</span>
+</summary>
+<pre><code>good comparator micro-format
+  -> beats X
+  -> still trails Y
+  -> axis = why
+
+bad comparator form
+  -> paragraph essay
+  -> several named leaders with no cold axis
+  -> comparative block longer than the verdict it supports
+
+default table contract
+  Carrier requirement | MUST do this | Avoid this</code></pre>
+<pre><code>earned-only rule
+  keep 6.6 only when one short retained comparator materially lowers audit cost
+  otherwise mark 6.6 not applicable locally</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Carrier requirement</th>
+      <th>MUST do this</th>
+      <th>Avoid this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Use trigger</td><td>Keep it only when one short comparative ladder materially sharpens benchmark judgment.</td><td>A meta block that competes with the page's own benchmark claim.</td></tr>
+    <tr><td>Micro-format</td><td>Prefer a three-part ladder: <code class="inline">beats</code>, <code class="inline">still trails</code>, <code class="inline">axis</code>.</td><td>Namedropping several comparators without a cold comparative axis.</td></tr>
+  </tbody>
+</table>
+</details>
+<pre><code>meta rule
+  if Benchmark verdict + scoring spine + Standing calibration + Comparator ladder
+  are all separately heavy near the top, compress them
+  preserve a cold scan rhythm: labels first, prose later</code></pre>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">6.7 First-screen guardrails and replacement tests</span>
+  <span class="badge">CORE</span>
+</summary>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">6.7.1 First-screen cold test</span>
+  <span class="sumhint">one compact readiness test for the opening</span>
+</summary>
+<pre><code>default table contract
+  Cold test | Pass only when... | Fail when...</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Cold test</th>
+      <th>Pass only when...</th>
+      <th>Fail when...</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Opening order</td><td>The opening reads in one pass: hero truth, score cards, executive summary, benchmark/scoring verdict, optional standing/comparator calibration, then deeper sections. Do not insert standalone accounting, yield, or comparison slabs between the score cards and the Executive Summary family.</td><td>The reader must enter lower audit prose before understanding the page's real strength, or the first screen turns into <code class="inline">hero -> cards -> helper bars -> section 3</code>.</td></tr>
+    <tr><td>Hierarchy landing</td><td>The reader can tell quickly whether the page is principal, companion, narrow teacher, or still below the incumbent.</td><td>The hierarchy is technically present but only obvious after later sections.</td></tr>
+    <tr><td>Non-promotion honesty</td><td>Replay instability, failed widening, or blocked family-close is visible before the reader over-trusts the page.</td><td>Stronger promotion was refused, but the reason arrives too late.</td></tr>
+    <tr><td>Graph restraint</td><td>Only one graph anchor competes for middle-page dominance and deeper atlas/audit sections wait until the opening already landed.</td><td>Several rich sections compete with the opening verdict.</td></tr>
+    <tr><td>Consistency</td><td>Hero pills, score-card explanations, benchmark verdict, standing calibration, and closure-gate language do not contradict each other.</td><td>The opening sends mixed closure, confidence, or hierarchy signals.</td></tr>
+  </tbody>
+</table>
+<pre><code>cold questions
+  -> what exact incumbent did I displace?
+  -> what exact incumbent still beats me?
+  -> what still blocks stronger promotion?
+  -> would a cold reader see that before lower-page explanation starts helping?</code></pre>
+<pre><code>meta rule
+  if those answers are not already visible from the opening stack,
+  compress lower prose and sharpen the opening before adding more helper structure</code></pre>
+</details>
+</details>
+
+</div>
+<hr class="sep">
+
+<div class="card">
+<h2>7) Run Evolution And Historical Audit</h2>
+
+<details open>
+<summary>
+  <span class="summary-title">7.0 Run Evolution And Historical Audit</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>default table contract
+  Family child | Default posture | What it owns
+
+meta rule
+  history stays collapsed by default
+  7.1.1 is the normal history form
+  7.2 and 7.4 are earned-only supplements
+  if history opens, the novelty strip should be the first fast-reading child</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Family child</th>
+      <th>Default posture</th>
+      <th>What it owns</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">7.1 Cross-Run Comparison</code></td><td><code class="inline">collapsed by default</code></td><td>Which kept runs changed the story and what role each one played.</td></tr>
+    <tr><td><code class="inline">7.1.1 Run Novelty Strip</code></td><td><code class="inline">open by default inside 7.1 when history is used</code></td><td>The normal run-history form: one row per run with novelty, materialization, and score effect.</td></tr>
+    <tr><td><code class="inline">7.2 Round Evolution Ledger</code></td><td><code class="inline">earned-only</code></td><td>Per-run business delta, support delta, evidence anchor, and accounting posture only when the novelty strip is not enough.</td></tr>
+    <tr><td><code class="inline">7.4 Iteration Delta View</code></td><td><code class="inline">earned-only</code></td><td>What benchmark moved, what stayed companion, and what still did not promote only when that strip lowers audit cost.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">7.1 Cross-Run Comparison</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>default table contract
+  This section should answer | Include it when | Expose only this
+
+meta rule
+  one-run packages do not get fake history
+  for one-run packages, publish one-row 7.1.1 and mark 7.2 not applicable
+  multi-run packages should answer what changed, what did not promote,
+  and whether continuation is blocked, reranked, or closed</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>This section should answer</th>
+      <th>Include it when</th>
+      <th>Expose only this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Which kept runs changed the story, which ones did not promote, and why did continuation stay blocked, reranked, or closed?</td><td>Several kept runs each changed what the team knows and one short role ladder lowers reconstruction cost.</td><td>Run id, role, concise knowledge delta, non-promotion reason when relevant, and late-window honesty when later runs closed more than they learned.</td></tr>
+  </tbody>
+</table>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">7.1.1 Run Novelty Strip</span>
+  <span class="sumhint">one row per run so volume cannot masquerade as learning</span>
+</summary>
+<pre><code>default table contract
+  Run | Novelty role | Business / test delta | Materialization | Score effect
+
+novelty chain
+  expected source/test delta -> actual source/test delta
+  -> materialization -> score effect
+
+preferred row order
+  material winner -> other countable proof -> countable no-lift
+  -> retained diagnostics -> packaging-only or pruned memory only when audit-relevant
+
+preferred role vocabulary
+  frontier-expanding
+  deeper-branch
+  closure-only
+  diagnostic
+  blocker
+  sibling-variant
+  packaging-only
+
+single-run handling
+  one concise row only
+  no fake chronology
+
+multi-run handling
+  if only one row is material, mark the winner as material
+  and mark the rest closure-only / diagnostic / packaging-only / equivalent cold roles</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Run</th>
+      <th>Novelty role</th>
+      <th>Business / test delta</th>
+      <th>Materialization</th>
+      <th>Score effect</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">run_##</code></td><td><code class="inline">frontier-expanding / deeper-branch / sibling-variant / closure-only / packaging-only / replay-risk / blocker / diagnostic</code></td><td>One short phrase naming the real semantic change.</td><td><code class="inline">new class / materially expanded class / support unlock / none</code></td><td>Lift, cap, no lift, or downgrade.</td></tr>
+  </tbody>
+</table>
+<pre><code>reading discipline
+  publish the novelty strip before any long ledger
+  if one novelty-chain field changes, re-read the other three before publication
+  phrase Business / test delta as expected/actual when they diverge materially
+  if Materialization = none, Score effect stays cap / no lift / downgrade
+  blocker truth may justify cap or downgrade, never lift
+  if actual source/test delta = narrow, materialization may be support unlock only when a named support unlock target is published; otherwise materialization = none
+  if materialization = support unlock, publish the unlocked descendant or downstream proof path in the same row or adjacent owner note
+  if a targeted winner is being used as stronger baseline truth, publish frontier hardening status = targeted-only / compatibility-parity support / full-suite absorption
+  compatibility/parity support may harden trust, but it does not create a second winner by itself
+  if more than two kept runs yield only one or two material deltas,
+  Coverage and Overall stay capped regardless of artifact cleanliness
+  if review-only pseudo-runs were pruned, mention that once and do not add fake strip rows</code></pre>
+</details>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">7.2 Round Evolution Ledger</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>default table contract
+  Ledger rule | MUST do this | Why it matters
+
+meta rule
+  keep 7.2 earned-only
+  if the novelty strip already makes the governed window cold, omit this ledger</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Ledger rule</th>
+      <th>MUST do this</th>
+      <th>Why it matters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Earned-only trigger</td><td>Open this only when <code class="inline">7.1.1 Run Novelty Strip</code> is not enough to audit the governed window coldly.</td><td>So the long ledger exists only when it truly lowers audit effort.</td></tr>
+    <tr><td>Per-run delta fields</td><td>Show for each kept run only the fields the novelty strip could not already close: <code class="inline">Business delta</code>, <code class="inline">Test / support delta</code>, <code class="inline">Primary evidence anchor</code>, and any essential accounting qualifier.</td><td>So run roles can be understood without reopening every artifact, but without replaying the whole strip more slowly.</td></tr>
+    <tr><td>Retained-close honesty</td><td>Say explicitly when a run mostly did retained-close, package repair, or audit cleanup rather than a new delta strong enough to clear the bar.</td><td>So low-delta runs still read honestly.</td></tr>
+    <tr><td>Late-window honesty</td><td>If later runs mainly hardened closure, completed artifact spine, or recombined already-won branches, say that directly.</td><td>Letting late runs sound like equal frontier-learning moves when they were mostly closer work.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">7.4 Iteration Delta View</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>default table contract
+  This section should answer | Include it when | Expose only this
+
+meta rule
+  use this only when a compact hierarchy strip lowers audit cost faster than prose</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>This section should answer</th>
+      <th>Include it when</th>
+      <th>Expose only this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>What benchmark moved, what stayed companion, and what still did not promote?</td><td>The hierarchy changed over iterations and one compact strip explains it faster than prose.</td><td>What moved, what did not, and the cold reason.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">7.5 Shared history and memory rules</span>
+  <span class="sumhint">memory labels and universal honesty rules for the family</span>
+</summary>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">7.5.1 Memory labels</span>
+  <span class="sumhint">how to label reopened packages</span>
+</summary>
+<pre><code>default table contract
+  Memory label | Use it when | What the report should imply</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Memory label</th>
+      <th>Use it when</th>
+      <th>What the report should imply</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">primary</code></td><td>this package was the main reopened local benchmark-memory for the active branch</td><td>it shaped direction or trust judgment most strongly this round</td></tr>
+    <tr><td><code class="inline">companion</code></td><td>another nearby package helped but did not dominate the branch judgment</td><td>it supported comparison or coverage context</td></tr>
+    <tr><td><code class="inline">structural</code></td><td>the package mainly informed packaging, reporting, or support-layer judgment</td><td>it was useful, but not the main business frontier anchor</td></tr>
+    <tr><td><code class="inline">lineage</code></td><td>the package is preserved as traceable older history only</td><td>it should not read like an active benchmark winner</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">7.5.2 History hygiene</span>
+  <span class="sumhint">keep memory useful, not decorative</span>
+</summary>
+<pre><code>default table contract
+  History rule | MUST do this
+
+meta rule
+  keep memory useful, explicit, and non-decorative</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>History rule</th>
+      <th>MUST do this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Benchmark memory visibility</td><td>Make benchmark memory reopened this round explicit when it shaped direction.</td></tr>
+    <tr><td>Failure-lineage visibility</td><td>When a losing run or disproved frontier materially prevented false promotion, label it explicitly as lineage or failure lineage instead of letting it disappear into generic history.</td></tr>
+    <tr><td>Latest-checkpoint anchoring</td><td>When an iteration-history table spans old lineage plus the current round, make explicit which latest checkpoints belong to the active round and which are older lineage anchors.</td></tr>
+    <tr><td>Derived-summary truth</td><td>If a helpful summary page is derived from other artifacts, stamp it clearly as <code class="inline">derived summary</code> and point to the exact source ledger or validation bundle used.</td></tr>
+    <tr><td>No decorative history</td><td>Do not publish decorative history pages that add no new semantic value.</td></tr>
+  </tbody>
+</table>
+</details>
+</div>
+
+<hr class="sep">
+
+<div class="card">
+<h2>8) Reporting Close-Out</h2>
+<pre><code>default table contract
+  Close-out child | Collapsed by default | What it owns
+
+meta rule
+  8.1 owns reporting-only change
+  8.2 owns render verification truth</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Close-out child</th>
+      <th>Collapsed by default</th>
+      <th>What it owns</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">8.1 Reporting-Only Refinement Delta</code></td><td><code class="inline">yes</code></td><td>What changed only in reporting, what truth stayed fixed, and what ceiling remains.</td></tr>
+    <tr><td><code class="inline">8.2 Render Verification Status</code></td><td><code class="inline">yes</code></td><td>Verified / partial / blocked / not verified render status and screenshot truth.</td></tr>
+  </tbody>
+</table>
+
+<details class="subdetails">
+<summary>
+  <span class="summary-title">8.0.1 Canonical Publication Rules</span>
+  <span class="sumhint">structural rules moved here so overview stays light</span>
+</summary>
+<div class="warn"><b>Canonical publication rule</b></div>
+<pre><code>one canonical report only
+publish only after ORCHESTRATION_PATH 14.1 passed
+keep every canonical family in order
+
+if absorbed or not applicable
+  status = ...
+  reason = ...
+  residual missing = yes / no
+
+if required family is silently missing
+  cap Business HTML
+  cap Overall
+  replacement readiness = no</code></pre>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">8.1 Reporting-Only Refinement Delta</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>8.1 Reporting-Only Refinement Delta
+  -> what changed only in reporting
+  -> what truth stayed fixed
+  -> what lift was gained
+  -> what ceiling still remains
+  -> what the next honest move is
+
+default table contract
+  Delta requirement | MUST state clearly
+
+meta rule
+  8.1 is publication delta only
+  it may cover wording, grouping, order, or visual calm
+  do not turn it into structural self-audit
+  do not explain absorbed or omitted families here; that belongs locally</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Delta requirement</th>
+      <th>MUST state clearly</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Reporting-only boundary</td><td>Say what changed only in publication. This may include grouping, ordering, graph composition, or visual calm. Do not imply new proof.</td></tr>
+    <tr><td>Truth preservation</td><td>Say what stayed the same. Keep-run truth, validation proof, scores, and benchmark hierarchy stay fixed when that is the case.</td></tr>
+    <tr><td>Main lift</td><td>Name one or two reporting improvements only.</td></tr>
+    <tr><td>Remaining ceiling</td><td>Name the reporting or proof ceiling that still remains.</td></tr>
+    <tr><td>Next honest move</td><td>Say what remains open. Say what the next honest move is.</td></tr>
+  </tbody>
+</table>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">8.2 Render Verification Status</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>8.2 Render Verification Status
+  -> verified / partial / blocked / not verified
+  -> canonical-render-check.png truth
+  -> shared-style consistency = pass / fail
+  -> first screen + first graph visible when graph-led verdict matters
+  -> visible failure honesty when render is not clean
+
+default table contract
+  Status requirement | MUST state clearly
+
+ownership rule
+  8.2 owns the published render verdict
+  9.2 owns the verification method and saved evidence</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Status requirement</th>
+      <th>MUST state clearly</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Render verification status</td><td>Say whether render verification is verified, partial, blocked, or not verified.</td></tr>
+    <tr><td>Capture posture</td><td>Point to <code class="inline">analysis/canonical-render-check.png</code>. Prefer a full-page capture. If viewport-only was necessary, say so and name the blocker or distortion.</td></tr>
+    <tr><td>Shared-style consistency</td><td>Say whether the final page stayed consistent with the shared stylesheet or drifted into a local redesign.</td></tr>
+    <tr><td>First screen and first graph visible</td><td>When the graph carries the verdict, the render proof must show the first screen and the first principal graph. If one screenshot could not do that cleanly, say why.</td></tr>
+    <tr><td>Local href audit</td><td>If a local href audit exists, link it here. Do not retell its counts unless one failure changes trust.</td></tr>
+    <tr><td>Editorial integrity</td><td>Confirm that wording, layout, and first-screen claims stay inside the proof spine.</td></tr>
+  </tbody>
+</table>
+</details>
+</div>
+
+<hr class='sep'>
+
+<div class="card">
+<h2>9) Render And Style Discipline</h2>
+
+<details>
+<summary>
+  <span class="summary-title">9.1 Shared style contract</span>
+  <span class="badge">CORE</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Style-contract topic</th>
+      <th>MUST do this</th>
+      <th>Avoid this drift</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Shared stylesheet</td><td>Reuse the shared stylesheet from <code class="inline">REPORT_STYLE_REFERENCE_PATH</code>, but copy it into <code class="inline">ROOT_RUN/analysis/shared-report-reference.css</code> for the saved package.</td><td>Silent local visual forks.</td></tr>
+    <tr><td>Real path resolution</td><td>Reference the copied local stylesheet from <code class="inline">analysis/langgraph-business-understanding.html</code> with a same-folder path such as <code class="inline">href="shared-report-reference.css"</code>.</td><td>A page that opens plain white or unstyled locally because the stylesheet lives outside the saved package.</td></tr>
+    <tr><td>External-path ban</td><td>Do not reference stylesheet paths that resolve outside <code class="inline">ROOT_RUN/analysis/</code> when the saved package is reopened cold.</td><td>Fragile relative paths such as <code class="inline">../../../shared-report-reference.css</code> that work only in one filesystem layout.</td></tr>
+    <tr><td>Shared style primacy</td><td>Treat the shared stylesheet as the primary visual system for <code class="inline">body</code>, opening cluster, cards, tables, <code class="inline">details</code>, and <code class="inline">summary</code>.</td><td>Importing the shared stylesheet and then rebuilding the report locally as a separate dashboard-like design system.</td></tr>
+    <tr><td>Composition continuity</td><td>Keep a calm, reusable composition with one strong opening cluster, one visual leader, and heavier audit sections collapsed unless they materially sharpen the verdict.</td><td>Treating each new report as if it needs a new visual language.</td></tr>
+    <tr><td>Composition flexibility</td><td>Let the current round choose the exact balance of graphs, audit density, and section order after the contract is satisfied.</td><td>Mechanical imitation that ignores the current round's actual content.</td></tr>
+    <tr><td>Diagram calm</td><td>Reuse crisp node-diagram posture, controlled spacing, and collapsible heavy sections so the page reopens calmly.</td><td>Copying only color or typography while losing the compositional breathing room.</td></tr>
+    <tr><td>Local CSS deltas</td><td>Allow local CSS only for tiny justified repairs or SVG / graph helpers that the shared stylesheet cannot express cleanly.</td><td>Large local restyling justified only by taste.</td></tr>
+    <tr><td>Duplicate design-system ban</td><td>Do not redefine the global visual system locally. Avoid local replacements for <code class="inline">body</code>, <code class="inline">.hero</code>, <code class="inline">.card</code>, <code class="inline">details</code>, <code class="inline">summary</code>, <code class="inline">.score-card</code>, or the base card rhythm unless the page names the override and why it was unavoidable.</td><td>A second local design system hiding behind a correct stylesheet import.</td></tr>
+    <tr><td>Hard style-drift gate</td><td>If local CSS redefines <code class="inline">body</code>, <code class="inline">.hero</code>, <code class="inline">.card</code>, <code class="inline">details</code>, <code class="inline">summary</code>, or <code class="inline">.score-card</code>, treat style drift as <code class="inline">fail</code> unless the override is tiny and explicitly justified.</td><td>Assuming any loaded stylesheet means visual closure passed.</td></tr>
+    <tr><td>Style drift severity</td><td>Treat large local overrides or dashboard-like local reskins as a closure defect unless the override is tiny and explicitly justified.</td><td>Calling the page visually valid just because CSS loaded and the screenshot exists.</td></tr>
+    <tr><td>Visual consistency</td><td>Keep one coherent visual idiom across the page and make local style drift a binary pass / fail question, not just a taste judgment.</td><td>Mixing multiple unrelated visual systems in one report.</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>Shared-style rule</b></div>
+<pre><code>shared style is not decorative
+
+if the page imports the shared stylesheet
+and locally redefines most of the visual system
+  render/style discipline = fail
+
+exception
+  override is tiny
+  explicit
+  unavoidable</code></pre>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">9.2 Render verification</span>
+  <span class="badge">CORE</span>
+</summary>
+<pre><code>write final canonical page
+  -> reopen it locally
+  -> inspect styling and layout for real
+  -> save canonical-render-check.png
+  -> only then claim verified
+
+ownership rule
+  8.2 publishes render truth
+  9.2 proves how that truth was verified</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Render-check topic</th>
+      <th>MUST do this</th>
+      <th>Failure to treat as real</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Local reopen</td><td>Open the final canonical page locally after writing it, not just trust the generated HTML source.</td><td>Skipping the visual reopen entirely.</td></tr>
+    <tr><td>Render screenshot</td><td>Save <code class="inline">analysis/canonical-render-check.png</code> when render verification is claimed as verified, preferring a full-page capture unless the page explicitly records why only viewport truth was reliable.</td><td>A "verified" claim with no local screenshot, or a viewport-only screenshot with no honesty note.</td></tr>
+    <tr><td>Graph-led verdict coverage</td><td>If the graph is part of the verdict-carrying opening, the render proof must show both the first screen and the first principal graph, or state explicitly why one screenshot could not do that cleanly.</td><td>A screenshot that proves styling exists but not that the opening and graph actually compose together.</td></tr>
+    <tr><td>Styling/layout truth</td><td>Treat a white, unstyled, or layout-broken page as render failure even if the HTML file exists and the links look correct in source.</td><td>CSS-path success in theory but broken local page in practice.</td></tr>
+    <tr><td>Shared-style consistency</td><td>Verify explicitly whether the page stayed visually consistent with the shared stylesheet without a large local override. Record this as a real pass / fail judgment, not implied confidence.</td><td>A page that technically loads CSS but visually reads like a custom dashboard fork.</td></tr>
+    <tr><td>Editorial integrity</td><td>Treat visible editorial corruption such as mojibake, broken quote encoding, or contradictory first-screen closure text as a closure defect even when CSS and layout render correctly.</td><td>"Style works" being used to excuse broken text or contradictory verdicts.</td></tr>
+    <tr><td>Status wording</td><td>State render verification honestly as verified, partial, blocked, or not verified.</td><td>Implicit visual confidence.</td></tr>
+    <tr><td>Failure artifact</td><td>Preserve a screenshot or blocker note when local visual reopening fails, including when the failure is style drift rather than broken loading.</td><td>A missing explanation for visual failure.</td></tr>
+    <tr><td>Habit formation</td><td>Recommend reopening the final page before stop, the same way a good local package already does with <code class="inline">canonical-render-check.png</code>.</td><td>Assuming the page is fine because generation succeeded.</td></tr>
+    <tr><td>Explicit section</td><td>Publish a visible <code class="inline">Render Verification Status</code> section in the final page when the report claims verified visual closure, including whether shared-style consistency passed or failed.</td><td>Implicit render confidence hidden only in package artifacts.</td></tr>
+    <tr><td>Replacement-readiness gate</td><td>If final HTML changed and <code class="inline">analysis/canonical-render-check.png</code> is missing, blocked, or stale, <code class="inline">html-ex replacement readiness</code> cannot be <code class="inline">yes</code>.</td><td>Calling a page replacement-ready from wording strength alone.</td></tr>
+  </tbody>
+</table>
+</details>
+</details>
+
+<details>
+<summary>
+  <span class="summary-title">9.3 Section rhythm</span>
+  <span class="badge">CORE</span>
+</summary>
+<table>
+  <thead>
+    <tr>
+      <th>Section-rhythm rule</th>
+      <th>MUST do this</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>First-screen calm</td><td>Keep one calm opening cluster, then move into lower proof sections.</td></tr>
+    <tr><td>Global collapsible rule</td><td>Everything after the top banner area stays collapsible, even when one family starts open by default.</td></tr>
+    <tr><td>Open-section restraint</td><td>Prefer zero or one open deep section at a time. On ordinary pages that is usually <code class="inline">4.1 Business Flow Graph</code> when the graph is the principal business teacher.</td></tr>
+    <tr><td>Principal-graph priority</td><td>If the graph is the main business teacher, place it before heavy proof ownership or late history.</td></tr>
+    <tr><td>Low-level placement</td><td>Keep commands, raw tuples, and low-level accounting below the main story.</td></tr>
+  </tbody>
+</table>
+</details>
+</div>
+
+<hr class="sep">
+
+</div>
+</body>
+</html>
+
+
+
+
+

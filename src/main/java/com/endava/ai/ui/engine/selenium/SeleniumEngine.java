@@ -10,8 +10,11 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.nio.file.Path;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class SeleniumEngine implements UIEngine {
     private final WebDriver driver;
@@ -62,10 +65,38 @@ public final class SeleniumEngine implements UIEngine {
     }
 
     @Override
+    public void clickVisible(String cssSelector, int oneBasedIndex) {
+        if (oneBasedIndex < 1) {
+            throw new IllegalArgumentException("Visible click index is 1-based.");
+        }
+
+        List<WebElement> visibleElements = driver.findElements(By.cssSelector(cssSelector)).stream()
+                .filter(WebElement::isDisplayed)
+                .collect(Collectors.toList());
+        if (visibleElements.size() < oneBasedIndex) {
+            throw new NoSuchElementException("No visible match found for index " + oneBasedIndex + " using selector: " + cssSelector);
+        }
+
+        WebElement element = visibleElements.get(oneBasedIndex - 1);
+        try {
+            element.click();
+        } catch (WebDriverException e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        }
+    }
+
+    @Override
     public void type(String cssSelector, String text) {
         WebElement el = find(cssSelector);
         el.clear();
         el.sendKeys(text);
+    }
+
+    @Override
+    public void pressKey(String cssSelector, String key) {
+        WebElement element = find(cssSelector);
+        element.sendKeys(mapKey(key));
     }
 
     @Override
@@ -95,6 +126,11 @@ public final class SeleniumEngine implements UIEngine {
     }
 
     @Override
+    public void uploadFile(String cssSelector, String absolutePath) {
+        find(cssSelector).sendKeys(Path.of(absolutePath).toAbsolutePath().toString());
+    }
+
+    @Override
     public String getText(String cssSelector) {
         List<WebElement> els = driver.findElements(By.cssSelector(cssSelector));
         if (els.isEmpty()) return "";
@@ -111,8 +147,40 @@ public final class SeleniumEngine implements UIEngine {
     }
 
     @Override
+    public List<String> getTexts(String cssSelector) {
+        List<String> values = new ArrayList<>();
+        for (WebElement element : driver.findElements(By.cssSelector(cssSelector))) {
+            String text = element.getText();
+            if (text != null && !text.trim().isEmpty()) {
+                values.add(text.trim());
+            }
+        }
+        return values;
+    }
+
+    @Override
+    public List<String> getVisibleTexts(String cssSelector) {
+        List<String> values = new ArrayList<>();
+        for (WebElement element : driver.findElements(By.cssSelector(cssSelector))) {
+            if (!element.isDisplayed()) {
+                continue;
+            }
+            String text = element.getText();
+            if (text != null && !text.trim().isEmpty()) {
+                values.add(text.trim());
+            }
+        }
+        return values;
+    }
+
+    @Override
     public String getValue(String cssSelector) {
         return find(cssSelector).getAttribute("value");
+    }
+
+    @Override
+    public String getAttribute(String cssSelector, String attributeName) {
+        return find(cssSelector).getAttribute(attributeName);
     }
 
     @Override
@@ -120,6 +188,15 @@ public final class SeleniumEngine implements UIEngine {
         try {
             WebElement el = driver.findElement(By.cssSelector(cssSelector));
             return el.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isEnabled(String cssSelector) {
+        try {
+            return driver.findElement(By.cssSelector(cssSelector)).isEnabled();
         } catch (NoSuchElementException e) {
             return false;
         }
@@ -222,5 +299,15 @@ public final class SeleniumEngine implements UIEngine {
 
     private static boolean isHeadless() {
         return Boolean.parseBoolean(ConfigManager.get("ui.headless", "true"));
+    }
+
+    private static CharSequence mapKey(String key) {
+        if ("Tab".equalsIgnoreCase(key)) {
+            return Keys.TAB;
+        }
+        if ("Enter".equalsIgnoreCase(key)) {
+            return Keys.ENTER;
+        }
+        throw new IllegalArgumentException("Unsupported key for Selenium engine: " + key);
     }
 }
