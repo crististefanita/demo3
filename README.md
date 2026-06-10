@@ -34,11 +34,6 @@ In other words, the most valuable outcome is a stronger `UI + API + reporting` c
    - Extent: `target/reports/ExtentReport_<timestamp>.html`
    - Allure: `mvn allure:serve`
 
-If the work is iterative, governed, or AI-assisted, start here:
-
-- [docs/iterative-governed-execution-atlas.md](docs/iterative-governed-execution-atlas.md)
-- [docs/prompts/iterativ/iterative-governed-execution-atlas.html](docs/prompts/iterativ/iterative-governed-execution-atlas.html)
-
 ## Fast Navigation
 
 - [Project Model](#project-model)
@@ -48,6 +43,11 @@ If the work is iterative, governed, or AI-assisted, start here:
 - [How-To Guides](#how-to-guides)
 - [AI / MCP Workflow](#ai--mcp-workflow)
 - [Reference Notes](#reference-notes)
+
+If the work is iterative, governed, or AI-assisted, start here:
+
+- [docs/iterative-governed-execution-atlas.md](docs/iterative-governed-execution-atlas.md)
+- [docs/prompts/iterativ/iterative-core-standard.html](docs/prompts/iterativ/iterative-core-standard.html)
 
 ## Project Model
 
@@ -522,7 +522,7 @@ Cold formula:
 Primary entry points:
 
 - [docs/iterative-governed-execution-atlas.md](docs/iterative-governed-execution-atlas.md)
-- [docs/prompts/iterativ/iterative-governed-execution-atlas.html](docs/prompts/iterativ/iterative-governed-execution-atlas.html)
+- [docs/prompts/iterativ/iterative-core-standard.html](docs/prompts/iterativ/iterative-core-standard.html)
 - [docs/prompts/iterativ/iterative-core-standard.html](docs/prompts/iterativ/iterative-core-standard.html)
 - [docs/prompts/iterativ/prompt-evolution-orchestration-standard.html](docs/prompts/iterativ/prompt-evolution-orchestration-standard.html)
 - [docs/prompts/iterativ/ui-flow-discovery-and-atf-test-generation.html](docs/prompts/iterativ/ui-flow-discovery-and-atf-test-generation.html)
