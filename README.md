@@ -34,11 +34,17 @@ In other words, the most valuable outcome is a stronger `UI + API + reporting` c
    - Extent: `target/reports/ExtentReport_<timestamp>.html`
    - Allure: `mvn allure:serve`
 
+If the work is iterative, governed, or AI-assisted, start here:
+
+- [docs/iterative-governed-execution-atlas.md](docs/iterative-governed-execution-atlas.md)
+- [docs/prompts/iterativ/iterative-governed-execution-atlas.html](docs/prompts/iterativ/iterative-governed-execution-atlas.html)
+
 ## Fast Navigation
 
 - [Project Model](#project-model)
 - [Setup Path](#setup-path)
 - [Architecture](#architecture)
+- [Iterative Audit Lane](#iterative-audit-lane)
 - [How-To Guides](#how-to-guides)
 - [AI / MCP Workflow](#ai--mcp-workflow)
 - [Reference Notes](#reference-notes)
@@ -287,6 +293,62 @@ Rules:
 </details>
 
 <details>
+<summary>Code Style And Implementation Discipline</summary>
+
+Keep generated or manual changes close to the current ATF style.
+
+Patterns used here, schematically:
+
+- `Template Method / base test`: `BaseTestAPI`, `BaseTestUI` own common lifecycle; concrete tests stay thin
+- `Factory`: `UIEngineFactory`, `UserFactory`, `CommentFactory`, `CustomerDataFactory`, `UserDataFactory` create engines or repeatable data safely
+- `Singleton-style manager`: `ConfigManager`, `ReportingManager`, `DriverManager`, `ScreenshotManager` centralize shared runtime state and lifecycle access
+- `Service layer`: business or transport actions live in `*Service` classes
+- `Page Object`: selectors and page mechanics live in `*Page` classes
+- `Validation Object`: assertions and failure meaning live in `*Validation` classes
+- `Listener`: cross-cutting test lifecycle hooks stay in `TestListener`
+- `Adapter / engine boundary`: reporting and UI engines stay behind stable framework contracts
+
+Pattern stance:
+
+- prefer `Factory` for engines, payloads, and repeatable test data
+- prefer `Manager` only for truly shared lifecycle/state access
+- prefer `Service + Validation` over fat tests
+- use `Builder` only when object setup becomes noisy; it is not the primary live style today
+
+Code style:
+
+- prefer small, layered classes over large multi-purpose helpers
+- keep method names business-readable and intention-first
+- prefer explicit domain names over vague utility naming
+- avoid inline selectors, inline assertions, and inline report plumbing in tests
+- add comments only when they explain non-obvious intent or framework constraints
+
+Implementation patterns to preserve:
+
+- tests orchestrate; services drive behavior; validations assert outcomes
+- page objects own selectors and page mechanics, not business assertions
+- validators own assertion language and failure meaning
+- factories own repeatable object creation and payload setup
+- reporting stays behind framework adapters, not direct ad hoc calls
+
+Anti-patterns to avoid:
+
+- recorder-shaped tests copied without refactoring into framework layers
+- framework-v2 abstractions that duplicate existing services, validations, or managers
+- giant helper classes that mix navigation, waits, assertions, and reporting
+- product test code leaking into `com.endava.ai.atf.*`
+- ATF contract checks leaking into product suites unless the test is explicitly hybrid by design
+
+Cold check before keeping a change:
+
+- does it look like existing ATF code?
+- does it strengthen a reusable layer instead of only one test?
+- does responsibility stay in the correct layer?
+- can the narrowest relevant Maven run prove it?
+
+</details>
+
+<details>
 <summary>Configuration</summary>
 
 Main file:
@@ -446,39 +508,40 @@ When changing reporting behavior, validate the relevant self-tests under `com.en
 
 </details>
 
-## AI / MCP Workflow
+## Iterative Audit Lane
 
 <details>
-<summary>Prompt Library And When To Use It</summary>
+<summary>Start Here For Governed Iteration</summary>
 
-Use:
+Use this lane first when the task is iterative, AI-assisted, or audit-sensitive.
 
-- [docs/prompts/api-framework-evolution.md](docs/prompts/api-framework-evolution.md) for API-only evolution
-- [docs/prompts/ui-recording-to-atf-tests.md](docs/prompts/ui-recording-to-atf-tests.md) for recorded UI flow conversion
-- [docs/prompts/atf-framework-test-evolution.md](docs/prompts/atf-framework-test-evolution.md) for framework-level hardening
-- [docs/playwright_mcp_codex_java_guide.md](docs/playwright_mcp_codex_java_guide.md) for `Codex + MCP + Playwright` setup and recording flow
+Cold formula:
+
+- `Memory -> Pressure -> Spend -> Freeze -> Score -> Learn`
+
+Primary entry points:
+
+- [docs/iterative-governed-execution-atlas.md](docs/iterative-governed-execution-atlas.md)
+- [docs/prompts/iterativ/iterative-governed-execution-atlas.html](docs/prompts/iterativ/iterative-governed-execution-atlas.html)
+- [docs/prompts/iterativ/iterative-core-standard.html](docs/prompts/iterativ/iterative-core-standard.html)
+- [docs/prompts/iterativ/prompt-evolution-orchestration-standard.html](docs/prompts/iterativ/prompt-evolution-orchestration-standard.html)
+- [docs/prompts/iterativ/ui-flow-discovery-and-atf-test-generation.html](docs/prompts/iterativ/ui-flow-discovery-and-atf-test-generation.html)
+- [docs/prompts/iterativ/langgraph-business-understanding-reporting-standard.html](docs/prompts/iterativ/langgraph-business-understanding-reporting-standard.html)
+- [docs/html-ex/README.md](docs/html-ex/README.md)
 
 </details>
 
 <details>
-<summary>Iterative MCP / Codex Workflow</summary>
+<summary>What The Lane Means</summary>
 
-Agentic work in this repository should follow one repeatable loop:
+- `Memory -> Pressure -> Spend -> Freeze -> Score -> Learn`
 
-1. start from the existing ATF as the source of truth
-2. choose the right prompt for the task
-3. generate changes inside existing layers only
-4. run the narrowest relevant tests
-5. inspect failures, reports, and artifacts
-6. refine iteratively until the branch is stable
-
-Quick loops:
-
-```text
-API: prompt -> inspect API layers -> generate small change -> run narrow API suite -> inspect contracts -> refine
-UI: record -> preserve raw reference -> prompt Codex -> refactor into pages/services/validation -> run narrow UI test -> inspect -> refine
-ATF: identify contract gap -> add focused framework test -> harden support code -> rerun narrow contract suite
-```
+- `Memory`: reopen the live owner set and comparative memory coldly
+- `Pressure`: rank real frontier pressure before any governed spend
+- `Spend`: authorize one governed slot only after pretrain passes
+- `Freeze`: save bundle, checklist, countability, and next-run truth
+- `Score`: settle run truth, package truth, accounting, and caps before HTML republishes them
+- `Learn`: preserve reopenable artifacts so the next round starts from audited memory, not from vague recall
 
 </details>
 
@@ -495,6 +558,37 @@ Before accepting AI-generated changes, verify:
 - cleanup exists where needed
 - targeted Maven runs pass
 - generated code still looks like ATF code, not recorder code or framework-v2 code
+
+</details>
+
+## AI / MCP Workflow
+
+<details>
+<summary>Prompt Library And When To Use It</summary>
+
+Use:
+
+- [docs/prompts/api-framework-evolution.md](docs/prompts/api-framework-evolution.md) for API-only evolution
+- [docs/prompts/ui-recording-to-atf-tests.md](docs/prompts/ui-recording-to-atf-tests.md) for recorded UI flow conversion
+- [docs/prompts/atf-framework-test-evolution.md](docs/prompts/atf-framework-test-evolution.md) for framework-level hardening
+- [docs/playwright_mcp_codex_java_guide.md](docs/playwright_mcp_codex_java_guide.md) for `Codex + MCP + Playwright` setup and recording flow
+
+</details>
+
+<details>
+<summary>How This Fits Inside The Audit Lane</summary>
+
+Use the audit lane as the operating model.
+
+Use this section to choose the right prompt and tooling inside that lane.
+
+Quick loops:
+
+```text
+API: prompt -> inspect API layers -> generate small change -> run narrow API suite -> inspect contracts -> refine
+UI: record -> preserve raw reference -> prompt Codex -> refactor into pages/services/validation -> run narrow UI test -> inspect -> refine
+ATF: identify contract gap -> add focused framework test -> harden support code -> rerun narrow contract suite
+```
 
 </details>
 

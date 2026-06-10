@@ -174,6 +174,17 @@
   th { background: rgba(17,24,38,.92); }
   td { background: rgba(11,20,31,.58); }
   tbody tr:nth-child(even) td { background: rgba(15,23,36,.62); }
+  .svgbox { margin-top: 10px; }
+  .svgbox svg { width: 100%; height: auto; }
+  .svgbox .n {
+    fill: rgba(17,24,38,.94);
+    stroke: rgba(122,162,255,.56);
+    stroke-width: 2;
+  }
+  .svgbox .t { fill: var(--text); font: 700 13.5px var(--sans); }
+  .svgbox .s { fill: #c0cff5; font: 10px var(--sans); }
+  .svgbox .l { stroke: rgba(122,162,255,.88); stroke-width: 2; fill: none; }
+  .svgbox .d { stroke-dasharray: 6 5; }
 </style>
 </head>
 <body>
@@ -225,7 +236,7 @@ reporting owner
 
 <details class="subdetails">
   <summary>
-    <span class="summary-title">1.2 Core Round Map</span>
+    <span class="summary-title">1.2 Canonical Round Contract</span>
     <span class="sumhint">the supervisory order is canonical, not illustrative</span>
   </summary>
   <table>
@@ -273,11 +284,23 @@ reporting owner
 
 <details class="subdetails">
   <summary>
-    <span class="summary-title">1.4 Quick Lookup</span>
+    <span class="summary-title">1.4 Construction Shortcuts</span>
+    <span class="sumhint">keep collapsed unless you are actively assembling the round view</span>
+  </summary>
+  <div class="docmap">
+    <b>Owner-first reading</b><span>Read the owner section that decides the gate or verdict before reopening downstream detail.</span>
+    <b>Boundary discipline</b><span>Iterative core consumes published run and package truth; it does not reconstruct artifact validity from memory.</span>
+  </div>
+</details>
+
+<details class="subdetails">
+  <summary>
+    <span class="summary-title">1.5 Quick Reference</span>
     <span class="sumhint">owner and gate lookup only</span>
   </summary>
-<pre><code>need hard stop gates         -> 2.2
-need ownership handoff       -> 2.3
+<pre><code>need full supervisory lane   -> 2.1
+need prelaunch wall          -> 2.2
+need run loop + next-run law -> 2.3
 need roots and constants     -> 1.6.1 + 3.0
 need launch permission       -> 4.0 - 4.3
 need active evidence window  -> 5.0 - 5.4
@@ -288,23 +311,12 @@ need close-out before report -> 9.0 - 9.5
 need final delegation        -> 10.0 - 10.4
 need family vocabulary       -> 1.6.2</code></pre>
 </details>
-
-<details class="subdetails">
-  <summary>
-    <span class="summary-title">1.5 Construction Shortcuts</span>
-    <span class="sumhint">keep collapsed unless you are actively assembling the round view</span>
-  </summary>
-  <div class="docmap">
-    <b>Owner-first reading</b><span>Read the owner section that decides the gate or verdict before reopening downstream detail.</span>
-    <b>Boundary discipline</b><span>Iterative core consumes published run and package truth; it does not reconstruct artifact validity from memory.</span>
-  </div>
-</details>
   </div>
 
   <div class="card">
-    <h2>1.6 Shared Bindings And Vocabulary</h2>
+    <h2>1.6 Shared Inputs And Vocabulary</h2>
     <div class="sub">
-      Bindings and thin family vocabulary only. Open this card only when you need repo constants or a cold term definition.
+      Shared inputs first, then thin family vocabulary. Open this card only when you need repo constants or a cold term definition.
     </div>
     <details class="subdetails">
       <summary>
@@ -367,95 +379,232 @@ reopen from shared constants:
 
 <div class="card">
   <h2>2) Executive Supervisory Diagrams</h2>
-  <div class="note"><b>Executive-card rule:</b> this section is the 30-second control card. It shows the order, hard stops, and ownership handoff only. Do not duplicate the detailed contracts that live in sections <code class="inline">3 - 10</code>.</div>
+  <div class="note"><b>Supervisor view only:</b> keep this section as the shortest visual read of the whole family round. Detailed contracts still live in sections <code class="inline">3 - 10</code>.</div>
 
   <details>
     <summary>
-      <span class="summary-title">2.1 One-Page Execution Card</span>
+      <span class="summary-title">2.1 Full Supervisory Lane</span>
       <span class="badge">EXEC</span>
-      <span class="sumhint">prepare -> pretrain -> launch -> freeze -> consume -> judge -> close</span>
+      <span class="sumhint">the shortest cold map of the whole family lane</span>
     </summary>
-<pre><code>ITERATIVE CORE EXECUTION LANE
+    <div class="svgbox">
+      <svg viewBox="0 0 1180 240" role="img" aria-label="Full supervised family lane">
+        <defs><marker id="arrExec1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+        <rect class="n" x="24" y="84" width="154" height="72" rx="14"></rect>
+        <text class="t" x="101" y="112" text-anchor="middle">Reread live</text>
+        <text class="s" x="101" y="134" text-anchor="middle">owner set reopened</text>
 
-prepare
-  -> ROOT_RUN fixed
-  -> branch baseline clean
+        <rect class="n" x="194" y="84" width="154" height="72" rx="14"></rect>
+        <text class="t" x="271" y="112" text-anchor="middle">Prepare clean</text>
+        <text class="s" x="271" y="134" text-anchor="middle">fresh-round boundary</text>
 
-pretrain
-  -> saved brief consumed
-  -> launch / strengthen first
+        <rect class="n" x="364" y="84" width="154" height="72" rx="14"></rect>
+        <text class="t" x="441" y="112" text-anchor="middle">Fix ROOT_RUN</text>
+        <text class="s" x="441" y="134" text-anchor="middle">round shell fixed</text>
 
-launch
-  -> run_01 starts only after pretrain passes
-  -> active window = run_01 .. run_N
+        <rect class="n" x="534" y="84" width="154" height="72" rx="14"></rect>
+        <text class="t" x="611" y="112" text-anchor="middle">Pretrain gate</text>
+        <text class="s" x="611" y="134" text-anchor="middle">launch or strengthen</text>
 
-freeze
-  -> after each governed run
-  -> orchestration freezes package
-  -> checklist publishes countable = yes / no
-  -> only then may run_##+1 start
+        <rect class="n" x="704" y="84" width="154" height="72" rx="14"></rect>
+        <text class="t" x="781" y="112" text-anchor="middle">Governed run</text>
+        <text class="s" x="781" y="134" text-anchor="middle">run_n loop starts</text>
 
-consume
-  -> reopen finished ROOT_RUN artifacts
-  -> no ranking yet
+        <rect class="n" x="874" y="84" width="154" height="72" rx="14"></rect>
+        <text class="t" x="951" y="112" text-anchor="middle">Close-out</text>
+        <text class="s" x="951" y="134" text-anchor="middle">family truth frozen</text>
 
-judge
-  -> compare only after consumption is complete
-  -> decide continue / stop / incomplete
+        <rect class="n" x="1044" y="84" width="112" height="72" rx="14"></rect>
+        <text class="t" x="1100" y="112" text-anchor="middle">HTML</text>
+        <text class="s" x="1100" y="134" text-anchor="middle">publish only</text>
 
-close
-  -> one family close-out
-  -> reporting receives settled truth</code></pre>
+        <path class="l" style="marker-end:url(#arrExec1)" d="M178 120 H194"></path>
+        <path class="l" style="marker-end:url(#arrExec1)" d="M348 120 H364"></path>
+        <path class="l" style="marker-end:url(#arrExec1)" d="M518 120 H534"></path>
+        <path class="l" style="marker-end:url(#arrExec1)" d="M688 120 H704"></path>
+        <path class="l" style="marker-end:url(#arrExec1)" d="M858 120 H874"></path>
+        <path class="l" style="marker-end:url(#arrExec1)" d="M1028 120 H1044"></path>
+        <path class="l d" style="marker-end:url(#arrExec1)" d="M611 156 C611 196 742 196 742 156"></path>
+        <path class="l d" style="marker-end:url(#arrExec1)" d="M781 156 C781 196 820 196 820 156"></path>
+      </svg>
+    </div>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">Legend</span>
+        <span class="sumhint">how to read the short lane</span>
+      </summary>
+      <ul>
+        <li><b>Scope:</b> this is the shortest honest lane.</li>
+        <li><b>Order only:</b> reread, prepare, pretrain, run, close-out, then HTML.</li>
+        <li><b><code>Pretrain gate</code>:</b> this is the only pre-code loop.</li>
+        <li><b><code>Governed run</code>:</b> unreachable before launch is earned.</li>
+        <li><b><code>HTML</code>:</b> downstream only. It never sends truth back upstream.</li>
+        <li><b>More detail:</b> reopen <code class="inline">docs/prompts/iterativ/iterative-governed-execution-atlas.html</code>.</li>
+      </ul>
+    </details>
   </details>
 
   <details>
     <summary>
-      <span class="summary-title">2.2 Hard Stop Gates</span>
+      <span class="summary-title">2.2 Pre-Code / Pre-Launch Wall</span>
       <span class="badge">GATE</span>
-      <span class="sumhint">where the supervisor must refuse to continue</span>
+      <span class="sumhint">no governed code starts before this wall passes coldly</span>
     </summary>
-<table>
-  <thead>
-    <tr>
-      <th>Gate</th>
-      <th>Stop if</th>
-      <th>Next allowed action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td><code class="inline">prepare</code></td><td>repo is not back at branch baseline or <code class="inline">ROOT_RUN</code> is unclear</td><td>repair preparation before reading launch pressure</td></tr>
-    <tr><td><code class="inline">pretrain</code></td><td>brief is missing, generic, or dodges a live heavy frontier</td><td>strengthen brief; do not launch</td></tr>
-    <tr><td><code class="inline">launch</code></td><td>active window is not fixed from <code class="inline">META_ITERATION_COUNT</code></td><td>publish the window before run_01</td></tr>
-    <tr><td><code class="inline">freeze</code></td><td>previous run has no frozen package, checklist, or countability verdict</td><td>freeze and classify before run_##+1</td></tr>
-    <tr><td><code class="inline">consume</code></td><td>root, run, validation, source, or accounting artifacts are not reopened</td><td>consume artifacts; no ranking</td></tr>
-    <tr><td><code class="inline">judge</code></td><td>consumption is incomplete, package drift is unresolved, or extra run folders are unclassified</td><td>classify incomplete/drifted/demoted before ranking or stop claims</td></tr>
-    <tr><td><code class="inline">close</code></td><td>family verdict, ROOT_RUN pointer, or reporting handoff is unsettled</td><td>publish close-out first</td></tr>
-  </tbody>
-</table>
+    <div class="svgbox">
+      <svg viewBox="0 0 1180 410" role="img" aria-label="Pre-code and pre-launch wall">
+        <defs><marker id="arrExec2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+        <rect class="n" x="34" y="36" width="160" height="76" rx="14"></rect>
+        <text class="t" x="114" y="66" text-anchor="middle">1 Live reread</text>
+        <text class="s" x="114" y="88" text-anchor="middle">owner set reopened</text>
+
+        <rect class="n" x="220" y="36" width="160" height="76" rx="14"></rect>
+        <text class="t" x="300" y="66" text-anchor="middle">2 Inspect tree</text>
+        <text class="s" x="300" y="88" text-anchor="middle">dirty or clean</text>
+
+        <rect class="n" x="406" y="36" width="160" height="76" rx="14"></rect>
+        <text class="t" x="486" y="66" text-anchor="middle">3 Preserve dirty</text>
+        <text class="s" x="486" y="88" text-anchor="middle">stash + diff + inventory</text>
+
+        <rect class="n" x="592" y="36" width="160" height="76" rx="14"></rect>
+        <text class="t" x="672" y="66" text-anchor="middle">4 Baseline clean</text>
+        <text class="s" x="672" y="88" text-anchor="middle">fresh-round boundary</text>
+
+        <rect class="n" x="778" y="36" width="160" height="76" rx="14"></rect>
+        <text class="t" x="858" y="66" text-anchor="middle">5 Fix ROOT_RUN</text>
+        <text class="s" x="858" y="88" text-anchor="middle">README + manifest + prompt</text>
+
+        <rect class="n" x="964" y="36" width="160" height="76" rx="14"></rect>
+        <text class="t" x="1044" y="66" text-anchor="middle">6 Reopen memory</text>
+        <text class="s" x="1044" y="88" text-anchor="middle">decisive only</text>
+
+        <rect class="n" x="964" y="176" width="160" height="76" rx="14"></rect>
+        <text class="t" x="1044" y="206" text-anchor="middle">7 Brief exists</text>
+        <text class="s" x="1044" y="228" text-anchor="middle">round-pretraining-brief</text>
+
+        <rect class="n" x="778" y="176" width="160" height="76" rx="14"></rect>
+        <text class="t" x="858" y="206" text-anchor="middle">8 Pretrain</text>
+        <text class="s" x="858" y="228" text-anchor="middle">launch or strengthen</text>
+
+        <rect class="n" x="592" y="176" width="160" height="76" rx="14"></rect>
+        <text class="t" x="672" y="206" text-anchor="middle">9 Strengthen</text>
+        <text class="s" x="672" y="228" text-anchor="middle">save frontier ledger</text>
+
+        <rect class="n" x="406" y="176" width="160" height="76" rx="14"></rect>
+        <text class="t" x="486" y="206" text-anchor="middle">10 Recheck</text>
+        <text class="s" x="486" y="228" text-anchor="middle">pretrain again</text>
+
+        <rect class="n" x="220" y="176" width="160" height="76" rx="14"></rect>
+        <text class="t" x="300" y="206" text-anchor="middle">11 Launch gate</text>
+        <text class="s" x="300" y="228" text-anchor="middle">run_01 allowed?</text>
+
+        <rect class="n" x="34" y="176" width="160" height="76" rx="14"></rect>
+        <text class="t" x="114" y="206" text-anchor="middle">12 Enter run_01</text>
+        <text class="s" x="114" y="228" text-anchor="middle">governed code starts</text>
+
+        <rect class="n" x="592" y="306" width="200" height="76" rx="14"></rect>
+        <text class="t" x="692" y="336" text-anchor="middle">Hard stop only here</text>
+        <text class="s" x="692" y="358" text-anchor="middle">if strengthen still cannot close</text>
+
+        <path class="l" style="marker-end:url(#arrExec2)" d="M194 74 H220"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M380 74 H406"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M566 74 H592"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M752 74 H778"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M938 74 H964"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M1044 112 V150"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M964 214 H938"></path>
+        <path class="l d" style="marker-end:url(#arrExec2)" d="M778 214 H752"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M592 214 H566"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M406 214 H380"></path>
+        <path class="l" style="marker-end:url(#arrExec2)" d="M220 214 H194"></path>
+        <path class="l d" style="marker-end:url(#arrExec2)" d="M672 252 V286"></path>
+      </svg>
+    </div>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">Legend</span>
+        <span class="sumhint">what the wall blocks</span>
+      </summary>
+      <ul>
+        <li><b>Goal:</b> no governed code starts too early.</li>
+        <li><b>First come:</b> live reread, clean baseline, pretrain, strengthen if needed, then launch permission.</li>
+        <li><b><code>round-pretraining-brief.md</code>:</b> must exist before launch talk is legal.</li>
+        <li><b><code>strengthen first</code>:</b> means save the missing artifact now, then rejudge.</li>
+        <li><b>Hard stop:</b> only when strengthen still cannot close the gate coldly.</li>
+        <li><b>More detail:</b> reopen <code class="inline">docs/prompts/iterativ/iterative-governed-execution-atlas.html</code>.</li>
+      </ul>
+    </details>
   </details>
 
   <details>
     <summary>
-      <span class="summary-title">2.3 Ownership Handoff Map</span>
-      <span class="badge">HANDOFF</span>
-      <span class="sumhint">one owner per decision layer</span>
+      <span class="summary-title">2.3 Governed Run Loop And Next-Run Lock</span>
+      <span class="badge">LOOP</span>
+      <span class="sumhint">after launch, every later slot depends on freeze, checklist truth, and legal next-run judgment</span>
     </summary>
-<table>
-  <thead>
-    <tr>
-      <th>Layer</th>
-      <th>Owner</th>
-      <th>Iterative-core does</th>
-      <th>Iterative-core does not</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Round window</td><td><code class="inline">iterative-core</code></td><td>defines <code class="inline">run_01 .. run_N</code>, full/incomplete, continue/stop</td><td>fake unused budget or count folder names blindly</td></tr>
-    <tr><td>Saved artifacts</td><td><code class="inline">prompt-evolution-orchestration</code></td><td>consumes freeze/checklist/countability and package drift signals</td><td>redefine artifact validity locally</td></tr>
-    <tr><td>Business report</td><td><code class="inline">langgraph-business-understanding-reporting</code></td><td>hands off settled family truth and caps</td><td>let final HTML re-decide the family</td></tr>
-    <tr><td>Older packages</td><td><code class="inline">comparative memory</code></td><td>uses them only as pretraining/comparator pressure</td><td>grant active score credit</td></tr>
-  </tbody>
-</table>
+    <div class="svgbox">
+      <svg viewBox="0 0 1180 360" role="img" aria-label="Governed run loop and next-run lock">
+        <defs><marker id="arrExec3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+        <rect class="n" x="468" y="24" width="244" height="78" rx="38"></rect>
+        <text class="t" x="590" y="54" text-anchor="middle">Execute run_n</text>
+        <text class="s" x="590" y="76" text-anchor="middle">chosen frontier only</text>
+
+        <rect class="n" x="884" y="128" width="212" height="78" rx="38"></rect>
+        <text class="t" x="990" y="158" text-anchor="middle">Freeze bundle</text>
+        <text class="s" x="990" y="180" text-anchor="middle">run-local carriers saved</text>
+
+        <rect class="n" x="744" y="244" width="224" height="78" rx="38"></rect>
+        <text class="t" x="856" y="274" text-anchor="middle">Artifact checklist</text>
+        <text class="s" x="856" y="296" text-anchor="middle">countable kept = yes / no</text>
+
+        <rect class="n" x="496" y="244" width="208" height="78" rx="38"></rect>
+        <text class="t" x="600" y="274" text-anchor="middle">Read run truth</text>
+        <text class="s" x="600" y="296" text-anchor="middle">consume saved artifacts coldly</text>
+
+        <rect class="n" x="224" y="244" width="232" height="78" rx="38"></rect>
+        <text class="t" x="340" y="274" text-anchor="middle">Next-run judgment</text>
+        <text class="s" x="340" y="296" text-anchor="middle">continue / rerank / block / close</text>
+
+        <rect class="n" x="54" y="128" width="170" height="78" rx="38"></rect>
+        <text class="t" x="139" y="158" text-anchor="middle">run_n+1 same round</text>
+        <text class="s" x="139" y="180" text-anchor="middle">only if copied row is honest</text>
+
+        <rect class="n" x="248" y="24" width="170" height="78" rx="38"></rect>
+        <text class="t" x="333" y="54" text-anchor="middle">Fresh rerank</text>
+        <text class="s" x="333" y="76" text-anchor="middle">new ledger first</text>
+
+        <rect class="n" x="24" y="24" width="184" height="78" rx="38"></rect>
+        <text class="t" x="116" y="54" text-anchor="middle">Exit to close-out</text>
+        <text class="s" x="116" y="76" text-anchor="middle">family verdict may start</text>
+
+        <rect class="n" x="1012" y="24" width="144" height="78" rx="38"></rect>
+        <text class="t" x="1084" y="54" text-anchor="middle">Blocked</text>
+        <text class="s" x="1084" y="76" text-anchor="middle">no legal slot spend</text>
+
+        <path class="l" style="marker-end:url(#arrExec3)" d="M712 62 C846 72 990 92 990 128"></path>
+        <path class="l" style="marker-end:url(#arrExec3)" d="M962 202 C936 220 900 236 884 244"></path>
+        <path class="l" style="marker-end:url(#arrExec3)" d="M744 283 H704"></path>
+        <path class="l" style="marker-end:url(#arrExec3)" d="M496 283 H456"></path>
+        <path class="l" style="marker-end:url(#arrExec3)" d="M224 283 C170 258 138 230 138 206"></path>
+        <path class="l" style="marker-end:url(#arrExec3)" d="M224 250 C214 176 276 112 333 102"></path>
+        <path class="l" style="marker-end:url(#arrExec3)" d="M418 62 H468"></path>
+        <path class="l d" style="marker-end:url(#arrExec3)" d="M340 322 V336 H116 V102"></path>
+        <path class="l d" style="marker-end:url(#arrExec3)" d="M340 322 V336 H1084 V102"></path>
+      </svg>
+    </div>
+    <details class="subdetails">
+      <summary>
+        <span class="summary-title">Legend</span>
+        <span class="sumhint">how the loop stays legal</span>
+      </summary>
+      <ul>
+        <li><b>Scope:</b> this is the only repeating zone.</li>
+        <li><b><code>Freeze bundle</code>:</b> must exist before any later slot is judged.</li>
+        <li><b><code>Artifact checklist</code>:</b> publishes <code>countable kept = yes / no</code>.</li>
+        <li><b><code>Next-run judgment</code>:</b> may continue, rerank, block, or exit.</li>
+        <li><b>Close-out:</b> not another run. It is the terminal state of the current governed window.</li>
+        <li><b>More detail:</b> reopen <code class="inline">docs/prompts/iterativ/iterative-governed-execution-atlas.html</code>.</li>
+      </ul>
+    </details>
   </details>
 </div>
 
@@ -647,7 +796,9 @@ if blocked
       </thead>
       <tbody>
         <tr><td><code class="inline">N</code> treated as maximum possible budget only</td><td><code class="inline">N</code> is the governed window that must become full or incomplete.</td></tr>
+        <tr><td>Full window treated as automatically maximized</td><td>A full window is accounting-complete only. If later slots were low-yield closure runs while heavier frontier pressure stayed live, say <code class="inline">maximization = no</code>.</td></tr>
         <tr><td>Green local run used as earned stop</td><td>Stop is valid only after the remaining heavy frontier is consumed, capped, or demoted.</td></tr>
+        <tr><td>Same-round stop treated as total exploration closure</td><td>A blocked same-round continuation may still leave rich application-level exploration open. Continue only through a fresh round with fresh reranking, not by padding the closed package.</td></tr>
         <tr><td>Unconsumed slots hidden by good wording</td><td>Name the slots and publish <code class="inline">active-window completeness = incomplete</code>.</td></tr>
         <tr><td>Extra run folders ignored</td><td>Count, demote, or report drift before judgment.</td></tr>
         <tr><td>Older packages mixed into active score</td><td>Older packages stay comparator memory only.</td></tr>
@@ -976,7 +1127,7 @@ if T or B fails but P/H/C are strong
       <tbody>
         <tr><td><code class="inline">RUN_EXPECTED_DELTA_QUALITY</code></td><td>Primary run gate.</td><td>The kept run must clear this before it reads as verdict-moving.</td></tr>
         <tr><td><code class="inline">RUN_DELTA_SCORE_ACTUAL</code></td><td>Computed support behind the gate.</td><td>Do not replace it with softer overall-feel language.</td></tr>
-        <tr><td><code class="inline">ROUND_TARGET_TEST_COUNT</code></td><td>Secondary accounting target.</td><td>Tracks breadth turned into tests; it does not replace winner quality.</td></tr>
+        <tr><td><code class="inline">ROUND_TARGET_TEST_COUNT</code></td><td>Secondary accounting target.</td><td>Tracks cold-distinct defended scope materially turned into tests, not raw test volume; one local test does not satisfy it by itself, and it does not replace winner quality.</td></tr>
         <tr><td><code class="inline">T</code></td><td>Truth delta</td><td>Did the run materially change what the round can honestly claim?</td></tr>
         <tr><td><code class="inline">B</code></td><td>Branch / depth delta</td><td>Did the run defend deeper branch scope, not just another sample?</td></tr>
         <tr><td><code class="inline">P</code></td><td>Proof strength delta</td><td>Did the run materially improve direct proof precision?</td></tr>
@@ -1007,6 +1158,38 @@ if T or B fails but P/H/C are strong
   -> active accounting
   -> stop verdict
   -> next target</code></pre>
+<pre><code>active accounting publication
+  RUN_EXPECTED_DELTA_QUALITY = ...
+  ROUND_TARGET_TEST_COUNT = ...
+  strongest kept runs that cleared quality = ...
+  strongest materially test-expanding runs and TEST_MATERIALIZATION_QUALITY_SCORE when required = ...
+  materially turned into tests = x / ROUND_TARGET_TEST_COUNT
+  accounting target met = yes / no</code></pre>
+<pre><code>accounting reading
+  ROUND_TARGET_TEST_COUNT counts cold-distinct defended test scope,
+  not raw test methods, assertions, or local polish
+
+  one new test may still earn a run win
+  it does not earn round-level yield maximization by itself</code></pre>
+<pre><code>counting unit rule
+  count x only by cold-distinct defended target identities
+
+  do not count by
+    test methods
+    assertion count
+    selector count
+    repeated checks inside the same defended path
+    replay hardening on the same frontier alone
+
+  if multiple new tests defend one target identity
+    -> count as one materially turned scope
+
+  only independently defended cold business targets
+    may increase x beyond one</code></pre>
+<pre><code>ownership rule
+  root/package carriers own active accounting truth once
+  HTML republishes that frozen verdict near score cards
+  do not let README, CALIBRATION, and HTML drift semantically</code></pre>
     <table>
       <thead>
         <tr>
@@ -1016,12 +1199,13 @@ if T or B fails but P/H/C are strong
       </thead>
       <tbody>
         <tr><td><code class="inline">docs/out/README.md</code></td><td>The branch-level <code class="inline">ROOT_RUN</code> pointer must resolve to the active package that this round just closed.</td></tr>
-        <tr><td><code class="inline">ROOT_RUN/README.md</code></td><td>Retained family position and what to open first.</td></tr>
-        <tr><td><code class="inline">ROOT_RUN/CALIBRATION.md</code></td><td>Package-level judgment, remaining gaps, and reusable lessons.</td></tr>
+        <tr><td><code class="inline">ROOT_RUN/README.md</code></td><td>Retained family position, what to open first, and the compact active-accounting publication card.</td></tr>
+        <tr><td><code class="inline">ROOT_RUN/CALIBRATION.md</code></td><td>Package-level judgment, remaining gaps, reusable lessons, and any cold reason why the accounting target stayed open.</td></tr>
         <tr><td><code class="inline">ROOT_RUN/review/final-self-review.md</code></td><td>Short final family stance and trust split.</td></tr>
       </tbody>
     </table>
     <div class="note"><b>Boundary rule:</b> this file checks that the active package pointer is current, but artifact-closure audit details and final-HTML release gating still belong to <code class="inline">ORCHESTRATION_PATH</code>.</div>
+    <div class="note"><b>Accounting publication rule:</b> before reporting starts, publish one compact active-accounting card with the configured threshold, configured target, strongest kept runs that cleared quality, strongest materially test-expanding runs when that disclosure is required, and whether the accounting target was met.</div>
   </details>
 
   <details>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1" name="viewport">
-<title>UI Flow Discovery And ATF Test Generation - Local Execution Prompt</title>
+<title>UI Flow Discovery And ATF Test Generation</title>
 <style>
   :root {
     --bg: #0b0f14;
@@ -231,35 +231,89 @@
 <div class="grid">
 <div class="card">
 <h2>1) Overview</h2>
-
-<div class="note">
-  Keep this file narrow. It decides only the next visible UI frontier, the smallest meaningful UI code/support change,
-  and the local UI meaning of the proof.
+<div class="sub">
+  Local UI map only. Keep this area narrow, then drop into the owner sections below.
 </div>
-<pre><code>ui execution lane
-  -> inspect SEED_RECORDING_CLASS
-  -> identify next visible UI frontier
-  -> change smallest meaningful test/support slice
-  -> validate decisive truth
-  -> save the run package through ORCHESTRATION_PATH
-  -> feed canonical report inputs through REPORTING_PATH
-</code></pre>
+<details class="subdetails" open>
+<summary>
+  <span class="summary-title">1.1 Scope And Boundary</span>
+  <span class="sumhint">what this overview owns and what it delegates</span>
+</summary>
 <div class="docmap">
   <b>This file decides</b><span>Seed-first discovery, visible frontier ranking, UI test/support deltas, and the local UI meaning of decisive proof.</span>
   <b>Open orchestration for</b><span>Run-package validity, validation bundle discipline, saved artifacts, active accounting, and retention.</span>
   <b>Open reporting for</b><span>Canonical HTML shape, graph family, score cards, comparative strip, and proof-link composition.</span>
   <b>Do not use this file for</b><span>Generic loop governance, family retention, package validity, or <code class="inline">html-ex</code> promotion.</span>
 </div>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">1.2 Canonical Adapter Contract</span>
+  <span class="sumhint">the local adapter order is canonical, not illustrative</span>
+</summary>
+<pre><code>local adapter contract
+  -> inspect the seed as the first visible clue
+  -> rank the next visible UI frontier
+  -> change the smallest meaningful test/support slice
+  -> validate decisive truth
+  -> hand off save / close / retain to ORCHESTRATION_PATH
+  -> hand off canonical page shape to REPORTING_PATH</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">1.3 UI Control Card</span>
+  <span class="sumhint">collapsed lookup only</span>
+</summary>
+<pre><code>30-second UI control card
+  open first ->
+    SEED_RECORDING_CLASS
+    local frontier and visible descendants
+  decide ->
+    strongest visible UI frontier
+    smallest meaningful code/support slice
+    decisive proof shape
+  stop if ->
+    branch is weak-value
+    proof is still only decorative or replay-like
+  hand off ->
+    package save goes through ORCHESTRATION_PATH
+    canonical page inputs go through REPORTING_PATH</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">1.4 Construction Shortcuts</span>
+  <span class="sumhint">keep collapsed unless you are actively assembling the local move</span>
+</summary>
+<pre><code>construction shortcuts
+  -> seed first
+  -> frontier second
+  -> smallest meaningful slice third
+  -> proof before polish
+  -> delegate save/report owners instead of duplicating them locally</code></pre>
+</details>
+<details class="subdetails">
+<summary>
+  <span class="summary-title">1.5 Quick Reference</span>
+  <span class="sumhint">owner and gate lookup only</span>
+</summary>
+<pre><code>need local guardrails        -> 2.1
+need seed reread            -> 2.2
+need frontier scoring       -> 2.3
+need local delta rules      -> 3.x - 5.x
+need package validity       -> ORCHESTRATION_PATH
+need canonical page shape   -> REPORTING_PATH
+need shared bindings        -> 1.6.1</code></pre>
+</details>
 </div>
 
 <div class="card">
-<h2>1.1) Quick UI Recovery</h2>
+<h2>1.6) Shared Inputs And Local Shortcuts</h2>
 <div class="note">
-  Keep only local bindings and the seed-to-proof shortcut here. Everything generic should stay delegated.
+  Shared inputs first, then the local execution shortcut. Everything generic should stay delegated.
 </div>
 <details>
 <summary>
-  <span class="summary-title">1.1.1 UI-local bindings</span>
+  <span class="summary-title">1.6.1 Shared Inputs</span>
   <span class="badge">CORE</span>
   <span class="sumhint">shared bindings live in shared-constants.properties</span>
 </summary>
@@ -274,7 +328,7 @@ Names reopened from that file for this execution:
 </details>
 <details class="subdetails">
 <summary>
-  <span class="summary-title">1.1.2 Seed-to-proof shortcut</span>
+  <span class="summary-title">1.6.2 Seed-to-proof shortcut</span>
   <span class="sumhint">default local operator lane</span>
 </summary>
 <pre class="cheatbox"><code>SEED
@@ -463,11 +517,11 @@ re-score after class one, class two, and defended-branch close
   still-open-high-value = ...
   still-open-medium-value = ...
   matching frontier-ranking-ledger row = F# / n/a
-  expected source/test delta from F# = new / materially expanded / none
-  expected materialization from F# = frontier-expanding / deeper-branch / sibling-variant / closure-only
+  expected source/test delta from F# = new / materially expanded / narrow / none
+  expected materialization from F# = new class / materially expanded class / support unlock / none
   chosen branch outranks still-open-high-value = yes / no</code></pre>
 <div class="warn"><b>High-value neighbor blocker:</b> if <code class="inline">still-open-high-value &gt; 0</code>, the chosen branch must cite the matching <code class="inline">F#</code> row from <code class="inline">frontier-ranking-ledger.md</code>. If <code class="inline">chosen branch outranks still-open-high-value = no</code>, pivot before spending another governed run on the current branch.</div>
-<div class="note"><b>UI bridge rule:</b> when the local branch cites an <code class="inline">F#</code> row, keep the same expected source/test delta and expected materialization language. Do not let the UI layer relabel a closure-only branch as frontier-expanding locally.</div>
+<div class="note"><b>UI bridge rule:</b> when the local branch cites an <code class="inline">F#</code> row, keep the same expected source/test delta and the same expected materialization class. Do not let the UI layer turn a novelty-role label such as <code class="inline">deeper-branch</code> into a materialization value.</div>
 </details>
 <details class="subdetails">
 <summary>
@@ -517,6 +571,7 @@ re-score after class one, class two, and defended-branch close
     <tr><td>branch is downgraded</td><td><code class="inline">which richer descendant, sibling, or unlock beat it?</code></td><td>record the pivot trigger explicitly in package truth</td></tr>
   </tbody>
 </table>
+<div class="note"><b>Pressure rule:</b> after one sibling win, the next governed run must say why it beats richer sibling or descendant candidates; neat local extension alone is not enough.</div>
 </details>
 </details>
 <details class="subdetails">
@@ -538,6 +593,7 @@ re-score after class one, class two, and defended-branch close
     <tr><td>visible descendant or sibling likely to widen defended scope materially</td><td>prefer that branch over one more thin retry</td></tr>
   </tbody>
 </table>
+<div class="note"><b>Promotion rule:</b> visible route, shell, or control without durable outcome or state change = partial or blocked, not promoted truth.</div>
 </details>
 <details class="subdetails">
 <summary>
@@ -850,6 +906,7 @@ rerank after:
     <tr><td>Coverage frontier support</td><td>Use visible hyperlinks, sibling descendants, route states, and CTA neighbors as UI evidence for why the branch really became richer or stayed partial.</td><td>Do not let visible adjacency alone stand in for defended semantic flow truth.</td></tr>
   </tbody>
 </table>
+<div class="note"><b>Outcome rule:</b> visible route reachability becomes promotable only when the route changes durable business meaning, state, or descendant outcome.</div>
 <details class="subdetails">
 <summary>
     <span class="summary-title">3.1.1 UI-local report-regeneration support</span>

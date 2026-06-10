@@ -6,7 +6,6 @@ import com.endava.ai.ui.engine.window.UIWindowConfiguration;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.SelectOption;
 import com.microsoft.playwright.options.WaitForSelectorState;
-import com.microsoft.playwright.options.WaitUntilState;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -81,7 +80,7 @@ public final class PlaywrightEngine implements UIEngine {
         if (!usesHeadlessZoomFallback()) {
             ensureBrowserZoomConfigured();
         }
-        navigateWithRetry(url);
+        page.navigate(url);
         if (usesHeadlessZoomFallback()) {
             applyHeadlessPageZoomFallback();
         }
@@ -92,13 +91,45 @@ public final class PlaywrightEngine implements UIEngine {
     public void click(String cssSelector) {
         Locator locator = page.locator(cssSelector).first();
         locator.scrollIntoViewIfNeeded();
-        locator.click();
+        try {
+            locator.click();
+        } catch (PlaywrightException firstFailure) {
+            locator.click(new Locator.ClickOptions().setForce(true));
+        }
+    }
+
+    @Override
+    public void clickVisible(String cssSelector, int oneBasedIndex) {
+        if (oneBasedIndex < 1) {
+            throw new IllegalArgumentException("Visible click index is 1-based.");
+        }
+        Locator locator = page.locator(cssSelector);
+        int count = locator.count();
+        int visibleIndex = 0;
+        for (int i = 0; i < count; i++) {
+            Locator nth = locator.nth(i);
+            if (!nth.isVisible()) {
+                continue;
+            }
+            visibleIndex++;
+            if (visibleIndex == oneBasedIndex) {
+                nth.click();
+                return;
+            }
+        }
+        throw new PlaywrightException("No visible match found for index " + oneBasedIndex + " using selector: " + cssSelector);
     }
 
     @Override
     public void type(String cssSelector, String text) {
         Locator loc = page.locator(cssSelector).first();
         loc.fill(text);
+    }
+
+    @Override
+    public void pressKey(String cssSelector, String key) {
+        Locator loc = page.locator(cssSelector).first();
+        loc.press(key);
     }
 
     @Override
@@ -134,8 +165,37 @@ public final class PlaywrightEngine implements UIEngine {
     }
 
     @Override
+    public List<String> getTexts(String cssSelector) {
+        return page.locator(cssSelector).allInnerTexts().stream()
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getVisibleTexts(String cssSelector) {
+        Object raw = page.locator(cssSelector).evaluateAll(
+                "elements => elements" +
+                        ".filter(element => !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length))" +
+                        ".map(element => element.innerText.trim())" +
+                        ".filter(text => text.length > 0)"
+        );
+        if (!(raw instanceof List<?>)) {
+            return Collections.emptyList();
+        }
+        return ((List<?>) raw).stream()
+                .map(String::valueOf)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public String getValue(String cssSelector) {
         return page.locator(cssSelector).first().inputValue();
+    }
+
+    @Override
+    public String getAttribute(String cssSelector, String attributeName) {
+        return page.locator(cssSelector).first().getAttribute(attributeName);
     }
 
     @Override
@@ -180,47 +240,8 @@ public final class PlaywrightEngine implements UIEngine {
 
     @Override
     public String captureScreenshotAsBase64() {
-        try {
-            byte[] bytes = page.screenshot(
-                    new Page.ScreenshotOptions()
-                            .setFullPage(true)
-                            .setTimeout(Math.max(UI_WAIT_TIMEOUT_SECONDS, 15) * 1000.0)
-            );
-            return Base64.getEncoder().encodeToString(bytes);
-        } catch (PlaywrightException firstFailure) {
-            byte[] bytes = page.screenshot(
-                    new Page.ScreenshotOptions()
-                            .setFullPage(false)
-                            .setTimeout(Math.max(UI_WAIT_TIMEOUT_SECONDS, 15) * 1000.0)
-            );
-            return Base64.getEncoder().encodeToString(bytes);
-        }
-    }
-
-    private void navigateWithRetry(String url) {
-        try {
-            navigate(url, Math.max(UI_WAIT_TIMEOUT_SECONDS, 10) * 1000.0);
-        } catch (PlaywrightException firstFailure) {
-            try {
-                page.navigate(
-                        "about:blank",
-                        new Page.NavigateOptions()
-                                .setWaitUntil(WaitUntilState.DOMCONTENTLOADED)
-                                .setTimeout(5_000)
-                );
-            } catch (PlaywrightException ignored) {
-            }
-            navigate(url, Math.max(UI_WAIT_TIMEOUT_SECONDS, 20) * 1000.0);
-        }
-    }
-
-    private void navigate(String url, double timeoutMillis) {
-        page.navigate(
-                url,
-                new Page.NavigateOptions()
-                        .setWaitUntil(WaitUntilState.DOMCONTENTLOADED)
-                        .setTimeout(timeoutMillis)
-        );
+        byte[] bytes = page.screenshot(new Page.ScreenshotOptions().setFullPage(true));
+        return Base64.getEncoder().encodeToString(bytes);
     }
 
     @Override

@@ -108,6 +108,10 @@ public final class WaitUtils {
         return value;
     }
 
+    public static void pause(Duration duration) {
+        sleep(duration);
+    }
+
     private static void logDetailIfPossible(String detail) {
         try {
             StepLogger.logDetail(detail);

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-10T11:07:38 EEST" name="Surefire suite" finished-at="2026-06-10T11:07:59 EEST" duration-ms="20948">
+    <groups>
+    </groups>
+    <test started-at="2026-06-10T11:07:38 EEST" name="Surefire test" finished-at="2026-06-10T11:07:59 EEST" duration-ms="20948">
+      <class name="com.endava.ai.atf.ui.component.RegistrationValidationContractTest">
+        <test-method signature="any_error_validation_retries_until_error_text_is_present()[pri:0, instance:com.endava.ai.atf.ui.component.RegistrationValidationContractTest@550dbc7a]" started-at="2026-06-10T11:07:38 EEST" name="any_error_validation_retries_until_error_text_is_present" finished-at="2026-06-10T11:07:39 EEST" duration-ms="584" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- any_error_validation_retries_until_error_text_is_present -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.component.RegistrationValidationContractTest@550dbc7a]" started-at="2026-06-10T11:07:39 EEST" name="tearDown" finished-at="2026-06-10T11:07:39 EEST" duration-ms="4" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method signature="password_error_validation_waits_for_expected_message_fragment()[pri:0, instance:com.endava.ai.atf.ui.component.RegistrationValidationContractTest@550dbc7a]" started-at="2026-06-10T11:07:39 EEST" name="password_error_validation_waits_for_expected_message_fragment" finished-at="2026-06-10T11:07:39 EEST" duration-ms="256" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- password_error_validation_waits_for_expected_message_fragment -->
+        <test-method signature="phone_error_validation_surfaces_clear_assertion_when_expected_text_never_appears()[pri:0, instance:com.endava.ai.atf.ui.component.RegistrationValidationContractTest@550dbc7a]" started-at="2026-06-10T11:07:39 EEST" name="phone_error_validation_surfaces_clear_assertion_when_expected_text_never_appears" finished-at="2026-06-10T11:07:59 EEST" duration-ms="20006" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- phone_error_validation_surfaces_clear_assertion_when_expected_text_never_appears -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.component.RegistrationValidationContractTest@550dbc7a]" started-at="2026-06-10T11:07:39 EEST" name="tearDown" finished-at="2026-06-10T11:07:39 EEST" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.component.RegistrationValidationContractTest@550dbc7a]" started-at="2026-06-10T11:07:59 EEST" name="tearDown" finished-at="2026-06-10T11:07:59 EEST" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method signature="redirected_to_login_failure_surfaces_register_error_context()[pri:0, instance:com.endava.ai.atf.ui.component.RegistrationValidationContractTest@550dbc7a]" started-at="2026-06-10T11:07:59 EEST" name="redirected_to_login_failure_surfaces_register_error_context" finished-at="2026-06-10T11:07:59 EEST" duration-ms="14" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- redirected_to_login_failure_surfaces_register_error_context -->
+        <test-method signature="redirected_to_login_contract_waits_for_url_and_login_button()[pri:0, instance:com.endava.ai.atf.ui.component.RegistrationValidationContractTest@550dbc7a]" started-at="2026-06-10T11:07:59 EEST" name="redirected_to_login_contract_waits_for_url_and_login_button" finished-at="2026-06-10T11:07:59 EEST" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- redirected_to_login_contract_waits_for_url_and_login_button -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.component.RegistrationValidationContractTest@550dbc7a]" started-at="2026-06-10T11:07:59 EEST" name="tearDown" finished-at="2026-06-10T11:07:59 EEST" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.component.RegistrationValidationContractTest@550dbc7a]" started-at="2026-06-10T11:07:59 EEST" name="tearDown" finished-at="2026-06-10T11:07:59 EEST" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.component.RegistrationValidationContractTest -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>
