@@ -1,0 +1,501 @@
+diff --git a/src/main/java/com/endava/ai/ui/pages/MessagePage.java b/src/main/java/com/endava/ai/ui/pages/MessagePage.java
+new file mode 100644
+index 0000000..53a2ada
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/pages/MessagePage.java
+@@ -0,0 +1,13 @@
++package com.endava.ai.ui.pages;
++
++public final class MessagePage {
++
++    private MessagePage() {
++    }
++
++    public static final String MESSAGE_ROWS = "table tbody tr";
++    public static final String FIRST_MESSAGE_DETAIL_LINK = "table tbody tr:first-child a.btn.btn-sm.btn-primary";
++    public static final String DETAIL_BACK_LINK = "a[data-test='back']";
++    public static final String REPLY_MESSAGE = "textarea[data-test='message']";
++    public static final String REPLY_SUBMIT = "button[data-test='reply-submit']";
++}
+diff --git a/src/main/java/com/endava/ai/ui/service/LoginService.java b/src/main/java/com/endava/ai/ui/service/LoginService.java
+new file mode 100644
+index 0000000..72157d8
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/LoginService.java
+@@ -0,0 +1,26 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.pages.LoginPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++public final class LoginService {
++
++    public void openLogin() {
++        UIActions.navigateToRelative("/auth/login");
++        WaitUtils.waitForVisible(LoginPage.EMAIL);
++    }
++
++    public void login(String email, String password) {
++        openLogin();
++        UIActions.type(LoginPage.EMAIL, "Email address", email);
++        UIActions.type(LoginPage.PASSWORD, "Password", password);
++        UIActions.click(LoginPage.LOGIN_BUTTON, "Login");
++    }
++
++    public void submitTotpCode(String code) {
++        UIActions.type(LoginPage.TOTP_CODE, "TOTP code", code);
++        UIActions.pressKey(LoginPage.TOTP_CODE, "TOTP code", "Tab");
++        UIActions.click(LoginPage.VERIFY_TOTP_BUTTON, "Verify TOTP");
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/service/MessageService.java b/src/main/java/com/endava/ai/ui/service/MessageService.java
+new file mode 100644
+index 0000000..ad71d5e
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/MessageService.java
+@@ -0,0 +1,50 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.pages.ContactPage;
++import com.endava.ai.ui.pages.MessagePage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++public final class MessageService {
++
++    public void openContact() {
++        UIActions.navigateToRelative("/contact");
++        WaitUtils.waitForVisible(ContactPage.SUBJECT);
++    }
++
++    public void sendMessage(String subject, String message) {
++        openContact();
++        UIActions.select(ContactPage.SUBJECT, "Contact subject", subject);
++        UIActions.type(ContactPage.MESSAGE, "Contact message", message);
++        UIActions.click(ContactPage.SUBMIT, "Submit contact message");
++    }
++
++    public void submitEmptyMessageForm() {
++        openContact();
++        UIActions.click(ContactPage.SUBMIT, "Submit empty contact message");
++    }
++
++    public void openMessages() {
++        UIActions.navigateToRelative("/account");
++        WaitUtils.waitForVisible(AccountPage.NAV_MESSAGES);
++        UIActions.click(AccountPage.NAV_MESSAGES, "Messages");
++        WaitUtils.waitForUrlContains("/account/messages");
++    }
++
++    public void openMessagesDirect() {
++        UIActions.navigateToRelative("/account/messages");
++        WaitUtils.waitForUrlContains("/account/messages");
++        WaitUtils.waitForVisible(MessagePage.MESSAGE_ROWS);
++    }
++
++    public void openFirstMessageDetail() {
++        UIActions.click(MessagePage.FIRST_MESSAGE_DETAIL_LINK, "First message detail");
++        WaitUtils.waitForVisible(MessagePage.DETAIL_BACK_LINK);
++    }
++
++    public void replyToCurrentMessage(String reply) {
++        UIActions.type(MessagePage.REPLY_MESSAGE, "Message reply", reply);
++        UIActions.click(MessagePage.REPLY_SUBMIT, "Reply");
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/service/RegistrationService.java b/src/main/java/com/endava/ai/ui/service/RegistrationService.java
+index bef4d42..27d4e50 100644
+--- a/src/main/java/com/endava/ai/ui/service/RegistrationService.java
++++ b/src/main/java/com/endava/ai/ui/service/RegistrationService.java
+@@ -13,7 +13,8 @@ import com.endava.ai.ui.utils.WaitUtils;
+  */
+ public final class RegistrationService {
+     public void openRegister() {
+-        UIActions.navigateToRelative("/auth/register");
++        UIActions.openRelativeWithoutUrlWait("/auth/register");
++        WaitUtils.waitForUrlContains("/auth/register");
+         WaitUtils.waitForVisible(RegisterPage.FIRST_NAME);
+     }
+ 
+diff --git a/src/main/java/com/endava/ai/ui/validation/AccountValidation.java b/src/main/java/com/endava/ai/ui/validation/AccountValidation.java
+new file mode 100644
+index 0000000..6321f17
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/validation/AccountValidation.java
+@@ -0,0 +1,110 @@
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++import org.testng.Assert;
++
++import java.time.Duration;
++
++public final class AccountValidation {
++
++    public void assertAccountHubVisible() {
++        String outcome = WaitUtils.waitUntil(
++                () -> {
++                    String url = DriverManager.getEngine().getCurrentUrl();
++                    boolean profileVisible = safeVisible(AccountPage.NAV_PROFILE);
++                    boolean favoritesVisible = safeVisible(AccountPage.NAV_FAVORITES);
++                    boolean invoicesVisible = safeVisible(AccountPage.NAV_INVOICES);
++                    boolean messagesVisible = safeVisible(AccountPage.NAV_MESSAGES);
++
++                    if (url.contains("/account")
++                            && profileVisible
++                            && favoritesVisible
++                            && invoicesVisible
++                            && messagesVisible) {
++                        return "account-hub";
++                    }
++
++                    return "pending";
++                },
++                value -> !"pending".equals(value),
++                Duration.ofSeconds(20),
++                Duration.ofMillis(250)
++        );
++
++        if (!"account-hub".equals(outcome)) {
++            throw new AssertionError(
++                    "Expected authenticated account hub to become visible, but current URL is: "
++                            + DriverManager.getEngine().getCurrentUrl()
++            );
++        }
++    }
++
++    public void assertProfileEditorReady() {
++        WaitUtils.waitForUrlContains("/account/profile");
++        WaitUtils.waitForVisible(AccountPage.FIRST_NAME);
++        WaitUtils.waitForVisible(AccountPage.LAST_NAME);
++        WaitUtils.waitForVisible(AccountPage.EMAIL);
++        WaitUtils.waitForVisible(AccountPage.PHONE);
++        WaitUtils.waitForVisible(AccountPage.STREET);
++        WaitUtils.waitForVisible(AccountPage.POSTAL_CODE);
++        WaitUtils.waitForVisible(AccountPage.CITY);
++        WaitUtils.waitForVisible(AccountPage.STATE);
++        WaitUtils.waitForVisible(AccountPage.COUNTRY);
++        WaitUtils.waitForVisible(AccountPage.UPDATE_PROFILE_BUTTON);
++        WaitUtils.waitForVisible(AccountPage.CURRENT_PASSWORD);
++        WaitUtils.waitForVisible(AccountPage.NEW_PASSWORD);
++        WaitUtils.waitForVisible(AccountPage.NEW_PASSWORD_CONFIRM);
++        WaitUtils.waitForVisible(AccountPage.CHANGE_PASSWORD_BUTTON);
++
++        Assert.assertTrue(
++                DriverManager.getEngine().getCurrentUrl().contains("/account/profile"),
++                "Expected to remain on /account/profile, but was: " + DriverManager.getEngine().getCurrentUrl()
++        );
++    }
++
++    public void assertProfileValues(String firstName,
++                                    String lastName,
++                                    String phone,
++                                    String street,
++                                    String postalCode,
++                                    String city,
++                                    String state,
++                                    String country) {
++        WaitUtils.waitForInputValue(AccountPage.FIRST_NAME, "Profile first name", firstName::equals);
++        WaitUtils.waitForInputValue(AccountPage.LAST_NAME, "Profile last name", lastName::equals);
++        WaitUtils.waitForInputValue(AccountPage.PHONE, "Profile phone", phone::equals);
++        WaitUtils.waitForInputValue(AccountPage.STREET, "Profile street", street::equals);
++        WaitUtils.waitForInputValue(AccountPage.POSTAL_CODE, "Profile postal code", postalCode::equals);
++        WaitUtils.waitForInputValue(AccountPage.CITY, "Profile city", city::equals);
++        WaitUtils.waitForInputValue(AccountPage.STATE, "Profile state", state::equals);
++        WaitUtils.waitForInputValue(AccountPage.COUNTRY, "Profile country", country::equals);
++    }
++
++    public void assertAccountIdentityVisible(String expectedFullName) {
++        WaitUtils.waitForCondition(
++                "account nav identity reflects the expected full name",
++                () -> {
++                    String menuText = UIActions.getText(AccountPage.NAV_MENU, "Account nav menu");
++                    return menuText.contains(expectedFullName);
++                },
++                "Expected the authenticated account identity chip to show: " + expectedFullName
++        );
++    }
++
++    public void assertSuccessAlertContains(String expectedText) {
++        WaitUtils.waitForVisible(AccountPage.SUCCESS_ALERT);
++        String alert = UIActions.getText(AccountPage.SUCCESS_ALERT, "Success alert");
++        Assert.assertTrue(alert.contains(expectedText), "Expected success alert to contain: " + expectedText);
++    }
++
++    private boolean safeVisible(String locator) {
++        try {
++            return DriverManager.getEngine().isVisible(locator);
++        } catch (Exception ignored) {
++            return false;
++        }
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/validation/MessageValidation.java b/src/main/java/com/endava/ai/ui/validation/MessageValidation.java
+new file mode 100644
+index 0000000..eb38ce8
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/validation/MessageValidation.java
+@@ -0,0 +1,95 @@
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++import org.testng.Assert;
++
++public final class MessageValidation {
++
++    private static final String CONTACT_SUCCESS = "Thanks for your message! We will contact you shortly.";
++
++    public void assertContactSuccess() {
++        WaitUtils.waitForCondition(
++                "contact success banner is visible",
++                () -> UIActions.getText("body", "Contact page body").contains(CONTACT_SUCCESS),
++                "Expected contact success banner to appear."
++        );
++    }
++
++    public void assertMessageRowContains(String subject, String messagePreview, String status) {
++        WaitUtils.waitForCondition(
++                "messages page contains the submitted message",
++                () -> {
++                    String body = UIActions.getText("body", "Messages page body");
++                    return body.contains(subject) && body.contains(messagePreview) && body.contains(status);
++                },
++                "Expected messages page to contain submitted message row."
++        );
++
++        String body = UIActions.getText("body", "Messages page body");
++        Assert.assertTrue(body.contains(subject), "Expected messages page to contain subject: " + subject);
++        Assert.assertTrue(body.contains(messagePreview), "Expected messages page to contain message preview: " + messagePreview);
++        Assert.assertTrue(body.contains(status), "Expected messages page to contain status: " + status);
++    }
++
++    public void assertMessageDetailVisible(String subject, String fullMessage, String status) {
++        WaitUtils.waitForCondition(
++                "message detail page materializes the expected thread",
++                () -> {
++                    String body = UIActions.getText("body", "Message detail body");
++                    return body.contains("Back")
++                            && body.contains(subject)
++                            && body.contains(fullMessage)
++                            && body.contains(status)
++                            && body.contains("Replies");
++                },
++                "Expected message detail page to materialize the submitted thread."
++        );
++    }
++
++    public void assertReplyMaterializedAndStatusProgressed(String replyText) {
++        WaitUtils.waitForCondition(
++                "message reply materializes and advances the thread status",
++                () -> {
++                    String body = UIActions.getText("body", "Message thread after reply");
++                    return body.contains("IN_PROGRESS") && body.contains(replyText);
++                },
++                "Expected the reply to materialize and move the thread into IN_PROGRESS."
++        );
++    }
++
++    public void assertMessagesPageContainsAll(String... expectedFragments) {
++        WaitUtils.waitForCondition(
++                "messages page contains all expected fragments",
++                () -> containsAll(UIActions.getText("body", "Messages page body"), expectedFragments),
++                "Expected messages page to contain all requested fragments."
++        );
++
++        String body = UIActions.getText("body", "Messages page body");
++        for (String expectedFragment : expectedFragments) {
++            Assert.assertTrue(body.contains(expectedFragment), "Expected messages page to contain: " + expectedFragment);
++        }
++    }
++
++    public void assertMessageDetailContainsAll(String... expectedFragments) {
++        WaitUtils.waitForCondition(
++                "message detail contains all expected fragments",
++                () -> containsAll(UIActions.getText("body", "Message detail body"), expectedFragments),
++                "Expected message detail to contain all requested fragments."
++        );
++
++        String body = UIActions.getText("body", "Message detail body");
++        for (String expectedFragment : expectedFragments) {
++            Assert.assertTrue(body.contains(expectedFragment), "Expected message detail to contain: " + expectedFragment);
++        }
++    }
++
++    private boolean containsAll(String body, String... expectedFragments) {
++        for (String expectedFragment : expectedFragments) {
++            if (!body.contains(expectedFragment)) {
++                return false;
++            }
++        }
++        return true;
++    }
++}
+diff --git a/src/test/java/com/endava/ai/atf/ui/AuthenticatedMessageThreadLifecycleTests.java b/src/test/java/com/endava/ai/atf/ui/AuthenticatedMessageThreadLifecycleTests.java
+new file mode 100644
+index 0000000..8a08993
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/AuthenticatedMessageThreadLifecycleTests.java
+@@ -0,0 +1,157 @@
++package com.endava.ai.atf.ui;
++
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.core.BaseTestUI;
++import com.endava.ai.ui.factory.CustomerDataFactory;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.service.LoginService;
++import com.endava.ai.ui.service.MessageService;
++import com.endava.ai.ui.service.RegistrationService;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.validation.AccountValidation;
++import com.endava.ai.ui.validation.MessageValidation;
++import com.endava.ai.ui.validation.RegistrationValidation;
++import org.testng.annotations.BeforeMethod;
++import org.testng.annotations.Test;
++
++public class AuthenticatedMessageThreadLifecycleTests extends BaseTestUI {
++
++    private final RegistrationService registrationService = new RegistrationService();
++    private final RegistrationValidation registrationValidation = new RegistrationValidation();
++    private final LoginService loginService = new LoginService();
++    private final AccountValidation accountValidation = new AccountValidation();
++    private final MessageService messageService = new MessageService();
++    private final MessageValidation messageValidation = new MessageValidation();
++
++    @BeforeMethod
++    public void before() {
++        StepLogger.startStep("Authenticated message thread lifecycle preconditions");
++        UIActions.clearSession();
++        StepLogger.pass("Ready");
++    }
++
++    @Test(description = "Run 01: authenticated message reply survives a fresh login inside the thread detail")
++    public void run_01_message_reply_survives_fresh_login_inside_thread_detail() {
++        CustomerData customer = CustomerDataFactory.validCustomer();
++        String suffix = uniqueSuffix();
++        String subject = "payments";
++        String fullMessage = "codex-" + suffix + "-message-reply-durability-abcdefghijklmnopqrstuvwxyz";
++        String reply = "codex-" + suffix + "-reply-after-boundary";
++
++        registerAndLogin(customer);
++        submitMessage(customer, subject, fullMessage);
++        reopenMessageDetailAfterFreshLogin(customer, subject, fullMessage);
++
++        messageService.replyToCurrentMessage(reply);
++        messageValidation.assertReplyMaterializedAndStatusProgressed(reply);
++
++        reopenMessageDetailAfterFreshLogin(customer, subject, fullMessage);
++        messageValidation.assertMessageDetailContainsAll(subject, fullMessage, reply, "IN_PROGRESS");
++    }
++
++    @Test(description = "Run 02: authenticated message list preserves the progressed thread status after fresh login")
++    public void run_02_message_list_preserves_progressed_thread_status_after_fresh_login() {
++        CustomerData customer = CustomerDataFactory.validCustomer();
++        String suffix = uniqueSuffix();
++        String subject = "payments";
++        String fullMessage = "codex-" + suffix + "-message-list-status-abcdefghijklmnopqrstuvwxyz";
++        String preview = fullMessage.substring(0, 40);
++        String reply = "codex-" + suffix + "-reply-status-list";
++
++        registerAndLogin(customer);
++        submitMessage(customer, subject, fullMessage);
++        reopenMessageDetailAfterFreshLogin(customer, subject, fullMessage);
++        messageService.replyToCurrentMessage(reply);
++        messageValidation.assertReplyMaterializedAndStatusProgressed(reply);
++
++        UIActions.clearSession();
++        loginService.login(customer.getEmail(), customer.getPassword());
++        accountValidation.assertAccountHubVisible();
++        messageService.openMessagesDirect();
++        messageValidation.assertMessagesPageContainsAll(subject, preview, "IN_PROGRESS");
++    }
++
++    @Test(description = "Run 03: authenticated customer can retain two separate message rows after fresh login")
++    public void run_03_two_distinct_messages_remain_listed_after_fresh_login() {
++        CustomerData customer = CustomerDataFactory.validCustomer();
++        String suffix = uniqueSuffix();
++        String firstMessage = "codex-" + suffix + "-first-thread-abcdefghijklmnopqrstuvwxyz";
++        String secondMessage = "codex-" + suffix + "-second-thread-abcdefghijklmnopqrstuvwxyz";
++        String firstPreview = firstMessage.substring(0, 40);
++        String secondPreview = secondMessage.substring(0, 40);
++
++        registerAndLogin(customer);
++        submitMessage(customer, "payments", firstMessage);
++        submitMessage(customer, "warranty", secondMessage);
++
++        UIActions.clearSession();
++        loginService.login(customer.getEmail(), customer.getPassword());
++        accountValidation.assertAccountHubVisible();
++        messageService.openMessagesDirect();
++        messageValidation.assertMessagesPageContainsAll("payments", "warranty", firstPreview, secondPreview, "NEW");
++    }
++
++    @Test(description = "Run 04: authenticated message detail can be reopened after direct messages navigation")
++    public void run_04_message_detail_reopens_after_direct_messages_navigation() {
++        CustomerData customer = CustomerDataFactory.validCustomer();
++        String suffix = uniqueSuffix();
++        String subject = "payments";
++        String fullMessage = "codex-" + suffix + "-direct-detail-abcdefghijklmnopqrstuvwxyz";
++
++        registerAndLogin(customer);
++        submitMessage(customer, subject, fullMessage);
++
++        messageService.openMessagesDirect();
++        messageService.openFirstMessageDetail();
++        messageValidation.assertMessageDetailContainsAll(subject, fullMessage, "NEW", "Replies");
++    }
++
++    @Test(description = "Run 05: authenticated message thread remains readable after account hub reentry")
++    public void run_05_message_thread_remains_readable_after_account_hub_reentry() {
++        CustomerData customer = CustomerDataFactory.validCustomer();
++        String suffix = uniqueSuffix();
++        String subject = "payments";
++        String fullMessage = "codex-" + suffix + "-account-hub-reentry-abcdefghijklmnopqrstuvwxyz";
++        String preview = fullMessage.substring(0, 40);
++
++        registerAndLogin(customer);
++        submitMessage(customer, subject, fullMessage);
++
++        UIActions.navigateToRelative("/account");
++        accountValidation.assertAccountHubVisible();
++        messageService.openMessages();
++        messageValidation.assertMessageRowContains(subject, preview, "NEW");
++        messageService.openFirstMessageDetail();
++        messageValidation.assertMessageDetailContainsAll(subject, fullMessage, "NEW", "Replies");
++    }
++
++    private void registerAndLogin(CustomerData customer) {
++        registrationService.openRegister();
++        registrationService.register(customer);
++        registrationValidation.assertRedirectedToLogin();
++
++        loginService.login(customer.getEmail(), customer.getPassword());
++        accountValidation.assertAccountHubVisible();
++    }
++
++    private void submitMessage(CustomerData customer, String subject, String fullMessage) {
++        messageService.sendMessage(subject, fullMessage);
++        messageValidation.assertContactSuccess();
++        accountValidation.assertAccountIdentityVisible(customer.getFirstName() + " " + customer.getLastName());
++    }
++
++    private void reopenMessageDetailAfterFreshLogin(CustomerData customer, String subject, String fullMessage) {
++        UIActions.clearSession();
++        loginService.login(customer.getEmail(), customer.getPassword());
++        accountValidation.assertAccountHubVisible();
++
++        messageService.openMessagesDirect();
++        messageValidation.assertMessagesPageContainsAll(subject, fullMessage.substring(0, 40));
++        messageService.openFirstMessageDetail();
++        messageValidation.assertMessageDetailContainsAll(subject, fullMessage);
++    }
++
++    private String uniqueSuffix() {
++        return String.valueOf(System.currentTimeMillis()).substring(6);
++    }
++}

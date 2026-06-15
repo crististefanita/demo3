@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="8" passed="8" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-14T21:38:19 EEST" name="Surefire suite" finished-at="2026-06-14T21:39:38 EEST" duration-ms="79045">
+    <groups>
+    </groups>
+    <test started-at="2026-06-14T21:38:19 EEST" name="Surefire test" finished-at="2026-06-14T21:39:38 EEST" duration-ms="79045">
+      <class name="com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:38:19 EEST" name="setUp" finished-at="2026-06-14T21:38:32 EEST" duration-ms="12766" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:38:32 EEST" name="setUpMethod" finished-at="2026-06-14T21:38:32 EEST" duration-ms="2" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:38:32 EEST" name="before" finished-at="2026-06-14T21:38:32 EEST" duration-ms="268" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="negative_mismatched_password_confirmation_does_not_allow_login_with_the_proposed_new_password()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:38:32 EEST" name="negative_mismatched_password_confirmation_does_not_allow_login_with_the_proposed_new_password" description="Negative: a mismatched password confirmation does not allow a fresh login with the proposed new password" finished-at="2026-06-14T21:38:39 EEST" duration-ms="7074" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- negative_mismatched_password_confirmation_does_not_allow_login_with_the_proposed_new_password -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:38:40 EEST" name="tearDownMethod" finished-at="2026-06-14T21:38:40 EEST" duration-ms="434" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:38:40 EEST" name="setUpMethod" finished-at="2026-06-14T21:38:42 EEST" duration-ms="2117" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:38:42 EEST" name="before" finished-at="2026-06-14T21:38:42 EEST" duration-ms="107" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="negative_valid_password_change_attempt_also_rejects_a_fresh_login_with_the_old_password()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:38:42 EEST" name="negative_valid_password_change_attempt_also_rejects_a_fresh_login_with_the_old_password" description="Negative: a valid password change attempt also rejects a fresh login with the old password" finished-at="2026-06-14T21:38:50 EEST" duration-ms="7223" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- negative_valid_password_change_attempt_also_rejects_a_fresh_login_with_the_old_password -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:38:50 EEST" name="tearDownMethod" finished-at="2026-06-14T21:38:50 EEST" duration-ms="467" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:38:50 EEST" name="setUpMethod" finished-at="2026-06-14T21:38:52 EEST" duration-ms="2023" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:38:52 EEST" name="before" finished-at="2026-06-14T21:38:53 EEST" duration-ms="171" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="negative_weak_new_password_does_not_allow_login_with_the_proposed_replacement()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:38:53 EEST" name="negative_weak_new_password_does_not_allow_login_with_the_proposed_replacement" description="Negative: a weak new password does not allow a fresh login with the proposed replacement" finished-at="2026-06-14T21:38:59 EEST" duration-ms="6763" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- negative_weak_new_password_does_not_allow_login_with_the_proposed_replacement -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:39:00 EEST" name="tearDownMethod" finished-at="2026-06-14T21:39:00 EEST" duration-ms="467" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:39:00 EEST" name="setUpMethod" finished-at="2026-06-14T21:39:02 EEST" duration-ms="2099" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:39:02 EEST" name="before" finished-at="2026-06-14T21:39:02 EEST" duration-ms="248" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="negative_wrong_current_password_attempt_does_not_allow_login_with_the_proposed_new_password()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:39:02 EEST" name="negative_wrong_current_password_attempt_does_not_allow_login_with_the_proposed_new_password" description="Negative: a wrong current password attempt does not allow a fresh login with the proposed new password" finished-at="2026-06-14T21:39:09 EEST" duration-ms="6489" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- negative_wrong_current_password_attempt_does_not_allow_login_with_the_proposed_new_password -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:39:09 EEST" name="tearDownMethod" finished-at="2026-06-14T21:39:10 EEST" duration-ms="402" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests@273e7444]" started-at="2026-06-14T21:39:10 EEST" name="tearDown" finished-at="2026-06-14T21:39:10 EEST" duration-ms="2" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.AuthenticatedPasswordChangeBoundaryTests -->
+      <class name="com.endava.ai.atf.ui.AuthenticatedProfileTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:10 EEST" name="setUp" finished-at="2026-06-14T21:39:11 EEST" duration-ms="1580" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:11 EEST" name="setUpMethod" finished-at="2026-06-14T21:39:11 EEST" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:11 EEST" name="before" finished-at="2026-06-14T21:39:11 EEST" duration-ms="215" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="negative_valid_password_change_attempt_does_not_allow_relogin_with_the_new_password()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:11 EEST" name="negative_valid_password_change_attempt_does_not_allow_relogin_with_the_new_password" description="Negative: even a valid password change attempt does not allow a fresh login with the proposed new password" finished-at="2026-06-14T21:39:17 EEST" duration-ms="5863" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- negative_valid_password_change_attempt_does_not_allow_relogin_with_the_new_password -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:17 EEST" name="tearDownMethod" finished-at="2026-06-14T21:39:18 EEST" duration-ms="430" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:18 EEST" name="setUpMethod" finished-at="2026-06-14T21:39:20 EEST" duration-ms="1677" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:20 EEST" name="before" finished-at="2026-06-14T21:39:20 EEST" duration-ms="233" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_registered_user_profile_address_is_prefilled()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:20 EEST" name="positive_registered_user_profile_address_is_prefilled" description="Positive: registered user profile keeps address fields prefilled" finished-at="2026-06-14T21:39:24 EEST" duration-ms="3802" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_registered_user_profile_address_is_prefilled -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:24 EEST" name="tearDownMethod" finished-at="2026-06-14T21:39:24 EEST" duration-ms="381" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:24 EEST" name="setUpMethod" finished-at="2026-06-14T21:39:26 EEST" duration-ms="1601" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:26 EEST" name="before" finished-at="2026-06-14T21:39:26 EEST" duration-ms="304" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_registered_user_profile_is_prefilled()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:26 EEST" name="positive_registered_user_profile_is_prefilled" description="Positive: registered user profile is prefilled with account data" finished-at="2026-06-14T21:39:30 EEST" duration-ms="3780" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_registered_user_profile_is_prefilled -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:30 EEST" name="tearDownMethod" finished-at="2026-06-14T21:39:31 EEST" duration-ms="402" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:31 EEST" name="setUpMethod" finished-at="2026-06-14T21:39:33 EEST" duration-ms="1795" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:33 EEST" name="before" finished-at="2026-06-14T21:39:33 EEST" duration-ms="271" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_registered_user_profile_keeps_lookup_resolved_address()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:33 EEST" name="positive_registered_user_profile_keeps_lookup_resolved_address" description="Positive: registered user profile keeps lookup-resolved address fields" finished-at="2026-06-14T21:39:37 EEST" duration-ms="4436" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_registered_user_profile_keeps_lookup_resolved_address -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:38 EEST" name="tearDownMethod" finished-at="2026-06-14T21:39:38 EEST" duration-ms="428" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileTests@1e6a3214]" started-at="2026-06-14T21:39:38 EEST" name="tearDown" finished-at="2026-06-14T21:39:38 EEST" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.AuthenticatedProfileTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

@@ -1,0 +1,676 @@
+
+diff --git a/src/test/java/com/endava/ai/atf/ui/AuthenticatedProfileTests.java b/src/test/java/com/endava/ai/atf/ui/AuthenticatedProfileTests.java
+new file mode 100644
+index 0000000..5d2e1be
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/AuthenticatedProfileTests.java
+@@ -0,0 +1,89 @@
++package com.endava.ai.atf.ui;
++
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.core.BaseTestUI;
++import com.endava.ai.ui.model.RegistrationData;
++import com.endava.ai.ui.validation.LoginValidation;
++import com.endava.ai.ui.service.LoginService;
++import com.endava.ai.ui.service.ProfileService;
++import com.endava.ai.ui.service.RegistrationService;
++import com.endava.ai.ui.utils.DataGenerator;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.validation.ProfileValidation;
++import com.endava.ai.ui.validation.RegistrationValidation;
++import org.testng.annotations.BeforeMethod;
++import org.testng.annotations.Test;
++
++public class AuthenticatedProfileTests extends BaseTestUI {
++
++    private final RegistrationService registrationService = new RegistrationService();
++    private final RegistrationValidation registrationValidation = new RegistrationValidation();
++    private final LoginService loginService = new LoginService();
++    private final LoginValidation loginValidation = new LoginValidation();
++    private final ProfileService profileService = new ProfileService();
++    private final ProfileValidation profileValidation = new ProfileValidation();
++
++    @BeforeMethod
++    public void before() {
++        StepLogger.startStep("Authenticated profile preconditions");
++        UIActions.clearSession();
++        StepLogger.pass("Ready");
++    }
++
++    @Test(description = "Positive: registered user profile is prefilled with account data")
++    public void positive_registered_user_profile_is_prefilled() {
++        RegistrationData data = registrationService.registerValidUser();
++        registrationValidation.assertRedirectedToLogin();
++
++        loginService.loginWithoutOpen(data.email(), data.password());
++        profileService.openProfile();
++
++        profileValidation.assertProfilePrefilled(data);
++    }
++
++    @Test(description = "Positive: registered user profile keeps address fields prefilled")
++    public void positive_registered_user_profile_address_is_prefilled() {
++        RegistrationData data = registrationService.registerValidUser();
++        registrationValidation.assertRedirectedToLogin();
++
++        loginService.loginWithoutOpen(data.email(), data.password());
++        profileService.openProfile();
++
++        profileValidation.assertProfileAddressPrefilled(data);
++    }
++
++    @Test(description = "Positive: registered user profile keeps lookup-resolved address fields")
++    public void positive_registered_user_profile_keeps_lookup_resolved_address() {
++        registrationService.openRegister();
++        RegistrationData data = com.endava.ai.ui.factory.UserDataFactory.validRegistrationData();
++        registrationService.fillIdentityFields(data);
++        registrationService.fillAddressLookup(data.country(), data.postal(), data.houseNumber());
++        RegistrationData resolved = registrationService.waitForAutofilledAddress(data);
++        registrationService.submitRegistration();
++        registrationValidation.assertRedirectedToLogin();
++
++        loginService.loginWithoutOpen(resolved.email(), resolved.password());
++        profileService.openProfile();
++
++        profileValidation.assertProfileAddressPrefilled(resolved);
++    }
++
++    @Test(description = "Negative: even a valid password change attempt does not allow a fresh login with the proposed new password")
++    public void negative_valid_password_change_attempt_does_not_allow_relogin_with_the_new_password() {
++        RegistrationData data = registrationService.registerValidUser();
++        registrationValidation.assertRedirectedToLogin();
++
++        loginService.loginWithoutOpen(data.email(), data.password());
++        profileService.openProfile();
++
++        String newPassword = DataGenerator.strongPassword();
++        profileService.changePassword(data.password(), newPassword);
++
++        UIActions.clearSession();
++        loginService.attemptPrimaryCredentialLogin(data.email(), newPassword);
++
++        loginValidation.assertCurrentUrlContainsLogin();
++        loginValidation.assertPrimaryCredentialFormVisible();
++        loginValidation.assertCredentialLoginErrorContains("Invalid email or password");
++    }
++}
+diff --git a/src/test/java/com/endava/ai/atf/ui/AuthenticatedPasswordChangeBoundaryTests.java b/src/test/java/com/endava/ai/atf/ui/AuthenticatedPasswordChangeBoundaryTests.java
+new file mode 100644
+index 0000000..6d1c8fb
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/AuthenticatedPasswordChangeBoundaryTests.java
+@@ -0,0 +1,93 @@
++package com.endava.ai.atf.ui;
++
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.core.BaseTestUI;
++import com.endava.ai.ui.model.RegistrationData;
++import com.endava.ai.ui.service.LoginService;
++import com.endava.ai.ui.service.ProfileService;
++import com.endava.ai.ui.service.RegistrationService;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.validation.LoginValidation;
++import com.endava.ai.ui.validation.ProfileValidation;
++import com.endava.ai.ui.validation.RegistrationValidation;
++import org.testng.annotations.BeforeMethod;
++import org.testng.annotations.Test;
++
++public class AuthenticatedPasswordChangeBoundaryTests extends BaseTestUI {
++
++    private final RegistrationService registrationService = new RegistrationService();
++    private final RegistrationValidation registrationValidation = new RegistrationValidation();
++    private final LoginService loginService = new LoginService();
++    private final LoginValidation loginValidation = new LoginValidation();
++    private final ProfileService profileService = new ProfileService();
++    private final ProfileValidation profileValidation = new ProfileValidation();
++
++    @BeforeMethod
++    public void before() {
++        StepLogger.startStep("Authenticated password change boundary preconditions");
++        UIActions.clearSession();
++        StepLogger.pass("Ready");
++    }
++
++    @Test(description = "Negative: a valid password change attempt also rejects a fresh login with the old password")
++    public void negative_valid_password_change_attempt_also_rejects_a_fresh_login_with_the_old_password() {
++        RegistrationData data = registerAndLoginForPasswordChange();
++        String proposedPassword = strongCandidate("valid-old-still-works");
++
++        profileService.changePassword(data.password(), proposedPassword);
++
++        assertRejectedFreshLogin(data.email(), data.password());
++    }
++
++    @Test(description = "Negative: a wrong current password attempt does not allow a fresh login with the proposed new password")
++    public void negative_wrong_current_password_attempt_does_not_allow_login_with_the_proposed_new_password() {
++        RegistrationData data = registerAndLoginForPasswordChange();
++        String proposedPassword = strongCandidate("wrong-current");
++
++        profileService.changePassword("WrongPass1!", proposedPassword);
++
++        assertRejectedFreshLogin(data.email(), proposedPassword);
++    }
++
++    @Test(description = "Negative: a mismatched password confirmation does not allow a fresh login with the proposed new password")
++    public void negative_mismatched_password_confirmation_does_not_allow_login_with_the_proposed_new_password() {
++        RegistrationData data = registerAndLoginForPasswordChange();
++        String proposedPassword = strongCandidate("mismatch");
++
++        profileService.changePassword(data.password(), proposedPassword, proposedPassword + "Mismatch");
++
++        assertRejectedFreshLogin(data.email(), proposedPassword);
++    }
++
++    @Test(description = "Negative: a weak new password does not allow a fresh login with the proposed replacement")
++    public void negative_weak_new_password_does_not_allow_login_with_the_proposed_replacement() {
++        RegistrationData data = registerAndLoginForPasswordChange();
++
++        profileService.changePassword(data.password(), "weak");
++
++        assertRejectedFreshLogin(data.email(), "weak");
++    }
++
++    private RegistrationData registerAndLoginForPasswordChange() {
++        RegistrationData data = registrationService.registerValidUser();
++        registrationValidation.assertRedirectedToLogin();
++        loginService.loginWithoutOpen(data.email(), data.password());
++        profileService.openProfile();
++        profileValidation.assertProfilePrefilled(data);
++        return data;
++    }
++
++    private void assertRejectedFreshLogin(String email, String password) {
++        UIActions.clearSession();
++        loginService.attemptPrimaryCredentialLogin(email, password);
++        loginValidation.assertCurrentUrlContainsLogin();
++        loginValidation.assertPrimaryCredentialFormVisible();
++        loginValidation.assertCredentialLoginErrorContains("Invalid email or password");
++    }
++
++    private String strongCandidate(String label) {
++        String suffix = Long.toUnsignedString(System.nanoTime());
++        String tail = suffix.substring(Math.max(0, suffix.length() - 4));
++        return "Bb2@" + label.substring(0, Math.min(label.length(), 6)) + tail + "Z";
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/pages/LoginPage.java b/src/main/java/com/endava/ai/ui/pages/LoginPage.java
+index d0b534c..e712de9 100644
+--- a/src/main/java/com/endava/ai/ui/pages/LoginPage.java
++++ b/src/main/java/com/endava/ai/ui/pages/LoginPage.java
+@@ -7,6 +7,8 @@ public final class LoginPage {
+ 
+     public static final String EMAIL = "input[data-test='email']";
+     public static final String PASSWORD = "input[data-test='password']";
+-    public static final String LOGIN_BUTTON = "input[data-test='login-submit']";
++    public static final String LOGIN_BUTTON = "button[data-test='login-submit'], input[data-test='login-submit']";
++    public static final String TOTP_CODE = "input[data-test='totp-code']";
++    public static final String VERIFY_TOTP_BUTTON = "button[data-test='verify-totp'], input[data-test='verify-totp']";
+     public static final String LOGIN_ERROR = "div[data-test='login-error']";
+ }
+diff --git a/src/main/java/com/endava/ai/ui/pages/ProfilePage.java b/src/main/java/com/endava/ai/ui/pages/ProfilePage.java
+new file mode 100644
+index 0000000..6ff48c2
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/pages/ProfilePage.java
+@@ -0,0 +1,27 @@
++package com.endava.ai.ui.pages;
++
++public final class ProfilePage {
++
++    private ProfilePage() {
++    }
++
++    public static final String ACCOUNT_MENU = "button[data-test='nav-menu']";
++    public static final String FIRST_NAME = "input[data-test='first-name']";
++    public static final String LAST_NAME = "input[data-test='last-name']";
++    public static final String PHONE = "input[data-test='phone']";
++    public static final String EMAIL = "input[data-test='email']";
++    public static final String STREET = "input[data-test='street']";
++    public static final String CITY = "input[data-test='city']";
++    public static final String STATE = "input[data-test='state']";
++    public static final String POSTAL = "input[data-test='postal_code']";
++    public static final String CURRENT_PASSWORD = "input[data-test='current-password']";
++    public static final String NEW_PASSWORD = "input[data-test='new-password']";
++    public static final String NEW_PASSWORD_CONFIRM = "input[data-test='new-password-confirm']";
++    public static final String CHANGE_PASSWORD_BUTTON = "button[data-test='change-password-submit']";
++    public static final String TOTP_SECRET = "div.row.mt-3 p strong";
++    public static final String TOTP_CODE = "input[data-test='totp-code']";
++    public static final String VERIFY_TOTP_BUTTON = "button[data-test='verify-totp'], input[data-test='verify-totp']";
++    public static final String TOTP_ERROR = "div[data-test='totp-error']";
++    public static final String PAGE_ROOT = "app-profile";
++    public static final String SUCCESS_BANNER = "div.alert.alert-success";
++}
+diff --git a/src/main/java/com/endava/ai/ui/service/LoginService.java b/src/main/java/com/endava/ai/ui/service/LoginService.java
+new file mode 100644
+index 0000000..4d5acfc
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/LoginService.java
+@@ -0,0 +1,110 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.pages.LoginPage;
++import com.endava.ai.ui.pages.ProfilePage;
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.utils.TotpGenerator;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++public final class LoginService {
++
++    public void openLogin() {
++        UIActions.navigateToRelative("/auth/login");
++        WaitUtils.waitForVisible(LoginPage.EMAIL);
++    }
++
++    public void login(String email, String password) {
++        openLogin();
++        loginWithoutOpen(email, password);
++    }
++
++    public void loginWithoutOpen(String email, String password) {
++        submitPrimaryCredentialsWithoutWait(email, password);
++        WaitUtils.waitForCondition(
++                "login leaves the login surface, exposes the account menu or reaches TOTP verification",
++                () -> isAccountMenuVisible() || leftLoginSurface() || isTotpChallengeVisible(),
++                "Expected login to leave the login surface, expose the account menu or reach the TOTP challenge."
++        );
++    }
++
++    public void attemptPrimaryCredentialLogin(String email, String password) {
++        openLogin();
++        submitPrimaryCredentialsWithoutWait(email, password);
++    }
++
++    public void completeTotpLogin(String secret) {
++        WaitUtils.waitForVisible(LoginPage.TOTP_CODE);
++        UIActions.type(LoginPage.TOTP_CODE, "Login TOTP code", TotpGenerator.currentCode(secret));
++        UIActions.click(LoginPage.VERIFY_TOTP_BUTTON, "Verify TOTP");
++        WaitUtils.waitForCondition(
++                "login leaves TOTP challenge",
++                () -> isAccountMenuVisible() || leftLoginSurface(),
++                "Expected TOTP verification to finish the login."
++        );
++    }
++
++    public void submitEmptyTotpChallenge() {
++        WaitUtils.waitForVisible(LoginPage.TOTP_CODE);
++        UIActions.click(LoginPage.VERIFY_TOTP_BUTTON, "Verify TOTP");
++    }
++
++    public void submitTotpChallengeCode(String code) {
++        WaitUtils.waitForVisible(LoginPage.TOTP_CODE);
++        UIActions.type(LoginPage.TOTP_CODE, "Login TOTP code", code);
++        UIActions.click(LoginPage.VERIFY_TOTP_BUTTON, "Verify TOTP");
++    }
++
++    public void reopenLoginSurfaceFromTotpChallenge() {
++        WaitUtils.waitForVisible(LoginPage.TOTP_CODE);
++        UIActions.openRelativeWithoutUrlWait("/auth/login");
++        WaitUtils.waitForCondition(
++                "credential login surface is restored",
++                this::isPrimaryCredentialFormVisible,
++                "Expected reopening the login surface to restore the primary credential form."
++        );
++    }
++
++    public boolean isPrimaryCredentialFormVisible() {
++        try {
++            return DriverManager.getEngine().isVisible(LoginPage.EMAIL)
++                    && DriverManager.getEngine().isVisible(LoginPage.PASSWORD)
++                    && DriverManager.getEngine().isVisible(LoginPage.LOGIN_BUTTON)
++                    && !isTotpChallengeVisible();
++        } catch (Exception ignored) {
++            return false;
++        }
++    }
++
++    private boolean isTotpChallengeVisible() {
++        try {
++            return DriverManager.getEngine().isVisible(LoginPage.TOTP_CODE);
++        } catch (Exception ignored) {
++            return false;
++        }
++    }
++
++    private boolean isAccountMenuVisible() {
++        try {
++            return DriverManager.getEngine().isVisible(ProfilePage.ACCOUNT_MENU);
++        } catch (Exception ignored) {
++            return false;
++        }
++    }
++
++    private void submitPrimaryCredentialsWithoutWait(String email, String password) {
++        UIActions.type(LoginPage.EMAIL, "Email", email);
++        UIActions.type(LoginPage.PASSWORD, "Password", password);
++        UIActions.click(LoginPage.LOGIN_BUTTON, "Login");
++    }
++
++    private boolean leftLoginSurface() {
++        try {
++            String currentUrl = DriverManager.getEngine().getCurrentUrl();
++            boolean loginButtonVisible = DriverManager.getEngine().isVisible(LoginPage.LOGIN_BUTTON);
++            return !currentUrl.contains("/auth/login") && !loginButtonVisible;
++        } catch (Exception ignored) {
++            return false;
++        }
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/service/ProfileService.java b/src/main/java/com/endava/ai/ui/service/ProfileService.java
+new file mode 100644
+index 0000000..69f6ea9
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/ProfileService.java
+@@ -0,0 +1,92 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.pages.ProfilePage;
++import com.endava.ai.ui.utils.TotpGenerator;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++import java.time.Duration;
++import java.util.List;
++import java.util.regex.Matcher;
++import java.util.regex.Pattern;
++
++public final class ProfileService {
++
++    private static final Pattern TOTP_SECRET_PATTERN = Pattern.compile("\\b[A-Z2-7]{16,}\\b");
++
++    public void openProfile() {
++        UIActions.navigateToRelative("/account/profile");
++        WaitUtils.waitForVisible(ProfilePage.PAGE_ROOT);
++        WaitUtils.waitForVisible(ProfilePage.FIRST_NAME);
++    }
++
++    public void changePassword(String currentPassword, String newPassword) {
++        changePassword(currentPassword, newPassword, newPassword);
++    }
++
++    public void changePassword(String currentPassword, String newPassword, String confirmedPassword) {
++        UIActions.type(ProfilePage.CURRENT_PASSWORD, "Current password", currentPassword);
++        UIActions.type(ProfilePage.NEW_PASSWORD, "New password", newPassword);
++        UIActions.type(ProfilePage.NEW_PASSWORD_CONFIRM, "Confirm new password", confirmedPassword);
++        UIActions.click(ProfilePage.CHANGE_PASSWORD_BUTTON, "Change password");
++        WaitUtils.pause(Duration.ofSeconds(2));
++    }
++
++    public void submitEmptyTotpSetupCode() {
++        WaitUtils.waitForVisible(ProfilePage.TOTP_CODE);
++        UIActions.click(ProfilePage.VERIFY_TOTP_BUTTON, "Verify TOTP");
++    }
++
++    public void submitTotpSetupCode(String code) {
++        WaitUtils.waitForVisible(ProfilePage.TOTP_CODE);
++        UIActions.type(ProfilePage.TOTP_CODE, "TOTP setup code", code);
++        UIActions.click(ProfilePage.VERIFY_TOTP_BUTTON, "Verify TOTP");
++    }
++
++    public String enableTotp() {
++        WaitUtils.waitForVisible(ProfilePage.TOTP_CODE);
++        String secret = captureTotpSecretFromBody();
++        submitTotpSetupCode(TotpGenerator.currentCode(secret));
++        WaitUtils.waitForCondition(
++                "profile TOTP success message",
++                () -> com.endava.ai.ui.core.DriverManager.getEngine().getText("body")
++                        .contains("TOTP verified and enabled successfully."),
++                "Expected TOTP setup success message."
++        );
++        return secret;
++    }
++
++    private String captureTotpSecretFromBody() {
++        String secret = WaitUtils.waitUntil(
++                this::findTotpSecretCandidate,
++                value -> value != null && !value.isBlank(),
++                Duration.ofSeconds(10),
++                Duration.ofMillis(250)
++        );
++        if (secret == null || secret.isBlank()) {
++            throw new IllegalStateException("Could not extract a Base32 TOTP secret from the profile page.");
++        }
++        return secret;
++    }
++
++    private String findTotpSecretCandidate() {
++        List<String> strongCandidates = DriverManager.getEngine().getTexts(ProfilePage.TOTP_SECRET);
++        for (String candidate : strongCandidates) {
++            String extracted = extractBase32(candidate);
++            if (extracted != null) {
++                return extracted;
++            }
++        }
++
++        return extractBase32(DriverManager.getEngine().getText("body"));
++    }
++
++    private String extractBase32(String source) {
++        if (source == null || source.isBlank()) {
++            return null;
++        }
++        Matcher matcher = TOTP_SECRET_PATTERN.matcher(source);
++        return matcher.find() ? matcher.group() : null;
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/validation/LoginValidation.java b/src/main/java/com/endava/ai/ui/validation/LoginValidation.java
+new file mode 100644
+index 0000000..bd8e699
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/validation/LoginValidation.java
+@@ -0,0 +1,73 @@
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.pages.LoginPage;
++import com.endava.ai.ui.utils.WaitUtils;
++import org.testng.Assert;
++
++public final class LoginValidation {
++
++    public void assertTotpChallengeVisible() {
++        WaitUtils.waitForCondition(
++                "login TOTP challenge is visible",
++                () -> safeVisible(LoginPage.TOTP_CODE) && safeVisible(LoginPage.VERIFY_TOTP_BUTTON),
++                "Expected the login TOTP challenge to be visible."
++        );
++    }
++
++    public void assertTotpChallengeErrorContains(String expectedText) {
++        WaitUtils.waitForCondition(
++                "login body contains TOTP challenge error",
++                () -> DriverManager.getEngine().getText("body").contains(expectedText),
++                "Expected login surface to contain '" + expectedText + "'."
++        );
++
++        String bodyText = DriverManager.getEngine().getText("body");
++        Assert.assertTrue(
++                bodyText.contains(expectedText),
++                "Expected login body to contain '" + expectedText + "', but was: " + bodyText
++        );
++    }
++
++    public void assertCurrentUrlContainsLogin() {
++        WaitUtils.waitForCondition(
++                "current URL remains on login",
++                () -> DriverManager.getEngine().getCurrentUrl().contains("/auth/login"),
++                "Expected current URL to remain on /auth/login."
++        );
++    }
++
++    public void assertPrimaryCredentialFormVisible() {
++        WaitUtils.waitForCondition(
++                "primary login credentials are visible",
++                () -> safeVisible(LoginPage.EMAIL)
++                        && safeVisible(LoginPage.PASSWORD)
++                        && safeVisible(LoginPage.LOGIN_BUTTON)
++                        && !safeVisible(LoginPage.TOTP_CODE),
++                "Expected the primary email/password login form to be visible."
++        );
++    }
++
++    public void assertCredentialLoginErrorContains(String expectedText) {
++        WaitUtils.waitForCondition(
++                "primary login error contains expected text",
++                () -> safeVisible(LoginPage.LOGIN_ERROR)
++                        && DriverManager.getEngine().getText(LoginPage.LOGIN_ERROR).contains(expectedText),
++                "Expected login error to contain '" + expectedText + "'."
++        );
++
++        String errorText = DriverManager.getEngine().getText(LoginPage.LOGIN_ERROR);
++        Assert.assertTrue(
++                errorText.contains(expectedText),
++                "Expected login error to contain '" + expectedText + "', but was: " + errorText
++        );
++    }
++
++    private boolean safeVisible(String locator) {
++        try {
++            return DriverManager.getEngine().isVisible(locator);
++        } catch (Exception ignored) {
++            return false;
++        }
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/validation/ProfileValidation.java b/src/main/java/com/endava/ai/ui/validation/ProfileValidation.java
+new file mode 100644
+index 0000000..8a8b058
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/validation/ProfileValidation.java
+@@ -0,0 +1,135 @@
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.model.RegistrationData;
++import com.endava.ai.ui.pages.ProfilePage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++import org.testng.Assert;
++
++public final class ProfileValidation {
++
++    public void assertProfilePrefilled(RegistrationData data) {
++        WaitUtils.waitForInputValue(
++                ProfilePage.EMAIL,
++                "Profile email value",
++                value -> data.email().equals(value)
++        );
++
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.FIRST_NAME, "Profile first name"),
++                data.firstName(),
++                "Profile first name should match registered value."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.LAST_NAME, "Profile last name"),
++                data.lastName(),
++                "Profile last name should match registered value."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.EMAIL, "Profile email"),
++                data.email(),
++                "Profile email should match registered value."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.PHONE, "Profile phone"),
++                data.phone(),
++                "Profile phone should match registered value."
++        );
++    }
++
++    public void assertProfileAddressPrefilled(RegistrationData data) {
++        WaitUtils.waitForInputValue(
++                ProfilePage.STREET,
++                "Profile street value",
++                value -> data.street().equals(value)
++        );
++        WaitUtils.waitForInputValue(
++                ProfilePage.CITY,
++                "Profile city value",
++                value -> data.city().equals(value)
++        );
++        WaitUtils.waitForInputValue(
++                ProfilePage.STATE,
++                "Profile state value",
++                value -> data.state().equals(value)
++        );
++        WaitUtils.waitForInputValue(
++                ProfilePage.POSTAL,
++                "Profile postal value",
++                value -> data.postal().equals(value)
++        );
++
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.STREET, "Profile street"),
++                data.street(),
++                "Profile street should match registered value."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.CITY, "Profile city"),
++                data.city(),
++                "Profile city should match registered value."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.STATE, "Profile state"),
++                data.state(),
++                "Profile state should match registered value."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.POSTAL, "Profile postal"),
++                data.postal(),
++                "Profile postal should match registered value."
++        );
++    }
++
++    public void assertPasswordChangeSucceeded() {
++        WaitUtils.waitForCondition(
++                "password change success banner or text",
++                () -> {
++                    String banner = UIActions.getText(ProfilePage.SUCCESS_BANNER, "Success banner");
++                    String body = DriverManager.getEngine().getText("body");
++                    return banner.contains("successfully changed")
++                            || body.contains("Your password is successfully changed");
++                },
++                "Expected password change success message."
++        );
++    }
++
++    public void assertTotpErrorContains(String expectedText) {
++        WaitUtils.waitForCondition(
++                "profile TOTP error contains expected text",
++                () -> DriverManager.getEngine().getText(ProfilePage.TOTP_ERROR).contains(expectedText),
++                "Expected profile TOTP error to contain '" + expectedText + "'."
++        );
++
++        String text = UIActions.getText(ProfilePage.TOTP_ERROR, "Profile TOTP error");
++        Assert.assertTrue(
++                text.contains(expectedText),
++                "Expected profile TOTP error to contain '" + expectedText + "', but was: " + text
++        );
++    }
++
++    public void assertTotpEnabledSuccess() {
++        WaitUtils.waitForCondition(
++                "profile TOTP success text",
++                () -> DriverManager.getEngine().getText("body").contains("TOTP verified and enabled successfully."),
++                "Expected TOTP verification success text."
++        );
++    }
++
++    public void assertTotpAlreadyEnabled() {
++        WaitUtils.waitForCondition(
++                "profile TOTP already enabled text",
++                () -> DriverManager.getEngine().getText("body").contains("Two-Factor Authentication already enabled."),
++                "Expected profile to show that TOTP is already enabled."
++        );
++    }
++
++    public void assertTotpSetupDetailsLoadError() {
++        WaitUtils.waitForCondition(
++                "profile TOTP setup details load error text",
++                () -> DriverManager.getEngine().getText("body").contains("Failed to load TOTP setup details."),
++                "Expected profile to show the post-enable TOTP setup details load error."
++        );
++    }
++}

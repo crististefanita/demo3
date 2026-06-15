@@ -1,0 +1,965 @@
+diff --git a/src/main/java/com/endava/ai/ui/pages/AccountPage.java b/src/main/java/com/endava/ai/ui/pages/AccountPage.java
+new file mode 100644
+index 0000000..fffe7a5
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/pages/AccountPage.java
+@@ -0,0 +1,38 @@
++package com.endava.ai.ui.pages;
++
++public final class AccountPage {
++
++    private AccountPage() {
++    }
++
++    public static final String PAGE_TITLE = "[data-test='page-title']";
++    public static final String SUCCESS_ALERT = ".alert-success";
++    public static final String NAV_MENU = "button[data-test='nav-menu']";
++
++    public static final String NAV_FAVORITES = "[data-test='nav-favorites']";
++    public static final String NAV_PROFILE = "[data-test='nav-profile']";
++    public static final String NAV_INVOICES = "[data-test='nav-invoices']";
++    public static final String NAV_MESSAGES = "[data-test='nav-messages']";
++    public static final String FAVORITE_DELETE_BUTTON = "button[data-test='delete']";
++    public static final String FAVORITES_EMPTY_STATE = "body";
++
++    public static final String FIRST_NAME = "input[data-test='first-name']";
++    public static final String LAST_NAME = "input[data-test='last-name']";
++    public static final String EMAIL = "input[data-test='email']";
++    public static final String PHONE = "input[data-test='phone']";
++    public static final String STREET = "input[data-test='street']";
++    public static final String POSTAL_CODE = "input[data-test='postal_code']";
++    public static final String CITY = "input[data-test='city']";
++    public static final String STATE = "input[data-test='state']";
++    public static final String COUNTRY = "input[data-test='country']";
++
++    public static final String UPDATE_PROFILE_BUTTON = "button[data-test='update-profile-submit']";
++
++    public static final String CURRENT_PASSWORD = "input[data-test='current-password']";
++    public static final String NEW_PASSWORD = "input[data-test='new-password']";
++    public static final String NEW_PASSWORD_CONFIRM = "input[data-test='new-password-confirm']";
++    public static final String CHANGE_PASSWORD_BUTTON = "button[data-test='change-password-submit']";
++    public static final String TOTP_SECRET = "[data-test='totp-secret']";
++    public static final String TOTP_CODE = "input[data-test='totp-code']";
++    public static final String VERIFY_TOTP_BUTTON = "button[data-test='verify-totp']";
++}
+diff --git a/src/main/java/com/endava/ai/ui/pages/StorefrontPage.java b/src/main/java/com/endava/ai/ui/pages/StorefrontPage.java
+new file mode 100644
+index 0000000..dd04ac1
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/pages/StorefrontPage.java
+@@ -0,0 +1,22 @@
++package com.endava.ai.ui.pages;
++
++public final class StorefrontPage {
++
++    private StorefrontPage() {
++    }
++
++    public static final String PRODUCT_LINKS = "a[data-test^='product-']";
++    public static final String ADD_TO_CART_BUTTON = "button[data-test='add-to-cart']";
++    public static final String ADD_TO_FAVORITES_BUTTON = "button[data-test='add-to-favorites']";
++    public static final String ADD_TO_COMPARE_BUTTON = "button[data-test='add-to-compare']";
++    public static final String DECREASE_QUANTITY_BUTTON = "button[data-test='decrease-quantity']";
++    public static final String PRODUCT_QUANTITY_INPUT = "input[data-test='quantity']";
++    public static final String INCREASE_QUANTITY_BUTTON = "button[data-test='increase-quantity']";
++    public static final String NAV_MY_FAVORITES = "a[data-test='nav-my-favorites']";
++    public static final String NAV_CART = "a[data-test='nav-cart']";
++    public static final String CART_QUANTITY = "span[data-test='cart-quantity']";
++    public static final String PRODUCT_NAME = "[data-test='product-name']";
++    public static final String PRODUCT_TITLE = "[data-test='product-title']";
++    public static final String PROCEED_FROM_CART = "button[data-test='proceed-1']";
++    public static final String CHECKOUT_PRODUCT_QUANTITY_INPUT = "input[data-test='product-quantity']";
++}
+diff --git a/src/main/java/com/endava/ai/ui/service/AccountService.java b/src/main/java/com/endava/ai/ui/service/AccountService.java
+new file mode 100644
+index 0000000..640da66
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/AccountService.java
+@@ -0,0 +1,84 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++public final class AccountService {
++
++    public void openProfile() {
++        UIActions.click(AccountPage.NAV_PROFILE, "Profile");
++        WaitUtils.waitForUrlContains("/account/profile");
++        WaitUtils.waitForVisible(AccountPage.FIRST_NAME);
++    }
++
++    public void openProfileDirect() {
++        UIActions.navigateToRelative("/account/profile");
++        WaitUtils.waitForUrlContains("/account/profile");
++        WaitUtils.waitForVisible(AccountPage.FIRST_NAME);
++    }
++
++    public void openAccountHub() {
++        UIActions.navigateToRelative("/account");
++        WaitUtils.waitForUrlContains("/account");
++        WaitUtils.waitForVisible(AccountPage.NAV_PROFILE);
++    }
++
++    public void openInvoicesDirect() {
++        UIActions.navigateToRelative("/account/invoices");
++        WaitUtils.waitForUrlContains("/account/invoices");
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++    }
++
++    public String readTotpSecret() {
++        WaitUtils.waitForVisible(AccountPage.TOTP_SECRET);
++        return UIActions.getText(AccountPage.TOTP_SECRET, "TOTP secret");
++    }
++
++    public void openFavoritesDirect() {
++        UIActions.navigateToRelative("/account/favorites");
++        WaitUtils.waitForUrlContains("/account/favorites");
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++    }
++
++    public void removeFirstFavorite() {
++        UIActions.click(AccountPage.FAVORITE_DELETE_BUTTON, "Delete favorite");
++        WaitUtils.pause(java.time.Duration.ofMillis(750));
++    }
++
++    public void updateProfile(String firstName,
++                              String lastName,
++                              String phone,
++                              String street,
++                              String postalCode,
++                              String city,
++                              String state,
++                              String country) {
++        UIActions.type(AccountPage.FIRST_NAME, "Profile first name", firstName);
++        UIActions.type(AccountPage.LAST_NAME, "Profile last name", lastName);
++        UIActions.type(AccountPage.PHONE, "Profile phone", phone);
++        UIActions.type(AccountPage.STREET, "Profile street", street);
++        UIActions.type(AccountPage.POSTAL_CODE, "Profile postal code", postalCode);
++        UIActions.type(AccountPage.CITY, "Profile city", city);
++        UIActions.type(AccountPage.STATE, "Profile state", state);
++        UIActions.type(AccountPage.COUNTRY, "Profile country", country);
++        UIActions.click(AccountPage.UPDATE_PROFILE_BUTTON, "Update profile");
++        WaitUtils.waitForUrlContains("/account/profile");
++        WaitUtils.waitForVisible(AccountPage.FIRST_NAME);
++        WaitUtils.pause(java.time.Duration.ofMillis(900));
++    }
++
++    public void changePassword(String currentPassword, String newPassword) {
++        UIActions.type(AccountPage.CURRENT_PASSWORD, "Current password", currentPassword);
++        UIActions.type(AccountPage.NEW_PASSWORD, "New password", newPassword);
++        UIActions.type(AccountPage.NEW_PASSWORD_CONFIRM, "Confirm new password", newPassword);
++        UIActions.click(AccountPage.CHANGE_PASSWORD_BUTTON, "Change password");
++    }
++
++    public void verifyTotp(String code) {
++        UIActions.type(AccountPage.TOTP_CODE, "Profile TOTP code", code);
++        UIActions.pressKey(AccountPage.TOTP_CODE, "Profile TOTP code", "Tab");
++        UIActions.click(AccountPage.VERIFY_TOTP_BUTTON, "Verify profile TOTP");
++        WaitUtils.pause(java.time.Duration.ofMillis(1200));
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/service/LoginService.java b/src/main/java/com/endava/ai/ui/service/LoginService.java
+new file mode 100644
+index 0000000..72157d8
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/LoginService.java
+@@ -0,0 +1,26 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.pages.LoginPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++public final class LoginService {
++
++    public void openLogin() {
++        UIActions.navigateToRelative("/auth/login");
++        WaitUtils.waitForVisible(LoginPage.EMAIL);
++    }
++
++    public void login(String email, String password) {
++        openLogin();
++        UIActions.type(LoginPage.EMAIL, "Email address", email);
++        UIActions.type(LoginPage.PASSWORD, "Password", password);
++        UIActions.click(LoginPage.LOGIN_BUTTON, "Login");
++    }
++
++    public void submitTotpCode(String code) {
++        UIActions.type(LoginPage.TOTP_CODE, "TOTP code", code);
++        UIActions.pressKey(LoginPage.TOTP_CODE, "TOTP code", "Tab");
++        UIActions.click(LoginPage.VERIFY_TOTP_BUTTON, "Verify TOTP");
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/service/RegistrationService.java b/src/main/java/com/endava/ai/ui/service/RegistrationService.java
+index bef4d42..27d4e50 100644
+--- a/src/main/java/com/endava/ai/ui/service/RegistrationService.java
++++ b/src/main/java/com/endava/ai/ui/service/RegistrationService.java
+@@ -13,7 +13,8 @@ import com.endava.ai.ui.utils.WaitUtils;
+  */
+ public final class RegistrationService {
+     public void openRegister() {
+-        UIActions.navigateToRelative("/auth/register");
++        UIActions.openRelativeWithoutUrlWait("/auth/register");
++        WaitUtils.waitForUrlContains("/auth/register");
+         WaitUtils.waitForVisible(RegisterPage.FIRST_NAME);
+     }
+ 
+diff --git a/src/main/java/com/endava/ai/ui/service/StorefrontService.java b/src/main/java/com/endava/ai/ui/service/StorefrontService.java
+new file mode 100644
+index 0000000..a32eaca
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/StorefrontService.java
+@@ -0,0 +1,64 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.pages.CheckoutPage;
++import com.endava.ai.ui.pages.StorefrontPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++public final class StorefrontService {
++
++    public void openHome() {
++        UIActions.navigateToRelative("/");
++        WaitUtils.waitForVisible(StorefrontPage.PRODUCT_LINKS);
++    }
++
++    public void openFirstProduct() {
++        UIActions.clickVisible(StorefrontPage.PRODUCT_LINKS, "First storefront product", 1);
++        WaitUtils.waitForVisible(StorefrontPage.ADD_TO_CART_BUTTON);
++    }
++
++    public void addCurrentProductToCart() {
++        UIActions.click(StorefrontPage.ADD_TO_CART_BUTTON, "Add to cart");
++        WaitUtils.waitForCondition(
++                "product add confirmation becomes visible",
++                () -> safeText("body").contains("Product added to shopping cart."),
++                "Expected add-to-cart confirmation to appear after adding a product."
++        );
++    }
++
++    public void addCurrentProductToFavorites() {
++        UIActions.click(StorefrontPage.ADD_TO_FAVORITES_BUTTON, "Add to favourites");
++        WaitUtils.pause(java.time.Duration.ofMillis(750));
++    }
++
++    public void addCurrentProductToComparison() {
++        UIActions.click(StorefrontPage.ADD_TO_COMPARE_BUTTON, "Add to compare");
++        WaitUtils.pause(java.time.Duration.ofMillis(750));
++    }
++
++    public void increaseCurrentProductQuantityBy(int incrementCount) {
++        for (int index = 0; index < incrementCount; index++) {
++            UIActions.click(StorefrontPage.INCREASE_QUANTITY_BUTTON, "Increase product quantity");
++        }
++    }
++
++    public void openCart() {
++        UIActions.click(StorefrontPage.NAV_CART, "Cart");
++        WaitUtils.waitForVisible(StorefrontPage.PROCEED_FROM_CART);
++    }
++
++    public void changeCheckoutQuantityTo(int quantity) {
++        String quantityValue = String.valueOf(quantity);
++        UIActions.type(CheckoutPage.PRODUCT_QUANTITY, "Checkout product quantity", quantityValue);
++        UIActions.pressKey(CheckoutPage.PRODUCT_QUANTITY, "Checkout product quantity", "Tab");
++        WaitUtils.pause(java.time.Duration.ofMillis(1000));
++    }
++
++    private String safeText(String selector) {
++        try {
++            return UIActions.getText(selector, selector);
++        } catch (AssertionError ignored) {
++            return "";
++        }
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/validation/AccountValidation.java b/src/main/java/com/endava/ai/ui/validation/AccountValidation.java
+new file mode 100644
+index 0000000..6321f17
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/validation/AccountValidation.java
+@@ -0,0 +1,110 @@
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++import org.testng.Assert;
++
++import java.time.Duration;
++
++public final class AccountValidation {
++
++    public void assertAccountHubVisible() {
++        String outcome = WaitUtils.waitUntil(
++                () -> {
++                    String url = DriverManager.getEngine().getCurrentUrl();
++                    boolean profileVisible = safeVisible(AccountPage.NAV_PROFILE);
++                    boolean favoritesVisible = safeVisible(AccountPage.NAV_FAVORITES);
++                    boolean invoicesVisible = safeVisible(AccountPage.NAV_INVOICES);
++                    boolean messagesVisible = safeVisible(AccountPage.NAV_MESSAGES);
++
++                    if (url.contains("/account")
++                            && profileVisible
++                            && favoritesVisible
++                            && invoicesVisible
++                            && messagesVisible) {
++                        return "account-hub";
++                    }
++
++                    return "pending";
++                },
++                value -> !"pending".equals(value),
++                Duration.ofSeconds(20),
++                Duration.ofMillis(250)
++        );
++
++        if (!"account-hub".equals(outcome)) {
++            throw new AssertionError(
++                    "Expected authenticated account hub to become visible, but current URL is: "
++                            + DriverManager.getEngine().getCurrentUrl()
++            );
++        }
++    }
++
++    public void assertProfileEditorReady() {
++        WaitUtils.waitForUrlContains("/account/profile");
++        WaitUtils.waitForVisible(AccountPage.FIRST_NAME);
++        WaitUtils.waitForVisible(AccountPage.LAST_NAME);
++        WaitUtils.waitForVisible(AccountPage.EMAIL);
++        WaitUtils.waitForVisible(AccountPage.PHONE);
++        WaitUtils.waitForVisible(AccountPage.STREET);
++        WaitUtils.waitForVisible(AccountPage.POSTAL_CODE);
++        WaitUtils.waitForVisible(AccountPage.CITY);
++        WaitUtils.waitForVisible(AccountPage.STATE);
++        WaitUtils.waitForVisible(AccountPage.COUNTRY);
++        WaitUtils.waitForVisible(AccountPage.UPDATE_PROFILE_BUTTON);
++        WaitUtils.waitForVisible(AccountPage.CURRENT_PASSWORD);
++        WaitUtils.waitForVisible(AccountPage.NEW_PASSWORD);
++        WaitUtils.waitForVisible(AccountPage.NEW_PASSWORD_CONFIRM);
++        WaitUtils.waitForVisible(AccountPage.CHANGE_PASSWORD_BUTTON);
++
++        Assert.assertTrue(
++                DriverManager.getEngine().getCurrentUrl().contains("/account/profile"),
++                "Expected to remain on /account/profile, but was: " + DriverManager.getEngine().getCurrentUrl()
++        );
++    }
++
++    public void assertProfileValues(String firstName,
++                                    String lastName,
++                                    String phone,
++                                    String street,
++                                    String postalCode,
++                                    String city,
++                                    String state,
++                                    String country) {
++        WaitUtils.waitForInputValue(AccountPage.FIRST_NAME, "Profile first name", firstName::equals);
++        WaitUtils.waitForInputValue(AccountPage.LAST_NAME, "Profile last name", lastName::equals);
++        WaitUtils.waitForInputValue(AccountPage.PHONE, "Profile phone", phone::equals);
++        WaitUtils.waitForInputValue(AccountPage.STREET, "Profile street", street::equals);
++        WaitUtils.waitForInputValue(AccountPage.POSTAL_CODE, "Profile postal code", postalCode::equals);
++        WaitUtils.waitForInputValue(AccountPage.CITY, "Profile city", city::equals);
++        WaitUtils.waitForInputValue(AccountPage.STATE, "Profile state", state::equals);
++        WaitUtils.waitForInputValue(AccountPage.COUNTRY, "Profile country", country::equals);
++    }
++
++    public void assertAccountIdentityVisible(String expectedFullName) {
++        WaitUtils.waitForCondition(
++                "account nav identity reflects the expected full name",
++                () -> {
++                    String menuText = UIActions.getText(AccountPage.NAV_MENU, "Account nav menu");
++                    return menuText.contains(expectedFullName);
++                },
++                "Expected the authenticated account identity chip to show: " + expectedFullName
++        );
++    }
++
++    public void assertSuccessAlertContains(String expectedText) {
++        WaitUtils.waitForVisible(AccountPage.SUCCESS_ALERT);
++        String alert = UIActions.getText(AccountPage.SUCCESS_ALERT, "Success alert");
++        Assert.assertTrue(alert.contains(expectedText), "Expected success alert to contain: " + expectedText);
++    }
++
++    private boolean safeVisible(String locator) {
++        try {
++            return DriverManager.getEngine().isVisible(locator);
++        } catch (Exception ignored) {
++            return false;
++        }
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/validation/BusinessExpansionValidation.java b/src/main/java/com/endava/ai/ui/validation/BusinessExpansionValidation.java
+new file mode 100644
+index 0000000..4bbc242
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/validation/BusinessExpansionValidation.java
+@@ -0,0 +1,377 @@
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.pages.CheckoutPage;
++import com.endava.ai.ui.pages.CatalogPage;
++import com.endava.ai.ui.pages.LoginPage;
++import com.endava.ai.ui.pages.StorefrontPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++import org.testng.Assert;
++
++import java.time.Duration;
++import java.util.ArrayList;
++import java.util.List;
++import java.util.Locale;
++
++public final class BusinessExpansionValidation {
++
++    public void assertComparisonDestinationFor(String productName) {
++        WaitUtils.waitForCondition(
++                "comparison page becomes visible",
++                () -> {
++                    String url = DriverManager.getEngine().getCurrentUrl();
++                    String body = UIActions.getText("body", "Comparison page body");
++                    return url.contains("/comparison")
++                            && body.contains("Product Comparison")
++                            && body.contains(productName)
++                            && body.contains("Show differences only");
++                },
++                "Expected comparison flow to land on /comparison with the selected product visible."
++        );
++
++        String url = DriverManager.getEngine().getCurrentUrl();
++        String body = UIActions.getText("body", "Comparison page body");
++        Assert.assertTrue(url.contains("/comparison"), "Expected comparison route, but was: " + url);
++        Assert.assertTrue(body.contains(productName), "Expected selected product on the comparison page.");
++        Assert.assertTrue(body.contains("Product Comparison"), "Expected comparison page title.");
++    }
++
++    public void assertSecondCatalogPageShelf() {
++        WaitUtils.waitForCondition(
++                "second catalog page shelf is visible",
++                () -> {
++                    List<String> names = UIActions.getVisibleTexts(CatalogPage.PRODUCT_NAMES, "Catalog page 2 product names");
++                    return names.size() == 9
++                            && names.contains("Sledgehammer")
++                            && names.contains("Claw Hammer with Fiberglass Handle")
++                            && names.contains("Court Hammer")
++                            && names.contains("Wood Saw")
++                            && names.contains("Adjustable Wrench")
++                            && names.contains("Angled Spanner")
++                            && names.contains("Open-end Spanners (Set)")
++                            && names.contains("Phillips Screwdriver")
++                            && names.contains("Mini Screwdriver");
++                },
++                "Expected pagination to move the storefront to the live second-page shelf."
++        );
++
++        List<String> names = UIActions.getVisibleTexts(CatalogPage.PRODUCT_NAMES, "Catalog page 2 product names");
++        Assert.assertEquals(names.size(), 9, "Expected nine visible product cards on catalog page 2.");
++        Assert.assertFalse(names.contains("Combination Pliers"), "Expected first-page shelf product Combination Pliers to disappear after pagination.");
++    }
++
++    public void assertPowerToolsForgeFlexIntersection() {
++        WaitUtils.waitForCondition(
++                "power-tools plus ForgeFlex intersection settles",
++                () -> {
++                    List<String> names = UIActions.getVisibleTexts(CatalogPage.PRODUCT_NAMES, "Power tools ForgeFlex product names");
++                    return names.size() == 6
++                            && names.contains("Sheet Sander")
++                            && names.contains("Random Orbit Sander")
++                            && names.contains("Circular Saw")
++                            && names.contains("Cordless Drill 20V")
++                            && names.contains("Cordless Drill 24V");
++                },
++                "Expected power-tools plus ForgeFlex intersection to settle to the live six-item subset."
++        );
++
++        List<String> names = UIActions.getVisibleTexts(CatalogPage.PRODUCT_NAMES, "Power tools ForgeFlex product names");
++        Assert.assertEquals(names.size(), 6, "Expected exactly six products in the power-tools plus ForgeFlex intersection.");
++        Assert.assertFalse(names.contains("Belt Sander"), "Expected non-ForgeFlex Belt Sander to disappear after intersection narrowing.");
++        Assert.assertFalse(names.contains("Cordless Drill 12V"), "Expected Cordless Drill 12V to stay outside the ForgeFlex intersection.");
++    }
++
++    public void assertForgotPasswordConfirmation() {
++        WaitUtils.waitForCondition(
++                "forgot-password confirmation becomes visible",
++                () -> {
++                    String url = DriverManager.getEngine().getCurrentUrl();
++                    String body = UIActions.getText("body", "Forgot password page body");
++                    return url.contains("/auth/forgot-password")
++                            && body.contains("Forgot Password")
++                            && body.contains("page.forgot-password.confirm");
++                },
++                "Expected forgot-password flow to keep the visitor on /auth/forgot-password and expose the live confirmation key."
++        );
++
++        String url = DriverManager.getEngine().getCurrentUrl();
++        String body = UIActions.getText("body", "Forgot password page body");
++        Assert.assertTrue(url.contains("/auth/forgot-password"), "Expected to remain on /auth/forgot-password, but was: " + url);
++        Assert.assertTrue(body.contains("page.forgot-password.confirm"), "Expected the live forgot-password confirmation text.");
++    }
++
++    public void assertForgotPasswordRejectsUnknownEmail() {
++        WaitUtils.waitForCondition(
++                "forgot-password rejects unknown email",
++                () -> {
++                    String url = DriverManager.getEngine().getCurrentUrl();
++                    String body = UIActions.getText("body", "Forgot password page body");
++                    return url.contains("/auth/forgot-password")
++                            && body.contains("Forgot Password")
++                            && body.contains("The selected email is invalid.");
++                },
++                "Expected forgot-password flow to reject an unknown email with visible validation feedback."
++        );
++
++        String url = DriverManager.getEngine().getCurrentUrl();
++        String body = UIActions.getText("body", "Forgot password page body");
++        Assert.assertTrue(url.contains("/auth/forgot-password"), "Expected to remain on /auth/forgot-password, but was: " + url);
++        Assert.assertTrue(body.contains("The selected email is invalid."), "Expected unknown email validation feedback.");
++    }
++
++    public void assertFavoritesPageContains(String productName) {
++        Assert.assertFalse(productName == null || productName.isBlank(), "Expected a non-empty selected product name before opening favorites.");
++
++        WaitUtils.waitForCondition(
++                "favorites page contains selected product",
++                () -> {
++                    String url = DriverManager.getEngine().getCurrentUrl();
++                    String body = UIActions.getText("body", "Favorites page body");
++                    List<String> names = UIActions.getVisibleTexts(StorefrontPage.PRODUCT_NAME, "Favorite product names");
++                    return url.contains("/account/favorites")
++                            && body.contains("Favorites")
++                            && !body.contains("There are no favorites yet")
++                            && names.contains(productName);
++                },
++                "Expected favorites page to materialize the selected product."
++        );
++
++        String url = DriverManager.getEngine().getCurrentUrl();
++        String body = UIActions.getText("body", "Favorites page body");
++        List<String> names = UIActions.getVisibleTexts(StorefrontPage.PRODUCT_NAME, "Favorite product names");
++        Assert.assertTrue(url.contains("/account/favorites"), "Expected favorites route, but was: " + url);
++        Assert.assertFalse(body.contains("There are no favorites yet"), "Expected favorites page to contain at least one materialized favorite.");
++        Assert.assertTrue(names.contains(productName), "Expected the selected product to be visible in favorites.");
++    }
++
++    public String readFirstVisibleCatalogProductName() {
++        List<String> names = UIActions.getVisibleTexts(CatalogPage.PRODUCT_NAMES, "Visible catalog product names");
++        Assert.assertFalse(names.isEmpty(), "Expected at least one visible catalog product.");
++        return names.get(0);
++    }
++
++    public String readCurrentProductTitle() {
++        WaitUtils.waitForVisible(StorefrontPage.PRODUCT_NAME);
++        String productName = UIActions.getText(StorefrontPage.PRODUCT_NAME, "Current product name");
++        Assert.assertFalse(productName == null || productName.isBlank(), "Expected a non-empty product name on the product details page.");
++        return productName;
++    }
++
++    public List<String> readFirstTwoVisibleCatalogProductNames() {
++        List<String> names = UIActions.getVisibleTexts(CatalogPage.PRODUCT_NAMES, "Visible catalog product names");
++        Assert.assertTrue(names.size() >= 2, "Expected at least two visible catalog products for multi-compare.");
++        List<String> firstTwo = new ArrayList<>();
++        firstTwo.add(names.get(0));
++        firstTwo.add(names.get(1));
++        return firstTwo;
++    }
++
++    public List<String> readVisibleCatalogProductNamesAtIndices(int firstOneBasedIndex, int secondOneBasedIndex) {
++        List<String> names = UIActions.getVisibleTexts(CatalogPage.PRODUCT_NAMES, "Visible catalog product names");
++        Assert.assertTrue(firstOneBasedIndex >= 1, "Expected first index to be one-based and positive.");
++        Assert.assertTrue(secondOneBasedIndex >= 1, "Expected second index to be one-based and positive.");
++        Assert.assertTrue(names.size() >= Math.max(firstOneBasedIndex, secondOneBasedIndex),
++                "Expected enough visible catalog products for the requested comparison indices.");
++
++        List<String> selected = new ArrayList<>();
++        selected.add(names.get(firstOneBasedIndex - 1));
++        selected.add(names.get(secondOneBasedIndex - 1));
++        return selected;
++    }
++
++    public void assertComparisonDestinationForProducts(List<String> productNames) {
++        Assert.assertEquals(productNames.size(), 2, "Expected exactly two product names for the multi-compare assertion.");
++        WaitUtils.waitForCondition(
++                "comparison page becomes visible for two selected products",
++                () -> {
++                    String url = DriverManager.getEngine().getCurrentUrl();
++                    String body = UIActions.getText("body", "Comparison page body");
++                    return url.contains("/comparison")
++                            && body.contains("Product Comparison")
++                            && body.contains("Show differences only")
++                            && productNames.stream().allMatch(body::contains);
++                },
++                "Expected comparison destination to materialize both selected products."
++        );
++
++        String body = UIActions.getText("body", "Comparison page body");
++        for (String productName : productNames) {
++            Assert.assertTrue(body.contains(productName), "Expected product on comparison page: " + productName);
++        }
++    }
++
++    public void assertComparisonRetainsOnlyRemainingProduct(String removedProductName, String remainingProductName) {
++        WaitUtils.waitForCondition(
++                "comparison page retains a single remaining product after targeted removal",
++                () -> {
++                    String url = DriverManager.getEngine().getCurrentUrl();
++                    String body = UIActions.getText("body", "Comparison body after targeted removal");
++                    List<String> names = UIActions.getVisibleTexts(CatalogPage.PRODUCT_NAMES, "Comparison product names after targeted removal");
++                    return url.contains("/comparison")
++                            && body.contains("Product Comparison")
++                            && body.contains("Show differences only")
++                            && body.contains("Clear All")
++                            && !body.contains("No products selected for comparison")
++                            && names.size() == 1
++                            && names.contains(remainingProductName)
++                            && !names.contains(removedProductName);
++                },
++                "Expected targeted comparison removal to keep exactly one remaining product on the comparison page."
++        );
++
++        String body = UIActions.getText("body", "Comparison body after targeted removal");
++        List<String> names = UIActions.getVisibleTexts(CatalogPage.PRODUCT_NAMES, "Comparison product names after targeted removal");
++        Assert.assertEquals(names.size(), 1, "Expected exactly one product to remain after targeted comparison removal.");
++        Assert.assertTrue(names.contains(remainingProductName), "Expected the remaining comparison product to stay visible.");
++        Assert.assertFalse(names.contains(removedProductName), "Expected the removed comparison product to disappear.");
++        Assert.assertFalse(body.contains("No products selected for comparison"), "Expected targeted removal to avoid collapsing into empty-state guidance.");
++    }
++
++    public void assertComparisonShowDifferencesHidesSharedSpecification(List<String> productNames,
++                                                                        String hiddenSharedSpecificationLabel,
++                                                                        String remainingDifferingSpecificationLabel) {
++        Assert.assertEquals(productNames.size(), 2, "Expected exactly two product names for the comparison diff assertion.");
++
++        WaitUtils.waitForCondition(
++                "comparison page is ready for show-differences filtering",
++                () -> {
++                    String body = UIActions.getText("body", "Comparison body before enabling show differences");
++                    return body.contains("Product Comparison")
++                            && body.contains("Show differences only")
++                            && productNames.stream().allMatch(body::contains)
++                            && body.contains(hiddenSharedSpecificationLabel)
++                            && body.contains(remainingDifferingSpecificationLabel);
++                },
++                "Expected comparison page to expose the shared and differing specification rows before diff filtering."
++        );
++
++        UIActions.click(CatalogPage.SHOW_DIFFERENCES_ONLY, "Show differences only");
++
++        WaitUtils.waitForCondition(
++                "show-differences hides the shared specification row",
++                () -> {
++                    String body = UIActions.getText("body", "Comparison body after enabling show differences");
++                    return body.contains("Product Comparison")
++                            && body.contains("Show differences only")
++                            && body.contains(remainingDifferingSpecificationLabel)
++                            && !body.contains(hiddenSharedSpecificationLabel);
++                },
++                "Expected show-differences to remove the shared specification row while preserving a differing row."
++        );
++
++        String body = UIActions.getText("body", "Comparison body after enabling show differences");
++        Assert.assertFalse(body.contains(hiddenSharedSpecificationLabel),
++                "Expected the shared specification row to disappear after enabling show differences.");
++        Assert.assertTrue(body.contains(remainingDifferingSpecificationLabel),
++                "Expected a differing specification row to remain visible after enabling show differences.");
++    }
++
++    public void assertFavoritesPageReturnsToEmptyState(String removedProductName) {
++        WaitUtils.waitForCondition(
++                "favorites page returns to empty state",
++                () -> {
++                    String url = DriverManager.getEngine().getCurrentUrl();
++                    String body = UIActions.getText(AccountPage.FAVORITES_EMPTY_STATE, "Favorites page body");
++                    List<String> names = UIActions.getVisibleTexts(StorefrontPage.PRODUCT_NAME, "Favorite product names after deletion");
++                    return url.contains("/account/favorites")
++                            && body.contains("There are no favorites yet")
++                            && !names.contains(removedProductName);
++                },
++                "Expected favorites page to return to the empty-state message after deletion."
++        );
++    }
++
++    public void assertProfileUpdateSuccessAndPersistence(String firstName,
++                                                         String lastName,
++                                                         String phone,
++                                                         String street,
++                                                         String postalCode,
++                                                         String city,
++                                                         String state,
++                                                         String country) {
++        WaitUtils.waitForCondition(
++                "profile editor remains on the updated state",
++                () -> DriverManager.getEngine().getCurrentUrl().contains("/account/profile")
++                        && firstName.equals(UIActions.getValue(AccountPage.FIRST_NAME, "Profile first name"))
++                        && lastName.equals(UIActions.getValue(AccountPage.LAST_NAME, "Profile last name"))
++                        && phone.equals(UIActions.getValue(AccountPage.PHONE, "Profile phone"))
++                        && street.equals(UIActions.getValue(AccountPage.STREET, "Profile street"))
++                        && postalCode.equals(UIActions.getValue(AccountPage.POSTAL_CODE, "Profile postal code"))
++                        && city.equals(UIActions.getValue(AccountPage.CITY, "Profile city"))
++                        && state.equals(UIActions.getValue(AccountPage.STATE, "Profile state"))
++                        && country.equals(UIActions.getValue(AccountPage.COUNTRY, "Profile country")),
++                "Expected profile update to persist inside the current editor state."
++        );
++
++        WaitUtils.waitForInputValue(AccountPage.FIRST_NAME, "Profile first name", firstName::equals, Duration.ofSeconds(15));
++        WaitUtils.waitForInputValue(AccountPage.LAST_NAME, "Profile last name", lastName::equals, Duration.ofSeconds(15));
++        WaitUtils.waitForInputValue(AccountPage.PHONE, "Profile phone", phone::equals, Duration.ofSeconds(15));
++        WaitUtils.waitForInputValue(AccountPage.STREET, "Profile street", street::equals, Duration.ofSeconds(15));
++        WaitUtils.waitForInputValue(AccountPage.POSTAL_CODE, "Profile postal code", postalCode::equals, Duration.ofSeconds(15));
++        WaitUtils.waitForInputValue(AccountPage.CITY, "Profile city", city::equals, Duration.ofSeconds(15));
++        WaitUtils.waitForInputValue(AccountPage.STATE, "Profile state", state::equals, Duration.ofSeconds(15));
++        WaitUtils.waitForInputValue(AccountPage.COUNTRY, "Profile country", country::equals, Duration.ofSeconds(15));
++    }
++
++    public void assertRedirectedToLoginAfterPasswordChange() {
++        WaitUtils.waitForCondition(
++                "password change redirects to login",
++                () -> DriverManager.getEngine().getCurrentUrl().contains("/auth/login")
++                        && DriverManager.getEngine().isVisible(LoginPage.LOGIN_BUTTON),
++                "Expected password change to force the customer back to the login surface."
++        );
++    }
++
++    public void assertCartQuantityMaterialized(String productName, int expectedQuantity) {
++        String expected = String.valueOf(expectedQuantity);
++        WaitUtils.waitForCondition(
++                "cart badge becomes the requested quantity",
++                () -> expected.equals(UIActions.getText(StorefrontPage.CART_QUANTITY, "Cart quantity badge")),
++                "Expected cart badge to reflect the requested quantity."
++        );
++
++        WaitUtils.waitForCondition(
++                "checkout row materializes the requested quantity",
++                () -> {
++                    String body = UIActions.getText("body", "Checkout body");
++                    String quantity = UIActions.getValue(StorefrontPage.CHECKOUT_PRODUCT_QUANTITY_INPUT, "Checkout product quantity");
++                    return body.contains(productName) && expected.equals(quantity);
++                },
++                "Expected checkout line to materialize the requested quantity for the selected product."
++        );
++    }
++
++    public double readCheckoutUnitPrice() {
++        String unitPrice = UIActions.getText(CheckoutPage.PRODUCT_PRICE, "Checkout unit price");
++        return parseCurrency(unitPrice);
++    }
++
++    public void assertCheckoutQuantityAdjustment(String productName, int expectedQuantity, double unitPrice) {
++        String expected = String.valueOf(expectedQuantity);
++        String expectedLineTotal = String.format(Locale.US, "$%.2f", unitPrice * expectedQuantity);
++
++        WaitUtils.waitForCondition(
++                "checkout quantity edit updates the cart summary",
++                () -> {
++                    String body = UIActions.getText("body", "Checkout body");
++                    String quantity = UIActions.getValue(CheckoutPage.PRODUCT_QUANTITY, "Checkout product quantity");
++                    String badge = UIActions.getText(StorefrontPage.CART_QUANTITY, "Cart quantity badge");
++                    String linePrice = UIActions.getText(CheckoutPage.LINE_PRICE, "Checkout line price");
++                    String cartTotal = UIActions.getText(CheckoutPage.CART_TOTAL, "Checkout cart total");
++                    return body.contains(productName)
++                            && expected.equals(quantity)
++                            && expected.equals(badge)
++                            && linePrice.contains(expectedLineTotal)
++                            && cartTotal.contains(expectedLineTotal);
++                },
++                "Expected checkout quantity edit to update quantity badge and line total."
++        );
++    }
++
++    private double parseCurrency(String rawValue) {
++        String normalized = rawValue.replaceAll("[^0-9.]", "");
++        return Double.parseDouble(normalized);
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/validation/InvoiceValidation.java b/src/main/java/com/endava/ai/ui/validation/InvoiceValidation.java
+new file mode 100644
+index 0000000..0d72673
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/validation/InvoiceValidation.java
+@@ -0,0 +1,57 @@
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++import org.testng.Assert;
++
++import java.util.List;
++
++public final class InvoiceValidation {
++
++    public void assertInvoicesPageVisible() {
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++        String pageTitle = UIActions.getText(AccountPage.PAGE_TITLE, "Invoices page title");
++        Assert.assertTrue(pageTitle.contains("Invoices"), "Expected the account invoices page title.");
++    }
++
++    public void assertInvoiceRowPresent() {
++        WaitUtils.waitForCondition(
++                "invoice table contains at least one row",
++                () -> !UIActions.getTexts("table tbody tr", "Invoice rows").isEmpty(),
++                "Expected at least one invoice row after authenticated checkout."
++        );
++
++        List<String> rows = UIActions.getTexts("table tbody tr", "Invoice rows");
++        Assert.assertFalse(rows.isEmpty(), "Expected at least one invoice row after authenticated checkout.");
++    }
++
++    public int invoiceRowCount() {
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++        return UIActions.getTexts("table tbody tr", "Invoice rows").size();
++    }
++
++    public void assertInvoiceRowCountAtLeast(int expectedMinimum) {
++        WaitUtils.waitForCondition(
++                "invoice table contains at least " + expectedMinimum + " row(s)",
++                () -> UIActions.getTexts("table tbody tr", "Invoice rows").size() >= expectedMinimum,
++                "Expected at least " + expectedMinimum + " invoice row(s) after authenticated checkout."
++        );
++
++        int actualRows = invoiceRowCount();
++        Assert.assertTrue(
++                actualRows >= expectedMinimum,
++                "Expected at least " + expectedMinimum + " invoice row(s), but found " + actualRows + "."
++        );
++    }
++
++    public void assertInvoiceRowsAbsent() {
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++        int actualRows = invoiceRowCount();
++        Assert.assertEquals(
++                actualRows,
++                0,
++                "Expected invoice history to be empty after the session boundary."
++        );
++    }
++}
+diff --git a/src/test/java/com/endava/ai/atf/ui/AuthenticatedAccountSurfaceBreadthTests.java b/src/test/java/com/endava/ai/atf/ui/AuthenticatedAccountSurfaceBreadthTests.java
+new file mode 100644
+index 0000000..e62cc5f
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/AuthenticatedAccountSurfaceBreadthTests.java
+@@ -0,0 +1,119 @@
++package com.endava.ai.atf.ui;
++
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.core.BaseTestUI;
++import com.endava.ai.ui.factory.CustomerDataFactory;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.service.AccountService;
++import com.endava.ai.ui.service.LoginService;
++import com.endava.ai.ui.service.RegistrationService;
++import com.endava.ai.ui.service.StorefrontService;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.validation.AccountValidation;
++import com.endava.ai.ui.validation.BusinessExpansionValidation;
++import com.endava.ai.ui.validation.InvoiceValidation;
++import com.endava.ai.ui.validation.RegistrationValidation;
++import org.testng.annotations.BeforeMethod;
++import org.testng.annotations.Test;
++
++public class AuthenticatedAccountSurfaceBreadthTests extends BaseTestUI {
++
++    private final RegistrationService registrationService = new RegistrationService();
++    private final RegistrationValidation registrationValidation = new RegistrationValidation();
++    private final LoginService loginService = new LoginService();
++    private final AccountService accountService = new AccountService();
++    private final AccountValidation accountValidation = new AccountValidation();
++    private final InvoiceValidation invoiceValidation = new InvoiceValidation();
++    private final StorefrontService storefrontService = new StorefrontService();
++    private final BusinessExpansionValidation businessExpansionValidation = new BusinessExpansionValidation();
++
++    @BeforeMethod
++    public void before() {
++        StepLogger.startStep("Authenticated account surface breadth preconditions");
++        UIActions.clearSession();
++        StepLogger.pass("Ready");
++    }
++
++    @Test(description = "Run 01: authenticated account hub exposes the registered customer identity")
++    public void run_01_authenticated_account_hub_exposes_registered_customer_identity() {
++        CustomerData customer = CustomerDataFactory.validCustomer();
++
++        registerAndLogin(customer);
++
++        accountValidation.assertAccountHubVisible();
++        accountValidation.assertAccountIdentityVisible(customer.getFirstName() + " " + customer.getLastName());
++    }
++
++    @Test(description = "Run 02: authenticated profile editor replays the persisted registration values")
++    public void run_02_authenticated_profile_editor_replays_persisted_registration_values() {
++        CustomerData customer = CustomerDataFactory.validCustomer();
++
++        registerAndLogin(customer);
++
++        accountService.openProfile();
++        accountValidation.assertProfileEditorReady();
++        accountValidation.assertProfileValues(
++                customer.getFirstName(),
++                customer.getLastName(),
++                customer.getPhone(),
++                customer.getStreet(),
++                customer.getPostalCode(),
++                customer.getCity(),
++                customer.getState(),
++                customer.getCountry()
++        );
++    }
++
++    @Test(description = "Run 03: authenticated invoices route stays empty before any purchase materializes")
++    public void run_03_authenticated_invoices_route_stays_empty_before_any_purchase() {
++        CustomerData customer = CustomerDataFactory.validCustomer();
++
++        registerAndLogin(customer);
++
++        accountService.openInvoicesDirect();
++        invoiceValidation.assertInvoicesPageVisible();
++        invoiceValidation.assertInvoiceRowsAbsent();
++    }
++
++    @Test(description = "Run 04: authenticated customer can materialize a product inside account favorites")
++    public void run_04_authenticated_customer_can_materialize_a_product_inside_account_favorites() {
++        CustomerData customer = CustomerDataFactory.validCustomer();
++
++        registerAndLogin(customer);
++
++        storefrontService.openHome();
++        storefrontService.openFirstProduct();
++        String productName = businessExpansionValidation.readCurrentProductTitle();
++        storefrontService.addCurrentProductToFavorites();
++
++        accountService.openFavoritesDirect();
++        businessExpansionValidation.assertFavoritesPageContains(productName);
++    }
++
++    @Test(description = "Run 05: authenticated customer can delete the only favorite back to the empty state")
++    public void run_05_authenticated_customer_can_delete_the_only_favorite_back_to_the_empty_state() {
++        CustomerData customer = CustomerDataFactory.validCustomer();
++
++        registerAndLogin(customer);
++
++        storefrontService.openHome();
++        storefrontService.openFirstProduct();
++        String productName = businessExpansionValidation.readCurrentProductTitle();
++        storefrontService.addCurrentProductToFavorites();
++
++        accountService.openFavoritesDirect();
++        businessExpansionValidation.assertFavoritesPageContains(productName);
++
++        accountService.removeFirstFavorite();
++        businessExpansionValidation.assertFavoritesPageReturnsToEmptyState(productName);
++    }
++
++    private void registerAndLogin(CustomerData customer) {
++        registrationService.openRegister();
++        registrationService.register(customer);
++        registrationValidation.assertRedirectedToLogin();
++
++        loginService.login(customer.getEmail(), customer.getPassword());
++        accountValidation.assertAccountHubVisible();
++    }
++}

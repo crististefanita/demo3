@@ -1,0 +1,463 @@
+
+diff --git a/src/test/java/com/endava/ai/atf/ui/AuthenticatedProfileLocationMutationTests.java b/src/test/java/com/endava/ai/atf/ui/AuthenticatedProfileLocationMutationTests.java
+new file mode 100644
+index 0000000..6a06053
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/AuthenticatedProfileLocationMutationTests.java
+@@ -0,0 +1,184 @@
++package com.endava.ai.atf.ui;
++
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.core.BaseTestUI;
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.model.RegistrationData;
++import com.endava.ai.ui.pages.ProfilePage;
++import com.endava.ai.ui.service.LoginService;
++import com.endava.ai.ui.service.ProfileService;
++import com.endava.ai.ui.service.RegistrationService;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++import com.endava.ai.ui.validation.ProfileValidation;
++import com.endava.ai.ui.validation.RegistrationValidation;
++import org.testng.Assert;
++import org.testng.annotations.BeforeMethod;
++import org.testng.annotations.Test;
++
++import java.time.Duration;
++
++public class AuthenticatedProfileLocationMutationTests extends BaseTestUI {
++
++    private static final String COUNTRY = "input[data-test='country']";
++    private static final String UPDATE_PROFILE_BUTTON = "button[data-test='update-profile-submit']";
++
++    private final RegistrationService registrationService = new RegistrationService();
++    private final RegistrationValidation registrationValidation = new RegistrationValidation();
++    private final LoginService loginService = new LoginService();
++    private final ProfileService profileService = new ProfileService();
++    private final ProfileValidation profileValidation = new ProfileValidation();
++
++    @BeforeMethod
++    public void before() {
++        StepLogger.startStep("Authenticated profile location mutation preconditions");
++        UIActions.clearSession();
++        StepLogger.pass("Ready");
++    }
++
++    @Test(description = "Positive: profile postal-only update persists on submit")
++    public void positive_profile_postal_only_update_persists_on_submit() {
++        RegistrationData registered = registerAndLoginForProfileEditing();
++        RegistrationData updated = newPostalCountryVariant(registered, "postal-only", true, false);
++
++        updateProfileLocation(updated);
++
++        assertPostalAndCountry(updated);
++        assertStreetCityState(registered);
++    }
++
++    @Test(description = "Positive: profile country-only update persists on submit")
++    public void positive_profile_country_only_update_persists_on_submit() {
++        RegistrationData registered = registerAndLoginForProfileEditing();
++        RegistrationData updated = newPostalCountryVariant(registered, "country-only", false, true);
++
++        updateProfileLocation(updated);
++
++        assertPostalAndCountry(updated);
++        assertStreetCityState(registered);
++    }
++
++    @Test(description = "Positive: profile postal and country update survives same-session route replay")
++    public void positive_profile_postal_and_country_update_survives_same_session_route_replay() {
++        RegistrationData registered = registerAndLoginForProfileEditing();
++        RegistrationData updated = newPostalCountryVariant(registered, "route-replay", true, true);
++
++        updateProfileLocation(updated);
++        UIActions.navigateToRelative("/account");
++        profileService.openProfile();
++
++        assertPostalAndCountry(updated);
++        assertStreetCityState(registered);
++    }
++
++    @Test(description = "Positive: profile postal and country update survives a fresh relogin")
++    public void positive_profile_postal_and_country_update_survives_fresh_relogin() {
++        RegistrationData registered = registerAndLoginForProfileEditing();
++        RegistrationData updated = newPostalCountryVariant(registered, "fresh-relogin", true, true);
++
++        updateProfileLocation(updated);
++        UIActions.clearSession();
++        loginService.login(registered.email(), registered.password());
++        profileService.openProfile();
++
++        assertPostalAndCountry(updated);
++        assertStreetCityState(registered);
++    }
++
++    @Test(description = "Positive: profile postal and country update preserves existing street city and state")
++    public void positive_profile_postal_and_country_update_preserves_existing_street_city_and_state() {
++        RegistrationData registered = registerAndLoginForProfileEditing();
++        RegistrationData updated = newPostalCountryVariant(registered, "preserve-address", true, true);
++
++        updateProfileLocation(updated);
++
++        assertStreetCityState(registered);
++        assertPostalAndCountry(updated);
++    }
++
++    private RegistrationData registerAndLoginForProfileEditing() {
++        RegistrationData data = registrationService.registerValidUser();
++        registrationValidation.assertRedirectedToLogin();
++        loginService.loginWithoutOpen(data.email(), data.password());
++        profileService.openProfile();
++        profileValidation.assertProfileAddressPrefilled(data);
++        return data;
++    }
++
++    private RegistrationData newPostalCountryVariant(RegistrationData baseline,
++                                                     String label,
++                                                     boolean mutatePostal,
++                                                     boolean mutateCountry) {
++        String token = Long.toUnsignedString(System.nanoTime());
++        String suffix = token.substring(Math.max(0, token.length() - 4));
++
++        return baseline.toBuilder()
++                .postal(mutatePostal ? "88" + suffix : baseline.postal())
++                .country(mutateCountry ? ("ZZ-" + label + "-" + suffix) : baseline.country())
++                .build();
++    }
++
++    private void updateProfileLocation(RegistrationData updated) {
++        WaitUtils.waitForInputValue(ProfilePage.STREET, "Profile street hydration", value -> value != null && !value.isBlank());
++        WaitUtils.waitForInputValue(ProfilePage.POSTAL, "Profile postal hydration", value -> value != null && !value.isBlank());
++
++        UIActions.type(ProfilePage.POSTAL, "Profile postal", updated.postal());
++        UIActions.type(COUNTRY, "Profile country", updated.country());
++        UIActions.click(UPDATE_PROFILE_BUTTON, "Update Profile");
++
++        WaitUtils.waitForCondition(
++                "profile location update confirmation or persisted field state",
++                () -> {
++                    String body = DriverManager.getEngine().getText("body");
++                    String postal = DriverManager.getEngine().getValue(ProfilePage.POSTAL);
++                    String country = DriverManager.getEngine().getValue(COUNTRY);
++                    return body.contains("Your profile is successfully updated")
++                            || (updated.postal().equals(postal) && updated.country().equals(country));
++                },
++                "Expected profile location update success banner or persisted field state."
++        );
++        WaitUtils.pause(Duration.ofSeconds(1));
++    }
++
++    private void assertPostalAndCountry(RegistrationData expected) {
++        WaitUtils.waitForInputValue(
++                ProfilePage.POSTAL,
++                "Profile postal value",
++                value -> expected.postal().equals(value)
++        );
++        WaitUtils.waitForInputValue(
++                COUNTRY,
++                "Profile country value",
++                value -> expected.country().equals(value)
++        );
++
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.POSTAL, "Profile postal"),
++                expected.postal(),
++                "Profile postal should match the updated value."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(COUNTRY, "Profile country"),
++                expected.country(),
++                "Profile country should match the updated value."
++        );
++    }
++
++    private void assertStreetCityState(RegistrationData expected) {
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.STREET, "Profile street"),
++                expected.street(),
++                "Profile street should stay unchanged."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.CITY, "Profile city"),
++                expected.city(),
++                "Profile city should stay unchanged."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.STATE, "Profile state"),
++                expected.state(),
++                "Profile state should stay unchanged."
++        );
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/pages/ProfilePage.java b/src/main/java/com/endava/ai/ui/pages/ProfilePage.java
+new file mode 100644
+index 0000000..6ff48c2
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/pages/ProfilePage.java
+@@ -0,0 +1,27 @@
++package com.endava.ai.ui.pages;
++
++public final class ProfilePage {
++
++    private ProfilePage() {
++    }
++
++    public static final String ACCOUNT_MENU = "button[data-test='nav-menu']";
++    public static final String FIRST_NAME = "input[data-test='first-name']";
++    public static final String LAST_NAME = "input[data-test='last-name']";
++    public static final String PHONE = "input[data-test='phone']";
++    public static final String EMAIL = "input[data-test='email']";
++    public static final String STREET = "input[data-test='street']";
++    public static final String CITY = "input[data-test='city']";
++    public static final String STATE = "input[data-test='state']";
++    public static final String POSTAL = "input[data-test='postal_code']";
++    public static final String CURRENT_PASSWORD = "input[data-test='current-password']";
++    public static final String NEW_PASSWORD = "input[data-test='new-password']";
++    public static final String NEW_PASSWORD_CONFIRM = "input[data-test='new-password-confirm']";
++    public static final String CHANGE_PASSWORD_BUTTON = "button[data-test='change-password-submit']";
++    public static final String TOTP_SECRET = "div.row.mt-3 p strong";
++    public static final String TOTP_CODE = "input[data-test='totp-code']";
++    public static final String VERIFY_TOTP_BUTTON = "button[data-test='verify-totp'], input[data-test='verify-totp']";
++    public static final String TOTP_ERROR = "div[data-test='totp-error']";
++    public static final String PAGE_ROOT = "app-profile";
++    public static final String SUCCESS_BANNER = "div.alert.alert-success";
++}
+diff --git a/src/main/java/com/endava/ai/ui/service/ProfileService.java b/src/main/java/com/endava/ai/ui/service/ProfileService.java
+new file mode 100644
+index 0000000..69f6ea9
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/ProfileService.java
+@@ -0,0 +1,92 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.pages.ProfilePage;
++import com.endava.ai.ui.utils.TotpGenerator;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++import java.time.Duration;
++import java.util.List;
++import java.util.regex.Matcher;
++import java.util.regex.Pattern;
++
++public final class ProfileService {
++
++    private static final Pattern TOTP_SECRET_PATTERN = Pattern.compile("\\b[A-Z2-7]{16,}\\b");
++
++    public void openProfile() {
++        UIActions.navigateToRelative("/account/profile");
++        WaitUtils.waitForVisible(ProfilePage.PAGE_ROOT);
++        WaitUtils.waitForVisible(ProfilePage.FIRST_NAME);
++    }
++
++    public void changePassword(String currentPassword, String newPassword) {
++        changePassword(currentPassword, newPassword, newPassword);
++    }
++
++    public void changePassword(String currentPassword, String newPassword, String confirmedPassword) {
++        UIActions.type(ProfilePage.CURRENT_PASSWORD, "Current password", currentPassword);
++        UIActions.type(ProfilePage.NEW_PASSWORD, "New password", newPassword);
++        UIActions.type(ProfilePage.NEW_PASSWORD_CONFIRM, "Confirm new password", confirmedPassword);
++        UIActions.click(ProfilePage.CHANGE_PASSWORD_BUTTON, "Change password");
++        WaitUtils.pause(Duration.ofSeconds(2));
++    }
++
++    public void submitEmptyTotpSetupCode() {
++        WaitUtils.waitForVisible(ProfilePage.TOTP_CODE);
++        UIActions.click(ProfilePage.VERIFY_TOTP_BUTTON, "Verify TOTP");
++    }
++
++    public void submitTotpSetupCode(String code) {
++        WaitUtils.waitForVisible(ProfilePage.TOTP_CODE);
++        UIActions.type(ProfilePage.TOTP_CODE, "TOTP setup code", code);
++        UIActions.click(ProfilePage.VERIFY_TOTP_BUTTON, "Verify TOTP");
++    }
++
++    public String enableTotp() {
++        WaitUtils.waitForVisible(ProfilePage.TOTP_CODE);
++        String secret = captureTotpSecretFromBody();
++        submitTotpSetupCode(TotpGenerator.currentCode(secret));
++        WaitUtils.waitForCondition(
++                "profile TOTP success message",
++                () -> com.endava.ai.ui.core.DriverManager.getEngine().getText("body")
++                        .contains("TOTP verified and enabled successfully."),
++                "Expected TOTP setup success message."
++        );
++        return secret;
++    }
++
++    private String captureTotpSecretFromBody() {
++        String secret = WaitUtils.waitUntil(
++                this::findTotpSecretCandidate,
++                value -> value != null && !value.isBlank(),
++                Duration.ofSeconds(10),
++                Duration.ofMillis(250)
++        );
++        if (secret == null || secret.isBlank()) {
++            throw new IllegalStateException("Could not extract a Base32 TOTP secret from the profile page.");
++        }
++        return secret;
++    }
++
++    private String findTotpSecretCandidate() {
++        List<String> strongCandidates = DriverManager.getEngine().getTexts(ProfilePage.TOTP_SECRET);
++        for (String candidate : strongCandidates) {
++            String extracted = extractBase32(candidate);
++            if (extracted != null) {
++                return extracted;
++            }
++        }
++
++        return extractBase32(DriverManager.getEngine().getText("body"));
++    }
++
++    private String extractBase32(String source) {
++        if (source == null || source.isBlank()) {
++            return null;
++        }
++        Matcher matcher = TOTP_SECRET_PATTERN.matcher(source);
++        return matcher.find() ? matcher.group() : null;
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/validation/ProfileValidation.java b/src/main/java/com/endava/ai/ui/validation/ProfileValidation.java
+new file mode 100644
+index 0000000..8a8b058
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/validation/ProfileValidation.java
+@@ -0,0 +1,135 @@
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.model.RegistrationData;
++import com.endava.ai.ui.pages.ProfilePage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++import org.testng.Assert;
++
++public final class ProfileValidation {
++
++    public void assertProfilePrefilled(RegistrationData data) {
++        WaitUtils.waitForInputValue(
++                ProfilePage.EMAIL,
++                "Profile email value",
++                value -> data.email().equals(value)
++        );
++
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.FIRST_NAME, "Profile first name"),
++                data.firstName(),
++                "Profile first name should match registered value."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.LAST_NAME, "Profile last name"),
++                data.lastName(),
++                "Profile last name should match registered value."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.EMAIL, "Profile email"),
++                data.email(),
++                "Profile email should match registered value."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.PHONE, "Profile phone"),
++                data.phone(),
++                "Profile phone should match registered value."
++        );
++    }
++
++    public void assertProfileAddressPrefilled(RegistrationData data) {
++        WaitUtils.waitForInputValue(
++                ProfilePage.STREET,
++                "Profile street value",
++                value -> data.street().equals(value)
++        );
++        WaitUtils.waitForInputValue(
++                ProfilePage.CITY,
++                "Profile city value",
++                value -> data.city().equals(value)
++        );
++        WaitUtils.waitForInputValue(
++                ProfilePage.STATE,
++                "Profile state value",
++                value -> data.state().equals(value)
++        );
++        WaitUtils.waitForInputValue(
++                ProfilePage.POSTAL,
++                "Profile postal value",
++                value -> data.postal().equals(value)
++        );
++
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.STREET, "Profile street"),
++                data.street(),
++                "Profile street should match registered value."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.CITY, "Profile city"),
++                data.city(),
++                "Profile city should match registered value."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.STATE, "Profile state"),
++                data.state(),
++                "Profile state should match registered value."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(ProfilePage.POSTAL, "Profile postal"),
++                data.postal(),
++                "Profile postal should match registered value."
++        );
++    }
++
++    public void assertPasswordChangeSucceeded() {
++        WaitUtils.waitForCondition(
++                "password change success banner or text",
++                () -> {
++                    String banner = UIActions.getText(ProfilePage.SUCCESS_BANNER, "Success banner");
++                    String body = DriverManager.getEngine().getText("body");
++                    return banner.contains("successfully changed")
++                            || body.contains("Your password is successfully changed");
++                },
++                "Expected password change success message."
++        );
++    }
++
++    public void assertTotpErrorContains(String expectedText) {
++        WaitUtils.waitForCondition(
++                "profile TOTP error contains expected text",
++                () -> DriverManager.getEngine().getText(ProfilePage.TOTP_ERROR).contains(expectedText),
++                "Expected profile TOTP error to contain '" + expectedText + "'."
++        );
++
++        String text = UIActions.getText(ProfilePage.TOTP_ERROR, "Profile TOTP error");
++        Assert.assertTrue(
++                text.contains(expectedText),
++                "Expected profile TOTP error to contain '" + expectedText + "', but was: " + text
++        );
++    }
++
++    public void assertTotpEnabledSuccess() {
++        WaitUtils.waitForCondition(
++                "profile TOTP success text",
++                () -> DriverManager.getEngine().getText("body").contains("TOTP verified and enabled successfully."),
++                "Expected TOTP verification success text."
++        );
++    }
++
++    public void assertTotpAlreadyEnabled() {
++        WaitUtils.waitForCondition(
++                "profile TOTP already enabled text",
++                () -> DriverManager.getEngine().getText("body").contains("Two-Factor Authentication already enabled."),
++                "Expected profile to show that TOTP is already enabled."
++        );
++    }
++
++    public void assertTotpSetupDetailsLoadError() {
++        WaitUtils.waitForCondition(
++                "profile TOTP setup details load error text",
++                () -> DriverManager.getEngine().getText("body").contains("Failed to load TOTP setup details."),
++                "Expected profile to show the post-enable TOTP setup details load error."
++        );
++    }
++}

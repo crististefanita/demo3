@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="8" passed="8" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-14T21:32:54 EEST" name="Surefire suite" finished-at="2026-06-14T21:34:18 EEST" duration-ms="83577">
+    <groups>
+    </groups>
+    <test started-at="2026-06-14T21:32:54 EEST" name="Surefire test" finished-at="2026-06-14T21:34:18 EEST" duration-ms="83577">
+      <class name="com.endava.ai.atf.ui.LoginTotpChallengeTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:32:54 EEST" name="setUp" finished-at="2026-06-14T21:33:07 EEST" duration-ms="12642" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:07 EEST" name="setUpMethod" finished-at="2026-06-14T21:33:07 EEST" duration-ms="2" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:07 EEST" name="before" finished-at="2026-06-14T21:33:07 EEST" duration-ms="168" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="negative_empty_login_totp_code_is_rejected_from_the_relogin_challenge()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:07 EEST" name="negative_empty_login_totp_code_is_rejected_from_the_relogin_challenge" description="Negative: empty login TOTP code is rejected from the relogin challenge" finished-at="2026-06-14T21:33:13 EEST" duration-ms="5381" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- negative_empty_login_totp_code_is_rejected_from_the_relogin_challenge -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:13 EEST" name="tearDownMethod" finished-at="2026-06-14T21:33:13 EEST" duration-ms="428" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:13 EEST" name="setUpMethod" finished-at="2026-06-14T21:33:15 EEST" duration-ms="1753" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:15 EEST" name="before" finished-at="2026-06-14T21:33:15 EEST" duration-ms="303" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="negative_invalid_login_totp_code_is_rejected_from_the_relogin_challenge()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:15 EEST" name="negative_invalid_login_totp_code_is_rejected_from_the_relogin_challenge" description="Negative: invalid login TOTP code is rejected from the relogin challenge" finished-at="2026-06-14T21:33:22 EEST" duration-ms="6236" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- negative_invalid_login_totp_code_is_rejected_from_the_relogin_challenge -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:22 EEST" name="tearDownMethod" finished-at="2026-06-14T21:33:22 EEST" duration-ms="457" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:22 EEST" name="setUpMethod" finished-at="2026-06-14T21:33:24 EEST" duration-ms="1902" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:24 EEST" name="before" finished-at="2026-06-14T21:33:25 EEST" duration-ms="317" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="negative_invalid_login_totp_code_keeps_the_relogin_challenge_open()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:25 EEST" name="negative_invalid_login_totp_code_keeps_the_relogin_challenge_open" description="Negative: invalid login TOTP code keeps the relogin challenge open" finished-at="2026-06-14T21:33:30 EEST" duration-ms="5214" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- negative_invalid_login_totp_code_keeps_the_relogin_challenge_open -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:30 EEST" name="tearDownMethod" finished-at="2026-06-14T21:33:31 EEST" duration-ms="470" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:31 EEST" name="setUpMethod" finished-at="2026-06-14T21:33:33 EEST" duration-ms="1980" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:33 EEST" name="before" finished-at="2026-06-14T21:33:33 EEST" duration-ms="263" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="negative_reopening_the_login_surface_during_the_totp_challenge_resets_to_primary_credentials()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:33 EEST" name="negative_reopening_the_login_surface_during_the_totp_challenge_resets_to_primary_credentials" description="Negative: reopening the login surface during the TOTP challenge resets to the primary credential form" finished-at="2026-06-14T21:33:38 EEST" duration-ms="5280" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- negative_reopening_the_login_surface_during_the_totp_challenge_resets_to_primary_credentials -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:38 EEST" name="tearDownMethod" finished-at="2026-06-14T21:33:39 EEST" duration-ms="436" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:39 EEST" name="setUpMethod" finished-at="2026-06-14T21:33:41 EEST" duration-ms="2115" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:41 EEST" name="before" finished-at="2026-06-14T21:33:41 EEST" duration-ms="111" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_credential_replay_after_a_challenge_reset_reopens_the_login_totp_challenge()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:41 EEST" name="positive_credential_replay_after_a_challenge_reset_reopens_the_login_totp_challenge" description="Positive: credential replay after a challenge reset reopens the login TOTP challenge" finished-at="2026-06-14T21:33:47 EEST" duration-ms="6341" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_credential_replay_after_a_challenge_reset_reopens_the_login_totp_challenge -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:48 EEST" name="tearDownMethod" finished-at="2026-06-14T21:33:48 EEST" duration-ms="454" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:48 EEST" name="setUpMethod" finished-at="2026-06-14T21:33:50 EEST" duration-ms="1858" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:50 EEST" name="before" finished-at="2026-06-14T21:33:50 EEST" duration-ms="129" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_valid_login_totp_code_completes_login_after_a_challenge_reset_and_credential_replay()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:50 EEST" name="positive_valid_login_totp_code_completes_login_after_a_challenge_reset_and_credential_replay" description="Positive: a fresh valid TOTP code completes login after a challenge reset and credential replay" finished-at="2026-06-14T21:33:58 EEST" duration-ms="7450" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_valid_login_totp_code_completes_login_after_a_challenge_reset_and_credential_replay -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:58 EEST" name="tearDownMethod" finished-at="2026-06-14T21:33:58 EEST" duration-ms="382" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:33:58 EEST" name="setUpMethod" finished-at="2026-06-14T21:34:00 EEST" duration-ms="2120" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:34:00 EEST" name="before" finished-at="2026-06-14T21:34:01 EEST" duration-ms="280" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_valid_login_totp_code_completes_login_after_an_empty_challenge_submit()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:34:01 EEST" name="positive_valid_login_totp_code_completes_login_after_an_empty_challenge_submit" description="Positive: a fresh valid TOTP code completes login after an empty challenge submit" finished-at="2026-06-14T21:34:07 EEST" duration-ms="6665" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_valid_login_totp_code_completes_login_after_an_empty_challenge_submit -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:34:08 EEST" name="tearDownMethod" finished-at="2026-06-14T21:34:08 EEST" duration-ms="422" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:34:08 EEST" name="setUpMethod" finished-at="2026-06-14T21:34:11 EEST" duration-ms="2371" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:34:11 EEST" name="before" finished-at="2026-06-14T21:34:11 EEST" duration-ms="113" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_valid_login_totp_code_completes_login_after_an_invalid_challenge_attempt()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:34:11 EEST" name="positive_valid_login_totp_code_completes_login_after_an_invalid_challenge_attempt" description="Positive: a fresh valid TOTP code completes login after an invalid challenge attempt" finished-at="2026-06-14T21:34:17 EEST" duration-ms="6585" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_valid_login_totp_code_completes_login_after_an_invalid_challenge_attempt -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:34:18 EEST" name="tearDownMethod" finished-at="2026-06-14T21:34:18 EEST" duration-ms="402" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.LoginTotpChallengeTests@52b1beb6]" started-at="2026-06-14T21:34:18 EEST" name="tearDown" finished-at="2026-06-14T21:34:18 EEST" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.LoginTotpChallengeTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

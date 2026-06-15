@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ROOT_RUN 2026-06-14_19.18.12 - business journeys de client autentificat</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../../../shared-report-reference.css">
+  <script>
+    function toggleAll(openState) {
+      document.querySelectorAll("details").forEach((node) => {
+        node.open = openState;
+      });
+      const graph = document.getElementById("business-graph");
+      if (graph) {
+        graph.open = true;
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">ROOT_RUN rece | business journeys de client autentificat</div>
+      <h1>Journey-uri autentificate, executie uniforma, breadth inca partial</h1>
+      <p class="sub">Acest pachet nu mai cere iertare prin raport frumos. El spune rece ce a inchis in aplicatia reala, ce a ramas partial si unde produsul are inca breadth mare neacoperit.</p>
+
+      <div class="pill-row">
+        <span class="pill">RUN_EXPECTED_DELTA_QUALITY = 8.50</span>
+        <span class="pill">ROUND_TARGET_TEST_COUNT = 5</span>
+        <span class="pill">META_ITERATION_COUNT = 5</span>
+        <span class="pill">runs consumed = 5 / 5</span>
+        <span class="pill">good tests total = 25</span>
+        <span class="pill">breadth = partial</span>
+      </div>
+
+      <div class="callout goodbox">
+        Verdict rece: pachetul a eliminat compensarea falsa prin total mare, fiindca toate cele 5 run-uri au atins 5 / 5. Totusi, el ramane partial, fiindca macro-zona mare a produsului nu este inca rupta suficient.
+      </div>
+
+      <div class="toolbar">
+        <button type="button" onclick="toggleAll(true)">Deschide tot</button>
+        <button type="button" onclick="toggleAll(false)">Inchide tot, cu graful deschis</button>
+      </div>
+
+      <div class="pill-row">
+        <a class="pill" href="#business-graph">Business Flow Graph</a>
+        <a class="pill" href="#verdict">Verdict Executiv</a>
+        <a class="pill" href="#proof">Mapare Dovezi</a>
+        <a class="pill" href="#artifacts">Index Artefacte</a>
+        <a class="pill" href="#audit">Audit Run-uri</a>
+        <a class="pill" href="#closeout">Inchidere Pachet</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="score-grid">
+        <div class="score-card">
+          <h2>Business realism</h2>
+          <div class="score">91</div>
+          <div class="muted">journey-uri reale din aplicatie, nu doar familii tehnice</div>
+        </div>
+        <div class="score-card">
+          <h2>Disciplina runtime</h2>
+          <div class="score">96</div>
+          <div class="muted">niciun run sub 5 / 5, fara compensare falsa intre sloturi</div>
+        </div>
+        <div class="score-card">
+          <h2>Disciplina artefacte</h2>
+          <div class="score">95</div>
+          <div class="muted">diff, Extent, XML, command-result, checklist, score-support, render, link audit</div>
+        </div>
+        <div class="score-card">
+          <h2>Standing general</h2>
+          <div class="score">88</div>
+          <div class="muted">executie puternica si onesta, dar inca partiala pe breadth de produs</div>
+        </div>
+      </div>
+    </section>
+
+    <details id="business-graph" open>
+      <summary><span class="summary-title">Business Flow Graph</span><span class="sumhint">singura sectiune deschisa implicit</span></summary>
+
+      <div class="split">
+        <div class="card">
+          <h3>Owner al grafului</h3>
+          <p>Aplicatia reala. Pachetul actual este doar un overlay auditabil peste harta produsului, nu harta produsului insusi.</p>
+        </div>
+        <div class="card">
+          <h3>Cheie de lectura</h3>
+          <div class="legend-grid">
+            <div class="legend-chip owned">verde = owned acum, countable</div>
+            <div class="legend-chip blocked">rosu = gap greu sau breadth ramas</div>
+            <div class="legend-chip fresh">albastru = semnal pentru fresh ROOT_RUN</div>
+            <div class="legend-chip dormant">gri = macro-zona reala, neatinsa aici</div>
+          </div>
+        </div>
+      </div>
+
+      <details class="subdetails">
+        <summary><span class="summary-title">Tabel macro-zona -> intentie -> rezultat</span><span class="sumhint">inchis implicit ca sa nu acopere graful</span></summary>
+        <table class="graph-table">
+          <thead>
+            <tr>
+              <th>Macro-zona reala</th>
+              <th>Intentie user</th>
+              <th>Pas vizibil</th>
+              <th>Rezultat owned</th>
+              <th>Rezultat blocat</th>
+              <th>Fresh-round-only</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>discoverie publica</td>
+              <td>gaseste produsul potrivit</td>
+              <td>catalog, cautare, comparare</td>
+              <td>nu este winnerul acestui pachet</td>
+              <td>nu se vinde inertial</td>
+              <td>doar daca rerank-ul rece o ridica iar</td>
+            </tr>
+            <tr>
+              <td>self-service de cont</td>
+              <td>isi foloseste contul</td>
+              <td>overview, profile, invoices, messages, favorites</td>
+              <td>owned prin run_01 si continuat pe familii mai adanci</td>
+              <td>breadth total de cont ramane mai larg</td>
+              <td>alte mutatii grele de ownership</td>
+            </tr>
+            <tr>
+              <td>ownership favorites</td>
+              <td>isi construieste o colectie personala</td>
+              <td>empty state, add, relogin</td>
+              <td>owned in run_02</td>
+              <td>nu a inchis alta contradictie mai grea aici</td>
+              <td>doar daca apare alta tensiune business</td>
+            </tr>
+            <tr>
+              <td>suport in cont</td>
+              <td>materializeaza si regaseste mesaje</td>
+              <td>contact, lista thread-uri, reopen</td>
+              <td>owned in run_03</td>
+              <td>reply progression ramane deschis</td>
+              <td>da, daca rupe o stare mai grea</td>
+            </tr>
+            <tr>
+              <td>checkout autentificat</td>
+              <td>finalizeaza din cont</td>
+              <td>billing autofill, payment guard, submit COD</td>
+              <td>owned in run_04</td>
+              <td>order lifecycle complet ramane deschis</td>
+              <td>da, ca frontiera post-purchase</td>
+            </tr>
+            <tr>
+              <td>acces protejat</td>
+              <td>trece de step-up auth</td>
+              <td>2FA login challenge, rute de cont</td>
+              <td>owned in run_05</td>
+              <td>security closure mai grea ramane in afara pachetului</td>
+              <td>da, doar daca bate rece partialul curent</td>
+            </tr>
+          </tbody>
+        </table>
+      </details>
+
+      <div class="graph-stack">
+        <div class="card graph-shell">
+          <h3>Subgraf 1: harta reala a aplicatiei</h3>
+          <svg viewBox="0 0 1440 330" role="img" aria-label="Harta reala a aplicatiei">
+            <defs>
+              <marker id="g1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#78a8ff"></path>
+              </marker>
+            </defs>
+
+            <rect x="32" y="116" width="210" height="76" rx="18" class="node dormant-fill"></rect>
+            <text x="137" y="146" text-anchor="middle" class="node-title">Discoverie publica</text>
+            <text x="137" y="168" text-anchor="middle" class="node-sub">catalog, cautare</text>
+
+            <rect x="294" y="116" width="210" height="76" rx="18" class="node dormant-fill"></rect>
+            <text x="399" y="146" text-anchor="middle" class="node-title">Checkout public</text>
+            <text x="399" y="168" text-anchor="middle" class="node-sub">cumparare fara cont</text>
+
+            <rect x="572" y="44" width="250" height="76" rx="18" class="node owned-fill"></rect>
+            <text x="697" y="74" text-anchor="middle" class="node-title">Self-service de cont</text>
+            <text x="697" y="96" text-anchor="middle" class="node-sub">overview, profile, invoices</text>
+
+            <rect x="572" y="208" width="250" height="76" rx="18" class="node owned-fill"></rect>
+            <text x="697" y="238" text-anchor="middle" class="node-title">Support in cont</text>
+            <text x="697" y="260" text-anchor="middle" class="node-sub">mesaje, thread-uri, reopen</text>
+
+            <rect x="912" y="44" width="232" height="76" rx="18" class="node owned-fill"></rect>
+            <text x="1028" y="74" text-anchor="middle" class="node-title">Checkout autentificat</text>
+            <text x="1028" y="96" text-anchor="middle" class="node-sub">billing, payment, submit</text>
+
+            <rect x="912" y="208" width="232" height="76" rx="18" class="node owned-fill"></rect>
+            <text x="1028" y="238" text-anchor="middle" class="node-title">Acces protejat</text>
+            <text x="1028" y="260" text-anchor="middle" class="node-sub">2FA, access continuity</text>
+
+            <rect x="1198" y="116" width="212" height="76" rx="18" class="node blocked-fill"></rect>
+            <text x="1304" y="146" text-anchor="middle" class="node-title">Frontiere grele ramase</text>
+            <text x="1304" y="168" text-anchor="middle" class="node-sub">order lifecycle, reply progression</text>
+
+            <path d="M242 154 H294" class="edge dormant-edge" marker-end="url(#g1)"></path>
+            <path d="M504 154 C540 154 534 82 572 82" class="edge focus-edge" fill="none" marker-end="url(#g1)"></path>
+            <path d="M504 154 C540 154 534 246 572 246" class="edge focus-edge" fill="none" marker-end="url(#g1)"></path>
+            <path d="M822 82 H912" class="edge owned-edge" marker-end="url(#g1)"></path>
+            <path d="M822 246 H912" class="edge owned-edge" marker-end="url(#g1)"></path>
+            <path d="M1144 82 C1170 82 1168 154 1198 154" class="edge blocked-edge" fill="none" marker-end="url(#g1)"></path>
+            <path d="M1144 246 C1170 246 1168 154 1198 154" class="edge blocked-edge" fill="none" marker-end="url(#g1)"></path>
+          </svg>
+          <details class="subdetails">
+            <summary><span class="summary-title">Legenda subgrafului 1</span><span class="sumhint">aplicatia vine prima</span></summary>
+            <p>Acesta este graful cel mai important: produsul real. Pachetul nu are voie sa confiste harta si sa se declare aplicatia intreaga.</p>
+          </details>
+        </div>
+
+        <div class="card graph-shell">
+          <h3>Subgraf 2: overlay-ul pachetului curent peste harta produsului</h3>
+          <svg viewBox="0 0 1440 470" role="img" aria-label="Overlay-ul pachetului curent">
+            <defs>
+              <marker id="g2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#78a8ff"></path>
+              </marker>
+            </defs>
+
+            <rect x="34" y="192" width="170" height="84" rx="18" class="node dormant-fill"></rect>
+            <text x="119" y="224" text-anchor="middle" class="node-title">Actor</text>
+            <text x="119" y="248" text-anchor="middle" class="node-sub">client autentificat</text>
+
+            <rect x="246" y="192" width="262" height="84" rx="18" class="node focus-fill"></rect>
+            <text x="377" y="224" text-anchor="middle" class="node-title">Intentie centrala</text>
+            <text x="377" y="248" text-anchor="middle" class="node-sub">foloseste contul si comanda din el</text>
+
+            <rect x="572" y="36" width="250" height="68" rx="18" class="node owned-fill"></rect>
+            <text x="697" y="64" text-anchor="middle" class="node-title">run_01 | intrare in cont</text>
+            <text x="697" y="86" text-anchor="middle" class="node-sub">overview, profile, invoices, entry routes</text>
+
+            <rect x="572" y="120" width="250" height="68" rx="18" class="node owned-fill"></rect>
+            <text x="697" y="148" text-anchor="middle" class="node-title">run_02 | favorites owned</text>
+            <text x="697" y="170" text-anchor="middle" class="node-sub">empty state, add, relogin</text>
+
+            <rect x="572" y="204" width="250" height="68" rx="18" class="node owned-fill"></rect>
+            <text x="697" y="232" text-anchor="middle" class="node-title">run_03 | mesaje in cont</text>
+            <text x="697" y="254" text-anchor="middle" class="node-sub">materializare, reopen, durabilitate</text>
+
+            <rect x="572" y="288" width="250" height="68" rx="18" class="node owned-fill"></rect>
+            <text x="697" y="316" text-anchor="middle" class="node-title">run_04 | checkout autentificat</text>
+            <text x="697" y="338" text-anchor="middle" class="node-sub">autofill, guard, submit COD, invoice gap</text>
+
+            <rect x="572" y="372" width="250" height="68" rx="18" class="node owned-fill"></rect>
+            <text x="697" y="400" text-anchor="middle" class="node-title">run_05 | acces protejat</text>
+            <text x="697" y="422" text-anchor="middle" class="node-sub">2FA, access continuity</text>
+
+            <rect x="920" y="166" width="224" height="84" rx="18" class="node owned-fill"></rect>
+            <text x="1032" y="198" text-anchor="middle" class="node-title">Owned acum</text>
+            <text x="1032" y="222" text-anchor="middle" class="node-sub">25 teste bune, 5 run-uri, toate 5 / 5</text>
+
+            <rect x="1188" y="166" width="218" height="84" rx="18" class="node blocked-fill"></rect>
+            <text x="1297" y="198" text-anchor="middle" class="node-title">Cap ramas</text>
+            <text x="1297" y="222" text-anchor="middle" class="node-sub">breadth mare de produs, inca partial</text>
+
+            <path d="M204 234 H246" class="edge focus-edge" marker-end="url(#g2)"></path>
+            <path d="M508 234 C540 234 540 70 572 70" class="edge owned-edge" fill="none" marker-end="url(#g2)"></path>
+            <path d="M508 234 C540 234 540 154 572 154" class="edge owned-edge" fill="none" marker-end="url(#g2)"></path>
+            <path d="M508 234 H572" class="edge owned-edge" marker-end="url(#g2)"></path>
+            <path d="M508 234 C540 234 540 322 572 322" class="edge owned-edge" fill="none" marker-end="url(#g2)"></path>
+            <path d="M508 234 C540 234 540 406 572 406" class="edge owned-edge" fill="none" marker-end="url(#g2)"></path>
+            <path d="M822 70 C874 70 872 208 920 208" class="edge owned-edge" fill="none" marker-end="url(#g2)"></path>
+            <path d="M822 154 C874 154 872 208 920 208" class="edge owned-edge" fill="none" marker-end="url(#g2)"></path>
+            <path d="M822 238 H920" class="edge owned-edge" marker-end="url(#g2)"></path>
+            <path d="M822 322 C874 322 872 208 920 208" class="edge owned-edge" fill="none" marker-end="url(#g2)"></path>
+            <path d="M822 406 C874 406 872 208 920 208" class="edge owned-edge" fill="none" marker-end="url(#g2)"></path>
+            <path d="M1144 208 H1188" class="edge blocked-edge" marker-end="url(#g2)"></path>
+          </svg>
+          <details class="subdetails">
+            <summary><span class="summary-title">Legenda subgrafului 2</span><span class="sumhint">noduri scurte, audit jos</span></summary>
+            <p>Run ids apar doar ca identificatori scurti. Mecanica de test, repairs, fisierul Java si trail-ul de comenzi coboara in dovada si audit, nu in nodurile de business.</p>
+          </details>
+        </div>
+
+        <div class="card graph-shell">
+          <h3>Subgraf 3: presiunea rece pentru pachetul urmator</h3>
+          <svg viewBox="0 0 1440 300" role="img" aria-label="Presiunea rece pentru urmatorul pachet">
+            <defs>
+              <marker id="g3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#78a8ff"></path>
+              </marker>
+            </defs>
+
+            <rect x="40" y="110" width="240" height="80" rx="18" class="node focus-fill"></rect>
+            <text x="160" y="142" text-anchor="middle" class="node-title">Pachet curent</text>
+            <text x="160" y="166" text-anchor="middle" class="node-sub">uniform, countable, breadth partial</text>
+
+            <rect x="374" y="24" width="286" height="80" rx="18" class="node blocked-fill"></rect>
+            <text x="517" y="56" text-anchor="middle" class="node-title">Rerank 1</text>
+            <text x="517" y="80" text-anchor="middle" class="node-sub">password change closure</text>
+
+            <rect x="374" y="110" width="286" height="80" rx="18" class="node fresh-fill"></rect>
+            <text x="517" y="142" text-anchor="middle" class="node-title">Rerank 2</text>
+            <text x="517" y="166" text-anchor="middle" class="node-sub">message reply progression</text>
+
+            <rect x="374" y="196" width="286" height="80" rx="18" class="node fresh-fill"></rect>
+            <text x="517" y="228" text-anchor="middle" class="node-title">Rerank 3</text>
+            <text x="517" y="252" text-anchor="middle" class="node-sub">order lifecycle dupa checkout</text>
+
+            <rect x="764" y="110" width="258" height="80" rx="18" class="node owned-fill"></rect>
+            <text x="893" y="142" text-anchor="middle" class="node-title">Semnal bun</text>
+            <text x="893" y="166" text-anchor="middle" class="node-sub">iese din macro-zona actuala sau rupe o contradictie grea</text>
+
+            <rect x="1112" y="110" width="292" height="80" rx="18" class="node blocked-fill"></rect>
+            <text x="1258" y="142" text-anchor="middle" class="node-title">Semnal rau</text>
+            <text x="1258" y="166" text-anchor="middle" class="node-sub">inca un pachet elegant, dar tot in aceeasi macro-zona</text>
+
+            <path d="M280 150 H374" class="edge focus-edge" marker-end="url(#g3)"></path>
+            <path d="M660 64 C710 64 704 150 764 150" class="edge focus-edge" fill="none" marker-end="url(#g3)"></path>
+            <path d="M660 150 H764" class="edge focus-edge" marker-end="url(#g3)"></path>
+            <path d="M660 236 C710 236 704 150 764 150" class="edge focus-edge" fill="none" marker-end="url(#g3)"></path>
+            <path d="M1022 150 H1112" class="edge blocked-edge" marker-end="url(#g3)"></path>
+          </svg>
+          <details class="subdetails">
+            <summary><span class="summary-title">Legenda subgrafului 3</span><span class="sumhint">cum arata progresul real data viitoare</span></summary>
+            <p>Nota nu mai urca prin inca un pachet curat in aceeasi familie. Ea urca doar daca se rupe o contradictie mai grea sau daca pachetul iese vizibil din macro-zona curenta.</p>
+          </details>
+        </div>
+      </div>
+    </details>
+
+    <details id="verdict">
+      <summary><span class="summary-title">Verdict Executiv</span><span class="sumhint">ce s-a castigat si ce lipseste</span></summary>
+      <div class="split">
+        <div class="card">
+          <h3>Adevar owner</h3>
+          <p>Pachetul demonstreaza rece cinci journey-uri distincte ale clientului autentificat. Fiecare run are exact 5 teste bune auditabile, deci nu mai exista compensare falsa.</p>
+        </div>
+        <div class="card">
+          <h3>Adevar ramas deschis</h3>
+          <p>Standing-ul ramane partial. Macro-zona mare de produs si frontiere grele precum order lifecycle sau reply progression nu sunt inca rupte aici.</p>
+        </div>
+      </div>
+      <div class="split">
+        <div class="card">
+          <h3>De ce este peste pachetul local precedent</h3>
+          <p>Elimina complet run-ul sever sub target, apropie flow-urile de aplicatia reala si face graful sa porneasca din produs, nu din mecanica de securitate.</p>
+        </div>
+        <div class="card">
+          <h3>De ce nu este inca broad</h3>
+          <p>Executia este foarte buna, dar business breadth-ul total si greutatea frontierei nu au urcat inca suficient pentru un verdict mai lat decat partial.</p>
+        </div>
+      </div>
+    </details>
+
+    <details id="proof">
+      <summary><span class="summary-title">Mapare Dovezi</span><span class="sumhint">claim -> run -> diff -> proof</span></summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Claim business</th>
+            <th>Run owner</th>
+            <th>Diff</th>
+            <th>Extent</th>
+            <th>Machine proof</th>
+            <th>Verdict rece</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>intrarea in cont expune overview, profile, invoices, messages si favorites ca zona owned</td>
+            <td><a href="../runs/run_01/SUMMARY.md">run_01</a></td>
+            <td><a href="../runs/run_01/review/thin-no-index.diff">diff</a></td>
+            <td><a href="../runs/run_01/validation/ExtentReport_2026-06-14_19-27-26.html">Extent</a></td>
+            <td><a href="../runs/run_01/validation/testng-results.xml">testng-results.xml</a></td>
+            <td>owned</td>
+          </tr>
+          <tr>
+            <td>favorites tine empty state, acumulare si persistenta dupa relogin</td>
+            <td><a href="../runs/run_02/SUMMARY.md">run_02</a></td>
+            <td><a href="../runs/run_02/review/thin-no-index.diff">diff</a></td>
+            <td><a href="../runs/run_02/validation/ExtentReport_2026-06-14_19-28-22.html">Extent</a></td>
+            <td><a href="../runs/run_02/validation/testng-results.xml">testng-results.xml</a></td>
+            <td>owned</td>
+          </tr>
+          <tr>
+            <td>mesajele materializate raman gasibile, redeschise si coerente dupa relogin</td>
+            <td><a href="../runs/run_03/SUMMARY.md">run_03</a></td>
+            <td><a href="../runs/run_03/review/thin-no-index.diff">diff</a></td>
+            <td><a href="../runs/run_03/validation/ExtentReport_2026-06-14_19-29-33.html">Extent</a></td>
+            <td><a href="../runs/run_03/validation/testng-results.xml">testng-results.xml</a></td>
+            <td>owned</td>
+          </tr>
+          <tr>
+            <td>checkout-ul autentificat are autofill, guard, submit COD si invoice gap persistent</td>
+            <td><a href="../runs/run_04/SUMMARY.md">run_04</a></td>
+            <td><a href="../runs/run_04/review/thin-no-index.diff">diff</a></td>
+            <td><a href="../runs/run_04/validation/ExtentReport_2026-06-14_19-30-52.html">Extent</a></td>
+            <td><a href="../runs/run_04/validation/testng-results.xml">testng-results.xml</a></td>
+            <td>owned</td>
+          </tr>
+          <tr>
+            <td>dupa 2FA, utilizatorul pastreaza accesul la suprafetele sale de cont</td>
+            <td><a href="../runs/run_05/SUMMARY.md">run_05</a></td>
+            <td><a href="../runs/run_05/review/thin-no-index.diff">diff</a></td>
+            <td><a href="../runs/run_05/validation/ExtentReport_2026-06-14_19-32-25.html">Extent</a></td>
+            <td><a href="../runs/run_05/validation/testng-results.xml">testng-results.xml</a></td>
+            <td>owned</td>
+          </tr>
+        </tbody>
+      </table>
+    </details>
+
+    <details id="artifacts">
+      <summary><span class="summary-title">Index Artefacte</span><span class="sumhint">spina auditabila completa</span></summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Artefact</th>
+            <th>Link</th>
+            <th>Rol</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>runtime activ</td><td><a href="../../../prompts/iterativ/agent-runtime.properties">agent-runtime.properties</a></td><td>lege comuna a pachetului</td></tr>
+          <tr><td>README pachet</td><td><a href="../README.md">README.md</a></td><td>adevarul local al pachetului</td></tr>
+          <tr><td>pretraining brief</td><td><a href="../review/round-pretraining-brief.md">round-pretraining-brief.md</a></td><td>ce s-a luat si ce nu s-a copiat</td></tr>
+          <tr><td>frontier ranking</td><td><a href="../review/frontier-ranking-ledger.md">frontier-ranking-ledger.md</a></td><td>de ce a castigat acest winner</td></tr>
+          <tr><td>gate trace</td><td><a href="../review/gate-execution-trace.md">gate-execution-trace.md</a></td><td>legalitate slot cu slot</td></tr>
+          <tr><td>quality accounting</td><td><a href="../review/quality-accounting-verdict.md">quality-accounting-verdict.md</a></td><td>countability rece</td></tr>
+          <tr><td>next-run truth</td><td><a href="../review/next-run-eligibility-card.md">next-run-eligibility-card.md</a></td><td>same-package vs fresh ROOT_RUN</td></tr>
+          <tr><td>close-out</td><td><a href="../review/package-close-out.md">package-close-out.md</a></td><td>ce a mers si ce a ramas cap</td></tr>
+          <tr><td>diff radacina</td><td><a href="../review/root-source-thin-no-index.diff">root-source-thin-no-index.diff</a></td><td>delta primara a pachetului</td></tr>
+          <tr><td>randare canonica</td><td><a href="canonical-render-check.png">canonical-render-check.png</a></td><td>proba vizuala a paginii finale</td></tr>
+          <tr><td>audit link-uri</td><td><a href="../review/local-link-check.txt">local-link-check.txt</a></td><td>redeschidere locala a hyperlink-urilor</td></tr>
+          <tr><td>inventar inghetat</td><td><a href="../review/frozen-package-inventory.md">frozen-package-inventory.md</a></td><td>inventar final de fisiere</td></tr>
+          <tr><td>CSS comun</td><td><a href="../../../shared-report-reference.css">shared-report-reference.css</a></td><td>stil comun al raportului</td></tr>
+          <tr><td>run_01</td><td><a href="../runs/run_01/SUMMARY.md">SUMMARY</a> | <a href="../runs/run_01/validation/command-result.md">command-result</a> | <a href="../runs/run_01/review/artifact-checklist.md">checklist</a> | <a href="../runs/run_01/review/score-support.md">score-support</a> | <a href="../runs/run_01/review/source-delta-carrier.md">source-delta</a></td><td>hub cont si identitate</td></tr>
+          <tr><td>run_02</td><td><a href="../runs/run_02/SUMMARY.md">SUMMARY</a> | <a href="../runs/run_02/validation/command-result.md">command-result</a> | <a href="../runs/run_02/review/artifact-checklist.md">checklist</a> | <a href="../runs/run_02/review/score-support.md">score-support</a> | <a href="../runs/run_02/review/source-delta-carrier.md">source-delta</a></td><td>ownership favorites</td></tr>
+          <tr><td>run_03</td><td><a href="../runs/run_03/SUMMARY.md">SUMMARY</a> | <a href="../runs/run_03/validation/command-result.md">command-result</a> | <a href="../runs/run_03/review/artifact-checklist.md">checklist</a> | <a href="../runs/run_03/review/score-support.md">score-support</a> | <a href="../runs/run_03/review/source-delta-carrier.md">source-delta</a></td><td>mesaje in cont</td></tr>
+          <tr><td>run_04</td><td><a href="../runs/run_04/SUMMARY.md">SUMMARY</a> | <a href="../runs/run_04/validation/command-result.md">command-result</a> | <a href="../runs/run_04/review/artifact-checklist.md">checklist</a> | <a href="../runs/run_04/review/score-support.md">score-support</a> | <a href="../runs/run_04/review/source-delta-carrier.md">source-delta</a></td><td>checkout autentificat</td></tr>
+          <tr><td>run_05</td><td><a href="../runs/run_05/SUMMARY.md">SUMMARY</a> | <a href="../runs/run_05/validation/command-result.md">command-result</a> | <a href="../runs/run_05/review/artifact-checklist.md">checklist</a> | <a href="../runs/run_05/review/score-support.md">score-support</a> | <a href="../runs/run_05/review/source-delta-carrier.md">source-delta</a></td><td>acces protejat dupa 2FA</td></tr>
+        </tbody>
+      </table>
+    </details>
+
+    <details id="audit">
+      <summary><span class="summary-title">Audit Run-uri</span><span class="sumhint">slot cu slot</span></summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Run</th>
+            <th>Claim business</th>
+            <th>Delta real</th>
+            <th>Kept?</th>
+            <th>De ce countable</th>
+            <th>Diff</th>
+            <th>Extent</th>
+            <th>Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="../runs/run_01/SUMMARY.md">run_01</a></td>
+            <td>intrare in ownership de cont</td>
+            <td>5 / 5</td>
+            <td>da</td>
+            <td>familie coerenta de self-service entry</td>
+            <td><a href="../runs/run_01/review/thin-no-index.diff">diff</a></td>
+            <td><a href="../runs/run_01/validation/ExtentReport_2026-06-14_19-27-26.html">Extent</a></td>
+            <td><a href="../runs/run_01/review/lesson-learned.md">lesson</a></td>
+          </tr>
+          <tr>
+            <td><a href="../runs/run_02/SUMMARY.md">run_02</a></td>
+            <td>ownership favorites</td>
+            <td>5 / 5</td>
+            <td>da</td>
+            <td>empty, acumulare si persistenta se leaga natural</td>
+            <td><a href="../runs/run_02/review/thin-no-index.diff">diff</a></td>
+            <td><a href="../runs/run_02/validation/ExtentReport_2026-06-14_19-28-22.html">Extent</a></td>
+            <td><a href="../runs/run_02/review/lesson-learned.md">lesson</a></td>
+          </tr>
+          <tr>
+            <td><a href="../runs/run_03/SUMMARY.md">run_03</a></td>
+            <td>mesaje materializate si durabile</td>
+            <td>5 / 5</td>
+            <td>da</td>
+            <td>support lifecycle racit la claim-ul care tine rece</td>
+            <td><a href="../runs/run_03/review/thin-no-index.diff">diff</a></td>
+            <td><a href="../runs/run_03/validation/ExtentReport_2026-06-14_19-29-33.html">Extent</a></td>
+            <td><a href="../runs/run_03/review/lesson-learned.md">lesson</a></td>
+          </tr>
+          <tr>
+            <td><a href="../runs/run_04/SUMMARY.md">run_04</a></td>
+            <td>checkout autentificat si invoice gap</td>
+            <td>5 / 5</td>
+            <td>da</td>
+            <td>submitul real si gap-ul post-purchase apartin aceluiasi journey</td>
+            <td><a href="../runs/run_04/review/thin-no-index.diff">diff</a></td>
+            <td><a href="../runs/run_04/validation/ExtentReport_2026-06-14_19-30-52.html">Extent</a></td>
+            <td><a href="../runs/run_04/review/lesson-learned.md">lesson</a></td>
+          </tr>
+          <tr>
+            <td><a href="../runs/run_05/SUMMARY.md">run_05</a></td>
+            <td>2FA ca poarta spre suprafetele owned</td>
+            <td>5 / 5</td>
+            <td>da</td>
+            <td>step-up auth sustine access continuity pe cinci suprafete</td>
+            <td><a href="../runs/run_05/review/thin-no-index.diff">diff</a></td>
+            <td><a href="../runs/run_05/validation/ExtentReport_2026-06-14_19-32-25.html">Extent</a></td>
+            <td><a href="../runs/run_05/review/lesson-learned.md">lesson</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </details>
+
+    <details id="closeout">
+      <summary><span class="summary-title">Inchidere Pachet</span><span class="sumhint">countability, legalitate, next move</span></summary>
+      <div class="split">
+        <div class="card">
+          <h3>Accounting rece</h3>
+          <p><code class="inline">run target law = 5 / 5</code><br><code class="inline">countable good tests total = 25</code><br><code class="inline">runs consumed = 5 / 5</code><br><code class="inline">accounting target met = yes</code></p>
+        </div>
+        <div class="card">
+          <h3>Legalitate</h3>
+          <p><code class="inline">same-package continuation legal = no</code><br><code class="inline">fresh ROOT_RUN legal = yes</code></p>
+        </div>
+      </div>
+      <div class="split">
+        <div class="card">
+          <h3>Ce a crescut real</h3>
+          <p>uniformitatea pe run, realismul business al grafului, deschiderea mai calma si mai pedagogica a raportului, plus o separare mai buna intre produs, overlay si audit.</p>
+        </div>
+        <div class="card">
+          <h3>Ce ramane limitare reala</h3>
+          <p>breadth-ul total al aplicatiei si greutatea frontierei. Raportul nu trebuie sa cosmetizeze asta: cat timp standing-ul real ramane partial, close-out-ul trebuie sa spuna partial.</p>
+        </div>
+      </div>
+    </details>
+  </div>
+</body>
+</html>

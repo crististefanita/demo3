@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-14T21:37:11 EEST" name="Surefire suite" finished-at="2026-06-14T21:38:04 EEST" duration-ms="52853">
+    <groups>
+    </groups>
+    <test started-at="2026-06-14T21:37:11 EEST" name="Surefire test" finished-at="2026-06-14T21:38:04 EEST" duration-ms="52853">
+      <class name="com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:11 EEST" name="setUp" finished-at="2026-06-14T21:37:24 EEST" duration-ms="12379" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:24 EEST" name="setUpMethod" finished-at="2026-06-14T21:37:24 EEST" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:24 EEST" name="before" finished-at="2026-06-14T21:37:24 EEST" duration-ms="160" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_profile_country_only_update_persists_on_submit()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:24 EEST" name="positive_profile_country_only_update_persists_on_submit" description="Positive: profile country-only update persists on submit" finished-at="2026-06-14T21:37:29 EEST" duration-ms="5123" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_profile_country_only_update_persists_on_submit -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:30 EEST" name="tearDownMethod" finished-at="2026-06-14T21:37:30 EEST" duration-ms="450" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:30 EEST" name="setUpMethod" finished-at="2026-06-14T21:37:32 EEST" duration-ms="1610" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:32 EEST" name="before" finished-at="2026-06-14T21:37:32 EEST" duration-ms="238" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_profile_postal_and_country_update_preserves_existing_street_city_and_state()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:32 EEST" name="positive_profile_postal_and_country_update_preserves_existing_street_city_and_state" description="Positive: profile postal and country update preserves existing street city and state" finished-at="2026-06-14T21:37:37 EEST" duration-ms="5040" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_profile_postal_and_country_update_preserves_existing_street_city_and_state -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:37 EEST" name="tearDownMethod" finished-at="2026-06-14T21:37:38 EEST" duration-ms="414" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:38 EEST" name="setUpMethod" finished-at="2026-06-14T21:37:40 EEST" duration-ms="2098" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:40 EEST" name="before" finished-at="2026-06-14T21:37:40 EEST" duration-ms="316" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_profile_postal_and_country_update_survives_fresh_relogin()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:40 EEST" name="positive_profile_postal_and_country_update_survives_fresh_relogin" description="Positive: profile postal and country update survives a fresh relogin" finished-at="2026-06-14T21:37:46 EEST" duration-ms="6240" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_profile_postal_and_country_update_survives_fresh_relogin -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:47 EEST" name="tearDownMethod" finished-at="2026-06-14T21:37:47 EEST" duration-ms="461" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:47 EEST" name="setUpMethod" finished-at="2026-06-14T21:37:49 EEST" duration-ms="1816" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:49 EEST" name="before" finished-at="2026-06-14T21:37:49 EEST" duration-ms="236" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_profile_postal_and_country_update_survives_same_session_route_replay()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:49 EEST" name="positive_profile_postal_and_country_update_survives_same_session_route_replay" description="Positive: profile postal and country update survives same-session route replay" finished-at="2026-06-14T21:37:55 EEST" duration-ms="5496" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_profile_postal_and_country_update_survives_same_session_route_replay -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:55 EEST" name="tearDownMethod" finished-at="2026-06-14T21:37:56 EEST" duration-ms="482" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:56 EEST" name="setUpMethod" finished-at="2026-06-14T21:37:58 EEST" duration-ms="2118" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:58 EEST" name="before" finished-at="2026-06-14T21:37:58 EEST" duration-ms="25" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_profile_postal_only_update_persists_on_submit()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:37:58 EEST" name="positive_profile_postal_only_update_persists_on_submit" description="Positive: profile postal-only update persists on submit" finished-at="2026-06-14T21:38:03 EEST" duration-ms="5599" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_profile_postal_only_update_persists_on_submit -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:38:04 EEST" name="tearDownMethod" finished-at="2026-06-14T21:38:04 EEST" duration-ms="511" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests@7d4f9aae]" started-at="2026-06-14T21:38:04 EEST" name="tearDown" finished-at="2026-06-14T21:38:04 EEST" duration-ms="2" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.AuthenticatedProfileLocationMutationTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

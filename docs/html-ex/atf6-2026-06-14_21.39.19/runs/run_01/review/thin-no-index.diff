@@ -1,0 +1,184 @@
+﻿diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/SUMMARY.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/SUMMARY.md"
+index df891fa..9a52a26 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/SUMMARY.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/SUMMARY.md"
+@@ -1,11 +1,11 @@
+-# run_01 - recovery public si confirmare
++# run_01 - hub cont si identitate
+ 
+-- claim business: vizitatorul poate intra in fluxul de recuperare, iar clientul inregistrat poate materializa confirmarea reala de resetare
+-- familie: `forgot password route + required email + invalid email + confirmation + retry to confirmation`
++- claim business: clientul nou inregistrat isi regaseste hub-ul de cont, profilul si suprafetele principale de self-service imediat dupa primul login
++- familie: `account overview + invoices surface + messages surface + favorites route + profile persistence`
+ - rezultat: `5 / 5`, `pass`
+ - de ce testele stau bine impreuna:
+-  - toate confirma reintrarea in cont prin recovery
+-  - toate stau pe aceeasi suprafata vizibila din produs
++  - toate confirma intrarea reala in zona de self-service
++  - toate stau pe acelasi pod business: `primul login -> cont detinut`
+ - delta rece:
+   - nu exista delta Java noua
+-  - run-ul ingheata auditabil recovery-ul countable, nu doar suprafata
++  - run-ul ingheata auditabil ownership-ul de cont si identitate, nu doar o ruta izolata
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/manifests/run-manifest.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/manifests/run-manifest.md"
+index 0bc5bef..4cca34a 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/manifests/run-manifest.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/manifests/run-manifest.md"
+@@ -1,10 +1,13 @@
+-# Manifest run_01
++# Run Manifest
+ 
+-- familie: recovery-public-si-confirmare
+-- comanda: `mvn -q "-Dtest=com.endava.ai.ui.tests.PublicForgotPasswordRouteSurfaceTests,com.endava.ai.ui.tests.PublicForgotPasswordGuardTests,com.endava.ai.ui.tests.PublicForgotPasswordInvalidEmailTests,com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordConfirmationTests,com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordRetryConfirmationTests" test`
+-- teste incluse:
+-  - `com.endava.ai.ui.tests.PublicForgotPasswordRouteSurfaceTests`
+-  - `com.endava.ai.ui.tests.PublicForgotPasswordGuardTests`
+-  - `com.endava.ai.ui.tests.PublicForgotPasswordInvalidEmailTests`
+-  - `com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordConfirmationTests`
+-  - `com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordRetryConfirmationTests`
++- run: `run_01`
++- identity: `hub cont si identitate`
++- test classes:
++  - `AuthenticatedAccountOverviewTests`
++  - `AuthenticatedAccountInvoicesTests`
++  - `AuthenticatedAccountMessagesTests`
++  - `AuthenticatedAccountFavoritesTests`
++  - `RegisteredCustomerProfilePersistenceTests`
++- target: `5 / 5`
++- result: `5 / 5`
++- kept: `yes`
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/prompt/input-snapshot.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/prompt/input-snapshot.md"
+index 45379ab..8fd1543 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/prompt/input-snapshot.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/prompt/input-snapshot.md"
+@@ -1,6 +1,10 @@
+-# Snapshot intrare run_01
++# Input Snapshot
+ 
+-- familie: recovery-public-si-confirmare
+-- runtime target pe run: `5`
+-- scop: impingere completa a podului `forgot password`
+-- comanda: `mvn -q "-Dtest=com.endava.ai.ui.tests.PublicForgotPasswordRouteSurfaceTests,com.endava.ai.ui.tests.PublicForgotPasswordGuardTests,com.endava.ai.ui.tests.PublicForgotPasswordInvalidEmailTests,com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordConfirmationTests,com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordRetryConfirmationTests" test`
++- frontiera: `hub cont si identitate`
++- scop: sa dovedeasca intrarea in self-service dupa primul login
++- test bundle:
++  - `AuthenticatedAccountOverviewTests`
++  - `AuthenticatedAccountInvoicesTests`
++  - `AuthenticatedAccountMessagesTests`
++  - `AuthenticatedAccountFavoritesTests`
++  - `RegisteredCustomerProfilePersistenceTests`
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/review/artifact-checklist.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/review/artifact-checklist.md"
+index fe12741..c6bb5e1 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/review/artifact-checklist.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/review/artifact-checklist.md"
+@@ -1,12 +1,14 @@
+-# Artifact Checklist run_01
++# Artifact Checklist
+ 
+-- run frozen = `yes`
+-- business claim settled = `yes`
+-- command-output saved = `yes`
+-- command-result saved = `yes`
+-- Extent saved = `yes`
+-- XML saved = `yes`
+-- diff saved = `yes`
+-- decisive learning md saved = `yes`
+-- countable kept run = `yes`
+-- missing mandatory artifact = `no`
++- `SUMMARY.md` saved = `yes`
++- `run-manifest.md` saved = `yes`
++- `input-snapshot.md` saved = `yes`
++- `thin-no-index.diff` saved = `yes`
++- `source-delta-carrier.md` saved = `yes`
++- `score-support.md` saved = `yes`
++- `lesson-learned.md` saved = `yes`
++- `command-output.txt` saved = `yes`
++- `command-result.md` saved = `yes`
++- `ExtentReport_*.html` saved = `yes`
++- `testng-results.xml` saved = `yes`
++- run diff linked from README/report = `yes`
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/review/lesson-learned.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/review/lesson-learned.md"
+index 9776fba..925f954 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/review/lesson-learned.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/review/lesson-learned.md"
+@@ -1,8 +1,4 @@
+-# Lesson Learned run_01
++# Lesson Learned
+ 
+-- ce s-a invatat:
+-  - recovery-ul poate sustine un slot complet de `5 / 5`
+-- ce nu repet:
+-  - nu tratez recovery route ca simpla suprafata; confirmarea si retry-ul fac slotul countable
+-- ce foloseste urmatorul run:
+-  - boundary-ul login trebuie legat de primele suprafete protejate, nu lasat izolat
++- `account entry surfaces` pot sustine natural `5 / 5` cand sunt grupate ca pod comun de self-service
++- profilul persistat este ancora care transforma suprafetele de cont in ownership, nu doar in rute vizibile
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/review/score-support.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/review/score-support.md"
+index 1b9be67..15452f9 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/review/score-support.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/review/score-support.md"
+@@ -1,9 +1,9 @@
+-# Score Support run_01
++# Score Support
+ 
+-- good tests this run produced = `5`
+-- why countable:
+-  - route directa, guard, invalid email, confirmare si retry-recovery sunt cinci probe distincte ale aceluiasi journey
+-- why grouped:
+-  - toate traiesc pe aceeasi intentie business: recuperarea accesului
+-- residual gap:
+-  - run-ul nu dovedeste inca schimbarea credentialului, doar podul pana la confirmare
++- business distinctness: `mare`
++- proof confidence: `mare`
++- target count contribution: `5 / 5`
++- breadth contribution: `bun, dar in aceeasi macro-zona de cont`
++- why kept:
++  - deschide pachetul in self-service real
++  - ofera ownership de profil si suprafete de cont
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/review/source-delta-carrier.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/review/source-delta-carrier.md"
+index 3781d48..b073019 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/review/source-delta-carrier.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/review/source-delta-carrier.md"
+@@ -1,6 +1,10 @@
+-# Source Delta Carrier run_01
++# Source Delta Carrier
+ 
+-- delta Java noua = `nu`
+-- delta reala a slotului = `rejudecare rece si freeze auditabil peste teste existente`
+-- de ce diff-ul ramane util:
+-  - arata exact cum noul pachet materializeaza recovery-ul ca familie kept
++Nu exista delta Java noua in acest run.
++Mutatia reala a run-ului este de freeze auditabil:
++- noul claim business
++- noua dovada machine si UI
++- noul diff mic de run fata de pachetul precedent
++
++Rolul carrier-ului:
++sa explice rece de ce run-ul este countable chiar fara schimbare noua de sursa Java.
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/validation/command-result.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/validation/command-result.md"
+index 32ed55b..14857ad 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_01/validation/command-result.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_01/validation/command-result.md"
+@@ -1,13 +1,10 @@
+-# Command Result run_01
++# Command Result
+ 
+-- exit code = `0`
+-- passed = `5`
+-- failed = `0`
+-- skipped = `0`
+-- total = `5`
+-- verdict = `pass`
+-
+-## Dovezi machine
+-
+-- Extent: `ExtentReport_2026-06-14_20-18-58.html`
+-- XML: `testng-results.xml`, `TEST-TestSuite.xml`
++- command: `mvn -q "-Dtest=com.endava.ai.ui.tests.AuthenticatedAccountOverviewTests,com.endava.ai.ui.tests.AuthenticatedAccountInvoicesTests,com.endava.ai.ui.tests.AuthenticatedAccountMessagesTests,com.endava.ai.ui.tests.AuthenticatedAccountFavoritesTests,com.endava.ai.ui.tests.RegisteredCustomerProfilePersistenceTests" test`
++- exit code: `0`
++- tests run: `5`
++- failures: `0`
++- errors: `0`
++- skipped: `0`
++- duration: `54.771s`
++- verdict: `pass`

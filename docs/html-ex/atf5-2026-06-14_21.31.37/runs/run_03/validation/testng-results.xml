@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-14T21:36:09 EEST" name="Surefire suite" finished-at="2026-06-14T21:36:58 EEST" duration-ms="48890">
+    <groups>
+    </groups>
+    <test started-at="2026-06-14T21:36:09 EEST" name="Surefire test" finished-at="2026-06-14T21:36:58 EEST" duration-ms="48890">
+      <class name="com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:09 EEST" name="setUp" finished-at="2026-06-14T21:36:21 EEST" duration-ms="12314" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:21 EEST" name="setUpMethod" finished-at="2026-06-14T21:36:21 EEST" duration-ms="2" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:21 EEST" name="before" finished-at="2026-06-14T21:36:21 EEST" duration-ms="28" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_authenticated_favorites_route_survives_a_fresh_relogin_for_the_same_customer()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:21 EEST" name="positive_authenticated_favorites_route_survives_a_fresh_relogin_for_the_same_customer" description="Positive: authenticated favorites route survives a fresh relogin for the same customer" finished-at="2026-06-14T21:36:26 EEST" duration-ms="5035" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_authenticated_favorites_route_survives_a_fresh_relogin_for_the_same_customer -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:27 EEST" name="tearDownMethod" finished-at="2026-06-14T21:36:27 EEST" duration-ms="468" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:27 EEST" name="setUpMethod" finished-at="2026-06-14T21:36:29 EEST" duration-ms="2001" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:29 EEST" name="before" finished-at="2026-06-14T21:36:29 EEST" duration-ms="306" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_authenticated_favorites_route_survives_same_session_account_replay()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:29 EEST" name="positive_authenticated_favorites_route_survives_same_session_account_replay" description="Positive: authenticated favorites route survives same-session account replay" finished-at="2026-06-14T21:36:34 EEST" duration-ms="4145" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_authenticated_favorites_route_survives_same_session_account_replay -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:34 EEST" name="tearDownMethod" finished-at="2026-06-14T21:36:34 EEST" duration-ms="472" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:34 EEST" name="setUpMethod" finished-at="2026-06-14T21:36:36 EEST" duration-ms="1872" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:36 EEST" name="before" finished-at="2026-06-14T21:36:37 EEST" duration-ms="296" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_fresh_authenticated_customer_starts_with_an_owned_empty_invoices_surface()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:37 EEST" name="positive_fresh_authenticated_customer_starts_with_an_owned_empty_invoices_surface" description="Positive: fresh authenticated customer starts with an owned empty invoices surface" finished-at="2026-06-14T21:36:40 EEST" duration-ms="3563" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_fresh_authenticated_customer_starts_with_an_owned_empty_invoices_surface -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:40 EEST" name="tearDownMethod" finished-at="2026-06-14T21:36:41 EEST" duration-ms="376" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:41 EEST" name="setUpMethod" finished-at="2026-06-14T21:36:43 EEST" duration-ms="1743" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:43 EEST" name="before" finished-at="2026-06-14T21:36:43 EEST" duration-ms="308" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_profile_identity_and_empty_invoices_surface_survive_a_fresh_relogin_for_the_same_customer()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:43 EEST" name="positive_profile_identity_and_empty_invoices_surface_survive_a_fresh_relogin_for_the_same_customer" description="Positive: profile identity and empty invoices surface survive a fresh relogin for the same customer" finished-at="2026-06-14T21:36:51 EEST" duration-ms="8303" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_profile_identity_and_empty_invoices_surface_survive_a_fresh_relogin_for_the_same_customer -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:52 EEST" name="tearDownMethod" finished-at="2026-06-14T21:36:52 EEST" duration-ms="404" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="setUpMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:52 EEST" name="setUpMethod" finished-at="2026-06-14T21:36:54 EEST" duration-ms="1688" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpMethod -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:54 EEST" name="before" finished-at="2026-06-14T21:36:54 EEST" duration-ms="252" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_registered_user_can_reach_the_authenticated_favorites_route()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:54 EEST" name="positive_registered_user_can_reach_the_authenticated_favorites_route" description="Positive: registered user can reach the authenticated favorites route" finished-at="2026-06-14T21:36:57 EEST" duration-ms="3296" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_registered_user_can_reach_the_authenticated_favorites_route -->
+        <test-method is-config="true" signature="tearDownMethod()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:57 EEST" name="tearDownMethod" finished-at="2026-06-14T21:36:58 EEST" duration-ms="388" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownMethod -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests@52b1beb6]" started-at="2026-06-14T21:36:58 EEST" name="tearDown" finished-at="2026-06-14T21:36:58 EEST" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.AuthenticatedAccountSurfaceOwnershipTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

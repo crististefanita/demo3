@@ -1,0 +1,183 @@
+﻿diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/SUMMARY.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/SUMMARY.md"
+index d3d9ec3..d4572d6 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/SUMMARY.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/SUMMARY.md"
+@@ -1,11 +1,11 @@
+-# run_03 - setup two-factor si challenge
++# run_03 - recovery public si confirmare
+ 
+-- claim business: clientul autentificat poate activa `2FA`, vede challenge-ul la login nou, primește respingere pe cod invalid si intra cu cod live valid
+-- familie: `invalid setup code + enablement + challenge upgrade + invalid challenge + accepted challenge`
++- claim business: un vizitator poate intra rece in recovery, iar clientul inregistrat poate ajunge la confirmarea de resetare dupa guard si retry corect
++- familie: `forgot password route + required email + invalid email + confirmation + retry to confirmation`
+ - rezultat: `5 / 5`, `pass`
+ - de ce testele stau bine impreuna:
+-  - toate descriu aceeasi mutatie: autentificarea devine step-up
+-  - progresia este vizibila si countable din UI
++  - toate confirma podul dintre public si re-entry in cont
++  - toate stau pe aceeasi suprafata vizibila de recovery
+ - delta rece:
+-  - nu exista delta Java noua
+-  - run-ul face `2FA` business real, nu simpla suprafata de profil
++  - acest run a intrat dupa rerank, in locul frontierei de mesagerie care a cazut la rerulare
++  - lateste pachetul dincolo de self-service autentic pur
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/manifests/run-manifest.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/manifests/run-manifest.md"
+index 2df38e3..45a87ef 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/manifests/run-manifest.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/manifests/run-manifest.md"
+@@ -1,10 +1,13 @@
+-# Manifest run_03
++# Run Manifest
+ 
+-- familie: setup-two-factor-si-challenge
+-- comanda: `mvn -q "-Dtest=com.endava.ai.ui.tests.RegisteredCustomerTwoFactorFlowTests#registered_customer_profile_rejects_an_invalid_totp_setup_code+registered_customer_can_enable_two_factor_authentication_from_profile+registered_customer_login_upgrades_to_the_totp_challenge_after_enablement+registered_customer_login_rejects_an_invalid_totp_code_after_password_authentication+registered_customer_login_accepts_the_live_totp_code_and_reaches_account" test`
+-- metode incluse:
+-  - `registered_customer_profile_rejects_an_invalid_totp_setup_code`
+-  - `registered_customer_can_enable_two_factor_authentication_from_profile`
+-  - `registered_customer_login_upgrades_to_the_totp_challenge_after_enablement`
+-  - `registered_customer_login_rejects_an_invalid_totp_code_after_password_authentication`
+-  - `registered_customer_login_accepts_the_live_totp_code_and_reaches_account`
++- run: `run_03`
++- identity: `recovery public si confirmare`
++- test classes:
++  - `PublicForgotPasswordRouteSurfaceTests`
++  - `PublicForgotPasswordGuardTests`
++  - `PublicForgotPasswordInvalidEmailTests`
++  - `RegisteredCustomerForgotPasswordConfirmationTests`
++  - `RegisteredCustomerForgotPasswordRetryConfirmationTests`
++- target: `5 / 5`
++- result: `5 / 5`
++- kept: `yes`
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/prompt/input-snapshot.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/prompt/input-snapshot.md"
+index ce3ac17..41e38f0 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/prompt/input-snapshot.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/prompt/input-snapshot.md"
+@@ -1,6 +1,11 @@
+-# Snapshot intrare run_03
++# Input Snapshot
+ 
+-- familie: setup-two-factor-si-challenge
+-- runtime target pe run: `5`
+-- scop: demonstrarea upgrade-ului real de autentificare
+-- comanda: `mvn -q "-Dtest=com.endava.ai.ui.tests.RegisteredCustomerTwoFactorFlowTests#registered_customer_profile_rejects_an_invalid_totp_setup_code+registered_customer_can_enable_two_factor_authentication_from_profile+registered_customer_login_upgrades_to_the_totp_challenge_after_enablement+registered_customer_login_rejects_an_invalid_totp_code_after_password_authentication+registered_customer_login_accepts_the_live_totp_code_and_reaches_account" test`
++- frontiera initiala pierduta: `message reply progression`
++- rerank rece ales: `recovery public si confirmare`
++- scop: sa pastreze breadth-ul pachetului dupa caderea frontierei de mesagerie
++- test bundle:
++  - `PublicForgotPasswordRouteSurfaceTests`
++  - `PublicForgotPasswordGuardTests`
++  - `PublicForgotPasswordInvalidEmailTests`
++  - `RegisteredCustomerForgotPasswordConfirmationTests`
++  - `RegisteredCustomerForgotPasswordRetryConfirmationTests`
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/review/artifact-checklist.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/review/artifact-checklist.md"
+index 0185c38..c6bb5e1 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/review/artifact-checklist.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/review/artifact-checklist.md"
+@@ -1,12 +1,14 @@
+-# Artifact Checklist run_03
++# Artifact Checklist
+ 
+-- run frozen = `yes`
+-- business claim settled = `yes`
+-- command-output saved = `yes`
+-- command-result saved = `yes`
+-- Extent saved = `yes`
+-- XML saved = `yes`
+-- diff saved = `yes`
+-- decisive learning md saved = `yes`
+-- countable kept run = `yes`
+-- missing mandatory artifact = `no`
++- `SUMMARY.md` saved = `yes`
++- `run-manifest.md` saved = `yes`
++- `input-snapshot.md` saved = `yes`
++- `thin-no-index.diff` saved = `yes`
++- `source-delta-carrier.md` saved = `yes`
++- `score-support.md` saved = `yes`
++- `lesson-learned.md` saved = `yes`
++- `command-output.txt` saved = `yes`
++- `command-result.md` saved = `yes`
++- `ExtentReport_*.html` saved = `yes`
++- `testng-results.xml` saved = `yes`
++- run diff linked from README/report = `yes`
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/review/lesson-learned.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/review/lesson-learned.md"
+index 441aa76..0bf718c 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/review/lesson-learned.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/review/lesson-learned.md"
+@@ -1,8 +1,4 @@
+-# Lesson Learned run_03
++# Lesson Learned
+ 
+-- ce s-a invatat:
+-  - `2FA` devine countable doar cand acopera setup, challenge invalid si acceptare valida
+-- ce nu repet:
+-  - nu confund setup surface cu closure business
+-- ce foloseste urmatorul run:
+-  - recovery-ul dupa challenge invalid trebuie probat separat
++- cand o frontiera grea cade la rerulare, slotul kept trebuie rerank-uit rece, nu cosmetizat
++- recovery-ul public poate sustine singur `5 / 5` si poate salva breadth-ul pachetului daca este conectat corect la re-entry
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/review/score-support.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/review/score-support.md"
+index 785ae79..2f68210 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/review/score-support.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/review/score-support.md"
+@@ -1,9 +1,9 @@
+-# Score Support run_03
++# Score Support
+ 
+-- good tests this run produced = `5`
+-- why countable:
+-  - fiecare metoda confirma o schimbare distincta in ciclul de autentificare intarita
+-- why grouped:
+-  - toate sunt etape ale aceluiasi flow step-up
+-- residual gap:
+-  - run-ul nu dovedeste inca reusita dupa un challenge gresit urmat de reluare
++- business distinctness: `medie spre mare`
++- proof confidence: `mare`
++- target count contribution: `5 / 5`
++- breadth contribution: `mare`, fiindca extinde pachetul spre podul public -> cont
++- why kept:
++  - vine dupa rerank rece
++  - inlocuieste o frontiera care a cazut, fara sa ingusteze pachetul
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/review/source-delta-carrier.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/review/source-delta-carrier.md"
+index fd57368..1b10e43 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/review/source-delta-carrier.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/review/source-delta-carrier.md"
+@@ -1,6 +1,7 @@
+-# Source Delta Carrier run_03
++# Source Delta Carrier
+ 
+-- delta Java noua = `nu`
+-- delta reala a slotului = `selection rece a celor cinci metode countable din flow-ul complet`
+-- de ce diff-ul ramane util:
+-  - separa clar setup/challenge de recovery-ul si suprafetele protejate care vin dupa
++Acest run nu schimba Java nou.
++Mutatia reala este de rerank si proof:
++- slotul `run_03` nu mai vinde mesageria planificata initial
++- slotul devine puntea rece de recovery public si confirmare
++- carrier-ul explica de ce identitatea pachetului a fost rescrisa dupa freeze-ul real
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/validation/command-result.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/validation/command-result.md"
+index 5ffd38e..b96a906 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_03/validation/command-result.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_03/validation/command-result.md"
+@@ -1,13 +1,10 @@
+-# Command Result run_03
++# Command Result
+ 
+-- exit code = `0`
+-- passed = `5`
+-- failed = `0`
+-- skipped = `0`
+-- total = `5`
+-- verdict = `pass`
+-
+-## Dovezi machine
+-
+-- Extent: `ExtentReport_2026-06-14_20-22-03.html`
+-- XML: `testng-results.xml`, `TEST-com.endava.ai.ui.tests.RegisteredCustomerTwoFactorFlowTests.xml`
++- command: `mvn -q "-Dtest=com.endava.ai.ui.tests.PublicForgotPasswordRouteSurfaceTests,com.endava.ai.ui.tests.PublicForgotPasswordGuardTests,com.endava.ai.ui.tests.PublicForgotPasswordInvalidEmailTests,com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordConfirmationTests,com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordRetryConfirmationTests" test`
++- exit code: `0`
++- tests run: `5`
++- failures: `0`
++- errors: `0`
++- skipped: `0`
++- duration: `36.361s`
++- verdict: `pass`

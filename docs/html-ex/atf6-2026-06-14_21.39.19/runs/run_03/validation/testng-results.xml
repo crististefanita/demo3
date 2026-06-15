@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-14T21:46:27 EEST" name="Surefire suite" finished-at="2026-06-14T21:47:03 EEST" duration-ms="35247">
+    <groups>
+    </groups>
+    <test started-at="2026-06-14T21:46:27 EEST" name="Surefire test" finished-at="2026-06-14T21:47:03 EEST" duration-ms="35247">
+      <class name="com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordConfirmationTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordConfirmationTests@70e9c95d]" started-at="2026-06-14T21:46:50 EEST" name="setUp" finished-at="2026-06-14T21:46:52 EEST" duration-ms="1835" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordConfirmationTests@70e9c95d]" started-at="2026-06-14T21:46:52 EEST" name="before" finished-at="2026-06-14T21:46:52 EEST" duration-ms="229" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="registered_customer_can_materialize_forgot_password_confirmation_state()[pri:0, instance:com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordConfirmationTests@70e9c95d]" started-at="2026-06-14T21:46:52 EEST" name="registered_customer_can_materialize_forgot_password_confirmation_state" description="Registered customer can materialize the forgot-password confirmation state" finished-at="2026-06-14T21:46:56 EEST" duration-ms="3176" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registered_customer_can_materialize_forgot_password_confirmation_state -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordConfirmationTests@70e9c95d]" started-at="2026-06-14T21:46:56 EEST" name="tearDown" finished-at="2026-06-14T21:46:56 EEST" duration-ms="440" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordConfirmationTests -->
+      <class name="com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordRetryConfirmationTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordRetryConfirmationTests@4d5650ae]" started-at="2026-06-14T21:46:56 EEST" name="setUp" finished-at="2026-06-14T21:46:58 EEST" duration-ms="1834" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordRetryConfirmationTests@4d5650ae]" started-at="2026-06-14T21:46:58 EEST" name="before" finished-at="2026-06-14T21:46:58 EEST" duration-ms="108" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="registered_customer_can_recover_from_unknown_email_retry_and_reach_confirmation()[pri:0, instance:com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordRetryConfirmationTests@4d5650ae]" started-at="2026-06-14T21:46:58 EEST" name="registered_customer_can_recover_from_unknown_email_retry_and_reach_confirmation" description="Registered customer can recover from an unknown-email retry and then materialize the forgot-password confirmation without reopening the form" finished-at="2026-06-14T21:47:02 EEST" duration-ms="3707" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registered_customer_can_recover_from_unknown_email_retry_and_reach_confirmation -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordRetryConfirmationTests@4d5650ae]" started-at="2026-06-14T21:47:02 EEST" name="tearDown" finished-at="2026-06-14T21:47:03 EEST" duration-ms="426" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.RegisteredCustomerForgotPasswordRetryConfirmationTests -->
+      <class name="com.endava.ai.ui.tests.PublicForgotPasswordRouteSurfaceTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.PublicForgotPasswordRouteSurfaceTests@576d5deb]" started-at="2026-06-14T21:46:46 EEST" name="setUp" finished-at="2026-06-14T21:46:48 EEST" duration-ms="1779" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.PublicForgotPasswordRouteSurfaceTests@576d5deb]" started-at="2026-06-14T21:46:48 EEST" name="before" finished-at="2026-06-14T21:46:48 EEST" duration-ms="3" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="public_visitor_can_open_the_forgot_password_route_directly()[pri:0, instance:com.endava.ai.ui.tests.PublicForgotPasswordRouteSurfaceTests@576d5deb]" started-at="2026-06-14T21:46:48 EEST" name="public_visitor_can_open_the_forgot_password_route_directly" description="Public visitor can open the forgot-password route directly and still receives the live recovery form" finished-at="2026-06-14T21:46:50 EEST" duration-ms="1521" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- public_visitor_can_open_the_forgot_password_route_directly -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.PublicForgotPasswordRouteSurfaceTests@576d5deb]" started-at="2026-06-14T21:46:50 EEST" name="tearDown" finished-at="2026-06-14T21:46:50 EEST" duration-ms="355" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.PublicForgotPasswordRouteSurfaceTests -->
+      <class name="com.endava.ai.ui.tests.PublicForgotPasswordInvalidEmailTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.PublicForgotPasswordInvalidEmailTests@5e600dd5]" started-at="2026-06-14T21:46:42 EEST" name="setUp" finished-at="2026-06-14T21:46:43 EEST" duration-ms="1755" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.PublicForgotPasswordInvalidEmailTests@5e600dd5]" started-at="2026-06-14T21:46:43 EEST" name="before" finished-at="2026-06-14T21:46:43 EEST" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="public_forgot_password_rejects_unknown_email()[pri:0, instance:com.endava.ai.ui.tests.PublicForgotPasswordInvalidEmailTests@5e600dd5]" started-at="2026-06-14T21:46:43 EEST" name="public_forgot_password_rejects_unknown_email" description="Public forgot-password keeps the visitor on recovery and surfaces the invalid-email alert after a typed unknown email" finished-at="2026-06-14T21:46:46 EEST" duration-ms="2219" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- public_forgot_password_rejects_unknown_email -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.PublicForgotPasswordInvalidEmailTests@5e600dd5]" started-at="2026-06-14T21:46:46 EEST" name="tearDown" finished-at="2026-06-14T21:46:46 EEST" duration-ms="421" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.PublicForgotPasswordInvalidEmailTests -->
+      <class name="com.endava.ai.ui.tests.PublicForgotPasswordGuardTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.PublicForgotPasswordGuardTests@48aca48b]" started-at="2026-06-14T21:46:27 EEST" name="setUp" finished-at="2026-06-14T21:46:39 EEST" duration-ms="11785" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.PublicForgotPasswordGuardTests@48aca48b]" started-at="2026-06-14T21:46:39 EEST" name="before" finished-at="2026-06-14T21:46:39 EEST" duration-ms="3" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="public_forgot_password_flow_requires_email_before_recovery_can_continue()[pri:0, instance:com.endava.ai.ui.tests.PublicForgotPasswordGuardTests@48aca48b]" started-at="2026-06-14T21:46:39 EEST" name="public_forgot_password_flow_requires_email_before_recovery_can_continue" description="Public forgot-password flow keeps the visitor on recovery and requires an email address" finished-at="2026-06-14T21:46:41 EEST" duration-ms="1766" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- public_forgot_password_flow_requires_email_before_recovery_can_continue -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.PublicForgotPasswordGuardTests@48aca48b]" started-at="2026-06-14T21:46:41 EEST" name="tearDown" finished-at="2026-06-14T21:46:42 EEST" duration-ms="430" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.PublicForgotPasswordGuardTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

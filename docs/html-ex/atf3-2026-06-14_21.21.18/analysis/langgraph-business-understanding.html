@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>ROOT_RUN 2026-06-14_21.21.18</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1220'/%3E%3Cpath d='M16 20h32v8H16zm0 16h32v8H16z' fill='%2334d399'/%3E%3C/svg%3E">
+<link href="shared-report-reference.css" rel="stylesheet">
+<style>
+.eyebrow{display:inline-block;margin:0 0 10px;color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.32px;text-transform:uppercase}
+.opening .nav-pills{margin-top:12px}
+.opening .nav-pills .pill{background:rgba(11,17,27,.9);border-color:rgba(49,66,91,.88);color:var(--muted-strong)}
+.opening .nav-pills .pill:hover{background:rgba(16,23,35,.96);border-color:#395072;text-decoration:none}
+.runtime-strip{margin-top:10px;align-items:flex-start}
+.runtime-strip .pill{white-space:nowrap}
+.opening-callout{margin-top:12px}
+.opening-callout a{margin-left:6px}
+.compact-opening{margin-top:12px}
+.compact-opening .card{margin:0;padding:12px 14px;background:rgba(13,20,31,.7)}
+.compact-opening .docmap-2{margin-top:0}
+.compact-opening .docmap-2>div:nth-child(odd){padding-top:0}
+.graph-shell{padding:14px 14px 13px;background:rgba(12,18,28,.5)}
+.graph-shell .svgbox{padding:8px 10px;background:linear-gradient(180deg,rgba(8,13,21,.98) 0%,rgba(7,11,18,.98) 100%)}
+.graph-shell svg .n{fill:#121a28;stroke:#33455d;stroke-width:.95}
+.graph-shell svg .t{fill:#e6edf3;font:600 9.8px var(--sans)}
+.graph-shell svg .s{fill:#9eabc1;font:8.55px var(--sans)}
+.graph-shell svg .l{stroke:#7aa2ff;stroke-width:1.12;fill:none;marker-end:url(#m)}
+.graph-shell svg .g{stroke:#34d399;stroke-width:1.12;fill:none;marker-end:url(#m)}
+.graph-shell svg .r{stroke:#fb7185;stroke-width:1.12;fill:none;marker-end:url(#m)}
+.graph-shell svg .w{stroke:#f3bf4d;stroke-width:1.12;fill:none;marker-end:url(#m)}
+.graph-shell svg .cap{fill:#97a5bc;font:600 8.5px var(--sans);letter-spacing:.2px;text-transform:uppercase}
+.legend-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
+.legend-chip{display:flex;align-items:center;justify-content:center;gap:8px;min-height:34px;border:1px solid var(--border-soft);border-radius:12px;padding:7px 9px;background:rgba(9,14,22,.54);font-size:12.25px;color:var(--muted-strong);text-align:center}
+.legend-chip .dot{display:inline-block;width:8px;height:8px;border-radius:999px;background:#53647f;flex:0 0 auto}
+.legend-chip .dot.good{background:#34d399}
+.legend-chip .dot.warn{background:#f3bf4d}
+.legend-chip .dot.bad{background:#fb7185}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.plain-card{border:1px solid var(--border-soft);border-radius:14px;background:rgba(11,19,30,.5);padding:12px 13px 11px;box-shadow:none}
+.plain-card h3{margin:0 0 8px;font-size:15px;color:var(--muted-strong)}
+.docmap-2{display:grid;grid-template-columns:minmax(190px,.38fr) minmax(0,1fr);gap:8px 14px}
+.docmap-2>div:nth-child(odd){color:var(--muted);font-size:12.2px;font-weight:700;letter-spacing:.24px;text-transform:uppercase;padding-top:2px}
+.inline-links a+a{margin-left:10px}
+.audit-table td,.audit-table th{font-size:13.2px}
+@media (max-width:980px){.legend-grid,.mini-grid,.docmap-2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="opening">
+    <div class="eyebrow">ATF3 ROOT_RUN rece</div>
+    <h1>Authenticated self-service ownership breadth <span class="badge good">ROOT_RUN rece</span></h1>
+    <div class="sub">Pachetul porneste din aplicatia reala si publica un coridor autentificat mai lat decat ultimul winner local: cont, mesaje, plata, post-purchase si owner gate de securitate. Verdictul procedural este complet, dar breadth-ul business ramane partial fiindca istoricul de invoice ramane contradictoriu chiar dupa purchase success.</div>
+
+    <div class="pill-row runtime-strip">
+      <a class="pill" href="../README.md">ROOT_RUN README</a>
+      <a class="pill" href="../../../prompts/iterativ/agent-runtime.properties">agent-runtime.properties</a>
+      <span class="pill">RUN_EXPECTED_DELTA_QUALITY = 8.50</span>
+      <span class="pill">ROUND_TARGET_TEST_COUNT = 5</span>
+      <span class="pill">META_ITERATION_COUNT = 5</span>
+      <span class="pill">tests produced = 25 / 25</span>
+      <span class="pill">runs consumed = 5 / 5</span>
+      <span class="pill">accounting target = yes</span>
+    </div>
+
+    <div class="callout opening-callout">Verdict rece sus: pachetul a rupt winner-ul ingust de securitate si a publicat un coridor autentificat mai lat, dar breadth-ul aplicatiei ramane <code class="inline">partial</code> fiindca tensiunea centrala ramane <code class="inline">payment success -&gt; invoice history absent</code>.
+      <a href="../review/root-source-thin-no-index.diff">root diff</a>
+      <a href="#proof">proof mapping</a>
+    </div>
+
+    <div class="score-grid">
+      <div class="score-card">
+        <h2>Intelegere business</h2>
+        <div class="score">95</div>
+        <div class="muted">coridor autentificat real: cont, mesaje, plata, post-purchase, ownership gate</div>
+      </div>
+      <div class="score-card">
+        <h2>Incredere in dovezi</h2>
+        <div class="score">96</div>
+        <div class="muted">toate cele cinci sloturi au diff, Extent, XML si verdict local</div>
+      </div>
+      <div class="score-card">
+        <h2>Miscare de acoperire</h2>
+        <div class="score">93</div>
+        <div class="muted">pachetul nu reia doar securitatea; impinge breadth-ul autentificat fara fuga spre zona publica</div>
+      </div>
+      <div class="score-card">
+        <h2>General</h2>
+        <div class="score">90</div>
+        <div class="muted">executie completa si istorie fina buna, dar breadth-ul aplicatiei nu este closure total</div>
+      </div>
+    </div>
+
+    <div class="compact-opening split">
+      <div class="card">
+        <div class="docmap-2">
+          <div>Pachet</div><div><code class="inline">2026-06-14_21.21.18</code></div>
+          <div>Mutatie istorica</div><div>mai lat decat <code class="inline">security-only</code>; nu reia frontiera ingusta ca winner comod</div>
+          <div>Problema grea ramasa</div><div>payment success nu materializeaza invoice history in cont</div>
+          <div>Close-out rece</div><div><code class="inline">partial</code> business, dar executie procedurala completa</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="docmap-2">
+          <div>Diff mare</div><div><a href="../review/root-source-thin-no-index.diff">review/root-source-thin-no-index.diff</a></div>
+          <div>Diff mic per run</div><div><a href="../runs/run_01/review/thin-no-index.diff">run_01</a>, <a href="../runs/run_02/review/thin-no-index.diff">run_02</a>, <a href="../runs/run_03/review/thin-no-index.diff">run_03</a>, <a href="../runs/run_04/review/thin-no-index.diff">run_04</a>, <a href="../runs/run_05/review/thin-no-index.diff">run_05</a></div>
+          <div>Dovada UI</div><div>Extent per run din mapping si audit</div>
+          <div>Dovada machine</div><div>XML + command-result in mapping si audit</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pill-row nav-pills">
+      <a class="pill" href="#graph">Graf Business</a>
+      <a class="pill" href="#verdict">Verdict executiv</a>
+      <a class="pill" href="#proof">Mapare dovada</a>
+      <a class="pill" href="#artifacts">Index artefacte</a>
+      <a class="pill" href="#audit">Audit pe run</a>
+      <a class="pill" href="#closeout">Adevar de inchidere</a>
+    </div>
+  </header>
+
+  <details id="graph" open>
+    <summary><span class="summary-title">Graf Business</span><span class="sumhint">aplicatia este harta; pachetul este overlay</span></summary>
+
+    <div class="split">
+      <div class="card">
+        <h3>Scopul acestei sectiuni</h3>
+        <p>Graful nu povesteste testele. El arata coridorul business autentificat al aplicatiei si doar dupa aceea coloreaza ce a atins acest pachet: ce este owned, ce ramane contradictie si unde sta owner lane-ul final.</p>
+      </div>
+      <div class="card">
+        <h3>Cheie de lectura</h3>
+        <div class="legend-grid">
+          <div class="legend-chip"><span class="dot"></span><span>suprafata reala</span></div>
+          <div class="legend-chip"><span class="dot good"></span><span>owned in pachet</span></div>
+          <div class="legend-chip"><span class="dot warn"></span><span>contradictie publica</span></div>
+          <div class="legend-chip"><span class="dot bad"></span><span>owner gate final</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card graph-shell">
+      <h3>Subgraf 1: macro-harta autentificata a aplicatiei</h3>
+      <div class="sub">Aceasta este harta lane-urilor reale pe care un client autentificat le poate traversa dupa intrarea in cont.</div>
+      <div class="svgbox">
+        <svg viewBox="0 0 1080 250" role="img" aria-label="Macro-harta autentificata a aplicatiei">
+          <defs><marker id="m" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+          <text class="cap" x="40" y="26">HARTA PRODUSULUI</text>
+          <rect class="n" x="40" y="84" width="132" height="54" rx="12"></rect>
+          <text class="t" x="106" y="105" text-anchor="middle">account hub</text>
+          <text class="s" x="106" y="120" text-anchor="middle">identity, entry</text>
+          <rect class="n" x="212" y="84" width="132" height="54" rx="12"></rect>
+          <text class="t" x="278" y="105" text-anchor="middle">profile surface</text>
+          <text class="s" x="278" y="120" text-anchor="middle">values, edit claim</text>
+          <rect class="n" x="384" y="84" width="132" height="54" rx="12"></rect>
+          <text class="t" x="450" y="105" text-anchor="middle">messages lane</text>
+          <text class="s" x="450" y="120" text-anchor="middle">thread, reply</text>
+          <rect class="n" x="556" y="84" width="132" height="54" rx="12"></rect>
+          <text class="t" x="622" y="105" text-anchor="middle">payment contract</text>
+          <text class="s" x="622" y="120" text-anchor="middle">method gating</text>
+          <rect class="n" x="728" y="84" width="132" height="54" rx="12"></rect>
+          <text class="t" x="794" y="105" text-anchor="middle">invoice history</text>
+          <text class="s" x="794" y="120" text-anchor="middle">post-purchase truth</text>
+          <rect class="n" x="900" y="84" width="132" height="54" rx="12"></rect>
+          <text class="t" x="966" y="105" text-anchor="middle">security gate</text>
+          <text class="s" x="966" y="120" text-anchor="middle">password, TOTP</text>
+          <path class="l" d="M172 111 H212"></path>
+          <path class="l" d="M344 111 H384"></path>
+          <path class="l" d="M516 111 H556"></path>
+          <path class="l" d="M688 111 H728"></path>
+          <path class="l" d="M860 111 H900"></path>
+        </svg>
+      </div>
+      <details class="mini-note">
+        <summary><span class="summary-title">Legenda</span><span class="sumhint">cum se citeste harta</span></summary>
+        <p>Nodurile descriu numai business-ul aplicatiei. Nu apar run ids, nume de teste sau helpere. Istoria fina coboara in mapping si audit.</p>
+      </details>
+    </div>
+
+    <div class="card graph-shell">
+      <h3>Subgraf 2: overlay-ul exact al pachetului curent</h3>
+      <div class="sub">Aici se vede ce a ramas owned, ce este contradictie si de ce owner gate-ul final decide valoarea reala a pachetului.</div>
+      <div class="svgbox">
+        <svg viewBox="0 0 1080 300" role="img" aria-label="Overlay-ul exact al pachetului curent">
+          <defs><marker id="m2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+          <text class="cap" x="40" y="24">OVERLAY PACHET</text>
+          <rect class="n" x="40" y="86" width="150" height="54" rx="12"></rect>
+          <text class="t" x="115" y="107" text-anchor="middle">account hub owned</text>
+          <text class="s" x="115" y="122" text-anchor="middle">identity, favorites</text>
+          <rect class="n" x="240" y="86" width="150" height="54" rx="12"></rect>
+          <text class="t" x="315" y="107" text-anchor="middle">messages owned</text>
+          <text class="s" x="315" y="122" text-anchor="middle">thread durability</text>
+          <rect class="n" x="440" y="86" width="150" height="54" rx="12"></rect>
+          <text class="t" x="515" y="107" text-anchor="middle">payment owned</text>
+          <text class="s" x="515" y="122" text-anchor="middle">contract gating</text>
+          <rect class="n" x="640" y="86" width="180" height="54" rx="12"></rect>
+          <text class="t" x="730" y="107" text-anchor="middle">invoice contradiction</text>
+          <text class="s" x="730" y="122" text-anchor="middle">success fara istoric</text>
+          <rect class="n" x="870" y="86" width="170" height="54" rx="12"></rect>
+          <text class="t" x="955" y="107" text-anchor="middle">security owner gate</text>
+          <text class="s" x="955" y="122" text-anchor="middle">old pwd + TOTP</text>
+
+          <path class="g" d="M190 113 H240"></path>
+          <path class="g" d="M390 113 H440"></path>
+          <path class="w" d="M590 113 H640"></path>
+          <path class="r" d="M820 113 H870"></path>
+
+          <rect class="n" x="325" y="200" width="200" height="54" rx="12"></rect>
+          <text class="t" x="425" y="221" text-anchor="middle">breadth procedural</text>
+          <text class="s" x="425" y="236" text-anchor="middle">5 run-uri, 25 teste</text>
+          <rect class="n" x="565" y="200" width="200" height="54" rx="12"></rect>
+          <text class="t" x="665" y="221" text-anchor="middle">breadth business</text>
+          <text class="s" x="665" y="236" text-anchor="middle">partial, nu closure total</text>
+          <path class="l" d="M730 140 V180 H665 V200"></path>
+          <path class="l" d="M955 140 V180 H665 V200"></path>
+          <path class="l" d="M315 140 V180 H425 V200"></path>
+          <path class="l" d="M515 140 V180 H425 V200"></path>
+        </svg>
+      </div>
+      <details class="mini-note">
+        <summary><span class="summary-title">Legenda</span><span class="sumhint">de ce overlay-ul ramane rece</span></summary>
+        <p>Verdele inseamna lane owned in acest pachet. Galbenul marcheaza un truth procedural util, dar nu closure total. Rosul marcheaza contradictia severa care tine scorul business sub closure.</p>
+      </details>
+    </div>
+  </details>
+
+  <details id="verdict">
+    <summary><span class="summary-title">Verdict executiv</span><span class="sumhint">winner, limita si mutatia istorica</span></summary>
+    <div class="mini-grid">
+      <div class="plain-card">
+        <h3>Adevar winner</h3>
+        <p>Pachetul a iesit rece din winner-ul ingust `security-only` si a inchis procedural un coridor autentificat mai lat, cu cinci sloturi reale de self-service.</p>
+      </div>
+      <div class="plain-card">
+        <h3>Cea mai grea limita ramasa</h3>
+        <p>`payment success -> invoice history absent` ramane contradictia business cea mai grea si tine breadth-ul aplicatiei sub closure total.</p>
+      </div>
+      <div class="plain-card">
+        <h3>Stop truth pe acelasi pachet</h3>
+        <p>Continuarea in acelasi pachet nu mai este legala: runtime-ul a consumat deja `5 / 5` run-uri si toate sloturile au fost inghetate complet.</p>
+      </div>
+      <div class="plain-card">
+        <h3>Fresh ROOT_RUN truth</h3>
+        <p>Un pachet nou este legal pentru remediere sau pentru o alta frontiera la fel de grea, nu pentru replay comod pe familii deja owned.</p>
+      </div>
+    </div>
+    <div class="note" style="margin-top:12px">
+      Mutatia istorica scurta: pachetul precedent inchidea un lane final de securitate; acesta il pastreaza ca owner gate, dar construieste in jurul lui breadth autentificat pe cont, mesaje, plata si post-purchase.
+      <a href="../review/root-source-thin-no-index.diff">root diff</a>
+    </div>
+  </details>
+
+  <details id="proof">
+    <summary><span class="summary-title">Mapare dovada</span><span class="sumhint">claim -> run -> diff -> proof -> verdict</span></summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Claim business</th>
+          <th>Run owner</th>
+          <th>Evolutie</th>
+          <th>Dovada UI</th>
+          <th>Dovada masina</th>
+          <th>Verdict rece</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>hub-ul de cont capata identitate, profil, invoices empty-state si favorites lifecycle</td>
+          <td><a href="../runs/run_01/SUMMARY.md">run_01</a></td>
+          <td><a href="../runs/run_01/review/thin-no-index.diff">run diff</a></td>
+          <td><a href="../runs/run_01/validation/ExtentReport_2026-06-14_21-23-20.html">Extent</a></td>
+          <td class="inline-links"><a href="../runs/run_01/validation/TEST-com.endava.ai.atf.ui.AuthenticatedAccountSurfaceBreadthTests.xml">XML</a><a href="../runs/run_01/validation/command-result.md">command-result</a></td>
+          <td>owned</td>
+        </tr>
+        <tr>
+          <td>mesageria autentificata devine thread durabil dupa relogin si reentry</td>
+          <td><a href="../runs/run_02/SUMMARY.md">run_02</a></td>
+          <td><a href="../runs/run_02/review/thin-no-index.diff">run diff</a></td>
+          <td><a href="../runs/run_02/validation/ExtentReport_2026-06-14_21-24-32.html">Extent</a></td>
+          <td class="inline-links"><a href="../runs/run_02/validation/TEST-com.endava.ai.atf.ui.AuthenticatedMessageThreadLifecycleTests.xml">XML</a><a href="../runs/run_02/validation/command-result.md">command-result</a></td>
+          <td>owned</td>
+        </tr>
+        <tr>
+          <td>checkout-ul autentificat expune contracte de plata distincte si reset corect la switch</td>
+          <td><a href="../runs/run_03/SUMMARY.md">run_03</a></td>
+          <td><a href="../runs/run_03/review/thin-no-index.diff">run diff</a></td>
+          <td><a href="../runs/run_03/validation/ExtentReport_2026-06-14_21-25-46.html">Extent</a></td>
+          <td class="inline-links"><a href="../runs/run_03/validation/TEST-com.endava.ai.atf.ui.AuthenticatedPaymentMethodContractTests.xml">XML</a><a href="../runs/run_03/validation/command-result.md">command-result</a></td>
+          <td>owned</td>
+        </tr>
+        <tr>
+          <td>payment success nu materializeaza invoice history in cont nici dupa relogin</td>
+          <td><a href="../runs/run_04/SUMMARY.md">run_04</a></td>
+          <td><a href="../runs/run_04/review/thin-no-index.diff">run diff</a></td>
+          <td><a href="../runs/run_04/validation/ExtentReport_2026-06-14_21-26-59.html">Extent</a></td>
+          <td class="inline-links"><a href="../runs/run_04/validation/TEST-com.endava.ai.atf.ui.AuthenticatedPostPurchaseHistoryTests.xml">XML</a><a href="../runs/run_04/validation/command-result.md">command-result</a></td>
+          <td>contradictie publica</td>
+        </tr>
+        <tr>
+          <td>owner gate-ul final ramane controlat de parola veche plus TOTP, iar profilul revine la adevarul original</td>
+          <td><a href="../runs/run_05/SUMMARY.md">run_05</a></td>
+          <td><a href="../runs/run_05/review/thin-no-index.diff">run diff</a></td>
+          <td><a href="../runs/run_05/validation/ExtentReport_2026-06-14_21-28-09.html">Extent</a></td>
+          <td class="inline-links"><a href="../runs/run_05/validation/TEST-com.endava.ai.atf.ui.AuthenticatedSecurityDurabilityClosureTests.xml">XML</a><a href="../runs/run_05/validation/command-result.md">command-result</a></td>
+          <td>owned hardest lane</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details id="artifacts">
+    <summary><span class="summary-title">Index artefacte</span><span class="sumhint">spina auditabila a pachetului</span></summary>
+    <div class="docmap-2">
+      <div>Runtime</div><div><a href="../../../prompts/iterativ/agent-runtime.properties">agent-runtime.properties</a></div>
+      <div>README pachet</div><div><a href="../README.md">README.md</a></div>
+      <div>Diff radacina</div><div><a href="../review/root-source-thin-no-index.diff">review/root-source-thin-no-index.diff</a></div>
+      <div>Accounting</div><div><a href="../review/quality-accounting-verdict.md">review/quality-accounting-verdict.md</a></div>
+      <div>Close-out</div><div><a href="../review/package-close-out.md">review/package-close-out.md</a></div>
+      <div>Next run truth</div><div><a href="../review/next-run-eligibility-card.md">review/next-run-eligibility-card.md</a></div>
+      <div>Pretraining</div><div><a href="../review/round-pretraining-brief.md">review/round-pretraining-brief.md</a></div>
+      <div>Ranking</div><div><a href="../review/frontier-ranking-ledger.md">review/frontier-ranking-ledger.md</a></div>
+      <div>CSS comun</div><div><a href="shared-report-reference.css">analysis/shared-report-reference.css</a></div>
+      <div>Render proof</div><div><a href="canonical-render-check.png">analysis/canonical-render-check.png</a></div>
+      <div>Link audit</div><div><a href="../review/local-link-check.txt">review/local-link-check.txt</a></div>
+    </div>
+  </details>
+
+  <details id="audit">
+    <summary><span class="summary-title">Audit pe run</span><span class="sumhint">claim, delta, kept si feedback</span></summary>
+    <table class="audit-table">
+      <thead>
+        <tr>
+          <th>Run</th>
+          <th>Business claim</th>
+          <th>Actual delta</th>
+          <th>Kept?</th>
+          <th>Countable</th>
+          <th>Diff</th>
+          <th>Extent</th>
+          <th>Machine + feedback</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="../runs/run_01/SUMMARY.md">run_01</a></td>
+          <td>account hub ownership</td>
+          <td>contul capata identitate, profil, invoices empty-state si favorites lifecycle</td>
+          <td>yes</td>
+          <td>`5 / 5`</td>
+          <td><a href="../runs/run_01/review/thin-no-index.diff">diff</a></td>
+          <td><a href="../runs/run_01/validation/ExtentReport_2026-06-14_21-23-20.html">Extent</a></td>
+          <td class="inline-links"><a href="../runs/run_01/validation/command-result.md">command-result</a><a href="../runs/run_01/review/source-delta-carrier.md">carrier</a></td>
+        </tr>
+        <tr>
+          <td><a href="../runs/run_02/SUMMARY.md">run_02</a></td>
+          <td>message thread durability</td>
+          <td>thread-ul rezista pe reply, status, relogin si reentry</td>
+          <td>yes</td>
+          <td>`5 / 5`</td>
+          <td><a href="../runs/run_02/review/thin-no-index.diff">diff</a></td>
+          <td><a href="../runs/run_02/validation/ExtentReport_2026-06-14_21-24-32.html">Extent</a></td>
+          <td class="inline-links"><a href="../runs/run_02/validation/command-result.md">command-result</a><a href="../runs/run_02/review/source-delta-carrier.md">carrier</a></td>
+        </tr>
+        <tr>
+          <td><a href="../runs/run_03/SUMMARY.md">run_03</a></td>
+          <td>payment contract gating</td>
+          <td>fiecare contract real de plata are gating propriu si switch-ul curata contractul vechi</td>
+          <td>yes</td>
+          <td>`5 / 5`</td>
+          <td><a href="../runs/run_03/review/thin-no-index.diff">diff</a></td>
+          <td><a href="../runs/run_03/validation/ExtentReport_2026-06-14_21-25-46.html">Extent</a></td>
+          <td class="inline-links"><a href="../runs/run_03/validation/command-result.md">command-result</a><a href="../runs/run_03/review/source-delta-carrier.md">carrier</a></td>
+        </tr>
+        <tr>
+          <td><a href="../runs/run_04/SUMMARY.md">run_04</a></td>
+          <td>post-purchase history contradiction</td>
+          <td>payment success nu produce invoice history nici dupa fresh login</td>
+          <td>yes</td>
+          <td>`5 / 5`</td>
+          <td><a href="../runs/run_04/review/thin-no-index.diff">diff</a></td>
+          <td><a href="../runs/run_04/validation/ExtentReport_2026-06-14_21-26-59.html">Extent</a></td>
+          <td class="inline-links"><a href="../runs/run_04/validation/command-result.md">command-result</a><a href="../runs/run_04/review/source-delta-carrier.md">carrier</a></td>
+        </tr>
+        <tr>
+          <td><a href="../runs/run_05/SUMMARY.md">run_05</a></td>
+          <td>security ownership gate</td>
+          <td>parola veche plus TOTP ramane owner truth; parola noua pica</td>
+          <td>yes</td>
+          <td>`5 / 5`</td>
+          <td><a href="../runs/run_05/review/thin-no-index.diff">diff</a></td>
+          <td><a href="../runs/run_05/validation/ExtentReport_2026-06-14_21-28-09.html">Extent</a></td>
+          <td class="inline-links"><a href="../runs/run_05/validation/command-result.md">command-result</a><a href="../runs/run_05/review/source-delta-carrier.md">carrier</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details id="closeout">
+    <summary><span class="summary-title">Adevar de inchidere</span><span class="sumhint">countability, breadth si miscarea urmatoare</span></summary>
+    <div class="kvs">
+      <div>Countability</div><div><code class="inline">25 / 25</code></div>
+      <div>Runs consumed</div><div><code class="inline">5 / 5</code></div>
+      <div>Accounting target</div><div><code class="inline">yes</code></div>
+      <div>Business breadth verdict</div><div><code class="inline">partial</code></div>
+      <div>Same-package continuation</div><div><code class="inline">no</code></div>
+      <div>Fresh ROOT_RUN legal</div><div><code class="inline">yes</code></div>
+      <div>Strongest unresolved truth</div><div>invoice history nu se materializeaza dupa payment success</div>
+      <div>De ce partial</div><div>pachetul acopera rece un coridor mai lat, dar nu inchide complet self-service-ul autentificat al aplicatiei</div>
+    </div>
+    <div class="note" style="margin-top:12px">
+      Close-out-ul procedural este complet. Limita rece ramane business, nu executia:
+      <a href="../review/quality-accounting-verdict.md">accounting</a>,
+      <a href="../review/package-close-out.md">package close-out</a>,
+      <a href="../review/next-run-eligibility-card.md">next-run eligibility</a>.
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="summary-title">Randare si audit</span><span class="sumhint">pagina canonica, CSS si hyperlink-uri</span></summary>
+    <ul>
+      <li><a href="shared-report-reference.css">shared-report-reference.css</a></li>
+      <li><a href="canonical-render-check.png">canonical-render-check.png</a></li>
+      <li><a href="../review/local-link-check.txt">local-link-check.txt</a></li>
+      <li><a href="../review/frozen-package-inventory.md">frozen-package-inventory.md</a></li>
+    </ul>
+  </details>
+</div>
+<script>
+function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}
+</script>
+</body>
+</html>

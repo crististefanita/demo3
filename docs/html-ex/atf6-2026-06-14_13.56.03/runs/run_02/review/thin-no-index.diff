@@ -1,0 +1,123 @@
+﻿
+===== UNTRACKED: C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-14_13.56.03\runs\run_02\SUMMARY.md =====
+
+diff --git "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\SUMMARY.md"
+index e02abfc..03980b4 100644
+--- "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\SUMMARY.md"
+@@ -1 +1,7 @@
+-﻿
++﻿# SUMMARY
++
++- familie: `account surfaces`
++- claim: clientul autentificat poate deschide overview, invoices si messages empty guidance
++- verdict: `kept`
++- countable good tests: `3`
++- rece: suprafetele de account sunt owned la nivel de entry si empty-state
+
+===== UNTRACKED: C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-14_13.56.03\runs\run_02\manifests\run-manifest.md =====
+
+diff --git "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\manifests\\run-manifest.md"
+index e02abfc..d5931ab 100644
+--- "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\manifests\\run-manifest.md"
+@@ -1 +1,6 @@
+-﻿
++﻿# Run manifest
++
++- run id: `run_02`
++- command family: `AuthenticatedAccountOverviewTests`, `AuthenticatedAccountInvoicesTests`, `AuthenticatedAccountMessagesTests`
++- macro-zona: `authenticated self-service`
++- verdict: `pass`
+
+===== UNTRACKED: C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-14_13.56.03\runs\run_02\prompt\input-snapshot.md =====
+
+diff --git "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\prompt\\input-snapshot.md"
+index e02abfc..41a3f5b 100644
+--- "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\prompt\\input-snapshot.md"
+@@ -1 +1,4 @@
+-﻿
++﻿# Input snapshot
++
++- ancora: ownership minim al suprafetelor de account dupa autentificare
++- intentie: overview, invoices si messages trebuie sa fie navigabile rece, chiar si fara order history sau thread-uri existente
+
+===== UNTRACKED: C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-14_13.56.03\runs\run_02\review\artifact-checklist.md =====
+
+diff --git "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\review\\artifact-checklist.md"
+index e02abfc..225492c 100644
+--- "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\review\\artifact-checklist.md"
+@@ -1 +1,11 @@
+-﻿
++﻿# Artifact checklist
++
++- run frozen = yes
++- business claim settled = yes
++- thin-no-index.diff saved = yes
++- ExtentReport saved = yes
++- machine result carrier saved = yes
++- decisive learning md saved = yes
++- countable kept run = yes
++- missing mandatory artifact = no
++- notes = trei probe bune pe suprafete de account distincte
+
+===== UNTRACKED: C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-14_13.56.03\runs\run_02\review\score-support.md =====
+
+diff --git "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\review\\score-support.md"
+index e02abfc..04ce541 100644
+--- "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\review\\score-support.md"
+@@ -1 +1,6 @@
+-﻿
++﻿# Score support
++
++- delta business: `bun`
++- countability: `3 teste bune distincte`
++- de ce tin impreuna: valideaza ownership-ul de entry pe trei suprafete vecine ale aceluiasi cont
++- risc ramas: lipseste ownership adanc in messages si security
+
+===== UNTRACKED: C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-14_13.56.03\runs\run_02\review\source-delta-carrier.md =====
+
+diff --git "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\review\\source-delta-carrier.md"
+index e02abfc..6829f32 100644
+--- "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\review\\source-delta-carrier.md"
+@@ -1 +1,4 @@
+-﻿
++﻿# Source delta carrier
++
++- acest run nu a introdus delta noua de cod sau test
++- valoarea rece vine din executia si dovada pe suprafete distincte de cont
+
+===== UNTRACKED: C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-14_13.56.03\runs\run_02\review\lesson-learned.md =====
+
+diff --git "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\review\\lesson-learned.md"
+index e02abfc..4b90a1c 100644
+--- "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\review\\lesson-learned.md"
+@@ -1 +1,6 @@
+-﻿
++﻿# Lesson learned
++
++- ce s-a schimbat = account-ul nu mai este doar o destinatie teoretica, ci un minim surface owned
++- ce a fost invatat = empty states si management navigation pot conta daca muta business-ul din macro-zona anterioara
++- ce nu trebuie repetat = nu vinde aceste entry surfaces drept closure adanc
++- ce next run should use = ownership mai adanc pe favorites, messages si security
+
+===== UNTRACKED: C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-14_13.56.03\runs\run_02\validation\command-result.md =====
+
+diff --git "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\validation\\command-result.md"
+index e02abfc..dd8bc73 100644
+--- "a/C:\\Users\\cstefanita\\AppData\\Local\\Temp\\tmp6593.tmp"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\docs\\out\\2026-06-14_13.56.03\\runs\\run_02\\validation\\command-result.md"
+@@ -1 +1,7 @@
+-﻿
++﻿# Command result
++
++- command: mvn -Dtest=AuthenticatedAccountOverviewTests,AuthenticatedAccountInvoicesTests,AuthenticatedAccountMessagesTests test
++- exit code: 0
++- verdict: pass
++- classes: AuthenticatedAccountOverviewTests, AuthenticatedAccountInvoicesTests, AuthenticatedAccountMessagesTests
++- extent: ExtentReport_2026-06-14_13-58-57.html

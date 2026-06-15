@@ -1,0 +1,181 @@
+﻿diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/SUMMARY.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/SUMMARY.md"
+index bd7f680..f7b1588 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/SUMMARY.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/SUMMARY.md"
+@@ -1,11 +1,11 @@
+-# run_05 - suprafete protejate dupa step-up
++# run_05 - checkout continuity post-success
+ 
+-- claim business: dupa challenge `2FA` reusit, clientul redeschide overview, profile, favorites, invoices si messages ca suprafete reale ale contului
+-- familie: `overview + profile + favorites + invoices + messages after totp`
++- claim business: dupa succesul de checkout, clientul ramane in aceeasi contradictie de invoices atat la relogin, cat si dupa checkout repetat
++- familie: `checkout recognition + COD success + invoice gap + repeated invoice gap + invoice gap after relogin`
+ - rezultat: `5 / 5`, `pass`
+ - de ce testele stau bine impreuna:
+-  - toate verifica ce detine utilizatorul dupa ce step-up-ul este complet
+-  - aceeasi tensiune business: challenge-ul pazeste rute reale, nu doar login-ul
++  - toate apasa exact pe continuitatea post-success
++  - toate verifica daca succesul vizibil se transforma sau nu in stare detinuta
+ - delta rece:
+   - nu exista delta Java noua
+-  - run-ul inchide semantic pachetul: `recovery -> challenge -> protected surfaces`
++  - run-ul confirma ca tensiunea din run_04 nu este accident singular
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/manifests/run-manifest.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/manifests/run-manifest.md"
+index f6e6cbd..a682cc2 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/manifests/run-manifest.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/manifests/run-manifest.md"
+@@ -1,10 +1,13 @@
+-# Manifest run_05
++# Run Manifest
+ 
+-- familie: suprafete-protejate-dupa-step-up
+-- comanda: `mvn -q "-Dtest=com.endava.ai.ui.tests.RegisteredCustomerTwoFactorProtectedAccountSurfaceTests" test`
+-- teste incluse:
+-  - `registered_customer_can_reach_the_account_overview_after_totp_login`
+-  - `registered_customer_can_reopen_profile_after_totp_login`
+-  - `registered_customer_keeps_favorites_route_available_after_totp_login`
+-  - `registered_customer_keeps_invoices_route_available_after_totp_login`
+-  - `registered_customer_keeps_messages_route_available_after_totp_login`
++- run: `run_05`
++- identity: `checkout continuity post-success`
++- test classes:
++  - `AuthenticatedCheckoutRecognitionTests`
++  - `AuthenticatedCheckoutCashOnDeliveryTests`
++  - `AuthenticatedCheckoutInvoiceGapTests`
++  - `AuthenticatedCheckoutRepeatedInvoiceGapTests`
++  - `AuthenticatedCheckoutInvoiceGapReloginTests`
++- target: `5 / 5`
++- result: `5 / 5`
++- kept: `yes`
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/prompt/input-snapshot.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/prompt/input-snapshot.md"
+index 7b80ca4..3a337a5 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/prompt/input-snapshot.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/prompt/input-snapshot.md"
+@@ -1,6 +1,10 @@
+-# Snapshot intrare run_05
++# Input Snapshot
+ 
+-- familie: suprafete-protejate-dupa-step-up
+-- runtime target pe run: `5`
+-- scop: dovedirea faptului ca `2FA` pazeste business real post-login
+-- comanda: `mvn -q "-Dtest=com.endava.ai.ui.tests.RegisteredCustomerTwoFactorProtectedAccountSurfaceTests" test`
++- frontiera: `checkout continuity post-success`
++- scop: sa valideze daca invoice gap-ul din checkout ramane si dupa relogin sau dupa repetarea succesului
++- test bundle:
++  - `AuthenticatedCheckoutRecognitionTests`
++  - `AuthenticatedCheckoutCashOnDeliveryTests`
++  - `AuthenticatedCheckoutInvoiceGapTests`
++  - `AuthenticatedCheckoutRepeatedInvoiceGapTests`
++  - `AuthenticatedCheckoutInvoiceGapReloginTests`
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/review/artifact-checklist.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/review/artifact-checklist.md"
+index 162cf70..c6bb5e1 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/review/artifact-checklist.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/review/artifact-checklist.md"
+@@ -1,12 +1,14 @@
+-# Artifact Checklist run_05
++# Artifact Checklist
+ 
+-- run frozen = `yes`
+-- business claim settled = `yes`
+-- command-output saved = `yes`
+-- command-result saved = `yes`
+-- Extent saved = `yes`
+-- XML saved = `yes`
+-- diff saved = `yes`
+-- decisive learning md saved = `yes`
+-- countable kept run = `yes`
+-- missing mandatory artifact = `no`
++- `SUMMARY.md` saved = `yes`
++- `run-manifest.md` saved = `yes`
++- `input-snapshot.md` saved = `yes`
++- `thin-no-index.diff` saved = `yes`
++- `source-delta-carrier.md` saved = `yes`
++- `score-support.md` saved = `yes`
++- `lesson-learned.md` saved = `yes`
++- `command-output.txt` saved = `yes`
++- `command-result.md` saved = `yes`
++- `ExtentReport_*.html` saved = `yes`
++- `testng-results.xml` saved = `yes`
++- run diff linked from README/report = `yes`
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/review/lesson-learned.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/review/lesson-learned.md"
+index a13c5b8..26fe566 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/review/lesson-learned.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/review/lesson-learned.md"
+@@ -1,8 +1,4 @@
+-# Lesson Learned run_05
++# Lesson Learned
+ 
+-- ce s-a invatat:
+-  - sensul business al `2FA` devine clar abia cand rutele protejate se redeschid dupa challenge
+-- ce nu repet:
+-  - nu mai las `2FA` sa para un pachet despre coduri si QR-uri
+-- ce foloseste urmatorul run:
+-  - urmatoarea frontiera grea trebuie sa rupa auth-only si sa impinga fie `password change`, fie alta macro-zona mai larga
++- un al doilea run in aceeasi macro-zona trebuie sa aduca o noua consecinta, nu doar aceeasi suprafata
++- continuitatea post-success si dupa relogin legitimeaza pastrarea acestui slot ca kept
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/review/score-support.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/review/score-support.md"
+index 3cda45a..b868bca 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/review/score-support.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/review/score-support.md"
+@@ -1,9 +1,9 @@
+-# Score Support run_05
++# Score Support
+ 
+-- good tests this run produced = `5`
+-- why countable:
+-  - overview, profile, favorites, invoices si messages sunt cinci suprafete diferite ale contului dupa step-up
+-- why grouped:
+-  - toate dovedesc acelasi rezultat business: challenge-ul pazeste accesul la rute reale
+-- residual gap:
+-  - pachetul ramane in continuare focalizat pe auth si nu rupe inca macro-zone post-purchase mai largi
++- business distinctness: `mare`
++- proof confidence: `mare`
++- target count contribution: `5 / 5`
++- breadth contribution: `medie`; ramane in aceeasi macro-zona de checkout ca `run_04`
++- why kept:
++  - demonstreaza continuitatea contradictiei
++  - inchide rece faptul ca run_04 nu a surprins un incident singular
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/review/source-delta-carrier.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/review/source-delta-carrier.md"
+index c707e86..516f196 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/review/source-delta-carrier.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/review/source-delta-carrier.md"
+@@ -1,6 +1,7 @@
+-# Source Delta Carrier run_05
++# Source Delta Carrier
+ 
+-- delta Java noua = `nu`
+-- delta reala a slotului = `freeze rece peste rutele de cont redeschise dupa step-up`
+-- de ce diff-ul ramane util:
+-  - arata inchiderea semantica a pachetului pe suprafete reale ale aplicatiei
++Nu exista delta Java noua in acest run.
++Carrier-ul explica de ce slotul ramane countable:
++- nu repeta simplu run_04
++- confirma persistenta aceleiasi tensiuni business dupa relogin si dupa succes repetat
++- transforma gap-ul din checkout intr-o contradictie mai stabila si mai grea
+diff --git "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/validation/command-result.md" "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/validation/command-result.md"
+index ca8b584..aea336e 100644
+--- "a/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\old\\runs\\run_05/validation/command-result.md"
++++ "b/C:\\work\\ex\\java\\demo\\atf6\\test-framework\\.codex-tmp-diff2\\new\\runs\\run_05/validation/command-result.md"
+@@ -1,13 +1,10 @@
+-# Command Result run_05
++# Command Result
+ 
+-- exit code = `0`
+-- passed = `5`
+-- failed = `0`
+-- skipped = `0`
+-- total = `5`
+-- verdict = `pass`
+-
+-## Dovezi machine
+-
+-- Extent: `ExtentReport_2026-06-14_20-24-39.html`
+-- XML: `testng-results.xml`, `TEST-com.endava.ai.ui.tests.RegisteredCustomerTwoFactorProtectedAccountSurfaceTests.xml`
++- command: `mvn -q "-Dtest=com.endava.ai.ui.tests.AuthenticatedCheckoutRecognitionTests,com.endava.ai.ui.tests.AuthenticatedCheckoutCashOnDeliveryTests,com.endava.ai.ui.tests.AuthenticatedCheckoutInvoiceGapTests,com.endava.ai.ui.tests.AuthenticatedCheckoutRepeatedInvoiceGapTests,com.endava.ai.ui.tests.AuthenticatedCheckoutInvoiceGapReloginTests" test`
++- exit code: `0`
++- tests run: `5`
++- failures: `0`
++- errors: `0`
++- skipped: `0`
++- duration: `74.131s`
++- verdict: `pass`

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-14T21:42:00 EEST" name="Surefire suite" finished-at="2026-06-14T21:42:54 EEST" duration-ms="53574">
+    <groups>
+    </groups>
+    <test started-at="2026-06-14T21:42:00 EEST" name="Surefire test" finished-at="2026-06-14T21:42:54 EEST" duration-ms="53574">
+      <class name="com.endava.ai.ui.tests.RegisteredCustomerProfilePersistenceTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.RegisteredCustomerProfilePersistenceTests@4e31276e]" started-at="2026-06-14T21:42:45 EEST" name="setUp" finished-at="2026-06-14T21:42:47 EEST" duration-ms="1652" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.RegisteredCustomerProfilePersistenceTests@4e31276e]" started-at="2026-06-14T21:42:47 EEST" name="before" finished-at="2026-06-14T21:42:47 EEST" duration-ms="249" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="registered_customer_profile_keeps_registered_identity_and_address_after_login()[pri:0, instance:com.endava.ai.ui.tests.RegisteredCustomerProfilePersistenceTests@4e31276e]" started-at="2026-06-14T21:42:47 EEST" name="registered_customer_profile_keeps_registered_identity_and_address_after_login" description="Registered customer profile keeps the registered identity and address after login" finished-at="2026-06-14T21:42:53 EEST" duration-ms="6021" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registered_customer_profile_keeps_registered_identity_and_address_after_login -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.RegisteredCustomerProfilePersistenceTests@4e31276e]" started-at="2026-06-14T21:42:54 EEST" name="tearDown" finished-at="2026-06-14T21:42:54 EEST" duration-ms="426" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.RegisteredCustomerProfilePersistenceTests -->
+      <class name="com.endava.ai.ui.tests.AuthenticatedAccountOverviewTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountOverviewTests@df6620a]" started-at="2026-06-14T21:42:38 EEST" name="setUp" finished-at="2026-06-14T21:42:40 EEST" duration-ms="1527" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountOverviewTests@df6620a]" started-at="2026-06-14T21:42:40 EEST" name="before" finished-at="2026-06-14T21:42:40 EEST" duration-ms="297" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="authenticated_customer_lands_on_account_overview_and_keeps_management_navigation_visible()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountOverviewTests@df6620a]" started-at="2026-06-14T21:42:40 EEST" name="authenticated_customer_lands_on_account_overview_and_keeps_management_navigation_visible" description="Authenticated customer lands on the account overview and keeps the management navigation visible" finished-at="2026-06-14T21:42:45 EEST" duration-ms="4684" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_customer_lands_on_account_overview_and_keeps_management_navigation_visible -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountOverviewTests@df6620a]" started-at="2026-06-14T21:42:45 EEST" name="tearDown" finished-at="2026-06-14T21:42:45 EEST" duration-ms="423" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.AuthenticatedAccountOverviewTests -->
+      <class name="com.endava.ai.ui.tests.AuthenticatedAccountMessagesTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountMessagesTests@2812b107]" started-at="2026-06-14T21:42:30 EEST" name="setUp" finished-at="2026-06-14T21:42:33 EEST" duration-ms="2439" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountMessagesTests@2812b107]" started-at="2026-06-14T21:42:33 EEST" name="before" finished-at="2026-06-14T21:42:33 EEST" duration-ms="28" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="authenticated_customer_can_open_messages_and_receives_the_empty_state_guidance()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountMessagesTests@2812b107]" started-at="2026-06-14T21:42:33 EEST" name="authenticated_customer_can_open_messages_and_receives_the_empty_state_guidance" description="Authenticated customer can open the messages route and receives the empty-state guidance toward contact" finished-at="2026-06-14T21:42:37 EEST" duration-ms="4701" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_customer_can_open_messages_and_receives_the_empty_state_guidance -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountMessagesTests@2812b107]" started-at="2026-06-14T21:42:38 EEST" name="tearDown" finished-at="2026-06-14T21:42:38 EEST" duration-ms="441" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.AuthenticatedAccountMessagesTests -->
+      <class name="com.endava.ai.ui.tests.AuthenticatedAccountInvoicesTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountInvoicesTests@5170bcf4]" started-at="2026-06-14T21:42:22 EEST" name="setUp" finished-at="2026-06-14T21:42:24 EEST" duration-ms="1962" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountInvoicesTests@5170bcf4]" started-at="2026-06-14T21:42:24 EEST" name="before" finished-at="2026-06-14T21:42:24 EEST" duration-ms="250" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="authenticated_customer_can_open_invoices_and_see_the_empty_ledger_surface()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountInvoicesTests@5170bcf4]" started-at="2026-06-14T21:42:24 EEST" name="authenticated_customer_can_open_invoices_and_see_the_empty_ledger_surface" description="Authenticated customer can open the invoices route and see the invoice ledger surface even before any orders exist" finished-at="2026-06-14T21:42:30 EEST" duration-ms="5159" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_customer_can_open_invoices_and_see_the_empty_ledger_surface -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountInvoicesTests@5170bcf4]" started-at="2026-06-14T21:42:30 EEST" name="tearDown" finished-at="2026-06-14T21:42:30 EEST" duration-ms="421" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.AuthenticatedAccountInvoicesTests -->
+      <class name="com.endava.ai.ui.tests.AuthenticatedAccountFavoritesTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountFavoritesTests@6337c201]" started-at="2026-06-14T21:42:01 EEST" name="setUp" finished-at="2026-06-14T21:42:13 EEST" duration-ms="12417" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountFavoritesTests@6337c201]" started-at="2026-06-14T21:42:13 EEST" name="before" finished-at="2026-06-14T21:42:13 EEST" duration-ms="221" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="authenticated_customer_can_materialize_selected_product_inside_account_favorites()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountFavoritesTests@6337c201]" started-at="2026-06-14T21:42:13 EEST" name="authenticated_customer_can_materialize_selected_product_inside_account_favorites" description="Authenticated customer can materialize a selected product inside account favorites" finished-at="2026-06-14T21:42:21 EEST" duration-ms="8215" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_customer_can_materialize_selected_product_inside_account_favorites -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedAccountFavoritesTests@6337c201]" started-at="2026-06-14T21:42:22 EEST" name="tearDown" finished-at="2026-06-14T21:42:22 EEST" duration-ms="463" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.AuthenticatedAccountFavoritesTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-14T19:30:52 EEST" name="Surefire suite" finished-at="2026-06-14T19:32:16 EEST" duration-ms="83940">
+    <groups>
+    </groups>
+    <test started-at="2026-06-14T19:30:52 EEST" name="Surefire test" finished-at="2026-06-14T19:32:16 EEST" duration-ms="83940">
+      <class name="com.endava.ai.ui.tests.AuthenticatedCheckoutInvoiceGapTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutInvoiceGapTests@1a72a540]" started-at="2026-06-14T19:31:49 EEST" name="setUp" finished-at="2026-06-14T19:31:52 EEST" duration-ms="3044" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutInvoiceGapTests@1a72a540]" started-at="2026-06-14T19:31:52 EEST" name="before" finished-at="2026-06-14T19:31:52 EEST" duration-ms="60" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="authenticated_checkout_success_still_leaves_invoice_ledger_empty()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutInvoiceGapTests@1a72a540]" started-at="2026-06-14T19:31:52 EEST" name="authenticated_checkout_success_still_leaves_invoice_ledger_empty" description="Authenticated checkout success still leaves the live invoice ledger empty for the newly registered customer" finished-at="2026-06-14T19:32:02 EEST" duration-ms="10018" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_checkout_success_still_leaves_invoice_ledger_empty -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutInvoiceGapTests@1a72a540]" started-at="2026-06-14T19:32:03 EEST" name="tearDown" finished-at="2026-06-14T19:32:03 EEST" duration-ms="682" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.AuthenticatedCheckoutInvoiceGapTests -->
+      <class name="com.endava.ai.ui.tests.AuthenticatedCheckoutCashOnDeliveryTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutCashOnDeliveryTests@df6620a]" started-at="2026-06-14T19:31:20 EEST" name="setUp" finished-at="2026-06-14T19:31:22 EEST" duration-ms="2772" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutCashOnDeliveryTests@df6620a]" started-at="2026-06-14T19:31:22 EEST" name="before" finished-at="2026-06-14T19:31:23 EEST" duration-ms="430" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="authenticated_checkout_can_confirm_cash_on_delivery()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutCashOnDeliveryTests@df6620a]" started-at="2026-06-14T19:31:23 EEST" name="authenticated_checkout_can_confirm_cash_on_delivery" description="Authenticated checkout reaches a successful payment confirmation after selecting Cash on Delivery" finished-at="2026-06-14T19:31:32 EEST" duration-ms="9237" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_checkout_can_confirm_cash_on_delivery -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutCashOnDeliveryTests@df6620a]" started-at="2026-06-14T19:31:32 EEST" name="tearDown" finished-at="2026-06-14T19:31:33 EEST" duration-ms="621" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.AuthenticatedCheckoutCashOnDeliveryTests -->
+      <class name="com.endava.ai.ui.tests.AuthenticatedCheckoutPaymentGuardTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutPaymentGuardTests@27d5a580]" started-at="2026-06-14T19:32:03 EEST" name="setUp" finished-at="2026-06-14T19:32:06 EEST" duration-ms="2424" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutPaymentGuardTests@27d5a580]" started-at="2026-06-14T19:32:06 EEST" name="before" finished-at="2026-06-14T19:32:06 EEST" duration-ms="386" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="authenticated_checkout_keeps_guarded_payment_methods_behind_required_fields()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutPaymentGuardTests@27d5a580]" started-at="2026-06-14T19:32:06 EEST" name="authenticated_checkout_keeps_guarded_payment_methods_behind_required_fields" description="Authenticated checkout keeps guarded payment methods behind their required supplemental fields" finished-at="2026-06-14T19:32:15 EEST" duration-ms="8875" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_checkout_keeps_guarded_payment_methods_behind_required_fields -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutPaymentGuardTests@27d5a580]" started-at="2026-06-14T19:32:15 EEST" name="tearDown" finished-at="2026-06-14T19:32:16 EEST" duration-ms="595" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.AuthenticatedCheckoutPaymentGuardTests -->
+      <class name="com.endava.ai.ui.tests.AuthenticatedCheckoutBillingAutofillTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutBillingAutofillTests@1d483de4]" started-at="2026-06-14T19:30:52 EEST" name="setUp" finished-at="2026-06-14T19:31:07 EEST" duration-ms="14917" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutBillingAutofillTests@1d483de4]" started-at="2026-06-14T19:31:07 EEST" name="before" finished-at="2026-06-14T19:31:07 EEST" duration-ms="85" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="authenticated_checkout_autofills_billing_address_after_logged_in_continue()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutBillingAutofillTests@1d483de4]" started-at="2026-06-14T19:31:07 EEST" name="authenticated_checkout_autofills_billing_address_after_logged_in_continue" description="Authenticated checkout autofills the billing address after the logged-in customer continues past the sign-in step" finished-at="2026-06-14T19:31:19 EEST" duration-ms="11251" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_checkout_autofills_billing_address_after_logged_in_continue -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutBillingAutofillTests@1d483de4]" started-at="2026-06-14T19:31:19 EEST" name="tearDown" finished-at="2026-06-14T19:31:20 EEST" duration-ms="698" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.AuthenticatedCheckoutBillingAutofillTests -->
+      <class name="com.endava.ai.ui.tests.AuthenticatedCheckoutInvoiceGapReloginTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutInvoiceGapReloginTests@4e31276e]" started-at="2026-06-14T19:31:33 EEST" name="setUp" finished-at="2026-06-14T19:31:36 EEST" duration-ms="3123" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutInvoiceGapReloginTests@4e31276e]" started-at="2026-06-14T19:31:36 EEST" name="before" finished-at="2026-06-14T19:31:36 EEST" duration-ms="298" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="authenticated_checkout_invoice_gap_survives_relogin()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutInvoiceGapReloginTests@4e31276e]" started-at="2026-06-14T19:31:36 EEST" name="authenticated_checkout_invoice_gap_survives_relogin" description="Authenticated checkout success still leaves the invoice ledger empty even after a cold relogin" finished-at="2026-06-14T19:31:48 EEST" duration-ms="12044" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_checkout_invoice_gap_survives_relogin -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCheckoutInvoiceGapReloginTests@4e31276e]" started-at="2026-06-14T19:31:49 EEST" name="tearDown" finished-at="2026-06-14T19:31:49 EEST" duration-ms="640" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.AuthenticatedCheckoutInvoiceGapReloginTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

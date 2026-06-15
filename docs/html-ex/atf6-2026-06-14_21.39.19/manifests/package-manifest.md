@@ -1,0 +1,23 @@
+# Package Manifest
+
+- package id: `2026-06-14_21.39.19`
+- previous local package: `2026-06-14_20.16.14`
+- winner identity: `breadth de self-service de cont, recovery si checkout`
+- runtime:
+  - `RUN_EXPECTED_DELTA_QUALITY = 8.50`
+  - `ROUND_TARGET_TEST_COUNT = 5`
+  - `META_ITERATION_COUNT = 5`
+- kept runs:
+  - `run_01 = hub cont si identitate`
+  - `run_02 = ownership favorites si persistenta`
+  - `run_03 = recovery public si confirmare`
+  - `run_04 = checkout orchestration autentificata`
+  - `run_05 = checkout continuity post-success`
+- exploratory frontiere nelansate ca kept:
+  - `message reply progression`
+  - `password change credential closure`
+  - `2FA protected surfaces`
+- verdict rece:
+  - `tests produced = 25`
+  - `runs consumed = 5 / 5`
+  - `breadth verdict = partial`
