@@ -1,1084 +1,209 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1" name="viewport">
-<title>UI Flow Discovery And ATF Test Generation</title>
+<title>Descoperire UI si generare de teste ATF</title>
+<link href="../../shared-report-reference.css" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0b0f14;
-    --panel: #121a27;
-    --text: #e6edf3;
-    --muted: #a8b3cf;
-    --border: #273449;
-    --accent: #7aa2ff;
-    --accent2: #6ee7b7;
-    --warn: #fbbf24;
-    --good: #34d399;
-    --shadow: rgba(0,0,0,.35);
-    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
-  }
-  html, body { height: 100%; }
-  body {
-    margin: 0;
-    font-family: var(--sans);
-    background: radial-gradient(1200px 800px at 12% 0%, #17253f 0%, var(--bg) 45%) fixed;
-    color: var(--text);
-    line-height: 1.58;
-  }
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  .wrap { max-width: 1160px; margin: 0 auto; padding: 28px 18px 60px; }
-  header {
-    background: linear-gradient(180deg, rgba(18,26,39,.9), rgba(18,26,39,.46));
-    border: 1px solid var(--border);
-    box-shadow: 0 12px 30px var(--shadow);
-    border-radius: 18px;
-    padding: 18px;
-    margin-bottom: 16px;
-  }
-  h1 { margin: 0 0 6px; font-size: 27px; letter-spacing: .2px; }
-  h2 { margin: 0 0 10px; font-size: 19px; }
-  h3 { margin: 0 0 8px; font-size: 16px; color: var(--accent); }
-  h4 { margin: 10px 0 6px; font-size: 14px; }
-  p { margin: 8px 0; }
-  .sub { color: var(--muted); font-size: 13.5px; line-height: 1.45; max-width: 980px; }
-  .badge {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: rgba(15,23,36,.75);
-    font-size: 12px;
-    color: var(--muted);
-    margin-left: 8px;
-  }
-  .pill {
-    display: inline-block;
-    font-size: 12px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: rgba(15,23,36,.7);
-    color: var(--muted);
-    margin-right: 6px;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: 1.15fr .85fr;
-    gap: 12px;
-    margin-top: 14px;
-  }
-  .split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  .docmap {
-    display: grid;
-    grid-template-columns: minmax(220px, .42fr) minmax(0, 1fr);
-    gap: 8px 14px;
-    margin-top: 6px;
-    font-size: 13.5px;
-    align-items: start;
-  }
-  .docmap b {
-    color: var(--text);
-    overflow-wrap: anywhere;
-    line-height: 1.35;
-  }
-  .docmap span {
-    min-width: 0;
-    overflow-wrap: anywhere;
-    line-height: 1.45;
-  }
-  @media (max-width: 980px) {
-    .grid, .split, .docmap { grid-template-columns: 1fr; }
-  }
-  .card {
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    background: rgba(18,26,39,.82);
-    box-shadow: 0 10px 26px var(--shadow);
-    padding: 15px;
-  }
-  .card h2 { margin-top: 0; }
-  code.inline {
-    font-family: var(--mono);
-    font-size: 12.5px;
-    background: rgba(10,15,24,.75);
-    border: 1px solid var(--border);
-    padding: 2px 6px;
-    border-radius: 8px;
-  }
-  pre {
-    background: rgba(10,15,24,.88);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 12px;
-    overflow: auto;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
-    margin: 10px 0 0;
-  }
-  pre code {
-    font-family: var(--mono);
-    font-size: 12.5px;
-    color: #dbe7ff;
-    white-space: pre;
-  }
-  .cheatbox {
-    max-width: 62ch;
-  }
-  .cheatbox code {
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-  .note {
-    border-left: 3px solid var(--accent);
-    padding: 10px 12px;
-    background: rgba(122,162,255,.08);
-    border-radius: 12px;
-  }
-  .warn {
-    border-left: 3px solid var(--warn);
-    padding: 10px 12px;
-    background: rgba(251,191,36,.08);
-    border-radius: 12px;
-  }
-  .rule {
-    border-left: 3px solid var(--accent2);
-    padding: 10px 12px;
-    background: rgba(110,231,183,.08);
-    border-radius: 12px;
-    margin: 10px 0;
-  }
-  details {
-    border: 1px solid var(--border);
-    background: rgba(18,26,39,.72);
-    border-radius: 16px;
-    padding: 10px 12px;
-    margin: 12px 0;
-    box-shadow: 0 8px 22px var(--shadow);
-  }
-  .subdetails {
-    margin: 10px 0 0 10px;
-    background: rgba(11,20,31,.84);
-  }
-  summary {
-    cursor: pointer;
-    list-style: none;
-    font-weight: 700;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 2px 2px;
-  }
-  summary::-webkit-details-marker { display: none; }
-  .summary-title {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .sumhint {
-    color: var(--muted);
-    font-weight: 400;
-    font-size: 12px;
-    margin-left: auto;
-  }
-  ul, ol { margin: 6px 0 8px 20px; }
-  li { margin: 4px 0; }
-  hr.sep { border: 0; border-top: 1px solid var(--border); margin: 16px 0; }
-  table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: 10px;
-    font-size: 14px;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    overflow: hidden;
-    background: rgba(10,15,24,.42);
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
-  }
-  th, td {
-    padding: 8px 10px;
-    vertical-align: top;
-    text-align: left;
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  th:last-child, td:last-child { border-right: 0; }
-  tbody tr:last-child td { border-bottom: 0; }
-  th { background: rgba(17,24,38,.92); }
-  td { background: rgba(11,20,31,.58); }
-  tbody tr:nth-child(even) td { background: rgba(15,23,36,.62); }
+.grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.diag{margin-top:10px;border:1px solid var(--border);border-radius:14px;background:#08101a;padding:12px;overflow:auto}
+.diag svg{display:block;width:100%;height:auto}
+.kvs{display:grid;grid-template-columns:120px 1fr;gap:8px 12px}
+.k{color:var(--muted);font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-<h1>UI Flow Discovery And ATF Test Generation <span class="badge">local execution prompt</span></h1>
-<div class="sub">
-  Start from <code class="inline">SEED_RECORDING_CLASS</code> as the first visible clue, then turn the live UI journey
-  into maintainable ATF tests through discovery, focused support changes, and honest defended coverage.
-</div>
+  <h1>Descoperire UI si generare de teste ATF <span class="badge">adaptor UI pentru un singur run</span></h1>
+  <div class="sub">Adaptorul UI pentru un singur run: porneste din <code class='inline'>SEED_RECORDING_CLASS</code>, descopera o frontiera business vizibila, produce delta de test/support si dovada UI auditabila.</div>
+  <div style="margin-top:10px"><span class="pill">un run</span><span class="pill">frontiera UI</span><span class="pill">dovada rece</span></div>
+  <div class="toolbar"><button type="button" onclick="toggleAll(true)">Deschide tot</button><button type="button" onclick="toggleAll(false)">Inchide tot</button></div>
 </header>
 
 <div class="grid">
-<div class="card">
-<h2>1) Overview</h2>
-<div class="sub">
-  Local UI map only. Keep this area narrow, then drop into the owner sections below.
+<section class="card"><h2>Overview</h2>
+<div class="kvs">
+  <div class="k">Detine</div><div>descoperirea locala, frontiera UI vizibila, dovada UI si feedback-ul de run</div>
+  <div class="k">Nu detine</div><div>legalitatea pe pachet, accounting-ul de pachet, close-out-ul final, raportul final</div>
+  <div class="k">Produce</div><div>felia de implementare si semnalul local owned / partial / blocked</div>
+  <div class="k">Judeca</div><div>ce ancora UI merita explorata si ce dovada vizibila este suficienta</div>
 </div>
-<details class="subdetails" open>
-<summary>
-  <span class="summary-title">1.1 Scope And Boundary</span>
-  <span class="sumhint">what this overview owns and what it delegates</span>
-</summary>
-<div class="docmap">
-  <b>This file decides</b><span>Seed-first discovery, visible frontier ranking, UI test/support deltas, and the local UI meaning of decisive proof.</span>
-  <b>Open orchestration for</b><span>Run-package validity, validation bundle discipline, saved artifacts, active accounting, and retention.</span>
-  <b>Open reporting for</b><span>Canonical HTML shape, graph family, score cards, comparative strip, and proof-link composition.</span>
-  <b>Do not use this file for</b><span>Generic loop governance, family retention, package validity, or <code class="inline">html-ex</code> promotion.</span>
+<div class="rule">Nu este orchestrator global. Nu decide N run-uri. Nu publica raportul final.</div>
+<div class="note"><b>Contract minim:</b><br>Adaptorul UI porneste din seed.<br>Alege o frontiera business vizibila.<br>Produce una sau mai multe probe bune daca ancora permite.<br>Preda dovada rece spre orchestration.<br>Daca flow-ul vorbeste mai mult despre helpere decat despre actor, intentie si rezultat, frontiera este slaba.</div></section>
+<section class="card"><h2>Referinta runtime UI</h2>
+<table><thead><tr><th>Binding</th><th>Ce inseamna rece</th><th>Ce sa nu faci</th></tr></thead><tbody>
+<tr><td><code class="inline">SEED_RECORDING_CLASS</code></td><td>primul indiciu vizibil de pornire</td><td>nu il trata ca design final de suita</td></tr>
+<tr><td><code class="inline">TARGET_TEST_PACKAGE</code></td><td>destinatia implicita pentru testele UI noi</td><td>nu imprastia testele fara motiv rece</td></tr>
+<tr><td><code class="inline">UI_TEST_ROOT</code></td><td>radacina pentru clasele de test UI</td><td>nu muta testele in afara suprafetei declarate</td></tr>
+<tr><td><code class="inline">UI_SUPPORT_ROOT</code></td><td>radacina pentru suport UI reutilizabil</td><td>nu ascunde business nou in helper-e opace</td></tr>
+</tbody></table>
+<div class="mini">Referintele comune mai largi pentru runtime, arhitectura si benchmark-uri sunt coborate in sectiunea de suport si handoff.</div></section>
 </div>
+<details><summary><span class="summary-title">1. Boundary-ul adaptorului</span><span class="sumhint">un singur run</span></summary>
+<table><thead><tr><th>Ce decide acest fisier</th><th>Ce deleaga acest fisier</th></tr></thead><tbody>
+<tr><td>descoperirea pornita din seed, frontiera UI vizibila, sensul local al dovezii, delta de test/support, feedback-ul UI</td><td>forma artefactelor catre orchestration, legalitatea pe N run-uri catre core, pagina finala catre raportare</td></tr>
+</tbody></table>
+<div class="note">Pe viitor, un adaptor API poate avea aceeasi forma: descoperire de domeniu + dovada locala, dar fara reguli UI.</div>
 </details>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">1.2 Canonical Adapter Contract</span>
-  <span class="sumhint">the local adapter order is canonical, not illustrative</span>
-</summary>
-<pre><code>local adapter contract
-  -> inspect the seed as the first visible clue
-  -> rank the next visible UI frontier
-  -> change the smallest meaningful test/support slice
-  -> validate decisive truth
-  -> hand off save / close / retain to ORCHESTRATION_PATH
-  -> hand off canonical page shape to REPORTING_PATH</code></pre>
+<details open><summary><span class="summary-title">2. Flow-uri si diagrame</span><span class="sumhint">banda unui singur run UI</span></summary>
+<details class="subdetails" open><summary><span class="summary-title">2.1 Banda UI pentru un singur run</span><span class="sumhint">libertate tactica, audit strict</span></summary>
+<div class="diag"><svg viewBox="0 0 1160 300" role="img" aria-label="Banda UI pentru un singur run">
+<defs><marker id="ui" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+<rect x="30" y="110" width="150" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="105" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Seed</text><text x="105" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">primul indiciu vizibil</text>
+<rect x="230" y="110" width="165" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="312" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Descopera UI</text><text x="312" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">rute / formulare / link-uri</text>
+<rect x="445" y="110" width="165" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="527" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Alege frontiera</text><text x="527" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">business nou</text>
+<rect x="660" y="110" width="165" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="742" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Implementeaza felia</text><text x="742" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">delta mica, dar relevanta</text>
+<rect x="875" y="110" width="220" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="985" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Dovada + feedback</text><text x="985" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">Extent + XML + MD</text>
+<path d="M180 146 H230" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ui)"/><path d="M395 146 H445" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ui)"/><path d="M610 146 H660" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ui)"/><path d="M825 146 H875" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ui)"/>
+</svg></div>
+<details class="mini-note">
+  <summary>Cum citesti banda</summary>
+  <ul>
+    <li><code class="inline">Seed</code> este doar intrarea, nu verdictul.</li>
+    <li><code class="inline">Descopera UI</code> inseamna rute, stari si intentii vizibile, nu replay de recorder.</li>
+    <li><code class="inline">Alege frontiera</code> inseamna cea mai valoroasa mutatie business vizibila local.</li>
+    <li><code class="inline">Implementeaza felia</code> trebuie sa lase o delta mica, dar countable.</li>
+    <li><code class="inline">Dovada + feedback</code> trebuie sa poata fi recitite rece de orchestration si reporting.</li>
+  </ul>
 </details>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">1.3 UI Control Card</span>
-  <span class="sumhint">collapsed lookup only</span>
-</summary>
-<pre><code>30-second UI control card
-  open first ->
-    SEED_RECORDING_CLASS
-    local frontier and visible descendants
-  decide ->
-    strongest visible UI frontier
-    smallest meaningful code/support slice
-    decisive proof shape
-  stop if ->
-    branch is weak-value
-    proof is still only decorative or replay-like
-  hand off ->
-    package save goes through ORCHESTRATION_PATH
-    canonical page inputs go through REPORTING_PATH</code></pre>
 </details>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">1.4 Construction Shortcuts</span>
-  <span class="sumhint">keep collapsed unless you are actively assembling the local move</span>
-</summary>
-<pre><code>construction shortcuts
-  -> seed first
-  -> frontier second
-  -> smallest meaningful slice third
-  -> proof before polish
-  -> delegate save/report owners instead of duplicating them locally</code></pre>
+<details class="subdetails" id="ui-owned-partial-blocked">
+<summary><span class="summary-title">2.2 Frontier UI: owned / partial / blocked</span><span class="sumhint">lectura specifica adaptorului UI</span></summary>
+<div class="diag"><svg viewBox="0 0 1160 220" role="img" aria-label="Owned partial blocked UI">
+<defs><marker id="upb" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+<rect x="35" y="78" width="240" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="155" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">visible flow</text>
+<text x="155" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">ruta / formular / stare</text>
+<rect x="345" y="30" width="230" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="460" y="56" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">owned</text>
+<text x="460" y="78" text-anchor="middle" fill="#a8b3cf" font-size="11">rezultat stabil, vizibil</text>
+<rect x="345" y="94" width="230" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="460" y="120" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">partial</text>
+<text x="460" y="142" text-anchor="middle" fill="#a8b3cf" font-size="11">suport util, nu business nou</text>
+<rect x="345" y="158" width="230" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="460" y="184" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">blocked</text>
+<text x="460" y="206" text-anchor="middle" fill="#a8b3cf" font-size="11">dovada instabila sau insuficienta</text>
+<path d="M275 112 H345" stroke="#7aa2ff" stroke-width="2" marker-end="url(#upb)"/>
+</svg></div>
+<details class="mini-note">
+  <summary>Legenda</summary>
+  <ul>
+    <li><code class="inline">owned</code> cere rezultat vizibil stabil + diff + proof.</li>
+    <li><code class="inline">partial</code> poate repara suportul fara sa castige identitate business noua.</li>
+    <li><code class="inline">blocked</code> inseamna ca UI-ul nu inchide rece frontiera, nu doar ca testul a fost incomod.</li>
+    <li>Daca un flow UI spune mai mult despre locator sau helper decat despre actor, intentie si rezultat, inca nu este frontiera buna.</li>
+  </ul>
 </details>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">1.5 Quick Reference</span>
-  <span class="sumhint">owner and gate lookup only</span>
-</summary>
-<pre><code>need local guardrails        -> 2.1
-need seed reread            -> 2.2
-need frontier scoring       -> 2.3
-need local delta rules      -> 3.x - 5.x
-need package validity       -> ORCHESTRATION_PATH
-need canonical page shape   -> REPORTING_PATH
-need shared bindings        -> 1.6.1</code></pre>
 </details>
-</div>
+<details class="subdetails" id="ui-handoff">
+<summary><span class="summary-title">2.3 Ce preda adaptorul UI</span><span class="sumhint">predare spre orchestration</span></summary>
+<div class="diag"><svg viewBox="0 0 1160 220" role="img" aria-label="UI handoff">
+<defs><marker id="uho" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+<rect x="35" y="78" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="125" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">business claim</text>
+<text x="125" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">ce a incercat</text>
+<rect x="255" y="78" width="170" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="340" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Extent</text>
+<text x="340" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">proof UI</text>
+<rect x="465" y="78" width="160" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="545" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">XML</text>
+<text x="545" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">machine proof</text>
+<rect x="665" y="78" width="170" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="750" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">diff</text>
+<text x="750" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">evolutie</text>
+<rect x="875" y="78" width="230" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="990" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">feedback MD -> orchestration</text>
+<text x="990" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">freeze si invatare</text>
+<path d="M215 112 H255" stroke="#7aa2ff" stroke-width="2" marker-end="url(#uho)"/>
+<path d="M425 112 H465" stroke="#7aa2ff" stroke-width="2" marker-end="url(#uho)"/>
+<path d="M625 112 H665" stroke="#7aa2ff" stroke-width="2" marker-end="url(#uho)"/>
+<path d="M835 112 H875" stroke="#7aa2ff" stroke-width="2" marker-end="url(#uho)"/>
+</svg></div>
+<details class="mini-note">
+  <summary>Legenda</summary>
+  <ul>
+    <li>Adaptorul UI preda materia rece: claim, proof, diff, blockers si lectii.</li>
+    <li>Orchestration decide forma pachetului.</li>
+    <li>Core decide legalitatea.</li>
+    <li>Reporting decide pagina finala.</li>
+  </ul>
+</details>
+</details>
+</details>
+<details><summary><span class="summary-title">3. Modelul de libertate</span><span class="sumhint">heuristici, nu corset</span></summary>
+<table><thead><tr><th>Lasa liber agentul pe</th><th>Mentine strict pe</th></tr></thead><tbody>
+<tr><td>ordinea de explorare UI, strategia de locator, note auxiliare, repair local, ce branch incearca primul</td><td>business nou, diff salvat, Extent/XML, feedback MD, owner boundary, sensul dovezii</td></tr>
+</tbody></table>
+<div class="rule">Nu impunem toate regulile ca pasi obligatorii. Le tratam ca heuristici de calitate. Ce impunem este auditabilitatea rezultatului.</div>
+</details>
+<details><summary><span class="summary-title">4. Descoperire UI business-first</span><span class="sumhint">seed-ul nu este modelul de business</span></summary>
+<div class="note">Pentru harta generica <code class="inline">baseline -&gt; frontier -&gt; owned / partial / blocked / fresh-round-only</code>, redeschide <code class="inline">iterative-core-standard.html</code>. Aici pastram doar lectura specifica adaptorului UI.</div>
 
-<div class="card">
-<h2>1.6) Shared Inputs And Local Shortcuts</h2>
-<div class="note">
-  Shared inputs first, then the local execution shortcut. Everything generic should stay delegated.
-</div>
-<details>
-<summary>
-  <span class="summary-title">1.6.1 Shared Inputs</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">shared bindings live in shared-constants.properties</span>
-</summary>
-<pre><code>SHARED_CONSTANTS_FILE = docs/prompts/iterativ/shared-constants.properties
+<table><thead><tr><th>Intrebare UI</th><th>Raspuns dorit</th><th>Artefact / feedback</th></tr></thead><tbody>
+<tr><td>Ce flow real expune seed-ul?</td><td>un flow de business, nu un replay de recorder</td><td><code class="inline">seed-noise-note.md</code> cand seed-ul induce in eroare</td></tr>
+<tr><td>Ce actor si intentie UI merita atacati?</td><td>un journey vizibil, nu doar o componenta sau un locator</td><td><code class="inline">ui-frontier-ledger.md</code> sau <code class="inline">frontier-decision.md</code></td></tr>
+<tr><td>Ce pas vizibil schimba adevarul de business?</td><td>ruta, submit de formular, toggle, compare tray, stare protejata sau alta mutatie vizibila</td><td><code class="inline">ui-proof-note.md</code> cu ancorele vizibile</td></tr>
+<tr><td>Ce poate deveni owned / countable?</td><td>numai branch-ul cu rezultat vizibil stabil + diff + dovada</td><td><code class="inline">frontier-decision.md</code> + Extent + XML</td></tr>
+<tr><td>Ce ramane blocked sau fresh-round-only?</td><td>publicat rece, fara a inventa inchidere</td><td><code class="inline">ui-blocker-note.md</code> sau next-run truth din orchestration/core</td></tr>
+</tbody></table>
 
-Names reopened from that file for this execution:
-- SEED_RECORDING_CLASS
-- TARGET_TEST_PACKAGE
-- UI_TEST_ROOT
-- UI_SUPPORT_ROOT
+<div class="rule">In raportul final, Business Flow Graph poate deveni diagrama, lane-uri scrise sau subgrafuri. Adaptorul UI trebuie sa predea catre orchestration materia rece a run-ului: actor, intentie, pas vizibil, rezultat owned, rezultat blocked si lectia locala decisiva. Nodurile trebuie sa ramana scurte si sa refoloseasca stilul comun din <code class="inline">shared-report-reference.css</code>.</div>
+<div class="note">Cand subgrafurile devin dense, asteptarea implicita este: legenda scurta, putin mai explicativa decat nodurile, colapsata imediat sub subgraf. Sectiunile UI secundare pot fi si ele colapsate implicit daca altfel pagina devine grea.</div>
+</details>
+<details><summary><span class="summary-title">5. Contractul de dovada UI</span><span class="sumhint">Extent + semnificatie</span></summary>
+<table><thead><tr><th>Artefact</th><th>Ce trebuie sa explice adaptorul UI</th></tr></thead><tbody>
+<tr><td><code class="inline">ExtentReport_*.html</code></td><td>ce pasi si screenshot-uri sustin claim-ul</td></tr>
+<tr><td><code class="inline">thin-no-index.diff</code></td><td>ce test/support s-a schimbat</td></tr>
+<tr><td><code class="inline">source-delta-carrier.md</code></td><td>ce inseamna schimbarea pentru flow-ul de business</td></tr>
+<tr><td><code class="inline">testng-results.xml</code></td><td>rezultatul machine-readable</td></tr>
+<tr><td><code class="inline">ui-proof-note.md</code></td><td>ancore de inchidere, identitatea tintei, starea rutei, blocker-ul</td></tr>
+</tbody></table>
+<div class="warn">Pentru UI, un test verde fara Extent/screenshot sau fara explicatia ancorelor vizibile are dovada incompleta.</div>
+</details>
+<details><summary><span class="summary-title">6. Feedback MD pentru UI</span><span class="sumhint">ce trebuie sa poata invata urmatorul agent</span></summary>
+<table><thead><tr><th>Fisier</th><th>Cand apare</th><th>Continut</th></tr></thead><tbody>
+<tr><td><code class="inline">ui-frontier-ledger.md</code></td><td>cand sunt mai multe rute/link-uri/branch-uri</td><td>covered / blocked / duplicate / deferred / still-open</td></tr>
+<tr><td><code class="inline">ui-proof-note.md</code></td><td>pentru un run UI kept/proof-bearing</td><td>ancore, formulare, overlay-uri, stari de ruta, screenshot-uri</td></tr>
+<tr><td><code class="inline">target-identity-note.md</code></td><td>cand exista liste/carduri/randuri repetate</td><td>cum se distinge tinta exacta</td></tr>
+<tr><td><code class="inline">ui-blocker-note.md</code></td><td>cand dovada nu se poate inchide</td><td>input lipsa, popup, auth, seeded data, granita externa</td></tr>
+<tr><td><code class="inline">mechanism-learning-note.md</code></td><td>cand s-a descoperit o interactiune reutilizabila</td><td>pattern de locator/wait/interactiune</td></tr>
+</tbody></table>
+</details>
+<details><summary><span class="summary-title">7. Handoff spre orchestration</span><span class="sumhint">ce intoarce un run UI</span></summary>
+<pre><code>adaptorul UI intoarce
+  claim-ul business incercat
+  clasificarea baseline / frontiera noua
+  sumarul testelor/support schimbate
+  sensul local al dovezii UI
+  path-ul de Extent si sensul screenshot-urilor
+  path-ul XML / command result
+  MD-urile decisive de feedback
+  postura recomandata kept/countable
+  sugestia pentru urmatoarea frontiera UI
 </code></pre>
+<div class="note">Orchestration salveaza forma pachetului; Core decide legalitatea urmatorului run; Raportarea publica harta finala.</div>
 </details>
-<details class="subdetails">
-<summary>
-  <span class="summary-title">1.6.2 Seed-to-proof shortcut</span>
-  <span class="sumhint">default local operator lane</span>
-</summary>
-<pre class="cheatbox"><code>SEED
-  = inspect SEED_RECORDING_CLASS first
-  = treat it as the first observed clue only
-
-UI FRONTIER
-  = explore meaningful hyperlinks, descendants,
-    guarded states, and downstream continuations
-  = if one branch stalls, pivot to another uncovered UI branch
-
-UI CODE
-  = default tests belong under TARGET_TEST_PACKAGE
-  = test classes live under UI_TEST_ROOT
-  = shared UI support lives under UI_SUPPORT_ROOT
-
-UI EVIDENCE
-  = say which anchors, form steps, overlays,
-    route states, or descendant pages actually closed the claim
-
-SAVE / REPORT
-  = run package shape comes from ORCHESTRATION_PATH
-  = canonical page shape comes from REPORTING_PATH
-  = this file contributes only local frontier truth and local code delta
-</code></pre>
+<details><summary><span class="summary-title">8. Referinte comune de suport</span><span class="sumhint">runtime, arhitectura, benchmark-uri</span></summary>
+<table><thead><tr><th>Sursa</th><th>Rol rece</th><th>Ce nu trebuie facut</th></tr></thead><tbody>
+<tr><td><code class="inline">agent-runtime.properties</code></td><td>praguri, path-uri si binding-uri comune</td><td>nu redefini ad-hoc valorile sau radacinile in run</td></tr>
+<tr><td><code class="inline">Living_Architecture_UI_API_doc_v1_0.html</code></td><td>referinta de framework UI/API, targete configurate, layere si reguli tehnice de executie</td><td>nu o transforma in coloana finala de proof sau in owner de legalitate iterativa</td></tr>
+<tr><td>benchmark-urile selectate in pretraining</td><td>repere de stil, graph, diff si audit deja alese de core</td><td>nu mosteni scorurile, standing-ul sau business-ul lor</td></tr>
+</tbody></table>
+<div class="note">Aceste surse se redeschid pentru calibrare si severitate. Adaptorul UI foloseste contextul lor, dar preda mai departe catre orchestration doar materia rece a run-ului curent.</div>
 </details>
-</div>
-</div>
-
-<hr class="sep">
-
-<div class="card">
-<h2>2) Seed-First UI Execution</h2>
-
-<details open>
-<summary>
-  <span class="summary-title">2.1 UI adapter guardrails</span>
-  <span class="badge">CORE</span>
-  <span class="sumhint">keep the boundary and local responsibility clear before discovery starts</span>
-</summary>
-<pre><code>0-4 total score
-  -> pivot now
-
-5-7 total score
-  -> stay only if one clear support unlock or next class exists
-
-8-12 total score
-  -> strong next-run candidate
-
-re-score after class one, class two, and defended-branch close
-  -> do not let a once-good branch auto-stay good forever</code></pre>
-<table>
-  <thead>
-    <tr>
-      <th>UI guardrail</th>
-      <th>MUST do this</th>
-      <th>Avoid this drift</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Seed interpretation</td><td>Treat <code class="inline">SEED_RECORDING_CLASS</code> as the first visible clue only, not as the final suite design and not as the final coverage boundary.</td><td>Recorder artifact becoming the flow model.</td></tr>
-    <tr><td>Local decision scope</td><td>Decide only which visible UI frontier to explore next, which UI test/support slice to change, and what the preserved proof means in local UI terms.</td><td>Owning generic loop or retention rules here.</td></tr>
-    <tr><td>Code placement</td><td>Keep generated UI tests under <code class="inline">UI_TEST_ROOT</code> and shared UI support under <code class="inline">UI_SUPPORT_ROOT</code>, unless repo-fit evidence justifies a safer local exception.</td><td>Mixed placement that hides business intent.</td></tr>
-    <tr><td>Owner split</td><td>Leave generic execution, reset, memory, validation bundles, accounting, retention, and benchmark-memory rules to <code class="inline">ORCHESTRATION_PATH</code>, and canonical page shape to <code class="inline">REPORTING_PATH</code>.</td><td>Domain adapter becoming a second orchestrator or report owner.</td></tr>
-    <tr><td>Weak-value branch restraint</td><td>Do not stay too long on a UI branch that is real but weak-value when a richer reachable frontier is already visible.</td><td>Elegant but low-yield replay.</td></tr>
-    <tr><td>UI blocker memory</td><td>Capture UI-only blockers or missing-input needs early enough that the next calibration can help instead of rediscovering them from zero.</td><td>Forgetting local UI pain points after the run.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">2.2 Reopen The Seed And Local UI Memory</span>
-  <span class="badge">DISCOVERY</span>
-</summary>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">2.2.1 Round-start reread</span>
-  <span class="sumhint">seed first, then local UI memory</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Round-start reread</th>
-      <th>Why it comes early</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Inspect <code class="inline">SEED_RECORDING_CLASS</code> first.</td><td>It is the closest visible clue to the next reachable UI truth.</td></tr>
-    <tr><td>Inspect existing tests under <code class="inline">UI_TEST_ROOT</code> and reusable support under <code class="inline">UI_SUPPORT_ROOT</code>.</td><td>It prevents rediscovering already-governed support or test slices.</td></tr>
-    <tr><td>Reopen the strongest relevant prior UI canonical report in a real browser when locally reachable.</td><td>It lets the next visible frontier be chosen from evidence rather than recollection.</td></tr>
-    <tr><td>Treat preserved packages under <code class="inline">docs/out</code> as reusable UI memory when they already prove the same UI truth through decisive evidence.</td><td>It reduces rediscovery cost without forcing active carry-over.</td></tr>
-    <tr><td>Make that reuse explicit later in the new package: what UI slice was reopened or copied early, what was newly changed now, and what was only re-validated.</td><td>It keeps inherited proof reuse audit-visible.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details class="subdetails">
-<summary>
-    <span class="summary-title">2.2.2 Discovery questions</span>
-  <span class="sumhint">what the seed should make you ask next</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Discovery question</th>
-      <th>Why ask it early</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Which visible routes, hyperlinks, descendants, or guarded transitions does the seed make reachable now?</td><td>It defines the real local frontier before you spend effort elsewhere.</td></tr>
-    <tr><td>Which adjacent branches are still uncovered, partial, blocked, or obviously more valuable than repeating the same thin proof?</td><td>It prevents same-branch overstay and encourages richer reachable payoff.</td></tr>
-  </tbody>
-</table>
-</details>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">2.3 Explore Adjacent UI Frontier</span>
-  <span class="badge">DISCOVERY</span>
-</summary>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">2.3.1 Continue the visible chain first</span>
-  <span class="sumhint">do not abandon the closest meaningful continuation too early</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Visible-chain rule</th>
-      <th>Prefer this</th>
-      <th>Avoid this mistake</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Deeper continuation</td><td>Prefer deeper continuation of the same visible flow when a next step exists and the current truth is still only shell-level, route-level, or narrowly targeted.</td><td>Jumping away from the closest meaningful continuation too early.</td></tr>
-    <tr><td>Reachable branch selection</td><td>Prefer nearby reachable branches that can become distinct defended coverage slices and then materialize into new or materially expanded tests.</td><td>Cleaner restatement or classification-only notes standing in for defended scope.</td></tr>
-    <tr><td>Shell-success restraint</td><td>Keep going when the next visible step can still turn into richer defended truth.</td><td>Treating a pretty shell continuation as enough.</td></tr>
-  </tbody>
-</table>
-</details>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">2.3.2 Inspect live UI before guessing</span>
-  <span class="sumhint">look at the real surface whenever confidence is still low</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Live-inspection rule</th>
-      <th>MUST inspect or classify</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Confidence still low</td><td>Inspect live routes, menus, hyperlinks, forms, validations, protected areas, and state transitions whenever confidence is not high enough.</td></tr>
-    <tr><td>Reachable local links</td><td>Sweep every meaningful reachable internal hyperlink or CTA from the current visible scope at least once before calling the nearby frontier understood.</td></tr>
-    <tr><td>Distinct variants</td><td>Treat separate environments, examples, external docs, and third-party destinations as distinct variants, not baseline coverage.</td></tr>
-  </tbody>
-</table>
-</details>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">2.3.3 Classify what you touched</span>
-  <span class="sumhint">every visible neighbor needs an honest label</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Neighbor class</th>
-      <th>How it must end</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Meaningful route / CTA / tab / hyperlink touched by the seed</td><td>End as covered, blocked, duplicate, or explicitly deferred with a concrete reason in the seed-adjacent frontier ledger.</td></tr>
-    <tr><td>Accessible internal links</td><td>Attempt them and classify skipped links as duplicate, blocked, external, deferred, or low-value.</td></tr>
-    <tr><td>Reachable links with remaining upside</td><td>Prefer spending new governed effort on the links that still have real coverage upside, not on links already proven low-yield, duplicate, or structurally blocked.</td></tr>
-    <tr><td>Guarded continuations / protected descendants / route-state branches</td><td>Classify them the same way: covered, blocked, duplicate, or deferred with a concrete reason.</td></tr>
-  </tbody>
-</table>
-<pre><code>seed-adjacent frontier ledger summary
-  covered = ...
-  blocked = ...
-  duplicate = ...
-  deferred = ...
-  still-open-high-value = ...
-  still-open-medium-value = ...
-  matching frontier-ranking-ledger row = F# / n/a
-  expected source/test delta from F# = new / materially expanded / narrow / none
-  expected materialization from F# = new class / materially expanded class / support unlock / none
-  chosen branch outranks still-open-high-value = yes / no</code></pre>
-<div class="warn"><b>High-value neighbor blocker:</b> if <code class="inline">still-open-high-value &gt; 0</code>, the chosen branch must cite the matching <code class="inline">F#</code> row from <code class="inline">frontier-ranking-ledger.md</code>. If <code class="inline">chosen branch outranks still-open-high-value = no</code>, pivot before spending another governed run on the current branch.</div>
-<div class="note"><b>UI bridge rule:</b> when the local branch cites an <code class="inline">F#</code> row, keep the same expected source/test delta and the same expected materialization class. Do not let the UI layer turn a novelty-role label such as <code class="inline">deeper-branch</code> into a materialization value.</div>
-</details>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">2.3.4 Decide when to pivot</span>
-  <span class="sumhint">do not keep spending on a branch that is already too thin</span>
-</summary>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">2.3.4.1 Pivot gate table</span>
-  <span class="sumhint">one cold gate table is enough during live execution</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Branch state</th>
-      <th>Stay only if this is already nameable</th>
-      <th>Else</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>before first useful class</td><td>one concrete class or one real 2-3 test payoff</td><td>pivot now</td></tr>
-    <tr><td>after class one landed</td><td>class two or another real 2-3 test payoff</td><td>pivot pressure starts now</td></tr>
-    <tr><td>after class two landed</td><td>class three or broader defended expansion</td><td>stop or pivot honestly</td></tr>
-    <tr><td>after defended-branch close</td><td>one more run still raises retained trust, not just breadth optics</td><td>stop spending runs here</td></tr>
-    <tr><td>remaining work feels mostly like replay</td><td>the unlock is named before the next governed run</td><td>pivot or stop</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>Cold read:</b> if you cannot name the next class, next payoff, or next unlock before the run starts, you do not still have a strong branch.</div>
-</details>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">2.3.4.2 Pivot-truth notes</span>
-  <span class="sumhint">what to ask and what must stay explicit when the branch loses value</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>When this happens</th>
-      <th>Ask this immediately</th>
-      <th>MUST keep explicit</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>before class one exists</td><td><code class="inline">what concrete class or 2-3 test payoff am I actually chasing?</code></td><td>do not claim the branch already earned another governed run</td></tr>
-    <tr><td>after class one or class two lands</td><td><code class="inline">where is the next class or broader defended payoff?</code></td><td>re-rank immediately instead of coasting on momentum</td></tr>
-    <tr><td>remaining work looks like replay, retained-close, or restatement</td><td><code class="inline">what new durable truth would the next run add?</code></td><td>if you cannot name it, pivot or stop</td></tr>
-    <tr><td>branch is downgraded</td><td><code class="inline">which richer descendant, sibling, or unlock beat it?</code></td><td>record the pivot trigger explicitly in package truth</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>Pressure rule:</b> after one sibling win, the next governed run must say why it beats richer sibling or descendant candidates; neat local extension alone is not enough.</div>
-</details>
-</details>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">2.3.5 Default move table</span>
-  <span class="sumhint">use this when the branch feels real but no longer worth another run</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>If the remaining branch mostly looks like</th>
-      <th>Default move</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>shallow reachability with little new behavior</td><td>pivot to a richer reachable branch</td></tr>
-    <tr><td>repeated structural blockage of the same ceiling</td><td>pivot unless a real framework or engine repair is being attempted</td></tr>
-    <tr><td>cleaner restatement of an already-defended truth</td><td>stop spending governed runs there unless it unlocks new defended branch coverage</td></tr>
-    <tr><td>visible descendant or sibling likely to widen defended scope materially</td><td>prefer that branch over one more thin retry</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>Promotion rule:</b> visible route, shell, or control without durable outcome or state change = partial or blocked, not promoted truth.</div>
-</details>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">2.3.6 Frontier ranking rubric</span>
-  <span class="sumhint">use this before spending another governed run</span>
-</summary>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">2.3.6.1 Fast scoring ladder</span>
-  <span class="sumhint">score once, then rerank after each real branch milestone</span>
-</summary>
-<pre><code>0-4   -> pivot now
-5-7   -> stay only with one named unlock
-8-12  -> strong candidate
-
-rerank after:
-  -> class one
-  -> class two
-  -> defended branch close</code></pre>
-<table>
-  <thead>
-    <tr>
-      <th>Scoring axis</th>
-      <th>0</th>
-      <th>1</th>
-      <th>2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>New class potential</td><td>none visible</td><td>possible but thin</td><td>clearly likely</td></tr>
-    <tr><td>Coverage-expansion potential</td><td>unlikely</td><td>one small defended gain</td><td>multiple concrete defended gains</td></tr>
-    <tr><td>Support unlock fan-out</td><td>no unlock</td><td>one local unlock</td><td>one unlock helps several descendants</td></tr>
-    <tr><td>Descendant depth</td><td>shallow or route-only</td><td>one moderate continuation</td><td>clear deeper or protected continuation</td></tr>
-    <tr><td>Cross-session / state value</td><td>little state value</td><td>some persistence value</td><td>strong persistence / recovery / guarded-state value</td></tr>
-    <tr><td>Blocker risk</td><td>high blocker replay risk</td><td>mixed</td><td>low blocker replay risk</td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Total score band</th>
-      <th>Default move</th>
-      <th>What must still be named</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td><code>0-4</code></td><td>pivot now</td><td>which richer branch wins instead</td></tr>
-      <tr><td><code>5-7</code></td><td>stay only with one explicit unlock</td><td>the exact support unlock, second class, or coverage-expansion payoff being chased</td></tr>
-      <tr><td><code>8-12</code></td><td>strong next-run candidate</td><td>where class two, class three, or richer branch coverage should come from</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>Fast ranking rule:</b> if <code class="inline">new class potential</code> and <code class="inline">coverage-expansion potential</code> are both weak, pivot pressure should dominate even when the branch still feels elegant.</div>
-</details>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">2.3.6.2 Branch comparison and checkpointing</span>
-  <span class="sumhint">how to compare two honest candidates and when to rerank</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Ranking lens</th>
-      <th>Prefer the branch that scores higher on</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>New class potential</td><td>likelier to create a distinct useful test class instead of only widening one existing class</td></tr>
-    <tr><td>Coverage-expansion potential</td><td>likelier to convert into materially wider defended scope on the same branch or its nearby descendants, not only another audit note</td></tr>
-    <tr><td>Support unlock fan-out</td><td>one local support or framework repair would likely unlock several nearby descendants instead of only saving one thin branch</td></tr>
-    <tr><td>Descendant depth</td><td>likelier to close a deeper visible continuation, protected state, or richer sibling branch</td></tr>
-    <tr><td>Cross-session / state value</td><td>likelier to prove persistence, recovery, guarded-state truth, or downstream continuity</td></tr>
-    <tr><td>Run-quality plausibility</td><td>more likely to push <code class="inline">RUN_DELTA_SCORE_ACTUAL</code> above threshold through stronger truth, branch depth, or proof, not only through cleaner packaging</td></tr>
-    <tr><td>Blocker risk</td><td>less likely to spend the next governed run on repeated structural blockage, weak-yield replay, or packaging theater</td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Checkpoint</th>
-      <th>Required move</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>two branches both look honest</td><td>prefer the one more likely to create another useful class, wider defended scope, or a multi-descendant unlock</td></tr>
-    <tr><td>after class one lands</td><td>rerank immediately; do not spend the next run on inertia</td></tr>
-    <tr><td>after class two lands</td><td>prove class three / broader defended payoff or stop</td></tr>
-    <tr><td>after defended branch close</td><td>re-score only for retained trust; do not reuse the exploration score automatically</td></tr>
-    <tr><td>branch no longer scores on fan-out or coverage expansion</td><td>pivot immediately and say why the richer branch won</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>Comparison rule:</b> prefer defended scope over prettier packaging, and prefer multi-descendant unlocks over one thin rescued branch.</div>
-</details>
-</details>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">2.4 Convert The Seed Into Focused Tests</span>
-  <span class="badge">UI</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Seed-conversion rule</th>
-      <th>Required move</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Seed interpretation</td><td>Treat the seed as a recorder artifact and initial evidence set.</td></tr>
-    <tr><td>Decomposition</td><td>Break it into routes, forms, validations, actor transitions, and user-visible goals.</td></tr>
-    <tr><td>Noise removal</td><td>Remove recorder noise and split the seed into focused tests.</td></tr>
-    <tr><td>Placement default</td><td>Generate resulting tests under <code class="inline">TARGET_TEST_PACKAGE</code> by default; override only with concrete repo-fit evidence.</td></tr>
-    <tr><td>Recorder anti-patterns</td><td>Do not preserve giant replay tests, recorder naming, redundant clicks, or selector noise.</td></tr>
-    <tr><td>Iteration learning</td><td>Document how meaningful iterations changed understanding from seed clue to ATF outcome.</td></tr>
-    <tr><td>Richer downstream preference</td><td>Prefer branches that can generate more than one meaningful test when the local UI clearly exposes richer downstream behavior.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">2.5 Place UI Tests And Shared UI Support</span>
-  <span class="badge">UI</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Placement rule</th>
-      <th>Owner or location</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Tests</td><td>Create or update tests under <code class="inline">UI_TEST_ROOT</code>.</td></tr>
-    <tr><td>Reusable support</td><td>Create or update reusable support under <code class="inline">UI_SUPPORT_ROOT</code>.</td></tr>
-    <tr><td>Local UI ownership</td><td>Keep tests here, support here, and frontier choices here.</td></tr>
-    <tr><td>Generic hardening and package rules</td><td>Read them from <code class="inline">ORCHESTRATION_PATH</code>.</td></tr>
-    <tr><td>Shared bindings</td><td>Read shared paths, proof bindings, the per-run quality bar, round-level accounting targets, audit roots, memory rules, stop rules, and package shape from <code class="inline">shared-constants.properties</code> plus <code class="inline">ORCHESTRATION_PATH</code>.</td></tr>
-    <tr><td>Adapter scope</td><td>Keep only UI-local additions in this file.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">2.6 UI Locator, Wait, And Determinism Discipline</span>
-  <span class="badge">UI</span>
-</summary>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">2.6.1 Interaction stability and mechanism learning</span>
-  <span class="sumhint">keep locator discipline, waits, and reusable interaction lessons together</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Locator priority</th>
-      <th>Prefer this anchor type</th>
-      <th>Why it wins here</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>1</td><td><code class="inline">data-test</code></td><td>Most explicit and least presentation-coupled.</td></tr>
-    <tr><td>2</td><td>accessible label</td><td>Usually stable and semantically close to user intent.</td></tr>
-    <tr><td>3</td><td>role</td><td>Good when semantics are strong and unique enough.</td></tr>
-    <tr><td>4</td><td>placeholder</td><td>Useful for inputs when label hooks are weak or absent.</td></tr>
-    <tr><td>5</td><td>stable visible text</td><td>Acceptable when the text is durable and uniquely identifying.</td></tr>
-    <tr><td>6</td><td>stable CSS</td><td>Only when the selector is clearly durable.</td></tr>
-    <tr><td>7</td><td>XPath</td><td>Last resort only.</td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Stability rule</th>
-      <th>Prefer or preserve</th>
-      <th>Avoid</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Wait strategy</td><td>Prefer user-visible waits over passive waiting.</td><td>Sleeps and arbitrary retries.</td></tr>
-    <tr><td>Rerunnability</td><td>Keep tests rerunnable and isolated.</td><td>Cross-test leakage hidden as “stateful realism”.</td></tr>
-    <tr><td>Instability diagnosis</td><td>Investigate whether instability belongs to the product, the ATF helper layer, or test design.</td><td>Blaming the UI generically.</td></tr>
-    <tr><td>Selector discipline</td><td>Use the preferred locator order above.</td><td>Brittle nth-child selectors or catch-and-ignore logic that hides flakiness.</td></tr>
-    <tr><td>Mechanism-learning note</td><td>Preserve one short mechanism-learning note when a reusable way to identify, open, submit, persist, or reread a UI flow was learned.</td><td>Losing the reusable interaction lesson after the run.</td></tr>
-  </tbody>
-</table>
-<div class="note">
-  <b>Mechanism-learning contract:</b> a future reader should learn not only that the proof passed, but also which anchor type and interaction pattern made it reproducible.
-</div>
-<table>
-  <thead>
-    <tr>
-      <th>Target-identity situation</th>
-      <th>MUST preserve or prove</th>
-      <th>Avoid</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Unique visible row/card anchor already exists</td><td>Use that anchor directly and name it in the mechanism-learning note when it materially helped.</td><td>Downgrading to weaker preview fragments or row-order assumptions.</td></tr>
-    <tr><td>Reopen uses preview text or a repeated snippet</td><td>Prove the preview is cold-distinct among siblings or add a stronger visible discriminator before scoring the test family highly.</td><td>Assuming a preview fragment is unique because it happened to work once.</td></tr>
-    <tr><td>Repeated rows share the same prefix or shell shape</td><td>Add or exploit a stronger anchor: attachment name, unique suffix, timestamp slice, badge, subject discriminator, or other stable visible cue.</td><td>Trusting nth-row position or human memory of ordering as the only identity proof.</td></tr>
-    <tr><td>No cold-distinct anchor yet exists</td><td>Treat target identity as a live UI risk, preserve a short target-identity note, and cap the test-quality reading until the ambiguity is removed.</td><td>Publishing the flow as cleanly defended while the target could still resolve to a sibling row.</td></tr>
-  </tbody>
-</table>
-<div class="warn">
-  <b>UI identity rule:</b> when a flow depends on reopening a repeated row, card, preview, or thread shell, the proof is only strong if the exact target identity is cold-distinct. If the identity can collide, keep the ambiguity visible and treat the test-quality reading as capped until a stronger anchor exists.
-</div>
-</details>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">2.6.2 UI blocker and missing-input handling</span>
-  <span class="sumhint">what to do when the UI needs something you do not yet control</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Question</th>
-      <th>If yes</th>
-      <th>If no</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Can I repair the mechanism locally and still stay on a rich frontier?</td><td>repair now and keep the mechanism-learning note</td><td>ask whether another reachable branch is clearly richer</td></tr>
-    <tr><td>Is there another branch with stronger new-class or 2-3-test potential?</td><td>pivot now and record why that branch won</td><td>decide whether honest stop-and-preserve is now required</td></tr>
-    <tr><td>If I pivot or stop, did I already record the missing input or failed control path?</td><td>keep it in the run package and latest <code class="inline">CALIBRATION.md</code></td><td>record it immediately before closing the run</td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Blocker-handling rule</th>
-      <th>MUST keep explicit</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>UI blocker classification</td><td>Classify popup handling, second-window materialization, browser permission prompts, upload inputs, seeded-file dependencies, captcha-like gates, external auth boundaries, or missing local test data explicitly.</td></tr>
-    <tr><td>Completion honesty</td><td>Avoid faking completion when such a blocker prevents real closure of the flow.</td></tr>
-    <tr><td>Missing input naming</td><td>Say exactly what missing input was needed when the flow depends on extra material such as upload files, seeded records, tokens, or external credentials.</td></tr>
-    <tr><td>Preparation note</td><td>Preserve where that missing input should come from, how it should be prepared, and why the run could not continue honestly without it.</td></tr>
-    <tr><td>Blocker repetition guard</td><td>Do not keep spending governed runs on the same UI blocker when no new local mechanism learning is being added.</td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Blocker class</th>
-      <th>Repair now when</th>
-      <th>Pivot now when</th>
-      <th>Stop and preserve when</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>you can repair the mechanism locally</td><td>yes: make the real ATF or support-layer repair and keep the lesson</td><td>only if a richer branch is clearly better</td><td>no</td></tr>
-    <tr><td>the blocker is real but another reachable branch is stronger</td><td>only if the repair is small and unlocks high-value proof</td><td>yes: pivot and record why the richer branch won</td><td>only if both branches stay blocked or low-yield</td></tr>
-    <tr><td>the flow needs missing files, credentials, seeded data, or browser control you do not yet have</td><td>only when the missing input can be prepared honestly in scope</td><td>yes when another honest branch can still produce better defended scope</td><td>yes when the input is truly required and no better branch exists</td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>If you stop or pivot because of missing input</th>
-      <th>Record this exact history</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>upload file missing</td><td>required file type, where it should come from, and what visible step depended on it</td></tr>
-    <tr><td>seeded record missing</td><td>which seeded entity was needed, how it should look, and which descendant stayed open without it</td></tr>
-    <tr><td>credential or external boundary missing</td><td>which account or external handoff blocked closure, and which stronger branch replaced it</td></tr>
-    <tr><td>browser or popup control missing</td><td>which window/prompt/action failed, what you tried, and why the next honest move was repair, pivot, or preserve-blocked</td></tr>
-  </tbody>
-</table>
-<div class="note">
-  <b>History rule:</b> when a UI blocker or missing input changed frontier choice, record it immediately in the kept run package and add a short follow-up note in the latest <code class="inline">CALIBRATION.md</code> so the next round knows exactly how to help.
-</div>
-</details>
-</details>
-</div>
-
-<hr class="sep">
-
-<div class="card">
-<h2>3) UI Report Inputs</h2>
-<div class="note">
-  This section stays narrow on purpose. It adds only the UI-specific facts that must flow into the shared report and shared audit package.
-</div>
-
-<details>
-<summary>
-  <span class="summary-title">3.1 Local Evidence Contract</span>
-  <span class="badge">HTML</span>
-</summary>
-<div class="docmap">
-  <b>This prompt MUST add</b><span>UI truth, UI coverage/frontier interpretation, decisive UI validation anchors, changed UI test/support slices, short mechanism-learning notes, and when needed one short target-identity note.</span>
-  <b>This prompt MUST say</b><span>which hyperlinks, routes, sibling descendants, and guarded continuations were explored, blocked, deferred, duplicated, or prioritized next.</span>
-  <b>This prompt MUST NOT redefine</b><span>top-card schema, per-run delta labels, validation bundle minimum, raw-attempt schema, or milestone publication layers.</span>
-  <b>UI-specific proof focus</b><span>Make it obvious which visible anchors, form steps, route states, or descendant pages actually closed the claim.</span>
-</div>
-<table>
-  <thead>
-    <tr>
-      <th>UI-local reading of run delta</th>
-      <th>Use it like this</th>
-      <th>Do not universalize it in shared core</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td><code>T</code> truth delta in UI</td><td>Often comes from a new defended business flow, route outcome, guarded branch, or descendant state that tests now prove.</td><td>Do not redefine universal truth delta as “number of pages” or “number of hyperlinks”.</td></tr>
-    <tr><td><code>B</code> branch / depth delta in UI</td><td>Often comes from deeper descendant navigation, guarded continuation, recovery path, or clarified adjacent visible frontier.</td><td>Do not force hyperlink adjacency language into non-UI adapters.</td></tr>
-    <tr><td><code>O</code> proof fit in UI test quality</td><td>Read it through visible target identity too: a repeated row/card/preview needs one cold-distinct anchor before the test family can score high on observability.</td><td>Do not let a lucky preview match read as strong proof fit.</td></tr>
-    <tr><td>Coverage frontier support</td><td>Use visible hyperlinks, sibling descendants, route states, and CTA neighbors as UI evidence for why the branch really became richer or stayed partial.</td><td>Do not let visible adjacency alone stand in for defended semantic flow truth.</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>Outcome rule:</b> visible route reachability becomes promotable only when the route changes durable business meaning, state, or descendant outcome.</div>
-<details class="subdetails">
-<summary>
-    <span class="summary-title">3.1.1 UI-local report-regeneration support</span>
-  <span class="sumhint">what a later writer needs in order to rebuild the UI report without rerunning UI</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>UI-local facts to preserve in the orchestration-owned package</th>
-      <th>MUST make recoverable later</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Closure anchors</td><td>Which exact visible anchors, route states, cards, overlays, or descendant pages actually closed the winning claim.</td></tr>
-    <tr><td>Repeated-surface identity note</td><td>What cold discriminator separated the intended row/card/thread from sibling lookalikes, and whether any collision risk remained.</td></tr>
-    <tr><td>Hyperlink / route ledger</td><td>Which visible neighbors were covered, deferred, blocked, duplicated, or only explored broadly so the later writer can rebuild frontier honesty.</td></tr>
-    <tr><td>Mechanism-learning note</td><td>Which reusable UI interaction pattern made the proof reproducible so a later writer can justify support-layer trust without fresh rediscovery.</td></tr>
-    <tr><td>UI blocker note</td><td>Which UI-only blocker or missing input forced a pivot, demotion, or failure-lineage retention.</td></tr>
-  </tbody>
-</table>
-<div class="note"><b>UI regeneration rule:</b> if a later prompt could not reconstruct the winning UI flow, repeated-surface identity, and guarded frontier honestly from saved UI notes alone, the run is not yet strong enough for report-only UI recalibration.</div>
-<div class="note"><b>Owner boundary:</b> this section adds only the extra UI-local facts that must be preserved inside the orchestration-owned package for report regeneration. The package artifact schema itself stays owned by <code class="inline">ORCHESTRATION_PATH</code>.</div>
-</details>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">3.2 UI proof additions</span>
-  <span class="sumhint">what stays specifically UI here</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>UI proof addition</th>
-      <th>MUST make visible</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Closure anchors</td><td>Which anchors, form steps, route states, overlays, or descendant pages actually closed the claim.</td></tr>
-    <tr><td>Mechanism-learning note</td><td>One short reusable UI interaction pattern that made the truth reproducible.</td></tr>
-    <tr><td>Target-identity note</td><td>When reread/reopen depended on a repeated row/card/preview, the exact visible discriminator that separated the intended target from sibling lookalikes.</td></tr>
-    <tr><td>Local meaning of proof links</td><td>The local UI meaning of the decisive proof links already required by <code class="inline">ORCHESTRATION_PATH</code>.</td></tr>
-    <tr><td>UI blocker note</td><td>Any UI-specific blocker or missing external input that forced a pivot, deferral, or preserved blocked slice.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">3.3 UI routes, hyperlinks, and guarded frontier</span>
-  <span class="sumhint">what is specifically UI about the frontier</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>UI frontier truth</th>
-      <th>MUST keep visible</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Hyperlink and route ledger</td><td>Which hyperlinks, routes, sibling descendants, guarded continuations, and route states were covered, blocked, duplicated, deferred, or intentionally skipped.</td></tr>
-    <tr><td>Repeated-surface identity ledger</td><td>Which repeated rows, cards, snippets, or thread shells needed explicit identity discrimination, what anchor separated them, and whether any residual collision risk remained.</td></tr>
-    <tr><td>Pivot reason</td><td>When a UI pivot moved laterally to a stronger uncovered neighbor instead of repeating the same thin branch.</td></tr>
-    <tr><td>Coverage honesty</td><td>That a visible route or CTA is not equivalent to defended semantic flow truth.</td></tr>
-  </tbody>
-</table>
+<details><summary><span class="summary-title">9. Principiul de extensie API-ready</span><span class="sumhint">aceeasi arhitectura, alt adaptor</span></summary>
+<table><thead><tr><th>Adaptor UI</th><th>Adaptor API viitor</th></tr></thead><tbody>
+<tr><td>Extent, screenshot-uri, ancore, rute, formulare</td><td>request/response, schema, status, contract, stare de date</td></tr>
+<tr><td>ui-proof-note.md</td><td>api-proof-note.md</td></tr>
+<tr><td>identitatea tintei in UI</td><td>identitatea entitatii / corelare de payload</td></tr>
+<tr><td>blocker vizibil</td><td>blocker de auth/date/contract/mediu</td></tr>
+</tbody></table>
+<div class="rule">Core si orchestration raman comune. Doar adaptorul se schimba.</div>
 </details>
 
 </div>
-
-<hr class="sep">
-
-<div class="card">
-<h2>4) UI Workflow</h2>
-<div class="note">
-  Use the shared loop from <code class="inline">ORCHESTRATION_PATH</code>.
-  Decide which visible UI branch to explore next and explain the local UI meaning of the preserved proof.
-</div>
-<pre><code>recorded seed
-  -> convert into focused tests and reusable support
-  -> inspect nearby visible frontier
-  -> rank branches by class fan-out and semantic coverage upside
-  -> prove one branch honestly
-  -> widen only while real payoff remains
-  -> pivot or stop when the branch becomes thin
-  -> preserve the local UI meaning of the proof</code></pre>
-<pre><code>seed clue
-  -> proof-origin branch
-  -> second useful class?
-  -> defended branch mature enough?
-  -> retained-close only if it still teaches
-  -> stop when remaining breadth is mostly optics</code></pre>
-
-<details>
-<summary>
-  <span class="summary-title">4.1 Convert The Seed Flow</span>
-  <span class="badge">UI</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Seed-conversion step</th>
-      <th>What should come out of it</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Inspect the observed actions</td><td>The real user-visible starting clue, not recorder ceremony.</td></tr>
-    <tr><td>Identify the real journey</td><td>The product flow that the seed actually exposes.</td></tr>
-    <tr><td>Remove recorder noise</td><td>A cleaner action chain with dead clicks, redundant waits, and brittle noise stripped out.</td></tr>
-    <tr><td>Identify pages, actions, outcomes, and reusable steps</td><td>A business-facing split between page meaning, user action, expected outcome, and support candidates.</td></tr>
-    <tr><td>Identify missing or weak ATF support</td><td>A named support gap instead of repeating brittle inline mechanics.</td></tr>
-    <tr><td>Split into focused tests</td><td>One or more tests that each defend a real observable contract.</td></tr>
-    <tr><td>Place under <code class="inline">TARGET_TEST_PACKAGE</code></td><td>A local UI package that reads like intentional coverage, not recorder leftovers.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">4.2 Discover Around The Seed</span>
-  <span class="badge">DISCOVERY</span>
-</summary>
-<pre><code>seed-implied flow
-  -> adjacent routes / menus / actor transitions
-  -> guarded or conditional behavior
-  -> visible hyperlinks / progressive disclosure / menu entries
-  -> recovery / fallback / retry / alternatives
-  -> richer descendants with real class or test payoff
-  -> if remaining neighbors go thin: pivot out early</code></pre>
-<table>
-  <thead>
-    <tr>
-      <th>Discovery ring</th>
-      <th>Explore this next</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>1</td><td>Flows directly implied by the seed.</td></tr>
-    <tr><td>2</td><td>Adjacent flows sharing routes, menus, or actor transitions.</td></tr>
-    <tr><td>3</td><td>Guarded or conditional behavior the application visibly exposes.</td></tr>
-    <tr><td>4</td><td>Visible navigation, progressive disclosure, internal hyperlinks, and menu entries.</td></tr>
-    <tr><td>5</td><td>Recovery, fallback, cancellation, retry, or alternative-path entry points when actually present.</td></tr>
-    <tr><td>6</td><td>Detail, edit, search, filter, confirm, or submit flows only if they expose a clear observable contract.</td></tr>
-    <tr><td>Hyperlink exhaustion rule</td><td>Treat hyperlink discovery as safe exhaustion: cover, defer with reason, mark blocked, or prove duplicate.</td></tr>
-    <tr><td>Early branch pivot</td><td>Pivot out sooner when the remaining visible neighbors are weaker than a richer reachable branch elsewhere in the active surface.</td></tr>
-  </tbody>
-</table>
-</details>
-
-<details>
-<summary>
-  <span class="summary-title">4.3 Engine And Reporting Compatibility</span>
-  <span class="badge">UI</span>
-</summary>
-<table>
-  <thead>
-    <tr>
-      <th>Compatibility rule</th>
-      <th>MUST keep true</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Framework/report compatibility</td><td>Preserve Playwright, Selenium, Extent, and Allure compatibility when those paths are maintained by the repo.</td></tr>
-    <tr><td>Shared proof-bundle ownership</td><td>Read generic validation-order and proof-bundle rules from <code class="inline">ORCHESTRATION_PATH</code>.</td></tr>
-  </tbody>
-</table>
-</details>
-</div>
-
-</div>
+<script>function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}</script>
 </body>
 </html>
-
-
-
