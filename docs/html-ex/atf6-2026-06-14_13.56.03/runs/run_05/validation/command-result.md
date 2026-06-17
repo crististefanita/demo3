@@ -1,7 +1,0 @@
-﻿# Command result
-
-- command: mvn -Dtest=AuthenticatedPasswordChangeSubmitTests,AuthenticatedPasswordChangeReloginTests,AuthenticatedPasswordChangeOldPasswordRejectedTests,AuthenticatedPasswordChangeOldPasswordStillValidTests test
-- exit code: 1
-- verdict: fail
-- classes: AuthenticatedPasswordChangeSubmitTests, AuthenticatedPasswordChangeReloginTests, AuthenticatedPasswordChangeOldPasswordRejectedTests, AuthenticatedPasswordChangeOldPasswordStillValidTests
-- extent: ExtentReport_2026-06-14_14-04-54.html

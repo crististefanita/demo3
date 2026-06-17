@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.endava.ai.atf.ui.AuthenticatedSecurityDurabilityClosureTests
--------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 47.70 s -- in com.endava.ai.atf.ui.AuthenticatedSecurityDurabilityClosureTests

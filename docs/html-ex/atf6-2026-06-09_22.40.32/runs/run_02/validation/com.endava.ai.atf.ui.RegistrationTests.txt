@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.endava.ai.atf.ui.RegistrationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 17.64 s -- in com.endava.ai.atf.ui.RegistrationTests
