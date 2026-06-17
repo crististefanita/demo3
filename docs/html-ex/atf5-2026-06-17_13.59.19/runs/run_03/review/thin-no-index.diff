@@ -1,0 +1,58 @@
+diff --git "a/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\GuestBillingToPaymentOwnershipTests.java" "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\GuestBillingToPaymentOwnershipTests.java"
+new file mode 100644
+index 0000000..38963ce
+--- /dev/null
++++ "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\GuestBillingToPaymentOwnershipTests.java"
+@@ -0,0 +1,51 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++public class GuestBillingToPaymentOwnershipTests extends CommerceUiTestBase {
++
++    @Test
++    public void billing_address_accepts_country_as_checkout_ownership_data() {
++        openGuestBillingAddress();
++        cart.fillBillingAddress();
++
++        Assert.assertTrue(cart.country().contains("RO") || cart.country().contains("Romania"),
++                "Country should retain Romania selection but was: " + cart.country());
++    }
++
++    @Test
++    public void billing_address_accepts_postal_and_house_number() {
++        openGuestBillingAddress();
++        cart.fillBillingAddress();
++
++        Assert.assertEquals(cart.postalCode(), "010101", "Postal code should remain owned by billing step");
++        Assert.assertEquals(cart.houseNumber(), "12", "House number should remain owned by billing step");
++    }
++
++    @Test
++    public void billing_address_accepts_city_and_state_before_payment() {
++        openGuestBillingAddress();
++        cart.fillBillingAddress();
++
++        validation.assertTextNotBlank(cart.city(), "Billing city");
++        validation.assertTextNotBlank(cart.state(), "Billing state");
++    }
++
++    @Test
++    public void completed_billing_address_opens_payment_step() {
++        openGuestPayment();
++
++        validation.assertPaymentVisible();
++    }
++
++    @Test
++    public void payment_step_exposes_multiple_real_payment_options() {
++        openGuestPayment();
++
++        String options = cart.paymentMethodOptions();
++        validation.assertTextContains(options, "Bank Transfer");
++        validation.assertTextContains(options, "Cash on Delivery");
++        validation.assertTextContains(options, "Credit Card");
++    }
++}
+

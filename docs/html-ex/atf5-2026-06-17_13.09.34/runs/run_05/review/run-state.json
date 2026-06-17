@@ -1,0 +1,14 @@
+{
+  "run": "run_05",
+  "status": "frozen",
+  "tests": 5,
+  "passed": true,
+  "countable": true,
+  "claim": "message ownership remains separated from anonymous and second-customer sessions",
+  "verdict": "owned",
+  "repair_attempts": 0,
+  "test_class": "com.endava.ai.atf.ui.commerce.CustomerMessageOwnershipSeparationTests",
+  "diff": "review/thin-no-index.diff",
+  "extent": "validation/reports/ExtentReport_2026-06-17_13-13-01.html",
+  "xml": "validation/surefire-reports/TEST-com.endava.ai.atf.ui.commerce.CustomerMessageOwnershipSeparationTests.xml"
+}

@@ -1,0 +1,46 @@
+﻿diff --git src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceSurfaceTests.java src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceSurfaceTests.java
+new file mode 100644
+index 0000000..f799c3f
+--- /dev/null
++++ src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceSurfaceTests.java
+@@ -0,0 +1,38 @@
++package com.endava.ai.ui.tests.checkout.postpurchase;
++
++import org.testng.annotations.Test;
++
++public class PostPurchaseInvoiceSurfaceTests extends AbstractPostPurchaseOwnershipTest {
++
++    @Test(description = "Invoice ledger surface is reachable before any order exists")
++    public void invoice_surface_is_reachable_before_any_order_exists() {
++        registerAndLoginCustomer();
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesExposeLedgerSurface();
++    }
++
++    @Test(description = "Account overview exposes the invoice route before checkout")
++    public void account_overview_exposes_invoice_route_before_checkout() {
++        registerAndLoginCustomer();
++        accountService.openOverviewDirect();
++        accountValidation.assertOverviewExposesAccountManagement();
++    }
++
++    @Test(description = "Checkout success returns payment confirmation before invoice inspection")
++    public void checkout_success_confirms_payment_before_invoice_inspection() {
++        completeCashOnDeliveryCheckout(1);
++    }
++
++    @Test(description = "Invoice ledger stays empty after one successful authenticated checkout")
++    public void invoice_ledger_stays_empty_after_one_successful_checkout() {
++        assertInvoiceLedgerEmptyAfterSuccessfulCheckout(1);
++    }
++
++    @Test(description = "Invoice ledger still exposes columns after checkout even when no row materializes")
++    public void invoice_ledger_keeps_columns_after_checkout_without_rows() {
++        completeCashOnDeliveryCheckout(1);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesExposeLedgerSurface();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++}
+
+

@@ -1,0 +1,82 @@
+﻿diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageOwnershipSeparationTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageOwnershipSeparationTests.java
+new file mode 100644
+index 0000000..b4162b9
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageOwnershipSeparationTests.java
+@@ -0,0 +1,76 @@
++package com.endava.ai.atf.ui.commerce;
++
++import com.endava.ai.ui.model.CustomerData;
++import org.testng.annotations.Test;
++
++public class CustomerMessageOwnershipSeparationTests extends CustomerSupportMessageUiTestBase {
++
++    @Test
++    public void anonymous_visitor_cannot_open_messages_collection() {
++        submitMessage("Customer service", uniqueMessage("Anonymous barrier probe"));
++
++        account.signOut();
++        account.openProtectedRouteAsAnonymous("/account/messages");
++
++        validation.assertUrlContains("/auth/login");
++    }
++
++    @Test
++    public void anonymous_visitor_cannot_open_message_details_route() {
++        submitMessage("Return", uniqueMessage("Anonymous detail barrier probe"));
++
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++        String detailUrl = messages.currentUrl();
++
++        account.signOut();
++        account.openProtectedRouteAsAnonymous(detailUrl.replace("https://practicesoftwaretesting.com", ""));
++
++        validation.assertUrlContains("/auth/login");
++    }
++
++    @Test
++    public void second_customer_starts_without_first_customer_message_row() {
++        String firstMessage = submitMessage("Payments", uniqueMessage("Cross customer isolation probe"));
++        account.signOut();
++
++        CustomerData secondCustomer = account.registerAndLoginCustomer();
++        messages.openMessages();
++
++        validation.assertPageTextDoesNotContain(messages.pageText(), firstMessage.substring(0, 24));
++        validation.assertPageTextContains(messages.pageText(), "There are no messages yet");
++        customer = secondCustomer;
++    }
++
++    @Test
++    public void first_customer_message_row_reopens_after_second_customer_session() {
++        String firstMessage = submitMessage("Warranty", uniqueMessage("First customer reopen after second session probe"));
++        String firstEmail = customer.getEmail();
++        String firstPassword = customer.getPassword();
++
++        account.signOut();
++        account.registerAndLoginCustomer();
++        account.signOut();
++        account.login(firstEmail, firstPassword);
++        messages.openMessages();
++        messages.waitForMessageRow(firstMessage.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "warranty");
++    }
++
++    @Test
++    public void message_details_keep_first_customer_content_after_second_customer_session() {
++        String firstMessage = submitMessage("Status of my order", uniqueMessage("Detail separation reopen probe"));
++        String firstEmail = customer.getEmail();
++        String firstPassword = customer.getPassword();
++
++        account.signOut();
++        account.registerAndLoginCustomer();
++        account.signOut();
++        account.login(firstEmail, firstPassword);
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++
++        validation.assertPageTextContains(messages.detailText(), firstMessage);
++    }
++}

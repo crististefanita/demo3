@@ -1,0 +1,65 @@
+diff --git a/src/test/java/com/endava/ai/ui/tests/AuthenticatedReceiptIdentityAfterReloginTests.java b/src/test/java/com/endava/ai/ui/tests/AuthenticatedReceiptIdentityAfterReloginTests.java
+new file mode 100644
+index 0000000..984ddcb
+--- /dev/null
++++ b/src/test/java/com/endava/ai/ui/tests/AuthenticatedReceiptIdentityAfterReloginTests.java
+@@ -0,0 +1,59 @@
++package com.endava.ai.ui.tests;
++
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.utils.UIActions;
++import org.testng.annotations.BeforeMethod;
++import org.testng.annotations.Test;
++
++public class AuthenticatedReceiptIdentityAfterReloginTests extends AuthenticatedCheckoutBaseTest {
++
++    private CustomerData sharedCustomer;
++
++    @BeforeMethod(alwaysRun = true)
++    public void beforeReceiptIdentityAfterReloginMethod() {
++        StepLogger.startStep("Authenticated receipt-identity after-relogin preconditions");
++        UIActions.clearSession();
++        StepLogger.pass("Browser session was cleared before the next receipt-identity after-relogin check");
++    }
++
++    @Test(description = "After COD purchase and relogin the account surfaces still expose no persistent commercial identity")
++    public void after_cod_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedCashOnDeliveryPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentityAfterRelogin(customer);
++    }
++
++    @Test(description = "After bank-transfer purchase and relogin the account surfaces still expose no persistent commercial identity")
++    public void after_bank_transfer_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedBankTransferPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentityAfterRelogin(customer);
++    }
++
++    @Test(description = "After gift-card purchase and relogin the account surfaces still expose no persistent commercial identity")
++    public void after_gift_card_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedGiftCardPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentityAfterRelogin(customer);
++    }
++
++    @Test(description = "After switched credit-card to gift-card purchase and relogin the account surfaces still expose no persistent commercial identity")
++    public void after_switched_credit_card_to_gift_card_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedSwitchedGiftCardPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentityAfterRelogin(customer);
++    }
++
++    @Test(description = "After two successful purchases and relogin the account surfaces still expose no persistent commercial identity")
++    public void after_two_successful_purchases_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeTwoSuccessfulPurchases(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentityAfterRelogin(customer);
++    }
++}

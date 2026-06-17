@@ -1,0 +1,84 @@
+{
+  "root_run": "2026-06-17_13.09.34",
+  "status": "closed",
+  "winner_macro_lane": "authenticated customer -> contact form -> account messages collection -> message detail persistence",
+  "winner_truth": "an authenticated customer can submit a support message, reopen the owned row in account messages, open a stable detail route, and recover it after sign out and sign in",
+  "breadth_verdict": "single persistent message family with row and detail reopenability; invoice and order families remain unproved",
+  "business_verdict": "owned persistent message row with detail identity, session reopenability and customer separation",
+  "score": {
+    "business_substance": 91,
+    "business_graph_realism": 93,
+    "historical_reopenability": 94,
+    "proof_chain_quality": 94,
+    "contract_artifacts": 93,
+    "overall": 92,
+    "cap_reason": "persistent message row and detail thread are real, but they remain a single owned family; invoice row, order row and broader commerce-history closure remain unproved"
+  },
+  "runtime_contract": {
+    "round_target_test_count": 5,
+    "meta_iteration_count": 5,
+    "tests_produced": 25,
+    "runs_consumed": 5,
+    "counters_compensate_each_other": false
+  },
+  "root_diff": "review/root-source-thin-no-index.diff",
+  "render_status": {
+    "canonical_render_check": "analysis/canonical-render-check.png",
+    "status": "present"
+  },
+  "link_audit_status": {
+    "local_link_check": "review/local-link-check.txt",
+    "link_audit": "analysis/link-audit.md",
+    "checked": 131,
+    "missing": 0
+  },
+  "run_vector": [
+    {
+      "run": "run_01",
+      "tests": 5,
+      "passed": true,
+      "consumed": true,
+      "claim": "authenticated customer turns contact submission into an owned account messages row",
+      "verdict": "owned"
+    },
+    {
+      "run": "run_02",
+      "tests": 5,
+      "passed": true,
+      "consumed": true,
+      "claim": "account messages collection accumulates real rows and rejects empty-state optimism",
+      "verdict": "owned"
+    },
+    {
+      "run": "run_03",
+      "tests": 5,
+      "passed": true,
+      "consumed": true,
+      "claim": "message detail route exposes thread identity, body, status and reply surface",
+      "verdict": "owned"
+    },
+    {
+      "run": "run_04",
+      "tests": 5,
+      "passed": true,
+      "consumed": true,
+      "claim": "message row and detail route persist after sign out, sign in and account route detours",
+      "verdict": "owned"
+    },
+    {
+      "run": "run_05",
+      "tests": 5,
+      "passed": true,
+      "consumed": true,
+      "claim": "message ownership remains separated from anonymous and second-customer sessions",
+      "verdict": "owned"
+    }
+  ],
+  "next_frontier": "authenticated customer -> invoice row or order row persistence, not another retelling of the same message thread",
+  "do_not_sell_as_closure": [
+    "message persistence as full customer commerce-history closure",
+    "contact submission success toast as row ownership without account history",
+    "a single message family as invoice or order proof",
+    "surefire raw assets as primary truth"
+  ]
+}

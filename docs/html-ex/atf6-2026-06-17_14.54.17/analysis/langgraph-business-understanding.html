@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATF6 ROOT_RUN 2026-06-17_14.54.17 - Business Understanding</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="shared-report-reference.css">
+<style>
+body{font-size:13px}.wrap{max-width:1120px;padding-top:22px}
+h1{font-size:25px}
+h2{font-size:17px}
+h3{font-size:14px}.sub{line-height:1.5}.toolbar{display:flex;gap:8px;margin-top:12px}.toolbar button{border:1px solid var(--border);border-radius:999px;padding:6px 11px;background:rgba(15,23,36,.82);color:var(--muted);font:12px/1.2 var(--sans);cursor:pointer}.score-wall{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-top:12px}.score-card,.mini-card{border:1px solid var(--border);border-radius:14px;background:rgba(15,23,36,.78);padding:12px}.score-label{font-size:12px;color:var(--muted);font-weight:700}.score-value{font-size:27px;font-weight:700;margin-top:6px}.score-note{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}.grid2,.grid3,.claim-grid{display:grid;gap:12px;margin-top:12px}.grid2{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:1.25fr .95fr .95fr}.claim-grid{grid-template-columns:1.05fr .95fr}.calc-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:12px}.calc-chip{border:1px solid var(--border);border-radius:12px;background:rgba(11,20,31,.82);padding:10px 11px}.calc-chip b{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}.proof-table td,.proof-table th,.artifact-table td,.artifact-table th,.audit-table td,.audit-table th{font-size:12.3px}.section-anchor{scroll-margin-top:22px}
+@media (max-width:980px){.score-wall,.grid2,.grid3,.claim-grid,.calc-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Post-purchase deep blocker benchmark <span class="badge warn">partial</span></h1>
+  </header>
+
+  <section class="hero">
+    <div class="score-wall">
+      <div class="score-card"><div class="score-label">Business Substance</div><div class="score-value">86</div><div class="score-note">payment success, relogin, invoices, and the order route are exercised, but the positive persistent object is still missing</div></div>
+      <div class="score-card"><div class="score-label">Business Graph Realism</div><div class="score-value">92</div><div class="score-note">the graph starts from the real application and only then applies the package overlay</div></div>
+      <div class="score-card"><div class="score-label">Historical Reopenability</div><div class="score-value">95</div><div class="score-note">root diff, 5 run diffs, the state spine, render proof, and local audit make the package cold-reopenable</div></div>
+      <div class="score-card"><div class="score-label">Proof Chain Quality</div><div class="score-value">95</div><div class="score-note">the heavy claims are mapped explicitly to diff, Extent, XML, and run-state</div></div>
+      <div class="score-card"><div class="score-label">New Artifact Contract</div><div class="score-value">95</div><div class="score-note">state spine, inventory, render proof, and link audit are present and reconciled</div></div>
+      <div class="score-card"><div class="score-label">Overall</div><div class="score-value">90</div><div class="score-note">90 for a deep blocker, not for business closure and not for positive ownership</div></div>
+    </div>
+
+    <details class="card" style="margin-top:12px">
+      <summary><span class="summary-title">Executive Context</span><span class="sumhint">snapshot, package truth, owned vs blocked, jumps, controls</span></summary>
+      <div class="sub">
+        The real application goes from <code class="inline">Catalog</code> to <code class="inline">Cart</code>, then to <code class="inline">Checkout</code>, <code class="inline">Payment success</code>, and then to the shells of <code class="inline">Account</code> and <code class="inline">Invoices</code>.
+        This package does not sell positive closure. It shows more coldly and more pedagogically where commercial ownership breaks: payment success exists, the account reopens, invoices reopen, relogin exists, and the customer boundary exists, but no <code class="inline">order row</code>, <code class="inline">invoice row</code>, or <code class="inline">receipt identity</code> becomes a persistent object.
+      </div>
+      <div class="pill-row">
+        <span class="pill">ROUND_TARGET_TEST_COUNT = 5</span>
+        <span class="pill">META_ITERATION_COUNT = 5</span>
+        <span class="pill">runs consumed = 5 / 5</span>
+        <span class="pill">tests executed = 25 / 25</span>
+        <span class="pill">winner = deep blocker benchmark</span>
+        <span class="pill">same-package continuation = no</span>
+      </div>
+      <div class="grid3">
+        <div class="mini-card">
+          <h4>Read First</h4>
+          <p><a href="../review/root-source-thin-no-index.diff">root diff</a> is the primary truth of evolution. It locks the family of tests and helpers that led to the final blocker.</p>
+        </div>
+        <div class="mini-card">
+          <h4>Compiled State</h4>
+          <p><a href="../review/package-state.json">package-state.json</a> locks the compiled cold verdict: `runs consumed`, `overall`, and `strongest unresolved truth`.</p>
+        </div>
+        <div class="mini-card">
+          <h4>Execution Gate</h4>
+          <p><a href="../review/execution-gate-card.md">execution-gate-card.md</a> shows the package as complete and ready for audit, without selling it as commerce closure.</p>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="mini-card">
+          <h4>Owned</h4>
+          <p><code class="inline">checkout</code>, <code class="inline">payment success</code>, <code class="inline">account overview</code>, <code class="inline">profile reopen</code>, and <code class="inline">invoice surface</code> are real and reopenable.</p>
+        </div>
+        <div class="mini-card">
+          <h4>Blocked</h4>
+          <p><code class="inline">order row</code>, <code class="inline">invoice row</code>, and <code class="inline">receipt identity / order id</code> remain absent. The value of the package is a severe blocker, not positive ownership.</p>
+        </div>
+      </div>
+
+      <div class="claim-grid">
+        <div class="mini-card">
+          <h4>Why 90 Is Legitimate</h4>
+          <p>This package goes beyond a simple demonstration on one payment method. It shows that the blocker survives on the shell, on the customer boundary, on relogin, and on the order route. That makes it more inevitable and more business-first, without turning it into closure.</p>
+        </div>
+        <div class="mini-card">
+          <h4>What It Still Cannot Claim</h4>
+          <p>It cannot claim that the product closes post-purchase ownership. It can only say that the absence of the persistent object is deep, stable, and well audited.</p>
+        </div>
+      </div>
+      <div class="pill-row">
+        <a class="pill" href="#score-overview">Score Overview</a>
+        <a class="pill" href="#graph">Business Flow Graph</a>
+        <a class="pill" href="#matrix">Blocker Depth Matrix</a>
+        <a class="pill" href="#closeout">Close-Out</a>
+      </div>
+      <div class="toolbar">
+        <button type="button" onclick="toggleAll(true)">Expand all</button>
+        <button type="button" onclick="toggleAll(false)">Collapse all</button>
+      </div>
+    </details>
+  </section>
+
+  <details class="card section-anchor" id="score-overview">
+    <summary><span class="summary-title">Score Overview</span><span class="sumhint">canonical, short, with explicit calculation and a cold cap</span></summary>
+    <div class="note"><b>Overall = 90.</b> This is a deep-blocker score, not a business-closure score. Good reporting and a good proof chain do not compensate for the missing business object; they only justify why the blocker is inevitable and well published.</div>
+    <table class="proof-table">
+      <thead><tr><th>Axis</th><th>Score</th><th>Weight</th><th>Why it sits here</th></tr></thead>
+      <tbody>
+        <tr><td>Business Substance</td><td>86</td><td>40%</td><td>checkout success exists, the account surface exists, the invoices surface exists, relogin exists, the customer boundary exists, and the order route exists; however, <code class="inline">order row</code>, <code class="inline">invoice row</code>, and <code class="inline">receipt identity</code> are missing.</td></tr>
+        <tr><td>Business Graph Realism</td><td>92</td><td>20%</td><td>the graph starts from the application: catalog, cart, checkout, payment success, account, orders, invoices, receipt; only then comes the package overlay.</td></tr>
+        <tr><td>Historical Reopenability</td><td>95</td><td>15%</td><td>root diff, run diff, state files, command results, render proof, and link audit permit cold reopening.</td></tr>
+        <tr><td>Proof Chain Quality</td><td>95</td><td>15%</td><td>the important claims state explicitly `claim -> run diff -> Extent -> XML -> run-state`.</td></tr>
+        <tr><td>New Artifact Contract</td><td>95</td><td>10%</td><td>state spine, inventory, close-out, render proof, and `analysis/link-audit.md` are present and reconciled.</td></tr>
+        <tr><td>Overall</td><td>90</td><td>final</td><td>90 for a deep blocker, not for business closure. Explicit cap: below any package with a real positive persistent object.</td></tr>
+      </tbody>
+    </table>
+    <details class="subdetails">
+      <summary><span class="summary-title">Calculation trace</span><span class="sumhint">the cold steps of the weighted calculation</span></summary>
+      <div class="calc-grid">
+        <div class="calc-chip"><b>Business Substance</b>86 x 0.40 = 34.40</div>
+        <div class="calc-chip"><b>Graph Realism</b>92 x 0.20 = 18.40</div>
+        <div class="calc-chip"><b>Reopenability</b>95 x 0.15 = 14.25</div>
+        <div class="calc-chip"><b>Proof Chain</b>95 x 0.15 = 14.25</div>
+        <div class="calc-chip"><b>Contract</b>95 x 0.10 = 9.50</div>
+      </div>
+      <div class="note">The formula gives <code class="inline">90.80</code>, published cold as <b>90</b>. The ceiling preserves the business truth: without the first positive persistent object, the overall does not rise above the deep-blocker benchmark.</div>
+    </details>
+  </details>
+
+  <details class="card section-anchor" id="verdict">
+    <summary><span class="summary-title">Executive Verdict</span><span class="sumhint">winner truth, unresolved truth, legal truth</span></summary>
+    <table class="proof-table">
+      <thead><tr><th>Layer</th><th>Cold truth</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td>winner truth</td><td>the winning macro-lane remains <code class="inline">post-purchase ownership materialization</code>, but with the cause narrowed inside the account shell</td><td><a href="../review/package-state.json">package-state.json</a></td></tr>
+        <tr><td>strongest unresolved truth</td><td>after successful checkout, the account and invoices can reopen, but no persistent commercial object appears</td><td><a href="../review/package-close-out.md">package-close-out.md</a></td></tr>
+        <tr><td>same-package truth</td><td>the slots are fully consumed; the package cannot continue</td><td><a href="../review/execution-gate-card.md">execution-gate-card.md</a></td></tr>
+        <tr><td>fresh ROOT_RUN truth</td><td>the next legal jump must be the first positive object or an even narrower cause</td><td><a href="../review/next-run-eligibility-card.md">next-run-eligibility-card.md</a></td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="card section-anchor" id="history">
+    <summary><span class="summary-title">Historical Reopen Strip</span><span class="sumhint">root truth, per-run delta, render and link proof</span></summary>
+    <div class="note">The cold reading rule stays the same: <code class="inline">root diff</code> is the primary truth of evolution, and each <code class="inline">run diff</code> is the minimal delta of that slot claim. The remaining artifacts prove reopening; they do not replace evolution.</div>
+    <table class="proof-table">
+      <thead><tr><th>Layer</th><th>What changed</th><th>Best owner</th><th>Why it matters</th></tr></thead>
+      <tbody>
+        <tr><td>package</td><td>the family moved from payment-method repetition to deeper post-purchase ownership non-materialization</td><td><a href="../review/root-source-thin-no-index.diff">root diff</a></td><td>this is the compiled truth of the package, not just a list of runs</td></tr>
+        <tr><td>run_01</td><td>invoices shell is real before and after checkout, but the first row still does not materialize</td><td><a href="../runs/run_01/review/thin-no-index.diff">run_01 diff</a></td><td>separates shell ownership from object ownership</td></tr>
+        <tr><td>run_02</td><td>the same absence survives first-customer versus second-customer reopen</td><td><a href="../runs/run_02/review/thin-no-index.diff">run_02 diff</a></td><td>moves the blocker beyond one account or one session</td></tr>
+        <tr><td>run_03</td><td>absence survives cold relogin and quantity variation</td><td><a href="../runs/run_03/review/thin-no-index.diff">run_03 diff</a></td><td>proves durability of the blocker, not a transient success-page glitch</td></tr>
+        <tr><td>run_04</td><td>payment success still does not become reopenable commercial identity</td><td><a href="../runs/run_04/review/thin-no-index.diff">run_04 diff</a></td><td>separates success message from receipt or order identity</td></tr>
+        <tr><td>run_05</td><td>order route still fails while account shell reopens</td><td><a href="../runs/run_05/review/thin-no-index.diff">run_05 diff</a></td><td>closes the package on the strongest missing positive object still visible in the app</td></tr>
+        <tr><td>publishing</td><td>render and local link graph are frozen and reopenable</td><td><a href="canonical-render-check.png">render proof</a> | <a href="link-audit.md">link audit</a></td><td>the page itself can be challenged and reopened cold</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="card section-anchor" id="state">
+    <summary><span class="summary-title">State Spine</span><span class="sumhint">package truth, run truth, gate truth</span></summary>
+    <table class="proof-table">
+      <thead><tr><th>Layer</th><th>Artefact</th><th>Cold role</th></tr></thead>
+      <tbody>
+        <tr><td>package truth</td><td><a href="../review/package-state.json">package-state.json</a></td><td>freezes `runs consumed`, `overall`, `winner macro-lane` and the strongest unresolved truth</td></tr>
+        <tr><td>execution gate</td><td><a href="../review/execution-gate-card.md">execution-gate-card.md</a></td><td>freezes completeness, legality, render proof and link audit for handoff</td></tr>
+        <tr><td>close-out</td><td><a href="../review/package-close-out.md">package-close-out.md</a></td><td>states brutally what the package proves and what it still cannot claim</td></tr>
+        <tr><td>compiled source</td><td><a href="../review/root-source-thin-no-index.diff">root-source-thin-no-index.diff</a></td><td>compiled source owner of the whole package evolution</td></tr>
+        <tr><td>run truth</td><td><a href="../runs/run_01/review/run-state.json">run_01</a> | <a href="../runs/run_02/review/run-state.json">run_02</a> | <a href="../runs/run_03/review/run-state.json">run_03</a> | <a href="../runs/run_04/review/run-state.json">run_04</a> | <a href="../runs/run_05/review/run-state.json">run_05</a></td><td>each heavy claim has a slot owner and cannot float free in prose</td></tr>
+        <tr><td>supporting state</td><td><a href="../review/frozen-package-inventory.md">frozen inventory</a> | <a href="../review/source-delta-carrier.md">source-delta-carrier</a> | <a href="../review/quality-accounting-verdict.md">quality accounting</a></td><td>supports the compiled truth without replacing the primary owners</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="card section-anchor" id="graph" open>
+    <summary><span class="summary-title">Business Flow Graph</span><span class="sumhint">real application macro-map + package overlay</span></summary>
+    <div class="note">The nodes are business objects of the application, not runs. Runs appear only in the overlay and proof mapping.</div>
+    <div class="flow">
+      <svg viewBox="0 0 1140 360" role="img" aria-label="Business flow graph">
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker>
+        </defs>
+        <text class="cap" x="24" y="26">1. macro-harta aplicatiei</text>
+        <rect class="box" x="24" y="42" width="150" height="70" rx="14"/>
+        <text class="title" x="99" y="69" text-anchor="middle">Catalog</text>
+        <text class="subtitle" x="99" y="91" text-anchor="middle">product discovery</text>
+
+        <rect class="box" x="204" y="42" width="150" height="70" rx="14"/>
+        <text class="title" x="279" y="69" text-anchor="middle">Cart</text>
+        <text class="subtitle" x="279" y="91" text-anchor="middle">quantity + proceed</text>
+
+        <rect class="box" x="384" y="42" width="170" height="70" rx="14"/>
+        <text class="title" x="469" y="69" text-anchor="middle">Checkout</text>
+        <text class="subtitle" x="469" y="91" text-anchor="middle">authenticated payment</text>
+
+        <rect class="box-soft" x="584" y="42" width="190" height="70" rx="14"/>
+        <text class="title" x="679" y="69" text-anchor="middle">Payment success</text>
+        <text class="subtitle" x="679" y="91" text-anchor="middle">visible positive surface</text>
+
+        <rect class="box-soft" x="804" y="42" width="150" height="70" rx="14"/>
+        <text class="title" x="879" y="69" text-anchor="middle">Account</text>
+        <text class="subtitle" x="879" y="91" text-anchor="middle">overview/profile reopen</text>
+
+        <rect class="box-soft" x="984" y="24" width="132" height="60" rx="14"/>
+        <text class="title" x="1050" y="50" text-anchor="middle" font-size="13">Invoices</text>
+        <text class="subtitle" x="1050" y="70" text-anchor="middle">surface reopens</text>
+
+        <rect class="box" x="984" y="106" width="132" height="60" rx="14"/>
+        <text class="title" x="1050" y="132" text-anchor="middle" font-size="13">Orders</text>
+        <text class="subtitle" x="1050" y="152" text-anchor="middle">route remains thin</text>
+
+        <text class="cap" x="24" y="194">2. package overlay</text>
+        <rect class="box" x="544" y="210" width="220" height="72" rx="14"/>
+        <text class="title" x="654" y="238" text-anchor="middle">Invoice row</text>
+        <text class="subtitle" x="654" y="260" text-anchor="middle">shell exists, object absent</text>
+
+        <rect class="box" x="804" y="210" width="210" height="72" rx="14"/>
+        <text class="title" x="909" y="238" text-anchor="middle">Receipt identity</text>
+        <text class="subtitle" x="909" y="260" text-anchor="middle">order id / invoice identity absent</text>
+
+        <path class="edge" d="M174 77 H204" marker-end="url(#arrow)"/>
+        <path class="edge" d="M354 77 H384" marker-end="url(#arrow)"/>
+        <path class="edge" d="M554 77 H584" marker-end="url(#arrow)"/>
+        <path class="edge" d="M774 77 H804" marker-end="url(#arrow)"/>
+        <path class="edge" d="M954 66 H984" marker-end="url(#arrow)"/>
+        <path class="edge" d="M954 98 H984" marker-end="url(#arrow)"/>
+        <path class="edge" d="M879 112 V210" marker-end="url(#arrow)"/>
+        <path class="edge" d="M679 112 V210" marker-end="url(#arrow)"/>
+      </svg>
+    </div>
+    <table class="proof-table">
+      <thead><tr><th>Overlay</th><th>Run</th><th>What it adds</th></tr></thead>
+      <tbody>
+        <tr><td>surface owned, object blocked</td><td><a href="../runs/run_01/SUMMARY.md">run_01</a></td><td>invoices shell is real, but invoice row is still absent</td></tr>
+        <tr><td>customer boundary</td><td><a href="../runs/run_02/SUMMARY.md">run_02</a></td><td>absence survives first versus second customer reopen</td></tr>
+        <tr><td>relogin durability</td><td><a href="../runs/run_03/SUMMARY.md">run_03</a></td><td>absence survives cold relogin and quantity variation</td></tr>
+        <tr><td>identity layer</td><td><a href="../runs/run_04/SUMMARY.md">run_04</a></td><td>success message does not become a reopenable commercial identity</td></tr>
+        <tr><td>order route edge</td><td><a href="../runs/run_05/SUMMARY.md">run_05</a></td><td>order history still fails while account shell reopens</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="card section-anchor" id="matrix">
+    <summary><span class="summary-title">Blocker Depth Matrix</span><span class="sumhint">expected object, promise, proof, severity, remaining frontier</span></summary>
+    <table class="proof-table">
+      <thead><tr><th>Expected object</th><th>What the app promises</th><th>What the package proves</th><th>Best artifact</th><th>Why severe</th><th>Remaining frontier</th></tr></thead>
+      <tbody>
+        <tr><td>invoice row</td><td>invoices route and ledger columns exist</td><td>shell exists before and after checkout, but tbody stays empty</td><td><a href="../runs/run_01/review/run-state.json">run_01 state</a></td><td>surface exists without ownership object</td><td>first persistent invoice row</td></tr>
+        <tr><td>account-bound invoice ownership</td><td>separate authenticated customers should each own their own purchase history</td><td>absence does not leak or inherit across first and second customer</td><td><a href="../runs/run_02/review/run-state.json">run_02 state</a></td><td>gap is durable across account boundary, not just one session</td><td>where account binding breaks</td></tr>
+        <tr><td>reopened invoice row</td><td>cold relogin should still reveal purchase history</td><td>absence survives relogin and quantity variation</td><td><a href="../runs/run_03/review/run-state.json">run_03 state</a></td><td>history does not reappear after authenticated reopen</td><td>post-success persistence mechanism</td></tr>
+        <tr><td>receipt identity / order id</td><td>payment confirmation should leave a reopenable commercial anchor</td><td>success text exists, but no durable receipt, order id, or invoice identity appears</td><td><a href="../runs/run_04/review/run-state.json">run_04 state</a></td><td>payment success is transient, not anchored</td><td>first reopenable identity object</td></tr>
+        <tr><td>order row</td><td>account order history should materialize the purchased order</td><td>account overview reopens, but order route still falls back instead of owning a row</td><td><a href="../runs/run_05/review/run-state.json">run_05 state</a></td><td>the most obvious post-purchase positive object is still missing</td><td>first real order row</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="card section-anchor" id="proof">
+    <summary><span class="summary-title">Proof Mapping</span><span class="sumhint">claim -> run diff -> Extent -> XML -> run-state</span></summary>
+    <table class="proof-table">
+      <thead><tr><th>Claim</th><th>Run diff</th><th>Extent</th><th>XML</th><th>Run state</th></tr></thead>
+      <tbody>
+        <tr><td>invoice shell exists, row absent</td><td><a href="../runs/run_01/review/thin-no-index.diff">run_01 diff</a></td><td><a href="../runs/run_01/validation/reports/ExtentReport_2026-06-17_15-04-27.html">Extent</a></td><td><a href="../runs/run_01/validation/TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests.xml">XML</a></td><td><a href="../runs/run_01/review/run-state.json">run-state</a></td></tr>
+        <tr><td>absence survives customer boundary</td><td><a href="../runs/run_02/review/thin-no-index.diff">run_02 diff</a></td><td><a href="../runs/run_02/validation/reports/ExtentReport_2026-06-17_15-08-17.html">Extent</a></td><td><a href="../runs/run_02/validation/TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests.xml">XML</a></td><td><a href="../runs/run_02/review/run-state.json">run-state</a></td></tr>
+        <tr><td>absence survives relogin</td><td><a href="../runs/run_03/review/thin-no-index.diff">run_03 diff</a></td><td><a href="../runs/run_03/validation/reports/ExtentReport_2026-06-17_15-10-06.html">Extent</a></td><td><a href="../runs/run_03/validation/TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests.xml">XML</a></td><td><a href="../runs/run_03/review/run-state.json">run-state</a></td></tr>
+        <tr><td>success is not a reopenable identity</td><td><a href="../runs/run_04/review/thin-no-index.diff">run_04 diff</a></td><td><a href="../runs/run_04/validation/reports/ExtentReport_2026-06-17_15-13-09.html">Extent</a></td><td><a href="../runs/run_04/validation/TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseReceiptIdentityGapTests.xml">XML</a></td><td><a href="../runs/run_04/review/run-state.json">run-state</a></td></tr>
+        <tr><td>order history still fails</td><td><a href="../runs/run_05/review/thin-no-index.diff">run_05 diff</a></td><td><a href="../runs/run_05/validation/reports/ExtentReport_2026-06-17_15-14-24.html">Extent</a></td><td><a href="../runs/run_05/validation/TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseOrderRowReloginTests.xml">XML</a></td><td><a href="../runs/run_05/review/run-state.json">run-state</a></td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="card section-anchor" id="artifacts">
+    <summary><span class="summary-title">Artifact Index</span><span class="sumhint">claim owner, proof owner, state owner, status</span></summary>
+    <table class="artifact-table">
+      <thead><tr><th>Artifact</th><th>Role</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><a href="../README.md">README</a></td><td>package memory and cold role</td><td>link</td></tr>
+        <tr><td><a href="../review/root-source-thin-no-index.diff">root diff</a></td><td>compiled source owner</td><td>link</td></tr>
+        <tr><td><a href="../review/package-state.json">package-state.json</a></td><td>compiled package truth</td><td>link</td></tr>
+        <tr><td><a href="../review/execution-gate-card.md">execution-gate-card.md</a></td><td>handoff legality and completeness</td><td>link</td></tr>
+        <tr><td><a href="../review/package-close-out.md">package-close-out.md</a></td><td>final cold verdict</td><td>link</td></tr>
+        <tr><td><a href="../review/frozen-package-inventory.md">frozen-package-inventory.md</a></td><td>frozen inventory</td><td>link</td></tr>
+        <tr><td><a href="../review/source-delta-carrier.md">source-delta-carrier.md</a></td><td>compiled delta explanation</td><td>link</td></tr>
+        <tr><td><a href="../review/local-link-check.txt">local-link-check.txt</a></td><td>raw link audit</td><td>link</td></tr>
+        <tr><td><a href="link-audit.md">analysis/link-audit.md</a></td><td>human summary of local link audit</td><td>link</td></tr>
+        <tr><td><a href="canonical-render-check.png">canonical-render-check.png</a></td><td>render proof</td><td>link</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="card section-anchor" id="audit">
+    <summary><span class="summary-title">Run Audit</span><span class="sumhint">claim, delta, kept, diff, Extent, feedback</span></summary>
+    <table class="audit-table">
+      <thead><tr><th>Run</th><th>Claim</th><th>Delta</th><th>Diff</th><th>Extent</th><th>Feedback</th></tr></thead>
+      <tbody>
+        <tr><td>run_01</td><td>invoice shell real, row absent</td><td>surface vs object split</td><td><a href="../runs/run_01/review/thin-no-index.diff">diff</a></td><td><a href="../runs/run_01/validation/reports/ExtentReport_2026-06-17_15-04-27.html">Extent</a></td><td><a href="../runs/run_01/review/score-support.md">score-support</a></td></tr>
+        <tr><td>run_02</td><td>absence survives customer boundary</td><td>single account -> two customers</td><td><a href="../runs/run_02/review/thin-no-index.diff">diff</a></td><td><a href="../runs/run_02/validation/reports/ExtentReport_2026-06-17_15-08-17.html">Extent</a></td><td><a href="../runs/run_02/review/score-support.md">score-support</a></td></tr>
+        <tr><td>run_03</td><td>absence survives relogin</td><td>same session -> cold reopen</td><td><a href="../runs/run_03/review/thin-no-index.diff">diff</a></td><td><a href="../runs/run_03/validation/reports/ExtentReport_2026-06-17_15-10-06.html">Extent</a></td><td><a href="../runs/run_03/review/score-support.md">score-support</a></td></tr>
+        <tr><td>run_04</td><td>success is not durable identity</td><td>ledger absence -> identity absence</td><td><a href="../runs/run_04/review/thin-no-index.diff">diff</a></td><td><a href="../runs/run_04/validation/reports/ExtentReport_2026-06-17_15-13-09.html">Extent</a></td><td><a href="../runs/run_04/review/score-support.md">score-support</a></td></tr>
+        <tr><td>run_05</td><td>orders route still fails</td><td>invoice branch -> order branch</td><td><a href="../runs/run_05/review/thin-no-index.diff">diff</a></td><td><a href="../runs/run_05/validation/reports/ExtentReport_2026-06-17_15-14-24.html">Extent</a></td><td><a href="../runs/run_05/review/score-support.md">score-support</a></td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="card section-anchor" id="closeout">
+    <summary><span class="summary-title">Close-Out Truth</span><span class="sumhint">countability, legality, under-spend, next cold move</span></summary>
+    <table class="proof-table">
+      <thead><tr><th>Topic</th><th>Truth</th></tr></thead>
+      <tbody>
+        <tr><td>tests per run</td><td>every consumed slot delivered `5 / 5` countable tests</td></tr>
+        <tr><td>runs consumed</td><td>`5 / 5`</td></tr>
+        <tr><td>same-package continuation</td><td>`no`</td></tr>
+        <tr><td>fresh ROOT_RUN legality</td><td>`yes`</td></tr>
+        <tr><td>under-spend</td><td>none on slot count or test count; remaining gap is business-object absence, not missing artifacts</td></tr>
+        <tr><td>package rank</td><td>this package stays below any package with a real persistent positive object</td></tr>
+      </tbody>
+    </table>
+    <div class="note">Overall 90 is a deep-blocker score, not a business-closure score. The next real jump must be `order row`, `invoice row`, `receipt identity`, or an even narrower cause than the current blocker.</div>
+  </details>
+</div>
+<script>
+function toggleAll(open) {
+  document.querySelectorAll('details').forEach((node) => node.open = open);
+  const graph = document.getElementById('graph');
+  if (!open && graph) graph.open = true;
+}
+</script>
+</body>
+</html>

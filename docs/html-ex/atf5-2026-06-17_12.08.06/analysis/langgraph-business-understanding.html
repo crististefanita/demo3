@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATF5 - Favorite row persistence ownership</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="shared-report-reference.css">
+<style>.runtime-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.runtime-strip span{border:1px solid var(--border);border-radius:999px;padding:4px 9px;background:rgba(15,23,36,.72);font-size:12px;color:var(--muted)}.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.pill-row .pill{margin-right:0}.score-wall{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin:14px 0}.score-card{border:1px solid var(--border);border-radius:14px;background:rgba(17,24,38,.72);padding:12px}.score-card .label{color:var(--muted);font-size:12px;font-weight:700}.score-card .score{font-size:26px;font-weight:800;margin:4px 0;color:var(--text)}.score-card .note{font-size:12px;border:0;background:transparent;padding:0;color:var(--muted);margin:0}.score-card.overall{border-color:#4c6288;background:rgba(17,31,53,.72)}.accounting-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:12px}.accounting-card{border:1px solid var(--border);border-radius:14px;background:rgba(15,23,36,.62);padding:12px}.accounting-card b{display:block;margin-bottom:6px}.truth-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.truth-card{border:1px solid var(--border);border-radius:14px;background:rgba(15,23,36,.62);padding:12px}.truth-card b{display:block;margin-bottom:6px}.tight td,.tight th{vertical-align:top}
+@media(max-width:1080px){.score-wall{grid-template-columns:1fr 1fr 1fr}.accounting-grid{grid-template-columns:1fr 1fr}.truth-grid{grid-template-columns:1fr}}
+@media(max-width:720px){.score-wall,.accounting-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Favorite row persistence ownership <span class="badge">ROOT_RUN 2026-06-17_12.08.06</span></h1>
+</header>
+
+<section class="hero">
+  <div class="score-wall" aria-label="score cards">
+    <div class="score-card"><div class="label">Business Substance</div><div class="score">91</div><div class="note">favorite row owned</div></div>
+    <div class="score-card"><div class="label">Business Graph Realism</div><div class="score">94</div><div class="note">the application domina</div></div>
+    <div class="score-card"><div class="label">Historical Reopenability</div><div class="score">95</div><div class="note">run/root diff + state</div></div>
+    <div class="score-card"><div class="label">Proof Chain Quality</div><div class="score">94</div><div class="note">diff + Extent/XML</div></div>
+    <div class="score-card"><div class="label">New Artifact Contract</div><div class="score">93</div><div class="note">state spine + render</div></div>
+    <div class="score-card overall"><div class="label">Overall</div><div class="score">92</div><div class="note">persistent favorite row, capped under commerce history</div></div>
+  </div>
+
+  <details class="card" style="margin-top:12px">
+    <summary><span class="summary-title">Executive Context</span><span class="sumhint">snapshot, winner truth, cap reason, jumps, controls</span></summary>
+    <div class="sub">Pachetul muta ATF5 de la <code class="inline">owned customer container</code> la un obiect positive persistent: un <code class="inline">favorite row</code> creat din product detail, redeschis in account favorites and pastrat after sign out / sign in. Verdictul remains sub commerce-history closure: not exista yet <code class="inline">invoice row</code>, <code class="inline">order row</code>, <code class="inline">message row</code> or istoric comercial populat.</div>
+    <div class="pill-row">
+      <span class="pill"><a href="../../../prompts/iterativ/agent-runtime.properties">agent-runtime.properties</a></span>
+      <span class="pill">RUN_EXPECTED_DELTA_QUALITY = 8.50</span>
+      <span class="pill">ROUND_TARGET_TEST_COUNT = 5</span>
+      <span class="pill">META_ITERATION_COUNT = 5</span>
+      <span class="pill">runs consumed = 5 / 5</span>
+      <span class="pill">tests produced = 25 / 25</span>
+      <span class="pill">winner = favorite row persistence</span>
+    </div>
+    <div class="truth-grid">
+      <div class="truth-card"><b>Read First</b><p><a href="../review/root-source-thin-no-index.diff">root diff</a> locks mutation de familie: de la customer shell la the first obiect positive persistent din account.</p></div>
+      <div class="truth-card"><b>Compiled State</b><p><a href="../review/package-state.json">package-state.json</a> freezes 5 / 5 runs, 25 / 25 tests, and the cold overall of the package.</p></div>
+      <div class="truth-card"><b>Execution Gate</b><p><a href="../review/execution-gate-card.md">execution-gate-card.md</a> shows the package complet and pregatit de handoff, fara sa-l vanda ca commerce-history closure.</p></div>
+    </div>
+    <div class="truth-grid">
+      <div class="truth-card"><b>Owned</b><p><code class="inline">favorite row</code> is persistent object real, reopenable in account and stabil after sign out / sign in.</p></div>
+      <div class="truth-card"><b>Cap reason</b><p>Acest winner not is yet <code class="inline">customer commerce-history closure</code>, because are missing <code class="inline">invoice row</code>, <code class="inline">order row</code>, <code class="inline">message row</code> and breadth real pe favorite.</p></div>
+      <div class="truth-card"><b>What it teaches</b><p>Raportul e puternic cand separa obiectul persistent positive de ceea ce yet remains doar shell, suport or breadth absence.</p></div>
+    </div>
+    <div class="pill-row">
+      <a class="pill" href="#score-overview">Score Overview</a>
+      <a class="pill" href="#graph">Business Flow Graph</a>
+      <a class="pill" href="#proof">Proof Mapping</a>
+      <a class="pill" href="#artifacts">Artifact Index</a>
+      <a class="pill" href="#state">State Files</a>
+      <a class="pill" href="#audit">Run Audit</a>
+      <a class="pill" href="#closeout">Close-Out</a>
+    </div>
+    <div class="toolbar">
+      <button type="button" onclick="toggleAll(true)">Expand all</button>
+      <button type="button" onclick="toggleAll(false)">Collapse all</button>
+    </div>
+  </details>
+
+  <details id="score-overview">
+    <summary><span class="summary-title">Score Overview</span><span class="sumhint">canonic, cold, cu plafon explicit</span></summary>
+    <p>Overall = <b>92</b>. Raportarea buna not compenseaza obiectul business absence. Scorul poate trece peste 90 doar because aici exista un persistent object positive real: `favorite row`. Nu poate urca higher up because are missing `invoice row`, `order row`, `message row` and `customer commerce history` populat.</p>
+    <table class="tight">
+      <thead><tr><th>Axis</th><th>Score</th><th>Weight</th><th>Why it sits here</th></tr></thead>
+      <tbody>
+        <tr><td>Business Substance</td><td>91</td><td>40%</td><td>the product creeaza un `favorite row` reopenable, but not inchide o a doua familie de obiecte persistente commercial.</td></tr>
+        <tr><td>Business Graph Realism</td><td>94</td><td>20%</td><td>the graph suna ca the application reala: product detail, auth boundary, account favorites, session reopenability, identity separation.</td></tr>
+        <tr><td>Historical Reopenability</td><td>95</td><td>15%</td><td>claim-urile grele are redeschisibile prin `run diff`, `root diff`, `run-state`, `package-state`, `Extent` and `command-result`.</td></tr>
+        <tr><td>Proof Chain Quality</td><td>94</td><td>15%</td><td>primary truth remains `run diff + Extent/XML + state files`; repair-urile au fost separate de proof principala.</td></tr>
+        <tr><td>New Artifact Contract</td><td>93</td><td>10%</td><td>state spine, gate card, render proof and link audit are prezente; package skeleton-ul remains bun, not perfect.</td></tr>
+        <tr><td><strong>Overall</strong></td><td><strong>92</strong></td><td>final</td><td>persistent object positive real (`favorite row`), but not commerce-history closure; are missing `invoice/order/message rows` and multi-product breadth autentic.</td></tr>
+      </tbody>
+    </table>
+    <table class="tight">
+      <thead><tr><th>Explicit calculation</th><th>Cap reason</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>`91*40% + 94*20% + 95*15% + 94*15% + 93*10% = 92.75`, publicat cold ca <b>92</b>.</td>
+          <td>`favorite row` is ownership real; the ceiling remains sub closure comercial complet because are missing `invoice row`, `order row`, `message row` and istoric comercial populat.</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <div class="accounting-grid">
+    <div class="accounting-card">
+      <b>Accounting Compact</b>
+      <div>`materially turned into tests = 25 / 25`</div>
+      <div>`accounting target met = yes`</div>
+    </div>
+    <div class="accounting-card">
+      <b>Counter Discipline</b>
+      <div>`tests produced = 25`</div>
+      <div>`runs consumed = 5 / 5`</div>
+    </div>
+    <div class="accounting-card">
+      <b>Breadth Verdict</b>
+      <div>`partial`</div>
+      <div><a href="../review/quality-accounting-verdict.md">quality-accounting-verdict.md</a></div>
+    </div>
+    <div class="accounting-card">
+      <b>Cap Truth</b>
+      <div>real `favorite row` ownership</div>
+      <div>not yet `customer commerce-history closure`</div>
+    </div>
+  </div>
+</section>
+
+<details id="verdict">
+  <summary><span class="summary-title">Verdict executiv</span><span class="sumhint">winner, mutatie istorica, next move</span></summary>
+  <table class="tight">
+    <tbody>
+      <tr><td><strong>Winner truth</strong></td><td>Aplicatia produce un `favorite row` persistent pentru clientul autentificat and il redeschide after sign out / sign in.</td></tr>
+      <tr><td><strong>Strongest unresolved truth</strong></td><td>Acest pachet not produce a doua familie de obiecte persistente: `invoice row`, `order row`, `message row` or `favorite multi-product breadth` real.</td></tr>
+      <tr><td><strong>Same-round stop truth</strong></td><td>Acelasi winner not mai merita revalidat yet o data in acest pachet; the next salt real is alt persistent object.</td></tr>
+      <tr><td><strong>Fresh ROOT_RUN truth</strong></td><td><a href="../review/next-run-eligibility-card.md">next-run-eligibility-card.md</a> cere explicit un al doilea persistent object, not yet o revalidare a aceluiasi favorite row.</td></tr>
+      <tr><td><strong>Historical mutation</strong></td><td>Fata de the package positive anterior pe customer ownership, acesta muta the truth de la container gol la `favorite row` persistent. Root truth: <a href="../review/root-source-thin-no-index.diff">root-source-thin-no-index.diff</a>.</td></tr>
+    </tbody>
+  </table>
+</details>
+
+<details open id="graph">
+  <summary><span class="summary-title">Business Flow Graph</span><span class="sumhint">application-first, the only section open by default</span></summary>
+  <div class="diag">
+    <svg viewBox="0 0 1180 420" role="img" aria-label="Business Flow Graph favorite persistence">
+      <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+
+      <text x="48" y="28" fill="#a8b3cf" font-size="13">1. Application macro-map</text>
+      <rect class="node" x="40" y="52" width="165" height="62" rx="13"/><text class="nt" x="122" y="78" text-anchor="middle">Catalog</text><text class="ns" x="122" y="99" text-anchor="middle">descopera produs</text>
+      <rect class="node" x="250" y="52" width="185" height="62" rx="13"/><text class="nt" x="342" y="78" text-anchor="middle">Product detail</text><text class="ns" x="342" y="99" text-anchor="middle">favorite action lives here</text>
+      <rect class="node-owned" x="480" y="52" width="185" height="62" rx="13"/><text class="nt" x="572" y="78" text-anchor="middle">Authenticated customer</text><text class="ns" x="572" y="99" text-anchor="middle">favorite mutation accepted</text>
+      <rect class="node-owned" x="710" y="52" width="180" height="62" rx="13"/><text class="nt" x="800" y="78" text-anchor="middle">Account favorites</text><text class="ns" x="800" y="99" text-anchor="middle">favorite row visible</text>
+      <rect class="node-owned" x="935" y="52" width="195" height="62" rx="13"/><text class="nt" x="1032" y="78" text-anchor="middle">Session reopenability</text><text class="ns" x="1032" y="99" text-anchor="middle">row survives sign out / sign in</text>
+      <path class="edge" d="M205 83 H250" marker-end="url(#arrow)"/><path class="edge" d="M435 83 H480" marker-end="url(#arrow)"/><path class="edge" d="M665 83 H710" marker-end="url(#arrow)"/><path class="edge" d="M890 83 H935" marker-end="url(#arrow)"/>
+
+      <text x="48" y="170" fill="#a8b3cf" font-size="13">2. Package overlay</text>
+      <rect class="node-owned" x="55" y="194" width="180" height="62" rx="13"/><text class="nt" x="145" y="220" text-anchor="middle">run_01</text><text class="ns" x="145" y="241" text-anchor="middle">favorite row created</text>
+      <rect class="node-owned" x="285" y="194" width="180" height="62" rx="13"/><text class="nt" x="375" y="220" text-anchor="middle">run_02</text><text class="ns" x="375" y="241" text-anchor="middle">row reopens across account flows</text>
+      <rect class="node-owned" x="515" y="194" width="180" height="62" rx="13"/><text class="nt" x="605" y="220" text-anchor="middle">run_03</text><text class="ns" x="605" y="241" text-anchor="middle">row survives session break</text>
+      <rect class="node-owned" x="745" y="194" width="180" height="62" rx="13"/><text class="nt" x="835" y="220" text-anchor="middle">run_04</text><text class="ns" x="835" y="241" text-anchor="middle">ownership stays customer-specific</text>
+      <rect class="node-partial" x="975" y="194" width="145" height="62" rx="13"/><text class="nt" x="1047" y="220" text-anchor="middle">run_05</text><text class="ns" x="1047" y="241" text-anchor="middle">fake breadth rejected</text>
+      <path class="edge" d="M235 225 H285" marker-end="url(#arrow)"/><path class="edge" d="M465 225 H515" marker-end="url(#arrow)"/><path class="edge" d="M695 225 H745" marker-end="url(#arrow)"/><path class="edge" d="M925 225 H975" marker-end="url(#arrow)"/>
+
+      <text x="48" y="312" fill="#a8b3cf" font-size="13">3. What remains outside closure</text>
+      <rect class="node-partial" x="90" y="336" width="200" height="58" rx="13"/><text class="nt" x="190" y="361" text-anchor="middle">Favorite breadth</text><text class="ns" x="190" y="381" text-anchor="middle">same-product revisit only</text>
+      <rect class="node-blocked" x="350" y="336" width="200" height="58" rx="13"/><text class="nt" x="450" y="361" text-anchor="middle">Invoice row</text><text class="ns" x="450" y="381" text-anchor="middle">not proved</text>
+      <rect class="node-blocked" x="610" y="336" width="200" height="58" rx="13"/><text class="nt" x="710" y="361" text-anchor="middle">Order row</text><text class="ns" x="710" y="381" text-anchor="middle">not proved</text>
+      <rect class="node-blocked" x="870" y="336" width="200" height="58" rx="13"/><text class="nt" x="970" y="361" text-anchor="middle">Message row</text><text class="ns" x="970" y="381" text-anchor="middle">not proved</text>
+      <path class="edge" d="M290 365 H350" marker-end="url(#arrow)"/><path class="edge" d="M550 365 H610" marker-end="url(#arrow)"/><path class="edge" d="M810 365 H870" marker-end="url(#arrow)"/>
+    </svg>
+  </div>
+  <details class="subdetails">
+    <summary><span class="summary-title">Graph legend</span><span class="sumhint">detail moved out of the nodes</span></summary>
+    <ul>
+      <li><span style="color:#34d399">Owned</span> = claim closed with `run diff + Extent/XML + state files`.</li>
+      <li><span style="color:#fbbf24">Partial</span> = exista continuitate pe acelasi obiect, but not obiect nou persistent.</li>
+      <li><span style="color:#fb7185">Blocked / missing</span> = familie de obiecte neowned; aceasta absence plafoneaza closure-ul comercial.</li>
+      <li>Graful remains application-first: catalog -> product detail -> authenticated customer -> account favorites -> session reopenability.</li>
+    </ul>
+  </details>
+</details>
+
+<details id="proof">
+  <summary><span class="summary-title">Dovada and acoperire</span><span class="sumhint">truth primar, not suport brut</span></summary>
+  <table class="tight">
+    <thead><tr><th>Business claim</th><th>Run owner</th><th>Run diff</th><th>Extent</th><th>XML / result</th><th>run-state</th><th>Cold verdict</th></tr></thead>
+    <tbody>
+      <tr><td>Product detail creeaza un favorite row owned</td><td><a href="../runs/run_01/SUMMARY.md">run_01</a></td><td><a href="../runs/run_01/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_01/validation/reports/ExtentReport_2026-06-17_12-16-57.html">Extent</a></td><td><a href="../runs/run_01/validation/surefire-reports/TEST-com.endava.ai.atf.ui.customer.CustomerFavoriteAcquisitionOwnershipTests.xml">XML</a> | <a href="../runs/run_01/validation/command-result.md">result</a></td><td><a href="../runs/run_01/review/run-state.json">run-state</a></td><td>owned</td></tr>
+      <tr><td>Favorite row se redeschide prin account flows</td><td><a href="../runs/run_02/SUMMARY.md">run_02</a></td><td><a href="../runs/run_02/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_02/validation/reports/ExtentReport_2026-06-17_12-18-44.html">Extent</a></td><td><a href="../runs/run_02/validation/surefire-reports/TEST-com.endava.ai.atf.ui.customer.CustomerFavoriteReopenabilityOwnershipTests.xml">XML</a> | <a href="../runs/run_02/validation/command-result.md">result</a></td><td><a href="../runs/run_02/review/run-state.json">run-state</a></td><td>owned</td></tr>
+      <tr><td>Favorite row supravietuieste after sign out / sign in</td><td><a href="../runs/run_03/SUMMARY.md">run_03</a></td><td><a href="../runs/run_03/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_03/validation/reports/ExtentReport_2026-06-17_12-25-47.html">Extent</a></td><td><a href="../runs/run_03/validation/surefire-reports/TEST-com.endava.ai.atf.ui.customer.CustomerFavoriteSessionPersistenceOwnershipTests.xml">XML</a> | <a href="../runs/run_03/validation/command-result.md">result</a></td><td><a href="../runs/run_03/review/run-state.json">run-state</a></td><td>owned</td></tr>
+      <tr><td>Guest and al doilea customer not mostenesc row-ul</td><td><a href="../runs/run_04/SUMMARY.md">run_04</a></td><td><a href="../runs/run_04/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_04/validation/reports/ExtentReport_2026-06-17_12-29-17.html">Extent</a></td><td><a href="../runs/run_04/validation/surefire-reports/TEST-com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests.xml">XML</a> | <a href="../runs/run_04/validation/command-result.md">result</a></td><td><a href="../runs/run_04/review/run-state.json">run-state</a></td><td>owned</td></tr>
+      <tr><td>Related-product revisit not is al doilea persistent object</td><td><a href="../runs/run_05/SUMMARY.md">run_05</a></td><td><a href="../runs/run_05/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_05/validation/reports/ExtentReport_2026-06-17_12-32-05.html">Extent</a></td><td><a href="../runs/run_05/validation/surefire-reports/TEST-com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests.xml">XML</a> | <a href="../runs/run_05/validation/command-result.md">result</a></td><td><a href="../runs/run_05/review/run-state.json">run-state</a></td><td>owned with honest breadth cap</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Primary truth:</strong> `run diff + Extent/XML + state files`. <strong>Support:</strong> carrier-e, repair notes, raw surefire assets and command-output complet doar cand clarifies o contradictie.</p>
+</details>
+
+<details id="state">
+  <summary><span class="summary-title">State files</span><span class="sumhint">the truth inghetat al pachetului</span></summary>
+  <table class="tight">
+    <thead><tr><th>Layer</th><th>Artifacts</th><th>Cold role</th></tr></thead>
+    <tbody>
+      <tr><td>Package truth</td><td><a href="../review/package-state.json">package-state.json</a> | <a href="../review/execution-gate-card.md">execution-gate-card.md</a> | <a href="../review/quality-accounting-verdict.md">quality-accounting-verdict.md</a> | <a href="../review/package-close-out.md">package-close-out.md</a></td><td>locks counters, breadth verdict, cap reason and handoff cold spre raportare.</td></tr>
+      <tr><td>Root diff</td><td><a href="../review/root-source-thin-no-index.diff">root-source-thin-no-index.diff</a></td><td>the compiled mutation of the package, not the singular proof of each claim.</td></tr>
+      <tr><td>Run states</td><td><a href="../runs/run_01/review/run-state.json">run_01</a> | <a href="../runs/run_02/review/run-state.json">run_02</a> | <a href="../runs/run_03/review/run-state.json">run_03</a> | <a href="../runs/run_04/review/run-state.json">run_04</a> | <a href="../runs/run_05/review/run-state.json">run_05</a></td><td>ties each heavy claim to the exact slot that produced it.</td></tr>
+    </tbody>
+  </table>
+</details>
+
+<details id="audit">
+  <summary><span class="summary-title">Run Audit Strip</span><span class="sumhint">claim, delta, kept, diff, proof, feedback</span></summary>
+  <table class="tight">
+    <thead><tr><th>Run</th><th>Business claim</th><th>Expected delta</th><th>Actual delta</th><th>Kept</th><th>Diff</th><th>Extent</th><th>Feedback</th></tr></thead>
+    <tbody>
+      <tr><td><a href="../runs/run_01/SUMMARY.md">run_01</a></td><td>favorite action devine ownership real</td><td>container gol -> row owned</td><td>row cu nume and descriere vizibile</td><td>yes</td><td><a href="../runs/run_01/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_01/validation/reports/ExtentReport_2026-06-17_12-16-57.html">Extent</a></td><td><a href="../runs/run_01/review/source-delta-carrier.md">carrier</a></td></tr>
+      <tr><td><a href="../runs/run_02/SUMMARY.md">run_02</a></td><td>row-ul se redeschide prin account routes</td><td>same row identity, not doar page reachability</td><td>favorite row se revede after profile/account/home detour</td><td>yes</td><td><a href="../runs/run_02/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_02/validation/reports/ExtentReport_2026-06-17_12-18-44.html">Extent</a></td><td><a href="../runs/run_02/review/source-delta-carrier.md">carrier</a></td></tr>
+      <tr><td><a href="../runs/run_03/SUMMARY.md">run_03</a></td><td>session break not pierde row-ul</td><td>persistenta autentificata cold</td><td>row-ul revine after sign out / sign in</td><td>yes</td><td><a href="../runs/run_03/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_03/validation/reports/ExtentReport_2026-06-17_12-25-47.html">Extent</a></td><td><a href="../runs/run_03/review/repair-attempt-01-command-output.txt">repair audit</a></td></tr>
+      <tr><td><a href="../runs/run_04/SUMMARY.md">run_04</a></td><td>ownership remains customer-specific</td><td>guest/noise separated from owned row</td><td>guest and al doilea customer not mostenesc object ownership</td><td>yes</td><td><a href="../runs/run_04/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_04/validation/reports/ExtentReport_2026-06-17_12-29-17.html">Extent</a></td><td><a href="../runs/run_04/review/repair-attempt-01-command-output.txt">repair audit</a></td></tr>
+      <tr><td><a href="../runs/run_05/SUMMARY.md">run_05</a></td><td>no fake breadth on same-product revisit</td><td>verify if second object family appears</td><td>same-product revisit downgraded honestly, not sold as second row</td><td>yes</td><td><a href="../runs/run_05/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_05/validation/reports/ExtentReport_2026-06-17_12-32-05.html">Extent</a></td><td><a href="../runs/run_05/review/repair-attempt-01-command-output.txt">repair audit</a></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<details id="artifacts">
+  <summary><span class="summary-title">Artifact Index</span><span class="sumhint">primary truth separated from support</span></summary>
+  <table class="tight">
+    <thead><tr><th>Family</th><th>Truth primar</th><th>Suport</th></tr></thead>
+    <tbody>
+      <tr><td>Runtime</td><td><a href="../../../prompts/iterativ/agent-runtime.properties">agent-runtime.properties</a></td><td><a href="../prompt/input-snapshot.md">input-snapshot.md</a></td></tr>
+      <tr><td>Package truth</td><td><a href="../review/package-state.json">package-state.json</a> | <a href="../review/execution-gate-card.md">execution-gate-card.md</a> | <a href="../review/root-source-thin-no-index.diff">root diff</a></td><td><a href="../README.md">README</a> | <a href="../CALIBRATION.md">CALIBRATION.md</a></td></tr>
+      <tr><td>Run truth</td><td><a href="../runs/run_01/review/run-state.json">run_01 state</a> | <a href="../runs/run_02/review/run-state.json">run_02 state</a> | <a href="../runs/run_03/review/run-state.json">run_03 state</a> | <a href="../runs/run_04/review/run-state.json">run_04 state</a> | <a href="../runs/run_05/review/run-state.json">run_05 state</a></td><td><a href="../runs/run_01/SUMMARY.md">run summaries</a></td></tr>
+      <tr><td>Run diffs</td><td><a href="../runs/run_01/review/thin-no-index.diff">run_01</a> | <a href="../runs/run_02/review/thin-no-index.diff">run_02</a> | <a href="../runs/run_03/review/thin-no-index.diff">run_03</a> | <a href="../runs/run_04/review/thin-no-index.diff">run_04</a> | <a href="../runs/run_05/review/thin-no-index.diff">run_05</a></td><td><a href="../runs/run_01/review/source-delta-carrier.md">carrier examples</a></td></tr>
+      <tr><td>Extent proof</td><td><a href="../runs/run_01/validation/reports/ExtentReport_2026-06-17_12-16-57.html">run_01</a> | <a href="../runs/run_02/validation/reports/ExtentReport_2026-06-17_12-18-44.html">run_02</a> | <a href="../runs/run_03/validation/reports/ExtentReport_2026-06-17_12-25-47.html">run_03</a> | <a href="../runs/run_04/validation/reports/ExtentReport_2026-06-17_12-29-17.html">run_04</a> | <a href="../runs/run_05/validation/reports/ExtentReport_2026-06-17_12-32-05.html">run_05</a></td><td>n/a</td></tr>
+      <tr><td>Machine proof</td><td><a href="../runs/run_01/validation/surefire-reports/TEST-com.endava.ai.atf.ui.customer.CustomerFavoriteAcquisitionOwnershipTests.xml">run_01 XML</a> | <a href="../runs/run_02/validation/surefire-reports/TEST-com.endava.ai.atf.ui.customer.CustomerFavoriteReopenabilityOwnershipTests.xml">run_02 XML</a> | <a href="../runs/run_03/validation/surefire-reports/TEST-com.endava.ai.atf.ui.customer.CustomerFavoriteSessionPersistenceOwnershipTests.xml">run_03 XML</a> | <a href="../runs/run_04/validation/surefire-reports/TEST-com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests.xml">run_04 XML</a> | <a href="../runs/run_05/validation/surefire-reports/TEST-com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests.xml">run_05 XML</a></td><td><a href="../runs/run_01/validation/command-output.txt">command outputs</a></td></tr>
+    <tr><td>Publishing proof</td><td><a href="shared-report-reference.css">shared-report-reference.css</a> | <a href="canonical-render-check.png">canonical-render-check.png</a> | <a href="../review/local-link-check.txt">local-link-check.txt</a></td><td><a href="render-proof.md">render-proof.md</a> | <a href="link-audit.md">link-audit.md</a></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<details id="closeout">
+  <summary><span class="summary-title">Close-Out Truth</span><span class="sumhint">countability, legality, next move</span></summary>
+  <table class="tight">
+    <tbody>
+      <tr><td><strong>materially turned into tests</strong></td><td>`25 / 25`</td></tr>
+      <tr><td><strong>runs consumed</strong></td><td>`5 / 5`</td></tr>
+      <tr><td><strong>accounting target met</strong></td><td>`yes`</td></tr>
+      <tr><td><strong>business breadth verdict</strong></td><td>`partial`: the winner is real, but not inchide yet a doua familie de obiecte persistente.</td></tr>
+      <tr><td><strong>same-round continuation legal</strong></td><td>`no` pentru acelasi `favorite row`; the next real jump must be alt persistent object.</td></tr>
+      <tr><td><strong>fresh ROOT_RUN legal</strong></td><td>`yes`: <a href="../review/next-run-eligibility-card.md">next-run-eligibility-card.md</a> recomanda `invoice row`, `order row`, `message row` or `favorite multi-product breadth` autentic.</td></tr>
+      <tr><td><strong>why favorite row is ownership real</strong></td><td>is un persistent object positive: are identitate de produs, reapare in account favorites, supravietuieste after sign out / sign in and remains separat de guest / alt customer.</td></tr>
+      <tr><td><strong>why not is commerce-history closure</strong></td><td>not exista `invoice row`, `order row`, `message row` and nici `favorite multi-product breadth` real. De aceea `Overall` remains `92`, not higher up.</td></tr>
+      <tr><td><strong>the next salt real</strong></td><td>al doilea persistent object, not yet o revalidare a aceluiasi `favorite row`.</td></tr>
+    </tbody>
+  </table>
+</details>
+
+</div>
+<script>
+function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}
+</script>
+</body>
+</html>

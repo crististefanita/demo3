@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>Referinta reutilizabila pentru Score Overview</title>
+<link href="../../shared-report-reference.css" rel="stylesheet">
+<style>
+.grid { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 12px; }
+.right-rail table td:first-child { width: 180px; font-weight: 600; }
+.diag{margin-top:10px;border:1px solid var(--border);border-radius:14px;background:#08101a;padding:12px;overflow:auto}
+.diag svg{display:block;width:100%;height:auto}
+.kvs{display:grid;grid-template-columns:120px 1fr;gap:8px 12px}
+.k{color:var(--muted);font-weight:600}
+.pillline{display:flex;flex-direction:column;gap:8px;align-items:flex-start;margin-top:10px}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pilllabel{color:var(--muted);font-size:12px;font-weight:700;margin-right:2px}
+.header-meta{display:grid;gap:8px;margin-top:12px;max-width:760px}
+.meta-row{display:grid;grid-template-columns:92px minmax(0,1fr);gap:10px;align-items:start}
+.meta-label{color:var(--muted);font-size:12px;font-weight:800;letter-spacing:.02em;padding-top:4px}
+.meta-pills{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Referinta pentru Score Overview <span class="badge">SCORE</span> <span class="badge">OVERALL</span> <span class="badge">CAP</span> <span class="badge">REUSE</span></h1>
+  <div class="sub">
+    <ul>
+      <li>Explica doar sectiunea <code class="inline">Score Overview</code> din raportul final.</li>
+      <li>Fixeaza forma canonica pentru axe, pondere, plafon si <code class="inline">Overall</code>.</li>
+      <li><code class="inline">reporting.html</code> ramane owner pentru scheletul paginii finale.</li>
+    </ul>
+  </div>
+  <div class="toolbar">
+    <button type="button" onclick="toggleAll(true)">Deschide tot</button>
+    <button type="button" onclick="toggleAll(false)">Inchide tot</button>
+  </div>
+</header>
+
+<div class="grid">
+  <section class="card">
+    <h2>Overview</h2>
+    <table>
+      <thead><tr><th>Badge</th><th>Citesti aici</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge">SCORE</span></td><td>ce inseamna cardurile publicate in opening</td></tr>
+        <tr><td><span class="badge">OVERALL</span></td><td>de ce scorul final ramane unde ramane</td></tr>
+        <tr><td><span class="badge">CAP</span></td><td>de ce raportarea buna nu compenseaza obiectul business lipsa</td></tr>
+        <tr><td><span class="badge">REUSE</span></td><td>forma canonica pe care raportul o reutilizeaza fara drift</td></tr>
+        <tr><td><span class="badge">INVALID</span></td><td>scor setat estetic, axe redenumite local sau auto-aparare lunga</td></tr>
+      </tbody>
+    </table>
+    <div class="header-meta">
+      <div class="meta-row">
+        <span class="meta-label">Owner:</span>
+        <div class="meta-pills">
+          <span class="pill">Score Overview</span>
+          <span class="pill">Overall</span>
+          <span class="pill">plafon rece</span>
+        </div>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Foloseste:</span>
+        <div class="meta-pills">
+          <span class="pill">score cards</span>
+          <span class="pill">axe canonice</span>
+          <span class="pill">business substance</span>
+        </div>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Nu produce:</span>
+        <div class="meta-pills">
+          <span class="pill">schelet raport</span>
+          <span class="pill">legalitate run</span>
+          <span class="pill">productie artefacte</span>
+        </div>
+      </div>
+    </div>
+    <div class="rule">Overall = calcul canonic din axe; nu se seteaza estetic in HTML.</div>
+    <details class="subdetails">
+    <summary><span class="summary-title">Model mecanic minim</span><span class="sumhint">inchis implicit</span></summary>
+    <table>
+      <thead><tr><th>Pas</th><th>Actiune</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>citeste axele canonice</td></tr>
+        <tr><td>2</td><td>identifica obiectul business owned sau lipsa lui</td></tr>
+        <tr><td>3</td><td>plafoneaza <code class="inline">Overall</code> dupa substanta, nu dupa design</td></tr>
+        <tr><td>4</td><td>scrie in 1-2 linii ce tine scorul sus si jos</td></tr>
+      </tbody>
+    </table>
+    </details>
+  </section>
+
+  <section class="card right-rail">
+    <details>
+    <summary><span class="summary-title">Contract minim</span><span class="sumhint">referinta inchisa implicit</span></summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Regula</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>pozitie</td><td>sub opening, colapsat si inchis implicit; in raportul final ramane inchis, la fel ca restul sectiunilor principale</td></tr>
+        <tr><td>carduri</td><td>doar cardurile canonice folosite in raportul curent</td></tr>
+        <tr><td>sursa unica</td><td>daca exista drift intre raport si scoring, acest fisier bate forma locala</td></tr>
+        <tr><td>overall</td><td>explicit si rece, nu ornament</td></tr>
+        <tr><td>explicatie</td><td>de ce overall-ul sta aici, nu doar ce numar are</td></tr>
+        <tr><td>limita</td><td>nu lasa auditul sau forma sa compenseze obiectul business lipsa</td></tr>
+        <tr><td>forma buna</td><td>modelul de tabel este: <code class="inline">Axa | Nota | Pondere | De ce sta aici</code></td></tr>
+        <tr><td>aceleasi axe</td><td>cardurile vizibile si tabelul trebuie sa vorbeasca despre aceleasi axe; nu redenumesti si nu dublezi</td></tr>
+      </tbody>
+    </table>
+    </details>
+  </section>
+</div>
+
+<details open><summary><span class="summary-title">1. Flow-uri si diagrame</span><span class="sumhint">cum se citeste sectiunea</span></summary>
+  <details class="subdetails">
+  <summary><span class="summary-title">1.1 Harta rapida de citire</span><span class="sumhint">orientare scurta</span></summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Daca intrebi</th>
+        <th>Deschizi</th>
+        <th>Afli rece</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>ce trebuie sa explice sectiunea?</td><td><code class="inline">1.2</code></td><td>scorurile si plafonul overall-ului</td></tr>
+      <tr><td>care sunt axele bune?</td><td><code class="inline">1.3</code></td><td>carduri scurte, business-first</td></tr>
+      <tr><td>cum se citeste overall-ul?</td><td><code class="inline">1.4</code></td><td>numar rece, nu premiu de design</td></tr>
+      <tr><td>ce il strica?</td><td><code class="inline">1.5</code></td><td>supra-notare, duplicare, jargon</td></tr>
+    </tbody>
+  </table>
+  </details>
+
+  <details class="subdetails" open>
+    <summary><span class="summary-title">1.2 State machine minim</span><span class="sumhint">cards -> overview -> limita</span></summary>
+<pre><code>read_cards
+-> read_owner_scores
+-> publish_overall
+-> explain_why_here
+-> stop
+</code></pre>
+    <table>
+      <thead>
+        <tr>
+          <th>Pas</th>
+          <th>Ce faci</th>
+          <th>Ce nu faci</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code class="inline">read_cards</code></td><td>citesti cardurile deja inghetate</td><td>nu inventezi axe noi pentru a umfla scorul</td></tr>
+        <tr><td><code class="inline">publish_overall</code></td><td>arati overall-ul curent</td><td>nu il lasi sa para independent de substanta business</td></tr>
+        <tr><td><code class="inline">explain_why_here</code></td><td>spui ce il tine sus si ce il tine jos</td><td>nu scrii eseu lung de auto-aparare</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="subdetails">
+    <summary><span class="summary-title">1.3 Rubrica minima pentru carduri</span><span class="sumhint">ce merita sa ramana vizibil</span></summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Axa</th>
+          <th>Ce intrebare raspunde</th>
+          <th>Ce o invalideaza</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code class="inline">Business Substance</code></td><td>ce obiect business real a fost owned?</td><td>forma buna fara obiect persistent sau closure real</td></tr>
+        <tr><td><code class="inline">Business Graph Realism</code></td><td>graful suna ca aplicatie reala?</td><td>graful suna ca jurnal de run-uri sau lista de teste</td></tr>
+        <tr><td><code class="inline">Historical Reopenability</code></td><td>pot redeschide rece pachetul prin diff-uri si artefacte?</td><td>istorie doar prin proza, fara diff spine clar</td></tr>
+        <tr><td><code class="inline">Proof Chain Quality</code></td><td>claim -> diff -> Extent -> XML / result e usor de urmarit?</td><td>claim-ul pluteste fara dovada concreta</td></tr>
+        <tr><td><code class="inline">Contract Artefacte Noi</code></td><td>state files, gate card, render/link proof sunt curate?</td><td>artefacte noi lipsa sau doar mentionate, nu salvate</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <ul>
+        <li><code class="inline">Overall</code> ramane obligatoriu in tabelul canonic.</li>
+        <li>Score cards vizibile pot varia.</li>
+        <li>Daca opening-ul are card de <code class="inline">Overall</code>, nu il dubla sub alt nume.</li>
+      </ul>
+    </div>
+    <div class="note">
+      <ul>
+        <li><code class="inline">Business Substance</code></li>
+        <li><code class="inline">Business Graph Realism</code></li>
+        <li><code class="inline">Historical Reopenability</code></li>
+        <li><code class="inline">Proof Chain Quality</code></li>
+        <li><code class="inline">Contract Artefacte Noi</code></li>
+        <li><code class="inline">Overall</code></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="subdetails">
+    <summary><span class="summary-title">1.3.1 Model canonic de tabel</span><span class="sumhint">preluat ca forma din exemplul bun</span></summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Axa</th>
+          <th>Nota</th>
+          <th>Pondere</th>
+          <th>De ce sta aici</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Business Substance</td><td>..</td><td>40%</td><td>ce obiect business real a fost owned si ce lipseste inca</td></tr>
+        <tr><td>Business Graph Realism</td><td>..</td><td>20%</td><td>cat de bine suna graful ca aplicatie reala, nu ca suita de teste</td></tr>
+        <tr><td>Historical Reopenability</td><td>..</td><td>15%</td><td>cat de bine se poate redeschide pachetul prin diff-uri si artefacte</td></tr>
+        <tr><td>Proof Chain Quality</td><td>..</td><td>15%</td><td>cat de clar se vede lantul claim -> diff -> Extent -> verdict</td></tr>
+        <tr><td>Contract Artefacte Noi</td><td>..</td><td>10%</td><td>daca state files, gate card si publication proof sunt complete</td></tr>
+        <tr><td>Overall</td><td>..</td><td>final</td><td>scor final al pachetului, recitit prin obiectul business care lipseste sau care a fost inchis</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      Asta este forma buna de reutilizat.
+      Nu schimba coloanele si nu inlocui coloana <code class="inline">De ce sta aici</code> cu proza lunga sau auto-aparare.
+    </div>
+    <div class="mini">
+      <ul>
+        <li>Cardurile din opening pot varia.</li>
+        <li>Ele rezuma axele canonice.</li>
+        <li>Nu apar axe paralele.</li>
+        <li><code class="inline">Overall</code> nu dispare din tabel.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="subdetails">
+    <summary><span class="summary-title">1.4 Cum se scrie overall-ul</span><span class="sumhint">numar rece, nu premiu</span></summary>
+    <div class="diag"><svg viewBox="0 0 1080 180" role="img" aria-label="Overall">
+    <defs><marker id="ov" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+    <rect x="40" y="58" width="220" height="64" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="150" y="84" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">carduri canonice</text>
+    <text x="150" y="104" text-anchor="middle" fill="#a8b3cf" font-size="11">axe separate</text>
+    <rect x="340" y="58" width="180" height="64" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="430" y="84" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">overall</text>
+    <text x="430" y="104" text-anchor="middle" fill="#a8b3cf" font-size="11">numar final</text>
+    <rect x="600" y="58" width="420" height="64" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="810" y="84" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">why overall stays here</text>
+    <text x="810" y="104" text-anchor="middle" fill="#a8b3cf" font-size="11">ce il tine sus si ce il plafoneaza</text>
+    <path d="M260 90 H340" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ov)"/>
+    <path d="M520 90 H600" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ov)"/>
+    </svg></div>
+    <div class="note">
+      Formula scurta buna:
+      <br><code class="inline">Overall = scorul final al pachetului; se citeste rece, nu ca premiu pentru forma.</code>
+    </div>
+    <table>
+      <thead><tr><th>Pas</th><th>Regula</th><th>Publici</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>calculezi raw weighted din axele canonice</td><td><code class="inline">weighted raw = N</code></td></tr>
+        <tr><td>2</td><td>aplici cap-ul de substanta business, daca exista</td><td><code class="inline">cap reason</code></td></tr>
+        <tr><td>3</td><td>rotunjesti doar dupa cap</td><td><code class="inline">Overall = min(round(raw), cap)</code></td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="subdetails">
+    <summary><span class="summary-title">1.5 Greseli tipice</span><span class="sumhint">ce trebuie evitat</span></summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Greseala</th>
+          <th>De ce e gresita</th>
+          <th>Forma rece buna</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>scor mare pe raportare vandut ca <code class="inline">Overall</code></td><td>forma nu compenseaza lipsa obiectului business</td><td>overall-ul urmeaza substanta, nu polish-ul</td></tr>
+        <tr><td>prea multe carduri</td><td>dilueaza mesajul si ajuta auto-justificarea</td><td>pastrezi doar axele canonice</td></tr>
+        <tr><td>`Overall rece` sau eticheta paralela</td><td>creeaza drift fata de forma canonica</td><td>folosesti doar <code class="inline">Overall</code></td></tr>
+        <tr><td>eseu lung de scoring</td><td>cititorul pierde regula si ramane cu proza</td><td>explicatie scurta: ce il tine sus, ce il tine jos</td></tr>
+        <tr><td>jargon de audit in opening</td><td>ascunde produsul</td><td>detaliul coboara in legenda sau proof mapping</td></tr>
+      </tbody>
+    </table>
+  </details>
+</details>
+
+<details>
+  <summary><span class="summary-title">2. Template minim reutilizabil</span><span class="sumhint">ce poate fi copiat fara drift</span></summary>
+<pre><code>&lt;details&gt;
+  &lt;summary&gt;Score Overview&lt;/summary&gt;
+  &lt;p&gt;Overall = XX. Raportarea buna nu compenseaza obiectul business lipsa.&lt;/p&gt;
+  &lt;table&gt;
+    &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Axa&lt;/th&gt;&lt;th&gt;Nota&lt;/th&gt;&lt;th&gt;Pondere&lt;/th&gt;&lt;th&gt;De ce sta aici&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;&lt;td&gt;Business Substance&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;td&gt;40%&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td&gt;Business Graph Realism&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;td&gt;20%&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td&gt;Historical Reopenability&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;td&gt;15%&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td&gt;Proof Chain Quality&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;td&gt;15%&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td&gt;Contract Artefacte Noi&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;td&gt;10%&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td&gt;Overall&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;td&gt;final&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/details&gt;
+</code></pre>
+  <div class="mini">Daca incepe sa sune ca auto-aparare, e deja prea mult.</div>
+</details>
+
+</div>
+<script>
+function toggleAll(open) {
+  document.querySelectorAll('details').forEach((d) => d.open = open);
+}
+</script>
+</body>
+</html>

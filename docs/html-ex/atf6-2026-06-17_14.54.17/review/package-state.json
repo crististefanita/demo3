@@ -1,0 +1,17 @@
+{
+  "package_id": "2026-06-17_14.54.17",
+  "status": "closed",
+  "runs_target": "META_ITERATION_COUNT",
+  "runs_consumed": 5,
+  "run_tests_target": "ROUND_TARGET_TEST_COUNT",
+  "root_diff": "review/root-source-thin-no-index.diff",
+  "winner_macro_lane": "post-purchase-ownership-materialization",
+  "breadth_verdict": "narrow-but-deeper-causal",
+  "same_package_legal": "no",
+  "fresh_root_run_legal": "yes",
+  "report_status": "ready",
+  "render_status": "fresh",
+  "link_audit_status": "yes",
+  "overall_score": 90,
+  "strongest_unresolved_truth": "authenticated checkout reaches payment success and reopens account and invoice surfaces across customer and relogin boundaries, but no durable order row, invoice row or reopenable receipt identity materializes after purchase"
+}

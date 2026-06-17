@@ -1,0 +1,53 @@
+﻿diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/GuestOrderHistoryOwnershipProbeTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/GuestOrderHistoryOwnershipProbeTests.java
+new file mode 100644
+index 0000000..a01f8df
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/GuestOrderHistoryOwnershipProbeTests.java
+@@ -0,0 +1,47 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.annotations.Test;
++
++public class GuestOrderHistoryOwnershipProbeTests extends CommerceUiTestBase {
++
++    @Test
++    public void guest_payment_success_has_no_order_history_link() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("order history");
++    }
++
++    @Test
++    public void guest_payment_success_has_no_my_orders_link() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("my orders");
++    }
++
++    @Test
++    public void guest_payment_success_has_no_purchases_link() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("purchases");
++    }
++
++    @Test
++    public void guest_payment_success_has_no_orders_area() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("orders");
++    }
++
++    @Test
++    public void guest_payment_success_keeps_order_history_unowned() {
++        openGuestPaymentSuccess();
++
++        validation.assertPageTextContains(cart.pageText(), "Sign in");
++        validation.assertPageTextDoesNotContain(cart.pageText(), "view order");
++    }
++
++    private void assertPaymentSuccessWithout(String forbidden) {
++        validation.assertPageTextContains(cart.pageText(), "Payment was successful");
++        validation.assertPageTextDoesNotContain(cart.pageText(), forbidden);
++    }
++}

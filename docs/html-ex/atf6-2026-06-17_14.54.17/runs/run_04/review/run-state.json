@@ -1,0 +1,16 @@
+{
+  "run_id": "run_04",
+  "class_name": "PostPurchaseReceiptIdentityGapTests",
+  "tests_target": "ROUND_TARGET_TEST_COUNT",
+  "tests_produced": 5,
+  "target_status": "met",
+  "delta_quality_status": "pass",
+  "run_diff": "runs/run_04/review/thin-no-index.diff",
+  "carrier": "runs/run_04/review/source-delta-carrier.md",
+  "proof_ui": "runs/run_04/validation/reports/ExtentReport_2026-06-17_15-13-09.html",
+  "proof_machine": "runs/run_04/validation/TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseReceiptIdentityGapTests.xml",
+  "kept_status": "yes",
+  "blocker_status": "no",
+  "business_claim": "Payment confirmation never becomes a reopenable receipt, order id, or invoice identity.",
+  "verdict": "owned"
+}

@@ -1,0 +1,13 @@
+{
+    "run_id":  "run_05",
+    "tests_target":  "ROUND_TARGET_TEST_COUNT",
+    "tests_produced":  5,
+    "target_status":  "met",
+    "delta_quality_status":  "pass",
+    "run_diff":  "review/thin-no-index.diff",
+    "carrier":  "no",
+    "proof_ui":  "yes",
+    "proof_machine":  "yes",
+    "kept_status":  "yes",
+    "blocker_status":  "partial"
+}

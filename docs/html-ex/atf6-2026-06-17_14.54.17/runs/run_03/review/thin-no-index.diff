@@ -1,0 +1,124 @@
+﻿diff --git src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceReloginTests.java src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceReloginTests.java
+new file mode 100644
+index 0000000..f750758
+--- /dev/null
++++ src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceReloginTests.java
+@@ -0,0 +1,49 @@
++package com.endava.ai.ui.tests.checkout.postpurchase;
++
++import com.endava.ai.ui.model.CustomerData;
++import org.testng.annotations.Test;
++
++public class PostPurchaseInvoiceReloginTests extends AbstractPostPurchaseOwnershipTest {
++
++    @Test(description = "Invoice gap survives a cold relogin after checkout success")
++    public void invoice_gap_survives_cold_relogin_after_checkout_success() {
++        CustomerData customer = completeCashOnDeliveryCheckout(1);
++        relogin(customer);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++
++    @Test(description = "Account overview remains reachable after checkout and relogin")
++    public void account_overview_remains_reachable_after_checkout_and_relogin() {
++        CustomerData customer = completeCashOnDeliveryCheckout(1);
++        relogin(customer);
++        accountService.openOverviewDirect();
++        accountValidation.assertOverviewExposesAccountManagement();
++    }
++
++    @Test(description = "Invoice ledger remains empty after two relogins")
++    public void invoice_ledger_remains_empty_after_two_relogins() {
++        CustomerData customer = completeCashOnDeliveryCheckout(1);
++        relogin(customer);
++        relogin(customer);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++
++    @Test(description = "Profile identity survives checkout before invoice gap inspection")
++    public void profile_identity_survives_checkout_before_invoice_gap_inspection() {
++        CustomerData customer = completeCashOnDeliveryCheckout(1);
++        accountService.openProfileDirect();
++        accountValidation.assertProfileMatches(customer);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++
++    @Test(description = "Invoice gap survives relogin after a two-unit checkout")
++    public void invoice_gap_survives_relogin_after_two_unit_checkout() {
++        CustomerData customer = completeCashOnDeliveryCheckout(2);
++        relogin(customer);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++}
+
+
+diff --git src/test/java/com/endava/ai/ui/tests/checkout/authenticated/AbstractAuthenticatedCheckoutTest.java src/test/java/com/endava/ai/ui/tests/checkout/authenticated/AbstractAuthenticatedCheckoutTest.java
+new file mode 100644
+index 0000000..3180411
+--- /dev/null
++++ src/test/java/com/endava/ai/ui/tests/checkout/authenticated/AbstractAuthenticatedCheckoutTest.java
+@@ -0,0 +1,59 @@
++package com.endava.ai.ui.tests.checkout.authenticated;
++
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.core.BaseTestUI;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.service.AccountService;
++import com.endava.ai.ui.service.CheckoutService;
++import com.endava.ai.ui.service.LoginService;
++import com.endava.ai.ui.service.RegistrationService;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.validation.AccountValidation;
++import com.endava.ai.ui.validation.CheckoutValidation;
++import com.endava.ai.ui.validation.RegistrationValidation;
++import org.testng.annotations.BeforeMethod;
++
++public abstract class AbstractAuthenticatedCheckoutTest extends BaseTestUI {
++
++    protected final RegistrationService registrationService = new RegistrationService();
++    protected final RegistrationValidation registrationValidation = new RegistrationValidation();
++    protected final LoginService loginService = new LoginService();
++    protected final CheckoutService checkoutService = new CheckoutService();
++    protected final CheckoutValidation checkoutValidation = new CheckoutValidation();
++    protected final AccountService accountService = new AccountService();
++    protected final AccountValidation accountValidation = new AccountValidation();
++
++    @BeforeMethod
++    public void before() {
++        StepLogger.startStep("Authenticated checkout preconditions");
++        UIActions.clearSession();
++        StepLogger.pass("Ready");
++    }
++
++    protected CustomerData registerAndLoginCustomer() {
++        AssertionError lastFailure = null;
++
++        for (int attempt = 1; attempt <= 2; attempt++) {
++            CustomerData customer = registrationService.registerValidCustomer();
++            try {
++                registrationValidation.assertRedirectedToLogin();
++                loginService.openLogin();
++                loginService.signInAndWaitForAuthenticatedLanding(customer.getEmail(), customer.getPassword());
++                return customer;
++            } catch (AssertionError failure) {
++                lastFailure = failure;
++                UIActions.clearSession();
++            }
++        }
++
++        throw lastFailure;
++    }
++
++    protected void relogin(CustomerData customer) {
++        UIActions.clearSession();
++        loginService.openLogin();
++        loginService.signInAndWaitForAuthenticatedLanding(customer.getEmail(), customer.getPassword());
++    }
++}
++
++
+
+

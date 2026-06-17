@@ -1,0 +1,650 @@
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+  • Playwright pages after init: 1
+? Clear browser session
+  ? PASS: Session cleared
+? Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ? PASS: Navigated
+? Click on: First visible product
+  • locator=a[data-test^='product-']
+  ? PASS: Clicked
+? Click on: Add to favourites
+  • locator=[data-test='add-to-favorites']
+  ? PASS: Clicked
+? Clear browser session
+  ? PASS: Session cleared
+? Open URL: https://practicesoftwaretesting.com/account/favorites
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/favorites
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Clear browser session
+  ? PASS: Session cleared
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_wk59lxcsmv@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@NfyzLNs5
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_wk59lxcsmv@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@NfyzLNs5
+  ? PASS: Typed
+? Click on: Login
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ? PASS: Navigated
+? Click on: First visible product
+  • locator=a[data-test^='product-']
+  ? PASS: Clicked
+? Get text from: Product name
+  • locator=[data-test='product-name']
+  • text=Combination Pliers
+  ? PASS: Text captured
+? Click on: Add to favourites
+  • locator=[data-test='add-to-favorites']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/account/favorites
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/favorites
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account/favorites
+  ? PASS: Navigated
+? Click on: Customer menu
+  • locator=[data-test='nav-menu']
+  ? PASS: Clicked
+? Click on: Sign out
+  • locator=[data-test='nav-sign-out']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_fznpqbigy9@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@GozfmDNs
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_fznpqbigy9@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@GozfmDNs
+  ? PASS: Typed
+? Click on: Login
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Click on: Customer menu
+  • locator=[data-test='nav-menu']
+  ? PASS: Clicked
+? Click on: Sign out
+  • locator=[data-test='nav-sign-out']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_wk59lxcsmv@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@NfyzLNs5
+  ? PASS: Typed
+? Click on: Login
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/account/favorites
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/favorites
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account/favorites
+  ? PASS: Navigated
+? Get text from: Favorite product name
+  • locator=[data-test^='favorite-'] [data-test='product-name']
+  • text=Combination Pliers
+  ? PASS: Text captured
+? Clear browser session
+  ? PASS: Session cleared
+? Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ? PASS: Navigated
+? Click on: First visible product
+  • locator=a[data-test^='product-']
+  ? PASS: Clicked
+? Click on: Add to favourites
+  • locator=[data-test='add-to-favorites']
+  ? PASS: Clicked
+? Clear browser session
+  ? PASS: Session cleared
+? Open URL: https://practicesoftwaretesting.com/account/favorites
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/favorites
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_t8tkkpp8jn@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@IERGosb5
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_t8tkkpp8jn@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@IERGosb5
+  ? PASS: Typed
+? Click on: Login
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/account/favorites
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/favorites
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account/favorites
+  ? PASS: Navigated
+? Get text from: Account page text
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+ EN 
+Favorites
+There are no favorites yet. In order to add favorites, please go to the product listing and mark some products as your favorite.
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+  ? PASS: Text captured
+? Clear browser session
+  ? PASS: Session cleared
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_mqgopwim23@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@mVjb7SX9
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_mqgopwim23@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@mVjb7SX9
+  ? PASS: Typed
+? Click on: Login
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ? PASS: Navigated
+? Click on: First visible product
+  • locator=a[data-test^='product-']
+  ? PASS: Clicked
+? Get text from: Product name
+  • locator=[data-test='product-name']
+  • text=Combination Pliers
+  ? PASS: Text captured
+? Click on: Add to favourites
+  • locator=[data-test='add-to-favorites']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/account/favorites
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/favorites
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account/favorites
+  ? PASS: Navigated
+? Click on: Customer menu
+  • locator=[data-test='nav-menu']
+  ? PASS: Clicked
+? Click on: Sign out
+  • locator=[data-test='nav-sign-out']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_8yt48qxs0o@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@d7qGwxxm
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_8yt48qxs0o@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@d7qGwxxm
+  ? PASS: Typed
+? Click on: Login
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/account/favorites
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/favorites
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account/favorites
+  ? PASS: Navigated
+? Get text from: Account page text
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+ EN 
+Favorites
+There are no favorites yet. In order to add favorites, please go to the product listing and mark some products as your favorite.
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+  ? PASS: Text captured
+? Click on: Customer menu
+  • locator=[data-test='nav-menu']
+  ? PASS: Clicked
+? Click on: Sign out
+  • locator=[data-test='nav-sign-out']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_mqgopwim23@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@mVjb7SX9
+  ? PASS: Typed
+? Click on: Login
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/account/favorites
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/favorites
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account/favorites
+  ? PASS: Navigated
+? Clear browser session
+  ? PASS: Session cleared
+? Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ? PASS: Navigated
+? Click on: First visible product
+  • locator=a[data-test^='product-']
+  ? PASS: Clicked
+? Click on: Add to favourites
+  • locator=[data-test='add-to-favorites']
+  ? PASS: Clicked
+? Get text from: Product page text
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+Sign in
+ EN 
+Photo by Helinton Fantin on Unsplash.
+Combination Pliers
+
+PliersForgeFlex Tools
+
+$14.15
+A
+B
+C
+D
+E
+
+Versatile combination pliers designed for gripping, bending, and cutting wire with ease. Featuring chrome vanadium steel construction with induction-hardened cutting edges, these pliers deliver excellent grip and leverage for a wide range of tasks. The precision-machined jaws combine flat gripping surfaces with a pipe-grip section and integrated wire cutter for true multi-purpose functionality. Ergonomic bi-component handles reduce hand fatigue during extended use and provide a secure hold even with oily or gloved hands. The joint is precisely fitted to eliminate play and ensure smooth operation over thousands of cycles. Ideal for electricians, mechanics, and DIY enthusiasts tackling everyday projects around the workshop or job site.
+
+Quantity
+Add to cart
+ Add to favourites
+ Compare
+Specifications
+Handle Material	Bi-component
+Length	200mm
+Material	Chrome Vanadium Steel
+Warranty	2years
+Weight	340g
+Related products
+Pliers
+More information
+Bolt Cutters
+More information
+Long Nose Pliers
+More information
+Slip Joint Pliers
+More information
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Unauthorized, can not add product to your favorite list.
+  ? PASS: Text captured
+? Clear browser session
+  ? PASS: Session cleared
+? Open URL: https://practicesoftwaretesting.com/account/favorites
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/favorites
+  • Playwright pages after open: 1
+  ? PASS: Opened

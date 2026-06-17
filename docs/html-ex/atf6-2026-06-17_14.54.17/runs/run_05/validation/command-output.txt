@@ -1,0 +1,2007 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.endava.ai:test-framework >--------------------
+[INFO] Building Test Automation Framework 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ test-framework ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ test-framework ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ test-framework ---
+[INFO] Copying 4 resources from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ test-framework ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ test-framework ---
+[INFO] Using auto detected provider org.apache.maven.surefire.testng.TestNGProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseOrderRowReloginTests
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+  • Playwright pages after init: 1
+? Authenticated checkout preconditions
+? Clear browser session
+  ? PASS: Session cleared
+  ? PASS: Ready
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_gvyb7ang1w@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@vx8rIO3M
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_gvyb7ang1w@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@vx8rIO3M
+  ? PASS: Typed
+? Click on: Login submit
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Open URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Resolve live product route for Combination Pliers
+  • route.resolver.status=200
+  • route.resolver.response
+  ? PASS: Resolved Combination Pliers to /product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+? Navigate to URL: https://practicesoftwaretesting.com/product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  • Playwright pages after open: 1
+  • Wait for URL contains: /product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  ? PASS: Navigated
+? Click on: Add product to cart
+  • locator=[data-test='add-to-cart']
+  ? PASS: Clicked
+? Click on: Cart navigation item
+  • locator=[data-test='nav-cart']
+  ? PASS: Clicked
+? Click on: Proceed from cart to authenticated checkout
+  • locator=button[data-test='proceed-1']
+  ? PASS: Clicked
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+
+Hello John Doe, you are already logged in. You can proceed to checkout.
+
+Proceed to checkout
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Click on: Proceed from authenticated summary to billing
+  • locator=button[data-test='proceed-2']
+  ? PASS: Clicked
+? Select option: Billing country
+  • locator=select[data-test='country']
+  • value=FK
+  ? PASS: Selected
+? Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=5555
+  ? PASS: Typed
+? Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Click on: Proceed from billing to payment
+  • locator=button[data-test='proceed-3']
+  ? PASS: Clicked
+? Get texts from: Payment method options
+  • locator=select[data-test='payment-method'] option
+  • texts=[Choose your payment method, Bank Transfer, Cash on Delivery, Credit Card, Buy Now Pay Later, Gift Card]
+  ? PASS: Texts captured
+? Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=cash-on-delivery
+  ? PASS: Selected
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ? PASS: Clicked
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Clear browser session
+  ? PASS: Session cleared
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_gvyb7ang1w@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@vx8rIO3M
+  ? PASS: Typed
+? Click on: Login submit
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Open URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Open URL: https://practicesoftwaretesting.com/account/orders
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/orders
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Get text from: Orders fallback body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+ EN 
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+  ? PASS: Text captured
+? Authenticated checkout preconditions
+? Clear browser session
+  ? PASS: Session cleared
+  ? PASS: Ready
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_ucwhvzcto8@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@GIxCR08F
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_ucwhvzcto8@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@GIxCR08F
+  ? PASS: Typed
+? Click on: Login submit
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Open URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Navigate to URL: https://practicesoftwaretesting.com/product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  • Playwright pages after open: 1
+  • Wait for URL contains: /product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  ? PASS: Navigated
+? Click on: Add product to cart
+  • locator=[data-test='add-to-cart']
+  ? PASS: Clicked
+? Click on: Cart navigation item
+  • locator=[data-test='nav-cart']
+  ? PASS: Clicked
+? Click on: Proceed from cart to authenticated checkout
+  • locator=button[data-test='proceed-1']
+  ? PASS: Clicked
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+
+Hello , you are already logged in. You can proceed to checkout.
+
+Proceed to checkout
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Click on: Proceed from authenticated summary to billing
+  • locator=button[data-test='proceed-2']
+  ? PASS: Clicked
+? Select option: Billing country
+  • locator=select[data-test='country']
+  • value=FK
+  ? PASS: Selected
+? Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=5555
+  ? PASS: Typed
+? Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Click on: Proceed from billing to payment
+  • locator=button[data-test='proceed-3']
+  ? PASS: Clicked
+? Get texts from: Payment method options
+  • locator=select[data-test='payment-method'] option
+  • texts=[Choose your payment method, Bank Transfer, Cash on Delivery, Credit Card, Buy Now Pay Later, Gift Card]
+  ? PASS: Texts captured
+? Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=cash-on-delivery
+  ? PASS: Selected
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ? PASS: Clicked
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Clear browser session
+  ? PASS: Session cleared
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_ucwhvzcto8@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@GIxCR08F
+  ? PASS: Typed
+? Click on: Login submit
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Open URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Clear browser session
+  ? PASS: Session cleared
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_ucwhvzcto8@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@GIxCR08F
+  ? PASS: Typed
+? Click on: Login submit
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Open URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Open URL: https://practicesoftwaretesting.com/account/orders
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/orders
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Get text from: Orders fallback body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+ EN 
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+  ? PASS: Text captured
+? Authenticated checkout preconditions
+? Clear browser session
+  ? PASS: Session cleared
+  ? PASS: Ready
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_rnr5l8phsk@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@jRp7z42R
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_rnr5l8phsk@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@jRp7z42R
+  ? PASS: Typed
+? Click on: Login submit
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Open URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Navigate to URL: https://practicesoftwaretesting.com/product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  • Playwright pages after open: 1
+  • Wait for URL contains: /product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  ? PASS: Navigated
+? Click on: Add product to cart
+  • locator=[data-test='add-to-cart']
+  ? PASS: Clicked
+? Click on: Cart navigation item
+  • locator=[data-test='nav-cart']
+  ? PASS: Clicked
+? Click on: Proceed from cart to authenticated checkout
+  • locator=button[data-test='proceed-1']
+  ? PASS: Clicked
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+
+Hello John Doe, you are already logged in. You can proceed to checkout.
+
+Proceed to checkout
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Click on: Proceed from authenticated summary to billing
+  • locator=button[data-test='proceed-2']
+  ? PASS: Clicked
+? Select option: Billing country
+  • locator=select[data-test='country']
+  • value=FK
+  ? PASS: Selected
+? Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=5555
+  ? PASS: Typed
+? Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Click on: Proceed from billing to payment
+  • locator=button[data-test='proceed-3']
+  ? PASS: Clicked
+? Get texts from: Payment method options
+  • locator=select[data-test='payment-method'] option
+  • texts=[Choose your payment method, Bank Transfer, Cash on Delivery, Credit Card, Buy Now Pay Later, Gift Card]
+  ? PASS: Texts captured
+? Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=cash-on-delivery
+  ? PASS: Selected
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ? PASS: Clicked
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Clear browser session
+  ? PASS: Session cleared
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_rnr5l8phsk@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@jRp7z42R
+  ? PASS: Typed
+? Click on: Login submit
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Open URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Navigate to URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account
+  ? PASS: Navigated
+? Get text from: Account overview body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+ EN 
+My account
+
+Here you can manage your profile, favorites and orders.
+
+ Favorites
+ Profile
+ Invoices
+ Messages
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+  ? PASS: Text captured
+? Get text from: Account overview body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+ EN 
+My account
+
+Here you can manage your profile, favorites and orders.
+
+ Favorites
+ Profile
+ Invoices
+ Messages
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+  ? PASS: Text captured
+? Get text from: Account overview body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+ EN 
+My account
+
+Here you can manage your profile, favorites and orders.
+
+ Favorites
+ Profile
+ Invoices
+ Messages
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+  ? PASS: Text captured
+? Get text from: Account overview body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+ EN 
+My account
+
+Here you can manage your profile, favorites and orders.
+
+ Favorites
+ Profile
+ Invoices
+ Messages
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+  ? PASS: Text captured
+? Get texts from: Orders navigation links
+  • locator=a[data-test='nav-orders']
+  • texts=[]
+  ? PASS: Texts captured
+? Get texts from: Orders navigation links
+  • locator=a[data-test='nav-orders']
+  • texts=[]
+  ? PASS: Texts captured
+? Authenticated checkout preconditions
+? Clear browser session
+  ? PASS: Session cleared
+  ? PASS: Ready
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_q4xy0hyokj@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@3VhXo1Lv
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_q4xy0hyokj@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@3VhXo1Lv
+  ? PASS: Typed
+? Click on: Login submit
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Open URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Navigate to URL: https://practicesoftwaretesting.com/product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  • Playwright pages after open: 1
+  • Wait for URL contains: /product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  ? PASS: Navigated
+? Click on: Add product to cart
+  • locator=[data-test='add-to-cart']
+  ? PASS: Clicked
+? Click on: Cart navigation item
+  • locator=[data-test='nav-cart']
+  ? PASS: Clicked
+? Click on: Proceed from cart to authenticated checkout
+  • locator=button[data-test='proceed-1']
+  ? PASS: Clicked
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+
+Hello John Doe, you are already logged in. You can proceed to checkout.
+
+Proceed to checkout
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Click on: Proceed from authenticated summary to billing
+  • locator=button[data-test='proceed-2']
+  ? PASS: Clicked
+? Select option: Billing country
+  • locator=select[data-test='country']
+  • value=FK
+  ? PASS: Selected
+? Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=5555
+  ? PASS: Typed
+? Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Click on: Proceed from billing to payment
+  • locator=button[data-test='proceed-3']
+  ? PASS: Clicked
+? Get texts from: Payment method options
+  • locator=select[data-test='payment-method'] option
+  • texts=[Choose your payment method, Bank Transfer, Cash on Delivery, Credit Card, Buy Now Pay Later, Gift Card]
+  ? PASS: Texts captured
+? Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=cash-on-delivery
+  ? PASS: Selected
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ? PASS: Clicked
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Clear browser session
+  ? PASS: Session cleared
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_q4xy0hyokj@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@3VhXo1Lv
+  ? PASS: Typed
+? Click on: Login submit
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Open URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Navigate to URL: https://practicesoftwaretesting.com/account/profile
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/profile
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account/profile
+  ? PASS: Navigated
+? Get value from: Profile first name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Value captured
+? Get value from: Profile last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Value captured
+? Get value from: Profile email
+  • locator=input[data-test='email']
+  • value=user_q4xy0hyokj@example.com
+  ? PASS: Value captured
+? Get value from: Profile street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Value captured
+? Get value from: Profile postal
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Value captured
+? Get value from: Profile city
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Value captured
+? Get value from: Profile state
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Value captured
+? Open URL: https://practicesoftwaretesting.com/account/orders
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/orders
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Get text from: Orders fallback body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+ EN 
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+  ? PASS: Text captured
+? Authenticated checkout preconditions
+? Clear browser session
+  ? PASS: Session cleared
+  ? PASS: Ready
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_jlhnlusapa@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@4NJIgPbq
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_jlhnlusapa@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@4NJIgPbq
+  ? PASS: Typed
+? Click on: Login submit
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Open URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Navigate to URL: https://practicesoftwaretesting.com/product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  • Playwright pages after open: 1
+  • Wait for URL contains: /product/01KVAQ8DHZR4RWC2WSQRYX0CYT
+  ? PASS: Navigated
+? Click on: Increase quantity
+  • locator=[data-test='increase-quantity']
+  ? PASS: Clicked
+? Click on: Add product to cart
+  • locator=[data-test='add-to-cart']
+  ? PASS: Clicked
+? Click on: Cart navigation item
+  • locator=[data-test='nav-cart']
+  ? PASS: Clicked
+? Click on: Proceed from cart to authenticated checkout
+  • locator=button[data-test='proceed-1']
+  ? PASS: Clicked
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+2
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+
+Hello John Doe, you are already logged in. You can proceed to checkout.
+
+Proceed to checkout
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Click on: Proceed from authenticated summary to billing
+  • locator=button[data-test='proceed-2']
+  ? PASS: Clicked
+? Select option: Billing country
+  • locator=select[data-test='country']
+  • value=FK
+  ? PASS: Selected
+? Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=5555
+  ? PASS: Typed
+? Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Click on: Proceed from billing to payment
+  • locator=button[data-test='proceed-3']
+  ? PASS: Clicked
+? Get texts from: Payment method options
+  • locator=select[data-test='payment-method'] option
+  • texts=[Choose your payment method, Bank Transfer, Cash on Delivery, Credit Card, Buy Now Pay Later, Gift Card]
+  ? PASS: Texts captured
+? Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=cash-on-delivery
+  ? PASS: Selected
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+2
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ? PASS: Clicked
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+2
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+2
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+2
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Get text from: Checkout body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+2
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Clear browser session
+  ? PASS: Session cleared
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Login email
+  • locator=input[data-test='email']
+  • value=user_jlhnlusapa@example.com
+  ? PASS: Typed
+? Type into element: Login password
+  • locator=input[data-test='password']
+  • value=Aa1@4NJIgPbq
+  ? PASS: Typed
+? Click on: Login submit
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Open URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Open URL: https://practicesoftwaretesting.com/account/orders
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/orders
+  • Playwright pages after open: 1
+  ? PASS: Opened
+? Get text from: Orders fallback body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+ EN 
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+  ? PASS: Text captured
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 76.87 s -- in com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseOrderRowReloginTests
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:21 min
+[INFO] Finished at: 2026-06-17T15:15:42+03:00
+[INFO] ------------------------------------------------------------------------

@@ -1,0 +1,483 @@
+﻿diff --git src/test/java/com/endava/ai/ui/tests/checkout/authenticated/AbstractAuthenticatedCheckoutTest.java src/test/java/com/endava/ai/ui/tests/checkout/authenticated/AbstractAuthenticatedCheckoutTest.java
+new file mode 100644
+index 0000000..3180411
+--- /dev/null
++++ src/test/java/com/endava/ai/ui/tests/checkout/authenticated/AbstractAuthenticatedCheckoutTest.java
+@@ -0,0 +1,59 @@
++package com.endava.ai.ui.tests.checkout.authenticated;
++
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.core.BaseTestUI;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.service.AccountService;
++import com.endava.ai.ui.service.CheckoutService;
++import com.endava.ai.ui.service.LoginService;
++import com.endava.ai.ui.service.RegistrationService;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.validation.AccountValidation;
++import com.endava.ai.ui.validation.CheckoutValidation;
++import com.endava.ai.ui.validation.RegistrationValidation;
++import org.testng.annotations.BeforeMethod;
++
++public abstract class AbstractAuthenticatedCheckoutTest extends BaseTestUI {
++
++    protected final RegistrationService registrationService = new RegistrationService();
++    protected final RegistrationValidation registrationValidation = new RegistrationValidation();
++    protected final LoginService loginService = new LoginService();
++    protected final CheckoutService checkoutService = new CheckoutService();
++    protected final CheckoutValidation checkoutValidation = new CheckoutValidation();
++    protected final AccountService accountService = new AccountService();
++    protected final AccountValidation accountValidation = new AccountValidation();
++
++    @BeforeMethod
++    public void before() {
++        StepLogger.startStep("Authenticated checkout preconditions");
++        UIActions.clearSession();
++        StepLogger.pass("Ready");
++    }
++
++    protected CustomerData registerAndLoginCustomer() {
++        AssertionError lastFailure = null;
++
++        for (int attempt = 1; attempt <= 2; attempt++) {
++            CustomerData customer = registrationService.registerValidCustomer();
++            try {
++                registrationValidation.assertRedirectedToLogin();
++                loginService.openLogin();
++                loginService.signInAndWaitForAuthenticatedLanding(customer.getEmail(), customer.getPassword());
++                return customer;
++            } catch (AssertionError failure) {
++                lastFailure = failure;
++                UIActions.clearSession();
++            }
++        }
++
++        throw lastFailure;
++    }
++
++    protected void relogin(CustomerData customer) {
++        UIActions.clearSession();
++        loginService.openLogin();
++        loginService.signInAndWaitForAuthenticatedLanding(customer.getEmail(), customer.getPassword());
++    }
++}
++
++
+
+
+diff --git src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/AbstractPostPurchaseOwnershipTest.java src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/AbstractPostPurchaseOwnershipTest.java
+new file mode 100644
+index 0000000..47aa220
+--- /dev/null
++++ src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/AbstractPostPurchaseOwnershipTest.java
+@@ -0,0 +1,115 @@
++package com.endava.ai.ui.tests.checkout.postpurchase;
++
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.service.CheckoutService;
++import com.endava.ai.ui.tests.checkout.authenticated.AbstractAuthenticatedCheckoutTest;
++import com.endava.ai.ui.utils.UIActions;
++import org.testng.Assert;
++
++public abstract class AbstractPostPurchaseOwnershipTest extends AbstractAuthenticatedCheckoutTest {
++
++    protected static final String CASH_ON_DELIVERY = "cash-on-delivery";
++    protected static final String BANK_TRANSFER = "bank-transfer";
++    protected static final String BUY_NOW_PAY_LATER = "buy-now-pay-later";
++    protected static final String CREDIT_CARD = "credit-card";
++    protected static final String GIFT_CARD = "gift-card";
++
++    protected CustomerData completeCashOnDeliveryCheckout(int quantity) {
++        return completeSuccessfulCheckout(quantity, CASH_ON_DELIVERY);
++    }
++
++    protected CustomerData completeCashOnDeliveryCheckoutAndRelogin(int quantity) {
++        return completeSuccessfulCheckoutAndRelogin(quantity, CASH_ON_DELIVERY);
++    }
++
++    protected CustomerData completeSuccessfulCheckoutAndRelogin(int quantity, String paymentMethod) {
++        CustomerData customer = completeSuccessfulCheckout(quantity, paymentMethod);
++        relogin(customer);
++        return customer;
++    }
++
++    protected CustomerData completeSuccessfulCheckout(int quantity, String paymentMethod) {
++        CustomerData customer = registerAndLoginCustomer();
++
++        checkoutService.openCombinationPliersAuthenticatedPaymentStep(quantity);
++        checkoutValidation.assertPaymentMethodOptions();
++
++        configurePaymentMethod(paymentMethod);
++
++        checkoutService.confirmPayment();
++        checkoutValidation.assertPaymentSuccess();
++        return customer;
++    }
++
++    protected void assertInvoiceLedgerEmptyAfterSuccessfulCheckout(int quantity) {
++        completeCashOnDeliveryCheckout(quantity);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++
++    protected void assertCheckoutSuccessLacksReceiptIdentity() {
++        String body = UIActions.getText("body", "Checkout success body");
++        Assert.assertTrue(body.contains("Payment was successful"),
++                "Expected the live checkout to expose the payment success message.");
++        Assert.assertFalse(body.contains("Order ID"),
++                "Expected the checkout success message not to expose a reopenable order id.");
++        Assert.assertFalse(body.contains("Receipt"),
++                "Expected the checkout success message not to expose a receipt identity.");
++        Assert.assertFalse(body.contains("Invoice Number"),
++                "Expected the checkout success page not to expose an invoice identity.");
++    }
++
++    protected void assertAccountReopenLacksReceiptIdentity() {
++        String body = UIActions.getText("body", "Reopened account body");
++        Assert.assertFalse(body.contains("Payment was successful"),
++                "Expected the account reopen flow not to preserve the checkout success message as a reopenable receipt artifact.");
++        Assert.assertFalse(body.contains("Order ID"),
++                "Expected the reopened account flow not to expose a reopened order id.");
++        Assert.assertFalse(body.contains("Receipt"),
++                "Expected the reopened account flow not to expose a reopened receipt identity.");
++        Assert.assertFalse(body.contains("Invoice Number"),
++                "Expected the reopened account flow not to expose a reopened invoice identity.");
++    }
++
++    protected void assertReopenedInvoicesLackReceiptIdentity() {
++        String body = UIActions.getText("body", "Reopened invoices body");
++        Assert.assertFalse(body.contains("Payment was successful"),
++                "Expected the reopened invoices flow not to preserve the checkout success message as a reopenable receipt artifact.");
++        Assert.assertFalse(body.contains("Order ID"),
++                "Expected the reopened invoices flow not to expose a reopened order id.");
++        Assert.assertFalse(body.contains("Receipt"),
++                "Expected the reopened invoices flow not to expose a reopened receipt identity.");
++    }
++
++    private void configurePaymentMethod(String paymentMethod) {
++        checkoutService.selectPaymentMethod(paymentMethod);
++
++        switch (paymentMethod) {
++            case CASH_ON_DELIVERY:
++                checkoutValidation.assertCashOnDeliveryReady();
++                return;
++            case BANK_TRANSFER:
++                checkoutValidation.assertBankTransferFieldsVisibleAndGuarded();
++                checkoutService.fillBankTransferDetails("Banca Demo", "Ana Ionescu", "1234567890");
++                checkoutValidation.assertFinishEnabled(true);
++                return;
++            case BUY_NOW_PAY_LATER:
++                checkoutValidation.assertBuyNowPayLaterFieldVisibleAndGuarded();
++                checkoutService.selectMonthlyInstallments("12");
++                checkoutValidation.assertFinishEnabled(true);
++                return;
++            case CREDIT_CARD:
++                checkoutValidation.assertCreditCardFieldsVisible();
++                checkoutService.fillCreditCardDetails("4111-1111-1111-1111", "12/2030", "123", "Ana Ionescu");
++                checkoutValidation.assertFinishEnabled(true);
++                return;
++            case GIFT_CARD:
++                checkoutValidation.assertGiftCardFieldsVisibleAndGuarded();
++                checkoutService.fillGiftCardDetails("1234567890123456", "1234");
++                checkoutValidation.assertFinishEnabled(true);
++                return;
++            default:
++                throw new IllegalArgumentException("Unsupported payment method: " + paymentMethod);
++        }
++    }
++}
+
+
+diff --git src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceSurfaceTests.java src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceSurfaceTests.java
+new file mode 100644
+index 0000000..f799c3f
+--- /dev/null
++++ src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceSurfaceTests.java
+@@ -0,0 +1,38 @@
++package com.endava.ai.ui.tests.checkout.postpurchase;
++
++import org.testng.annotations.Test;
++
++public class PostPurchaseInvoiceSurfaceTests extends AbstractPostPurchaseOwnershipTest {
++
++    @Test(description = "Invoice ledger surface is reachable before any order exists")
++    public void invoice_surface_is_reachable_before_any_order_exists() {
++        registerAndLoginCustomer();
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesExposeLedgerSurface();
++    }
++
++    @Test(description = "Account overview exposes the invoice route before checkout")
++    public void account_overview_exposes_invoice_route_before_checkout() {
++        registerAndLoginCustomer();
++        accountService.openOverviewDirect();
++        accountValidation.assertOverviewExposesAccountManagement();
++    }
++
++    @Test(description = "Checkout success returns payment confirmation before invoice inspection")
++    public void checkout_success_confirms_payment_before_invoice_inspection() {
++        completeCashOnDeliveryCheckout(1);
++    }
++
++    @Test(description = "Invoice ledger stays empty after one successful authenticated checkout")
++    public void invoice_ledger_stays_empty_after_one_successful_checkout() {
++        assertInvoiceLedgerEmptyAfterSuccessfulCheckout(1);
++    }
++
++    @Test(description = "Invoice ledger still exposes columns after checkout even when no row materializes")
++    public void invoice_ledger_keeps_columns_after_checkout_without_rows() {
++        completeCashOnDeliveryCheckout(1);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesExposeLedgerSurface();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++}
+
+
+diff --git src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceCustomerBoundaryTests.java src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceCustomerBoundaryTests.java
+new file mode 100644
+index 0000000..c7d3360
+--- /dev/null
++++ src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceCustomerBoundaryTests.java
+@@ -0,0 +1,65 @@
++package com.endava.ai.ui.tests.checkout.postpurchase;
++
++import com.endava.ai.ui.model.CustomerData;
++import org.testng.annotations.Test;
++
++public class PostPurchaseInvoiceCustomerBoundaryTests extends AbstractPostPurchaseOwnershipTest {
++
++    @Test(description = "First customer checkout leaves first customer invoice ledger empty")
++    public void first_customer_checkout_leaves_first_customer_invoice_ledger_empty() {
++        assertInvoiceLedgerEmptyAfterSuccessfulCheckout(1);
++    }
++
++    @Test(description = "Second customer starts with an empty invoice ledger")
++    public void second_customer_starts_with_empty_invoice_ledger() {
++        CustomerData firstCustomer = completeCashOnDeliveryCheckout(1);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++
++        CustomerData secondCustomer = registerAndLoginCustomer();
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesExposeLedgerSurface();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++
++        relogin(firstCustomer);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++
++    @Test(description = "Two independent customers keep separate empty invoice ledgers after checkout")
++    public void two_independent_customers_keep_separate_empty_invoice_ledgers_after_checkout() {
++        CustomerData firstCustomer = completeCashOnDeliveryCheckout(1);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++
++        CustomerData secondCustomer = completeCashOnDeliveryCheckout(1);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++
++        relogin(firstCustomer);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++
++        relogin(secondCustomer);
++        accountService.openOverviewDirect();
++        accountValidation.assertOverviewExposesAccountManagement();
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++
++    @Test(description = "Customer invoice gap remains scoped to the authenticated account after relogin")
++    public void customer_invoice_gap_remains_scoped_after_relogin() {
++        CustomerData customer = completeCashOnDeliveryCheckout(1);
++        relogin(customer);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++
++    @Test(description = "Fresh registered customer does not inherit another checkout invoice")
++    public void fresh_registered_customer_does_not_inherit_another_checkout_invoice() {
++        completeCashOnDeliveryCheckout(1);
++        registerAndLoginCustomer();
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++}
+
+
+diff --git src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceReloginTests.java src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceReloginTests.java
+new file mode 100644
+index 0000000..f750758
+--- /dev/null
++++ src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceReloginTests.java
+@@ -0,0 +1,49 @@
++package com.endava.ai.ui.tests.checkout.postpurchase;
++
++import com.endava.ai.ui.model.CustomerData;
++import org.testng.annotations.Test;
++
++public class PostPurchaseInvoiceReloginTests extends AbstractPostPurchaseOwnershipTest {
++
++    @Test(description = "Invoice gap survives a cold relogin after checkout success")
++    public void invoice_gap_survives_cold_relogin_after_checkout_success() {
++        CustomerData customer = completeCashOnDeliveryCheckout(1);
++        relogin(customer);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++
++    @Test(description = "Account overview remains reachable after checkout and relogin")
++    public void account_overview_remains_reachable_after_checkout_and_relogin() {
++        CustomerData customer = completeCashOnDeliveryCheckout(1);
++        relogin(customer);
++        accountService.openOverviewDirect();
++        accountValidation.assertOverviewExposesAccountManagement();
++    }
++
++    @Test(description = "Invoice ledger remains empty after two relogins")
++    public void invoice_ledger_remains_empty_after_two_relogins() {
++        CustomerData customer = completeCashOnDeliveryCheckout(1);
++        relogin(customer);
++        relogin(customer);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++
++    @Test(description = "Profile identity survives checkout before invoice gap inspection")
++    public void profile_identity_survives_checkout_before_invoice_gap_inspection() {
++        CustomerData customer = completeCashOnDeliveryCheckout(1);
++        accountService.openProfileDirect();
++        accountValidation.assertProfileMatches(customer);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++
++    @Test(description = "Invoice gap survives relogin after a two-unit checkout")
++    public void invoice_gap_survives_relogin_after_two_unit_checkout() {
++        CustomerData customer = completeCashOnDeliveryCheckout(2);
++        relogin(customer);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++}
+
+
+diff --git src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseReceiptIdentityGapTests.java src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseReceiptIdentityGapTests.java
+new file mode 100644
+index 0000000..bbf963c
+--- /dev/null
++++ src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseReceiptIdentityGapTests.java
+@@ -0,0 +1,48 @@
++package com.endava.ai.ui.tests.checkout.postpurchase;
++
++import com.endava.ai.ui.model.CustomerData;
++import org.testng.annotations.Test;
++
++public class PostPurchaseReceiptIdentityGapTests extends AbstractPostPurchaseOwnershipTest {
++
++    @Test(description = "Payment success message does not expose a reopenable order identity on the success screen")
++    public void payment_success_message_does_not_expose_a_reopenable_order_identity_on_the_success_screen() {
++        completeCashOnDeliveryCheckout(1);
++
++        assertCheckoutSuccessLacksReceiptIdentity();
++    }
++
++    @Test(description = "Payment success does not expose a reopenable invoice identity on the success screen")
++    public void payment_success_does_not_expose_a_reopenable_invoice_identity_on_the_success_screen() {
++        completeCashOnDeliveryCheckout(1);
++
++        assertCheckoutSuccessLacksReceiptIdentity();
++    }
++
++    @Test(description = "Relogin clears the payment success message without reopening any order identity")
++    public void relogin_clears_the_payment_success_message_without_reopening_any_order_identity() {
++        completeCashOnDeliveryCheckoutAndRelogin(1);
++
++        accountService.openOverviewDirect();
++        assertAccountReopenLacksReceiptIdentity();
++    }
++
++    @Test(description = "Invoice ledger can reopen after relogin but still exposes no row that can anchor the payment confirmation")
++    public void invoice_ledger_can_reopen_after_relogin_but_still_exposes_no_row_that_can_anchor_the_payment_confirmation() {
++        completeCashOnDeliveryCheckoutAndRelogin(1);
++
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++        assertReopenedInvoicesLackReceiptIdentity();
++    }
++
++    @Test(description = "Two-unit checkout still leaves the payment confirmation without a reopenable receipt identity")
++    public void two_unit_checkout_still_leaves_the_payment_confirmation_without_a_reopenable_receipt_identity() {
++        CustomerData customer = completeCashOnDeliveryCheckout(2);
++        assertCheckoutSuccessLacksReceiptIdentity();
++
++        relogin(customer);
++        accountService.openOverviewDirect();
++        assertAccountReopenLacksReceiptIdentity();
++    }
++}
+
+
+diff --git src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseOrderRowReloginTests.java src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseOrderRowReloginTests.java
+new file mode 100644
+index 0000000..b4a709d
+--- /dev/null
++++ src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseOrderRowReloginTests.java
+@@ -0,0 +1,53 @@
++package com.endava.ai.ui.tests.checkout.postpurchase;
++
++import com.endava.ai.ui.model.CustomerData;
++import org.testng.annotations.Test;
++
++public class PostPurchaseOrderRowReloginTests extends AbstractPostPurchaseOwnershipTest {
++
++    @Test(description = "Order row still does not materialize through account overview after checkout and relogin")
++    public void order_row_still_does_not_materialize_through_account_overview_after_checkout_and_relogin() {
++        completeCashOnDeliveryCheckoutAndRelogin(1);
++
++        accountService.openOverviewDirect();
++        accountValidation.assertOverviewMentionsOrdersWithoutDedicatedOrdersNavigation();
++    }
++
++    @Test(description = "Direct orders route still fails to materialize an order row after checkout and relogin")
++    public void direct_orders_route_still_fails_to_materialize_an_order_row_after_checkout_and_relogin() {
++        completeCashOnDeliveryCheckoutAndRelogin(1);
++
++        accountService.openOrdersDirect();
++        accountValidation.assertOrdersRouteFallsBackToStorefront();
++    }
++
++    @Test(description = "Two-unit checkout still leaves no order row after relogin")
++    public void two_unit_checkout_still_leaves_no_order_row_after_relogin() {
++        completeCashOnDeliveryCheckoutAndRelogin(2);
++
++        accountService.openOrdersDirect();
++        accountValidation.assertOrdersRouteFallsBackToStorefront();
++    }
++
++    @Test(description = "Double relogin still does not reopen an order row after successful checkout")
++    public void double_relogin_still_does_not_reopen_an_order_row_after_successful_checkout() {
++        CustomerData customer = completeCashOnDeliveryCheckout(1);
++        relogin(customer);
++        relogin(customer);
++
++        accountService.openOrdersDirect();
++        accountValidation.assertOrdersRouteFallsBackToStorefront();
++    }
++
++    @Test(description = "Profile identity can reopen after checkout while order history still fails to materialize")
++    public void profile_identity_can_reopen_after_checkout_while_order_history_still_fails_to_materialize() {
++        CustomerData customer = completeCashOnDeliveryCheckout(1);
++        relogin(customer);
++
++        accountService.openProfileDirect();
++        accountValidation.assertProfileMatches(customer);
++
++        accountService.openOrdersDirect();
++        accountValidation.assertOrdersRouteFallsBackToStorefront();
++    }
++}
+
+

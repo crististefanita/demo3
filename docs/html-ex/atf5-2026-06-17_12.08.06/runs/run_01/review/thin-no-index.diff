@@ -1,0 +1,99 @@
+diff --git "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteAcquisitionOwnershipTests.java" "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteAcquisitionOwnershipTests.java"
+new file mode 100644
+index 0000000..ad6d619
+--- /dev/null
++++ "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteAcquisitionOwnershipTests.java"
+@@ -0,0 +1,92 @@
++package com.endava.ai.atf.ui.customer;
++
++import com.endava.ai.ui.service.CatalogService;
++import com.endava.ai.ui.service.ProductService;
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++public class CustomerFavoriteAcquisitionOwnershipTests extends AccountCustomerUiTestBase {
++
++    private final CatalogService catalog = new CatalogService();
++    private final ProductService product = new ProductService();
++
++    @Test
++    public void authenticated_customer_adds_product_into_favorites_collection() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertTextContains(account.pageTitle(), "Favorites");
++        validation.assertTextContains(account.favoriteProductName(), expectedProduct);
++    }
++
++    @Test
++    public void favorites_route_replaces_empty_state_with_owned_product_row() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(product.name());
++
++        validation.assertPageTextDoesNotContain(account.pageText(), "There are no favorites yet");
++    }
++
++    @Test
++    public void favorite_row_carries_same_product_name_as_product_detail() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        Assert.assertEquals(account.favoriteProductName(), expectedProduct,
++                "Favorites row should preserve the product name chosen on the detail page.");
++    }
++
++    @Test
++    public void favorite_row_keeps_product_description_visible() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedDescription = product.description();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(product.name());
++
++        validation.assertTextContains(
++                account.favoriteProductDescription(),
++                expectedDescription.substring(0, Math.min(expectedDescription.length(), 40))
++        );
++    }
++
++    @Test
++    public void favorite_collection_stays_under_account_url_after_add() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        Assert.assertTrue(account.currentUrl().contains("/account/favorites"),
++                "Owned favorite collection should stay under the customer account route.");
++    }
++}
+

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-17T13:11:22 EEST" name="Surefire suite" finished-at="2026-06-17T13:12:03 EEST" duration-ms="40200">
+    <groups>
+    </groups>
+    <test started-at="2026-06-17T13:11:22 EEST" name="Surefire test" finished-at="2026-06-17T13:12:03 EEST" duration-ms="40200">
+      <class name="com.endava.ai.atf.ui.commerce.CustomerMessageDetailOwnershipTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageDetailOwnershipTests@52b1beb6]" started-at="2026-06-17T13:11:22 EEST" name="setUp" finished-at="2026-06-17T13:11:36 EEST" duration-ms="13523" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageDetailOwnershipTests@52b1beb6]" started-at="2026-06-17T13:11:36 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:11:40 EEST" duration-ms="3887" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="message_details_expose_reply_surface_for_same_thread()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageDetailOwnershipTests@52b1beb6]" started-at="2026-06-17T13:11:40 EEST" name="message_details_expose_reply_surface_for_same_thread" finished-at="2026-06-17T13:11:42 EEST" duration-ms="1712" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- message_details_expose_reply_surface_for_same_thread -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageDetailOwnershipTests@52b1beb6]" started-at="2026-06-17T13:11:42 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:11:45 EEST" duration-ms="2643" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="message_details_preserve_customer_subject_context()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageDetailOwnershipTests@52b1beb6]" started-at="2026-06-17T13:11:45 EEST" name="message_details_preserve_customer_subject_context" finished-at="2026-06-17T13:11:46 EEST" duration-ms="1504" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- message_details_preserve_customer_subject_context -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageDetailOwnershipTests@52b1beb6]" started-at="2026-06-17T13:11:46 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:11:49 EEST" duration-ms="2368" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="message_details_preserve_full_message_body()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageDetailOwnershipTests@52b1beb6]" started-at="2026-06-17T13:11:49 EEST" name="message_details_preserve_full_message_body" finished-at="2026-06-17T13:11:53 EEST" duration-ms="4055" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- message_details_preserve_full_message_body -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageDetailOwnershipTests@52b1beb6]" started-at="2026-06-17T13:11:53 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:11:55 EEST" duration-ms="2293" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="message_details_preserve_new_status_badge()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageDetailOwnershipTests@52b1beb6]" started-at="2026-06-17T13:11:55 EEST" name="message_details_preserve_new_status_badge" finished-at="2026-06-17T13:11:57 EEST" duration-ms="1413" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- message_details_preserve_new_status_badge -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageDetailOwnershipTests@52b1beb6]" started-at="2026-06-17T13:11:57 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:11:59 EEST" duration-ms="2303" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="message_details_route_has_persistent_identifier()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageDetailOwnershipTests@52b1beb6]" started-at="2026-06-17T13:11:59 EEST" name="message_details_route_has_persistent_identifier" finished-at="2026-06-17T13:12:02 EEST" duration-ms="2581" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- message_details_route_has_persistent_identifier -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageDetailOwnershipTests@52b1beb6]" started-at="2026-06-17T13:12:02 EEST" name="tearDown" finished-at="2026-06-17T13:12:03 EEST" duration-ms="459" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.commerce.CustomerMessageDetailOwnershipTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

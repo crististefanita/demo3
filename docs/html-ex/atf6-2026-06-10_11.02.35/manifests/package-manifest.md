@@ -1,0 +1,30 @@
+# Package Manifest
+
+- package root = `docs/out/2026-06-10_11.02.35`
+- completion state = `full`
+- active governed window = `run_01`
+- counted run set = `run_01`
+- materialized novelty set = `run_01`
+- closure-only cap set = `none`
+- countable no-lift set = `none`
+- retained diagnostic set = `none`
+- pruned review-only set = `none`
+- `RUN_EXPECTED_DELTA_QUALITY = 8.50`
+- `ROUND_TARGET_TEST_COUNT = 10`
+- strongest kept runs that cleared quality = `run_01`
+- strongest materially test-expanding runs and `TEST_MATERIALIZATION_QUALITY_SCORE` when required = `run_01 (8.8)`
+- accounting target met = `no`
+- local governed window exhausted = `yes`
+- governed-yield maximized = `no`
+- application-level exploration exhausted = `no`
+- canonical page = `analysis/langgraph-business-understanding.html`
+- primary root carriers:
+  - `README.md`
+  - `CALIBRATION.md`
+  - `review/final-self-review.md`
+  - `review/round-pretraining-brief.md`
+  - `review/frontier-ranking-ledger.md`
+  - `review/next-run-eligibility-card.md`
+  - `review/source-delta-carrier.md`
+- run carriers:
+  - `runs/run_01`

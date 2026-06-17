@@ -1,0 +1,13 @@
+run frozen = yes
+business claim settled = yes
+thin-no-index.diff saved = yes
+if no, reason = n/a
+source-delta-carrier required = no
+if yes, why = n/a
+run diff linked from SUMMARY/report = yes
+ExtentReport saved = yes
+machine result carrier saved = yes
+decisive learning md saved = yes
+countable kept run = yes
+missing mandatory artifact = no
+notes = same-family checkout progression

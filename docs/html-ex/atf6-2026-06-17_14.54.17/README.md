@@ -1,0 +1,57 @@
+# ROOT_RUN `2026-06-17_14.54.17`
+
+- status: frozen package
+- role: deep post-purchase blocker benchmark, not positive ownership benchmark
+- winner macro-lane: `post-purchase ownership materialization`
+- runs consumed: `5 / 5`
+- tests produced: `25 / 25`
+- final cold claim: authenticated checkout reaches `payment success`, account overview reopens, invoices reopen, relogin survives, and cross-customer isolation survives, yet no durable `order row`, no durable `invoice row`, and no reopenable `receipt identity` materialize after purchase
+- score cap: `Overall 90` is a blocker benchmark score, not business closure
+- score discipline:
+  - `Business Substance = 86`
+  - `Business Graph Realism = 92`
+  - `Historical Reopenability = 95`
+  - `Proof Chain Quality = 95`
+  - `Contract Artefacte Noi = 95`
+  - weighted result = `90.80`, published cold as `Overall 90`
+  - cap explicit: blocker benchmark, not positive ownership
+- legality:
+  - `same-package continuation legal = no`
+  - `fresh ROOT_RUN legal = yes`
+- report:
+  - `analysis/langgraph-business-understanding.html`
+  - `analysis/canonical-render-check.png`
+  - `analysis/link-audit.md`
+  - `analysis/html-ex-benchmark-comparison.md`
+  - `review/local-link-check.txt`
+- where this package is stronger than older blocker examples:
+  - `Historical Reopen Strip` is explicit in the final HTML, not only implicit through links
+  - `State Spine` is explicit in the final HTML, making the package easier to reopen cold
+  - `Blocker Depth Matrix` ties expected object -> promise -> proof -> severity -> frontier in one compact place
+  - `Proof Mapping` stays in canonical `claim -> run diff -> Extent -> XML -> run-state` order
+  - `Business Flow Graph` stays application-first, keeps run names out of the business nodes and now uses a calmer minimalist visual style
+- comparative cold ranking against live `common/docs/html-ex`:
+  - below `atf5-2026-06-17_12.08.06`, `atf5-2026-06-17_13.09.34` and `atf5-2026-06-17_13.59.19` because those own positive business progression with at least one durable positive object or a stronger positive lane
+  - above `atf6-2026-06-17_12.05.36` on blocker inevitability, proof mapping and report reopenability
+  - above some older blocker-only examples on report structure and comparison hygiene, even when overall remains tied
+- score interpretation after reporting uplift:
+  - `Business Substance = 86` stays fixed
+  - `Business Graph Realism = 92` stays defendable
+  - `Historical Reopenability = 95` is now even easier to defend from the report itself
+  - `Proof Chain Quality = 95` is now even easier to defend from the report itself
+  - `Contract Artefacte Noi = 95` stays defendable
+  - weighted result remains `90.80`, published cold as `Overall 90`
+- current cold placement:
+  - this package is best read as a top-tier blocker benchmark, not as a closure package
+  - inside blocker-only packages, it is now a strong candidate for the top slice because the report makes the blocker more inevitable, more business-first and easier to reopen
+  - across the full mixed library, it still stays under any package with real persistent positive ownership
+- constructive feedback that still lowers the note:
+  - no real `order row` exists
+  - no real `invoice row` exists
+  - no reopenable `receipt identity / order id` exists
+  - the package proves independence and durability of the blocker, but it still cannot prove ownership materialization
+- current improvement frontier:
+  - first real `order row`
+  - first real `invoice row`
+  - first real `receipt identity / order id`
+  - or a narrower cause than raw post-purchase non-materialization

@@ -1,0 +1,92 @@
+﻿SKIP	data:,
+OK	shared-report-reference.css	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\analysis\shared-report-reference.css
+SKIP	#score-overview
+SKIP	#verdict
+SKIP	#graph
+SKIP	#matrix
+SKIP	#proof
+SKIP	#artifacts
+SKIP	#audit
+SKIP	#closeout
+OK	../review/root-source-thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\root-source-thin-no-index.diff
+OK	../review/package-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\package-state.json
+OK	../review/execution-gate-card.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\execution-gate-card.md
+OK	../review/package-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\package-state.json
+OK	../review/package-close-out.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\package-close-out.md
+OK	../review/execution-gate-card.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\execution-gate-card.md
+OK	../review/next-run-eligibility-card.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\next-run-eligibility-card.md
+OK	../review/root-source-thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\root-source-thin-no-index.diff
+OK	../runs/run_01/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_01\review\thin-no-index.diff
+OK	../runs/run_02/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_02\review\thin-no-index.diff
+OK	../runs/run_03/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_03\review\thin-no-index.diff
+OK	../runs/run_04/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_04\review\thin-no-index.diff
+OK	../runs/run_05/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_05\review\thin-no-index.diff
+OK	canonical-render-check.png	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\analysis\canonical-render-check.png
+OK	link-audit.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\analysis\link-audit.md
+OK	../review/package-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\package-state.json
+OK	../review/execution-gate-card.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\execution-gate-card.md
+OK	../review/package-close-out.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\package-close-out.md
+OK	../review/root-source-thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\root-source-thin-no-index.diff
+OK	../runs/run_01/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_01\review\run-state.json
+OK	../runs/run_02/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_02\review\run-state.json
+OK	../runs/run_03/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_03\review\run-state.json
+OK	../runs/run_04/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_04\review\run-state.json
+OK	../runs/run_05/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_05\review\run-state.json
+OK	../review/frozen-package-inventory.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\frozen-package-inventory.md
+OK	../review/source-delta-carrier.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\source-delta-carrier.md
+OK	../review/quality-accounting-verdict.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\quality-accounting-verdict.md
+OK	../runs/run_01/SUMMARY.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_01\SUMMARY.md
+OK	../runs/run_02/SUMMARY.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_02\SUMMARY.md
+OK	../runs/run_03/SUMMARY.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_03\SUMMARY.md
+OK	../runs/run_04/SUMMARY.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_04\SUMMARY.md
+OK	../runs/run_05/SUMMARY.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_05\SUMMARY.md
+OK	../runs/run_01/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_01\review\run-state.json
+OK	../runs/run_02/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_02\review\run-state.json
+OK	../runs/run_03/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_03\review\run-state.json
+OK	../runs/run_04/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_04\review\run-state.json
+OK	../runs/run_05/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_05\review\run-state.json
+OK	../runs/run_01/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_01\review\thin-no-index.diff
+OK	../runs/run_01/validation/reports/ExtentReport_2026-06-17_15-04-27.html	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_01\validation\reports\ExtentReport_2026-06-17_15-04-27.html
+OK	../runs/run_01/validation/TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests.xml	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_01\validation\TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests.xml
+OK	../runs/run_01/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_01\review\run-state.json
+OK	../runs/run_02/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_02\review\thin-no-index.diff
+OK	../runs/run_02/validation/reports/ExtentReport_2026-06-17_15-08-17.html	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_02\validation\reports\ExtentReport_2026-06-17_15-08-17.html
+OK	../runs/run_02/validation/TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests.xml	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_02\validation\TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests.xml
+OK	../runs/run_02/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_02\review\run-state.json
+OK	../runs/run_03/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_03\review\thin-no-index.diff
+OK	../runs/run_03/validation/reports/ExtentReport_2026-06-17_15-10-06.html	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_03\validation\reports\ExtentReport_2026-06-17_15-10-06.html
+OK	../runs/run_03/validation/TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests.xml	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_03\validation\TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests.xml
+OK	../runs/run_03/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_03\review\run-state.json
+OK	../runs/run_04/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_04\review\thin-no-index.diff
+OK	../runs/run_04/validation/reports/ExtentReport_2026-06-17_15-13-09.html	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_04\validation\reports\ExtentReport_2026-06-17_15-13-09.html
+OK	../runs/run_04/validation/TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseReceiptIdentityGapTests.xml	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_04\validation\TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseReceiptIdentityGapTests.xml
+OK	../runs/run_04/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_04\review\run-state.json
+OK	../runs/run_05/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_05\review\thin-no-index.diff
+OK	../runs/run_05/validation/reports/ExtentReport_2026-06-17_15-14-24.html	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_05\validation\reports\ExtentReport_2026-06-17_15-14-24.html
+OK	../runs/run_05/validation/TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseOrderRowReloginTests.xml	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_05\validation\TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseOrderRowReloginTests.xml
+OK	../runs/run_05/review/run-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_05\review\run-state.json
+OK	../README.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\README.md
+OK	../review/root-source-thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\root-source-thin-no-index.diff
+OK	../review/package-state.json	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\package-state.json
+OK	../review/execution-gate-card.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\execution-gate-card.md
+OK	../review/package-close-out.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\package-close-out.md
+OK	../review/frozen-package-inventory.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\frozen-package-inventory.md
+OK	../review/source-delta-carrier.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\source-delta-carrier.md
+OK	../review/local-link-check.txt	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\review\local-link-check.txt
+OK	link-audit.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\analysis\link-audit.md
+OK	canonical-render-check.png	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\analysis\canonical-render-check.png
+OK	../runs/run_01/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_01\review\thin-no-index.diff
+OK	../runs/run_01/validation/reports/ExtentReport_2026-06-17_15-04-27.html	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_01\validation\reports\ExtentReport_2026-06-17_15-04-27.html
+OK	../runs/run_01/review/score-support.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_01\review\score-support.md
+OK	../runs/run_02/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_02\review\thin-no-index.diff
+OK	../runs/run_02/validation/reports/ExtentReport_2026-06-17_15-08-17.html	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_02\validation\reports\ExtentReport_2026-06-17_15-08-17.html
+OK	../runs/run_02/review/score-support.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_02\review\score-support.md
+OK	../runs/run_03/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_03\review\thin-no-index.diff
+OK	../runs/run_03/validation/reports/ExtentReport_2026-06-17_15-10-06.html	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_03\validation\reports\ExtentReport_2026-06-17_15-10-06.html
+OK	../runs/run_03/review/score-support.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_03\review\score-support.md
+OK	../runs/run_04/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_04\review\thin-no-index.diff
+OK	../runs/run_04/validation/reports/ExtentReport_2026-06-17_15-13-09.html	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_04\validation\reports\ExtentReport_2026-06-17_15-13-09.html
+OK	../runs/run_04/review/score-support.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_04\review\score-support.md
+OK	../runs/run_05/review/thin-no-index.diff	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_05\review\thin-no-index.diff
+OK	../runs/run_05/validation/reports/ExtentReport_2026-06-17_15-14-24.html	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_05\validation\reports\ExtentReport_2026-06-17_15-14-24.html
+OK	../runs/run_05/review/score-support.md	C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-17_14.54.17\runs\run_05\review\score-support.md

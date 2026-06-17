@@ -1,0 +1,65 @@
+diff --git a/src/test/java/com/endava/ai/ui/tests/AuthenticatedReceiptIdentityReentryTests.java b/src/test/java/com/endava/ai/ui/tests/AuthenticatedReceiptIdentityReentryTests.java
+new file mode 100644
+index 0000000..438f708
+--- /dev/null
++++ b/src/test/java/com/endava/ai/ui/tests/AuthenticatedReceiptIdentityReentryTests.java
+@@ -0,0 +1,59 @@
++package com.endava.ai.ui.tests;
++
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.utils.UIActions;
++import org.testng.annotations.BeforeMethod;
++import org.testng.annotations.Test;
++
++public class AuthenticatedReceiptIdentityReentryTests extends AuthenticatedCheckoutBaseTest {
++
++    private CustomerData sharedCustomer;
++
++    @BeforeMethod(alwaysRun = true)
++    public void beforeReceiptIdentityReentryMethod() {
++        StepLogger.startStep("Authenticated receipt-identity reentry preconditions");
++        UIActions.clearSession();
++        StepLogger.pass("Browser session was cleared before the next receipt-identity reentry check");
++    }
++
++    @Test(description = "After COD purchase the same-session account reentry still exposes no persistent commercial identity")
++    public void after_cod_purchase_the_same_session_account_reentry_still_exposes_no_persistent_commercial_identity() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedCashOnDeliveryPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++
++    @Test(description = "After bank-transfer purchase the same-session account reentry still exposes no persistent commercial identity")
++    public void after_bank_transfer_purchase_the_same_session_account_reentry_still_exposes_no_persistent_commercial_identity() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedBankTransferPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++
++    @Test(description = "After gift-card purchase the same-session account reentry still exposes no persistent commercial identity")
++    public void after_gift_card_purchase_the_same_session_account_reentry_still_exposes_no_persistent_commercial_identity() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedGiftCardPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++
++    @Test(description = "After switched credit-card to gift-card purchase the same-session account reentry still exposes no persistent commercial identity")
++    public void after_switched_credit_card_to_gift_card_purchase_the_same_session_account_reentry_still_exposes_no_persistent_commercial_identity() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedSwitchedGiftCardPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++
++    @Test(description = "After two successful purchases the same-session account reentry still exposes no persistent commercial identity")
++    public void after_two_successful_purchases_the_same_session_account_reentry_still_exposes_no_persistent_commercial_identity() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeTwoSuccessfulPurchases(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++}

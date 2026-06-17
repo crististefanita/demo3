@@ -1,0 +1,105 @@
+<html>
+<head>
+<title>TestNG:  Surefire test</title>
+<link href="../testng.css" rel="stylesheet" type="text/css" />
+<link href="../my-testng.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+.log { display: none;} 
+.stack-trace { display: none;} 
+</style>
+<script type="text/javascript">
+<!--
+function flip(e) {
+  current = e.style.display;
+  if (current == 'block') {
+    e.style.display = 'none';
+    return 0;
+  }
+  else {
+    e.style.display = 'block';
+    return 1;
+  }
+}
+
+function toggleBox(szDivId, elem, msg1, msg2)
+{
+  var res = -1;  if (document.getElementById) {
+    res = flip(document.getElementById(szDivId));
+  }
+  else if (document.all) {
+    // this is the way old msie versions work
+    res = flip(document.all[szDivId]);
+  }
+  if(elem) {
+    if(res == 0) elem.innerHTML = msg1; else elem.innerHTML = msg2;
+  }
+
+}
+
+function toggleAllBoxes() {
+  if (document.getElementsByTagName) {
+    d = document.getElementsByTagName('div');
+    for (i = 0; i < d.length; i++) {
+      if (d[i].className == 'log') {
+        flip(d[i]);
+      }
+    }
+  }
+}
+
+// -->
+</script>
+
+</head>
+<body>
+<h2 align='center'>Surefire test</h2><table border='1' align="center">
+<tr>
+<td>Tests passed/Failed/Skipped:</td><td>5/0/0</td>
+</tr><tr>
+<td>Started on:</td><td>Wed Jun 17 12:29:17 EEST 2026</td>
+</tr>
+<tr><td>Total time:</td><td>61 seconds (61463 ms)</td>
+</tr><tr>
+<td>Included groups:</td><td></td>
+</tr><tr>
+<td>Excluded groups:</td><td></td>
+</tr>
+</table><p/>
+<small><i>(Hover the method name to see the test class name)</i></small><p/>
+<table width='100%' border='1' class='invocation-passed'>
+<tr><td colspan='4' align='center'><b>PASSED TESTS</b></td></tr>
+<tr><td><b>Test method</b></td>
+<td><b>Attribute(s)</b></td>
+<td width="30%"><b>Exception</b></td>
+<td width="10%"><b>Time (seconds)</b></td>
+<td><b>Instance</b></td>
+</tr>
+<tr>
+<td title='com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests.anonymous_visitor_cannot_open_favorites_after_guest_add_attempt()'><b>anonymous_visitor_cannot_open_favorites_after_guest_add_attempt</b><br>Test class: com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests</td>
+<td></td>
+<td>4</td>
+<td>com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6</td></tr>
+<tr>
+<td title='com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests.first_customer_reopens_own_favorite_after_second_customer_session()'><b>first_customer_reopens_own_favorite_after_second_customer_session</b><br>Test class: com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests</td>
+<td></td>
+<td>14</td>
+<td>com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6</td></tr>
+<tr>
+<td title='com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests.guest_attempt_does_not_create_owned_favorite_after_later_login()'><b>guest_attempt_does_not_create_owned_favorite_after_later_login</b><br>Test class: com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests</td>
+<td></td>
+<td>6</td>
+<td>com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6</td></tr>
+<tr>
+<td title='com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests.second_customer_does_not_inherit_first_customer_favorite()'><b>second_customer_does_not_inherit_first_customer_favorite</b><br>Test class: com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests</td>
+<td></td>
+<td>13</td>
+<td>com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6</td></tr>
+<tr>
+<td title='com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests.unauthorized_feedback_does_not_replace_sign_in_boundary()'><b>unauthorized_feedback_does_not_replace_sign_in_boundary</b><br>Test class: com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests</td>
+<td></td>
+<td>2</td>
+<td>com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6</td></tr>
+</table><p>
+</body>
+</html>

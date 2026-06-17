@@ -1,0 +1,181 @@
+﻿diff --git a/src/main/java/com/endava/ai/ui/pages/MessagesPage.java b/src/main/java/com/endava/ai/ui/pages/MessagesPage.java
+new file mode 100644
+index 0000000..8e73e55
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/pages/MessagesPage.java
+@@ -0,0 +1,24 @@
++package com.endava.ai.ui.pages;
++
++public final class MessagesPage {
++
++    private MessagesPage() {
++    }
++
++    public static final String BODY = "body";
++    public static final String EMPTY_STATE = "tbody tr td";
++    public static final String ROWS = "tbody tr";
++    public static final String FIRST_ROW = "tbody tr";
++    public static final String FIRST_SUBJECT = "tbody tr:first-child td:nth-child(1)";
++    public static final String FIRST_MESSAGE = "tbody tr:first-child td:nth-child(2)";
++    public static final String FIRST_STATUS = "tbody tr:first-child td:nth-child(3)";
++    public static final String FIRST_DATE = "tbody tr:first-child td:nth-child(4)";
++    public static final String FIRST_DETAILS = "tbody tr:first-child td:nth-child(5) a";
++
++    public static final String DETAIL_BACK = "a[href='/account/messages']";
++    public static final String DETAIL_HEADER = "h1, h2";
++    public static final String DETAIL_STATUS = ".badge";
++    public static final String DETAIL_MESSAGE = "p";
++    public static final String DETAIL_REPLY_BOX = "textarea";
++    public static final String DETAIL_REPLY_BUTTON = "button";
++}
+diff --git a/src/main/java/com/endava/ai/ui/service/MessagesService.java b/src/main/java/com/endava/ai/ui/service/MessagesService.java
+new file mode 100644
+index 0000000..fcd6766
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/MessagesService.java
+@@ -0,0 +1,80 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.pages.MessagesPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++import java.util.List;
++
++public final class MessagesService {
++
++    public void openMessages() {
++        UIActions.navigateToRelative("/account/messages");
++        WaitUtils.waitForVisible(MessagesPage.BODY);
++    }
++
++    public void openFirstMessageDetails() {
++        UIActions.click(MessagesPage.FIRST_DETAILS, "First message details");
++        WaitUtils.waitForCondition(
++                "message details route is visible",
++                () -> DriverManager.getEngine().getCurrentUrl().contains("/account/messages/"),
++                "Expected message details route to be visible after opening row details."
++        );
++        WaitUtils.waitForVisible(MessagesPage.DETAIL_STATUS);
++    }
++
++    public void waitForMessageRow(String expectedFragment) {
++        WaitUtils.waitForCondition(
++                "message row is visible in account messages",
++                () -> {
++                    String body = DriverManager.getEngine().getText(MessagesPage.BODY);
++                    return body != null && body.contains(expectedFragment);
++                },
++                "Expected account messages to contain fragment: " + expectedFragment
++        );
++    }
++
++    public String pageText() {
++        return UIActions.getText(MessagesPage.BODY, "Messages page body");
++    }
++
++    public String firstSubject() {
++        return UIActions.getText(MessagesPage.FIRST_SUBJECT, "First message subject");
++    }
++
++    public String firstMessageSnippet() {
++        return UIActions.getText(MessagesPage.FIRST_MESSAGE, "First message snippet");
++    }
++
++    public String firstStatus() {
++        return UIActions.getText(MessagesPage.FIRST_STATUS, "First message status");
++    }
++
++    public String firstDate() {
++        return UIActions.getText(MessagesPage.FIRST_DATE, "First message date");
++    }
++
++    public int rowCount() {
++        List<String> rows = UIActions.getVisibleTexts(MessagesPage.ROWS, "Message rows");
++        return rows.size();
++    }
++
++    public String currentUrl() {
++        return DriverManager.getEngine().getCurrentUrl();
++    }
++
++    public String detailStatus() {
++        WaitUtils.waitForVisible(MessagesPage.DETAIL_STATUS);
++        return UIActions.getText(MessagesPage.DETAIL_STATUS, "Message detail status");
++    }
++
++    public String detailText() {
++        return UIActions.getText(MessagesPage.BODY, "Message detail body");
++    }
++
++    public void waitForReplySurface() {
++        WaitUtils.waitForVisible(MessagesPage.DETAIL_REPLY_BOX);
++        WaitUtils.waitForVisible(MessagesPage.DETAIL_REPLY_BUTTON);
++    }
++}
+diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageDetailOwnershipTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageDetailOwnershipTests.java
+new file mode 100644
+index 0000000..a7a526d
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageDetailOwnershipTests.java
+@@ -0,0 +1,59 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++public class CustomerMessageDetailOwnershipTests extends CustomerSupportMessageUiTestBase {
++
++    @Test
++    public void message_details_route_has_persistent_identifier() {
++        submitMessage("Customer service", uniqueMessage("Details identifier probe"));
++
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++
++        Assert.assertTrue(messages.currentUrl().matches(".*/account/messages/[A-Za-z0-9]+$"),
++                "Message details route should expose a persistent message identifier but was: " + messages.currentUrl());
++    }
++
++    @Test
++    public void message_details_preserve_full_message_body() {
++        String message = submitMessage("Return", uniqueMessage("Details body probe"));
++
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++
++        validation.assertPageTextContains(messages.detailText(), message);
++    }
++
++    @Test
++    public void message_details_preserve_new_status_badge() {
++        submitMessage("Payments", uniqueMessage("Details status probe"));
++
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++
++        validation.assertPageTextContains(messages.detailStatus(), "NEW");
++    }
++
++    @Test
++    public void message_details_preserve_customer_subject_context() {
++        submitMessage("Warranty", uniqueMessage("Details subject probe"));
++
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++
++        validation.assertPageTextContains(messages.detailText(), "warranty");
++    }
++
++    @Test
++    public void message_details_expose_reply_surface_for_same_thread() {
++        submitMessage("Status of my order", uniqueMessage("Reply surface probe"));
++
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++        messages.waitForReplySurface();
++
++        validation.assertPageTextContains(messages.detailText(), "Replies");
++    }
++}

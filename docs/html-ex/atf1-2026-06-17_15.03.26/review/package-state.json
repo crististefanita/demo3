@@ -1,0 +1,13 @@
+{
+    "runs_target":  "META_ITERATION_COUNT",
+    "runs_consumed":  5,
+    "run_tests_target":  "ROUND_TARGET_TEST_COUNT",
+    "root_diff":  "review/root-source-thin-no-index.diff",
+    "winner_macro_lane":  "receipt-identity-gap",
+    "breadth_verdict":  "partial",
+    "same_package_legal":  "no",
+    "fresh_root_run_legal":  "yes",
+    "report_status":  "ready",
+    "render_status":  "fresh",
+    "link_audit_status":  "yes"
+}

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-17T15:08:17 EEST" name="Surefire suite" finished-at="2026-06-17T15:09:47 EEST" duration-ms="89961">
+    <groups>
+    </groups>
+    <test started-at="2026-06-17T15:08:17 EEST" name="Surefire test" finished-at="2026-06-17T15:09:47 EEST" duration-ms="89961">
+      <class name="com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests@6337c201]" started-at="2026-06-17T15:08:17 EEST" name="setUp" finished-at="2026-06-17T15:08:28 EEST" duration-ms="11475" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests@6337c201]" started-at="2026-06-17T15:08:28 EEST" name="before" finished-at="2026-06-17T15:08:29 EEST" duration-ms="369" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="customer_invoice_gap_remains_scoped_after_relogin()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests@6337c201]" started-at="2026-06-17T15:08:29 EEST" name="customer_invoice_gap_remains_scoped_after_relogin" description="Customer invoice gap remains scoped to the authenticated account after relogin" finished-at="2026-06-17T15:08:42 EEST" duration-ms="13357" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- customer_invoice_gap_remains_scoped_after_relogin -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests@6337c201]" started-at="2026-06-17T15:08:43 EEST" name="before" finished-at="2026-06-17T15:08:43 EEST" duration-ms="7" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="first_customer_checkout_leaves_first_customer_invoice_ledger_empty()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests@6337c201]" started-at="2026-06-17T15:08:43 EEST" name="first_customer_checkout_leaves_first_customer_invoice_ledger_empty" description="First customer checkout leaves first customer invoice ledger empty" finished-at="2026-06-17T15:08:53 EEST" duration-ms="10864" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- first_customer_checkout_leaves_first_customer_invoice_ledger_empty -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests@6337c201]" started-at="2026-06-17T15:08:54 EEST" name="before" finished-at="2026-06-17T15:08:54 EEST" duration-ms="5" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="fresh_registered_customer_does_not_inherit_another_checkout_invoice()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests@6337c201]" started-at="2026-06-17T15:08:54 EEST" name="fresh_registered_customer_does_not_inherit_another_checkout_invoice" description="Fresh registered customer does not inherit another checkout invoice" finished-at="2026-06-17T15:09:07 EEST" duration-ms="13557" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- fresh_registered_customer_does_not_inherit_another_checkout_invoice -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests@6337c201]" started-at="2026-06-17T15:09:08 EEST" name="before" finished-at="2026-06-17T15:09:08 EEST" duration-ms="9" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="second_customer_starts_with_empty_invoice_ledger()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests@6337c201]" started-at="2026-06-17T15:09:08 EEST" name="second_customer_starts_with_empty_invoice_ledger" description="Second customer starts with an empty invoice ledger" finished-at="2026-06-17T15:09:23 EEST" duration-ms="15004" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- second_customer_starts_with_empty_invoice_ledger -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests@6337c201]" started-at="2026-06-17T15:09:23 EEST" name="before" finished-at="2026-06-17T15:09:23 EEST" duration-ms="10" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="two_independent_customers_keep_separate_empty_invoice_ledgers_after_checkout()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests@6337c201]" started-at="2026-06-17T15:09:23 EEST" name="two_independent_customers_keep_separate_empty_invoice_ledgers_after_checkout" description="Two independent customers keep separate empty invoice ledgers after checkout" finished-at="2026-06-17T15:09:46 EEST" duration-ms="23196" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- two_independent_customers_keep_separate_empty_invoice_ledgers_after_checkout -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests@6337c201]" started-at="2026-06-17T15:09:46 EEST" name="tearDown" finished-at="2026-06-17T15:09:47 EEST" duration-ms="483" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

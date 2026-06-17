@@ -1,0 +1,646 @@
+diff --git "a/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\pages\\CartPage.java" "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\pages\\CartPage.java"
+new file mode 100644
+index 0000000..8d75d7c
+--- /dev/null
++++ "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\pages\\CartPage.java"
+@@ -0,0 +1,33 @@
++package com.endava.ai.ui.pages;
++
++public final class CartPage {
++
++    private CartPage() {
++    }
++
++    public static final String PRODUCT_TITLE = "[data-test='product-title']";
++    public static final String PRODUCT_QUANTITY = "[data-test='product-quantity']";
++    public static final String PRODUCT_PRICE = "[data-test='product-price']";
++    public static final String LINE_PRICE = "[data-test='line-price']";
++    public static final String CART_TOTAL = "[data-test='cart-total']";
++    public static final String CONTINUE_SHOPPING = "[data-test='continue-shopping']";
++    public static final String PROCEED_CART = "[data-test='proceed-1']";
++    public static final String GUEST_TAB = "a[href='#guest-tab']";
++    public static final String GUEST_EMAIL = "[data-test='guest-email']";
++    public static final String GUEST_FIRST_NAME = "[data-test='guest-first-name']";
++    public static final String GUEST_LAST_NAME = "[data-test='guest-last-name']";
++    public static final String GUEST_SUBMIT = "[data-test='guest-submit']";
++    public static final String PROCEED_GUEST_IDENTITY = "[data-test='proceed-2-guest']";
++    public static final String COUNTRY = "[data-test='country']";
++    public static final String POSTCODE_LOOKUP_HINT = "[data-test='postcode-lookup-hint']";
++    public static final String POSTAL_CODE = "[data-test='postal_code']";
++    public static final String HOUSE_NUMBER = "[data-test='house_number']";
++    public static final String STREET = "[data-test='street']";
++    public static final String CITY = "[data-test='city']";
++    public static final String STATE = "[data-test='state']";
++    public static final String PROCEED_ADDRESS = "[data-test='proceed-3']";
++    public static final String PAYMENT_METHOD = "[data-test='payment-method']";
++    public static final String PAYMENT_SUCCESS_MESSAGE = "[data-test='payment-success-message']";
++    public static final String FINISH = "[data-test='finish']";
++    public static final String BODY = "body";
++}
+
+diff --git "a/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\pages\\CatalogPage.java" "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\pages\\CatalogPage.java"
+new file mode 100644
+index 0000000..96487a2
+--- /dev/null
++++ "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\pages\\CatalogPage.java"
+@@ -0,0 +1,25 @@
++package com.endava.ai.ui.pages;
++
++public final class CatalogPage {
++
++    private CatalogPage() {
++    }
++
++    public static final String SEARCH_QUERY = "[data-test='search-query']";
++    public static final String SEARCH_SUBMIT = "[data-test='search-submit']";
++    public static final String SEARCH_RESET = "[data-test='search-reset']";
++    public static final String SORT = "[data-test='sort']";
++    public static final String PRODUCT_CARD = "a[data-test^='product-']";
++    public static final String PRODUCT_NAME = "[data-test='product-name']";
++    public static final String PRODUCT_PRICE = "[data-test='product-price']";
++    public static final String ECO_FILTER = "[data-test='eco-friendly-filter']";
++    public static final String NAV_HAND_TOOLS = "[data-test='nav-hand-tools']";
++    public static final String NAV_POWER_TOOLS = "[data-test='nav-power-tools']";
++    public static final String NAV_CONTACT = "[data-test='nav-contact']";
++    public static final String NAV_SIGN_IN = "[data-test='nav-sign-in']";
++    public static final String NAV_CART = "[data-test='nav-cart']";
++    public static final String CART_QUANTITY = "[data-test='cart-quantity']";
++    public static final String FIRST_PRODUCT = "[data-test='product-01KV79CSA0XKWN3DC7X0F87Y2F']";
++    public static final String FIRST_HAMMER = "[data-test='product-01KV79CSAD2N0A33DVCZKRJ2TC']";
++}
++
+
+diff --git "a/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\pages\\ProductPage.java" "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\pages\\ProductPage.java"
+new file mode 100644
+index 0000000..923b9b6
+--- /dev/null
++++ "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\pages\\ProductPage.java"
+@@ -0,0 +1,22 @@
++package com.endava.ai.ui.pages;
++
++public final class ProductPage {
++
++    private ProductPage() {
++    }
++
++    public static final String NAME = "[data-test='product-name']";
++    public static final String UNIT_PRICE = "[data-test='unit-price']";
++    public static final String DESCRIPTION = "[data-test='product-description']";
++    public static final String CO2_RATING = "[data-test='co2-rating-badge']";
++    public static final String QUANTITY = "[data-test='quantity']";
++    public static final String INCREASE_QUANTITY = "[data-test='increase-quantity']";
++    public static final String DECREASE_QUANTITY = "[data-test='decrease-quantity']";
++    public static final String ADD_TO_CART = "[data-test='add-to-cart']";
++    public static final String ADD_TO_FAVORITES = "[data-test='add-to-favorites']";
++    public static final String ADD_TO_COMPARE = "[data-test='add-to-compare']";
++    public static final String SPECS_TITLE = "[data-test='specs-title']";
++    public static final String PRODUCT_SPECS = "[data-test='product-specs']";
++    public static final String RELATED_PRODUCT = "a[href^='/product/'] h5";
++}
++
+
+diff --git "a/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\service\\CartService.java" "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\service\\CartService.java"
+new file mode 100644
+index 0000000..b32f7a0
+--- /dev/null
++++ "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\service\\CartService.java"
+@@ -0,0 +1,146 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.pages.CartPage;
++import com.endava.ai.ui.pages.CatalogPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++public final class CartService {
++
++    public void proceedFromCart() {
++        UIActions.click(CartPage.PROCEED_CART, "Proceed from cart");
++        WaitUtils.waitForVisible(CartPage.GUEST_TAB);
++    }
++
++    public void chooseGuestCheckout() {
++        UIActions.click(CartPage.GUEST_TAB, "Continue as Guest tab");
++        WaitUtils.waitForVisible(CartPage.GUEST_EMAIL);
++    }
++
++    public void fillGuestIdentity(String email, String firstName, String lastName) {
++        UIActions.type(CartPage.GUEST_EMAIL, "Guest email", email);
++        UIActions.type(CartPage.GUEST_FIRST_NAME, "Guest first name", firstName);
++        UIActions.type(CartPage.GUEST_LAST_NAME, "Guest last name", lastName);
++    }
++
++    public void submitGuestIdentity() {
++        UIActions.click(CartPage.GUEST_SUBMIT, "Continue as Guest");
++        WaitUtils.waitForVisible(CartPage.PROCEED_GUEST_IDENTITY);
++    }
++
++    public void submitGuestIdentityWithoutProgressWait() {
++        UIActions.click(CartPage.GUEST_SUBMIT, "Continue as Guest");
++    }
++
++    public void proceedFromGuestIdentity() {
++        UIActions.click(CartPage.PROCEED_GUEST_IDENTITY, "Proceed from guest identity");
++        WaitUtils.waitForVisible(CartPage.COUNTRY);
++    }
++
++    public void fillBillingAddress() {
++        UIActions.select(CartPage.COUNTRY, "Country", "Romania");
++        UIActions.type(CartPage.POSTAL_CODE, "Postal code", "010101");
++        UIActions.type(CartPage.HOUSE_NUMBER, "House number", "12");
++        UIActions.type(CartPage.STREET, "Street", "Codex Street");
++        UIActions.type(CartPage.CITY, "City", "Bucharest");
++        UIActions.type(CartPage.STATE, "State", "Bucharest");
++    }
++
++    public void proceedFromBilling() {
++        UIActions.click(CartPage.PROCEED_ADDRESS, "Proceed from billing");
++        WaitUtils.waitForVisible(CartPage.PAYMENT_METHOD);
++    }
++
++    public void chooseCashOnDelivery() {
++        UIActions.select(CartPage.PAYMENT_METHOD, "Payment method", "Cash on Delivery");
++        WaitUtils.waitForVisible(CartPage.FINISH);
++    }
++
++    public void choosePaymentMethod(String paymentMethod) {
++        UIActions.select(CartPage.PAYMENT_METHOD, "Payment method", paymentMethod);
++        WaitUtils.waitForVisible(CartPage.FINISH);
++    }
++
++    public void confirmPayment() {
++        UIActions.click(CartPage.FINISH, "Confirm payment");
++        WaitUtils.waitForVisible(CartPage.PAYMENT_SUCCESS_MESSAGE);
++    }
++
++    public void continueShopping() {
++        UIActions.click(CartPage.CONTINUE_SHOPPING, "Continue shopping");
++        WaitUtils.waitForUrlContains("/");
++        WaitUtils.waitForVisible(CatalogPage.PRODUCT_CARD);
++    }
++
++    public String title() {
++        return UIActions.getText(CartPage.PRODUCT_TITLE, "Cart product title");
++    }
++
++    public String quantity() {
++        return UIActions.getValue(CartPage.PRODUCT_QUANTITY, "Cart quantity");
++    }
++
++    public String productPrice() {
++        return UIActions.getText(CartPage.PRODUCT_PRICE, "Cart product price");
++    }
++
++    public String linePrice() {
++        return UIActions.getText(CartPage.LINE_PRICE, "Cart line price");
++    }
++
++    public String total() {
++        return UIActions.getText(CartPage.CART_TOTAL, "Cart total");
++    }
++
++    public String guestEmail() {
++        return UIActions.getValue(CartPage.GUEST_EMAIL, "Guest email");
++    }
++
++    public String guestFirstName() {
++        return UIActions.getValue(CartPage.GUEST_FIRST_NAME, "Guest first name");
++    }
++
++    public String guestLastName() {
++        return UIActions.getValue(CartPage.GUEST_LAST_NAME, "Guest last name");
++    }
++
++    public String country() {
++        return UIActions.getValue(CartPage.COUNTRY, "Billing country");
++    }
++
++    public String postalCode() {
++        return UIActions.getValue(CartPage.POSTAL_CODE, "Billing postal code");
++    }
++
++    public String houseNumber() {
++        return UIActions.getValue(CartPage.HOUSE_NUMBER, "Billing house number");
++    }
++
++    public String street() {
++        return UIActions.getValue(CartPage.STREET, "Billing street");
++    }
++
++    public String city() {
++        return UIActions.getValue(CartPage.CITY, "Billing city");
++    }
++
++    public String state() {
++        return UIActions.getValue(CartPage.STATE, "Billing state");
++    }
++
++    public String paymentMethodOptions() {
++        return UIActions.getText(CartPage.PAYMENT_METHOD, "Payment method options");
++    }
++
++    public String paymentMethod() {
++        return UIActions.getValue(CartPage.PAYMENT_METHOD, "Selected payment method");
++    }
++
++    public String paymentSuccessMessage() {
++        return UIActions.getText(CartPage.PAYMENT_SUCCESS_MESSAGE, "Payment success message");
++    }
++
++    public String pageText() {
++        return UIActions.getText(CartPage.BODY, "Checkout page text");
++    }
++}
+
+diff --git "a/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\service\\CatalogService.java" "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\service\\CatalogService.java"
+new file mode 100644
+index 0000000..9b4a66c
+--- /dev/null
++++ "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\service\\CatalogService.java"
+@@ -0,0 +1,68 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.pages.CatalogPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++public final class CatalogService {
++
++    public void openHome() {
++        UIActions.navigateToRelative("/");
++        WaitUtils.waitForVisible(CatalogPage.PRODUCT_CARD);
++    }
++
++    public void search(String term) {
++        UIActions.type(CatalogPage.SEARCH_QUERY, "Search", term);
++        UIActions.click(CatalogPage.SEARCH_SUBMIT, "Search");
++        WaitUtils.waitForVisible(CatalogPage.PRODUCT_NAME);
++    }
++
++    public void resetSearch() {
++        UIActions.click(CatalogPage.SEARCH_RESET, "Reset search");
++        WaitUtils.waitForVisible(CatalogPage.PRODUCT_CARD);
++    }
++
++    public void sortBy(String visibleText) {
++        UIActions.select(CatalogPage.SORT, "Sort", visibleText);
++        WaitUtils.waitForVisible(CatalogPage.PRODUCT_CARD);
++    }
++
++    public void openFirstProduct() {
++        UIActions.click(CatalogPage.PRODUCT_CARD, "First visible product");
++        WaitUtils.waitForVisible(com.endava.ai.ui.pages.ProductPage.NAME);
++    }
++
++    public void openHammerProduct() {
++        search("Hammer");
++        UIActions.click(CatalogPage.PRODUCT_CARD, "First hammer product");
++        WaitUtils.waitForVisible(com.endava.ai.ui.pages.ProductPage.NAME);
++    }
++
++    public void toggleEcoFilter() {
++        UIActions.click(CatalogPage.ECO_FILTER, "Eco-friendly filter");
++        WaitUtils.waitForVisible(CatalogPage.PRODUCT_CARD);
++    }
++
++    public void openHandToolsFromMenu() {
++        UIActions.click(CatalogPage.NAV_HAND_TOOLS, "Hand Tools category");
++        WaitUtils.waitForVisible(CatalogPage.PRODUCT_CARD);
++    }
++
++    public void openCart() {
++        UIActions.click(CatalogPage.NAV_CART, "Cart");
++        WaitUtils.waitForVisible(com.endava.ai.ui.pages.CartPage.PRODUCT_TITLE);
++    }
++
++    public void openSignIn() {
++        UIActions.click(CatalogPage.NAV_SIGN_IN, "Sign in");
++        WaitUtils.waitForUrlContains("/auth/login");
++    }
++
++    public String visibleProductNames() {
++        return UIActions.getText(CatalogPage.PRODUCT_NAME, "Visible product names");
++    }
++
++    public String visiblePrices() {
++        return UIActions.getText(CatalogPage.PRODUCT_PRICE, "Visible prices");
++    }
++}
+
+diff --git "a/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\service\\ProductService.java" "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\service\\ProductService.java"
+new file mode 100644
+index 0000000..b01d8f9
+--- /dev/null
++++ "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\service\\ProductService.java"
+@@ -0,0 +1,82 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.pages.CatalogPage;
++import com.endava.ai.ui.pages.ProductPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++public final class ProductService {
++
++    public void addCurrentProductToCart() {
++        UIActions.click(ProductPage.ADD_TO_CART, "Add to cart");
++        WaitUtils.waitForVisible(CatalogPage.CART_QUANTITY);
++    }
++
++    public void addCurrentProductQuantityToCart(int quantity) {
++        for (int i = 1; i < quantity; i++) {
++            UIActions.click(ProductPage.INCREASE_QUANTITY, "Increase quantity");
++        }
++        WaitUtils.waitForInputValue(ProductPage.QUANTITY, "Product quantity", value -> value.equals(String.valueOf(quantity)));
++        addCurrentProductToCart();
++    }
++
++    public void decreaseQuantity() {
++        UIActions.click(ProductPage.DECREASE_QUANTITY, "Decrease quantity");
++    }
++
++    public void addToFavorites() {
++        UIActions.click(ProductPage.ADD_TO_FAVORITES, "Add to favourites");
++        WaitUtils.waitForCondition(
++                "favorites mutation feedback is visible",
++                () -> {
++                    String bodyText = DriverManager.getEngine().getText("body");
++                    return bodyText.contains("Product added to your favorites list.")
++                            || bodyText.contains("Product already in your favorites list.")
++                            || bodyText.contains("Unauthorized, can not add product to your favorite list.");
++                },
++                "Expected favorites action to publish a visible outcome."
++        );
++    }
++
++    public void addToCompare() {
++        UIActions.click(ProductPage.ADD_TO_COMPARE, "Add to compare");
++    }
++
++    public void openFirstRelatedProduct() {
++        UIActions.click(ProductPage.RELATED_PRODUCT, "First related product");
++        WaitUtils.waitForVisible(ProductPage.NAME);
++    }
++
++    public String name() {
++        return UIActions.getText(ProductPage.NAME, "Product name");
++    }
++
++    public String price() {
++        return UIActions.getText(ProductPage.UNIT_PRICE, "Unit price");
++    }
++
++    public String description() {
++        return UIActions.getText(ProductPage.DESCRIPTION, "Product description");
++    }
++
++    public String specs() {
++        return UIActions.getText(ProductPage.PRODUCT_SPECS, "Product specs");
++    }
++
++    public String quantity() {
++        return UIActions.getValue(ProductPage.QUANTITY, "Quantity");
++    }
++
++    public String co2Rating() {
++        return UIActions.getText(ProductPage.CO2_RATING, "CO2 rating");
++    }
++
++    public String relatedProducts() {
++        return UIActions.getText(ProductPage.RELATED_PRODUCT, "Related products");
++    }
++
++    public String pageText() {
++        return UIActions.getText("body", "Product page text");
++    }
++}
+
+diff --git "a/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\validation\\CommerceValidation.java" "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\validation\\CommerceValidation.java"
+new file mode 100644
+index 0000000..1cb6c8d
+--- /dev/null
++++ "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\main\\java\\com\\endava\\ai\\ui\\validation\\CommerceValidation.java"
+@@ -0,0 +1,95 @@
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.pages.CatalogPage;
++import com.endava.ai.ui.pages.CartPage;
++import com.endava.ai.ui.pages.ContactPage;
++import com.endava.ai.ui.utils.UIActions;
++import org.testng.Assert;
++
++public final class CommerceValidation {
++
++    public void assertUrlContains(String fragment) {
++        Assert.assertTrue(DriverManager.getEngine().getCurrentUrl().contains(fragment),
++                "Expected URL to contain: " + fragment + " but was: " + DriverManager.getEngine().getCurrentUrl());
++    }
++
++    public void assertTextContains(String actual, String expected) {
++        Assert.assertTrue(actual != null && actual.contains(expected),
++                "Expected text to contain: " + expected + " but was: " + actual);
++    }
++
++    public void assertTextNotBlank(String actual, String label) {
++        Assert.assertTrue(actual != null && !actual.trim().isEmpty(), label + " should not be blank");
++    }
++
++    public void assertCurrency(String actual, String label) {
++        Assert.assertTrue(actual != null && actual.trim().matches("\\$\\d+\\.\\d{2}"),
++                label + " should be a visible USD price but was: " + actual);
++    }
++
++    public void assertCatalogHasProducts() {
++        assertTextNotBlank(UIActions.getText(CatalogPage.PRODUCT_NAME, "Catalog product names"), "Catalog product names");
++        assertTextNotBlank(UIActions.getText(CatalogPage.PRODUCT_PRICE, "Catalog product prices"), "Catalog product prices");
++    }
++
++    public void assertCartHasProduct(String expectedName) {
++        assertTextContains(UIActions.getText(CartPage.PRODUCT_TITLE, "Cart title"), expectedName);
++        assertCurrency(UIActions.getText(CartPage.CART_TOTAL, "Cart total"), "Cart total");
++    }
++
++    public void assertGuestIdentityVisible() {
++        Assert.assertTrue(DriverManager.getEngine().isVisible(CartPage.GUEST_EMAIL), "Guest email should be visible");
++        Assert.assertTrue(DriverManager.getEngine().isVisible(CartPage.GUEST_FIRST_NAME), "Guest first name should be visible");
++        Assert.assertTrue(DriverManager.getEngine().isVisible(CartPage.GUEST_LAST_NAME), "Guest last name should be visible");
++    }
++
++    public void assertPaymentVisible() {
++        Assert.assertTrue(DriverManager.getEngine().isVisible(CartPage.PAYMENT_METHOD), "Payment method should be visible");
++    }
++
++    public void assertPaymentHidden() {
++        Assert.assertFalse(DriverManager.getEngine().isVisible(CartPage.PAYMENT_METHOD),
++                "Payment method should remain hidden before billing address ownership is completed");
++    }
++
++    public void assertBillingAddressVisible() {
++        Assert.assertTrue(DriverManager.getEngine().isVisible(CartPage.COUNTRY), "Billing country should be visible");
++        Assert.assertTrue(DriverManager.getEngine().isVisible(CartPage.POSTAL_CODE), "Billing postal code should be visible");
++        Assert.assertTrue(DriverManager.getEngine().isVisible(CartPage.HOUSE_NUMBER), "Billing house number should be visible");
++        Assert.assertTrue(DriverManager.getEngine().isVisible(CartPage.PROCEED_ADDRESS), "Billing proceed should be visible");
++    }
++
++    public void assertBillingAddressNotVisible() {
++        Assert.assertFalse(DriverManager.getEngine().isVisible(CartPage.COUNTRY),
++                "Billing country should remain hidden when guest progression is blocked");
++    }
++
++    public void assertPaymentSuccessVisible() {
++        Assert.assertTrue(DriverManager.getEngine().isVisible(CartPage.PAYMENT_SUCCESS_MESSAGE),
++                "Payment success message should be visible");
++    }
++
++    public void assertVisible(String selector, String label) {
++        Assert.assertTrue(DriverManager.getEngine().isVisible(selector), label + " should be visible");
++    }
++
++    public void assertNotVisible(String selector, String label) {
++        Assert.assertFalse(DriverManager.getEngine().isVisible(selector), label + " should not be visible");
++    }
++
++    public void assertPageTextContains(String pageText, String expected) {
++        Assert.assertTrue(pageText != null && pageText.contains(expected),
++                "Expected page to contain: " + expected + " but page text was: " + pageText);
++    }
++
++    public void assertPageTextDoesNotContain(String pageText, String forbidden) {
++        Assert.assertFalse(pageText != null && pageText.toLowerCase().contains(forbidden.toLowerCase()),
++                "Expected page not to contain: " + forbidden + " but page text was: " + pageText);
++    }
++
++    public void assertContactSurfaceVisible() {
++        Assert.assertTrue(DriverManager.getEngine().isVisible(ContactPage.FIRST_NAME), "Contact first name should be visible");
++        Assert.assertTrue(DriverManager.getEngine().isVisible(ContactPage.SUBJECT), "Contact subject should be visible");
++    }
++}
+
+diff --git "a/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\CommerceUiTestBase.java" "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\CommerceUiTestBase.java"
+new file mode 100644
+index 0000000..5bd0bef
+--- /dev/null
++++ "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\CommerceUiTestBase.java"
+@@ -0,0 +1,61 @@
++package com.endava.ai.atf.ui.commerce;
++
++import com.endava.ai.ui.core.BaseTestUI;
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.service.CartService;
++import com.endava.ai.ui.service.CatalogService;
++import com.endava.ai.ui.service.ContactService;
++import com.endava.ai.ui.service.ProductService;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.validation.CommerceValidation;
++import org.testng.annotations.BeforeMethod;
++
++public abstract class CommerceUiTestBase extends BaseTestUI {
++
++    protected final CatalogService catalog = new CatalogService();
++    protected final ProductService product = new ProductService();
++    protected final CartService cart = new CartService();
++    protected final ContactService contact = new ContactService();
++    protected final CommerceValidation validation = new CommerceValidation();
++
++    @BeforeMethod(alwaysRun = true)
++    public void resetCommerceSession() {
++        try {
++            UIActions.clearSession();
++        } catch (Throwable ignored) {
++            // The first test method can run before a page exists; navigation below will create a clean page.
++        }
++        catalog.openHome();
++    }
++
++    protected String currentUrl() {
++        return DriverManager.getEngine().getCurrentUrl();
++    }
++
++    protected void openGuestIdentityWithProduct() {
++        catalog.openFirstProduct();
++        product.addCurrentProductToCart();
++        catalog.openCart();
++        cart.proceedFromCart();
++        cart.chooseGuestCheckout();
++    }
++
++    protected void openGuestBillingAddress() {
++        openGuestIdentityWithProduct();
++        cart.fillGuestIdentity("codex.guest@example.com", "Codex", "Guest");
++        cart.submitGuestIdentity();
++        cart.proceedFromGuestIdentity();
++    }
++
++    protected void openGuestPayment() {
++        openGuestBillingAddress();
++        cart.fillBillingAddress();
++        cart.proceedFromBilling();
++    }
++
++    protected void openGuestPaymentSuccess() {
++        openGuestPayment();
++        cart.chooseCashOnDelivery();
++        cart.confirmPayment();
++    }
++}
+
+diff --git "a/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\GuestCheckoutBoundaryTests.java" "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\GuestCheckoutBoundaryTests.java"
+new file mode 100644
+index 0000000..c64d46e
+--- /dev/null
++++ "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\GuestCheckoutBoundaryTests.java"
+@@ -0,0 +1,51 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++public class GuestCheckoutBoundaryTests extends CommerceUiTestBase {
++
++    @Test(description = "Guest identity form becomes reachable from a real cart")
++    public void guest_identity_form_is_reachable_from_cart() {
++        openGuestIdentity();
++        validation.assertGuestIdentityVisible();
++    }
++
++    @Test(description = "Guest email field accepts buyer identity data")
++    public void guest_email_accepts_buyer_identity_data() {
++        openGuestIdentity();
++        cart.fillGuestIdentity("codex.guest.1@example.com", "Codex", "Guest");
++        Assert.assertEquals(cart.guestEmail(), "codex.guest.1@example.com");
++    }
++
++    @Test(description = "Guest name fields accept buyer identity data")
++    public void guest_name_fields_accept_buyer_identity_data() {
++        openGuestIdentity();
++        cart.fillGuestIdentity("codex.guest.2@example.com", "Codex", "Guest");
++        Assert.assertEquals(cart.guestFirstName(), "Codex");
++        Assert.assertEquals(cart.guestLastName(), "Guest");
++    }
++
++    @Test(description = "Submitting guest identity does not expose billing address in this run")
++    public void guest_submit_keeps_billing_address_hidden() {
++        openGuestIdentity();
++        cart.fillGuestIdentity("codex.guest.3@example.com", "Codex", "Guest");
++        cart.submitGuestIdentityWithoutProgressWait();
++        validation.assertBillingAddressNotVisible();
++    }
++
++    @Test(description = "Guest checkout boundary still preserves cart commercial total")
++    public void guest_boundary_preserves_cart_total_before_billing_block() {
++        openGuestIdentity();
++        validation.assertCurrency(cart.total(), "Cart total before guest submit");
++    }
++
++    private void openGuestIdentity() {
++        catalog.openFirstProduct();
++        product.addCurrentProductToCart();
++        catalog.openCart();
++        cart.proceedFromCart();
++        cart.chooseGuestCheckout();
++    }
++}
++
+

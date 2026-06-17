@@ -1,0 +1,223 @@
+﻿diff --git a/src/main/java/com/endava/ai/ui/service/AccountService.java b/src/main/java/com/endava/ai/ui/service/AccountService.java
+new file mode 100644
+index 0000000..6ea7591
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/AccountService.java
+@@ -0,0 +1,145 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.factory.CustomerDataFactory;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.pages.CatalogPage;
++import com.endava.ai.ui.pages.LoginPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++import java.util.List;
++
++public final class AccountService {
++
++    private final RegistrationService registration = new RegistrationService();
++
++    public CustomerData registerCustomer() {
++        CustomerData customer = CustomerDataFactory.validCustomer();
++        registration.openRegister();
++        registration.register(customer);
++        WaitUtils.waitForVisible(LoginPage.LOGIN_BUTTON);
++        return customer;
++    }
++
++    public CustomerData registerAndLoginCustomer() {
++        CustomerData customer = registerCustomer();
++        login(customer);
++        return customer;
++    }
++
++    public void openLogin() {
++        UIActions.navigateToRelative("/auth/login");
++        WaitUtils.waitForVisible(LoginPage.LOGIN_BUTTON);
++    }
++
++    public void login(CustomerData customer) {
++        login(customer.getEmail(), customer.getPassword());
++    }
++
++    public void login(String email, String password) {
++        openLogin();
++        UIActions.type(LoginPage.EMAIL, "Login email", email);
++        UIActions.type(LoginPage.PASSWORD, "Login password", password);
++        UIActions.click(LoginPage.LOGIN_BUTTON, "Login");
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++    }
++
++    public void openAccount() {
++        UIActions.navigateToRelative("/account");
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++    }
++
++    public void openProfile() {
++        UIActions.navigateToRelative("/account/profile");
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++    }
++
++    public void openFavorites() {
++        UIActions.navigateToRelative("/account/favorites");
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++    }
++
++    public void openInvoices() {
++        UIActions.navigateToRelative("/account/invoices");
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++    }
++
++    public void openMessages() {
++        UIActions.navigateToRelative("/account/messages");
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++    }
++
++    public void openProtectedRouteAsAnonymous(String route) {
++        UIActions.clearSession();
++        UIActions.openRelativeWithoutUrlWait(route);
++        WaitUtils.waitForCondition(
++                "anonymous visitor is redirected to login",
++                () -> DriverManager.getEngine().isVisible(LoginPage.LOGIN_BUTTON)
++                        || DriverManager.getEngine().getCurrentUrl().contains("/auth/login"),
++                "Expected anonymous route to resolve to login for route: " + route
++        );
++    }
++
++    public void signOut() {
++        UIActions.click(AccountPage.NAV_MENU, "Customer menu");
++        UIActions.click(AccountPage.NAV_SIGN_OUT, "Sign out");
++        WaitUtils.waitForCondition(
++                "customer session resolves to signed-out surface",
++                () -> DriverManager.getEngine().getCurrentUrl().contains("/auth/login")
++                        || DriverManager.getEngine().isVisible(LoginPage.LOGIN_BUTTON)
++                        || DriverManager.getEngine().isVisible(CatalogPage.NAV_SIGN_IN),
++                "Expected sign out to expose a signed-out surface."
++        );
++    }
++
++    public String pageTitle() {
++        return UIActions.getText(AccountPage.PAGE_TITLE, "Account page title");
++    }
++
++    public String pageText() {
++        return UIActions.getText(AccountPage.BODY, "Account page text");
++    }
++
++    public void waitForFavoriteProduct(String expectedProductName) {
++        WaitUtils.waitForCondition(
++                "favorite product is visible in account collection",
++                () -> DriverManager.getEngine().isVisible(AccountPage.FAVORITE_CARD)
++                        && DriverManager.getEngine().getText(AccountPage.BODY).contains(expectedProductName),
++                "Expected favorites page to contain product: " + expectedProductName
++        );
++    }
++
++    public String favoriteProductName() {
++        WaitUtils.waitForVisible(AccountPage.FAVORITE_PRODUCT_NAME);
++        return UIActions.getText(AccountPage.FAVORITE_PRODUCT_NAME, "Favorite product name");
++    }
++
++    public String favoriteProductDescription() {
++        WaitUtils.waitForVisible(AccountPage.FAVORITE_PRODUCT_DESCRIPTION);
++        return UIActions.getText(AccountPage.FAVORITE_PRODUCT_DESCRIPTION, "Favorite product description");
++    }
++
++    public List<String> favoriteProductNames() {
++        WaitUtils.waitForVisible(AccountPage.FAVORITE_PRODUCT_NAME);
++        return UIActions.getVisibleTexts(AccountPage.FAVORITE_PRODUCT_NAME, "Favorite product names");
++    }
++
++    public int favoriteProductCount() {
++        return favoriteProductNames().size();
++    }
++
++    public String navMenuText() {
++        return UIActions.getText(AccountPage.NAV_MENU, "Customer navigation menu");
++    }
++
++    public String profileValue(String selector, String label) {
++        WaitUtils.waitForInputValue(selector, label, value -> value != null && !value.isBlank());
++        return UIActions.getValue(selector, label);
++    }
++
++    public String currentUrl() {
++        return DriverManager.getEngine().getCurrentUrl();
++    }
++}
+diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageReopenabilityOwnershipTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageReopenabilityOwnershipTests.java
+new file mode 100644
+index 0000000..da637d1
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageReopenabilityOwnershipTests.java
+@@ -0,0 +1,66 @@
++package com.endava.ai.atf.ui.commerce;
++
++import com.endava.ai.ui.utils.UIActions;
++import org.testng.annotations.Test;
++
++public class CustomerMessageReopenabilityOwnershipTests extends CustomerSupportMessageUiTestBase {
++
++    @Test
++    public void message_row_reopens_after_sign_out_and_sign_in() {
++        String message = submitMessage("Customer service", uniqueMessage("Reopen after relogin probe"));
++
++        account.signOut();
++        account.login(customer);
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "customer-service");
++    }
++
++    @Test
++    public void message_details_reopen_after_sign_out_and_sign_in() {
++        String message = submitMessage("Return", uniqueMessage("Detail reopen after relogin probe"));
++
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++        account.signOut();
++        account.login(customer);
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++
++        validation.assertPageTextContains(messages.detailText(), message);
++    }
++
++    @Test
++    public void direct_messages_route_reopens_persisted_thread() {
++        String message = submitMessage("Payments", uniqueMessage("Direct route reopen probe"));
++
++        UIActions.navigateToRelative("/");
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "payments");
++    }
++
++    @Test
++    public void persisted_message_row_survives_account_route_switch() {
++        String message = submitMessage("Warranty", uniqueMessage("Account route switch probe"));
++
++        account.openProfile();
++        account.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "warranty");
++    }
++
++    @Test
++    public void persisted_message_thread_reopens_from_collection_details() {
++        String message = submitMessage("Status of my order", uniqueMessage("Collection details reopen probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++        messages.openFirstMessageDetails();
++
++        validation.assertPageTextContains(messages.detailText(), message);
++    }
++}

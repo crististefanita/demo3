@@ -1,0 +1,249 @@
+﻿<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>Rubrica pentru Business Flow Graph</title>
+<link href="../../shared-report-reference.css" rel="stylesheet">
+<style>
+.grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.diag{margin-top:10px;border:1px solid var(--border);border-radius:14px;background:#08101a;padding:12px;overflow:auto}
+.diag svg{display:block;width:100%;height:auto}
+.kvs{display:grid;grid-template-columns:120px 1fr;gap:8px 12px}
+.k{color:var(--muted);font-weight:600}
+.pillline{display:flex;flex-direction:column;gap:8px;align-items:flex-start;margin-top:10px}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pilllabel{color:var(--muted);font-size:12px;font-weight:700;margin-right:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Rubrica pentru Business Flow Graph <span class="badge">APP MAP</span> <span class="badge">OVERLAY</span> <span class="badge">NODE</span> <span class="badge">CLOSURE</span></h1>
+  <div class="sub">
+    <ul>
+      <li>Explica doar desenarea si verificarea <code class="inline">Business Flow Graph</code>.</li>
+      <li><code class="inline">reporting.html</code> ramane owner pentru pagina finala.</li>
+      <li>Aici sta forma reutilizabila a grafului.</li>
+    </ul>
+  </div>
+  <div class="toolbar"><button type="button" onclick="toggleAll(true)">Deschide tot</button><button type="button" onclick="toggleAll(false)">Inchide tot</button></div>
+</header>
+
+<div class="grid">
+  <section class="card">
+    <h2>Overview</h2>
+    <table>
+      <thead><tr><th>Badge</th><th>Citesti aici</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge">APP MAP</span></td><td>aplicatia reala: lane-uri, actori, intentii, obiecte business</td></tr>
+        <tr><td><span class="badge">OVERLAY</span></td><td>ce a atins pachetul: owned, partial, blocked, fresh-round-only</td></tr>
+        <tr><td><span class="badge">NODE</span></td><td>actor -> intentie -> obiect business -> rezultat</td></tr>
+        <tr><td><span class="badge">LEGEND</span></td><td>detalii de test, run id, repair, diff, Extent si jargon procedural</td></tr>
+        <tr><td><span class="badge">CLOSURE</span></td><td>obiectul greu sau ruptura reala care ramane pentru urmatoarea runda</td></tr>
+        <tr><td><span class="badge">INVALID</span></td><td>graful devine jurnal de pachet, suita tehnica sau lista de run-uri</td></tr>
+      </tbody>
+    </table>
+    <div class="pillline">
+        <div class="pillrow"><span class="pilllabel">Owner:</span><span class="pill">aplicatia reala</span><span class="pill">harta business</span></div>
+        <div class="pillrow"><span class="pilllabel">Foloseste:</span><span class="pill">macro-harta</span><span class="pill">overlay</span><span class="pill">closure</span></div>
+        <div class="pillrow"><span class="pilllabel">Nu produce:</span><span class="pill">raport final</span><span class="pill">proof mapping</span><span class="pill">scor</span></div>
+      <div class="pillrow"><span class="pilllabel">Nu pune in noduri:</span><span class="pill">run ids</span><span class="pill">locatori</span><span class="pill">repair trail</span></div>
+    </div>
+    <div class="rule">Aplicatia este harta. Pachetul este overlay. Daca overlay-ul devine harta, graful trebuie refacut.</div>
+    <details class="mini-note">
+    <summary>Micro-exemplu de nod bun</summary>
+    <table>
+      <thead><tr><th>Camp</th><th>Nod bun</th><th>Nod prost</th></tr></thead>
+      <tbody>
+        <tr><td>actor</td><td>customer autentificat</td><td>run_03</td></tr>
+        <tr><td>intentie</td><td>redeschide memoria post-purchase</td><td>verifica helper nou</td></tr>
+        <tr><td>obiect business</td><td>order row / invoice row</td><td>selector / test class</td></tr>
+        <tr><td>rezultat</td><td>payment success owned; order history blocked</td><td>Extent verde</td></tr>
+      </tbody>
+    </table>
+    </details>
+  </section>
+
+  <section class="card">
+    <details>
+    <summary><span class="summary-title">Contract minim</span><span class="sumhint">harta, overlay, closure</span></summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Bloc</th>
+          <th>Regula</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>layer 1</td><td>macro-harta aplicatiei, inclusiv zone relevante neatinse</td></tr>
+        <tr><td>layer 2</td><td>overlay-ul pachetului: ce a fost atins, owned, partial, blocked</td></tr>
+        <tr><td>layer 3</td><td><code class="inline">next closure pressure</code>: ce obiect greu sau ce ruptura reala ramane deschisa</td></tr>
+        <tr><td>noduri</td><td>titlu scurt + maxim o linie scurta de context</td></tr>
+        <tr><td>micro-template obligatoriu</td><td><code class="inline">actor -> intentie -> obiect business -> rezultat</code></td></tr>
+        <tr><td>legenda</td><td>colapsata, imediat sub subgraf; muta acolo jargonul de test si detaliul procedural</td></tr>
+        <tr><td>stare implicita</td><td>in raportul final toate sectiunile principale sunt colapsabile; slotul <code class="inline">4. Graful fluxului business</code> ramane singurul deschis implicit</td></tr>
+      </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th>Test binar</th>
+          <th>Raspunde la</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>application map</td><td>ce exista in produs, inclusiv ce nu a atins pachetul</td></tr>
+        <tr><td>package overlay</td><td>ce a atins pachetul, fara sa devina harta principala</td></tr>
+      </tbody>
+    </table>
+    </details>
+  </section>
+</div>
+
+<details open><summary><span class="summary-title">1. LangGraph canonic <span class="badge">APP MAP</span></span><span class="sumhint">macro-harta -> overlay -> closure</span></summary>
+  <div class="diag"><svg viewBox="0 0 1160 250" role="img" aria-label="Business Flow Graph canonic">
+  <defs><marker id="bgfr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+  <rect x="35" y="94" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="145" y="120" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">macro-harta aplicatiei</text>
+  <text x="145" y="142" text-anchor="middle" fill="#a8b3cf" font-size="11">lane-uri reale ale produsului</text>
+  <rect x="325" y="94" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="435" y="120" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">overlay pachet</text>
+  <text x="435" y="142" text-anchor="middle" fill="#a8b3cf" font-size="11">ce a atins acest pachet</text>
+  <rect x="645" y="26" width="210" height="62" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="750" y="51" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">owned / countable</text>
+  <text x="750" y="71" text-anchor="middle" fill="#a8b3cf" font-size="11">obiecte business inchise rece</text>
+  <rect x="645" y="98" width="210" height="62" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="750" y="123" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">partial / blocked</text>
+  <text x="750" y="143" text-anchor="middle" fill="#a8b3cf" font-size="11">rupturi, suport, limite</text>
+  <rect x="645" y="170" width="210" height="62" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="750" y="195" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">next closure</text>
+  <text x="750" y="215" text-anchor="middle" fill="#a8b3cf" font-size="11">ce obiect greu ramane</text>
+  <path d="M255 128 H325" stroke="#7aa2ff" stroke-width="2" marker-end="url(#bgfr)"/>
+  <path d="M545 128 C590 112 605 57 645 57" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#bgfr)"/>
+  <path d="M545 128 H645" stroke="#7aa2ff" stroke-width="2" marker-end="url(#bgfr)"/>
+  <path d="M545 128 C590 144 605 201 645 201" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#bgfr)"/>
+  </svg></div>
+  <div class="note"><b>Formula scurta:</b> macro app map -> package overlay -> next closure pressure.</div>
+  <details class="subdetails">
+    <summary><span class="summary-title">1.1 Micro-template SVG reutilizabil</span><span class="sumhint">aliniat cu html-ex si shared CSS</span></summary>
+    <div class="note">
+      <ul>
+        <li>Template-ul este punct de pornire, nu business copiat.</li>
+        <li>Stilul vizual trebuie sa ramana compatibil cu <code class="inline">shared-report-reference.css</code>.</li>
+        <li>Calibrarea de forma se face prin exemplele curente din <code class="inline">HTML_EX_LIBRARY_ROOT</code> si <code class="inline">HTML_EX_LIBRARY_README</code>.</li>
+      </ul>
+    </div>
+    <div class="diag"><svg viewBox="0 0 1160 260" role="img" aria-label="Micro-template SVG Business Flow Graph">
+      <defs><marker id="mtpl" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+      <rect x="35" y="92" width="190" height="72" rx="14" fill="#111826" stroke="#35507a"/>
+      <text x="130" y="120" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Actor + intentie</text>
+      <text x="130" y="143" text-anchor="middle" fill="#a8b3cf" font-size="11">cine vrea ce</text>
+      <rect x="300" y="92" width="210" height="72" rx="14" fill="#111826" stroke="#35507a"/>
+      <text x="405" y="120" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Obiect business</text>
+      <text x="405" y="143" text-anchor="middle" fill="#a8b3cf" font-size="11">entitate reala a produsului</text>
+      <rect x="585" y="34" width="210" height="64" rx="14" fill="#111826" stroke="#20c997"/>
+      <text x="690" y="60" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Owned</text>
+      <text x="690" y="80" text-anchor="middle" fill="#a8b3cf" font-size="11">dovedit si countable</text>
+      <rect x="585" y="124" width="210" height="64" rx="14" fill="#111826" stroke="#f0b429"/>
+      <text x="690" y="150" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Partial / blocked</text>
+      <text x="690" y="170" text-anchor="middle" fill="#a8b3cf" font-size="11">ruptura reala</text>
+      <rect x="875" y="92" width="220" height="72" rx="14" fill="#111826" stroke="#7aa2ff"/>
+      <text x="985" y="120" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Next closure</text>
+      <text x="985" y="143" text-anchor="middle" fill="#a8b3cf" font-size="11">urmatorul obiect greu</text>
+      <path d="M225 128 H300" stroke="#7aa2ff" stroke-width="2" marker-end="url(#mtpl)"/>
+      <path d="M510 128 C540 92 555 66 585 66" stroke="#20c997" stroke-width="2" fill="none" marker-end="url(#mtpl)"/>
+      <path d="M510 128 C540 148 555 156 585 156" stroke="#f0b429" stroke-width="2" fill="none" marker-end="url(#mtpl)"/>
+      <path d="M795 156 C825 156 845 128 875 128" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#mtpl)"/>
+    </svg></div>
+    <table>
+      <thead><tr><th>Slot SVG</th><th>Inlocuieste cu</th><th>Nu pune aici</th></tr></thead>
+      <tbody>
+        <tr><td>Actor + intentie</td><td>actor real + intentie de produs</td><td>run id, test class, helper</td></tr>
+        <tr><td>Obiect business</td><td>order, invoice, message, profile, cart, comparison etc.</td><td>selector, metoda Java, repair step</td></tr>
+        <tr><td>Owned / Partial / Blocked</td><td>rezultatul rece al pachetului</td><td>scor, Extent verde, XML verde ca rezultat final</td></tr>
+        <tr><td>Next closure</td><td>obiectul greu ramas sau ruptura urmatoare</td><td>plan vag sau "mai testam"</td></tr>
+      </tbody>
+    </table>
+  </details>
+</details>
+
+<details>
+  <summary><span class="summary-title">2. Rubrica minima <span class="badge">NODE</span></span><span class="sumhint">ce verifici inainte de publicare</span></summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Rubrica</th>
+        <th>Trebuie sa se vada</th>
+        <th>Invalideaza</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>application map</td><td>macro-zone reale ale produsului</td><td>graful incepe direct din run-uri sau familii tehnice</td></tr>
+      <tr><td>package overlay</td><td>ce a schimbat acest pachet peste harta</td><td>overlay-ul devine harta principala</td></tr>
+      <tr><td>node template</td><td>actor -> intentie -> obiect business -> rezultat owned/partial/blocked</td><td>nodul nu poate fi citit ca obiect business real</td></tr>
+      <tr><td>business object</td><td>actor, intentie, obiect, rezultat</td><td>noduri cu helper, locator, class name, repair</td></tr>
+      <tr><td>closure pressure</td><td>obiectul greu sau ruptura reala ramasa</td><td>graful se opreste fara next truth</td></tr>
+      <tr><td>legend discipline</td><td>detaliul procedural sta jos, colapsat</td><td>eseu in noduri sau legenda care dubleaza tot graful</td></tr>
+    </tbody>
+  </table>
+  <table>
+    <thead>
+      <tr>
+        <th>Micro-template obligatoriu</th>
+        <th>Intrebare</th>
+        <th>Exemplu bun</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Actor</td><td>cine are intentia?</td><td><code class="inline">Customer</code></td></tr>
+      <tr><td>Intentie</td><td>ce rezultat de produs cauta?</td><td><code class="inline">wants post-purchase memory</code></td></tr>
+      <tr><td>Obiect business</td><td>ce entitate reala trebuie sa existe?</td><td><code class="inline">order row / invoice row / message row</code></td></tr>
+      <tr><td>Rezultat</td><td>ce ramane dupa dovada?</td><td><code class="inline">Orders shell partial; order row missing</code></td></tr>
+    </tbody>
+  </table>
+<div class="warn">
+  <ul>
+    <li>Nodul trebuie citit ca actor -> intentie -> obiect business -> rezultat.</li>
+    <li>Daca nu merge, muta detaliul in legenda/proof mapping.</li>
+    <li>Daca tot nu merge, redeseneaza nodul.</li>
+  </ul>
+</div>
+</details>
+
+<details>
+  <summary><span class="summary-title">3. Good vs bad <span class="badge">NODE</span></span><span class="sumhint">exemple foarte scurte</span></summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Tip</th>
+        <th>Bun</th>
+        <th>Rau</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>nume nod</td><td><code class="inline">Orders history absent dupa payment success</code></td><td><code class="inline">run_03 invoice fix</code></td></tr>
+      <tr><td>overlay</td><td><code class="inline">Owned: Messages thread visible</code></td><td><code class="inline">Extent ok + xml ok + diff ok</code></td></tr>
+      <tr><td>closure</td><td><code class="inline">Next: order row persistent dupa relogin</code></td><td><code class="inline">Mai vedem in run_05</code></td></tr>
+      <tr><td>commerce</td><td><code class="inline">Payment success -> order history blocked</code></td><td><code class="inline">Checkout tests green</code></td></tr>
+      <tr><td>support</td><td><code class="inline">Contact message submitted -> thread/reply ownership partial</code></td><td><code class="inline">Support form run_02</code></td></tr>
+      <tr><td>account</td><td><code class="inline">Profile setting changed -> persistence after relogin owned</code></td><td><code class="inline">Account helper fixed</code></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<details>
+  <summary><span class="summary-title">4. Mirosuri rele <span class="badge">INVALID</span></span><span class="sumhint">cand racesti graful</span></summary>
+  <ul>
+    <li>Daca cititorul retine <code class="inline">run_03</code>, <code class="inline">repair</code>, <code class="inline">reentry</code> inaintea lane-ului business, graful este prea procedural.</li>
+    <li>Daca macro-harta aplicatiei incape intr-un colt, iar overlay-ul ocupa tot, raportul este package-first.</li>
+    <li>Daca nodurile deja contin dovada, diff-ul si explicatia, graful incearca sa faca prea mult.</li>
+    <li>Daca legenda repeta tot graful, nu mai este legenda, ci eseu slab mascat.</li>
+  </ul>
+</details>
+</div>
+<script>
+function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}
+</script>
+</body>
+</html>

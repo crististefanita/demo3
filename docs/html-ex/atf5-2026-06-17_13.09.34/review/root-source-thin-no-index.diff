@@ -1,0 +1,678 @@
+﻿diff --git a/src/main/java/com/endava/ai/ui/pages/MessagesPage.java b/src/main/java/com/endava/ai/ui/pages/MessagesPage.java
+new file mode 100644
+index 0000000..8e73e55
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/pages/MessagesPage.java
+@@ -0,0 +1,24 @@
++package com.endava.ai.ui.pages;
++
++public final class MessagesPage {
++
++    private MessagesPage() {
++    }
++
++    public static final String BODY = "body";
++    public static final String EMPTY_STATE = "tbody tr td";
++    public static final String ROWS = "tbody tr";
++    public static final String FIRST_ROW = "tbody tr";
++    public static final String FIRST_SUBJECT = "tbody tr:first-child td:nth-child(1)";
++    public static final String FIRST_MESSAGE = "tbody tr:first-child td:nth-child(2)";
++    public static final String FIRST_STATUS = "tbody tr:first-child td:nth-child(3)";
++    public static final String FIRST_DATE = "tbody tr:first-child td:nth-child(4)";
++    public static final String FIRST_DETAILS = "tbody tr:first-child td:nth-child(5) a";
++
++    public static final String DETAIL_BACK = "a[href='/account/messages']";
++    public static final String DETAIL_HEADER = "h1, h2";
++    public static final String DETAIL_STATUS = ".badge";
++    public static final String DETAIL_MESSAGE = "p";
++    public static final String DETAIL_REPLY_BOX = "textarea";
++    public static final String DETAIL_REPLY_BUTTON = "button";
++}
+diff --git a/src/main/java/com/endava/ai/ui/service/AccountService.java b/src/main/java/com/endava/ai/ui/service/AccountService.java
+new file mode 100644
+index 0000000..6ea7591
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/AccountService.java
+@@ -0,0 +1,145 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.factory.CustomerDataFactory;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.pages.CatalogPage;
++import com.endava.ai.ui.pages.LoginPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++import java.util.List;
++
++public final class AccountService {
++
++    private final RegistrationService registration = new RegistrationService();
++
++    public CustomerData registerCustomer() {
++        CustomerData customer = CustomerDataFactory.validCustomer();
++        registration.openRegister();
++        registration.register(customer);
++        WaitUtils.waitForVisible(LoginPage.LOGIN_BUTTON);
++        return customer;
++    }
++
++    public CustomerData registerAndLoginCustomer() {
++        CustomerData customer = registerCustomer();
++        login(customer);
++        return customer;
++    }
++
++    public void openLogin() {
++        UIActions.navigateToRelative("/auth/login");
++        WaitUtils.waitForVisible(LoginPage.LOGIN_BUTTON);
++    }
++
++    public void login(CustomerData customer) {
++        login(customer.getEmail(), customer.getPassword());
++    }
++
++    public void login(String email, String password) {
++        openLogin();
++        UIActions.type(LoginPage.EMAIL, "Login email", email);
++        UIActions.type(LoginPage.PASSWORD, "Login password", password);
++        UIActions.click(LoginPage.LOGIN_BUTTON, "Login");
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++    }
++
++    public void openAccount() {
++        UIActions.navigateToRelative("/account");
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++    }
++
++    public void openProfile() {
++        UIActions.navigateToRelative("/account/profile");
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++    }
++
++    public void openFavorites() {
++        UIActions.navigateToRelative("/account/favorites");
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++    }
++
++    public void openInvoices() {
++        UIActions.navigateToRelative("/account/invoices");
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++    }
++
++    public void openMessages() {
++        UIActions.navigateToRelative("/account/messages");
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++    }
++
++    public void openProtectedRouteAsAnonymous(String route) {
++        UIActions.clearSession();
++        UIActions.openRelativeWithoutUrlWait(route);
++        WaitUtils.waitForCondition(
++                "anonymous visitor is redirected to login",
++                () -> DriverManager.getEngine().isVisible(LoginPage.LOGIN_BUTTON)
++                        || DriverManager.getEngine().getCurrentUrl().contains("/auth/login"),
++                "Expected anonymous route to resolve to login for route: " + route
++        );
++    }
++
++    public void signOut() {
++        UIActions.click(AccountPage.NAV_MENU, "Customer menu");
++        UIActions.click(AccountPage.NAV_SIGN_OUT, "Sign out");
++        WaitUtils.waitForCondition(
++                "customer session resolves to signed-out surface",
++                () -> DriverManager.getEngine().getCurrentUrl().contains("/auth/login")
++                        || DriverManager.getEngine().isVisible(LoginPage.LOGIN_BUTTON)
++                        || DriverManager.getEngine().isVisible(CatalogPage.NAV_SIGN_IN),
++                "Expected sign out to expose a signed-out surface."
++        );
++    }
++
++    public String pageTitle() {
++        return UIActions.getText(AccountPage.PAGE_TITLE, "Account page title");
++    }
++
++    public String pageText() {
++        return UIActions.getText(AccountPage.BODY, "Account page text");
++    }
++
++    public void waitForFavoriteProduct(String expectedProductName) {
++        WaitUtils.waitForCondition(
++                "favorite product is visible in account collection",
++                () -> DriverManager.getEngine().isVisible(AccountPage.FAVORITE_CARD)
++                        && DriverManager.getEngine().getText(AccountPage.BODY).contains(expectedProductName),
++                "Expected favorites page to contain product: " + expectedProductName
++        );
++    }
++
++    public String favoriteProductName() {
++        WaitUtils.waitForVisible(AccountPage.FAVORITE_PRODUCT_NAME);
++        return UIActions.getText(AccountPage.FAVORITE_PRODUCT_NAME, "Favorite product name");
++    }
++
++    public String favoriteProductDescription() {
++        WaitUtils.waitForVisible(AccountPage.FAVORITE_PRODUCT_DESCRIPTION);
++        return UIActions.getText(AccountPage.FAVORITE_PRODUCT_DESCRIPTION, "Favorite product description");
++    }
++
++    public List<String> favoriteProductNames() {
++        WaitUtils.waitForVisible(AccountPage.FAVORITE_PRODUCT_NAME);
++        return UIActions.getVisibleTexts(AccountPage.FAVORITE_PRODUCT_NAME, "Favorite product names");
++    }
++
++    public int favoriteProductCount() {
++        return favoriteProductNames().size();
++    }
++
++    public String navMenuText() {
++        return UIActions.getText(AccountPage.NAV_MENU, "Customer navigation menu");
++    }
++
++    public String profileValue(String selector, String label) {
++        WaitUtils.waitForInputValue(selector, label, value -> value != null && !value.isBlank());
++        return UIActions.getValue(selector, label);
++    }
++
++    public String currentUrl() {
++        return DriverManager.getEngine().getCurrentUrl();
++    }
++}
+diff --git a/src/main/java/com/endava/ai/ui/service/MessagesService.java b/src/main/java/com/endava/ai/ui/service/MessagesService.java
+new file mode 100644
+index 0000000..fcd6766
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/MessagesService.java
+@@ -0,0 +1,80 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.pages.MessagesPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++import java.util.List;
++
++public final class MessagesService {
++
++    public void openMessages() {
++        UIActions.navigateToRelative("/account/messages");
++        WaitUtils.waitForVisible(MessagesPage.BODY);
++    }
++
++    public void openFirstMessageDetails() {
++        UIActions.click(MessagesPage.FIRST_DETAILS, "First message details");
++        WaitUtils.waitForCondition(
++                "message details route is visible",
++                () -> DriverManager.getEngine().getCurrentUrl().contains("/account/messages/"),
++                "Expected message details route to be visible after opening row details."
++        );
++        WaitUtils.waitForVisible(MessagesPage.DETAIL_STATUS);
++    }
++
++    public void waitForMessageRow(String expectedFragment) {
++        WaitUtils.waitForCondition(
++                "message row is visible in account messages",
++                () -> {
++                    String body = DriverManager.getEngine().getText(MessagesPage.BODY);
++                    return body != null && body.contains(expectedFragment);
++                },
++                "Expected account messages to contain fragment: " + expectedFragment
++        );
++    }
++
++    public String pageText() {
++        return UIActions.getText(MessagesPage.BODY, "Messages page body");
++    }
++
++    public String firstSubject() {
++        return UIActions.getText(MessagesPage.FIRST_SUBJECT, "First message subject");
++    }
++
++    public String firstMessageSnippet() {
++        return UIActions.getText(MessagesPage.FIRST_MESSAGE, "First message snippet");
++    }
++
++    public String firstStatus() {
++        return UIActions.getText(MessagesPage.FIRST_STATUS, "First message status");
++    }
++
++    public String firstDate() {
++        return UIActions.getText(MessagesPage.FIRST_DATE, "First message date");
++    }
++
++    public int rowCount() {
++        List<String> rows = UIActions.getVisibleTexts(MessagesPage.ROWS, "Message rows");
++        return rows.size();
++    }
++
++    public String currentUrl() {
++        return DriverManager.getEngine().getCurrentUrl();
++    }
++
++    public String detailStatus() {
++        WaitUtils.waitForVisible(MessagesPage.DETAIL_STATUS);
++        return UIActions.getText(MessagesPage.DETAIL_STATUS, "Message detail status");
++    }
++
++    public String detailText() {
++        return UIActions.getText(MessagesPage.BODY, "Message detail body");
++    }
++
++    public void waitForReplySurface() {
++        WaitUtils.waitForVisible(MessagesPage.DETAIL_REPLY_BOX);
++        WaitUtils.waitForVisible(MessagesPage.DETAIL_REPLY_BUTTON);
++    }
++}
+diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageCollectionIntegrityTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageCollectionIntegrityTests.java
+new file mode 100644
+index 0000000..f5bca6e
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageCollectionIntegrityTests.java
+@@ -0,0 +1,57 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++public class CustomerMessageCollectionIntegrityTests extends CustomerSupportMessageUiTestBase {
++
++    @Test
++    public void messages_page_starts_empty_for_fresh_customer() {
++        messages.openMessages();
++
++        validation.assertPageTextContains(messages.pageText(), "There are no messages yet");
++    }
++
++    @Test
++    public void first_message_replaces_empty_state_with_real_row() {
++        String message = submitMessage("Customer service", uniqueMessage("First row integrity probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextDoesNotContain(messages.pageText(), "There are no messages yet");
++    }
++
++    @Test
++    public void two_messages_create_two_distinct_rows() {
++        String first = submitMessage("Customer service", uniqueMessage("First multi row probe"));
++        String second = submitMessage("Return", uniqueMessage("Second multi row probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(second.substring(0, 24));
++
++        Assert.assertTrue(messages.rowCount() >= 2, "Two submitted messages should create at least two rows.");
++        validation.assertPageTextContains(messages.pageText(), first.substring(0, 24));
++        validation.assertPageTextContains(messages.pageText(), second.substring(0, 24));
++    }
++
++    @Test
++    public void newest_message_row_keeps_new_status() {
++        String message = submitMessage("Payments", uniqueMessage("Status integrity probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "NEW");
++    }
++
++    @Test
++    public void message_row_keeps_subject_slug_in_collection() {
++        String message = submitMessage("Warranty", uniqueMessage("Subject slug integrity probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "warranty");
++    }
++}
+diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageDetailOwnershipTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageDetailOwnershipTests.java
+new file mode 100644
+index 0000000..a7a526d
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageDetailOwnershipTests.java
+@@ -0,0 +1,59 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++public class CustomerMessageDetailOwnershipTests extends CustomerSupportMessageUiTestBase {
++
++    @Test
++    public void message_details_route_has_persistent_identifier() {
++        submitMessage("Customer service", uniqueMessage("Details identifier probe"));
++
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++
++        Assert.assertTrue(messages.currentUrl().matches(".*/account/messages/[A-Za-z0-9]+$"),
++                "Message details route should expose a persistent message identifier but was: " + messages.currentUrl());
++    }
++
++    @Test
++    public void message_details_preserve_full_message_body() {
++        String message = submitMessage("Return", uniqueMessage("Details body probe"));
++
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++
++        validation.assertPageTextContains(messages.detailText(), message);
++    }
++
++    @Test
++    public void message_details_preserve_new_status_badge() {
++        submitMessage("Payments", uniqueMessage("Details status probe"));
++
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++
++        validation.assertPageTextContains(messages.detailStatus(), "NEW");
++    }
++
++    @Test
++    public void message_details_preserve_customer_subject_context() {
++        submitMessage("Warranty", uniqueMessage("Details subject probe"));
++
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++
++        validation.assertPageTextContains(messages.detailText(), "warranty");
++    }
++
++    @Test
++    public void message_details_expose_reply_surface_for_same_thread() {
++        submitMessage("Status of my order", uniqueMessage("Reply surface probe"));
++
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++        messages.waitForReplySurface();
++
++        validation.assertPageTextContains(messages.detailText(), "Replies");
++    }
++}
+diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageOwnershipSeparationTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageOwnershipSeparationTests.java
+new file mode 100644
+index 0000000..b4162b9
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageOwnershipSeparationTests.java
+@@ -0,0 +1,76 @@
++package com.endava.ai.atf.ui.commerce;
++
++import com.endava.ai.ui.model.CustomerData;
++import org.testng.annotations.Test;
++
++public class CustomerMessageOwnershipSeparationTests extends CustomerSupportMessageUiTestBase {
++
++    @Test
++    public void anonymous_visitor_cannot_open_messages_collection() {
++        submitMessage("Customer service", uniqueMessage("Anonymous barrier probe"));
++
++        account.signOut();
++        account.openProtectedRouteAsAnonymous("/account/messages");
++
++        validation.assertUrlContains("/auth/login");
++    }
++
++    @Test
++    public void anonymous_visitor_cannot_open_message_details_route() {
++        submitMessage("Return", uniqueMessage("Anonymous detail barrier probe"));
++
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++        String detailUrl = messages.currentUrl();
++
++        account.signOut();
++        account.openProtectedRouteAsAnonymous(detailUrl.replace("https://practicesoftwaretesting.com", ""));
++
++        validation.assertUrlContains("/auth/login");
++    }
++
++    @Test
++    public void second_customer_starts_without_first_customer_message_row() {
++        String firstMessage = submitMessage("Payments", uniqueMessage("Cross customer isolation probe"));
++        account.signOut();
++
++        CustomerData secondCustomer = account.registerAndLoginCustomer();
++        messages.openMessages();
++
++        validation.assertPageTextDoesNotContain(messages.pageText(), firstMessage.substring(0, 24));
++        validation.assertPageTextContains(messages.pageText(), "There are no messages yet");
++        customer = secondCustomer;
++    }
++
++    @Test
++    public void first_customer_message_row_reopens_after_second_customer_session() {
++        String firstMessage = submitMessage("Warranty", uniqueMessage("First customer reopen after second session probe"));
++        String firstEmail = customer.getEmail();
++        String firstPassword = customer.getPassword();
++
++        account.signOut();
++        account.registerAndLoginCustomer();
++        account.signOut();
++        account.login(firstEmail, firstPassword);
++        messages.openMessages();
++        messages.waitForMessageRow(firstMessage.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "warranty");
++    }
++
++    @Test
++    public void message_details_keep_first_customer_content_after_second_customer_session() {
++        String firstMessage = submitMessage("Status of my order", uniqueMessage("Detail separation reopen probe"));
++        String firstEmail = customer.getEmail();
++        String firstPassword = customer.getPassword();
++
++        account.signOut();
++        account.registerAndLoginCustomer();
++        account.signOut();
++        account.login(firstEmail, firstPassword);
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++
++        validation.assertPageTextContains(messages.detailText(), firstMessage);
++    }
++}
+diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageReopenabilityOwnershipTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageReopenabilityOwnershipTests.java
+new file mode 100644
+index 0000000..da637d1
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageReopenabilityOwnershipTests.java
+@@ -0,0 +1,66 @@
++package com.endava.ai.atf.ui.commerce;
++
++import com.endava.ai.ui.utils.UIActions;
++import org.testng.annotations.Test;
++
++public class CustomerMessageReopenabilityOwnershipTests extends CustomerSupportMessageUiTestBase {
++
++    @Test
++    public void message_row_reopens_after_sign_out_and_sign_in() {
++        String message = submitMessage("Customer service", uniqueMessage("Reopen after relogin probe"));
++
++        account.signOut();
++        account.login(customer);
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "customer-service");
++    }
++
++    @Test
++    public void message_details_reopen_after_sign_out_and_sign_in() {
++        String message = submitMessage("Return", uniqueMessage("Detail reopen after relogin probe"));
++
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++        account.signOut();
++        account.login(customer);
++        messages.openMessages();
++        messages.openFirstMessageDetails();
++
++        validation.assertPageTextContains(messages.detailText(), message);
++    }
++
++    @Test
++    public void direct_messages_route_reopens_persisted_thread() {
++        String message = submitMessage("Payments", uniqueMessage("Direct route reopen probe"));
++
++        UIActions.navigateToRelative("/");
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "payments");
++    }
++
++    @Test
++    public void persisted_message_row_survives_account_route_switch() {
++        String message = submitMessage("Warranty", uniqueMessage("Account route switch probe"));
++
++        account.openProfile();
++        account.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "warranty");
++    }
++
++    @Test
++    public void persisted_message_thread_reopens_from_collection_details() {
++        String message = submitMessage("Status of my order", uniqueMessage("Collection details reopen probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++        messages.openFirstMessageDetails();
++
++        validation.assertPageTextContains(messages.detailText(), message);
++    }
++}
+diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageSubmissionOwnershipTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageSubmissionOwnershipTests.java
+new file mode 100644
+index 0000000..1e3fc4f
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageSubmissionOwnershipTests.java
+@@ -0,0 +1,56 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.annotations.Test;
++
++public class CustomerMessageSubmissionOwnershipTests extends CustomerSupportMessageUiTestBase {
++
++    @Test
++    public void customer_service_message_creates_account_message_row() {
++        String message = submitMessage("Customer service", uniqueMessage("Customer service ownership probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "customer-service");
++    }
++
++    @Test
++    public void return_message_creates_account_message_row() {
++        String message = submitMessage("Return", uniqueMessage("Return ownership probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "return");
++    }
++
++    @Test
++    public void payments_message_creates_account_message_row() {
++        String message = submitMessage("Payments", uniqueMessage("Payments ownership probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "payments");
++    }
++
++    @Test
++    public void warranty_message_creates_account_message_row() {
++        String message = submitMessage("Warranty", uniqueMessage("Warranty ownership probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "warranty");
++    }
++
++    @Test
++    public void order_status_message_creates_account_message_row() {
++        String message = submitMessage("Status of my order", uniqueMessage("Order status ownership probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "status-of-order");
++    }
++}
+diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/CustomerSupportMessageUiTestBase.java b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerSupportMessageUiTestBase.java
+new file mode 100644
+index 0000000..0853b0c
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerSupportMessageUiTestBase.java
+@@ -0,0 +1,47 @@
++package com.endava.ai.atf.ui.commerce;
++
++import com.endava.ai.ui.core.BaseTestUI;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.service.AccountService;
++import com.endava.ai.ui.service.ContactService;
++import com.endava.ai.ui.service.MessagesService;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++import com.endava.ai.ui.validation.CommerceValidation;
++import org.testng.annotations.BeforeMethod;
++
++public abstract class CustomerSupportMessageUiTestBase extends BaseTestUI {
++
++    protected final AccountService account = new AccountService();
++    protected final ContactService contact = new ContactService();
++    protected final MessagesService messages = new MessagesService();
++    protected final CommerceValidation validation = new CommerceValidation();
++
++    protected CustomerData customer;
++
++    @BeforeMethod(alwaysRun = true)
++    public void registerAndLoginFreshCustomer() {
++        try {
++            UIActions.clearSession();
++        } catch (Throwable ignored) {
++            // First test can start before a live page exists.
++        }
++        customer = account.registerAndLoginCustomer();
++        validation.assertUrlContains("/account");
++    }
++
++    protected String submitMessage(String subject, String message) {
++        UIActions.navigateToRelative("/contact");
++        WaitUtils.waitForVisible(com.endava.ai.ui.pages.ContactPage.SUBJECT);
++        contact.fillMessage(subject, message);
++        contact.submit();
++        WaitUtils.waitForVisible(com.endava.ai.ui.pages.ContactPage.SUCCESS);
++        validation.assertPageTextContains(UIActions.getText("body", "Contact body"), "Thanks for your message");
++        return message;
++    }
++
++    protected String uniqueMessage(String prefix) {
++        return prefix + " " + System.currentTimeMillis()
++                + " asking for help choosing the correct tool for a repair project today.";
++    }
++}
+diff --git a/testng.xml b/testng.xml
+new file mode 100644
+index 0000000..2ce4cf1
+--- /dev/null
++++ b/testng.xml
+@@ -0,0 +1,8 @@
++<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
++<suite name="Codex Workspace Suite" verbose="1" preserve-order="true">
++  <test name="Placeholder">
++    <classes>
++      <class name="com.endava.ai.atf.ui.RegistrationTests"/>
++    </classes>
++  </test>
++</suite>

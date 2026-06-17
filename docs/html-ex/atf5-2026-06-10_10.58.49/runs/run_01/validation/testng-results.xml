@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="3" passed="3" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-10T11:06:39 EEST" name="Surefire suite" finished-at="2026-06-10T11:06:39 EEST" duration-ms="180">
+    <groups>
+    </groups>
+    <test started-at="2026-06-10T11:06:39 EEST" name="Surefire test" finished-at="2026-06-10T11:06:39 EEST" duration-ms="180">
+      <class name="com.endava.ai.atf.ui.component.AuthenticatedContinuationContractTest">
+        <test-method signature="authenticated_account_failure_surfaces_login_context()[pri:0, instance:com.endava.ai.atf.ui.component.AuthenticatedContinuationContractTest@23c30a20]" started-at="2026-06-10T11:06:39 EEST" name="authenticated_account_failure_surfaces_login_context" finished-at="2026-06-10T11:06:39 EEST" duration-ms="59" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_account_failure_surfaces_login_context -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.component.AuthenticatedContinuationContractTest@23c30a20]" started-at="2026-06-10T11:06:39 EEST" name="tearDown" finished-at="2026-06-10T11:06:39 EEST" duration-ms="8" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method signature="authenticated_account_validation_waits_for_account_url_and_profile_navigation()[pri:0, instance:com.endava.ai.atf.ui.component.AuthenticatedContinuationContractTest@23c30a20]" started-at="2026-06-10T11:06:39 EEST" name="authenticated_account_validation_waits_for_account_url_and_profile_navigation" finished-at="2026-06-10T11:06:39 EEST" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_account_validation_waits_for_account_url_and_profile_navigation -->
+        <test-method signature="login_service_types_credentials_and_submits_login()[pri:0, instance:com.endava.ai.atf.ui.component.AuthenticatedContinuationContractTest@23c30a20]" started-at="2026-06-10T11:06:39 EEST" name="login_service_types_credentials_and_submits_login" finished-at="2026-06-10T11:06:39 EEST" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- login_service_types_credentials_and_submits_login -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.component.AuthenticatedContinuationContractTest@23c30a20]" started-at="2026-06-10T11:06:39 EEST" name="tearDown" finished-at="2026-06-10T11:06:39 EEST" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.component.AuthenticatedContinuationContractTest@23c30a20]" started-at="2026-06-10T11:06:39 EEST" name="tearDown" finished-at="2026-06-10T11:06:39 EEST" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.component.AuthenticatedContinuationContractTest -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

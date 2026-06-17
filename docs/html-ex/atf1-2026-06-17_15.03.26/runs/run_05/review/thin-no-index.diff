@@ -1,0 +1,65 @@
+diff --git a/src/test/java/com/endava/ai/ui/tests/AuthenticatedReceiptIdentityBridgeTests.java b/src/test/java/com/endava/ai/ui/tests/AuthenticatedReceiptIdentityBridgeTests.java
+new file mode 100644
+index 0000000..07ee617
+--- /dev/null
++++ b/src/test/java/com/endava/ai/ui/tests/AuthenticatedReceiptIdentityBridgeTests.java
+@@ -0,0 +1,59 @@
++package com.endava.ai.ui.tests;
++
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.utils.UIActions;
++import org.testng.annotations.BeforeMethod;
++import org.testng.annotations.Test;
++
++public class AuthenticatedReceiptIdentityBridgeTests extends AuthenticatedCheckoutBaseTest {
++
++    private CustomerData sharedCustomer;
++
++    @BeforeMethod(alwaysRun = true)
++    public void beforeReceiptIdentityBridgeMethod() {
++        StepLogger.startStep("Authenticated receipt-identity bridge preconditions");
++        UIActions.clearSession();
++        StepLogger.pass("Browser session was cleared before the next receipt-identity bridge check");
++    }
++
++    @Test(description = "After COD purchase the checkout success message does not bridge into a visible orders entry or invoice row")
++    public void after_cod_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedCashOnDeliveryPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++
++    @Test(description = "After bank-transfer purchase the checkout success message does not bridge into a visible orders entry or invoice row")
++    public void after_bank_transfer_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedBankTransferPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++
++    @Test(description = "After gift-card purchase the checkout success message does not bridge into a visible orders entry or invoice row")
++    public void after_gift_card_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedGiftCardPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++
++    @Test(description = "After switched credit-card to gift-card purchase the checkout success message does not bridge into a visible orders entry or invoice row")
++    public void after_switched_credit_card_to_gift_card_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedSwitchedGiftCardPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++
++    @Test(description = "After two successful purchases the checkout success message still does not bridge into a visible orders entry or invoice row")
++    public void after_two_successful_purchases_the_checkout_success_message_still_does_not_bridge_into_a_visible_orders_entry_or_invoice_row() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeTwoSuccessfulPurchases(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++}

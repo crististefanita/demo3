@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-17T13:09:56 EEST" name="Surefire suite" finished-at="2026-06-17T13:10:31 EEST" duration-ms="35460">
+    <groups>
+    </groups>
+    <test started-at="2026-06-17T13:09:56 EEST" name="Surefire test" finished-at="2026-06-17T13:10:31 EEST" duration-ms="35460">
+      <class name="com.endava.ai.atf.ui.commerce.CustomerMessageSubmissionOwnershipTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageSubmissionOwnershipTests@52b1beb6]" started-at="2026-06-17T13:09:56 EEST" name="setUp" finished-at="2026-06-17T13:10:08 EEST" duration-ms="12443" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageSubmissionOwnershipTests@52b1beb6]" started-at="2026-06-17T13:10:08 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:10:12 EEST" duration-ms="4054" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="customer_service_message_creates_account_message_row()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageSubmissionOwnershipTests@52b1beb6]" started-at="2026-06-17T13:10:12 EEST" name="customer_service_message_creates_account_message_row" finished-at="2026-06-17T13:10:14 EEST" duration-ms="1535" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- customer_service_message_creates_account_message_row -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageSubmissionOwnershipTests@52b1beb6]" started-at="2026-06-17T13:10:14 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:10:17 EEST" duration-ms="2723" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="order_status_message_creates_account_message_row()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageSubmissionOwnershipTests@52b1beb6]" started-at="2026-06-17T13:10:17 EEST" name="order_status_message_creates_account_message_row" finished-at="2026-06-17T13:10:20 EEST" duration-ms="2902" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- order_status_message_creates_account_message_row -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageSubmissionOwnershipTests@52b1beb6]" started-at="2026-06-17T13:10:20 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:10:22 EEST" duration-ms="2498" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="payments_message_creates_account_message_row()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageSubmissionOwnershipTests@52b1beb6]" started-at="2026-06-17T13:10:22 EEST" name="payments_message_creates_account_message_row" finished-at="2026-06-17T13:10:24 EEST" duration-ms="1060" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- payments_message_creates_account_message_row -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageSubmissionOwnershipTests@52b1beb6]" started-at="2026-06-17T13:10:24 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:10:26 EEST" duration-ms="2397" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="return_message_creates_account_message_row()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageSubmissionOwnershipTests@52b1beb6]" started-at="2026-06-17T13:10:26 EEST" name="return_message_creates_account_message_row" finished-at="2026-06-17T13:10:27 EEST" duration-ms="1029" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- return_message_creates_account_message_row -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageSubmissionOwnershipTests@52b1beb6]" started-at="2026-06-17T13:10:27 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:10:29 EEST" duration-ms="1860" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="warranty_message_creates_account_message_row()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageSubmissionOwnershipTests@52b1beb6]" started-at="2026-06-17T13:10:29 EEST" name="warranty_message_creates_account_message_row" finished-at="2026-06-17T13:10:30 EEST" duration-ms="1089" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- warranty_message_creates_account_message_row -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageSubmissionOwnershipTests@52b1beb6]" started-at="2026-06-17T13:10:31 EEST" name="tearDown" finished-at="2026-06-17T13:10:31 EEST" duration-ms="478" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.commerce.CustomerMessageSubmissionOwnershipTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-17T12:29:17 EEST" name="Surefire suite" finished-at="2026-06-17T12:30:18 EEST" duration-ms="61463">
+    <groups>
+    </groups>
+    <test started-at="2026-06-17T12:29:17 EEST" name="Surefire test" finished-at="2026-06-17T12:30:18 EEST" duration-ms="61463">
+      <class name="com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6]" started-at="2026-06-17T12:29:17 EEST" name="setUp" finished-at="2026-06-17T12:29:34 EEST" duration-ms="17187" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="resetCustomerSession()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6]" started-at="2026-06-17T12:29:34 EEST" name="resetCustomerSession" finished-at="2026-06-17T12:29:35 EEST" duration-ms="1156" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- resetCustomerSession -->
+        <test-method signature="anonymous_visitor_cannot_open_favorites_after_guest_add_attempt()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6]" started-at="2026-06-17T12:29:35 EEST" name="anonymous_visitor_cannot_open_favorites_after_guest_add_attempt" finished-at="2026-06-17T12:29:40 EEST" duration-ms="4765" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- anonymous_visitor_cannot_open_favorites_after_guest_add_attempt -->
+        <test-method is-config="true" signature="resetCustomerSession()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6]" started-at="2026-06-17T12:29:40 EEST" name="resetCustomerSession" finished-at="2026-06-17T12:29:40 EEST" duration-ms="11" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- resetCustomerSession -->
+        <test-method signature="first_customer_reopens_own_favorite_after_second_customer_session()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6]" started-at="2026-06-17T12:29:40 EEST" name="first_customer_reopens_own_favorite_after_second_customer_session" finished-at="2026-06-17T12:29:54 EEST" duration-ms="14022" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- first_customer_reopens_own_favorite_after_second_customer_session -->
+        <test-method is-config="true" signature="resetCustomerSession()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6]" started-at="2026-06-17T12:29:55 EEST" name="resetCustomerSession" finished-at="2026-06-17T12:29:55 EEST" duration-ms="7" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- resetCustomerSession -->
+        <test-method signature="guest_attempt_does_not_create_owned_favorite_after_later_login()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6]" started-at="2026-06-17T12:29:55 EEST" name="guest_attempt_does_not_create_owned_favorite_after_later_login" finished-at="2026-06-17T12:30:01 EEST" duration-ms="6350" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- guest_attempt_does_not_create_owned_favorite_after_later_login -->
+        <test-method is-config="true" signature="resetCustomerSession()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6]" started-at="2026-06-17T12:30:01 EEST" name="resetCustomerSession" finished-at="2026-06-17T12:30:01 EEST" duration-ms="8" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- resetCustomerSession -->
+        <test-method signature="second_customer_does_not_inherit_first_customer_favorite()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6]" started-at="2026-06-17T12:30:01 EEST" name="second_customer_does_not_inherit_first_customer_favorite" finished-at="2026-06-17T12:30:15 EEST" duration-ms="13340" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- second_customer_does_not_inherit_first_customer_favorite -->
+        <test-method is-config="true" signature="resetCustomerSession()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6]" started-at="2026-06-17T12:30:15 EEST" name="resetCustomerSession" finished-at="2026-06-17T12:30:15 EEST" duration-ms="11" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- resetCustomerSession -->
+        <test-method signature="unauthorized_feedback_does_not_replace_sign_in_boundary()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6]" started-at="2026-06-17T12:30:15 EEST" name="unauthorized_feedback_does_not_replace_sign_in_boundary" finished-at="2026-06-17T12:30:17 EEST" duration-ms="2181" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- unauthorized_feedback_does_not_replace_sign_in_boundary -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests@52b1beb6]" started-at="2026-06-17T12:30:18 EEST" name="tearDown" finished-at="2026-06-17T12:30:18 EEST" duration-ms="499" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.customer.CustomerFavoriteOwnershipSeparationTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

@@ -1,0 +1,21 @@
+# Frozen package inventory
+
+- `README.md`
+- `CALIBRATION.md`
+- `manifests/package-manifest.md`
+- `prompt/input-snapshot.md`
+- `review/round-pretraining-brief.md`
+- `review/frontier-ranking-ledger.md`
+- `review/prepare-proof.md`
+- `review/package-state.json`
+- `review/execution-gate-card.md`
+- `review/root-source-thin-no-index.diff`
+- `review/quality-accounting-verdict.md`
+- `review/next-run-eligibility-card.md`
+- `review/package-close-out.md`
+- `analysis/langgraph-business-understanding.html`
+- `analysis/link-audit.md`
+- `analysis/render-proof.md`
+- `analysis/canonical-render-check.png`
+- `review/local-link-check.txt`
+- `runs/run_01` to `runs/run_05`

@@ -1,0 +1,14 @@
+{
+  "run": "run_05",
+  "status": "frozen",
+  "tests": 5,
+  "passed": true,
+  "countable": true,
+  "claim": "favorites integrity keeps one owned object when the application reopens the same product identity",
+  "verdict": "owned-partial-breadth",
+  "repair_attempts": 1,
+  "test_class": "com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests",
+  "diff": "review/thin-no-index.diff",
+  "extent": "validation/reports/ExtentReport_2026-06-17_12-32-05.html",
+  "xml": "validation/surefire-reports/TEST-com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests.xml"
+}

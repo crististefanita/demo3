@@ -1,0 +1,4 @@
+command = mvn -q "-Dsurefire.suiteXmlFiles=target/run-05-suite.xml" test
+result = exit code 0
+suite = run-05-order-number-probe
+class = GuestOrderNumberOwnershipProbeTests

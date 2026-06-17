@@ -1,0 +1,84 @@
+{
+  "root_run": "2026-06-17_12.08.06",
+  "status": "closed",
+  "winner_macro_lane": "authenticated customer -> product favorite -> favorites collection persistence",
+  "winner_truth": "an authenticated customer can create a favorite row from product detail and reopen it after sign out and sign in",
+  "breadth_verdict": "single-persistent-favorite-row; honest cap on multi-product breadth",
+  "business_verdict": "owned persistent favorite row with customer separation and session reopenability",
+  "score": {
+    "business_substance": 91,
+    "business_graph_realism": 94,
+    "historical_reopenability": 95,
+    "proof_chain_quality": 94,
+    "contract_artifacts": 93,
+    "overall": 92,
+    "cap_reason": "persistent favorite row is real, but second-product breadth, invoices, messages and order history remain unproved"
+  },
+  "runtime_contract": {
+    "round_target_test_count": 5,
+    "meta_iteration_count": 5,
+    "tests_produced": 25,
+    "runs_consumed": 5,
+    "counters_compensate_each_other": false
+  },
+  "root_diff": "review/root-source-thin-no-index.diff",
+  "render_status": {
+    "canonical_render_check": "analysis/canonical-render-check.png",
+    "status": "present"
+  },
+  "link_audit_status": {
+    "local_link_check": "review/local-link-check.txt",
+    "link_audit": "analysis/link-audit.md",
+    "checked": 101,
+    "missing": 0
+  },
+  "run_vector": [
+    {
+      "run": "run_01",
+      "tests": 5,
+      "passed": true,
+      "consumed": true,
+      "claim": "authenticated customer creates one owned favorite row from product detail",
+      "verdict": "owned"
+    },
+    {
+      "run": "run_02",
+      "tests": 5,
+      "passed": true,
+      "consumed": true,
+      "claim": "favorite row reopens across account navigation and direct favorites route entry",
+      "verdict": "owned"
+    },
+    {
+      "run": "run_03",
+      "tests": 5,
+      "passed": true,
+      "consumed": true,
+      "claim": "favorite row persists after sign out and sign in",
+      "verdict": "owned"
+    },
+    {
+      "run": "run_04",
+      "tests": 5,
+      "passed": true,
+      "consumed": true,
+      "claim": "favorite ownership remains separated between guest and customer identities",
+      "verdict": "owned"
+    },
+    {
+      "run": "run_05",
+      "tests": 5,
+      "passed": true,
+      "consumed": true,
+      "claim": "favorites integrity rejects fake breadth when the same product identity reopens",
+      "verdict": "owned-partial-breadth"
+    }
+  ],
+  "next_frontier": "authenticated customer -> favorite row -> adjacent commercial row such as invoice, order or message persistence",
+  "do_not_sell_as_closure": [
+    "same-product related navigation as a second favorite object",
+    "empty invoices container as invoice ownership",
+    "empty messages container as support history",
+    "favorite persistence as full customer commerce-history closure"
+  ]
+}

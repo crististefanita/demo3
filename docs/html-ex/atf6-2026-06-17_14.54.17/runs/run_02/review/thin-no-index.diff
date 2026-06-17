@@ -1,0 +1,140 @@
+﻿diff --git src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceCustomerBoundaryTests.java src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceCustomerBoundaryTests.java
+new file mode 100644
+index 0000000..c7d3360
+--- /dev/null
++++ src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseInvoiceCustomerBoundaryTests.java
+@@ -0,0 +1,65 @@
++package com.endava.ai.ui.tests.checkout.postpurchase;
++
++import com.endava.ai.ui.model.CustomerData;
++import org.testng.annotations.Test;
++
++public class PostPurchaseInvoiceCustomerBoundaryTests extends AbstractPostPurchaseOwnershipTest {
++
++    @Test(description = "First customer checkout leaves first customer invoice ledger empty")
++    public void first_customer_checkout_leaves_first_customer_invoice_ledger_empty() {
++        assertInvoiceLedgerEmptyAfterSuccessfulCheckout(1);
++    }
++
++    @Test(description = "Second customer starts with an empty invoice ledger")
++    public void second_customer_starts_with_empty_invoice_ledger() {
++        CustomerData firstCustomer = completeCashOnDeliveryCheckout(1);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++
++        CustomerData secondCustomer = registerAndLoginCustomer();
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesExposeLedgerSurface();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++
++        relogin(firstCustomer);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++
++    @Test(description = "Two independent customers keep separate empty invoice ledgers after checkout")
++    public void two_independent_customers_keep_separate_empty_invoice_ledgers_after_checkout() {
++        CustomerData firstCustomer = completeCashOnDeliveryCheckout(1);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++
++        CustomerData secondCustomer = completeCashOnDeliveryCheckout(1);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++
++        relogin(firstCustomer);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++
++        relogin(secondCustomer);
++        accountService.openOverviewDirect();
++        accountValidation.assertOverviewExposesAccountManagement();
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++
++    @Test(description = "Customer invoice gap remains scoped to the authenticated account after relogin")
++    public void customer_invoice_gap_remains_scoped_after_relogin() {
++        CustomerData customer = completeCashOnDeliveryCheckout(1);
++        relogin(customer);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++
++    @Test(description = "Fresh registered customer does not inherit another checkout invoice")
++    public void fresh_registered_customer_does_not_inherit_another_checkout_invoice() {
++        completeCashOnDeliveryCheckout(1);
++        registerAndLoginCustomer();
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++}
+
+
+diff --git src/test/java/com/endava/ai/ui/tests/checkout/authenticated/AbstractAuthenticatedCheckoutTest.java src/test/java/com/endava/ai/ui/tests/checkout/authenticated/AbstractAuthenticatedCheckoutTest.java
+new file mode 100644
+index 0000000..3180411
+--- /dev/null
++++ src/test/java/com/endava/ai/ui/tests/checkout/authenticated/AbstractAuthenticatedCheckoutTest.java
+@@ -0,0 +1,59 @@
++package com.endava.ai.ui.tests.checkout.authenticated;
++
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.core.BaseTestUI;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.service.AccountService;
++import com.endava.ai.ui.service.CheckoutService;
++import com.endava.ai.ui.service.LoginService;
++import com.endava.ai.ui.service.RegistrationService;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.validation.AccountValidation;
++import com.endava.ai.ui.validation.CheckoutValidation;
++import com.endava.ai.ui.validation.RegistrationValidation;
++import org.testng.annotations.BeforeMethod;
++
++public abstract class AbstractAuthenticatedCheckoutTest extends BaseTestUI {
++
++    protected final RegistrationService registrationService = new RegistrationService();
++    protected final RegistrationValidation registrationValidation = new RegistrationValidation();
++    protected final LoginService loginService = new LoginService();
++    protected final CheckoutService checkoutService = new CheckoutService();
++    protected final CheckoutValidation checkoutValidation = new CheckoutValidation();
++    protected final AccountService accountService = new AccountService();
++    protected final AccountValidation accountValidation = new AccountValidation();
++
++    @BeforeMethod
++    public void before() {
++        StepLogger.startStep("Authenticated checkout preconditions");
++        UIActions.clearSession();
++        StepLogger.pass("Ready");
++    }
++
++    protected CustomerData registerAndLoginCustomer() {
++        AssertionError lastFailure = null;
++
++        for (int attempt = 1; attempt <= 2; attempt++) {
++            CustomerData customer = registrationService.registerValidCustomer();
++            try {
++                registrationValidation.assertRedirectedToLogin();
++                loginService.openLogin();
++                loginService.signInAndWaitForAuthenticatedLanding(customer.getEmail(), customer.getPassword());
++                return customer;
++            } catch (AssertionError failure) {
++                lastFailure = failure;
++                UIActions.clearSession();
++            }
++        }
++
++        throw lastFailure;
++    }
++
++    protected void relogin(CustomerData customer) {
++        UIActions.clearSession();
++        loginService.openLogin();
++        loginService.signInAndWaitForAuthenticatedLanding(customer.getEmail(), customer.getPassword());
++    }
++}
++
++
+
+

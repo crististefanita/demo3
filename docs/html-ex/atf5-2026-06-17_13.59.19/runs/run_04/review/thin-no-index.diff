@@ -1,0 +1,55 @@
+diff --git "a/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\GuestPaymentConfirmationOwnershipTests.java" "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\GuestPaymentConfirmationOwnershipTests.java"
+new file mode 100644
+index 0000000..f21bb33
+--- /dev/null
++++ "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\GuestPaymentConfirmationOwnershipTests.java"
+@@ -0,0 +1,48 @@
++package com.endava.ai.atf.ui.commerce;
++
++import com.endava.ai.ui.pages.CartPage;
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++public class GuestPaymentConfirmationOwnershipTests extends CommerceUiTestBase {
++
++    @Test
++    public void cash_on_delivery_can_be_selected_as_guest_payment_intent() {
++        openGuestPayment();
++        cart.chooseCashOnDelivery();
++
++        Assert.assertTrue(cart.paymentMethod().contains("cash-on-delivery") || cart.paymentMethod().contains("Cash"),
++                "Cash on Delivery should be selected but was: " + cart.paymentMethod());
++    }
++
++    @Test
++    public void finish_action_is_visible_after_payment_method_selection() {
++        openGuestPayment();
++        cart.chooseCashOnDelivery();
++
++        validation.assertVisible(CartPage.FINISH, "Payment confirm action");
++    }
++
++    @Test
++    public void confirming_cash_on_delivery_returns_payment_success_message() {
++        openGuestPaymentSuccess();
++
++        validation.assertPaymentSuccessVisible();
++        validation.assertTextContains(cart.paymentSuccessMessage(), "Payment was successful");
++    }
++
++    @Test
++    public void payment_success_keeps_buyer_on_checkout_context() {
++        openGuestPaymentSuccess();
++
++        validation.assertUrlContains("/checkout");
++    }
++
++    @Test
++    public void payment_success_does_not_clear_cart_counter_as_owned_order() {
++        openGuestPaymentSuccess();
++
++        validation.assertPageTextContains(cart.pageText(), "Payment was successful");
++        validation.assertPageTextContains(cart.pageText(), "CART");
++    }
++}
+

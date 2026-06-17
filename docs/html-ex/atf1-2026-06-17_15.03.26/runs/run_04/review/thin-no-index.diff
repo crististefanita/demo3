@@ -1,0 +1,69 @@
+diff --git a/src/test/java/com/endava/ai/ui/tests/AuthenticatedReceiptIdentityDurabilityTests.java b/src/test/java/com/endava/ai/ui/tests/AuthenticatedReceiptIdentityDurabilityTests.java
+new file mode 100644
+index 0000000..5ce0dd1
+--- /dev/null
++++ b/src/test/java/com/endava/ai/ui/tests/AuthenticatedReceiptIdentityDurabilityTests.java
+@@ -0,0 +1,63 @@
++package com.endava.ai.ui.tests;
++
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.utils.UIActions;
++import org.testng.annotations.BeforeMethod;
++import org.testng.annotations.Test;
++
++public class AuthenticatedReceiptIdentityDurabilityTests extends AuthenticatedCheckoutBaseTest {
++
++    private CustomerData sharedCustomer;
++
++    @BeforeMethod(alwaysRun = true)
++    public void beforeReceiptIdentityDurabilityMethod() {
++        StepLogger.startStep("Authenticated receipt-identity durability preconditions");
++        UIActions.clearSession();
++        StepLogger.pass("Browser session was cleared before the next receipt-identity durability check");
++    }
++
++    @Test(description = "Two COD purchases for the same customer still leave no persistent commercial identity after relogin")
++    public void two_cod_purchases_for_the_same_customer_still_leave_no_persistent_commercial_identity_after_relogin() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedCashOnDeliveryPurchase(customer);
++        completeAuthenticatedCashOnDeliveryPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentityAfterRelogin(customer);
++    }
++
++    @Test(description = "Mixed COD then gift-card purchases still leave no persistent commercial identity after relogin")
++    public void mixed_cod_then_gift_card_purchases_still_leave_no_persistent_commercial_identity_after_relogin() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedCashOnDeliveryPurchase(customer);
++        completeAuthenticatedGiftCardPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentityAfterRelogin(customer);
++    }
++
++    @Test(description = "Two gift-card purchases still leave no persistent commercial identity after relogin")
++    public void two_gift_card_purchases_still_leave_no_persistent_commercial_identity_after_relogin() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeTwoGiftCardPurchases(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentityAfterRelogin(customer);
++    }
++
++    @Test(description = "Mixed bank-transfer then gift-card purchases still leave no persistent commercial identity after relogin")
++    public void mixed_bank_transfer_then_gift_card_purchases_still_leave_no_persistent_commercial_identity_after_relogin() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedBankTransferPurchase(customer);
++        completeAuthenticatedGiftCardPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentityAfterRelogin(customer);
++    }
++
++    @Test(description = "A successful purchase followed by two relogins still leaves no persistent commercial identity")
++    public void a_successful_purchase_followed_by_two_relogins_still_leaves_no_persistent_commercial_identity() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedCashOnDeliveryPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentityAfterRelogin(customer);
++        assertCommercialHistoryStillLacksPersistentIdentityAfterRelogin(customer);
++    }
++}

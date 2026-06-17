@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>Referinta Pretraining</title>
+<link href="../../shared-report-reference.css" rel="stylesheet">
+<style>
+.grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.diag{margin-top:10px;border:1px solid var(--border);border-radius:14px;background:#08101a;padding:12px;overflow:auto}
+.diag svg{display:block;width:100%;height:auto}
+.kvs{display:grid;grid-template-columns:150px 1fr;gap:8px 12px}
+.k{color:var(--muted);font-weight:600}
+.pillline{display:flex;flex-direction:column;gap:8px;align-items:flex-start;margin-top:10px}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pilllabel{color:var(--muted);font-size:12px;font-weight:700;margin-right:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Referinta Pretraining <span class="badge">SOURCE</span> <span class="badge">INTAKE</span> <span class="badge">ANTI-COPY</span> <span class="badge">DECISION</span></h1>
+  <div class="sub">
+    <ul>
+      <li>Detine pretraining-ul.</li>
+      <li>Stabileste sursele, ordinea, extractia si anti-copy.</li>
+      <li>Stabileste artefactul care inchide alegerea.</li>
+      <li><code class="inline">orchestrate-iterative-runs.html</code> ramane owner pentru legalitate si handoff.</li>
+    </ul>
+  </div>
+  <div class="toolbar"><button type="button" onclick="toggleAll(true)">Deschide tot</button><button type="button" onclick="toggleAll(false)">Inchide tot</button></div>
+</header>
+
+<div class="grid">
+  <section class="card">
+    <h2>Overview</h2>
+    <table>
+      <thead><tr><th>Badge</th><th>Citesti aici</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge">SOURCE</span></td><td>runtime, memorie locala, pachet precedent, html-ex relevant, standarde live</td></tr>
+        <tr><td><span class="badge">INTAKE</span></td><td>ce extragi, ce nu mostenesti, ce artefact salvezi</td></tr>
+        <tr><td><span class="badge">BENCHMARK</span></td><td>forma, severitate, artefacte si scoring; niciodata business copiat</td></tr>
+        <tr><td><span class="badge">FEEDBACK</span></td><td>lectii din <code class="inline">docs/out/README.md</code> ca Q/A, nu owner-law</td></tr>
+        <tr><td><span class="badge">ANTI-COPY</span></td><td>opreste mostenirea de verdict, scor, stil sau business din exemple</td></tr>
+        <tr><td><span class="badge">DECISION</span></td><td>frontiera care bate rece si artefactul care inchide alegerea</td></tr>
+      </tbody>
+    </table>
+    <div class="pillline">
+      <div class="pillrow"><span class="pilllabel">Owner:</span><span class="pill">pretraining auditat</span><span class="pill">surse</span><span class="pill">anti-copy</span></div>
+      <div class="pillrow"><span class="pilllabel">Foloseste:</span><span class="pill">runtime</span><span class="pill">memorie locala</span><span class="pill">html-ex</span><span class="pill">feedback Q/A</span></div>
+          <div class="pillrow"><span class="pilllabel">Produce:</span><span class="pill">intake card</span><span class="pill">frontier ranking</span><span class="pill">decizie rece</span></div>
+          <div class="pillrow"><span class="pilllabel">Nu produce:</span><span class="pill">legalitate pachet</span><span class="pill">run slot</span><span class="pill">raport final</span></div>
+    </div>
+    <details class="mini-note">
+      <summary>Regula de baza</summary>
+      <div class="rule">Pretraining-ul bun nu mosteneste verdict. El extrage presiune, severitate, forma si urmatoarea frontiera rece.</div>
+    </details>
+  </section>
+
+  <section class="card">
+    <details>
+    <summary><span class="summary-title">Contract minim <span class="badge">INTAKE</span></span><span class="sumhint">surse, extractie, anti-copy</span></summary>
+    <table>
+      <thead><tr><th>Pas</th><th>Regula</th></tr></thead>
+      <tbody>
+        <tr><td>runtime</td><td>citeste valorile active si path-urile comune; nu hardcoda local</td></tr>
+        <tr><td>memorie locala</td><td>citeste <code class="inline">docs/out/README.md</code> ca <code class="inline">Question -&gt; Answer</code>, nu ca lege</td></tr>
+        <tr><td>pachet precedent</td><td>extrage next-run truth, blocker, familie si ce nu trebuie repetat</td></tr>
+        <tr><td>html-ex</td><td>alege exemple relevante pentru forma, severitate si artefacte; nu copia business-ul</td></tr>
+        <tr><td>brief scoped</td><td>se scrie cand contextul cere recitire completa sau schimbare rece de winner</td></tr>
+      </tbody>
+    </table>
+    <div class="note">Owner-ul decide sursele si intake-ul. Orchestratorul consuma doar intake-ul auditat, decizia rece si artefactele salvate.</div>
+    </details>
+  </section>
+</div>
+
+<details open>
+  <summary><span class="summary-title">1. Flow pretraining <span class="badge">INTAKE</span></span><span class="sumhint">surse -> intake -> rerank</span></summary>
+  <div class="diag"><svg viewBox="0 0 1160 270" role="img" aria-label="Flow pretraining rece">
+  <defs><marker id="ptc" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+  <rect x="30" y="34" width="200" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="130" y="60" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">agent-runtime</text>
+  <text x="130" y="82" text-anchor="middle" fill="#a8b3cf" font-size="11">valori + path-uri</text>
+  <rect x="30" y="126" width="200" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="130" y="152" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">memorie locala</text>
+  <text x="130" y="174" text-anchor="middle" fill="#a8b3cf" font-size="11">README + pachet precedent</text>
+  <rect x="30" y="218" width="200" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="130" y="244" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">html-ex</text>
+  <text x="130" y="266" text-anchor="middle" fill="#a8b3cf" font-size="11">forma + severitate</text>
+  <rect x="340" y="88" width="250" height="84" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="465" y="116" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Pretraining Intake Card</text>
+  <text x="465" y="139" text-anchor="middle" fill="#a8b3cf" font-size="11">iau / nu copiez / salvez</text>
+  <text x="465" y="158" text-anchor="middle" fill="#a8b3cf" font-size="11">frontiera care bate rece</text>
+  <rect x="700" y="88" width="190" height="84" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="795" y="116" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">rerank rece</text>
+  <text x="795" y="139" text-anchor="middle" fill="#a8b3cf" font-size="11">winner legal</text>
+  <text x="795" y="158" text-anchor="middle" fill="#a8b3cf" font-size="11">fara mostenire calda</text>
+  <rect x="980" y="88" width="150" height="84" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="1055" y="116" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">decizie rece</text>
+  <text x="1055" y="139" text-anchor="middle" fill="#a8b3cf" font-size="11">launch / rerank / stop</text>
+  <text x="1055" y="158" text-anchor="middle" fill="#a8b3cf" font-size="11">salvat auditabil</text>
+  <path d="M230 68 H300 Q320 68 340 100" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#ptc)"/>
+  <path d="M230 160 H300 Q320 160 340 140" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#ptc)"/>
+  <path d="M230 252 H300 Q320 252 340 160" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#ptc)"/>
+  <path d="M590 130 H700" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ptc)"/>
+  <path d="M890 130 H980" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ptc)"/>
+  </svg></div>
+</details>
+
+<details>
+  <summary><span class="summary-title">2. Surse si ce extragi</span><span class="sumhint">nu tot ce citesti devine lege</span></summary>
+  <div class="rule">
+    <ul>
+      <li>Sectiunea 2 = contractul de extractie.</li>
+      <li>Intrebare: ce iei din fiecare sursa?</li>
+      <li>Sectiunea 3 = procedura de citire.</li>
+      <li>Intrebare: in ce ordine redeschizi sursele?</li>
+    </ul>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Sursa</th>
+        <th>Ce extragi</th>
+        <th>Ce NU mostenesti</th>
+        <th>Artefact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code class="inline">agent-runtime.properties</code></td>
+        <td>valori active, path-uri, succes curent</td>
+        <td>valori hardcodate local</td>
+        <td>runtime link in package README</td>
+      </tr>
+      <tr>
+        <td><code class="inline">docs/out/README.md</code></td>
+        <td>raspunsuri Q/A, defecte repetate, calibrari</td>
+        <td>owner-law sau scor copiat</td>
+        <td>frontier-ranking-ledger.md</td>
+      </tr>
+      <tr>
+        <td>ultimul pachet local complet</td>
+        <td>next-run truth, blockere, family pressure</td>
+        <td>same winner inertial</td>
+        <td>next-run-eligibility-card.md</td>
+      </tr>
+      <tr>
+        <td><code class="inline">HTML_EX_LIBRARY_README</code></td>
+        <td>forma, severitate, artefacte, scoring</td>
+        <td>business, verdict sau nota copiata</td>
+        <td>round-pretraining-brief.md cand contextul cere</td>
+      </tr>
+      <tr>
+        <td>standardele live</td>
+        <td>cerintele noi si ownerii curenti</td>
+        <td>obiceiuri istorice din exemple vechi</td>
+        <td>checklist in gate trace</td>
+      </tr>
+    </tbody>
+  </table>
+</details>
+
+<details>
+  <summary><span class="summary-title">3. Ordinea rece a recitirii</span><span class="sumhint">ordinea conteaza</span></summary>
+  <div class="rule">
+    <ul>
+      <li>Ordinea nu schimba ownerii.</li>
+      <li>Scop: previne pretraining cald.</li>
+      <li>Flux: runtime -> memorie -> pachet local -> biblioteca comuna -> brief.</li>
+      <li>Brief-ul se scrie doar cand este cerut.</li>
+    </ul>
+  </div>
+  <div class="diag"><svg viewBox="0 0 1160 240" role="img" aria-label="Ordinea rece de pretraining">
+  <defs><marker id="pt2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+  <rect x="30" y="82" width="170" height="72" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="115" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">1. runtime</text>
+  <text x="115" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">valori active</text>
+  <rect x="250" y="82" width="180" height="72" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="340" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">2. docs/out</text>
+  <text x="340" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">Question -> Answer</text>
+  <rect x="480" y="82" width="170" height="72" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="565" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">3. pachet vechi</text>
+  <text x="565" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">next-run truth</text>
+  <rect x="700" y="82" width="170" height="72" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="785" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">4. html-ex</text>
+  <text x="785" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">forma + severitate</text>
+  <rect x="920" y="82" width="180" height="72" rx="14" fill="#111826" stroke="#35507a"/>
+  <text x="1010" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">5. brief</text>
+  <text x="1010" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">alegere rece</text>
+  <path d="M200 118 H250" stroke="#7aa2ff" stroke-width="2" marker-end="url(#pt2)"/>
+  <path d="M430 118 H480" stroke="#7aa2ff" stroke-width="2" marker-end="url(#pt2)"/>
+  <path d="M650 118 H700" stroke="#7aa2ff" stroke-width="2" marker-end="url(#pt2)"/>
+  <path d="M870 118 H920" stroke="#7aa2ff" stroke-width="2" marker-end="url(#pt2)"/>
+  </svg></div>
+  <table>
+    <thead><tr><th>Pas</th><th>Redeschizi</th><th>Ce trebuie sa obtii</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code class="inline">agent-runtime.properties</code></td><td>valorile active si succesul curent</td></tr>
+      <tr><td>2</td><td><code class="inline">docs/out/README.md</code></td><td>calibrarea acumulata intre agenti</td></tr>
+      <tr><td>3</td><td>ultimul pachet local complet</td><td>next-run truth si blockere reale</td></tr>
+      <tr><td>4</td><td><code class="inline">HTML_EX_LIBRARY_README</code> + exemple relevante</td><td>forma, severitate, artefacte, scoring, fara mostenire oarba</td></tr>
+      <tr><td>5</td><td><code class="inline">round-pretraining-brief.md</code> doar cand contextul il cere</td><td>alegere inchisa rece: launch, rerank sau stop</td></tr>
+    </tbody>
+  </table>
+</details>
+
+<details>
+  <summary><span class="summary-title">4. Pretraining Intake Card <span class="badge">INTAKE</span></span><span class="sumhint">template obligatoriu</span></summary>
+  <table>
+    <thead><tr><th>Context</th><th>Cand se scrie brief-ul</th><th>De ce</th></tr></thead>
+    <tbody>
+      <tr><td>fresh ROOT_RUN</td><td>mereu</td><td>pachetul nou are nevoie de recitire completa si alegere inchisa rece</td></tr>
+      <tr><td>same-package continuation</td><td>doar daca rerank-ul schimba winner-ul sau benchmark-ul activ</td><td>altfel se pastreaza brief-ul pachetului si se actualizeaza ledger-ul de frontiera</td></tr>
+      <tr><td>repair local fara schimbare de winner</td><td>nu</td><td>salveaza lectia in MD-ul de run; nu reinventa pretraining-ul</td></tr>
+    </tbody>
+  </table>
+  <table>
+    <thead><tr><th>Camp</th><th>Trebuie sa fixeze</th></tr></thead>
+    <tbody>
+      <tr><td>sursa</td><td>runtime, memorie locala, pachet precedent, html-ex relevant</td></tr>
+      <tr><td>ce extrag</td><td>lectia utila pentru frontiera curenta</td></tr>
+      <tr><td>ce NU mostenesc</td><td>business, scor, winner sau verdict copiate orb</td></tr>
+      <tr><td>ce artefact salvez</td><td><code class="inline">frontier-ranking-ledger.md</code> mereu; <code class="inline">round-pretraining-brief.md</code> doar pentru fresh ROOT_RUN sau rerank same-package care schimba winner-ul</td></tr>
+      <tr><td>ce frontiera bate</td><td>winner-ul rece curent si de ce ceilalti pierd</td></tr>
+      <tr><td>decizie rece</td><td><code class="inline">launch</code>, <code class="inline">rerank</code> sau <code class="inline">stop</code></td></tr>
+    </tbody>
+  </table>
+<pre><code>round-pretraining-brief.md
+source = ...
+what I extract = ...
+what I do not inherit = ...
+artifact saved = ...
+winning frontier now = ...
+why it wins = ...
+decizie rece = launch / rerank / stop
+</code></pre>
+</details>
+
+<details>
+  <summary><span class="summary-title">5. Ce nu consuma pretraining-ul</span><span class="sumhint">anti-copy rules</span></summary>
+  <ul>
+    <li>Nu consuma verdicte din chat ca sursa de adevar.</li>
+    <li>Nu consuma un benchmark intreg ca sablon de business sau de scor.</li>
+    <li>Nu consuma snapshot-uri <code class="inline">.java</code> ca adevar primar al evolutiei; diff-ul ramane primar.</li>
+    <li>Nu consuma primul folder mai nou de pe disk daca memoria de branch si carriers-ul rece spun altceva.</li>
+    <li>Nu consuma <code class="inline">docs/out/README.md</code> ca owner-law; il consumi doar ca memorie iterativa.</li>
+    <li>Nu copia business-ul din <code class="inline">html-ex</code>; ia doar forma, severitatea si artefactele bune.</li>
+  </ul>
+</details>
+<details>
+  <summary><span class="summary-title">6. Card final de decizie <span class="badge">DECISION</span></span><span class="sumhint">ce produce pretraining-ul pentru orchestrator</span></summary>
+  <table>
+    <thead><tr><th>Camp</th><th>Raspuns scurt</th><th>Daca lipseste</th></tr></thead>
+    <tbody>
+      <tr><td>winner</td><td>frontiera care bate rece acum</td><td>launch-ul este cald</td></tr>
+      <tr><td>ce NU mostenesc</td><td>business, scor, stil sau verdict copiat din memorie/html-ex</td><td>benchmark-ul contamineaza pachetul</td></tr>
+      <tr><td>artefact salvat</td><td><code class="inline">frontier-ranking-ledger.md</code> si, cand cere contextul, <code class="inline">round-pretraining-brief.md</code></td><td>rerank-ul nu este redeschisibil</td></tr>
+      <tr><td>decizie rece</td><td><code class="inline">launch</code>, <code class="inline">rerank</code> sau <code class="inline">stop</code></td><td>orchestratorul nu are ce guverna</td></tr>
+    </tbody>
+  </table>
+</details>
+</div>
+<script>
+function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}
+</script>
+</body>
+</html>
