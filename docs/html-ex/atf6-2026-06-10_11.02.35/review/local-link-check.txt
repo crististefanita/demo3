@@ -1,3 +1,0 @@
-local-link-check
-html = C:\work\ex\java\demo\atf6\test-framework\docs\out\2026-06-10_11.02.35\analysis\langgraph-business-understanding.html
-broken = 0
