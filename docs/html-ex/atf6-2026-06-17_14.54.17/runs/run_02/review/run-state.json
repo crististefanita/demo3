@@ -1,0 +1,16 @@
+{
+  "run_id": "run_02",
+  "class_name": "PostPurchaseInvoiceCustomerBoundaryTests",
+  "tests_target": "ROUND_TARGET_TEST_COUNT",
+  "tests_produced": 5,
+  "target_status": "met",
+  "delta_quality_status": "pass",
+  "run_diff": "runs/run_02/review/thin-no-index.diff",
+  "carrier": "runs/run_02/review/source-delta-carrier.md",
+  "proof_ui": "runs/run_02/validation/reports/ExtentReport_2026-06-17_15-08-17.html",
+  "proof_machine": "runs/run_02/validation/TEST-com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceCustomerBoundaryTests.xml",
+  "kept_status": "yes",
+  "blocker_status": "no",
+  "business_claim": "Invoice-row absence persists across customer boundaries instead of leaking between accounts.",
+  "verdict": "owned"
+}

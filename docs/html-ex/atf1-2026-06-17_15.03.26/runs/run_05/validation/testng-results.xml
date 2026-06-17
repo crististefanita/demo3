@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-17T15:14:45 EEST" name="Surefire suite" finished-at="2026-06-17T15:15:35 EEST" duration-ms="50433">
+    <groups>
+    </groups>
+    <test started-at="2026-06-17T15:14:45 EEST" name="Surefire test" finished-at="2026-06-17T15:15:35 EEST" duration-ms="50433">
+      <class name="com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests@72e5a8e]" started-at="2026-06-17T15:14:45 EEST" name="setUp" finished-at="2026-06-17T15:14:57 EEST" duration-ms="12568" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="beforeReceiptIdentityBridgeMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests@72e5a8e]" started-at="2026-06-17T15:14:57 EEST" name="beforeReceiptIdentityBridgeMethod" finished-at="2026-06-17T15:14:57 EEST" duration-ms="248" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeReceiptIdentityBridgeMethod -->
+        <test-method signature="after_bank_transfer_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests@72e5a8e]" started-at="2026-06-17T15:14:57 EEST" name="after_bank_transfer_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row" description="After bank-transfer purchase the checkout success message does not bridge into a visible orders entry or invoice row" finished-at="2026-06-17T15:15:07 EEST" duration-ms="9748" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_bank_transfer_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row -->
+        <test-method is-config="true" signature="beforeReceiptIdentityBridgeMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests@72e5a8e]" started-at="2026-06-17T15:15:07 EEST" name="beforeReceiptIdentityBridgeMethod" finished-at="2026-06-17T15:15:07 EEST" duration-ms="8" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeReceiptIdentityBridgeMethod -->
+        <test-method signature="after_cod_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests@72e5a8e]" started-at="2026-06-17T15:15:07 EEST" name="after_cod_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row" description="After COD purchase the checkout success message does not bridge into a visible orders entry or invoice row" finished-at="2026-06-17T15:15:13 EEST" duration-ms="5876" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_cod_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row -->
+        <test-method is-config="true" signature="beforeReceiptIdentityBridgeMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests@72e5a8e]" started-at="2026-06-17T15:15:14 EEST" name="beforeReceiptIdentityBridgeMethod" finished-at="2026-06-17T15:15:14 EEST" duration-ms="6" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeReceiptIdentityBridgeMethod -->
+        <test-method signature="after_gift_card_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests@72e5a8e]" started-at="2026-06-17T15:15:14 EEST" name="after_gift_card_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row" description="After gift-card purchase the checkout success message does not bridge into a visible orders entry or invoice row" finished-at="2026-06-17T15:15:20 EEST" duration-ms="6152" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_gift_card_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row -->
+        <test-method is-config="true" signature="beforeReceiptIdentityBridgeMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests@72e5a8e]" started-at="2026-06-17T15:15:20 EEST" name="beforeReceiptIdentityBridgeMethod" finished-at="2026-06-17T15:15:20 EEST" duration-ms="5" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeReceiptIdentityBridgeMethod -->
+        <test-method signature="after_switched_credit_card_to_gift_card_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests@72e5a8e]" started-at="2026-06-17T15:15:20 EEST" name="after_switched_credit_card_to_gift_card_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row" description="After switched credit-card to gift-card purchase the checkout success message does not bridge into a visible orders entry or invoice row" finished-at="2026-06-17T15:15:26 EEST" duration-ms="5647" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_switched_credit_card_to_gift_card_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row -->
+        <test-method is-config="true" signature="beforeReceiptIdentityBridgeMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests@72e5a8e]" started-at="2026-06-17T15:15:26 EEST" name="beforeReceiptIdentityBridgeMethod" finished-at="2026-06-17T15:15:26 EEST" duration-ms="7" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeReceiptIdentityBridgeMethod -->
+        <test-method signature="after_two_successful_purchases_the_checkout_success_message_still_does_not_bridge_into_a_visible_orders_entry_or_invoice_row()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests@72e5a8e]" started-at="2026-06-17T15:15:26 EEST" name="after_two_successful_purchases_the_checkout_success_message_still_does_not_bridge_into_a_visible_orders_entry_or_invoice_row" description="After two successful purchases the checkout success message still does not bridge into a visible orders entry or invoice row" finished-at="2026-06-17T15:15:34 EEST" duration-ms="8346" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_two_successful_purchases_the_checkout_success_message_still_does_not_bridge_into_a_visible_orders_entry_or_invoice_row -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests@72e5a8e]" started-at="2026-06-17T15:15:34 EEST" name="tearDown" finished-at="2026-06-17T15:15:35 EEST" duration-ms="453" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

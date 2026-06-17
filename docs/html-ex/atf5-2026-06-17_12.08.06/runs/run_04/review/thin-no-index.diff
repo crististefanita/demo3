@@ -1,0 +1,98 @@
+diff --git "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteOwnershipSeparationTests.java" "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteOwnershipSeparationTests.java"
+new file mode 100644
+index 0000000..e95283a
+--- /dev/null
++++ "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteOwnershipSeparationTests.java"
+@@ -0,0 +1,91 @@
++package com.endava.ai.atf.ui.customer;
++
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.pages.LoginPage;
++import com.endava.ai.ui.service.CatalogService;
++import com.endava.ai.ui.service.ProductService;
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++public class CustomerFavoriteOwnershipSeparationTests extends AccountCustomerUiTestBase {
++
++    private final CatalogService catalog = new CatalogService();
++    private final ProductService product = new ProductService();
++
++    @Test
++    public void guest_attempt_does_not_create_owned_favorite_after_later_login() {
++        catalog.openHome();
++        catalog.openFirstProduct();
++        product.addToFavorites();
++
++        account.openProtectedRouteAsAnonymous("/account/favorites");
++        CustomerData customer = account.registerAndLoginCustomer();
++        account.openFavorites();
++
++        validation.assertPageTextContains(account.pageText(), "There are no favorites yet");
++        Assert.assertNotNull(customer, "A real customer session should be created after guest failure.");
++    }
++
++    @Test
++    public void anonymous_visitor_cannot_open_favorites_after_guest_add_attempt() {
++        catalog.openHome();
++        catalog.openFirstProduct();
++        product.addToFavorites();
++
++        account.openProtectedRouteAsAnonymous("/account/favorites");
++
++        validation.assertVisible(LoginPage.LOGIN_BUTTON, "Login boundary after unauthorized favorite attempt");
++    }
++
++    @Test
++    public void second_customer_does_not_inherit_first_customer_favorite() {
++        CustomerData firstCustomer = account.registerAndLoginCustomer();
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++        account.signOut();
++
++        account.registerAndLoginCustomer();
++        account.openFavorites();
++
++        validation.assertPageTextContains(account.pageText(), "There are no favorites yet");
++        account.signOut();
++        account.login(firstCustomer);
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++    }
++
++    @Test
++    public void first_customer_reopens_own_favorite_after_second_customer_session() {
++        CustomerData firstCustomer = account.registerAndLoginCustomer();
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++        account.signOut();
++
++        account.registerAndLoginCustomer();
++        account.signOut();
++        account.login(firstCustomer);
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertTextContains(account.favoriteProductName(), expectedProduct);
++    }
++
++    @Test
++    public void unauthorized_feedback_does_not_replace_sign_in_boundary() {
++        catalog.openHome();
++        catalog.openFirstProduct();
++        product.addToFavorites();
++
++        validation.assertPageTextContains(product.pageText(), "Unauthorized, can not add product to your favorite list.");
++        account.openProtectedRouteAsAnonymous("/account/favorites");
++        validation.assertVisible(LoginPage.LOGIN_BUTTON, "Login boundary remains the ownership bridge");
++    }
++}
+

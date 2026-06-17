@@ -1,0 +1,12 @@
+run frozen = yes
+business claim settled = yes
+thin-no-index.diff saved = yes
+source-delta-carrier required = yes
+if yes, why = message evidence claim depends on preserved values, not only route presence
+run diff linked from SUMMARY/report = yes
+ExtentReport saved = yes
+machine result carrier saved = yes
+decisive learning md saved = yes
+countable kept run = yes
+missing mandatory artifact = no
+notes = business context is capturable before submit

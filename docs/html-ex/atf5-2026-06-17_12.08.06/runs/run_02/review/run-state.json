@@ -1,0 +1,14 @@
+{
+  "run": "run_02",
+  "status": "frozen",
+  "tests": 5,
+  "passed": true,
+  "countable": true,
+  "claim": "favorite row reopens through account overview, profile, home detour and direct favorites route",
+  "verdict": "owned",
+  "repair_attempts": 0,
+  "test_class": "com.endava.ai.atf.ui.customer.CustomerFavoriteReopenabilityOwnershipTests",
+  "diff": "review/thin-no-index.diff",
+  "extent": "validation/reports/ExtentReport_2026-06-17_12-18-44.html",
+  "xml": "validation/surefire-reports/TEST-com.endava.ai.atf.ui.customer.CustomerFavoriteReopenabilityOwnershipTests.xml"
+}

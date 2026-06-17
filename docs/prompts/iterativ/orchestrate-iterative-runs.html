@@ -1,0 +1,545 @@
+﻿<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>Orchestrate Iterative Runs</title>
+<link href="../../shared-report-reference.css" rel="stylesheet">
+<style>
+.grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.diag{margin-top:10px;border:1px solid var(--border);border-radius:14px;background:#08101a;padding:12px;overflow:auto}
+.diag svg{display:block;width:100%;height:auto}
+.kvs{display:grid;grid-template-columns:120px 1fr;gap:8px 12px}
+.k{color:var(--muted);font-weight:600}
+.pillline{display:flex;flex-direction:column;gap:8px;align-items:flex-start;margin-top:10px}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pilllabel{color:var(--muted);font-size:12px;font-weight:700;margin-right:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Orchestrate Iterative Runs <span class="badge">RUNTIME</span> <span class="badge">LEGALITY</span> <span class="badge">RUN WINDOW</span> <span class="badge">HANDOFF</span></h1>
+  <div class="sub">
+    <ul>
+      <li>Conduce pachetul iterativ si fereastra de run-uri.</li>
+      <li>Judeca legalitatea continuarii, stop-ului si fresh ROOT_RUN.</li>
+      <li>Executia produce artefactele. Raportarea publica adevarul final.</li>
+    </ul>
+  </div>
+  <div class="toolbar"><button type="button" onclick="toggleAll(true)">Deschide tot</button><button type="button" onclick="toggleAll(false)">Inchide tot</button></div>
+</header>
+
+<div class="grid">
+<section class="card"><h2>Overview</h2>
+<table>
+  <thead><tr><th>Badge</th><th>Citesti aici</th></tr></thead>
+  <tbody>
+    <tr><td><span class="badge">RUNTIME</span></td><td>valorile active si path-urile comune citite din <code class="inline">agent-runtime.properties</code></td></tr>
+    <tr><td><span class="badge">LEGALITY</span></td><td>launch, continuation, stop, blocker sever, fresh ROOT_RUN</td></tr>
+    <tr><td><span class="badge">RUN WINDOW</span></td><td>sloturile pachetului si separarea dintre teste produse si run-uri consumate</td></tr>
+    <tr><td><span class="badge">HANDOFF</span></td><td>predarea catre pretraining owner, wrapper de run si raportare</td></tr>
+    <tr><td><span class="badge">INVALID</span></td><td>targete amestecate, stop prematur sau raportare folosita ca legalitate</td></tr>
+  </tbody>
+</table>
+<div class="pillline">
+  <div class="pillrow"><span class="pilllabel">Owner:</span><span class="pill">orchestrator pachet</span><span class="pill">decizie de miscare</span><span class="pill">run window</span></div>
+  <div class="pillrow"><span class="pilllabel">Foloseste:</span><span class="pill">runtime activ</span><span class="pill">memorie locala</span><span class="pill">pretraining auditat</span></div>
+  <div class="pillrow"><span class="pilllabel">Deleaga:</span><span class="pill">pretraining catre owner</span><span class="pill">run catre wrapper</span><span class="pill">publicare catre reporting</span></div>
+  <div class="pillrow"><span class="pilllabel">Nu produce:</span><span class="pill">teste</span><span class="pill">artefacte de run</span><span class="pill">layout raport</span></div>
+</div>
+<details class="subdetails">
+  <summary><span class="summary-title">Contract minim</span><span class="sumhint">3 linii, inchis implicit</span></summary>
+  <table>
+    <thead><tr><th>Axa</th><th>Lege rece</th></tr></thead>
+    <tbody>
+      <tr><td>Runtime</td><td>valorile active se citesc live si nu se negociaza local</td></tr>
+      <tr><td>Contoare</td><td><code class="inline">ROUND_TARGET_TEST_COUNT</code> = teste pe run; <code class="inline">META_ITERATION_COUNT</code> = run-uri pe pachet</td></tr>
+      <tr><td>Sub valoare</td><td>defect procedural sau blocker sever documentat in state + gate card</td></tr>
+    </tbody>
+  </table>
+</details>
+</section>
+<section class="card"><h2>Referinta Runtime Comuna</h2>
+<details>
+<summary><span class="summary-title">Constante active</span><span class="sumhint">referinta inchisa implicit</span></summary>
+<table>
+  <thead>
+    <tr>
+      <th>Constanta</th>
+      <th>Masoara</th>
+      <th>Owner</th>
+      <th>Artefactul care o fixeaza</th>
+      <th>Daca lipseste sau cade sub ea</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>RUN_EXPECTED_DELTA_QUALITY</code></td>
+      <td>pragul calitatii minime pe run kept</td>
+      <td>orchestratorul judeca; executia explica suportul</td>
+      <td><code class="inline">score-support.md</code> + <code class="inline">quality-accounting-verdict.md</code></td>
+      <td>run sub prag sau verdict rece de invatare / rerank</td>
+    </tr>
+
+    <tr>
+      <td><code>ROUND_TARGET_TEST_COUNT</code></td>
+      <td>cate teste bune auditabile trebuie sa lase fiecare run</td>
+      <td>wrapper / execute produc; orchestratorul judeca sub-targetul</td>
+      <td><code class="inline">run-state.json</code> + <code class="inline">quality-accounting-verdict.md</code></td>
+      <td>defect procedural sau blocker sever documentat pe run</td>
+    </tr>
+
+    <tr>
+      <td><code>META_ITERATION_COUNT</code></td>
+      <td>cate run-uri trebuie consumate in pachet</td>
+      <td>orchestratorul cere fiecare slot consumat sau inchis sever; run-ul trece prin wrapper si execute</td>
+      <td><code class="inline">package-state.json</code> + <code class="inline">execution-gate-card.md</code></td>
+      <td>under-spend de pachet: defect procedural sau blocker sever documentat</td>
+    </tr>
+  </tbody>
+</table>
+</details>
+</section>
+</div>
+<details open><summary><span class="summary-title">1. Harta owner-ilor</span><span class="sumhint">cine decide ce</span></summary>
+
+<div class="diag"><svg viewBox="0 0 1160 260" role="img" aria-label="Lantul rece al adevarului pentru intelegerea business">
+<defs><marker id="tc" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+<rect x="20" y="84" width="172" height="76" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="106" y="112" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">agent-runtime</text>
+<text x="106" y="136" text-anchor="middle" fill="#a8b3cf" font-size="11">quality / target / path-uri</text>
+<rect x="232" y="84" width="172" height="76" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="318" y="112" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Orchestrator</text>
+<text x="318" y="136" text-anchor="middle" fill="#a8b3cf" font-size="11">legalitate pe run window</text>
+<rect x="444" y="84" width="172" height="76" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="530" y="112" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Adaptor de run</text>
+<text x="530" y="136" text-anchor="middle" fill="#a8b3cf" font-size="11">UI acum / API mai tarziu</text>
+<rect x="656" y="84" width="172" height="76" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="742" y="112" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Artefacte</text>
+<text x="742" y="136" text-anchor="middle" fill="#a8b3cf" font-size="11">diff / Extent / XML / MD</text>
+<rect x="868" y="84" width="250" height="76" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="993" y="112" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Raportul final de business</text>
+<text x="993" y="136" text-anchor="middle" fill="#a8b3cf" font-size="11">graf + dovada navigabila</text>
+<path d="M192 122 H232" stroke="#7aa2ff" stroke-width="2" marker-end="url(#tc)"/><path d="M404 122 H444" stroke="#7aa2ff" stroke-width="2" marker-end="url(#tc)"/>
+<path d="M616 122 H656" stroke="#7aa2ff" stroke-width="2" marker-end="url(#tc)"/><path d="M828 122 H868" stroke="#7aa2ff" stroke-width="2" marker-end="url(#tc)"/>
+</svg></div>
+
+<details class="subdetails">
+  <summary><span class="summary-title">1.1 Matrice owner / delegare</span><span class="sumhint">roluri si predari</span></summary>
+  <table><thead><tr><th>Owner</th><th>Rol</th><th>Delegare</th></tr></thead><tbody>
+  <tr><td><code class="inline">orchestrate-iterative-runs.html</code></td><td>legalitate, valori active, rerank, continuare/stop, handoff</td><td>catre adaptor pentru 1 run sau raportare pentru final</td></tr>
+  <tr><td><code class="inline">docs/Living_Architecture_UI_API_doc_v1_0.html</code></td><td>structura ATF, arhitectura UI/API, layere, configurare, reporting tehnic</td><td>referinta structurala pentru discovery si implementare; nu decide legalitatea, ranking-ul sau adevarul final</td></tr>
+  <tr><td><code class="inline">pretraining-reference.html</code></td><td>owner pentru surse, ordine rece, intake card si anti-copy rules</td><td>catre orchestrator: intake auditat, artefact salvat si decizie rece</td></tr>
+  <tr><td><code class="inline">ui-business-frontier-adapter.html</code></td><td>wrapper UI pentru un singur run; adauga actor, intentie, ancore si verdict local</td><td>wrapper-ul preda materia slotului catre <code class="inline">execute-and-understand-run.html</code></td></tr>
+  <tr><td><code class="inline">execute-and-understand-run.html</code></td><td>fixare canonica, artefacte, diff, proof, MD learning, package memory</td><td>catre raportare pentru publicare</td></tr>
+  <tr><td><code class="inline">reporting.html</code></td><td>publica adevarul final navigabil</td><td>nu rejudeca legalitatea</td></tr>
+  </tbody></table>
+</details>
+<details class="mini-note">
+  <summary>Legenda</summary>
+  <ul>
+    <li><code class="inline">orchestrate-iterative-runs</code> decide legalitatea si forma miscarii urmatoare.</li>
+    <li><code class="inline">Living_Architecture_UI_API_doc_v1_0.html</code> decide structura si bunele practici ATF, nu verdictul iterativ.</li>
+    <li><code class="inline">reporting.html</code> publica adevarul final de business, cu toate sectiunile principale colapsabile; slotul <code class="inline">4. Graful fluxului business</code> ramane singurul deschis implicit.</li>
+  </ul>
+</details>
+</details>
+<details open><summary><span class="summary-title">2. Flow-uri si diagrame</span><span class="sumhint">banda de lucru a orchestratorului</span></summary>
+<details class="subdetails">
+<summary><span class="summary-title">2.1 Harta rapida de citire</span><span class="sumhint">orientare scurta</span></summary>
+<table>
+  <thead>
+    <tr>
+      <th>Daca intrebi</th>
+      <th>Deschizi</th>
+      <th>Afli rece</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>care este ordinea minima a pachetului?</td><td><code class="inline">2.2</code></td><td>state machine-ul scurt, fara proza lunga</td></tr>
+    <tr><td>cum arata fereastra completa a pachetului?</td><td><code class="inline">2.3</code></td><td>sloturile, fixarea si decizia pentru pasul urmator</td></tr>
+    <tr><td>ce extragi si in ce ordine recitesti?</td><td><code class="inline">pretraining-reference.html</code></td><td>surse, ordine, intake card si ce nu mostenesti</td></tr>
+    <tr><td>ce verifica orchestratorul inainte de launch?</td><td><code class="inline">2.4</code></td><td>gate scurt: owner recitit, intake auditat, frontier winner rece</td></tr>
+    <tr><td>cum separi same-package de fresh ROOT_RUN?</td><td><code class="inline">2.7</code></td><td>distinctiile de legalitate care nu trebuie amestecate</td></tr>
+    <tr><td>ce primeste raportarea si atat?</td><td><code class="inline">2.8</code></td><td>handoff-ul minim, deja inghetat</td></tr>
+  </tbody>
+</table>
+<div class="mini">
+  <ul>
+    <li><code class="inline">2.2</code> = ordinea minima.</li>
+    <li><code class="inline">2.3</code> = fereastra completa.</li>
+    <li><code class="inline">2.4</code> = gate-ul de pretraining.</li>
+    <li>Sursele si ordinea stau in <code class="inline">pretraining-reference.html</code>.</li>
+  </ul>
+</div>
+</details>
+<details class="subdetails">
+<summary><span class="summary-title">2.1.1 Card canonic de miscare legala</span><span class="sumhint">context -> legal move -> artifact</span></summary>
+<table>
+  <thead>
+    <tr>
+      <th>Context</th>
+      <th>Legal move</th>
+      <th>Required artifact</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>slot ramas in pachet</td>
+      <td>lanseaza run valoros sau documenteaza blocker sever</td>
+      <td><code class="inline">execution-gate-card.md</code></td>
+    </tr>
+    <tr>
+      <td>frontiera aceluiasi pachet inca bate</td>
+      <td>same-package continuation</td>
+      <td><code class="inline">next-run-eligibility-card.md</code></td>
+    </tr>
+    <tr>
+      <td>alta familie devine mai valoroasa</td>
+      <td>fresh ROOT_RUN dupa pretraining</td>
+      <td><code class="inline">round-pretraining-brief.md</code> / intake auditat</td>
+    </tr>
+    <tr>
+      <td>fixare incompleta</td>
+      <td>nu continui si nu pornesti fresh</td>
+      <td><code class="inline">package-state.json</code> + close-out rece</td>
+    </tr>
+  </tbody>
+</table>
+<div class="mini">
+  <ul>
+    <li>Acest card decide miscarea.</li>
+    <li>Detaliile de surse stau in <code class="inline">pretraining-reference.html</code>.</li>
+    <li>Detaliile de artefacte sunt produse dupa wrapper, in <code class="inline">execute-and-understand-run.html</code>.</li>
+  </ul>
+</div>
+</details>
+<details class="subdetails"><summary><span class="summary-title">2.2 Ordinea minima a pachetului</span><span class="sumhint">state machine-ul scurt</span></summary>
+  <pre><code>read_runtime
+-> read_memory
+-> pretrain
+-> run_slot_01 .. run_slot_N
+-> fix_slot
+-> next_slot_decision
+-> package_closeout
+-> report_handoff
+-> memory_writeback
+</code></pre>
+  <table>
+    <thead>
+      <tr>
+        <th>Nod</th>
+        <th>Daca lipseste, nu treci mai departe</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code class="inline">read_runtime</code></td><td>valorile active, path-urile si referintele comune</td></tr>
+      <tr><td><code class="inline">read_memory</code></td><td><code class="inline">docs/out/README.md</code> si ultimul pachet local relevant</td></tr>
+      <tr><td><code class="inline">pretrain</code></td><td>intake auditat, anti-copy si decizie rece salvate</td></tr>
+      <tr><td><code class="inline">run_slot</code></td><td>slot delegat wrapper-ului; wrapper-ul preda materia catre execute</td></tr>
+      <tr><td><code class="inline">next_slot_decision</code></td><td>continuare legala sau blocker sever pentru slotul ramas</td></tr>
+      <tr><td><code class="inline">package_closeout</code></td><td><code class="inline">package-state.json</code> + close-out rece</td></tr>
+      <tr><td><code class="inline">report_handoff</code></td><td>artefacte suficiente pentru pagina finala</td></tr>
+    </tbody>
+  </table>
+</details>
+<details class="subdetails" open id="orchestrator-lane"><summary><span class="summary-title">2.3 Banda pachetului</span><span class="sumhint">fereastra activa, fiecare slot cu dovada</span></summary>
+<div class="diag"><svg viewBox="0 0 1160 310" role="img" aria-label="N-run orchestrator lane">
+<defs><marker id="co" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+<rect x="30" y="110" width="145" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="102" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Recitire rece</text><text x="102" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">istoric + artefacte</text>
+<rect x="220" y="110" width="145" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="292" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Rerank</text><text x="292" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">frontiera noua</text>
+<rect x="410" y="110" width="150" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="485" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Lanseaza run</text><text x="485" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">catre wrapper</text>
+<rect x="605" y="110" width="150" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="680" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Wrapper</text><text x="680" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">preda catre execute</text>
+<rect x="800" y="110" width="145" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="872" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Judeca</text><text x="872" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">kept / countable?</text>
+<rect x="990" y="110" width="135" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="1057" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Raporteaza</text><text x="1057" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">doar la final</text>
+<path d="M175 146 H220" stroke="#7aa2ff" stroke-width="2" marker-end="url(#co)"/><path d="M365 146 H410" stroke="#7aa2ff" stroke-width="2" marker-end="url(#co)"/><path d="M560 146 H605" stroke="#7aa2ff" stroke-width="2" marker-end="url(#co)"/><path d="M755 146 H800" stroke="#7aa2ff" stroke-width="2" marker-end="url(#co)"/><path d="M945 146 H990" stroke="#7aa2ff" stroke-width="2" marker-end="url(#co)"/>
+<path d="M872 182 C835 260 292 260 292 182" stroke="#4b5f82" stroke-width="2" fill="none" stroke-dasharray="6 5" marker-end="url(#co)"/>
+<text x="580" y="270" text-anchor="middle" fill="#a8b3cf" font-size="12">repeta doar cat timp continuarea ramane legala; lipsa de valoare trebuie dovedita prin blocker sever</text>
+</svg></div>
+<div class="warn">
+  <ul>
+    <li>Nu lasa sloturi nejudecate.</li>
+    <li>Dupa fiecare fixare de run, recalculeaza sloturile ramase pana la <code class="inline">META_ITERATION_COUNT</code>.</li>
+    <li>Decizie rece: run legal de consumat sau blocker sever documentat.</li>
+  </ul>
+</div>
+<details class="mini-note">
+  <summary>Cum se citeste banda</summary>
+  <ul>
+    <li>Nu sari peste recitire: fara memorie si runtime, rerank-ul porneste cald.</li>
+    <li>Nu confunda pragurile: quality se judeca pe run, iar fereastra se judeca pe pachet.</li>
+  </ul>
+</details>
+</details>
+<details class="subdetails">
+  <summary><span class="summary-title">2.4 Gate de pretraining</span><span class="sumhint">orchestratorul consuma artefactul auditat, nu doctrina</span></summary>
+  <div class="rule">
+    <ul>
+      <li>Owner complet: <code class="inline">pretraining-reference.html</code>.</li>
+      <li>Orchestratorul verifica doar ca pretraining-ul a fost executat si salvat auditabil.</li>
+      <li>Decizia rece trebuie sa poata guverna launch / rerank / stop.</li>
+    </ul>
+  </div>
+  <table>
+    <thead><tr><th>Orchestratorul verifica</th><th>Trebuie sa existe</th><th>Daca lipseste</th></tr></thead>
+    <tbody>
+      <tr><td>owner deschis</td><td><code class="inline">pretraining-reference.html</code> recitit</td><td>nu lansezi run</td></tr>
+      <tr><td>brief inchis</td><td><code class="inline">round-pretraining-brief.md</code> pentru fresh ROOT_RUN sau rerank same-package care schimba winner-ul</td><td>rerank cald / neauditabil</td></tr>
+      <tr><td>frontiera aleasa</td><td><code class="inline">frontier-ranking-ledger.md</code> sau verdict echivalent</td><td>nu exista winner rece</td></tr>
+      <tr><td>no-copy risk taiat</td><td>ce nu se mosteneste din memorie/html-ex</td><td>benchmark-ul poate contamina business-ul</td></tr>
+    </tbody>
+  </table>
+  <pre><code>pretraining owner = pretraining-reference.html
+orchestrator consumes = intake auditat + decizie rece + artefacte
+orchestrator does not own = source doctrine, benchmark interpretation, anti-copy rules
+</code></pre>
+</details>
+<details class="subdetails"><summary><span class="summary-title">2.6 Achizitia de noutate business</span><span class="sumhint">ce maximizeaza orchestratorul</span></summary>
+
+<div class="diag"><svg viewBox="0 0 1160 300" role="img" aria-label="Achizitia de noutate business">
+<defs><marker id="bf" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+<rect x="40" y="94" width="220" height="72" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="150" y="123" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Baseline acoperit</text>
+<text x="150" y="146" text-anchor="middle" fill="#a8b3cf" font-size="11">deja aparat</text>
+<rect x="350" y="94" width="220" height="72" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="460" y="123" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Frontier nou</text>
+<text x="460" y="146" text-anchor="middle" fill="#a8b3cf" font-size="11">business nou</text>
+<rect x="700" y="20" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="810" y="46" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Owned / countable</text>
+<text x="810" y="67" text-anchor="middle" fill="#a8b3cf" font-size="11">intra in x / target</text>
+<rect x="700" y="104" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="810" y="130" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Partial / repair-only</text>
+<text x="810" y="151" text-anchor="middle" fill="#a8b3cf" font-size="11">suport util</text>
+<rect x="700" y="188" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="810" y="214" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Blocked</text>
+<text x="810" y="235" text-anchor="middle" fill="#a8b3cf" font-size="11">nu tine rece</text>
+<rect x="940" y="104" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="1030" y="130" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Doar fresh-round</text>
+<text x="1030" y="151" text-anchor="middle" fill="#a8b3cf" font-size="11">alt pachet</text>
+<path d="M260 130 H350" stroke="#7aa2ff" stroke-width="2" marker-end="url(#bf)"/>
+<path d="M570 130 C620 118 640 54 700 54" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#bf)"/>
+<path d="M570 130 C625 130 640 138 700 138" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#bf)"/>
+<path d="M570 130 C620 142 640 222 700 222" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#bf)"/>
+<path d="M570 130 C700 130 790 138 940 138" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#bf)"/>
+</svg></div>
+<pre><code>run diff = mutatia mica
+root diff = mutatia compilata
+carrier = suport doar daca diff-ul nu ajunge
+</code></pre>
+<details class="mini-note">
+  <summary>Legenda</summary>
+  <ul>
+    <li><code class="inline">owned / countable</code> = identitate business noua, sustinuta de diff + proof.</li>
+    <li><code class="inline">partial / repair-only</code> = suport mai bun sau reachability mai buna, fara business nou rece.</li>
+    <li><code class="inline">blocked</code> = frontiera nu tine rece, chiar daca intuitia sau browserul interactiv au parut pozitive.</li>
+    <li><code class="inline">fresh-round-only</code> = frontiera valida, dar mutata legal in alt pachet.</li>
+  </ul>
+</details>
+
+<table><thead><tr><th>Intrebare orchestrator</th><th>Decizie</th><th>Artefact asteptat</th></tr></thead><tbody>
+<tr><td>Ce business era deja acoperit?</td><td>nu cheltui slot pe el decat daca este repair necesar</td><td>nota de baseline / referinta la test existent</td></tr>
+<tr><td>Ce frontier nou este cel mai promitator?</td><td>rank si alege un candidat</td><td><code class="inline">frontier-ranking-ledger.md</code></td></tr>
+<tr><td>Ce a invatat run-ul anterior?</td><td>continua, pivoteaza sau opreste</td><td>helper MD + next-run-eligibility-card</td></tr>
+<tr><td>Ce a intrat in x / ROUND_TARGET_TEST_COUNT?</td><td>countable doar daca are business identity + proof + contributie rece suficient de distincta</td><td>quality-accounting-verdict</td></tr>
+</tbody></table>
+<div class="warn">
+  <ul>
+    <li>5 metode de plata pot fi numeric suficiente si business inguste.</li>
+    <li>5 recovery-uri similare pot fi numeric suficiente si business inguste.</li>
+    <li>5 variante parametrice pot bifa tinta fara breadth real.</li>
+    <li>Blocheaza lectura falsa: numarul bifat nu inseamna pachet bun.</li>
+  </ul>
+</div>
+</details>
+<details class="subdetails" id="same-vs-fresh">
+<summary><span class="summary-title">2.7 Same-package vs fresh ROOT_RUN</span><span class="sumhint">distinctii de legalitate</span></summary>
+<div class="diag"><svg viewBox="0 0 1160 220" role="img" aria-label="Same package versus fresh root">
+<defs><marker id="sf" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+<rect x="30" y="78" width="200" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="130" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">run_n fixat</text>
+<text x="130" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">fixare completa</text>
+<rect x="300" y="78" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="410" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">same-package legal?</text>
+<text x="410" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">frontiera same-round mai buna?</text>
+<rect x="590" y="78" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="700" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">fresh ROOT_RUN legal?</text>
+<text x="700" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">alta familie, alt pachet</text>
+<rect x="880" y="78" width="230" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="995" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">launch-ready now?</text>
+<text x="995" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">prepare + pretrain reale</text>
+<path d="M230 112 H300" stroke="#7aa2ff" stroke-width="2" marker-end="url(#sf)"/>
+<path d="M520 112 H590" stroke="#7aa2ff" stroke-width="2" marker-end="url(#sf)"/>
+<path d="M810 112 H880" stroke="#7aa2ff" stroke-width="2" marker-end="url(#sf)"/>
+</svg></div>
+<details class="mini-note">
+  <summary>Legenda</summary>
+  <ul>
+    <li><code class="inline">same-package blocked</code> nu inseamna <code class="inline">application exhausted</code>.</li>
+    <li><code class="inline">fresh ROOT_RUN legal</code> nu inseamna automat <code class="inline">launch-ready now</code>.</li>
+    <li>Legalitatea fresh round vine din handoff rece; launch-ready vine dupa prepare + pretrain reale.</li>
+    <li>Daca un agent confunda aceste trei verdicte, urmatorul pachet porneste din memorie falsa.</li>
+    <li><code class="inline">META_ITERATION_COUNT</code> cere consumarea intregii ferestre active; orice inchidere sub ea trebuie tratata ca defect sau blocker sever.</li>
+    <li>Inainte de primul pas de cod, brief-ul trebuie sa spuna explicit cum vei ajunge la <code class="inline">tests produced = x / ROUND_TARGET_TEST_COUNT</code> si la <code class="inline">runs consumed = n / META_ITERATION_COUNT</code>.</li>
+  </ul>
+</details>
+<details class="mini-note" id="same-vs-fresh-card">
+  <summary>2.7.1 Decision card final unic</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Intrebare</th>
+        <th>Raspuns acceptat</th>
+        <th>Dovada minima</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>mai exista continuare grea in acelasi pachet?</td>
+        <td><code class="inline">same-package legal = yes / no</code></td>
+        <td><code class="inline">next-run-eligibility-card.md</code></td>
+      </tr>
+      <tr>
+        <td>sloturile active au fost consumate sau blocate sever?</td>
+        <td><code class="inline">runs consumed = n / META_ITERATION_COUNT</code></td>
+        <td><code class="inline">execution-gate-card.md</code></td>
+      </tr>
+      <tr>
+        <td>alta familie cere pachet nou?</td>
+        <td><code class="inline">fresh ROOT_RUN legal = yes / no</code></td>
+        <td><code class="inline">package-close-out.md</code></td>
+      </tr>
+      <tr>
+        <td>pachetul poate fi lansat acum?</td>
+        <td><code class="inline">launch-ready now = yes / no</code></td>
+        <td><code class="inline">round-pretraining-brief.md</code></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="warn">
+    <ul>
+      <li>Nu inchide pachetul doar pentru ca un run a fost productiv.</li>
+      <li>Nu porni fresh ROOT_RUN fara pretraining nou.</li>
+      <li>Nu confunda legalitatea cu pregatirea de launch.</li>
+    </ul>
+  </div>
+</details>
+<table>
+  <thead>
+    <tr>
+      <th>Decizie</th>
+      <th>Inseamna</th>
+      <th>Owner</th>
+      <th>Artefact minim</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">same-package legal</code></td><td>mai exista continuare grea in acelasi pachet</td><td>orchestrator</td><td><code class="inline">next-run-eligibility-card.md</code></td></tr>
+    <tr><td><code class="inline">fresh ROOT_RUN legal</code></td><td>exista urmator pachet rece posibil</td><td>orchestrator</td><td><code class="inline">package-close-out.md</code> + handoff rece</td></tr>
+    <tr><td><code class="inline">launch-ready now</code></td><td>fresh root are prepare + pretrain reale, nu doar legalitate abstracta</td><td>orchestrator</td><td><code class="inline">prepare-proof.md</code> + <code class="inline">round-pretraining-brief.md</code></td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails" id="handoff-minim">
+<summary><span class="summary-title">2.8 Handoff minim spre raportare</span><span class="sumhint">raportarea primeste doar adevar inghetat</span></summary>
+<div class="diag"><svg viewBox="0 0 1160 220" role="img" aria-label="Handoff minim spre raportare">
+<defs><marker id="hr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+<rect x="35" y="78" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="125" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">orchestrator truth</text>
+<text x="125" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">package identity</text>
+<rect x="265" y="78" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="355" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">counted runs</text>
+<text x="355" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">kept / countable</text>
+<rect x="495" y="78" width="160" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="575" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">x / target</text>
+<text x="575" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">accounting</text>
+<rect x="705" y="78" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="795" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">next-run truth</text>
+<text x="795" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">same / fresh</text>
+<rect x="935" y="78" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="1025" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">reporting receives</text>
+<text x="1025" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">frozen truth only</text>
+<path d="M215 112 H265" stroke="#7aa2ff" stroke-width="2" marker-end="url(#hr)"/>
+<path d="M445 112 H495" stroke="#7aa2ff" stroke-width="2" marker-end="url(#hr)"/>
+<path d="M655 112 H705" stroke="#7aa2ff" stroke-width="2" marker-end="url(#hr)"/>
+<path d="M885 112 H935" stroke="#7aa2ff" stroke-width="2" marker-end="url(#hr)"/>
+</svg></div>
+<details class="mini-note">
+  <summary>Legenda</summary>
+  <ul>
+    <li>Raportarea nu recalculeaza si nu rejudeca legalitatea.</li>
+    <li>Raportarea publica doar runs, accounting si next-run truth deja inghetate rece.</li>
+    <li>Daca handoff-ul nu poate fi rezumat in aceste patru blocuri, adevarul orchestrat inca nu este inchis bine.</li>
+    <li>Inainte de publicare, se redeschid <code class="inline">HTML_EX_LIBRARY_README</code> si benchmark-urile relevante din <code class="inline">HTML_EX_LIBRARY_ROOT</code>.</li>
+  </ul>
+</details>
+</details>
+</details>
+<details><summary><span class="summary-title">3. Legalitatea lansarii</span><span class="sumhint">inainte de fiecare run</span></summary>
+<pre><code>inainte de run_n
+  citeste agent-runtime.properties
+  redeschide memoria pachetului si ultimele artefacte decisive
+  identifica baseline-ul deja acoperit de testele existente
+  identifica noii candidati de frontiera business
+  confirma ca fixarea run-ului anterior este completa cand n > 1
+  salveaza sau actualizeaza frontier-ranking-ledger.md cand candidatii concureaza
+  lanseaza exact un run guvernat prin adaptor
+</code></pre>
+<div class="rule">
+  <ul>
+    <li>Agentul este liber in interiorul slotului.</li>
+    <li>Orchestratorul controleaza de ce slotul exista.</li>
+    <li>Controleaza ce trebuie sa ramana dupa slot.</li>
+    <li>Controleaza daca urmatorul slot este legal.</li>
+  </ul>
+</div>
+</details>
+<details><summary><span class="summary-title">4. Contract de delegare</span><span class="sumhint">UI acum, API mai tarziu</span></summary>
+<table><thead><tr><th>Cand</th><th>Delegare</th><th>Ce trebuie sa se intoarca</th></tr></thead><tbody>
+<tr><td>run UI</td><td><code class="inline">ui-business-frontier-adapter.html</code></td><td>claim de business, sens local al dovezii UI, delta de cod/test, feedback UI</td></tr>
+<tr><td>run API viitor</td><td><code class="inline">api-flow-discovery-and-atf-test-generation.html</code></td><td>claim de contract/API, dovada de payload, delta de schema/assertions, feedback API</td></tr>
+<tr><td>fixare artefacte</td><td><code class="inline">execute-and-understand-run.html</code></td><td>diff, dovada, xml, note MD, checklist, source carrier; apelata dupa wrapper</td></tr>
+<tr><td>publicare finala</td><td><code class="inline">reporting.html</code></td><td>langgraph-business-understanding.html + randare + audit de link-uri</td></tr>
+</tbody></table>
+</details>
+<details><summary><span class="summary-title">5. Legea stop / continue / fresh-root</span><span class="sumhint">separa adevarurile</span></summary>
+<table><thead><tr><th>Verdict</th><th>Legal cand</th><th>Nu folosi pentru</th></tr></thead><tbody>
+<tr><td>continua acelasi pachet</td><td>exista frontiera same-round mai puternica, fixare completa, run-uri active ramase</td><td>inertie dupa un run bun</td></tr>
+<tr><td>stop same package</td><td>toate run-urile active au fost consumate sau frontier same-round colapsat rece cu blocker sever documentat</td><td>oboseala sau raport care arata bine</td></tr>
+<tr><td>fresh ROOT_RUN</td><td>exista frontier nou, dar depaseste cadrul pachetului curent</td><td>evitarea unui blocker neraportat</td></tr>
+<tr><td>repair first</td><td>un blocker reduce validitatea oricarui run viitor</td><td>generare de teste fara dovada</td></tr>
+</tbody></table>
+<pre><code>trebuie publicat separat
+  same-package continuation legal = yes / no
+  fresh ROOT_RUN legal = yes / no
+  strongest unresolved truth = ...
+  materially turned into tests = x / target
+  accounting target met = yes / no
+  business breadth verdict = broad / partial / narrow
+  de ce numeric targetul nu urca singur scorul = ...
+</code></pre>
+</details>
+<details><summary><span class="summary-title">6. Handoff-ul cerut de orchestrator</span><span class="sumhint">ce primeste raportarea</span></summary>
+<pre><code>orchestratorul preda catre raportare
+  link la agent-runtime si valorile interpretate
+  identitatea pachetului si accounting-ul activ
+  lista run-urilor si verdictele kept/countable
+  cele mai puternice adevaruri business owned
+  cele mai puternice adevaruri blocked/partial/fresh-round
+  radacinile pentru indexul de artefacte
+  legalitatea de continuation/fresh-root
+</code></pre>
+<div class="note">
+  <ul>
+    <li>Raportarea republica doar adevar inghetat.</li>
+    <li>Daca lipseste fixarea: blocheaza raportarea finala.</li>
+    <li>Sau marcheaz-o explicit ca partiala.</li>
+  </ul>
+</div>
+</details>
+
+</div>
+<script>function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}</script>
+</body>
+</html>
+

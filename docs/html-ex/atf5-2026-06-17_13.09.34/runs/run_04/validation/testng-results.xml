@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-17T13:12:10 EEST" name="Surefire suite" finished-at="2026-06-17T13:12:54 EEST" duration-ms="43732">
+    <groups>
+    </groups>
+    <test started-at="2026-06-17T13:12:10 EEST" name="Surefire test" finished-at="2026-06-17T13:12:54 EEST" duration-ms="43732">
+      <class name="com.endava.ai.atf.ui.commerce.CustomerMessageReopenabilityOwnershipTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageReopenabilityOwnershipTests@52b1beb6]" started-at="2026-06-17T13:12:10 EEST" name="setUp" finished-at="2026-06-17T13:12:23 EEST" duration-ms="12519" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageReopenabilityOwnershipTests@52b1beb6]" started-at="2026-06-17T13:12:23 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:12:27 EEST" duration-ms="4300" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="direct_messages_route_reopens_persisted_thread()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageReopenabilityOwnershipTests@52b1beb6]" started-at="2026-06-17T13:12:27 EEST" name="direct_messages_route_reopens_persisted_thread" finished-at="2026-06-17T13:12:29 EEST" duration-ms="1898" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- direct_messages_route_reopens_persisted_thread -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageReopenabilityOwnershipTests@52b1beb6]" started-at="2026-06-17T13:12:29 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:12:32 EEST" duration-ms="2601" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="message_details_reopen_after_sign_out_and_sign_in()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageReopenabilityOwnershipTests@52b1beb6]" started-at="2026-06-17T13:12:32 EEST" name="message_details_reopen_after_sign_out_and_sign_in" finished-at="2026-06-17T13:12:36 EEST" duration-ms="3744" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- message_details_reopen_after_sign_out_and_sign_in -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageReopenabilityOwnershipTests@52b1beb6]" started-at="2026-06-17T13:12:36 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:12:38 EEST" duration-ms="2538" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="message_row_reopens_after_sign_out_and_sign_in()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageReopenabilityOwnershipTests@52b1beb6]" started-at="2026-06-17T13:12:38 EEST" name="message_row_reopens_after_sign_out_and_sign_in" finished-at="2026-06-17T13:12:44 EEST" duration-ms="5334" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- message_row_reopens_after_sign_out_and_sign_in -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageReopenabilityOwnershipTests@52b1beb6]" started-at="2026-06-17T13:12:44 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:12:47 EEST" duration-ms="2469" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="persisted_message_row_survives_account_route_switch()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageReopenabilityOwnershipTests@52b1beb6]" started-at="2026-06-17T13:12:47 EEST" name="persisted_message_row_survives_account_route_switch" finished-at="2026-06-17T13:12:49 EEST" duration-ms="2021" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- persisted_message_row_survives_account_route_switch -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageReopenabilityOwnershipTests@52b1beb6]" started-at="2026-06-17T13:12:49 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:12:51 EEST" duration-ms="2418" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="persisted_message_thread_reopens_from_collection_details()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageReopenabilityOwnershipTests@52b1beb6]" started-at="2026-06-17T13:12:51 EEST" name="persisted_message_thread_reopens_from_collection_details" finished-at="2026-06-17T13:12:53 EEST" duration-ms="1967" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- persisted_message_thread_reopens_from_collection_details -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageReopenabilityOwnershipTests@52b1beb6]" started-at="2026-06-17T13:12:53 EEST" name="tearDown" finished-at="2026-06-17T13:12:54 EEST" duration-ms="408" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.commerce.CustomerMessageReopenabilityOwnershipTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

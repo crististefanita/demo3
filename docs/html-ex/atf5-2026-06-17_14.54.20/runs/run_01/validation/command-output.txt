@@ -1,0 +1,1 @@
+﻿Initial shell capture was interrupted by an SLF4J stderr warning. Primary machine truth is carried by command-result.md, GuestPostPaymentOwnershipBoundaryTests.xml, and Extent.

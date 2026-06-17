@@ -1,0 +1,2 @@
+{"run_id":"run_02","tests_target":5,"tests_produced":5,"target_status":"met","delta_quality_status":"pass","run_diff":"runs/run_02/review/thin-no-index.diff","carrier":"runs/run_02/review/source-delta-carrier.md","proof_ui":"runs/run_02/validation/ExtentReport_2026-06-17_14-57-03.html","proof_machine":"runs/run_02/validation/TEST-com.endava.ai.ui.tests.ContactSupportValidationTests.xml","kept_status":"yes","blocker_status":"no"}
+

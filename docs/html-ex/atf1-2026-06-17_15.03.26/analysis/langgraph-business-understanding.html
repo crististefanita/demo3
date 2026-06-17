@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATF1 ROOT_RUN 2026-06-17_15.03.26 - Business Understanding</title>
+<link rel="stylesheet" href="shared-report-reference.css">
+<style>
+body{font-size:13px}.wrap{max-width:1120px;padding-top:22px}
+h1{font-size:25px}
+h2{font-size:17px}
+h3{font-size:14px}.sub{line-height:1.5}.hero p{margin:6px 0}.toolbar{display:flex;gap:8px;margin-top:12px}.toolbar button{border:1px solid var(--border);border-radius:999px;padding:6px 11px;background:rgba(15,23,36,.82);color:var(--muted);font:12px/1.2 var(--sans);cursor:pointer}.score-wall{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:12px}.score-card{border:1px solid var(--border);border-radius:14px;background:rgba(15,23,36,.78);padding:12px}.score-label{font-size:12px;color:var(--muted);font-weight:700}.score-value{font-size:27px;font-weight:700;margin-top:6px}.score-note{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}.strip-table td,.strip-table th,.proof-table td,.proof-table th,.artifact-table td,.artifact-table th,.audit-table td,.audit-table th{font-size:12.3px}.small{font-size:12px;color:var(--muted)}.legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.legend-card{border:1px solid var(--border);border-radius:14px;background:rgba(11,20,31,.82);padding:12px}.legend-card h4{margin:0 0 8px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.2px}.overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.priority-grid{display:grid;grid-template-columns:1.1fr .9fr .9fr;gap:12px;margin-top:12px}.calc-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:12px}.calc-chip{border:1px solid var(--border);border-radius:12px;background:rgba(11,20,31,.82);padding:10px 11px}.calc-chip b{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}.claim-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;margin-top:12px}.claim-card{border:1px solid var(--border);border-radius:14px;background:rgba(11,20,31,.82);padding:12px}.claim-card h4{margin:0 0 8px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.2px}.claim-card p{margin:0;line-height:1.5}.micro-note{margin-top:10px;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:rgba(15,23,36,.62);font-size:12px;color:var(--muted)}.section-anchor{scroll-margin-top:22px}
+@media (max-width:980px){.score-wall,.overview-grid,.legend-grid,.priority-grid,.calc-grid,.claim-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Authenticated payment without persistent commercial identity <span class="badge warn">partial</span></h1>
+  </header>
+
+  <section class="hero">
+    <div class="score-wall">
+      <div class="score-card">
+        <div class="score-label">Business Substance</div>
+        <div class="score-value">87</div>
+        <div class="score-note">`payment success` is real, but does not yet become `order row`, `invoice row` or persistent commercial identity</div>
+      </div>
+      <div class="score-card">
+        <div class="score-label">Business Graph Realism</div>
+        <div class="score-value">89</div>
+        <div class="score-note">the graph starts from real product objects and places the break higher up, at the missing commercial identity</div>
+      </div>
+      <div class="score-card">
+        <div class="score-label">Historical Reopenability</div>
+        <div class="score-value">94</div>
+        <div class="score-note">root diff, run diff, Extent, XML, command-result, and the state spine reopen the package cold</div>
+      </div>
+      <div class="score-card">
+        <div class="score-label">Proof Chain Quality</div>
+        <div class="score-value">93</div>
+        <div class="score-note">the important claims can be traced down to diff, Extent, and XML, around a well-proved absence</div>
+      </div>
+      <div class="score-card">
+        <div class="score-label">Overall</div>
+        <div class="score-value">90</div>
+        <div class="score-note">the reporting is clearer, but it cannot compensate for the missing positive persistent commercial object</div>
+      </div>
+    </div>
+    <details class="card" style="margin-top:12px">
+      <summary><span class="summary-title">Executive Context</span><span class="sumhint">snapshot, package truth, cap reason, jumps, controls</span></summary>
+      <div class="sub">
+        The application takes the authenticated customer as far as <code class="inline">payment success</code>, but the package cold-proves that payment success remains commercially generic.
+        Neither on the success screen, nor on reentry, nor after relogin does a persistent object such as <code class="inline">order row</code>, <code class="inline">invoice row</code> or <code class="inline">receipt / order id</code>.
+        The value of the package is an auditable blocker higher up in the product chain, not positive commercial closure.
+      </div>
+      <div class="pill-row">
+        <span class="pill">ROUND_TARGET_TEST_COUNT = 5</span>
+        <span class="pill">META_ITERATION_COUNT = 5</span>
+        <span class="pill">runs consumed = 5 / 5</span>
+        <span class="pill">tests executed = 25 / 25</span>
+        <span class="pill">winner = payment success, identity still missing</span>
+      </div>
+      <div class="priority-grid">
+        <div class="legend-card">
+          <h4>Read First</h4>
+          <p><a href="../review/root-source-thin-no-index.diff">root diff</a> states the primary truth of package evolution. Here the real mutation is visible cold: the blocker was moved from simple empty pages to the first commercial identity that should already exist after payment.</p>
+        </div>
+        <div class="legend-card">
+          <h4>Compiled State</h4>
+          <p><a href="../review/package-state.json">package-state.json</a> locks the compiled verdict: `runs consumed`, `overall` and `strongest unresolved truth`.</p>
+        </div>
+        <div class="legend-card">
+          <h4>Execution Gate</h4>
+          <p><a href="../review/execution-gate-card.md">execution-gate-card.md</a> cold-states that the package is complete, renderable, and ready for handoff, without confusing clean execution with positive ownership.</p>
+        </div>
+      </div>
+      <div class="overview-grid">
+        <div class="legend-card">
+          <h4>Business Claim</h4>
+          <p><code class="inline">checkout</code> and <code class="inline">payment success</code> are owned. The first product object that should have remained after this point was a <code class="inline">receipt / order id</code>; an <code class="inline">order row</code>, or an <code class="inline">invoice row</code>, and the package does not close it.</p>
+        </div>
+        <div class="legend-card">
+          <h4>Why Still Partial</h4>
+          <p><code class="inline">25 / 25 PASS</code> validates execution, history, and UI proof. It does not turn the repeated absence of commercial identity into positive ownership or new business substance.</p>
+        </div>
+      </div>
+      <div class="claim-grid">
+        <div class="claim-card">
+          <h4>What The Package Teaches Well</h4>
+          <p>The application cold-closes the commercial route up to <code class="inline">payment success</code>, then leaves the break exactly where the product should have exposed the minimum continuity anchor. The package history is reopenable end-to-end through <code class="inline">root diff</code>, <code class="inline">run diff</code>, Extent, XML and state spine.</p>
+        </div>
+        <div class="claim-card">
+          <h4>What It Still Cannot Claim</h4>
+          <p>It cannot claim that the product closes <code class="inline">commercial history ownership</code>. It can only say that post-purchase commercial memory still does not materialize into a visible or reopenable persistent object.</p>
+        </div>
+      </div>
+      <div class="pill-row">
+        <a class="pill" href="#score-overview">Score Overview</a>
+        <a class="pill" href="#graph">Business Flow Graph</a>
+        <a class="pill" href="#closeout">Close-Out</a>
+      </div>
+      <div class="toolbar">
+        <button type="button" onclick="toggleAll(true)">Expand all</button>
+        <button type="button" onclick="toggleAll(false)">Collapse all</button>
+      </div>
+    </details>
+  </section>
+
+  <details class="card section-anchor" id="score-overview">
+    <summary><span class="summary-title">Score Overview</span><span class="sumhint">canonical, short, with cold overall reading</span></summary>
+    <div class="note">
+      <b>Overall = 90.</b> It is a ceiling, not a victory. The package is very good on audit, history, and proof chain, but remains partial on business because it proves the lack of commercial identity well and does not materialize it.
+    </div>
+    <table class="proof-table">
+      <thead>
+        <tr><th>Axis</th><th>Score</th><th>Weight</th><th>Why it sits here</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Business Substance</td><td>87</td><td>40%</td><td>purchase success is real, but neither `receipt / order id`, nor `order row`, nor persistent `invoice row` after relogin.</td></tr>
+        <tr><td>Business Graph Realism</td><td>89</td><td>20%</td><td>the graph starts from real product objects and places the break at the minimum commercial identity, not just at downstream empty pages.</td></tr>
+        <tr><td>Historical Reopenability</td><td>94</td><td>15%</td><td>root diff, run diff, manifests, state files, render proof, and close-out make the package cold-reopenable.</td></tr>
+        <tr><td>Proof Chain Quality</td><td>93</td><td>15%</td><td>the important claims can be traced down to diff, Extent, and XML / command-result.</td></tr>
+        <tr><td>New Artifact Contract</td><td>95</td><td>10%</td><td>state spine, gate card, inventory, render proof, link audit, and the final report are present.</td></tr>
+        <tr><td>Overall</td><td>90</td><td>final</td><td>form and audit are strong, but cannot rise above the ceiling set by the missing `receipt / order id`, `order row` or `invoice row` persistent.</td></tr>
+      </tbody>
+    </table>
+    <details class="subdetails">
+      <summary><span class="summary-title">Calculation trace</span><span class="sumhint">the cold steps of the weighted calculation</span></summary>
+      <div class="calc-grid">
+        <div class="calc-chip"><b>Business Substance</b>87 x 0.40 = 34.80</div>
+        <div class="calc-chip"><b>Graph Realism</b>89 x 0.20 = 17.80</div>
+        <div class="calc-chip"><b>Reopenability</b>94 x 0.15 = 14.10</div>
+        <div class="calc-chip"><b>Proof Chain</b>93 x 0.15 = 13.95</div>
+        <div class="calc-chip"><b>Contract</b>95 x 0.10 = 9.50</div>
+      </div>
+      <div class="note">
+        The cold rule remains harsher than average: without `receipt / order id`, `order row` or `invoice row` persistent, the overall is not allowed to jump above the business ceiling. More proof about the same absence does not mean new business substance.
+      </div>
+    </details>
+  </details>
+
+  <details class="card section-anchor" id="history">
+    <summary><span class="summary-title">Historical Reopen Strip</span><span class="sumhint">short reopen strip: root diff, run diff, Extent, XML, command-result</span></summary>
+    <div class="note">
+      <b>History reading rule:</b>
+      <code class="inline">../review/root-source-thin-no-index.diff</code> is the primary truth of package evolution.
+      Each <code class="inline">../runs/run_0x/review/thin-no-index.diff</code> is the minimal delta of that run claim.
+      The remaining artifacts prove reopenability and execution; they do not replace the diff.
+    </div>
+    <table class="strip-table">
+      <thead>
+        <tr><th>Slot</th><th>Cold claim</th><th>Diff</th><th>UI proof</th><th>Machine proof</th><th>State</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>package</td>
+          <td>the authenticated commercial family was built and executed as a 5-slot ROOT_RUN</td>
+          <td><a href="../README.md">README</a> | <a href="../review/root-source-thin-no-index.diff">root diff</a></td>
+          <td><a href="canonical-render-check.png">render proof</a></td>
+          <td><a href="../review/local-link-check.txt">link audit</a></td>
+          <td><a href="../review/package-state.json">package-state</a> | <a href="../review/execution-gate-card.md">gate</a></td>
+        </tr>
+        <tr>
+          <td>run_01</td>
+          <td>checkout success remains generic and without commercial identity</td>
+          <td><a href="../runs/run_01/review/thin-no-index.diff">run diff</a></td>
+          <td><a href="../runs/run_01/validation/reports/ExtentReport_2026-06-17_15-10-36.html">Extent</a></td>
+          <td><a href="../runs/run_01/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityOnSuccessTests.xml">XML</a> | <a href="../runs/run_01/validation/command-result.md">command-result</a></td>
+          <td><a href="../runs/run_01/review/run-state.json">run-state</a></td>
+        </tr>
+        <tr>
+          <td>run_02</td>
+          <td>relogin-ul not recupereaza nicio persistent commercial identity</td>
+          <td><a href="../runs/run_02/review/thin-no-index.diff">run diff</a></td>
+          <td><a href="../runs/run_02/validation/reports/ExtentReport_2026-06-17_15-11-27.html">Extent</a></td>
+          <td><a href="../runs/run_02/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests.xml">XML</a> | <a href="../runs/run_02/validation/command-result.md">command-result</a></td>
+          <td><a href="../runs/run_02/review/run-state.json">run-state</a></td>
+        </tr>
+        <tr>
+          <td>run_03</td>
+          <td>in-account reentry remains without a reopenable persistent object</td>
+          <td><a href="../runs/run_03/review/thin-no-index.diff">run diff</a></td>
+          <td><a href="../runs/run_03/validation/reports/ExtentReport_2026-06-17_15-12-32.html">Extent</a></td>
+          <td><a href="../runs/run_03/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityReentryTests.xml">XML</a> | <a href="../runs/run_03/validation/command-result.md">command-result</a></td>
+          <td><a href="../runs/run_03/review/run-state.json">run-state</a></td>
+        </tr>
+        <tr>
+          <td>run_04</td>
+          <td>purchase-urile repetate not acumuleaza persistent commercial identity</td>
+          <td><a href="../runs/run_04/review/thin-no-index.diff">run diff</a></td>
+          <td><a href="../runs/run_04/validation/reports/ExtentReport_2026-06-17_15-13-32.html">Extent</a></td>
+          <td><a href="../runs/run_04/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityDurabilityTests.xml">XML</a> | <a href="../runs/run_04/validation/command-result.md">command-result</a></td>
+          <td><a href="../runs/run_04/review/run-state.json">run-state</a></td>
+        </tr>
+        <tr>
+          <td>run_05</td>
+          <td>success-ul de checkout tot not alimenteaza history commercial a the account</td>
+          <td><a href="../runs/run_05/review/thin-no-index.diff">run diff</a></td>
+          <td><a href="../runs/run_05/validation/reports/ExtentReport_2026-06-17_15-14-45.html">Extent</a></td>
+          <td><a href="../runs/run_05/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests.xml">XML</a> | <a href="../runs/run_05/validation/command-result.md">command-result</a></td>
+          <td><a href="../runs/run_05/review/run-state.json">run-state</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="card section-anchor" id="state">
+    <summary><span class="summary-title">State Spine</span><span class="sumhint">files that make execution auditable and cold-resumable</span></summary>
+    <table class="proof-table">
+      <tbody>
+        <tr><th>Package state</th><td><a href="../review/package-state.json">package-state.json</a></td></tr>
+        <tr><th>Execution gate</th><td><a href="../review/execution-gate-card.md">execution-gate-card.md</a></td></tr>
+        <tr><th>Quality accounting</th><td><a href="../review/quality-accounting-verdict.md">quality-accounting-verdict.md</a></td></tr>
+        <tr><th>Close-out</th><td><a href="../review/package-close-out.md">package-close-out.md</a></td></tr>
+        <tr><th>Inventory</th><td><a href="../review/frozen-package-inventory.md">frozen-package-inventory.md</a></td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="card section-anchor" id="graph" open>
+    <summary><span class="summary-title">Business Flow Graph</span><span class="sumhint">what the product promises, what payment confirms, which object is missing, what must be forced next</span></summary>
+    <div class="svgbox">
+      <svg viewBox="0 0 1120 300" role="img" aria-label="Business Flow Graph for authenticated payment without persistent commercial identity">
+        <defs>
+          <marker id="m" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path>
+          </marker>
+          <marker id="g" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L9,3 z" fill="#f0b44c"></path>
+          </marker>
+        </defs>
+        <rect class="box" x="26" y="44" width="1068" height="196" rx="18"></rect>
+        <text class="s" x="72" y="62">1. what the product promises</text>
+        <rect class="n" x="42" y="78" width="138" height="44" rx="12"></rect>
+        <text class="t" x="111" y="92" text-anchor="middle">Checkout</text>
+        <text class="s" x="111" y="107" text-anchor="middle">purchase started</text>
+        <rect class="n" x="210" y="78" width="150" height="44" rx="12"></rect>
+        <text class="t" x="285" y="92" text-anchor="middle">Payment success</text>
+        <text class="s" x="285" y="107" text-anchor="middle">payment confirmed</text>
+        <rect class="n" x="390" y="78" width="178" height="44" rx="12"></rect>
+        <text class="t" x="479" y="92" text-anchor="middle">Receipt / order id</text>
+        <text class="s" x="479" y="107" text-anchor="middle">minimum identity</text>
+        <rect class="n" x="598" y="78" width="146" height="44" rx="12"></rect>
+        <text class="t" x="671" y="92" text-anchor="middle">Customer account</text>
+        <text class="s" x="671" y="107" text-anchor="middle">expected history</text>
+        <rect class="n" x="774" y="78" width="146" height="44" rx="12"></rect>
+        <text class="t" x="847" y="92" text-anchor="middle">My Orders</text>
+        <text class="s" x="847" y="107" text-anchor="middle">order history</text>
+        <rect class="n" x="950" y="78" width="132" height="44" rx="12"></rect>
+        <text class="t" x="1016" y="92" text-anchor="middle">Invoices</text>
+        <text class="s" x="1016" y="107" text-anchor="middle">invoice history</text>
+        <line class="l" x1="180" y1="100" x2="210" y2="100"></line>
+        <line class="l" x1="360" y1="100" x2="390" y2="100"></line>
+        <line class="l" x1="568" y1="100" x2="598" y2="100"></line>
+        <line class="l" x1="744" y1="100" x2="774" y2="100"></line>
+        <line class="l" x1="920" y1="100" x2="950" y2="100"></line>
+
+        <text class="s" x="72" y="152">2. what the current package confirms</text>
+        <rect class="n" x="42" y="168" width="150" height="44" rx="12"></rect>
+        <text class="t" x="117" y="182" text-anchor="middle">Payment success</text>
+        <text class="s" x="117" y="197" text-anchor="middle">owned</text>
+        <rect class="n" x="222" y="168" width="178" height="44" rx="12"></rect>
+        <text class="t" x="311" y="182" text-anchor="middle">Identity surface</text>
+        <text class="s" x="311" y="197" text-anchor="middle">still generic</text>
+        <rect class="n" x="430" y="168" width="168" height="44" rx="12"></rect>
+        <text class="t" x="514" y="182" text-anchor="middle">Relogin / reentry</text>
+        <text class="s" x="514" y="197" text-anchor="middle">gap persists</text>
+        <line class="l" x1="192" y1="190" x2="222" y2="190"></line>
+        <line class="l" x1="400" y1="190" x2="430" y2="190"></line>
+
+        <text class="s" x="636" y="152">3. which persistent object is missing</text>
+        <rect class="n" x="636" y="168" width="138" height="44" rx="12"></rect>
+        <text class="t" x="705" y="182" text-anchor="middle">Receipt id</text>
+        <text class="s" x="705" y="197" text-anchor="middle">missing</text>
+        <rect class="n" x="804" y="168" width="138" height="44" rx="12"></rect>
+        <text class="t" x="873" y="182" text-anchor="middle">Order row</text>
+        <text class="s" x="873" y="197" text-anchor="middle">missing</text>
+        <rect class="n" x="972" y="168" width="108" height="44" rx="12"></rect>
+        <text class="t" x="1026" y="182" text-anchor="middle">Invoice row</text>
+        <text class="s" x="1026" y="197" text-anchor="middle">missing</text>
+        <line class="g" x1="598" y1="190" x2="636" y2="190"></line>
+        <line class="g" x1="774" y1="190" x2="804" y2="190"></line>
+        <line class="g" x1="942" y1="190" x2="972" y2="190"></line>
+
+        <text class="s" x="72" y="242">4. the next major frontier: receipt / order id, order row, invoice row, or an irreducible severe blocker</text>
+      </svg>
+    </div>
+    <details class="subdetails">
+      <summary><span class="summary-title">Legend and proof mapping</span><span class="sumhint">heavy details moved below the diagram</span></summary>
+      <div class="rule">
+        <b>Product map:</b> the product promises that a successful purchase should leave a minimum commercial continuity anchor and then reopenable history in the account.
+        <b>Package overlay:</b> checkout confirms payment, but does not confirm the first persistent commercial object immediately after this point.
+      </div>
+      <div class="micro-note">
+        The diagram remains deliberately minimalist. Class names, XML files, and long explanations live in the legend, proof mapping, and run audit, not on the open graph surface.
+      </div>
+      <div class="legend-grid">
+        <div class="legend-card">
+          <h4>What the graph says</h4>
+          <ul>
+            <li>the top layer shows the product promise: successful purchase should first leave commercial identity, then account history.</li>
+            <li>the middle layer shows only what the package confirms: successful payment and the persistence of the blocker across identity, reentry, and relogin.</li>
+            <li>the critical layer shows the exact missing objects: `receipt id`, `order row`, `invoice row`.</li>
+            <li>the final message of the graph is the next closure pressure, not another repetition of the same `orders empty` or `invoices empty`.</li>
+          </ul>
+        </div>
+        <div class="legend-card">
+          <h4>Where the proof lives</h4>
+          <ul>
+            <li>`run_01` locks ancora positive: `payment success` is real, but generic.</li>
+            <li>`run_02` shows ca relogin-ul not recupereaza persistent commercial identity.</li>
+            <li>`run_03` and `run_04` show that neither reentry nor repeated purchase materializes the object.</li>
+            <li>`run_05` shows ca success-ul de checkout not alimenteaza history commercial a the account.</li>
+          </ul>
+        </div>
+      </div>
+    </details>
+  </details>
+
+  <details class="card section-anchor" id="proof">
+    <summary><span class="summary-title">Proof Mapping</span><span class="sumhint">promisiunea commercial a aplicatiei, ruptura observata and proof-ul minim</span></summary>
+    <table class="proof-table">
+      <thead>
+        <tr><th>Promised object</th><th>Observed truth</th><th>Run</th><th>Delta minima</th><th>UI proof</th><th>Machine proof</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>`receipt / order id` on success</td>
+          <td>purchase-ul autenticat se inchide stabil pana la payment reusita, but without commercial identity minima</td>
+          <td><a href="#audit-run-01">run_01</a></td>
+          <td><a href="../runs/run_01/review/thin-no-index.diff">run_01 diff</a></td>
+          <td><a href="../runs/run_01/validation/reports/ExtentReport_2026-06-17_15-10-36.html">Extent</a></td>
+          <td><a href="../runs/run_01/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityOnSuccessTests.xml">XML</a></td>
+        </tr>
+        <tr>
+          <td>`receipt / order id` after relogin</td>
+          <td>relogin-ul not recupereaza nicio persistent commercial identity</td>
+          <td><a href="#audit-run-02">run_02</a></td>
+          <td><a href="../runs/run_02/review/thin-no-index.diff">run_02 diff</a></td>
+          <td><a href="../runs/run_02/validation/reports/ExtentReport_2026-06-17_15-11-27.html">Extent</a></td>
+          <td><a href="../runs/run_02/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests.xml">XML</a></td>
+        </tr>
+        <tr>
+          <td>`receipt / order id` after same-session reentry</td>
+          <td>the account route does not reopen the first persistent commercial object</td>
+          <td><a href="#audit-run-03">run_03</a></td>
+          <td><a href="../runs/run_03/review/thin-no-index.diff">run_03 diff</a></td>
+          <td><a href="../runs/run_03/validation/reports/ExtentReport_2026-06-17_15-12-32.html">Extent</a></td>
+          <td><a href="../runs/run_03/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityReentryTests.xml">XML</a></td>
+        </tr>
+        <tr>
+          <td>`receipt / order id` under repeated purchase</td>
+          <td>nici repetitia purchase-ului not acumuleaza persistent commercial identity</td>
+          <td><a href="#audit-run-04">run_04</a></td>
+          <td><a href="../runs/run_04/review/thin-no-index.diff">run_04 diff</a></td>
+          <td><a href="../runs/run_04/validation/reports/ExtentReport_2026-06-17_15-13-32.html">Extent</a></td>
+          <td><a href="../runs/run_04/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityDurabilityTests.xml">XML</a></td>
+        </tr>
+        <tr>
+          <td>`orders / invoices` bridge after success</td>
+          <td>success-ul de checkout not se continua intr-un persistent object din history the account</td>
+          <td><a href="#audit-run-05">run_05</a></td>
+          <td><a href="../runs/run_05/review/thin-no-index.diff">run_05 diff</a></td>
+          <td><a href="../runs/run_05/validation/reports/ExtentReport_2026-06-17_15-14-45.html">Extent</a></td>
+          <td><a href="../runs/run_05/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests.xml">XML</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="card section-anchor" id="artifacts">
+    <summary><span class="summary-title">Artifact Index</span><span class="sumhint">hiperlink-uri complete pentru redeschidere</span></summary>
+    <table class="artifact-table">
+      <thead>
+        <tr><th>Family</th><th>Artifacts</th><th>Rol cold</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Package spine</td>
+          <td><a href="../README.md">README</a> | <a href="../review/root-source-thin-no-index.diff">root diff</a> | <a href="../review/source-delta-carrier.md">source-delta-carrier</a></td>
+          <td>identitate, verdict and the truth principal al evolutiei</td>
+        </tr>
+        <tr>
+          <td>Governance</td>
+          <td><a href="../review/package-state.json">package-state</a> | <a href="../review/execution-gate-card.md">execution-gate-card</a> | <a href="../review/quality-accounting-verdict.md">quality-accounting-verdict</a> | <a href="../review/package-close-out.md">package-close-out</a></td>
+          <td>execution auditabila, limitari and eligibilitate pentru the next ROOT_RUN</td>
+        </tr>
+        <tr>
+          <td>Prompt memory</td>
+          <td><a href="../manifests/package-manifest.md">package-manifest</a> | <a href="../review/round-pretraining-brief.md">round-pretraining-brief</a> | <a href="../review/frontier-ranking-ledger.md">frontier-ranking-ledger</a> | <a href="../runs/run_01/prompt/input-snapshot.md">run_01 input-snapshot</a></td>
+          <td>shows where execution started and which winner was chosen</td>
+        </tr>
+        <tr>
+          <td>Publication proof</td>
+          <td><a href="canonical-render-check.png">canonical-render-check.png</a> | <a href="../review/local-link-check.txt">local-link-check.txt</a> | <a href="../review/frozen-package-inventory.md">frozen-package-inventory</a></td>
+          <td>render, links, and frozen final inventory validation</td>
+        </tr>
+        <tr>
+          <td>Run families</td>
+          <td><a href="../runs/run_01/SUMMARY.md">run_01</a> | <a href="../runs/run_02/SUMMARY.md">run_02</a> | <a href="../runs/run_03/SUMMARY.md">run_03</a> | <a href="../runs/run_04/SUMMARY.md">run_04</a> | <a href="../runs/run_05/SUMMARY.md">run_05</a></td>
+          <td>each run contains summary, diff, state, Extent, XML, and command proof</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="card section-anchor" id="audit">
+    <summary><span class="summary-title">Run Audit</span><span class="sumhint">the exact historical mutation produced by each of the five slots</span></summary>
+    <div class="micro-note">
+      The correct reading is not `what the test did`, ci `which new truth of the application remained published after that slot`.
+    </div>
+    <table class="audit-table">
+      <thead>
+        <tr><th>Run</th><th>Claim cold</th><th>Mutation istorica exacta</th><th>Review spine</th><th>Validation spine</th></tr>
+      </thead>
+      <tbody>
+        <tr id="audit-run-01">
+          <td>run_01</td>
+          <td>checkout success remains generic and without commercial identity</td>
+          <td>shifted the center of gravity from simple empty pages to the earliest break: even `payment success` not expune ancora commercial minima.</td>
+          <td><a href="../runs/run_01/review/business-understanding.md">business-understanding</a> | <a href="../runs/run_01/review/score-support.md">score-support</a></td>
+          <td><a href="../runs/run_01/validation/command-result.md">command-result</a> | <a href="../runs/run_01/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityOnSuccessTests.xml">XML</a></td>
+        </tr>
+        <tr id="audit-run-02">
+          <td>run_02</td>
+          <td>relogin-ul not recupereaza persistent commercial identity</td>
+          <td>moved the break from the success screen into the first real reopen of the same customer, without finding a persistent commercial object.</td>
+          <td><a href="../runs/run_02/review/business-understanding.md">business-understanding</a> | <a href="../runs/run_02/review/score-support.md">score-support</a></td>
+          <td><a href="../runs/run_02/validation/command-result.md">command-result</a> | <a href="../runs/run_02/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests.xml">XML</a></td>
+        </tr>
+        <tr id="audit-run-03">
+          <td>run_03</td>
+          <td>in-account reentry remains without a reopenable persistent object</td>
+          <td>moved the contradiction from relogin into in-account navigation, where commercial identity should have been directly reopenable.</td>
+          <td><a href="../runs/run_03/review/business-understanding.md">business-understanding</a> | <a href="../runs/run_03/review/score-support.md">score-support</a></td>
+          <td><a href="../runs/run_03/validation/command-result.md">command-result</a> | <a href="../runs/run_03/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityReentryTests.xml">XML</a></td>
+        </tr>
+        <tr id="audit-run-04">
+          <td>run_04</td>
+          <td>purchase-urile repetate not acumuleaza persistent commercial identity</td>
+          <td>compressed the break into a durability truth: even repeating the same commercial route does not produce the first persistent object.</td>
+          <td><a href="../runs/run_04/review/business-understanding.md">business-understanding</a> | <a href="../runs/run_04/review/score-support.md">score-support</a></td>
+          <td><a href="../runs/run_04/validation/command-result.md">command-result</a> | <a href="../runs/run_04/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityDurabilityTests.xml">XML</a></td>
+        </tr>
+        <tr id="audit-run-05">
+          <td>run_05</td>
+          <td>success-ul de checkout tot not alimenteaza history commercial a the account</td>
+          <td>cold-linked the absence of commercial identity to the missing bridge toward `orders / invoices`, without selling empty pages as novelty on their own.</td>
+          <td><a href="../runs/run_05/review/business-understanding.md">business-understanding</a> | <a href="../runs/run_05/review/score-support.md">score-support</a></td>
+          <td><a href="../runs/run_05/validation/command-result.md">command-result</a> | <a href="../runs/run_05/validation/TEST-com.endava.ai.ui.tests.AuthenticatedReceiptIdentityBridgeTests.xml">XML</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details class="card section-anchor" id="closeout">
+    <summary><span class="summary-title">Close-Out</span><span class="sumhint">the final cold verdict of the package</span></summary>
+    <div class="good">
+      <b>Owned:</b> authentication, commercial entry, checkout, and `payment success` are stable and reopenable.
+    </div>
+    <div class="warn">
+      <b>Partial:</b> after `payment success`, the product materializes neither `receipt / order id`, nor `order row`, nor a persistent `invoice row`.
+    </div>
+    <div class="badbox">
+      <b>What keeps the score down:</b> the break is in the product, not in the report. The minimum commercial continuity anchor is missing after purchase and relogin.
+    </div>
+    <table class="proof-table">
+      <tbody>
+        <tr><th>Countability</th><td><code class="inline">materially turned into tests = 25 / 25</code></td></tr>
+        <tr><th>Runs consumed</th><td><code class="inline">runs consumed = 5 / 5</code></td></tr>
+        <tr><th>Accounting target</th><td><code class="inline">yes</code></td></tr>
+        <tr><th>Same-package continuation</th><td><code class="inline">no</code></td></tr>
+        <tr><th>Fresh ROOT_RUN legality</th><td><code class="inline">yes</code></td></tr>
+        <tr><th>State files</th><td><a href="../review/package-state.json">package-state.json</a> | <a href="../review/execution-gate-card.md">execution-gate-card.md</a> | <a href="../runs/run_05/review/run-state.json">run-state.json</a></td></tr>
+        <tr><th>Next heavy object</th><td><code class="inline">receipt / order id</code> / <code class="inline">order row</code> / <code class="inline">invoice row</code> or a cold-published irreducible severe blocker</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      The next legitimate jump is not another variant of `orders empty` or `invoices empty`. The first real persistent commercial object must be forced, or a severe blocker must be published that explains why that object cannot be reached.
+    </div>
+  </details>
+
+  <details class="card">
+    <summary><span class="summary-title">Render and Link Audit</span><span class="sumhint">publication proof</span></summary>
+    <table class="proof-table">
+      <tbody>
+        <tr><th>Canonical page</th><td><a href="langgraph-business-understanding.html">langgraph-business-understanding.html</a></td></tr>
+        <tr><th>Shared CSS</th><td><a href="shared-report-reference.css">shared-report-reference.css</a></td></tr>
+        <tr><th>Render proof</th><td><a href="canonical-render-check.png">canonical-render-check.png</a></td></tr>
+        <tr><th>Link audit</th><td><a href="../review/local-link-check.txt">local-link-check.txt</a></td></tr>
+      </tbody>
+    </table>
+  </details>
+</div>
+<script>
+function toggleAll(openState){
+  document.querySelectorAll('details').forEach(function(el){
+    if(el.id === 'graph'){ el.open = true; return; }
+    el.open = openState;
+  });
+}
+</script>
+</body>
+</html>

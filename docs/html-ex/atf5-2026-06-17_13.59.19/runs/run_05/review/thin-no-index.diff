@@ -1,0 +1,63 @@
+diff --git "a/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\GuestOrderNumberOwnershipProbeTests.java" "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\GuestOrderNumberOwnershipProbeTests.java"
+new file mode 100644
+index 0000000..16fdee0
+--- /dev/null
++++ "b/C:\\work\\ex\\java\\demo\\atf5\\test-framework\\src\\test\\java\\com\\endava\\ai\\atf\\ui\\commerce\\GuestOrderNumberOwnershipProbeTests.java"
+@@ -0,0 +1,56 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++import java.util.Locale;
++
++public class GuestOrderNumberOwnershipProbeTests extends CommerceUiTestBase {
++
++    @Test
++    public void guest_payment_success_has_no_visible_order_number() {
++        openGuestPaymentSuccess();
++
++        assertPageMissing("order number");
++    }
++
++    @Test
++    public void guest_payment_success_has_no_visible_order_id() {
++        openGuestPaymentSuccess();
++
++        assertPageMissing("order id");
++    }
++
++    @Test
++    public void guest_payment_success_has_no_hash_order_reference() {
++        openGuestPaymentSuccess();
++
++        String page = normalizedPage();
++        Assert.assertFalse(page.contains("order #"), "Guest payment page should not expose order # but was: " + page);
++    }
++
++    @Test
++    public void guest_payment_success_has_no_thank_you_order_closure() {
++        openGuestPaymentSuccess();
++
++        assertPageMissing("thank you for your order");
++    }
++
++    @Test
++    public void guest_payment_success_does_not_navigate_to_order_confirmation_url() {
++        openGuestPaymentSuccess();
++
++        String url = currentUrl().toLowerCase(Locale.ROOT);
++        Assert.assertFalse(url.contains("/order"), "Guest payment should not navigate to an order URL but was: " + url);
++        Assert.assertFalse(url.contains("/confirmation"), "Guest payment should not navigate to confirmation URL but was: " + url);
++    }
++
++    private void assertPageMissing(String forbidden) {
++        validation.assertPageTextContains(cart.pageText(), "Payment was successful");
++        validation.assertPageTextDoesNotContain(cart.pageText(), forbidden);
++    }
++
++    private String normalizedPage() {
++        return cart.pageText().toLowerCase(Locale.ROOT);
++    }
++}
+

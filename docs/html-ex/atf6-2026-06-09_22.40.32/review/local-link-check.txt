@@ -1,0 +1,4 @@
+﻿html = analysis/langgraph-business-understanding.html
+href_count = 130
+missing_local_refs = 0
+status = OK

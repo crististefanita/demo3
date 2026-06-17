@@ -1,0 +1,23 @@
+﻿{
+    "runs_target":  "META_ITERATION_COUNT",
+    "strongest_unresolved_truth":  "guest payment success still has no order identity, invoice, receipt, history, or commercial closeout object",
+    "link_audit_status":  "yes",
+    "root_diff":  "review/root-source-thin-no-index.diff",
+    "run_tests_target":  "ROUND_TARGET_TEST_COUNT",
+    "report_status":  "ready",
+    "breadth_verdict":  "partial",
+    "same_package_legal":  "no",
+    "render_status":  "fresh",
+    "runs_consumed":  5,
+    "winner_macro_lane":  "guest-post-payment-closure-blocker",
+    "tests_total_produced":  25,
+    "score":  {
+                  "business_substance":  86,
+                  "contract_artefacte_noi":  94,
+                  "proof_chain_quality":  94,
+                  "historical_reopenability":  94,
+                  "business_graph_realism":  90,
+                  "overall":  90
+              },
+    "fresh_root_run_legal":  "yes"
+}

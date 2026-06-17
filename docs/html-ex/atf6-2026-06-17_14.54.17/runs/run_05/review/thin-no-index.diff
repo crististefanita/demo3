@@ -1,0 +1,184 @@
+﻿diff --git src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseOrderRowReloginTests.java src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseOrderRowReloginTests.java
+new file mode 100644
+index 0000000..b4a709d
+--- /dev/null
++++ src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/PostPurchaseOrderRowReloginTests.java
+@@ -0,0 +1,53 @@
++package com.endava.ai.ui.tests.checkout.postpurchase;
++
++import com.endava.ai.ui.model.CustomerData;
++import org.testng.annotations.Test;
++
++public class PostPurchaseOrderRowReloginTests extends AbstractPostPurchaseOwnershipTest {
++
++    @Test(description = "Order row still does not materialize through account overview after checkout and relogin")
++    public void order_row_still_does_not_materialize_through_account_overview_after_checkout_and_relogin() {
++        completeCashOnDeliveryCheckoutAndRelogin(1);
++
++        accountService.openOverviewDirect();
++        accountValidation.assertOverviewMentionsOrdersWithoutDedicatedOrdersNavigation();
++    }
++
++    @Test(description = "Direct orders route still fails to materialize an order row after checkout and relogin")
++    public void direct_orders_route_still_fails_to_materialize_an_order_row_after_checkout_and_relogin() {
++        completeCashOnDeliveryCheckoutAndRelogin(1);
++
++        accountService.openOrdersDirect();
++        accountValidation.assertOrdersRouteFallsBackToStorefront();
++    }
++
++    @Test(description = "Two-unit checkout still leaves no order row after relogin")
++    public void two_unit_checkout_still_leaves_no_order_row_after_relogin() {
++        completeCashOnDeliveryCheckoutAndRelogin(2);
++
++        accountService.openOrdersDirect();
++        accountValidation.assertOrdersRouteFallsBackToStorefront();
++    }
++
++    @Test(description = "Double relogin still does not reopen an order row after successful checkout")
++    public void double_relogin_still_does_not_reopen_an_order_row_after_successful_checkout() {
++        CustomerData customer = completeCashOnDeliveryCheckout(1);
++        relogin(customer);
++        relogin(customer);
++
++        accountService.openOrdersDirect();
++        accountValidation.assertOrdersRouteFallsBackToStorefront();
++    }
++
++    @Test(description = "Profile identity can reopen after checkout while order history still fails to materialize")
++    public void profile_identity_can_reopen_after_checkout_while_order_history_still_fails_to_materialize() {
++        CustomerData customer = completeCashOnDeliveryCheckout(1);
++        relogin(customer);
++
++        accountService.openProfileDirect();
++        accountValidation.assertProfileMatches(customer);
++
++        accountService.openOrdersDirect();
++        accountValidation.assertOrdersRouteFallsBackToStorefront();
++    }
++}
+
+
+diff --git src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/AbstractPostPurchaseOwnershipTest.java src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/AbstractPostPurchaseOwnershipTest.java
+new file mode 100644
+index 0000000..47aa220
+--- /dev/null
++++ src/test/java/com/endava/ai/ui/tests/checkout/postpurchase/AbstractPostPurchaseOwnershipTest.java
+@@ -0,0 +1,115 @@
++package com.endava.ai.ui.tests.checkout.postpurchase;
++
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.service.CheckoutService;
++import com.endava.ai.ui.tests.checkout.authenticated.AbstractAuthenticatedCheckoutTest;
++import com.endava.ai.ui.utils.UIActions;
++import org.testng.Assert;
++
++public abstract class AbstractPostPurchaseOwnershipTest extends AbstractAuthenticatedCheckoutTest {
++
++    protected static final String CASH_ON_DELIVERY = "cash-on-delivery";
++    protected static final String BANK_TRANSFER = "bank-transfer";
++    protected static final String BUY_NOW_PAY_LATER = "buy-now-pay-later";
++    protected static final String CREDIT_CARD = "credit-card";
++    protected static final String GIFT_CARD = "gift-card";
++
++    protected CustomerData completeCashOnDeliveryCheckout(int quantity) {
++        return completeSuccessfulCheckout(quantity, CASH_ON_DELIVERY);
++    }
++
++    protected CustomerData completeCashOnDeliveryCheckoutAndRelogin(int quantity) {
++        return completeSuccessfulCheckoutAndRelogin(quantity, CASH_ON_DELIVERY);
++    }
++
++    protected CustomerData completeSuccessfulCheckoutAndRelogin(int quantity, String paymentMethod) {
++        CustomerData customer = completeSuccessfulCheckout(quantity, paymentMethod);
++        relogin(customer);
++        return customer;
++    }
++
++    protected CustomerData completeSuccessfulCheckout(int quantity, String paymentMethod) {
++        CustomerData customer = registerAndLoginCustomer();
++
++        checkoutService.openCombinationPliersAuthenticatedPaymentStep(quantity);
++        checkoutValidation.assertPaymentMethodOptions();
++
++        configurePaymentMethod(paymentMethod);
++
++        checkoutService.confirmPayment();
++        checkoutValidation.assertPaymentSuccess();
++        return customer;
++    }
++
++    protected void assertInvoiceLedgerEmptyAfterSuccessfulCheckout(int quantity) {
++        completeCashOnDeliveryCheckout(quantity);
++        accountService.openInvoicesDirect();
++        accountValidation.assertInvoicesLedgerRemainsEmptyAfterCheckoutSuccess();
++    }
++
++    protected void assertCheckoutSuccessLacksReceiptIdentity() {
++        String body = UIActions.getText("body", "Checkout success body");
++        Assert.assertTrue(body.contains("Payment was successful"),
++                "Expected the live checkout to expose the payment success message.");
++        Assert.assertFalse(body.contains("Order ID"),
++                "Expected the checkout success message not to expose a reopenable order id.");
++        Assert.assertFalse(body.contains("Receipt"),
++                "Expected the checkout success message not to expose a receipt identity.");
++        Assert.assertFalse(body.contains("Invoice Number"),
++                "Expected the checkout success page not to expose an invoice identity.");
++    }
++
++    protected void assertAccountReopenLacksReceiptIdentity() {
++        String body = UIActions.getText("body", "Reopened account body");
++        Assert.assertFalse(body.contains("Payment was successful"),
++                "Expected the account reopen flow not to preserve the checkout success message as a reopenable receipt artifact.");
++        Assert.assertFalse(body.contains("Order ID"),
++                "Expected the reopened account flow not to expose a reopened order id.");
++        Assert.assertFalse(body.contains("Receipt"),
++                "Expected the reopened account flow not to expose a reopened receipt identity.");
++        Assert.assertFalse(body.contains("Invoice Number"),
++                "Expected the reopened account flow not to expose a reopened invoice identity.");
++    }
++
++    protected void assertReopenedInvoicesLackReceiptIdentity() {
++        String body = UIActions.getText("body", "Reopened invoices body");
++        Assert.assertFalse(body.contains("Payment was successful"),
++                "Expected the reopened invoices flow not to preserve the checkout success message as a reopenable receipt artifact.");
++        Assert.assertFalse(body.contains("Order ID"),
++                "Expected the reopened invoices flow not to expose a reopened order id.");
++        Assert.assertFalse(body.contains("Receipt"),
++                "Expected the reopened invoices flow not to expose a reopened receipt identity.");
++    }
++
++    private void configurePaymentMethod(String paymentMethod) {
++        checkoutService.selectPaymentMethod(paymentMethod);
++
++        switch (paymentMethod) {
++            case CASH_ON_DELIVERY:
++                checkoutValidation.assertCashOnDeliveryReady();
++                return;
++            case BANK_TRANSFER:
++                checkoutValidation.assertBankTransferFieldsVisibleAndGuarded();
++                checkoutService.fillBankTransferDetails("Banca Demo", "Ana Ionescu", "1234567890");
++                checkoutValidation.assertFinishEnabled(true);
++                return;
++            case BUY_NOW_PAY_LATER:
++                checkoutValidation.assertBuyNowPayLaterFieldVisibleAndGuarded();
++                checkoutService.selectMonthlyInstallments("12");
++                checkoutValidation.assertFinishEnabled(true);
++                return;
++            case CREDIT_CARD:
++                checkoutValidation.assertCreditCardFieldsVisible();
++                checkoutService.fillCreditCardDetails("4111-1111-1111-1111", "12/2030", "123", "Ana Ionescu");
++                checkoutValidation.assertFinishEnabled(true);
++                return;
++            case GIFT_CARD:
++                checkoutValidation.assertGiftCardFieldsVisibleAndGuarded();
++                checkoutService.fillGiftCardDetails("1234567890123456", "1234");
++                checkoutValidation.assertFinishEnabled(true);
++                return;
++            default:
++                throw new IllegalArgumentException("Unsupported payment method: " + paymentMethod);
++        }
++    }
++}
+
+

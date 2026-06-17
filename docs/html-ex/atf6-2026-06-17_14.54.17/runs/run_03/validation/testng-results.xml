@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-17T15:10:06 EEST" name="Surefire suite" finished-at="2026-06-17T15:11:16 EEST" duration-ms="69977">
+    <groups>
+    </groups>
+    <test started-at="2026-06-17T15:10:06 EEST" name="Surefire test" finished-at="2026-06-17T15:11:16 EEST" duration-ms="69977">
+      <class name="com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests@6337c201]" started-at="2026-06-17T15:10:06 EEST" name="setUp" finished-at="2026-06-17T15:10:18 EEST" duration-ms="11909" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests@6337c201]" started-at="2026-06-17T15:10:18 EEST" name="before" finished-at="2026-06-17T15:10:18 EEST" duration-ms="302" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="account_overview_remains_reachable_after_checkout_and_relogin()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests@6337c201]" started-at="2026-06-17T15:10:18 EEST" name="account_overview_remains_reachable_after_checkout_and_relogin" description="Account overview remains reachable after checkout and relogin" finished-at="2026-06-17T15:10:30 EEST" duration-ms="11895" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- account_overview_remains_reachable_after_checkout_and_relogin -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests@6337c201]" started-at="2026-06-17T15:10:30 EEST" name="before" finished-at="2026-06-17T15:10:30 EEST" duration-ms="7" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="invoice_gap_survives_cold_relogin_after_checkout_success()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests@6337c201]" started-at="2026-06-17T15:10:30 EEST" name="invoice_gap_survives_cold_relogin_after_checkout_success" description="Invoice gap survives a cold relogin after checkout success" finished-at="2026-06-17T15:10:42 EEST" duration-ms="11236" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- invoice_gap_survives_cold_relogin_after_checkout_success -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests@6337c201]" started-at="2026-06-17T15:10:42 EEST" name="before" finished-at="2026-06-17T15:10:42 EEST" duration-ms="8" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="invoice_gap_survives_relogin_after_two_unit_checkout()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests@6337c201]" started-at="2026-06-17T15:10:42 EEST" name="invoice_gap_survives_relogin_after_two_unit_checkout" description="Invoice gap survives relogin after a two-unit checkout" finished-at="2026-06-17T15:10:52 EEST" duration-ms="10340" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- invoice_gap_survives_relogin_after_two_unit_checkout -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests@6337c201]" started-at="2026-06-17T15:10:53 EEST" name="before" finished-at="2026-06-17T15:10:53 EEST" duration-ms="11" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="invoice_ledger_remains_empty_after_two_relogins()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests@6337c201]" started-at="2026-06-17T15:10:53 EEST" name="invoice_ledger_remains_empty_after_two_relogins" description="Invoice ledger remains empty after two relogins" finished-at="2026-06-17T15:11:06 EEST" duration-ms="13463" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- invoice_ledger_remains_empty_after_two_relogins -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests@6337c201]" started-at="2026-06-17T15:11:06 EEST" name="before" finished-at="2026-06-17T15:11:06 EEST" duration-ms="7" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="profile_identity_survives_checkout_before_invoice_gap_inspection()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests@6337c201]" started-at="2026-06-17T15:11:06 EEST" name="profile_identity_survives_checkout_before_invoice_gap_inspection" description="Profile identity survives checkout before invoice gap inspection" finished-at="2026-06-17T15:11:15 EEST" duration-ms="8722" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- profile_identity_survives_checkout_before_invoice_gap_inspection -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests@6337c201]" started-at="2026-06-17T15:11:15 EEST" name="tearDown" finished-at="2026-06-17T15:11:16 EEST" duration-ms="520" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceReloginTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

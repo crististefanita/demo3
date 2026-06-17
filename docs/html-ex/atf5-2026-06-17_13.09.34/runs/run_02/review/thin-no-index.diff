@@ -1,0 +1,63 @@
+﻿diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageCollectionIntegrityTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageCollectionIntegrityTests.java
+new file mode 100644
+index 0000000..f5bca6e
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/CustomerMessageCollectionIntegrityTests.java
+@@ -0,0 +1,57 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++public class CustomerMessageCollectionIntegrityTests extends CustomerSupportMessageUiTestBase {
++
++    @Test
++    public void messages_page_starts_empty_for_fresh_customer() {
++        messages.openMessages();
++
++        validation.assertPageTextContains(messages.pageText(), "There are no messages yet");
++    }
++
++    @Test
++    public void first_message_replaces_empty_state_with_real_row() {
++        String message = submitMessage("Customer service", uniqueMessage("First row integrity probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextDoesNotContain(messages.pageText(), "There are no messages yet");
++    }
++
++    @Test
++    public void two_messages_create_two_distinct_rows() {
++        String first = submitMessage("Customer service", uniqueMessage("First multi row probe"));
++        String second = submitMessage("Return", uniqueMessage("Second multi row probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(second.substring(0, 24));
++
++        Assert.assertTrue(messages.rowCount() >= 2, "Two submitted messages should create at least two rows.");
++        validation.assertPageTextContains(messages.pageText(), first.substring(0, 24));
++        validation.assertPageTextContains(messages.pageText(), second.substring(0, 24));
++    }
++
++    @Test
++    public void newest_message_row_keeps_new_status() {
++        String message = submitMessage("Payments", uniqueMessage("Status integrity probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "NEW");
++    }
++
++    @Test
++    public void message_row_keeps_subject_slug_in_collection() {
++        String message = submitMessage("Warranty", uniqueMessage("Subject slug integrity probe"));
++
++        messages.openMessages();
++        messages.waitForMessageRow(message.substring(0, 24));
++
++        validation.assertPageTextContains(messages.pageText(), "warranty");
++    }
++}

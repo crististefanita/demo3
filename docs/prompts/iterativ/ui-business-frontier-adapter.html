@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>Adaptor UI pentru frontiera business</title>
+<link href="../../shared-report-reference.css" rel="stylesheet">
+<style>
+.grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.diag{margin-top:10px;border:1px solid var(--border);border-radius:14px;background:#08101a;padding:12px;overflow:auto}
+.diag svg{display:block;width:100%;height:auto}
+.kvs{display:grid;grid-template-columns:120px 1fr;gap:8px 12px}
+.k{color:var(--muted);font-weight:600}
+.pillline{display:flex;flex-direction:column;gap:8px;align-items:flex-start;margin-top:10px}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pilllabel{color:var(--muted);font-size:12px;font-weight:700;margin-right:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Adaptor UI pentru frontiera business <span class="badge">UI</span> <span class="badge">FRONTIER</span> <span class="badge">PROOF</span> <span class="badge">HANDOFF</span></h1>
+  <div class="sub">
+    <ul>
+      <li>Adaptor UI pentru un singur run.</li>
+      <li>Porneste din <code class='inline'>SEED_RECORDING_CLASS</code>.</li>
+      <li>Alege o frontiera business vizibila.</li>
+      <li>Produce felia de test/support.</li>
+      <li>Preda dovada rece catre executie.</li>
+    </ul>
+  </div>
+  <div class="toolbar"><button type="button" onclick="toggleAll(true)">Deschide tot</button><button type="button" onclick="toggleAll(false)">Inchide tot</button></div>
+</header>
+
+<div class="grid">
+<section class="card"><h2>Overview</h2>
+<table>
+  <thead><tr><th>Badge</th><th>Citesti aici</th></tr></thead>
+  <tbody>
+    <tr><td><span class="badge">UI</span></td><td>ce este vizibil in pagina: ruta, formular, mesaj, stare, screenshot, ancora</td></tr>
+    <tr><td><span class="badge">FRONTIER</span></td><td>business nou neacoperit: actor, intentie, pas vizibil, rezultat</td></tr>
+    <tr><td><span class="badge">DELTA</span></td><td>adevar business nou; se judeca inainte de proof UI</td></tr>
+    <tr><td><span class="badge">HANDOFF</span></td><td>materia predata spre <code class="inline">execute-and-understand-run.html</code></td></tr>
+    <tr><td><span class="badge">WRAPPER</span></td><td>specializare UI peste executia canonica de run</td></tr>
+  </tbody>
+</table>
+<div class="pillline">
+  <div class="pillrow"><span class="pilllabel">Owner:</span><span class="pill">frontiera UI a slotului</span><span class="pill">actor</span><span class="pill">intentie</span><span class="pill">dovada vizibila</span></div>
+  <div class="pillrow"><span class="pilllabel">Foloseste:</span><span class="pill">runtime UI</span><span class="pill">seed</span><span class="pill">pretraining auditat</span></div>
+          <div class="pillrow"><span class="pilllabel">Deleaga:</span><span class="pill">materia slotului catre execute-and-understand-run</span></div>
+          <div class="pillrow"><span class="pilllabel">Produce:</span><span class="pill">materia UI</span><span class="pill">claim local</span><span class="pill">ancore proof</span></div>
+          <div class="pillrow"><span class="pilllabel">Nu produce:</span><span class="pill">legalitate pachet</span><span class="pill">fresh ROOT_RUN</span><span class="pill">raport final</span></div>
+</div>
+</section>
+<section class="card">
+<details>
+<summary><span class="summary-title">Referinta runtime UI <span class="badge">RUNTIME</span></span><span class="sumhint">binding-uri UI citite live</span></summary>
+<table><thead><tr><th>Binding</th><th>Rol</th><th>Anti-drift</th></tr></thead><tbody>
+<tr><td><code class="inline">SEED_RECORDING_CLASS</code></td><td>intrare vizibila</td><td>nu devine design de suita</td></tr>
+<tr><td><code class="inline">TARGET_TEST_PACKAGE</code></td><td>destinatie teste UI</td><td>nu imprastia fara motiv rece</td></tr>
+<tr><td><code class="inline">UI_TEST_ROOT</code></td><td>radacina clase test</td><td>nu iesi din suprafata declarata</td></tr>
+<tr><td><code class="inline">UI_SUPPORT_ROOT</code></td><td>radacina suport UI</td><td>nu ascunde business in helper-e</td></tr>
+</tbody></table>
+<div class="mini">
+  <ul>
+    <li>Adaptorul UI citeste runtime-ul live.</li>
+    <li>Valorile active devin legea slotului curent.</li>
+    <li>Artefactele generale de run raman in <code class="inline">execute-and-understand-run.html</code>.</li>
+  </ul>
+</div>
+</details>
+</section>
+</div>
+<details><summary><span class="summary-title">1. Boundary-ul adaptorului <span class="badge">WRAPPER</span></span><span class="sumhint">un run UI, nu pachetul</span></summary>
+<table>
+  <thead><tr><th>Detine aici</th><th>Trimite mai departe</th><th>Nu detine aici</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><ul><li>seed UI</li><li>frontiera vizibila</li><li>delta test/support</li><li>dovada UI</li><li>feedback local</li></ul></td>
+      <td><ul><li>claim UI</li><li>ancore vizibile</li><li>blockers</li><li>lectii locale</li><li>semnificatia dovezii UI</li></ul></td>
+      <td><ul><li>legalitatea pachetului</li><li>consumul de run-uri</li><li>close-out final</li><li>pagina finala</li></ul></td>
+    </tr>
+  </tbody>
+</table>
+<div class="rule">
+  <ul>
+    <li>Daca vorbesti despre ce se vede in UI, esti in adaptor.</li>
+    <li>Daca vorbesti despre ce se salveaza, se numara sau se fixeaza, esti in <code class="inline">execute-and-understand-run.html</code>.</li>
+  </ul>
+</div>
+<details class="mini-note">
+  <summary>1.1 Contract minim</summary>
+  <ul>
+    <li>Seed-ul este intrarea, nu verdictul.</li>
+    <li>Frontiera este business-first: actor, intentie, pas vizibil, rezultat.</li>
+    <li>Run-ul produce teste auditabile pentru ancora aleasa sau preda blocker sever.</li>
+    <li>Fara rezultat business vizibil si dovada UI explicabila, flow-ul ramane investigatie.</li>
+    <li>Predarea minima: claim UI, ancore vizibile, rezultat local, blocker si lectie.</li>
+  </ul>
+</details>
+<div class="mini">
+  <ul>
+    <li>Document strict pentru frontiera UI vizibila.</li>
+  </ul>
+</div>
+</details>
+<details open><summary><span class="summary-title">2. Flow-uri si diagrame</span><span class="sumhint">banda unui singur run UI</span></summary>
+<details class="subdetails">
+<summary><span class="summary-title">2.1 Harta rapida de citire</span><span class="sumhint">orientare scurta</span></summary>
+<table>
+  <thead>
+    <tr>
+      <th>Citire</th>
+      <th>Deschizi</th>
+      <th>Afli</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>banda</td><td><code class="inline">2.2</code></td><td>wrapper UI peste executia canonica de run</td></tr>
+    <tr><td>clasificare</td><td><code class="inline">2.3</code></td><td>owned / partial / blocked</td></tr>
+    <tr><td>predare</td><td><code class="inline">2.4</code></td><td>claim UI, ancore, verdict local, blocker, lectie</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails" open><summary><span class="summary-title">2.2 Banda UI peste execute-and-understand-run <span class="badge">WRAPPER</span></span><span class="sumhint">specializare UI, fixare canonica</span></summary>
+<div class="diag"><svg viewBox="0 0 1160 300" role="img" aria-label="Banda UI peste execute-and-understand-run">
+<defs><marker id="ui" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+<rect x="30" y="110" width="150" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="105" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Seed</text><text x="105" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">primul indiciu vizibil</text>
+<rect x="230" y="110" width="165" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="312" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Descopera UI</text><text x="312" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">rute / formulare / link-uri</text>
+<rect x="445" y="110" width="165" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="527" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Alege frontiera</text><text x="527" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">business nou</text>
+<rect x="660" y="110" width="165" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="742" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Implementeaza felia</text><text x="742" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">delta mica, dar relevanta</text>
+<rect x="875" y="110" width="220" height="72" rx="14" fill="#111826" stroke="#35507a"/><text x="985" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Handoff catre execute</text><text x="985" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">ancore + lectii</text>
+<path d="M180 146 H230" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ui)"/><path d="M395 146 H445" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ui)"/><path d="M610 146 H660" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ui)"/><path d="M825 146 H875" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ui)"/>
+</svg></div>
+<details class="mini-note">
+<summary>Ce adauga UI adapter vs ce gestioneaza execute</summary>
+<table>
+  <thead>
+    <tr>
+      <th>UI adapter adauga</th>
+      <th><code class="inline">execute-and-understand-run.html</code> gestioneaza</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>actor, intentie, pas vizibil, stare UI</td><td>fixarea canonica a run-ului</td></tr>
+    <tr><td>sensul screenshot-urilor si al ancorelor vizibile</td><td>dovada redeschisibila</td></tr>
+    <tr><td>owned / partial / blocked local</td><td>verdictul rece si memoria pachetului</td></tr>
+  </tbody>
+</table>
+</details>
+<details class="mini-note">
+  <summary>Cum citesti banda</summary>
+  <ul>
+    <li><code class="inline">Seed</code> este doar intrarea, nu verdictul.</li>
+    <li><code class="inline">Descopera UI</code> inseamna rute, stari si intentii vizibile, nu replay de recorder.</li>
+    <li><code class="inline">Alege frontiera</code> inseamna cea mai valoroasa mutatie business vizibila local.</li>
+    <li><code class="inline">Implementeaza felia</code> trebuie sa lase o delta mica, dar countable.</li>
+<li><code class="inline">Handoff catre execute</code> lasa materia UI pentru fixarea canonica.</li>
+  </ul>
+</details>
+</details>
+<details class="subdetails">
+<summary><span class="summary-title">2.2.1 State machine minim al adaptorului UI</span><span class="sumhint">seed -> dovada -> execute handoff</span></summary>
+<pre><code>read_seed
+-> discover_business_object
+-> choose_visible_frontier
+-> implement_slice
+-> execute_and_capture
+-> handoff_to_execute_and_understand_run
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Pas</th>
+      <th>Output minim</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code class="inline">discover_business_object</code></td><td>actor, intentie si obiect business, nu doar pagina</td></tr>
+    <tr><td><code class="inline">choose_visible_frontier</code></td><td>claim local cu rezultat vizibil posibil</td></tr>
+    <tr><td><code class="inline">execute_and_capture</code></td><td>ancore vizibile si sensul dovezii UI</td></tr>
+<tr><td><code class="inline">handoff_to_execute_and_understand_run</code></td><td>materia UI pentru fixarea canonica</td></tr>
+  </tbody>
+</table>
+<div class="note">
+  <ul>
+<li>Adaptorul UI nu fixeaza singur pachetul.</li>
+    <li>Preda materia rece a unui singur slot.</li>
+    <li><code class="inline">execute-and-understand-run.html</code> inchide run-ul verificabil.</li>
+  </ul>
+</div>
+</details>
+<details class="subdetails" id="ui-owned-partial-blocked">
+<summary><span class="summary-title">2.3 Frontier UI: owned / partial / blocked</span><span class="sumhint">lectura specifica adaptorului UI</span></summary>
+<div class="diag"><svg viewBox="0 0 1160 220" role="img" aria-label="Owned partial blocked UI">
+<defs><marker id="upb" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+<rect x="35" y="78" width="240" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="155" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">visible flow</text>
+<text x="155" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">ruta / formular / stare</text>
+<rect x="345" y="30" width="230" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="460" y="56" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">owned</text>
+<text x="460" y="78" text-anchor="middle" fill="#a8b3cf" font-size="11">rezultat stabil, vizibil</text>
+<rect x="345" y="94" width="230" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="460" y="120" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">partial</text>
+<text x="460" y="142" text-anchor="middle" fill="#a8b3cf" font-size="11">suport util, nu business nou</text>
+<rect x="345" y="158" width="230" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="460" y="184" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">blocked</text>
+<text x="460" y="206" text-anchor="middle" fill="#a8b3cf" font-size="11">dovada instabila sau insuficienta</text>
+<path d="M275 112 H345" stroke="#7aa2ff" stroke-width="2" marker-end="url(#upb)"/>
+</svg></div>
+<details class="mini-note">
+  <summary>Legenda</summary>
+  <ul>
+    <li><code class="inline">owned</code> cere rezultat vizibil stabil si explicabil UI.</li>
+    <li><code class="inline">partial</code> poate repara suportul fara sa castige identitate business noua.</li>
+    <li><code class="inline">blocked</code> inseamna ca UI-ul nu inchide rece frontiera, nu doar ca testul a fost incomod.</li>
+  </ul>
+</details>
+<table>
+  <thead><tr><th>Frontier quality</th><th>Trebuie sa raspunda</th><th>Daca raspunsul este slab</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>expected business delta</td>
+      <td>ce adevar nou despre aplicatie schimba harta business, nu doar dovada vizibila?</td>
+      <td><ul><li>respinge helper-only</li><li>respinge selector-only</li><li>respinge shell reachability fara obiect business nou</li></ul></td>
+    </tr>
+    <tr>
+      <td>materialized object / blocker</td>
+      <td>ce obiect, proprietate, history, ownership sau blocker sever devine verificabil?</td>
+      <td>respinge winner-ul daca ramane doar pagina vizibila sau click reusit</td>
+    </tr>
+    <tr><td>expected UI proof</td><td>ce ancore vizibile si ce screenshot-uri pot sustine claim-ul?</td><td>respinge winner-ul daca sensul dovezii UI nu poate fi explicat</td></tr>
+    <tr><td>helper / locator risk</td><td>se schimba business-ul sau doar suportul tehnic?</td><td>marcheaza <code class="inline">blocked if only locator-helper work</code></td></tr>
+</tbody>
+</table>
+<div class="rule">
+  <ul>
+    <li>Business delta se judeca inainte de proof UI.</li>
+    <li>Frontiera slaba se opreste aici.</li>
+    <li>Fara obiect business materializabil: nu e winner.</li>
+    <li>Fara dovada UI explicabila: nu e winner.</li>
+  </ul>
+</div>
+</details>
+<details class="subdetails" id="ui-handoff">
+<summary><span class="summary-title">2.4 Ce preda adaptorul UI <span class="badge">HANDOFF</span></span><span class="sumhint">predare spre execute-and-understand-run</span></summary>
+<div class="diag"><svg viewBox="0 0 1160 220" role="img" aria-label="UI handoff">
+<defs><marker id="uho" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+<rect x="35" y="78" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="125" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">business claim</text>
+<text x="125" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">ce a incercat</text>
+<rect x="255" y="78" width="170" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="340" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">ancore UI</text>
+<text x="340" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">ce se vede</text>
+<rect x="465" y="78" width="160" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="545" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">verdict local</text>
+<text x="545" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">owned / partial / blocked</text>
+<rect x="665" y="78" width="170" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="750" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">blocker / lectie</text>
+<text x="750" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">ce invata run-ul</text>
+<rect x="875" y="78" width="230" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+<text x="990" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">feedback MD -> execute</text>
+<text x="990" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">materie pentru fixare</text>
+<path d="M215 112 H255" stroke="#7aa2ff" stroke-width="2" marker-end="url(#uho)"/>
+<path d="M425 112 H465" stroke="#7aa2ff" stroke-width="2" marker-end="url(#uho)"/>
+<path d="M625 112 H665" stroke="#7aa2ff" stroke-width="2" marker-end="url(#uho)"/>
+<path d="M835 112 H875" stroke="#7aa2ff" stroke-width="2" marker-end="url(#uho)"/>
+</svg></div>
+<details class="mini-note">
+  <summary>Legenda</summary>
+  <ul>
+    <li><code class="inline">3.4</code> spune ce iese din run.</li>
+    <li><code class="inline">5</code> spune cum se valideaza dovada iesirilor.</li>
+    <li>Adaptorul UI preda materia rece: claim, ancore, verdict local, blocker si lectie.</li>
+<li><code class="inline">execute-and-understand-run.html</code> decide fixarea canonica.</li>
+    <li><code class="inline">orchestrate-iterative-runs.html</code> decide legalitatea.</li>
+    <li><code class="inline">reporting.html</code> publica pagina finala.</li>
+  </ul>
+</details>
+</details>
+</details>
+<details><summary><span class="summary-title">3. Modelul de libertate</span><span class="sumhint">heuristici, nu corset</span></summary>
+<table>
+  <thead><tr><th>Lasa liber agentul pe</th><th>Mentine strict pe</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><ul><li>ordinea de explorare UI</li><li>strategia de locator</li><li>note auxiliare</li><li>repair local</li><li>branch incercat primul</li></ul></td>
+      <td><ul><li>business nou</li><li>ancore vizibile</li><li>verdict local</li><li>owner boundary</li><li>sensul dovezii UI</li></ul></td>
+    </tr>
+  </tbody>
+</table>
+<div class="rule">Nu impunem micro-pasi rigizi. Dar libertatea tactica nu reduce targetul, dovada sau boundary-ul owner.</div>
+</details>
+<details><summary><span class="summary-title">4. Rapid reject gate <span class="badge">FRONTIER</span></span><span class="sumhint">opreste proceduralul inainte de winner</span></summary>
+<table>
+  <thead>
+    <tr>
+      <th>Respinge rece daca</th>
+      <th>De ce</th>
+      <th>Ce ceri in schimb</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>helper-only</td>
+      <td>creste suportul, nu intelegerea business</td>
+      <td>actor + intentie + rezultat vizibil</td>
+    </tr>
+    <tr>
+      <td>shell-only</td>
+      <td>pagina exista, dar obiectul business lipseste</td>
+      <td>row, id, status, receipt, message sau alta entitate verificabila</td>
+    </tr>
+    <tr>
+      <td>same absence replay</td>
+      <td>reconfirma aceeasi lipsa fara delta noua</td>
+      <td>un unghi nou: actor, stare, persistenta, recovery sau efect downstream</td>
+    </tr>
+    <tr>
+      <td>no countable business delta</td>
+      <td>nu schimba verdictul pachetului</td>
+      <td>claim countable cu obiect business sau blocker sever documentat</td>
+    </tr>
+  </tbody>
+</table>
+<div class="mini">
+  <ul>
+    <li>Acest gate se aplica dupa libertatea de explorare si inainte de implementare.</li>
+    <li>Daca pica aici, nu salva run-ul ca frontier winner.</li>
+  </ul>
+</div>
+</details>
+<details><summary><span class="summary-title">5. Alegerea frontierei business UI</span><span class="sumhint">seed-ul nu este modelul de business</span></summary>
+<div class="note">
+  <ul>
+    <li>Harta generica: <code class="inline">baseline -&gt; frontier -&gt; owned / partial / blocked / fresh-round-only</code>.</li>
+    <li>Owner: <code class="inline">orchestrate-iterative-runs.html</code>.</li>
+    <li>Aici ramane doar lectura specifica adaptorului UI.</li>
+  </ul>
+</div>
+
+<table><thead><tr><th>Intrebare UI</th><th>Raspuns dorit</th><th>Predare UI</th></tr></thead><tbody>
+<tr><td>Ce flow real expune seed-ul?</td><td>un flow de business, nu un replay de recorder</td><td>de ce seed-ul ajuta sau induce in eroare</td></tr>
+<tr><td>Ce actor si intentie UI merita atacati?</td><td>un journey vizibil, nu doar o componenta sau un locator</td><td>motivul pentru care frontiera bate local</td></tr>
+<tr><td>Ce pas vizibil schimba adevarul de business?</td><td>ruta, submit de formular, toggle, compare tray, stare protejata sau alta mutatie vizibila</td><td>ancorele vizibile si sensul lor business</td></tr>
+<tr><td>Ce poate deveni owned / countable?</td><td>numai branch-ul cu rezultat vizibil stabil si dovada UI explicabila</td><td>verdict local: owned / partial / blocked</td></tr>
+<tr>
+  <td>Ce ramane blocked sau fresh-round-only?</td>
+  <td>publicat rece, fara a inventa inchidere</td>
+  <td><code class="inline">ui-blocker-note.md</code> sau next-run truth din documentele owner</td>
+</tr>
+</tbody></table>
+
+<div class="rule">Business object first, selector second. Preda actor, intentie, pas vizibil, rezultat si lectia locala decisiva.</div>
+<div class="note">
+  <ul>
+    <li>Forma grafului final apartine raportarii.</li>
+    <li>Rubrica este <code class="inline">business-flow-graph-rubric.html</code>.</li>
+    <li>Aici se preda doar materia rece a run-ului UI.</li>
+  </ul>
+</div>
+</details>
+<details><summary><span class="summary-title">6. Semnificatia dovezii UI <span class="badge">PROOF</span></span><span class="sumhint">ce explica adaptorul, nu ce fixeaza</span></summary>
+<div class="rule">
+  <ul>
+    <li><code class="inline">3.4</code> preda sensul UI al dovezii.</li>
+<li><code class="inline">execute-and-understand-run.html</code> gestioneaza fixarea canonica.</li>
+  </ul>
+</div>
+<table>
+  <thead><tr><th>Intrebare UI</th><th>Raspuns obligatoriu</th></tr></thead>
+  <tbody>
+    <tr><td>Ce se vede?</td><td>pas vizibil, stare, mesaj, rand, card, formular sau rezultat local</td></tr>
+    <tr><td>De ce conteaza?</td><td>ce adevar business schimba sau blocheaza</td></tr>
+    <tr><td>Cine este tinta?</td><td>actorul si obiectul UI exact, fara ambiguitate</td></tr>
+    <tr><td>Ce ramane partial?</td><td>limita vizibila, blocker-ul sau obiectul lipsa</td></tr>
+  </tbody>
+</table>
+<div class="warn">Pentru UI, dovada fara explicatia ancorelor vizibile ramane incompleta.</div>
+</details>
+<details><summary><span class="summary-title">7. Feedback UI pentru urmatorul agent <span class="badge">HANDOFF</span></span><span class="sumhint">lectii, nu inventar de fisiere</span></summary>
+<table><thead><tr><th>Categorie</th><th>Cand apare</th><th>Ce trebuie sa invete urmatorul agent</th></tr></thead><tbody>
+<tr><td>frontier map</td><td>cand sunt mai multe rute/link-uri/branch-uri</td><td>covered / blocked / duplicate / deferred / still-open</td></tr>
+<tr><td>proof meaning</td><td>pentru un run UI proof-bearing</td><td>ancore, formulare, overlay-uri si stari vizibile</td></tr>
+<tr><td>target identity</td><td>cand exista liste/carduri/randuri repetate</td><td>cum se distinge tinta exacta</td></tr>
+<tr><td>blocker</td><td>cand dovada nu se poate inchide</td><td>input lipsa, popup, auth, seeded data sau granita externa</td></tr>
+<tr><td>mechanism learning</td><td>cand s-a descoperit o interactiune reutilizabila</td><td>pattern de locator/wait/interactiune, fara a vinde asta ca business nou</td></tr>
+</tbody></table>
+</details>
+<details><summary><span class="summary-title">8. Handoff spre execute-and-understand-run <span class="badge">HANDOFF</span></span><span class="sumhint">ce intoarce wrapper-ul UI</span></summary>
+<pre><code>adaptorul UI intoarce
+  business claim
+  actor + intentie + pas vizibil + rezultat local
+  frontier quality: expected business delta / UI proof meaning / helper risk
+  clasificarea owned / partial / blocked
+  ancore vizibile si sensul screenshot-urilor
+  blocker sau limita UI, daca exista
+  lectiile UI decisive
+  recomandare kept/countable pentru execute-and-understand-run
+</code></pre>
+<div class="note">
+  <ul>
+<li><code class="inline">execute-and-understand-run.html</code> fixeaza memoria pachetului.</li>
+    <li><code class="inline">orchestrate-iterative-runs.html</code> decide legalitatea urmatorului run.</li>
+    <li>Raportarea publica harta finala.</li>
+  </ul>
+</div>
+</details>
+<details><summary><span class="summary-title">9. Referinte comune de suport <span class="badge">RUNTIME</span></span><span class="sumhint">runtime, arhitectura, benchmark-uri</span></summary>
+<table><thead><tr><th>Sursa</th><th>Rol rece</th><th>Ce nu trebuie facut</th></tr></thead><tbody>
+<tr><td><code class="inline">agent-runtime.properties</code></td><td>praguri, path-uri si binding-uri comune</td><td>nu redefini ad-hoc valorile sau radacinile in run</td></tr>
+<tr><td><code class="inline">Living_Architecture_UI_API_doc_v1_0.html</code></td><td>referinta de framework pentru UI, targete configurate, layere si reguli tehnice de executie</td><td>nu transforma partea API in obiectul acestui document si nu o folosi ca owner de legalitate iterativa</td></tr>
+    <tr><td>benchmark-urile selectate in pretraining</td><td>repere de stil, graph, istorie si audit deja alese in intake-ul auditat</td><td>nu mosteni scorurile, standing-ul sau business-ul lor</td></tr>
+</tbody></table>
+<div class="note">
+  <ul>
+    <li>Sursele se redeschid pentru calibrare si severitate.</li>
+    <li>Adaptorul UI foloseste contextul lor.</li>
+    <li>Mai departe preda doar materia rece a run-ului curent.</li>
+  </ul>
+</div>
+</details>
+</div>
+<script>function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}</script>
+</body>
+</html>

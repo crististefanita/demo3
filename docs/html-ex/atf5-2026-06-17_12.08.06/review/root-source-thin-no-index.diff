@@ -1,0 +1,515 @@
+
+diff --git "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteAcquisitionOwnershipTests.java" "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteAcquisitionOwnershipTests.java"
+new file mode 100644
+index 0000000..ad6d619
+--- /dev/null
++++ "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteAcquisitionOwnershipTests.java"
+@@ -0,0 +1,92 @@
++package com.endava.ai.atf.ui.customer;
++
++import com.endava.ai.ui.service.CatalogService;
++import com.endava.ai.ui.service.ProductService;
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++public class CustomerFavoriteAcquisitionOwnershipTests extends AccountCustomerUiTestBase {
++
++    private final CatalogService catalog = new CatalogService();
++    private final ProductService product = new ProductService();
++
++    @Test
++    public void authenticated_customer_adds_product_into_favorites_collection() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertTextContains(account.pageTitle(), "Favorites");
++        validation.assertTextContains(account.favoriteProductName(), expectedProduct);
++    }
++
++    @Test
++    public void favorites_route_replaces_empty_state_with_owned_product_row() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(product.name());
++
++        validation.assertPageTextDoesNotContain(account.pageText(), "There are no favorites yet");
++    }
++
++    @Test
++    public void favorite_row_carries_same_product_name_as_product_detail() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        Assert.assertEquals(account.favoriteProductName(), expectedProduct,
++                "Favorites row should preserve the product name chosen on the detail page.");
++    }
++
++    @Test
++    public void favorite_row_keeps_product_description_visible() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedDescription = product.description();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(product.name());
++
++        validation.assertTextContains(
++                account.favoriteProductDescription(),
++                expectedDescription.substring(0, Math.min(expectedDescription.length(), 40))
++        );
++    }
++
++    @Test
++    public void favorite_collection_stays_under_account_url_after_add() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        Assert.assertTrue(account.currentUrl().contains("/account/favorites"),
++                "Owned favorite collection should stay under the customer account route.");
++    }
++}
+
+diff --git "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteReopenabilityOwnershipTests.java" "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteReopenabilityOwnershipTests.java"
+new file mode 100644
+index 0000000..5b7097b
+--- /dev/null
++++ "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteReopenabilityOwnershipTests.java"
+@@ -0,0 +1,75 @@
++package com.endava.ai.atf.ui.customer;
++
++import com.endava.ai.ui.service.CatalogService;
++import com.endava.ai.ui.service.ProductService;
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++public class CustomerFavoriteReopenabilityOwnershipTests extends AccountCustomerUiTestBase {
++
++    private final CatalogService catalog = new CatalogService();
++    private final ProductService product = new ProductService();
++
++    private String addFavoriteForAuthenticatedCustomer() {
++        account.registerAndLoginCustomer();
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++        return expectedProduct;
++    }
++
++    @Test
++    public void favorites_collection_reopens_after_returning_to_account_overview() {
++        String expectedProduct = addFavoriteForAuthenticatedCustomer();
++
++        account.openAccount();
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertTextContains(account.favoriteProductName(), expectedProduct);
++    }
++
++    @Test
++    public void favorites_collection_reopens_after_profile_visit() {
++        String expectedProduct = addFavoriteForAuthenticatedCustomer();
++
++        account.openProfile();
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertTextContains(account.favoriteProductName(), expectedProduct);
++    }
++
++    @Test
++    public void favorites_direct_route_reopens_same_product_identity() {
++        String expectedProduct = addFavoriteForAuthenticatedCustomer();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        Assert.assertTrue(account.favoriteProductNames().contains(expectedProduct),
++                "Direct favorites route should reopen the same product identity.");
++    }
++
++    @Test
++    public void favorites_collection_reopens_after_home_navigation() {
++        String expectedProduct = addFavoriteForAuthenticatedCustomer();
++
++        catalog.openHome();
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertTextContains(account.favoriteProductName(), expectedProduct);
++    }
++
++    @Test
++    public void favorites_reopen_preserves_non_empty_customer_context() {
++        String expectedProduct = addFavoriteForAuthenticatedCustomer();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertPageTextDoesNotContain(account.pageText(), "There are no favorites yet");
++    }
++}
+
+diff --git "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteSessionPersistenceOwnershipTests.java" "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteSessionPersistenceOwnershipTests.java"
+new file mode 100644
+index 0000000..7b164d1
+--- /dev/null
++++ "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteSessionPersistenceOwnershipTests.java"
+@@ -0,0 +1,115 @@
++package com.endava.ai.atf.ui.customer;
++
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.service.CatalogService;
++import com.endava.ai.ui.service.ProductService;
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++public class CustomerFavoriteSessionPersistenceOwnershipTests extends AccountCustomerUiTestBase {
++
++    private final CatalogService catalog = new CatalogService();
++    private final ProductService product = new ProductService();
++
++    private CustomerData seedFavorite() {
++        CustomerData customer = account.registerAndLoginCustomer();
++        catalog.openHome();
++        catalog.openFirstProduct();
++        product.addToFavorites();
++        return customer;
++    }
++
++    @Test
++    public void favorite_product_persists_after_sign_out_and_sign_in() {
++        CustomerData customer = account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++        account.signOut();
++        account.login(customer);
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertTextContains(account.favoriteProductName(), expectedProduct);
++    }
++
++    @Test
++    public void favorite_count_remains_one_after_reauthentication() {
++        CustomerData customer = account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++        account.signOut();
++        account.login(customer);
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        Assert.assertEquals(account.favoriteProductCount(), 1,
++                "Reauthentication should reopen one owned favorite row for the same product.");
++    }
++
++    @Test
++    public void favorite_description_reopens_after_reauthentication() {
++        CustomerData customer = account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedDescription = product.description();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++        account.signOut();
++        account.login(customer);
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertTextContains(
++                account.favoriteProductDescription(),
++                expectedDescription.substring(0, Math.min(expectedDescription.length(), 40))
++        );
++    }
++
++    @Test
++    public void favorite_reopens_after_sign_out_login_and_account_overview_detour() {
++        CustomerData customer = seedFavorite();
++        String expectedProduct;
++
++        account.openFavorites();
++        expectedProduct = account.favoriteProductName();
++        account.signOut();
++        account.login(customer);
++        account.openAccount();
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertTextContains(account.favoriteProductName(), expectedProduct);
++    }
++
++    @Test
++    public void favorite_reopens_from_login_boundary_not_guest_checkout() {
++        CustomerData customer = seedFavorite();
++        String expectedProduct;
++
++        account.openFavorites();
++        expectedProduct = account.favoriteProductName();
++        account.signOut();
++        account.login(customer.getEmail(), customer.getPassword());
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        Assert.assertFalse(account.pageText().toLowerCase().contains("guest checkout"),
++                "Reopened favorite ownership should remain in customer account, not guest checkout.");
++    }
++}
+
+diff --git "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteOwnershipSeparationTests.java" "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteOwnershipSeparationTests.java"
+new file mode 100644
+index 0000000..e95283a
+--- /dev/null
++++ "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteOwnershipSeparationTests.java"
+@@ -0,0 +1,91 @@
++package com.endava.ai.atf.ui.customer;
++
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.pages.LoginPage;
++import com.endava.ai.ui.service.CatalogService;
++import com.endava.ai.ui.service.ProductService;
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++public class CustomerFavoriteOwnershipSeparationTests extends AccountCustomerUiTestBase {
++
++    private final CatalogService catalog = new CatalogService();
++    private final ProductService product = new ProductService();
++
++    @Test
++    public void guest_attempt_does_not_create_owned_favorite_after_later_login() {
++        catalog.openHome();
++        catalog.openFirstProduct();
++        product.addToFavorites();
++
++        account.openProtectedRouteAsAnonymous("/account/favorites");
++        CustomerData customer = account.registerAndLoginCustomer();
++        account.openFavorites();
++
++        validation.assertPageTextContains(account.pageText(), "There are no favorites yet");
++        Assert.assertNotNull(customer, "A real customer session should be created after guest failure.");
++    }
++
++    @Test
++    public void anonymous_visitor_cannot_open_favorites_after_guest_add_attempt() {
++        catalog.openHome();
++        catalog.openFirstProduct();
++        product.addToFavorites();
++
++        account.openProtectedRouteAsAnonymous("/account/favorites");
++
++        validation.assertVisible(LoginPage.LOGIN_BUTTON, "Login boundary after unauthorized favorite attempt");
++    }
++
++    @Test
++    public void second_customer_does_not_inherit_first_customer_favorite() {
++        CustomerData firstCustomer = account.registerAndLoginCustomer();
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++        account.signOut();
++
++        account.registerAndLoginCustomer();
++        account.openFavorites();
++
++        validation.assertPageTextContains(account.pageText(), "There are no favorites yet");
++        account.signOut();
++        account.login(firstCustomer);
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++    }
++
++    @Test
++    public void first_customer_reopens_own_favorite_after_second_customer_session() {
++        CustomerData firstCustomer = account.registerAndLoginCustomer();
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++        account.signOut();
++
++        account.registerAndLoginCustomer();
++        account.signOut();
++        account.login(firstCustomer);
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertTextContains(account.favoriteProductName(), expectedProduct);
++    }
++
++    @Test
++    public void unauthorized_feedback_does_not_replace_sign_in_boundary() {
++        catalog.openHome();
++        catalog.openFirstProduct();
++        product.addToFavorites();
++
++        validation.assertPageTextContains(product.pageText(), "Unauthorized, can not add product to your favorite list.");
++        account.openProtectedRouteAsAnonymous("/account/favorites");
++        validation.assertVisible(LoginPage.LOGIN_BUTTON, "Login boundary remains the ownership bridge");
++    }
++}
+
+diff --git "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteCollectionIntegrityTests.java" "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteCollectionIntegrityTests.java"
+new file mode 100644
+index 0000000..b45c1a3
+--- /dev/null
++++ "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteCollectionIntegrityTests.java"
+@@ -0,0 +1,106 @@
++package com.endava.ai.atf.ui.customer;
++
++import com.endava.ai.ui.service.CatalogService;
++import com.endava.ai.ui.service.ProductService;
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++import java.util.List;
++
++public class CustomerFavoriteCollectionIntegrityTests extends AccountCustomerUiTestBase {
++
++    private final CatalogService catalog = new CatalogService();
++    private final ProductService product = new ProductService();
++
++    @Test
++    public void repeated_add_keeps_one_owned_favorite_object_not_fake_breadth() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        Assert.assertEquals(account.favoriteProductCount(), 1,
++                "Repeated add should keep one favorite row for the same product.");
++    }
++
++    @Test
++    public void related_product_navigation_does_not_fake_second_favorite_row() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String firstProduct = product.name();
++        product.addToFavorites();
++        product.openFirstRelatedProduct();
++        String secondProduct = product.name();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(secondProduct);
++
++        Assert.assertEquals(firstProduct, secondProduct,
++                "Current related-product navigation reopens the same product identity in this app.");
++        Assert.assertEquals(account.favoriteProductCount(), 1,
++                "Same-product revisit must not be sold as a second owned favorite row.");
++    }
++
++    @Test
++    public void favorites_names_include_both_added_products() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String firstProduct = product.name();
++        product.addToFavorites();
++        product.openFirstRelatedProduct();
++        String secondProduct = product.name();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(secondProduct);
++
++        List<String> favoriteNames = account.favoriteProductNames();
++        Assert.assertTrue(favoriteNames.contains(firstProduct), "Favorites should include the first product identity.");
++        Assert.assertTrue(favoriteNames.contains(secondProduct), "Favorites should include the second product identity.");
++    }
++
++    @Test
++    public void favorites_collection_does_not_claim_empty_state_after_two_rows() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        product.addToFavorites();
++        product.openFirstRelatedProduct();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(product.name());
++
++        validation.assertPageTextDoesNotContain(account.pageText(), "There are no favorites yet");
++    }
++
++    @Test
++    public void second_favorite_addition_preserves_first_product_identity() {
++        account.registerAndLoginCustomer();
++
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String firstProduct = product.name();
++        product.addToFavorites();
++        product.openFirstRelatedProduct();
++        product.addToFavorites();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(firstProduct);
++
++        Assert.assertTrue(account.favoriteProductNames().contains(firstProduct),
++                "Adding a second favorite must not erase the first owned favorite row.");
++    }
++}
+

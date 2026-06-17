@@ -1,0 +1,4 @@
+command = mvn -q "-Dsurefire.suiteXmlFiles=target/run-02-suite.xml" test
+result = exit code 0
+suite = run-02-guest-billing
+class = GuestIdentityToBillingOwnershipTests

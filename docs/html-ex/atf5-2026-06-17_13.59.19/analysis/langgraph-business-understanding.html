@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATF5 Guest Checkout Payment Package</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="shared-report-reference.css">
+<style>.runtime-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.runtime-strip span{border:1px solid var(--border);border-radius:999px;padding:4px 9px;background:rgba(15,23,36,.52);font-size:12px;color:var(--muted)}.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.pill-row .pill{margin-right:0}.score-wall{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin:14px 0}.score-card{border:1px solid var(--border);border-radius:14px;background:rgba(17,24,38,.58);padding:12px}.score-card .label{color:var(--muted);font-size:12px;font-weight:700}.score-card .score{font-size:26px;font-weight:800;margin:4px 0;color:var(--text)}.score-card .note{font-size:12px;border:0;background:transparent;padding:0;color:var(--muted);margin:0}.accounting-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:12px}.accounting-card{border:1px solid var(--border);border-radius:14px;background:rgba(15,23,36,.5);padding:12px}.accounting-card b{display:block;margin-bottom:6px}.truth-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.truth-card{border:1px solid var(--border);border-radius:14px;background:rgba(15,23,36,.48);padding:12px}.truth-card b{display:block;margin-bottom:6px}.calc-steps td:first-child,.calc-steps th:first-child{white-space:nowrap;width:84px}.artifact-note{margin-top:10px}.tight td,.tight th{vertical-align:top}
+@media(max-width:1080px){.score-wall{grid-template-columns:1fr 1fr 1fr}.accounting-grid{grid-template-columns:1fr 1fr}.truth-grid{grid-template-columns:1fr}}
+@media(max-width:720px){.score-wall,.accounting-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>ATF5 Guest Checkout Payment <span class="badge">2026-06-17_13.59.19</span></h1>
+</header>
+
+<section class="hero">
+  <div class="score-wall" aria-label="score cards">
+    <div class="score-card"><div class="label">Business Substance</div><div class="score">88</div><div class="note">real positive checkout, without order closure</div></div>
+    <div class="score-card"><div class="label">Business Graph Realism</div><div class="score">91</div><div class="note">application-first, not a run log</div></div>
+    <div class="score-card"><div class="label">Historical Reopenability</div><div class="score">94</div><div class="note">run/root diff + Extent/XML + state</div></div>
+    <div class="score-card"><div class="label">Proof Chain Quality</div><div class="score">94</div><div class="note">claim linked directly to diff and machine proof</div></div>
+    <div class="score-card"><div class="label">New Artifact Contract</div><div class="score">94</div><div class="note">gate, state spine, render, link audit</div></div>
+    <div class="score-card"><div class="label">Overall</div><div class="score">91</div><div class="note">weighted average, no hidden ceiling</div></div>
+  </div>
+
+  <details class="card" style="margin-top:12px">
+    <summary><span class="summary-title">Executive Context</span><span class="sumhint">snapshot, winner truth, cap reason, jumps, controls</span></summary>
+    <div class="sub">The package cold-publishes a new business progression family: <code class="inline">guest checkout -&gt; guest identity -&gt; billing address -&gt; payment success</code>. The verdict remains below persistent commercial closure because payment success still does not produce <code class="inline">order number</code>, <code class="inline">order id</code>, <code class="inline">invoice</code>, <code class="inline">receipt</code> or <code class="inline">history</code>.</div>
+    <div class="pill-row">
+      <span class="pill"><a href="../../../prompts/iterativ/agent-runtime.properties">agent-runtime.properties</a></span>
+      <span class="pill">RUN_EXPECTED_DELTA_QUALITY = 8.50</span>
+      <span class="pill">ROUND_TARGET_TEST_COUNT = 5</span>
+      <span class="pill">META_ITERATION_COUNT = 5</span>
+      <span class="pill">runs consumed = 5 / 5</span>
+      <span class="pill">tests produced = 25 / 25</span>
+      <span class="pill">winner = guest checkout to payment success</span>
+    </div>
+    <div class="truth-grid">
+      <div class="truth-card"><b>Read First</b><p><a href="../review/root-source-thin-no-index.diff">root diff</a> locks the transition from checkout progress to the cold blocker on the first persistent commercial object.</p></div>
+      <div class="truth-card"><b>Compiled State</b><p><a href="../review/package-state.json">package-state.json</a> freezes 5 / 5 runs, 25 / 25 tests, and the cold overall of the package.</p></div>
+      <div class="truth-card"><b>Execution Gate</b><p><a href="../review/execution-gate-card.md">execution-gate-card.md</a> shows the package as complete and auditable without selling it as owned order closure.</p></div>
+    </div>
+    <div class="truth-grid">
+      <div class="truth-card"><b>Owned</b><p>guest identity, billing address, payment selection and <code class="inline">payment success</code> are exercised and cold-reopenable.</p></div>
+      <div class="truth-card"><b>Cap reason</b><p>Missing <code class="inline">order row</code>, <code class="inline">invoice row</code> and <code class="inline">receipt identity</code>; so the winner is real progress, but not closure.</p></div>
+      <div class="truth-card"><b>What it teaches</b><p>The product can close the commercial shell for guest checkout, but it still does not materialize the heavy object that would turn the shell into ownership.</p></div>
+    </div>
+    <div class="pill-row">
+      <a class="pill" href="#score-overview">Score Overview</a>
+      <a class="pill" href="#history">Historical Reopen Strip</a>
+      <a class="pill" href="#state">State Spine</a>
+      <a class="pill" href="#graph">Business Flow Graph</a>
+      <a class="pill" href="#truth">Product Truth Ledger</a>
+      <a class="pill" href="#proof">Proof Mapping</a>
+      <a class="pill" href="#audit">Run Audit</a>
+      <a class="pill" href="#artifacts">Artifact Index</a>
+      <a class="pill" href="#closeout">Close-Out</a>
+    </div>
+    <div class="toolbar">
+      <button type="button" onclick="toggleAll(true)">Expand all</button>
+      <button type="button" onclick="toggleAll(false)">Collapse all</button>
+    </div>
+  </details>
+
+  <details id="score-overview">
+    <summary><span class="summary-title">Score Overview</span><span class="sumhint">canonical, cold, with explicit calculation</span></summary>
+    <p>Overall = <b>91</b>. There is no separate ceiling here: the published score is exactly the weighted average of the axes from <a href="../review/package-state.json"><code class="inline">package-state.json</code></a>. Reporting can become clearer, but clarity alone does not raise the business score.</p>
+    <table class="tight calc-steps">
+      <thead><tr><th>Step</th><th>What is frozen</th><th>Cold result</th></tr></thead>
+      <tbody>
+        <tr><td>Step 1</td><td>Read the published axes from <code class="inline">package-state.json</code>.</td><td><code class="inline">BS 88 / BGR 91 / HR 94 / PCQ 94 / CAN 94</code></td></tr>
+        <tr><td>Step 2</td><td>Each axis is multiplied by the canonical weight.</td><td><code class="inline">88*40% + 91*20% + 94*15% + 94*15% + 94*10%</code></td></tr>
+        <tr><td>Step 3</td><td>The weighted sum is published without a hidden ceiling.</td><td><code class="inline">91.0</code>, published as <b>91</b></td></tr>
+        <tr><td>Step 4</td><td>Cold-explain why the sum stays here and why it does not rise from audit alone.</td><td>real business progress up to <code class="inline">payment success</code>, but without <code class="inline">order identity</code> or <code class="inline">commerce-history closure</code></td></tr>
+      </tbody>
+    </table>
+    <table class="tight">
+      <thead><tr><th>Axis</th><th>Score</th><th>Weight</th><th>Why it sits here</th></tr></thead>
+      <tbody>
+        <tr><td>Business Substance</td><td>88</td><td>40%</td><td><code class="inline">guest identity</code>, <code class="inline">billing address</code>, <code class="inline">payment method</code> and <code class="inline">payment success</code> are inchise positive, but are missing <code class="inline">order number</code>, <code class="inline">order id</code>, <code class="inline">invoice</code>, <code class="inline">receipt</code> and <code class="inline">history</code>.</td></tr>
+        <tr><td>Business Graph Realism</td><td>91</td><td>20%</td><td>the graph tells the product story: product - cart - guest identity - billing - payment success - missing closure; it does not describe only <code class="inline">run_01..run_05</code>.</td></tr>
+        <tr><td>Historical Reopenability</td><td>94</td><td>15%</td><td>each heavy claim is reopenable through <code class="inline">run diff</code>, <code class="inline">root diff</code>, <code class="inline">run-state</code>, <code class="inline">package-state</code>, <code class="inline">Extent</code> and <code class="inline">XML</code>.</td></tr>
+        <tr><td>Proof Chain Quality</td><td>94</td><td>15%</td><td>primary truth remains <code class="inline">run diff + root diff + Extent/XML + state files</code>; the mapping keeps a clear owner for each jump and for the closure blocker.</td></tr>
+        <tr><td>New Artifact Contract</td><td>94</td><td>10%</td><td><code class="inline">package-state</code>, <code class="inline">execution-gate</code>, <code class="inline">quality-accounting</code>, <code class="inline">render proof</code> and <code class="inline">link audit</code> are all present and indexed.</td></tr>
+        <tr><td><strong>Overall</strong></td><td><strong>91</strong></td><td>final</td><td>this package is stronger than a simple blocker, but remains below persistent commercial closure because payment success does not become an owned order object.</td></tr>
+      </tbody>
+    </table>
+    <table class="tight">
+      <thead><tr><th>Explicit calculation</th><th>Why 91 is legal</th><th>Why not 92-93</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code class="inline">88*40% + 91*20% + 94*15% + 94*15% + 94*10% = 91.0</code>, published as <b>91</b>.</td>
+          <td>There is real positive business progression on the lane  <code class="inline">product -&gt; cart -&gt; guest identity -&gt; billing -&gt; payment success</code>. This is not just reachability, nor just a blocker; there is a real buyer bridge, billing object, and success surface.</td>
+          <td><code class="inline">payment success</code> not devine yet <code class="inline">order number</code>, <code class="inline">order id</code>, <code class="inline">invoice</code>, <code class="inline">receipt</code> or <code class="inline">order history</code>. Without the second heavy persistent object, the package must not be sold at <code class="inline">92-93</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <div class="accounting-grid">
+    <div class="accounting-card">
+      <b>Accounting Compact</b>
+      <div><code class="inline">materially turned into tests = 25 / 25</code></div>
+      <div><code class="inline">accounting target met = yes</code></div>
+    </div>
+    <div class="accounting-card">
+      <b>Counter Discipline</b>
+      <div><code class="inline">tests produced = 25</code></div>
+      <div><code class="inline">runs consumed = 5 / 5</code></div>
+    </div>
+    <div class="accounting-card">
+      <b>Breadth Verdict</b>
+      <div><code class="inline">partial</code></div>
+      <div><a href="../review/quality-accounting-verdict.md">quality-accounting-verdict.md</a></div>
+    </div>
+    <div class="accounting-card">
+      <b>Cap Truth</b>
+      <div>billing and payment success are real</div>
+      <div>there is no order or invoice closure</div>
+    </div>
+  </div>
+</section>
+
+<details id="history">
+  <summary><span class="summary-title">Historical Reopen Strip</span><span class="sumhint">reopen in 60 seconds</span></summary>
+  <table class="tight">
+    <thead><tr><th>Moment</th><th>Mutation</th><th>Evidence</th><th>Remaining truth</th></tr></thead>
+    <tbody>
+      <tr><td>Pretraining</td><td>A new business frontier was chosen: positive guest checkout, not revalidation of favorites or message row.</td><td><a href="../../../prompts/iterativ/iterative-core-standard.html">iterative-core-standard</a> | <a href="../README.md">package README</a> | <a href="../../README.md">docs/out README</a></td><td>the target was a real business jump toward checkout, not just UI reachability.</td></tr>
+      <tr><td>Execution</td><td>5 runs x 5 tests on the same checkout family up to payment success and then a cold closure blocker.</td><td><a href="../review/execution-gate-card.md">execution gate</a> | <a href="../review/quality-accounting-verdict.md">quality accounting</a></td><td>the numeric target is met, and the winner is positive, not only negative.</td></tr>
+      <tr><td>Source truth</td><td>The current history of tests and support is reopenable run by run.</td><td><a href="../review/root-source-thin-no-index.diff">root diff</a> | <a href="../runs/run_01/review/thin-no-index.diff">run_01 diff</a> | <a href="../runs/run_02/review/thin-no-index.diff">run_02 diff</a> | <a href="../runs/run_03/review/thin-no-index.diff">run_03 diff</a> | <a href="../runs/run_04/review/thin-no-index.diff">run_04 diff</a> | <a href="../runs/run_05/review/thin-no-index.diff">run_05 diff</a></td><td>the root diff is the compiled mutation; the run diffs are the small deltas of the same macro-lane.</td></tr>
+      <tr><td>Publishing</td><td>The report was rendered and the links have a local audit.</td><td><a href="canonical-render-check.png">render proof</a> | <a href="../review/local-link-check.txt">link audit</a> | <a href="langgraph-business-understanding.html">this report</a></td><td>the report form can improve, but the product remains capped by missing order closure.</td></tr>
+    </tbody>
+  </table>
+</details>
+
+<details id="state">
+  <summary><span class="summary-title">State Spine</span><span class="sumhint">package gate + run states + freeze legality</span></summary>
+  <table class="tight">
+    <thead><tr><th>Layer</th><th>Artifacts</th><th>Cold role</th></tr></thead>
+    <tbody>
+      <tr><td>Runtime</td><td><a href="../../../prompts/iterativ/agent-runtime.properties">agent-runtime.properties</a> | <a href="../manifests/package-manifest.md">package-manifest.md</a></td><td>locks the law of the package and what was published.</td></tr>
+      <tr><td>Package truth</td><td><a href="../review/package-state.json">package-state.json</a> | <a href="../review/execution-gate-card.md">execution-gate-card.md</a> | <a href="../review/package-close-out.md">package-close-out.md</a> | <a href="../review/next-run-eligibility-card.md">next-run-eligibility-card.md</a></td><td>freezes counters, breadth verdict, cap reason, and next legality.</td></tr>
+      <tr><td>Root diff</td><td><a href="../review/root-source-thin-no-index.diff">root-source-thin-no-index.diff</a></td><td>the compiled mutation of the package, not the singular proof of each claim.</td></tr>
+      <tr><td>Run states</td><td><a href="../runs/run_01/review/run-state.json">run_01</a> | <a href="../runs/run_02/review/run-state.json">run_02</a> | <a href="../runs/run_03/review/run-state.json">run_03</a> | <a href="../runs/run_04/review/run-state.json">run_04</a> | <a href="../runs/run_05/review/run-state.json">run_05</a></td><td>ties each heavy claim to the exact slot that produced it.</td></tr>
+      <tr><td>Run support</td><td><a href="../runs/run_01/review/score-support.md">run_01 score</a> | <a href="../runs/run_02/review/score-support.md">run_02 score</a> | <a href="../runs/run_03/review/score-support.md">run_03 score</a> | <a href="../runs/run_04/review/score-support.md">run_04 score</a> | <a href="../runs/run_05/review/score-support.md">run_05 score</a></td><td>explains why each slot is countable and which part of the winner lane is preserved.</td></tr>
+    </tbody>
+  </table>
+</details>
+
+<details open id="graph">
+  <summary><span class="summary-title">Business Flow Graph</span><span class="sumhint">application-first, the only section open by default</span></summary>
+  <div class="diag">
+    <svg viewBox="0 0 1180 420" role="img" aria-label="Business Flow Graph guest checkout payment">
+      <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#5f7188"/></marker></defs>
+
+      <text x="48" y="28" fill="#96a4b7" font-size="13">1. Application macro-map</text>
+      <rect class="node" x="40" y="52" width="155" height="62" rx="13"/><text class="nt" x="117" y="78" text-anchor="middle">Product page</text><text class="ns" x="117" y="99" text-anchor="middle">discovery and intent</text>
+      <rect class="node" x="230" y="52" width="155" height="62" rx="13"/><text class="nt" x="307" y="78" text-anchor="middle">Cart ownership</text><text class="ns" x="307" y="99" text-anchor="middle">real item and total</text>
+      <rect class="node-owned" x="420" y="52" width="155" height="62" rx="13"/><text class="nt" x="497" y="78" text-anchor="middle">Guest identity</text><text class="ns" x="497" y="99" text-anchor="middle">named buyer bridge</text>
+      <rect class="node-owned" x="610" y="52" width="155" height="62" rx="13"/><text class="nt" x="687" y="78" text-anchor="middle">Billing address</text><text class="ns" x="687" y="99" text-anchor="middle">country city street</text>
+      <rect class="node-owned" x="800" y="52" width="155" height="62" rx="13"/><text class="nt" x="877" y="78" text-anchor="middle">Payment method</text><text class="ns" x="877" y="99" text-anchor="middle">real option selected</text>
+      <rect class="node-owned" x="990" y="52" width="150" height="62" rx="13"/><text class="nt" x="1065" y="78" text-anchor="middle">Payment success</text><text class="ns" x="1065" y="99" text-anchor="middle">visible success surface</text>
+      <path class="edge" d="M195 83 H230" marker-end="url(#arrow)"/><path class="edge" d="M385 83 H420" marker-end="url(#arrow)"/><path class="edge" d="M575 83 H610" marker-end="url(#arrow)"/><path class="edge" d="M765 83 H800" marker-end="url(#arrow)"/><path class="edge" d="M955 83 H990" marker-end="url(#arrow)"/>
+
+      <text x="48" y="170" fill="#96a4b7" font-size="13">2. Package overlay</text>
+      <rect class="node-owned" x="70" y="194" width="175" height="62" rx="13"/><text class="nt" x="157" y="220" text-anchor="middle">Boundary owned</text><text class="ns" x="157" y="241" text-anchor="middle">guest path opens legally</text>
+      <rect class="node-owned" x="285" y="194" width="175" height="62" rx="13"/><text class="nt" x="372" y="220" text-anchor="middle">Bridge owned</text><text class="ns" x="372" y="241" text-anchor="middle">identity reaches billing</text>
+      <rect class="node-owned" x="500" y="194" width="175" height="62" rx="13"/><text class="nt" x="587" y="220" text-anchor="middle">Billing owned</text><text class="ns" x="587" y="241" text-anchor="middle">address retains real data</text>
+      <rect class="node-owned" x="715" y="194" width="175" height="62" rx="13"/><text class="nt" x="802" y="220" text-anchor="middle">Success owned</text><text class="ns" x="802" y="241" text-anchor="middle">payment reaches visible success</text>
+      <rect class="node-blocked" x="930" y="194" width="180" height="62" rx="13"/><text class="nt" x="1020" y="220" text-anchor="middle">Closure missing</text><text class="ns" x="1020" y="241" text-anchor="middle">no order identity yet</text>
+      <path class="edge" d="M245 225 H285" marker-end="url(#arrow)"/><path class="edge" d="M460 225 H500" marker-end="url(#arrow)"/><path class="edge" d="M675 225 H715" marker-end="url(#arrow)"/><path class="bad" d="M890 225 H930" marker-end="url(#arrow)"/>
+
+      <text x="48" y="312" fill="#96a4b7" font-size="13">3. What remains outside closure</text>
+      <rect class="node-owned" x="90" y="336" width="240" height="58" rx="13"/><text class="nt" x="210" y="361" text-anchor="middle">Checkout success without order identity</text><text class="ns" x="210" y="381" text-anchor="middle">identity + billing + success surface</text>
+      <rect class="node-blocked" x="380" y="336" width="180" height="58" rx="13"/><text class="nt" x="470" y="361" text-anchor="middle">Order row</text><text class="ns" x="470" y="381" text-anchor="middle">not proved</text>
+      <rect class="node-blocked" x="620" y="336" width="180" height="58" rx="13"/><text class="nt" x="710" y="361" text-anchor="middle">Invoice row</text><text class="ns" x="710" y="381" text-anchor="middle">not proved</text>
+      <rect class="node-partial" x="860" y="336" width="220" height="58" rx="13"/><text class="nt" x="970" y="361" text-anchor="middle">Next closure pressure</text><text class="ns" x="970" y="381" text-anchor="middle">receipt, order id, history</text>
+      <path class="bad" d="M320 365 H380" marker-end="url(#arrow)"/><path class="bad" d="M560 365 H620" marker-end="url(#arrow)"/><path class="edge" d="M800 365 H860" marker-end="url(#arrow)"/>
+    </svg>
+  </div>
+  <details class="subdetails">
+    <summary><span class="summary-title">Graph legend</span><span class="sumhint">detail moved out of the nodes</span></summary>
+    <ul>
+      <li><span style="color:#b8c4d3">Owned</span> = claim closed with <code class="inline">run diff + Extent/XML + state files</code>.</li>
+      <li><span style="color:#b8c4d3">Partial</span> = there is real checkout progression, but it must not be sold as <code class="inline">order closure</code>.</li>
+      <li><span style="color:#b8c4d3">Blocked / missing</span> = are missing <code class="inline">order number</code>, <code class="inline">order id</code>, <code class="inline">invoice</code>, <code class="inline">receipt</code> or <code class="inline">history</code>; this absence caps the business score.</li>
+      <li>Overlay-ul de run remains implicit: <code class="inline">run_01</code> boundary, <code class="inline">run_02</code> bridge, <code class="inline">run_03</code> billing, <code class="inline">run_04</code> success, <code class="inline">run_05</code> closure absence.</li>
+    </ul>
+  </details>
+</details>
+
+<details id="truth">
+  <summary><span class="summary-title">Product Truth Ledger</span><span class="sumhint">what is owned and what must not be sold</span></summary>
+  <div class="truth-grid">
+    <div class="truth-card"><b>Owned</b><p>Guest buyer-ul ajunge cold in payment success prin lane-ul complet <code class="inline">guest identity -&gt; billing address -&gt; payment method -&gt; success</code>, iar fiecare prag major are owner pe run.</p></div>
+    <div class="truth-card"><b>Blocked</b><p>Payment success still does not produce <code class="inline">order number</code>, <code class="inline">order id</code>, <code class="inline">invoice</code>, <code class="inline">receipt</code> or o raw clearer de istoric/comanda.</p></div>
+    <div class="truth-card"><b>Must not be sold</b><p>Acest pachet not is <code class="inline">order closure</code>. <code class="inline">Surefire</code> raw assets are support, not primary truth; the same progression up to success must not be resold as a new jump.</p></div>
+  </div>
+</details>
+
+<details id="proof">
+  <summary><span class="summary-title">Proof Mapping</span><span class="sumhint">claim -&gt; run -&gt; diff -&gt; Extent -&gt; XML</span></summary>
+  <table class="tight">
+    <thead><tr><th>Business claim</th><th>Run owner</th><th>Run diff</th><th>Extent</th><th>XML</th><th>run-state</th><th>Cold verdict</th></tr></thead>
+    <tbody>
+      <tr><td>Guest identity becomes reachable from cart</td><td><a href="../runs/run_01/SUMMARY.md">run_01</a></td><td><a href="../runs/run_01/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_01/validation/reports/ExtentReport_2026-06-17_13-54-34.html">Extent</a></td><td><a href="../runs/run_01/validation/GuestCheckoutBoundaryTests.xml">XML</a></td><td><a href="../runs/run_01/review/run-state.json">run-state</a></td><td>owned boundary</td></tr>
+      <tr><td>Guest identity progresses into billing</td><td><a href="../runs/run_02/SUMMARY.md">run_02</a></td><td><a href="../runs/run_02/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_02/validation/reports/ExtentReport_2026-06-17_13-55-37.html">Extent</a></td><td><a href="../runs/run_02/validation/GuestIdentityToBillingOwnershipTests.xml">XML</a></td><td><a href="../runs/run_02/review/run-state.json">run-state</a></td><td>owned progression</td></tr>
+      <tr><td>Billing address opens payment</td><td><a href="../runs/run_03/SUMMARY.md">run_03</a></td><td><a href="../runs/run_03/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_03/validation/reports/ExtentReport_2026-06-17_13-56-31.html">Extent</a></td><td><a href="../runs/run_03/validation/GuestBillingToPaymentOwnershipTests.xml">XML</a></td><td><a href="../runs/run_03/review/run-state.json">run-state</a></td><td>owned object</td></tr>
+      <tr><td>Guest payment reaches visible success</td><td><a href="../runs/run_04/SUMMARY.md">run_04</a></td><td><a href="../runs/run_04/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_04/validation/reports/ExtentReport_2026-06-17_13-57-18.html">Extent</a></td><td><a href="../runs/run_04/validation/GuestPaymentConfirmationOwnershipTests.xml">XML</a></td><td><a href="../runs/run_04/review/run-state.json">run-state</a></td><td>owned payment success</td></tr>
+      <tr><td>Order closure is still absent on success surface</td><td><a href="../runs/run_05/SUMMARY.md">run_05</a></td><td><a href="../runs/run_05/review/thin-no-index.diff">run diff</a></td><td><a href="../runs/run_05/validation/reports/ExtentReport_2026-06-17_13-58-08.html">Extent</a></td><td><a href="../runs/run_05/validation/GuestOrderNumberOwnershipProbeTests.xml">XML</a></td><td><a href="../runs/run_05/review/run-state.json">run-state</a></td><td>blocked on closure</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Primary truth:</strong> <code class="inline">run diff + root diff + Extent/XML + state files</code>. <strong>Support:</strong> close-out notes, lesson cards, raw surefire assets and command output only when it clarifies a contradiction.</p>
+</details>
+
+<details id="audit">
+  <summary><span class="summary-title">Run Audit Strip</span><span class="sumhint">claim, expected delta, actual delta, kept, proof</span></summary>
+  <table class="tight">
+    <thead><tr><th>Run</th><th>Business claim</th><th>Expected delta</th><th>Actual delta</th><th>Kept</th><th>Diff</th><th>Extent</th><th>Feedback</th></tr></thead>
+    <tbody>
+      <tr><td><a href="../runs/run_01/SUMMARY.md">run_01</a></td><td>Guest entry from cart</td><td>guest identity fields become reachable</td><td>guest identity opens legally, billing still hidden</td><td>yes</td><td><a href="../runs/run_01/review/thin-no-index.diff">diff</a></td><td><a href="../runs/run_01/validation/reports/ExtentReport_2026-06-17_13-54-34.html">Extent</a></td><td><a href="../runs/run_01/review/lesson-learned.md">lesson</a> | <a href="../runs/run_01/review/score-support.md">score</a></td></tr>
+      <tr><td><a href="../runs/run_02/SUMMARY.md">run_02</a></td><td>Guest bridge to billing</td><td>named guest state reaches billing progression</td><td>guest data becomes billing-ready only through explicit progression</td><td>yes</td><td><a href="../runs/run_02/review/thin-no-index.diff">diff</a></td><td><a href="../runs/run_02/validation/reports/ExtentReport_2026-06-17_13-55-37.html">Extent</a></td><td><a href="../runs/run_02/review/lesson-learned.md">lesson</a> | <a href="../runs/run_02/review/score-support.md">score</a></td></tr>
+      <tr><td><a href="../runs/run_03/SUMMARY.md">run_03</a></td><td>Billing object</td><td>address object unlocks payment</td><td>address fields retain real data and unlock payment methods</td><td>yes</td><td><a href="../runs/run_03/review/thin-no-index.diff">diff</a></td><td><a href="../runs/run_03/validation/reports/ExtentReport_2026-06-17_13-56-31.html">Extent</a></td><td><a href="../runs/run_03/review/lesson-learned.md">lesson</a> | <a href="../runs/run_03/review/score-support.md">score</a></td></tr>
+      <tr><td><a href="../runs/run_04/SUMMARY.md">run_04</a></td><td>Payment success</td><td>guest payment reaches visible success</td><td>Cash on Delivery reaches success banner on checkout surface</td><td>yes</td><td><a href="../runs/run_04/review/thin-no-index.diff">diff</a></td><td><a href="../runs/run_04/validation/reports/ExtentReport_2026-06-17_13-57-18.html">Extent</a></td><td><a href="../runs/run_04/review/lesson-learned.md">lesson</a> | <a href="../runs/run_04/review/score-support.md">score</a></td></tr>
+      <tr><td><a href="../runs/run_05/SUMMARY.md">run_05</a></td><td>Order-number probe</td><td>either order identity appears or closure absence freezes</td><td>success page still lacks order id, order number, thank-you closure and confirmation route</td><td>yes</td><td><a href="../runs/run_05/review/thin-no-index.diff">diff</a></td><td><a href="../runs/run_05/validation/reports/ExtentReport_2026-06-17_13-58-08.html">Extent</a></td><td><a href="../runs/run_05/review/blocker-analysis.md">blocker</a> | <a href="../runs/run_05/review/score-support.md">score</a></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<details id="artifacts">
+  <summary><span class="summary-title">Artifact Index</span><span class="sumhint">primary truth separated from support</span></summary>
+  <table class="tight">
+    <thead><tr><th>Major claim</th><th>Run owner</th><th>Run diff</th><th>Root diff</th><th>Extent / XML</th><th>State file</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Guest identity becomes reachable from cart</td><td><a href="../runs/run_01/SUMMARY.md">run_01</a></td><td><a href="../runs/run_01/review/thin-no-index.diff">run diff</a></td><td><a href="../review/root-source-thin-no-index.diff">root diff</a></td><td><a href="../runs/run_01/validation/reports/ExtentReport_2026-06-17_13-54-34.html">Extent</a> | <a href="../runs/run_01/validation/GuestCheckoutBoundaryTests.xml">XML</a></td><td><a href="../runs/run_01/review/run-state.json">run-state</a></td><td>linked</td></tr>
+      <tr><td>Guest identity progresses into billing</td><td><a href="../runs/run_02/SUMMARY.md">run_02</a></td><td><a href="../runs/run_02/review/thin-no-index.diff">run diff</a></td><td><a href="../review/root-source-thin-no-index.diff">root diff</a></td><td><a href="../runs/run_02/validation/reports/ExtentReport_2026-06-17_13-55-37.html">Extent</a> | <a href="../runs/run_02/validation/GuestIdentityToBillingOwnershipTests.xml">XML</a></td><td><a href="../runs/run_02/review/run-state.json">run-state</a></td><td>linked</td></tr>
+      <tr><td>Billing address opens payment</td><td><a href="../runs/run_03/SUMMARY.md">run_03</a></td><td><a href="../runs/run_03/review/thin-no-index.diff">run diff</a></td><td><a href="../review/root-source-thin-no-index.diff">root diff</a></td><td><a href="../runs/run_03/validation/reports/ExtentReport_2026-06-17_13-56-31.html">Extent</a> | <a href="../runs/run_03/validation/GuestBillingToPaymentOwnershipTests.xml">XML</a></td><td><a href="../runs/run_03/review/run-state.json">run-state</a></td><td>linked</td></tr>
+      <tr><td>Guest payment reaches visible success</td><td><a href="../runs/run_04/SUMMARY.md">run_04</a></td><td><a href="../runs/run_04/review/thin-no-index.diff">run diff</a></td><td><a href="../review/root-source-thin-no-index.diff">root diff</a></td><td><a href="../runs/run_04/validation/reports/ExtentReport_2026-06-17_13-57-18.html">Extent</a> | <a href="../runs/run_04/validation/GuestPaymentConfirmationOwnershipTests.xml">XML</a></td><td><a href="../runs/run_04/review/run-state.json">run-state</a></td><td>linked</td></tr>
+      <tr><td>Order closure is still absent on success surface</td><td><a href="../runs/run_05/SUMMARY.md">run_05</a></td><td><a href="../runs/run_05/review/thin-no-index.diff">run diff</a></td><td><a href="../review/root-source-thin-no-index.diff">root diff</a></td><td><a href="../runs/run_05/validation/reports/ExtentReport_2026-06-17_13-58-08.html">Extent</a> | <a href="../runs/run_05/validation/GuestOrderNumberOwnershipProbeTests.xml">XML</a></td><td><a href="../runs/run_05/review/run-state.json">run-state</a></td><td>linked</td></tr>
+    </tbody>
+  </table>
+  <div class="note artifact-note"><b>Rule:</b> for each major claim, the canonical path is <code class="inline">claim -&gt; run diff -&gt; root diff -&gt; Extent/XML -&gt; run-state/package-state</code>. If one link is missing, the claim is not fully cold-published.</div>
+  <table class="tight">
+    <thead><tr><th>Family</th><th>Primary truth</th><th>Support</th><th>Cold status</th></tr></thead>
+    <tbody>
+      <tr><td>Runtime law</td><td><a href="../../../prompts/iterativ/agent-runtime.properties">agent-runtime.properties</a></td><td><a href="../../../prompts/iterativ/iterative-core-standard.html">iterative-core-standard.html</a></td><td>linked</td></tr>
+      <tr><td>Package truth</td><td><a href="../review/package-state.json">package-state.json</a> | <a href="../review/execution-gate-card.md">execution-gate-card.md</a> | <a href="../review/root-source-thin-no-index.diff">root diff</a></td><td><a href="../README.md">README</a> | <a href="../CALIBRATION.md">CALIBRATION.md</a> | <a href="../manifests/package-manifest.md">package-manifest.md</a></td><td>linked</td></tr>
+      <tr><td>Run truth</td><td><a href="../runs/run_01/review/run-state.json">run_01 state</a> | <a href="../runs/run_02/review/run-state.json">run_02 state</a> | <a href="../runs/run_03/review/run-state.json">run_03 state</a> | <a href="../runs/run_04/review/run-state.json">run_04 state</a> | <a href="../runs/run_05/review/run-state.json">run_05 state</a></td><td><a href="../runs/run_01/SUMMARY.md">run summaries</a> | <a href="../review/frozen-package-inventory.md">frozen inventory</a> | <a href="../review/frontier-ranking-ledger.md">frontier ranking</a></td><td>linked</td></tr>
+      <tr><td>Run diffs</td><td><a href="../runs/run_01/review/thin-no-index.diff">run_01</a> | <a href="../runs/run_02/review/thin-no-index.diff">run_02</a> | <a href="../runs/run_03/review/thin-no-index.diff">run_03</a> | <a href="../runs/run_04/review/thin-no-index.diff">run_04</a> | <a href="../runs/run_05/review/thin-no-index.diff">run_05</a></td><td><a href="../runs/run_01/review/artifact-checklist.md">artifact checklist examples</a></td><td>linked</td></tr>
+      <tr><td>Extent proof</td><td><a href="../runs/run_01/validation/reports/ExtentReport_2026-06-17_13-54-34.html">run_01</a> | <a href="../runs/run_02/validation/reports/ExtentReport_2026-06-17_13-55-37.html">run_02</a> | <a href="../runs/run_03/validation/reports/ExtentReport_2026-06-17_13-56-31.html">run_03</a> | <a href="../runs/run_04/validation/reports/ExtentReport_2026-06-17_13-57-18.html">run_04</a> | <a href="../runs/run_05/validation/reports/ExtentReport_2026-06-17_13-58-08.html">run_05</a></td><td>n/a</td><td>linked</td></tr>
+      <tr><td>Machine proof</td><td><a href="../runs/run_01/validation/GuestCheckoutBoundaryTests.xml">run_01 XML</a> | <a href="../runs/run_02/validation/GuestIdentityToBillingOwnershipTests.xml">run_02 XML</a> | <a href="../runs/run_03/validation/GuestBillingToPaymentOwnershipTests.xml">run_03 XML</a> | <a href="../runs/run_04/validation/GuestPaymentConfirmationOwnershipTests.xml">run_04 XML</a> | <a href="../runs/run_05/validation/GuestOrderNumberOwnershipProbeTests.xml">run_05 XML</a></td><td><a href="../runs/run_01/validation/command-result.md">command results</a> | <a href="../runs/run_01/validation/command-output.txt">command outputs</a></td><td>linked</td></tr>
+      <tr><td>Publishing proof</td><td><a href="shared-report-reference.css">shared-report-reference.css</a> | <a href="canonical-render-check.png">canonical-render-check.png</a> | <a href="../review/local-link-check.txt">local-link-check.txt</a></td><td><a href="langgraph-business-understanding.html">this report</a></td><td>linked</td></tr>
+    </tbody>
+  </table>
+  <div class="note"><b>Truth hierarchy:</b> <code class="inline">run diff + root diff + Extent/XML + state files</code> are the primary truth. Raw <code class="inline">surefire</code> assets and raw outputs are support, not primary truth.</div>
+</details>
+
+<details id="closeout">
+  <summary><span class="summary-title">Close-Out Truth</span><span class="sumhint">countability, legality, next move</span></summary>
+  <table class="tight">
+    <tbody>
+      <tr><td><strong>materially turned into tests</strong></td><td><code class="inline">25 total</code> cu fiecare run la <code class="inline">5 / 5</code></td></tr>
+      <tr><td><strong>runs consumed</strong></td><td><code class="inline">5 / 5</code></td></tr>
+      <tr><td><strong>accounting target met</strong></td><td><code class="inline">yes</code></td></tr>
+      <tr><td><strong>business breadth verdict</strong></td><td><code class="inline">partial</code>: the package closes checkout progression and payment success, but does not close a persistent order/invoice object.</td></tr>
+      <tr><td><strong>same-round continuation legal</strong></td><td><code class="inline">no</code>; the active window is fully consumed at <code class="inline">5 / 5</code>.</td></tr>
+      <tr><td><strong>fresh ROOT_RUN legal</strong></td><td><code class="inline">yes</code>; the next real jump must be <code class="inline">order number</code>, <code class="inline">invoice row</code>, <code class="inline">receipt identity</code> or <code class="inline">history</code>.</td></tr>
+      <tr><td><strong>strongest unresolved truth</strong></td><td>Payment success remains on the checkout surface and still does not produce an owned order object.</td></tr>
+    </tbody>
+  </table>
+  <div class="warn">This package must not be sold as <code class="inline">order closure</code>. It closes checkout progression positively up to success and cold-stops the score exactly where order identity is missing.</div>
+</details>
+
+<details>
+  <summary><span class="summary-title">Render and Audit</span><span class="sumhint">render proof and link hygiene</span></summary>
+  <table class="tight">
+    <thead><tr><th>Check</th><th>Artifact</th></tr></thead>
+    <tbody>
+      <tr><td>canonical page</td><td><code class="inline">analysis/langgraph-business-understanding.html</code></td></tr>
+      <tr><td>shared css</td><td><a href="shared-report-reference.css"><code class="inline">shared-report-reference.css</code></a></td></tr>
+      <tr><td>render proof</td><td><a href="canonical-render-check.png"><code class="inline">canonical-render-check.png</code></a></td></tr>
+      <tr><td>link audit</td><td><a href="../review/local-link-check.txt"><code class="inline">local-link-check.txt</code></a></td></tr>
+    </tbody>
+  </table>
+</details>
+</div>
+</body>
+</html>
+

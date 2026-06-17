@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-17T15:04:27 EEST" name="Surefire suite" finished-at="2026-06-17T15:05:17 EEST" duration-ms="50495">
+    <groups>
+    </groups>
+    <test started-at="2026-06-17T15:04:27 EEST" name="Surefire test" finished-at="2026-06-17T15:05:17 EEST" duration-ms="50495">
+      <class name="com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests@6337c201]" started-at="2026-06-17T15:04:27 EEST" name="setUp" finished-at="2026-06-17T15:04:39 EEST" duration-ms="12396" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests@6337c201]" started-at="2026-06-17T15:04:39 EEST" name="before" finished-at="2026-06-17T15:04:39 EEST" duration-ms="280" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="account_overview_exposes_invoice_route_before_checkout()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests@6337c201]" started-at="2026-06-17T15:04:40 EEST" name="account_overview_exposes_invoice_route_before_checkout" description="Account overview exposes the invoice route before checkout" finished-at="2026-06-17T15:04:45 EEST" duration-ms="5458" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- account_overview_exposes_invoice_route_before_checkout -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests@6337c201]" started-at="2026-06-17T15:04:45 EEST" name="before" finished-at="2026-06-17T15:04:45 EEST" duration-ms="8" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="checkout_success_confirms_payment_before_invoice_inspection()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests@6337c201]" started-at="2026-06-17T15:04:45 EEST" name="checkout_success_confirms_payment_before_invoice_inspection" description="Checkout success returns payment confirmation before invoice inspection" finished-at="2026-06-17T15:04:55 EEST" duration-ms="9293" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- checkout_success_confirms_payment_before_invoice_inspection -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests@6337c201]" started-at="2026-06-17T15:04:55 EEST" name="before" finished-at="2026-06-17T15:04:55 EEST" duration-ms="5" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="invoice_ledger_keeps_columns_after_checkout_without_rows()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests@6337c201]" started-at="2026-06-17T15:04:55 EEST" name="invoice_ledger_keeps_columns_after_checkout_without_rows" description="Invoice ledger still exposes columns after checkout even when no row materializes" finished-at="2026-06-17T15:05:03 EEST" duration-ms="8440" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- invoice_ledger_keeps_columns_after_checkout_without_rows -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests@6337c201]" started-at="2026-06-17T15:05:04 EEST" name="before" finished-at="2026-06-17T15:05:04 EEST" duration-ms="5" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="invoice_ledger_stays_empty_after_one_successful_checkout()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests@6337c201]" started-at="2026-06-17T15:05:04 EEST" name="invoice_ledger_stays_empty_after_one_successful_checkout" description="Invoice ledger stays empty after one successful authenticated checkout" finished-at="2026-06-17T15:05:12 EEST" duration-ms="8364" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- invoice_ledger_stays_empty_after_one_successful_checkout -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests@6337c201]" started-at="2026-06-17T15:05:12 EEST" name="before" finished-at="2026-06-17T15:05:12 EEST" duration-ms="8" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="invoice_surface_is_reachable_before_any_order_exists()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests@6337c201]" started-at="2026-06-17T15:05:12 EEST" name="invoice_surface_is_reachable_before_any_order_exists" description="Invoice ledger surface is reachable before any order exists" finished-at="2026-06-17T15:05:17 EEST" duration-ms="4361" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- invoice_surface_is_reachable_before_any_order_exists -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests@6337c201]" started-at="2026-06-17T15:05:17 EEST" name="tearDown" finished-at="2026-06-17T15:05:17 EEST" duration-ms="438" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.checkout.postpurchase.PostPurchaseInvoiceSurfaceTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

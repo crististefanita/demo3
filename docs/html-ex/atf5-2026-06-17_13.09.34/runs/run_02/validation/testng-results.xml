@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-17T13:10:39 EEST" name="Surefire suite" finished-at="2026-06-17T13:11:16 EEST" duration-ms="37110">
+    <groups>
+    </groups>
+    <test started-at="2026-06-17T13:10:39 EEST" name="Surefire test" finished-at="2026-06-17T13:11:16 EEST" duration-ms="37110">
+      <class name="com.endava.ai.atf.ui.commerce.CustomerMessageCollectionIntegrityTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T13:10:39 EEST" name="setUp" finished-at="2026-06-17T13:10:51 EEST" duration-ms="12347" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T13:10:51 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:10:55 EEST" duration-ms="4140" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="first_message_replaces_empty_state_with_real_row()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T13:10:55 EEST" name="first_message_replaces_empty_state_with_real_row" finished-at="2026-06-17T13:10:57 EEST" duration-ms="1431" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- first_message_replaces_empty_state_with_real_row -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T13:10:57 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:11:00 EEST" duration-ms="2583" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="message_row_keeps_subject_slug_in_collection()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T13:11:00 EEST" name="message_row_keeps_subject_slug_in_collection" finished-at="2026-06-17T13:11:01 EEST" duration-ms="993" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- message_row_keeps_subject_slug_in_collection -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T13:11:01 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:11:03 EEST" duration-ms="2237" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="messages_page_starts_empty_for_fresh_customer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T13:11:03 EEST" name="messages_page_starts_empty_for_fresh_customer" finished-at="2026-06-17T13:11:03 EEST" duration-ms="113" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- messages_page_starts_empty_for_fresh_customer -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T13:11:03 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:11:06 EEST" duration-ms="2419" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="newest_message_row_keeps_new_status()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T13:11:06 EEST" name="newest_message_row_keeps_new_status" finished-at="2026-06-17T13:11:07 EEST" duration-ms="1268" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- newest_message_row_keeps_new_status -->
+        <test-method is-config="true" signature="registerAndLoginFreshCustomer()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T13:11:07 EEST" name="registerAndLoginFreshCustomer" finished-at="2026-06-17T13:11:10 EEST" duration-ms="2929" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLoginFreshCustomer -->
+        <test-method signature="two_messages_create_two_distinct_rows()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T13:11:10 EEST" name="two_messages_create_two_distinct_rows" finished-at="2026-06-17T13:11:15 EEST" duration-ms="4879" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- two_messages_create_two_distinct_rows -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.commerce.CustomerMessageCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T13:11:15 EEST" name="tearDown" finished-at="2026-06-17T13:11:16 EEST" duration-ms="431" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.commerce.CustomerMessageCollectionIntegrityTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

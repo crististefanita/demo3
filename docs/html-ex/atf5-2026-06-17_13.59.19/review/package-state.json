@@ -1,0 +1,23 @@
+{
+    "runs_target":  "META_ITERATION_COUNT",
+    "runs_consumed":  5,
+    "run_tests_target":  "ROUND_TARGET_TEST_COUNT",
+    "tests_total_produced":  25,
+    "root_diff":  "review/root-source-thin-no-index.diff",
+    "winner_macro_lane":  "guest-checkout-payment-success",
+    "breadth_verdict":  "partial",
+    "same_package_legal":  "no",
+    "fresh_root_run_legal":  "yes",
+    "strongest_unresolved_truth":  "order-number and invoice closure absent on payment-success surface",
+    "report_status":  "ready",
+    "render_status":  "fresh",
+    "link_audit_status":  "yes",
+    "score":  {
+                  "business_substance":  88,
+                  "business_graph_realism":  91,
+                  "historical_reopenability":  94,
+                  "proof_chain_quality":  94,
+                  "contract_artefacte_noi":  94,
+                  "overall":  91
+              }
+}

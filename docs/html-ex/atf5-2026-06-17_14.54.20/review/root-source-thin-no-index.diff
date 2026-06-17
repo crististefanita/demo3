@@ -1,0 +1,278 @@
+diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/GuestPostPaymentOwnershipBoundaryTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/GuestPostPaymentOwnershipBoundaryTests.java
+new file mode 100644
+index 0000000..4f9c7e1
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/GuestPostPaymentOwnershipBoundaryTests.java
+@@ -0,0 +1,41 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.annotations.Test;
++
++public class GuestPostPaymentOwnershipBoundaryTests extends CommerceUiTestBase {
++
++    @Test
++    public void successful_payment_does_not_surface_order_number_for_guest() {
++        openGuestPaymentSuccess();
++
++        validation.assertPageTextDoesNotContain(cart.pageText(), "order number");
++    }
++
++    @Test
++    public void successful_payment_does_not_surface_invoice_for_guest() {
++        openGuestPaymentSuccess();
++
++        validation.assertPageTextDoesNotContain(cart.pageText(), "invoice");
++    }
++
++    @Test
++    public void successful_payment_does_not_surface_downloadable_receipt_for_guest() {
++        openGuestPaymentSuccess();
++
++        validation.assertPageTextDoesNotContain(cart.pageText(), "receipt");
++    }
++
++    @Test
++    public void successful_payment_does_not_surface_order_history_for_guest() {
++        openGuestPaymentSuccess();
++
++        validation.assertPageTextDoesNotContain(cart.pageText(), "order history");
++    }
++
++    @Test
++    public void successful_payment_still_exposes_sign_in_instead_of_guest_ownership_area() {
++        openGuestPaymentSuccess();
++
++        validation.assertPageTextContains(cart.pageText(), "Sign in");
++    }
++}
+
+
+diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/GuestOrderNumberOwnershipProbeTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/GuestOrderNumberOwnershipProbeTests.java
+new file mode 100644
+index 0000000..16fdee0
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/GuestOrderNumberOwnershipProbeTests.java
+@@ -0,0 +1,56 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++import java.util.Locale;
++
++public class GuestOrderNumberOwnershipProbeTests extends CommerceUiTestBase {
++
++    @Test
++    public void guest_payment_success_has_no_visible_order_number() {
++        openGuestPaymentSuccess();
++
++        assertPageMissing("order number");
++    }
++
++    @Test
++    public void guest_payment_success_has_no_visible_order_id() {
++        openGuestPaymentSuccess();
++
++        assertPageMissing("order id");
++    }
++
++    @Test
++    public void guest_payment_success_has_no_hash_order_reference() {
++        openGuestPaymentSuccess();
++
++        String page = normalizedPage();
++        Assert.assertFalse(page.contains("order #"), "Guest payment page should not expose order # but was: " + page);
++    }
++
++    @Test
++    public void guest_payment_success_has_no_thank_you_order_closure() {
++        openGuestPaymentSuccess();
++
++        assertPageMissing("thank you for your order");
++    }
++
++    @Test
++    public void guest_payment_success_does_not_navigate_to_order_confirmation_url() {
++        openGuestPaymentSuccess();
++
++        String url = currentUrl().toLowerCase(Locale.ROOT);
++        Assert.assertFalse(url.contains("/order"), "Guest payment should not navigate to an order URL but was: " + url);
++        Assert.assertFalse(url.contains("/confirmation"), "Guest payment should not navigate to confirmation URL but was: " + url);
++    }
++
++    private void assertPageMissing(String forbidden) {
++        validation.assertPageTextContains(cart.pageText(), "Payment was successful");
++        validation.assertPageTextDoesNotContain(cart.pageText(), forbidden);
++    }
++
++    private String normalizedPage() {
++        return cart.pageText().toLowerCase(Locale.ROOT);
++    }
++}
+
+
+diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/GuestInvoiceReceiptOwnershipProbeTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/GuestInvoiceReceiptOwnershipProbeTests.java
+new file mode 100644
+index 0000000..7c62567
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/GuestInvoiceReceiptOwnershipProbeTests.java
+@@ -0,0 +1,46 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.annotations.Test;
++
++public class GuestInvoiceReceiptOwnershipProbeTests extends CommerceUiTestBase {
++
++    @Test
++    public void guest_payment_success_has_no_invoice_label() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("invoice");
++    }
++
++    @Test
++    public void guest_payment_success_has_no_receipt_label() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("receipt");
++    }
++
++    @Test
++    public void guest_payment_success_has_no_download_invoice_action() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("download invoice");
++    }
++
++    @Test
++    public void guest_payment_success_has_no_tax_document_label() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("tax invoice");
++    }
++
++    @Test
++    public void guest_payment_success_has_no_printable_purchase_document() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("print receipt");
++    }
++
++    private void assertPaymentSuccessWithout(String forbidden) {
++        validation.assertPageTextContains(cart.pageText(), "Payment was successful");
++        validation.assertPageTextDoesNotContain(cart.pageText(), forbidden);
++    }
++}
+
+
+diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/GuestOrderHistoryOwnershipProbeTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/GuestOrderHistoryOwnershipProbeTests.java
+new file mode 100644
+index 0000000..a01f8df
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/GuestOrderHistoryOwnershipProbeTests.java
+@@ -0,0 +1,47 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.annotations.Test;
++
++public class GuestOrderHistoryOwnershipProbeTests extends CommerceUiTestBase {
++
++    @Test
++    public void guest_payment_success_has_no_order_history_link() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("order history");
++    }
++
++    @Test
++    public void guest_payment_success_has_no_my_orders_link() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("my orders");
++    }
++
++    @Test
++    public void guest_payment_success_has_no_purchases_link() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("purchases");
++    }
++
++    @Test
++    public void guest_payment_success_has_no_orders_area() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("orders");
++    }
++
++    @Test
++    public void guest_payment_success_keeps_order_history_unowned() {
++        openGuestPaymentSuccess();
++
++        validation.assertPageTextContains(cart.pageText(), "Sign in");
++        validation.assertPageTextDoesNotContain(cart.pageText(), "view order");
++    }
++
++    private void assertPaymentSuccessWithout(String forbidden) {
++        validation.assertPageTextContains(cart.pageText(), "Payment was successful");
++        validation.assertPageTextDoesNotContain(cart.pageText(), forbidden);
++    }
++}
+
+
+diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/GuestCommercialClosureOwnershipProbeTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/GuestCommercialClosureOwnershipProbeTests.java
+new file mode 100644
+index 0000000..7c64806
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/GuestCommercialClosureOwnershipProbeTests.java
+@@ -0,0 +1,48 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.annotations.Test;
++
++public class GuestCommercialClosureOwnershipProbeTests extends CommerceUiTestBase {
++
++    @Test
++    public void payment_success_is_not_delivery_date_commitment() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("delivery date");
++    }
++
++    @Test
++    public void payment_success_is_not_shipment_commitment() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("shipment");
++    }
++
++    @Test
++    public void payment_success_is_not_tracking_commitment() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("tracking");
++    }
++
++    @Test
++    public void payment_success_is_not_confirmation_number() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("confirmation number");
++    }
++
++    @Test
++    public void payment_success_remains_checkout_boundary_not_commercial_closeout() {
++        openGuestPaymentSuccess();
++
++        validation.assertUrlContains("/checkout");
++        validation.assertPageTextContains(cart.pageText(), "Payment was successful");
++        validation.assertPageTextDoesNotContain(cart.pageText(), "order complete");
++    }
++
++    private void assertPaymentSuccessWithout(String forbidden) {
++        validation.assertPageTextContains(cart.pageText(), "Payment was successful");
++        validation.assertPageTextDoesNotContain(cart.pageText(), forbidden);
++    }
++}
+
+

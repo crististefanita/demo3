@@ -1,0 +1,1 @@
+The application exposes payment success, but the current guest surface still lacks order number, order id, thank-you closure, and order-confirmation navigation. This is a real closure blocker for selling an owned commerce-history object.

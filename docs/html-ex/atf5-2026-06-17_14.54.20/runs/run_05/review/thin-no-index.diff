@@ -1,0 +1,54 @@
+﻿diff --git a/src/test/java/com/endava/ai/atf/ui/commerce/GuestCommercialClosureOwnershipProbeTests.java b/src/test/java/com/endava/ai/atf/ui/commerce/GuestCommercialClosureOwnershipProbeTests.java
+new file mode 100644
+index 0000000..7c64806
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/commerce/GuestCommercialClosureOwnershipProbeTests.java
+@@ -0,0 +1,48 @@
++package com.endava.ai.atf.ui.commerce;
++
++import org.testng.annotations.Test;
++
++public class GuestCommercialClosureOwnershipProbeTests extends CommerceUiTestBase {
++
++    @Test
++    public void payment_success_is_not_delivery_date_commitment() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("delivery date");
++    }
++
++    @Test
++    public void payment_success_is_not_shipment_commitment() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("shipment");
++    }
++
++    @Test
++    public void payment_success_is_not_tracking_commitment() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("tracking");
++    }
++
++    @Test
++    public void payment_success_is_not_confirmation_number() {
++        openGuestPaymentSuccess();
++
++        assertPaymentSuccessWithout("confirmation number");
++    }
++
++    @Test
++    public void payment_success_remains_checkout_boundary_not_commercial_closeout() {
++        openGuestPaymentSuccess();
++
++        validation.assertUrlContains("/checkout");
++        validation.assertPageTextContains(cart.pageText(), "Payment was successful");
++        validation.assertPageTextDoesNotContain(cart.pageText(), "order complete");
++    }
++
++    private void assertPaymentSuccessWithout(String forbidden) {
++        validation.assertPageTextContains(cart.pageText(), "Payment was successful");
++        validation.assertPageTextDoesNotContain(cart.pageText(), forbidden);
++    }
++}

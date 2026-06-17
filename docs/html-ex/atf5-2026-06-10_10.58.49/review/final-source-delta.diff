@@ -1,0 +1,793 @@
+diff --git a/testng.xml b/testng.xml
+new file mode 100644
+index 0000000..0e3bdf6
+--- /dev/null
++++ b/testng.xml
+@@ -0,0 +1,8 @@
++<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
++<suite name="ATF5 Governed Component Contracts" verbose="1">
++    <test name="UI component contracts">
++        <packages>
++            <package name="com.endava.ai.atf.ui.component"/>
++        </packages>
++    </test>
++</suite>
+
+diff --git a/src/main/java/com/endava/ai/ui/pages/AccountPage.java b/src/main/java/com/endava/ai/ui/pages/AccountPage.java
+new file mode 100644
+index 0000000..f18ae38
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/pages/AccountPage.java
+@@ -0,0 +1,10 @@
++package com.endava.ai.ui.pages;
++
++public final class AccountPage {
++
++    private AccountPage() {
++    }
++
++    public static final String NAV_PROFILE = "[data-test='nav-profile']";
++    public static final String NAV_FAVORITES = "[data-test='nav-favorites']";
++}
+
+diff --git a/src/main/java/com/endava/ai/ui/pages/ProfilePage.java b/src/main/java/com/endava/ai/ui/pages/ProfilePage.java
+new file mode 100644
+index 0000000..0ddbc93
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/pages/ProfilePage.java
+@@ -0,0 +1,23 @@
++package com.endava.ai.ui.pages;
++
++public final class ProfilePage {
++
++    private ProfilePage() {
++    }
++
++    public static final String ROOT = "app-profile";
++    public static final String FIRST_NAME = "input[data-test='first-name']";
++    public static final String LAST_NAME = "input[data-test='last-name']";
++    public static final String EMAIL = "input[data-test='email']";
++    public static final String PHONE = "input[data-test='phone']";
++    public static final String STREET = "input[data-test='street']";
++    public static final String CITY = "input[data-test='city']";
++    public static final String STATE = "input[data-test='state']";
++    public static final String COUNTRY = "select[data-test='country']";
++    public static final String POSTAL_CODE = "input[data-test='postal_code']";
++    public static final String CURRENT_PASSWORD = "input[data-test='current-password']";
++    public static final String NEW_PASSWORD = "input[data-test='new-password']";
++    public static final String NEW_PASSWORD_CONFIRM = "input[data-test='new-password-confirm']";
++    public static final String CHANGE_PASSWORD_SUBMIT = "button[data-test='change-password-submit']";
++    public static final String PASSWORD_SUCCESS = "div.alert.alert-success";
++}
+
+diff --git a/src/main/java/com/endava/ai/ui/service/LoginService.java b/src/main/java/com/endava/ai/ui/service/LoginService.java
+new file mode 100644
+index 0000000..53e771c
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/LoginService.java
+@@ -0,0 +1,24 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.pages.LoginPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++public final class LoginService {
++
++    public void openLogin() {
++        UIActions.navigateToRelative("/auth/login");
++        WaitUtils.waitForVisible(LoginPage.EMAIL);
++    }
++
++    public void login(CustomerData customer) {
++        login(customer.getEmail(), customer.getPassword());
++    }
++
++    public void login(String email, String password) {
++        UIActions.type(LoginPage.EMAIL, "Email address", email);
++        UIActions.type(LoginPage.PASSWORD, "Password", password);
++        UIActions.click(LoginPage.LOGIN_BUTTON, "Login");
++    }
++}
+
+diff --git a/src/main/java/com/endava/ai/ui/service/FavoritesService.java b/src/main/java/com/endava/ai/ui/service/FavoritesService.java
+new file mode 100644
+index 0000000..8101681
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/FavoritesService.java
+@@ -0,0 +1,11 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.utils.UIActions;
++
++public final class FavoritesService {
++
++    public void openFavoritesFromAccount() {
++        UIActions.click(AccountPage.NAV_FAVORITES, "Favorites");
++    }
++}
+
+diff --git a/src/main/java/com/endava/ai/ui/service/ProfileService.java b/src/main/java/com/endava/ai/ui/service/ProfileService.java
+new file mode 100644
+index 0000000..a34e624
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/ProfileService.java
+@@ -0,0 +1,35 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.pages.ProfilePage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++public final class ProfileService {
++
++    public void openAccount() {
++        UIActions.navigateToRelative("/account");
++        WaitUtils.waitForVisible(AccountPage.NAV_PROFILE);
++    }
++
++    public void openProfile() {
++        openAccount();
++        openProfileFromAccount();
++    }
++
++    public void openProfileFromAccount() {
++        UIActions.click(AccountPage.NAV_PROFILE, "Profile");
++        WaitUtils.waitForVisible(ProfilePage.FIRST_NAME);
++    }
++
++    public void changePassword(String currentPassword, String newPassword) {
++        changePassword(currentPassword, newPassword, newPassword);
++    }
++
++    public void changePassword(String currentPassword, String newPassword, String confirmPassword) {
++        UIActions.type(ProfilePage.CURRENT_PASSWORD, "Current password", currentPassword);
++        UIActions.type(ProfilePage.NEW_PASSWORD, "New password", newPassword);
++        UIActions.type(ProfilePage.NEW_PASSWORD_CONFIRM, "Confirm new password", confirmPassword);
++        UIActions.click(ProfilePage.CHANGE_PASSWORD_SUBMIT, "Change password");
++    }
++}
+
+diff --git a/src/main/java/com/endava/ai/ui/validation/LoginValidation.java b/src/main/java/com/endava/ai/ui/validation/LoginValidation.java
+new file mode 100644
+index 0000000..55152f8
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/validation/LoginValidation.java
+@@ -0,0 +1,94 @@
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.pages.LoginPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++import org.testng.Assert;
++
++import java.util.ArrayList;
++import java.util.List;
++
++public final class LoginValidation {
++    private static final int ACCOUNT_REDIRECT_TIMEOUT_SECONDS = 5;
++    private static final int ACCOUNT_SURFACE_TIMEOUT_SECONDS = 15;
++
++    public void assertAuthenticatedAccountSurface() {
++        try {
++            DriverManager.getEngine().waitForUrlContains("/account", ACCOUNT_REDIRECT_TIMEOUT_SECONDS);
++            DriverManager.getEngine().waitForVisible(AccountPage.NAV_PROFILE, ACCOUNT_SURFACE_TIMEOUT_SECONDS);
++        } catch (RuntimeException e) {
++            throw buildAccountSurfaceAssertionError(e);
++        }
++
++        String url = DriverManager.getEngine().getCurrentUrl();
++        boolean profileVisible = safeVisible(AccountPage.NAV_PROFILE);
++        Assert.assertTrue(
++                url.contains("/account") || profileVisible,
++                buildAuthenticatedAccountFailureMessage()
++        );
++    }
++
++    public void assertStillOnLogin() {
++        String url = DriverManager.getEngine().getCurrentUrl();
++        Assert.assertTrue(url.contains("/auth/login"), "Expected to remain on /auth/login, but was: " + url);
++    }
++
++    public void assertLoginErrorContains(String expectedText) {
++        WaitUtils.waitForCondition(
++                "login error contains " + expectedText,
++                () -> {
++                    String text = DriverManager.getEngine().getText(LoginPage.LOGIN_ERROR);
++                    return text != null && text.contains(expectedText);
++                },
++                "Expected login error to contain '" + expectedText + "'"
++        );
++
++        String text = UIActions.getText(LoginPage.LOGIN_ERROR, "Login error message");
++        Assert.assertTrue(
++                text.contains(expectedText),
++                "Expected login error to contain '" + expectedText + "', but was: " + text
++        );
++    }
++
++    private AssertionError buildAccountSurfaceAssertionError(Throwable cause) {
++        return new AssertionError(buildAuthenticatedAccountFailureMessage(), cause);
++    }
++
++    private String buildAuthenticatedAccountFailureMessage() {
++        String url = DriverManager.getEngine().getCurrentUrl();
++        List<String> evidence = new ArrayList<>();
++        evidence.add("Current URL: " + url);
++        evidence.add("login button visible: " + yesNo(safeVisible(LoginPage.LOGIN_BUTTON)));
++        evidence.add("profile navigation visible: " + yesNo(safeVisible(AccountPage.NAV_PROFILE)));
++
++        String loginError = safeText(LoginPage.LOGIN_ERROR);
++        if (!loginError.isBlank()) {
++            evidence.add("login error: " + loginError);
++        }
++
++        return "Expected authenticated account surface, but it did not materialize. "
++                + String.join(" | ", evidence);
++    }
++
++    private String safeText(String locator) {
++        try {
++            return DriverManager.getEngine().getText(locator);
++        } catch (Exception ignored) {
++            return "";
++        }
++    }
++
++    private boolean safeVisible(String locator) {
++        try {
++            return DriverManager.getEngine().isVisible(locator);
++        } catch (Exception ignored) {
++            return false;
++        }
++    }
++
++    private String yesNo(boolean value) {
++        return value ? "yes" : "no";
++    }
++}
+
+diff --git a/src/main/java/com/endava/ai/ui/validation/ProfileValidation.java b/src/main/java/com/endava/ai/ui/validation/ProfileValidation.java
+new file mode 100644
+index 0000000..3cf3a07
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/validation/ProfileValidation.java
+@@ -0,0 +1,52 @@
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.pages.ProfilePage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++import org.testng.Assert;
++
++public final class ProfileValidation {
++
++    public void assertProfileLoaded() {
++        WaitUtils.waitForCondition(
++                "profile first name is visible",
++                () -> !UIActions.getValue(ProfilePage.FIRST_NAME, "Profile first name").isBlank(),
++                "Expected profile surface to load first name data"
++        );
++    }
++
++    public void assertProfileMatches(CustomerData customer) {
++        assertFieldEquals(ProfilePage.FIRST_NAME, "Profile first name", customer.getFirstName());
++        assertFieldEquals(ProfilePage.LAST_NAME, "Profile last name", customer.getLastName());
++        assertFieldEquals(ProfilePage.EMAIL, "Profile email", customer.getEmail());
++        assertFieldEquals(ProfilePage.PHONE, "Profile phone", customer.getPhone());
++        assertFieldEquals(ProfilePage.STREET, "Profile street", customer.getStreet());
++        assertFieldEquals(ProfilePage.CITY, "Profile city", customer.getCity());
++        assertFieldEquals(ProfilePage.STATE, "Profile state", customer.getState());
++        assertFieldEquals(ProfilePage.POSTAL_CODE, "Profile postal code", customer.getPostalCode());
++    }
++
++    public void assertPasswordChangedSuccessfully() {
++        WaitUtils.waitForCondition(
++                "password change success banner is visible",
++                () -> {
++                    String text = UIActions.getText(ProfilePage.PASSWORD_SUCCESS, "Password change success banner");
++                    return text != null && !text.trim().isEmpty();
++                },
++                "Expected password change success banner to be present"
++        );
++
++        String text = UIActions.getText(ProfilePage.PASSWORD_SUCCESS, "Password change success banner");
++        Assert.assertTrue(
++                text.toLowerCase().contains("success"),
++                "Expected password change success banner to contain success wording, but was: " + text
++        );
++    }
++
++    private void assertFieldEquals(String locator, String description, String expectedValue) {
++        WaitUtils.waitForInputValue(locator, description, expectedValue::equals);
++        String actualValue = UIActions.getValue(locator, description);
++        Assert.assertEquals(actualValue, expectedValue, "Unexpected value for " + description);
++    }
++}
+
+diff --git a/src/main/java/com/endava/ai/ui/validation/RegistrationValidation.java b/src/main/java/com/endava/ai/ui/validation/RegistrationValidation.java
+index 70dfd10..c3b8582 100644
+--- a/src/main/java/com/endava/ai/ui/validation/RegistrationValidation.java
++++ b/src/main/java/com/endava/ai/ui/validation/RegistrationValidation.java
+@@ -7,53 +7,29 @@ import com.endava.ai.ui.utils.UIActions;
+ import com.endava.ai.ui.utils.WaitUtils;
+ import org.testng.Assert;
+ 
+-import java.time.Duration;
++import java.util.ArrayList;
++import java.util.List;
+ 
+ /**
+  * Validations ? assertions only.
+  */
+ public final class RegistrationValidation {
+-    public void assertRedirectedToLogin() {
+-        String outcome = WaitUtils.waitUntil(
+-                () -> {
+-                    String url = DriverManager.getEngine().getCurrentUrl();
+-                    String body = safeText("body");
+-                    boolean loginVisible = safeVisible(LoginPage.LOGIN_BUTTON);
+-                    boolean registerStillVisible = safeVisible(RegisterPage.FIRST_NAME);
+-                    String errorText = safeText(RegisterPage.ANY_ERROR);
+-
+-                    if (loginVisible && !registerStillVisible
+-                            && (url.contains("/auth/login")
+-                            || body.contains("Sign in with Google")
+-                            || body.contains("Email address *"))) {
+-                        return "login-surface";
+-                    }
+-
+-                    if (registerStillVisible
+-                            && url.contains("/auth/register")
+-                            && errorText != null
+-                            && !errorText.trim().isEmpty()) {
+-                        return "register-error";
+-                    }
+-
+-                    return "pending";
+-                },
+-                value -> !"pending".equals(value),
+-                Duration.ofSeconds(20),
+-                Duration.ofMillis(250)
+-        );
++    private static final int LOGIN_REDIRECT_TIMEOUT_SECONDS = 5;
++    private static final int LOGIN_SURFACE_TIMEOUT_SECONDS = 15;
+ 
+-        if (!"login-surface".equals(outcome)) {
+-            throw new AssertionError(
+-                    "Expected registration success to resolve to login surface, but browser ended on a register error surface. Current URL: "
+-                            + DriverManager.getEngine().getCurrentUrl()
+-            );
++    public void assertRedirectedToLogin() {
++        try {
++            DriverManager.getEngine().waitForUrlContains("/auth/login", LOGIN_REDIRECT_TIMEOUT_SECONDS);
++            DriverManager.getEngine().waitForVisible(LoginPage.LOGIN_BUTTON, LOGIN_SURFACE_TIMEOUT_SECONDS);
++        } catch (RuntimeException e) {
++            throw buildLoginSurfaceAssertionError(e);
+         }
+ 
+         String url = DriverManager.getEngine().getCurrentUrl();
++        boolean loginVisible = safeVisible(LoginPage.LOGIN_BUTTON);
+         Assert.assertTrue(
+-                url.contains("/auth/login") || DriverManager.getEngine().isVisible(LoginPage.LOGIN_BUTTON),
+-                "Expected redirect to login surface, but was: " + url
++                url.contains("/auth/login") || loginVisible,
++                buildRegistrationSuccessFailureMessage()
+         );
+     }
+ 
+@@ -119,4 +95,28 @@ public final class RegistrationValidation {
+             return false;
+         }
+     }
++
++    private AssertionError buildLoginSurfaceAssertionError(Throwable cause) {
++        return new AssertionError(buildRegistrationSuccessFailureMessage(), cause);
++    }
++
++    private String buildRegistrationSuccessFailureMessage() {
++        String url = DriverManager.getEngine().getCurrentUrl();
++        List<String> evidence = new ArrayList<>();
++        evidence.add("Current URL: " + url);
++        evidence.add("login button visible: " + yesNo(safeVisible(LoginPage.LOGIN_BUTTON)));
++        evidence.add("register form visible: " + yesNo(safeVisible(RegisterPage.FIRST_NAME)));
++
++        String registerError = safeText(RegisterPage.ANY_ERROR);
++        if (!registerError.isBlank()) {
++            evidence.add("register error: " + registerError);
++        }
++
++        return "Expected registration success to resolve to login surface, but it did not. "
++                + String.join(" | ", evidence);
++    }
++
++    private String yesNo(boolean value) {
++        return value ? "yes" : "no";
++    }
+ }
+
+diff --git a/src/test/java/com/endava/ai/atf/ui/component/AuthenticatedContinuationContractTest.java b/src/test/java/com/endava/ai/atf/ui/component/AuthenticatedContinuationContractTest.java
+new file mode 100644
+index 0000000..504c997
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/component/AuthenticatedContinuationContractTest.java
+@@ -0,0 +1,307 @@
++package com.endava.ai.atf.ui.component;
++
++import com.endava.ai.core.listener.NoFrameworkReporting;
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.pages.LoginPage;
++import com.endava.ai.ui.pages.ProfilePage;
++import com.endava.ai.ui.service.FavoritesService;
++import com.endava.ai.ui.service.LoginService;
++import com.endava.ai.ui.service.ProfileService;
++import com.endava.ai.ui.validation.LoginValidation;
++import com.endava.ai.ui.validation.ProfileValidation;
++import org.testng.Assert;
++import org.testng.annotations.AfterMethod;
++import org.testng.annotations.Test;
++
++import java.util.ArrayDeque;
++import java.util.Deque;
++import java.util.HashMap;
++import java.util.Map;
++
++@NoFrameworkReporting
++public class AuthenticatedContinuationContractTest {
++
++    @AfterMethod
++    public void tearDown() {
++        StepLogger.clear();
++        UiEngineThreadLocalTestSupport.setEngineForCurrentThread(null);
++    }
++
++    @Test
++    public void login_service_types_credentials_and_submits_login() {
++        RecordingUiEngine engine = new RecordingUiEngine();
++        UiEngineThreadLocalTestSupport.setEngineForCurrentThread(engine);
++
++        new LoginService().login("user@example.com", "Secret123!");
++
++        Assert.assertEquals(engine.typedValues.get(LoginPage.EMAIL), "user@example.com");
++        Assert.assertEquals(engine.typedValues.get(LoginPage.PASSWORD), "Secret123!");
++        Assert.assertEquals(engine.clickedSelector, LoginPage.LOGIN_BUTTON);
++    }
++
++    @Test
++    public void authenticated_account_validation_waits_for_account_url_and_profile_navigation() {
++        RecordingUiEngine engine = new RecordingUiEngine()
++                .withCurrentUrl("https://practicesoftwaretesting.com/account");
++        UiEngineThreadLocalTestSupport.setEngineForCurrentThread(engine);
++
++        new LoginValidation().assertAuthenticatedAccountSurface();
++
++        Assert.assertEquals(engine.waitedUrlFragment, "/account");
++        Assert.assertEquals(engine.waitedUrlSeconds, 5);
++        Assert.assertEquals(engine.waitedVisibleSelector, AccountPage.NAV_PROFILE);
++        Assert.assertEquals(engine.waitedVisibleSeconds, 15);
++    }
++
++    @Test
++    public void authenticated_account_failure_surfaces_login_context() {
++        RecordingUiEngine engine = new RecordingUiEngine()
++                .withCurrentUrl("https://practicesoftwaretesting.com/auth/login")
++                .withVisibility(LoginPage.LOGIN_BUTTON, true)
++                .withVisibility(AccountPage.NAV_PROFILE, false)
++                .withTextSequence(LoginPage.LOGIN_ERROR, "Invalid email or password");
++        UiEngineThreadLocalTestSupport.setEngineForCurrentThread(engine);
++
++        AssertionError error = Assert.expectThrows(
++                AssertionError.class,
++                () -> new LoginValidation().assertAuthenticatedAccountSurface()
++        );
++
++        Assert.assertTrue(error.getMessage().contains("Current URL: https://practicesoftwaretesting.com/auth/login"));
++        Assert.assertTrue(error.getMessage().contains("login error: Invalid email or password"));
++    }
++
++    @Test
++    public void profile_navigation_clicks_profile_tab_and_waits_for_profile_surface() {
++        RecordingUiEngine engine = new RecordingUiEngine();
++        UiEngineThreadLocalTestSupport.setEngineForCurrentThread(engine);
++
++        new ProfileService().openProfileFromAccount();
++
++        Assert.assertEquals(engine.clickedSelector, AccountPage.NAV_PROFILE);
++        Assert.assertEquals(engine.waitedVisibleSelector, ProfilePage.FIRST_NAME);
++    }
++
++    @Test
++    public void change_password_workflow_types_current_new_and_confirm_then_submits() {
++        RecordingUiEngine engine = new RecordingUiEngine();
++        UiEngineThreadLocalTestSupport.setEngineForCurrentThread(engine);
++
++        new ProfileService().changePassword("OldPassword!1", "NewPassword!2");
++
++        Assert.assertEquals(engine.typedValues.get(ProfilePage.CURRENT_PASSWORD), "OldPassword!1");
++        Assert.assertEquals(engine.typedValues.get(ProfilePage.NEW_PASSWORD), "NewPassword!2");
++        Assert.assertEquals(engine.typedValues.get(ProfilePage.NEW_PASSWORD_CONFIRM), "NewPassword!2");
++        Assert.assertEquals(engine.clickedSelector, ProfilePage.CHANGE_PASSWORD_SUBMIT);
++    }
++
++    @Test
++    public void password_change_success_validation_retries_until_banner_text_is_present() {
++        RecordingUiEngine engine = new RecordingUiEngine()
++                .withTextSequence(ProfilePage.PASSWORD_SUCCESS, "", "Your password is successfully updated");
++        UiEngineThreadLocalTestSupport.setEngineForCurrentThread(engine);
++
++        new ProfileValidation().assertPasswordChangedSuccessfully();
++
++        Assert.assertTrue(engine.getTextCallCount(ProfilePage.PASSWORD_SUCCESS) >= 2);
++    }
++
++    @Test
++    public void profile_validation_retries_until_expected_values_materialize() {
++        CustomerData customer = new CustomerData.Builder()
++                .firstName("Ana")
++                .lastName("Popescu")
++                .street("Main Street")
++                .postalCode("400100")
++                .city("Cluj")
++                .state("Cluj")
++                .phone("0712345678")
++                .email("ana@example.com")
++                .build();
++
++        RecordingUiEngine engine = new RecordingUiEngine()
++                .withValueSequence(ProfilePage.FIRST_NAME, "", "Ana")
++                .withValueSequence(ProfilePage.LAST_NAME, "", "Popescu")
++                .withValueSequence(ProfilePage.EMAIL, "", "ana@example.com")
++                .withValueSequence(ProfilePage.PHONE, "", "0712345678")
++                .withValueSequence(ProfilePage.STREET, "", "Main Street")
++                .withValueSequence(ProfilePage.CITY, "", "Cluj")
++                .withValueSequence(ProfilePage.STATE, "", "Cluj")
++                .withValueSequence(ProfilePage.POSTAL_CODE, "", "400100");
++        UiEngineThreadLocalTestSupport.setEngineForCurrentThread(engine);
++
++        new ProfileValidation().assertProfileMatches(customer);
++
++        Assert.assertTrue(engine.getValueCallCount(ProfilePage.FIRST_NAME) >= 2);
++        Assert.assertTrue(engine.getValueCallCount(ProfilePage.EMAIL) >= 2);
++    }
++
++    @Test
++    public void open_profile_chain_waits_for_account_then_profile_then_loaded_value() {
++        RecordingUiEngine engine = new RecordingUiEngine()
++                .withValueSequence(ProfilePage.FIRST_NAME, "", "Ana");
++        UiEngineThreadLocalTestSupport.setEngineForCurrentThread(engine);
++
++        ProfileService service = new ProfileService();
++        service.openProfile();
++        new ProfileValidation().assertProfileLoaded();
++
++        Assert.assertEquals(engine.openedUrl, "https://practicesoftwaretesting.com/account");
++        Assert.assertEquals(engine.waitedUrlFragment, "/account");
++        Assert.assertTrue(engine.clickedSelectors.contains(AccountPage.NAV_PROFILE));
++        Assert.assertTrue(engine.getValueCallCount(ProfilePage.FIRST_NAME) >= 2);
++    }
++
++    @Test
++    public void favorites_navigation_clicks_favorites_entry_from_account_surface() {
++        RecordingUiEngine engine = new RecordingUiEngine();
++        UiEngineThreadLocalTestSupport.setEngineForCurrentThread(engine);
++
++        new FavoritesService().openFavoritesFromAccount();
++
++        Assert.assertEquals(engine.clickedSelector, AccountPage.NAV_FAVORITES);
++        Assert.assertTrue(engine.clickedSelectors.contains(AccountPage.NAV_FAVORITES));
++    }
++
++    @Test
++    public void login_error_validation_retries_until_expected_error_materializes() {
++        RecordingUiEngine engine = new RecordingUiEngine()
++                .withTextSequence(LoginPage.LOGIN_ERROR, "", "Invalid email or password");
++        UiEngineThreadLocalTestSupport.setEngineForCurrentThread(engine);
++
++        new LoginValidation().assertLoginErrorContains("Invalid email or password");
++
++        Assert.assertTrue(engine.getTextCallCount(LoginPage.LOGIN_ERROR) >= 2);
++    }
++
++    @Test
++    public void still_on_login_assertion_uses_login_url_boundary() {
++        RecordingUiEngine engine = new RecordingUiEngine()
++                .withCurrentUrl("https://practicesoftwaretesting.com/auth/login");
++        UiEngineThreadLocalTestSupport.setEngineForCurrentThread(engine);
++
++        new LoginValidation().assertStillOnLogin();
++
++        Assert.assertEquals(engine.getCurrentUrl(), "https://practicesoftwaretesting.com/auth/login");
++    }
++
++    private static final class RecordingUiEngine extends StubUiEngine {
++        private final Map<String, String> typedValues = new HashMap<>();
++        private final Map<String, Deque<String>> textSequences = new HashMap<>();
++        private final Map<String, Integer> textCallCounts = new HashMap<>();
++        private final Map<String, Deque<String>> valueSequences = new HashMap<>();
++        private final Map<String, Integer> valueCallCounts = new HashMap<>();
++        private final Map<String, Boolean> visibilityBySelector = new HashMap<>();
++        private String currentUrl = "https://practicesoftwaretesting.com/auth/login";
++        private String openedUrl;
++        private String clickedSelector;
++        private final Deque<String> clickedSelectors = new ArrayDeque<>();
++        private String waitedUrlFragment;
++        private int waitedUrlSeconds;
++        private String waitedVisibleSelector;
++        private int waitedVisibleSeconds;
++
++        private RecordingUiEngine withCurrentUrl(String currentUrl) {
++            this.currentUrl = currentUrl;
++            return this;
++        }
++
++        private RecordingUiEngine withTextSequence(String locator, String... values) {
++            Deque<String> sequence = new ArrayDeque<>();
++            for (String value : values) {
++                sequence.addLast(value);
++            }
++            textSequences.put(locator, sequence);
++            return this;
++        }
++
++        private RecordingUiEngine withVisibility(String locator, boolean visible) {
++            visibilityBySelector.put(locator, visible);
++            return this;
++        }
++
++        private RecordingUiEngine withValueSequence(String locator, String... values) {
++            Deque<String> sequence = new ArrayDeque<>();
++            for (String value : values) {
++                sequence.addLast(value);
++            }
++            valueSequences.put(locator, sequence);
++            return this;
++        }
++
++        private int getTextCallCount(String locator) {
++            return textCallCounts.getOrDefault(locator, 0);
++        }
++
++        private int getValueCallCount(String locator) {
++            return valueCallCounts.getOrDefault(locator, 0);
++        }
++
++        @Override
++        public void click(String cssSelector) {
++            clickedSelector = cssSelector;
++            clickedSelectors.addLast(cssSelector);
++        }
++
++        @Override
++        public void type(String cssSelector, String text) {
++            typedValues.put(cssSelector, text);
++        }
++
++        @Override
++        public void open(String url) {
++            openedUrl = url;
++            currentUrl = url;
++        }
++
++        @Override
++        public String getText(String cssSelector) {
++            textCallCounts.merge(cssSelector, 1, Integer::sum);
++            Deque<String> sequence = textSequences.get(cssSelector);
++            if (sequence == null || sequence.isEmpty()) {
++                return "";
++            }
++            if (sequence.size() > 1) {
++                return sequence.removeFirst();
++            }
++            return sequence.peekFirst();
++        }
++
++        @Override
++        public String getValue(String cssSelector) {
++            valueCallCounts.merge(cssSelector, 1, Integer::sum);
++            Deque<String> sequence = valueSequences.get(cssSelector);
++            if (sequence == null || sequence.isEmpty()) {
++                return "";
++            }
++            if (sequence.size() > 1) {
++                return sequence.removeFirst();
++            }
++            return sequence.peekFirst();
++        }
++
++        @Override
++        public boolean isVisible(String cssSelector) {
++            return visibilityBySelector.getOrDefault(cssSelector, true);
++        }
++
++        @Override
++        public void waitForVisible(String cssSelector, int seconds) {
++            waitedVisibleSelector = cssSelector;
++            waitedVisibleSeconds = seconds;
++        }
++
++        @Override
++        public void waitForUrlContains(String fragment, int seconds) {
++            waitedUrlFragment = fragment;
++            waitedUrlSeconds = seconds;
++        }
++
++        @Override
++        public String getCurrentUrl() {
++            return currentUrl;
++        }
++    }
++}
+
+diff --git a/src/test/java/com/endava/ai/atf/ui/component/RegistrationValidationContractTest.java b/src/test/java/com/endava/ai/atf/ui/component/RegistrationValidationContractTest.java
+index 0943260..f36976c 100644
+--- a/src/test/java/com/endava/ai/atf/ui/component/RegistrationValidationContractTest.java
++++ b/src/test/java/com/endava/ai/atf/ui/component/RegistrationValidationContractTest.java
+@@ -51,6 +51,31 @@ public class RegistrationValidationContractTest {
+         );
+     }
+ 
++    @Test
++    public void redirected_to_login_failure_surfaces_register_error_context() {
++        SequencedTextUiEngine engine = new SequencedTextUiEngine()
++                .withCurrentUrl("https://practicesoftwaretesting.com/auth/register")
++                .withVisibility(LoginPage.LOGIN_BUTTON, false)
++                .withVisibility(RegisterPage.FIRST_NAME, true)
++                .withTextSequence(RegisterPage.ANY_ERROR, "Email already exists");
++        UiEngineThreadLocalTestSupport.setEngineForCurrentThread(engine);
++
++        AssertionError error = Assert.expectThrows(
++                AssertionError.class,
++                () -> new RegistrationValidation().assertRedirectedToLogin()
++        );
++
++        Assert.assertTrue(
++                error.getMessage().contains("Current URL: https://practicesoftwaretesting.com/auth/register"),
++                "Expected failure message to include the current URL"
++        );
++        Assert.assertTrue(
++                error.getMessage().contains("register error: Email already exists"),
++                "Expected failure message to include the visible register error"
++        );
++    }
++
++    @Test
+     public void password_error_validation_waits_for_expected_message_fragment() {
+         SequencedTextUiEngine engine = new SequencedTextUiEngine()
+                 .withTextSequence(RegisterPage.PASSWORD_ERROR, "", "Password must be longer than 6 characters");
+@@ -84,6 +109,7 @@ public class RegistrationValidationContractTest {
+     private static final class SequencedTextUiEngine extends StubUiEngine {
+         private final Map<String, Deque<String>> textSequences = new HashMap<>();
+         private final Map<String, Integer> textCallCounts = new HashMap<>();
++        private final Map<String, Boolean> visibilityBySelector = new HashMap<>();
+         private String currentUrl = "https://practicesoftwaretesting.com/auth/register";
+         private String waitedUrlFragment;
+         private int waitedUrlSeconds;
+@@ -104,6 +130,11 @@ public class RegistrationValidationContractTest {
+             return this;
+         }
+ 
++        private SequencedTextUiEngine withVisibility(String locator, boolean visible) {
++            visibilityBySelector.put(locator, visible);
++            return this;
++        }
++
+         private int getTextCallCount(String locator) {
+             return textCallCounts.getOrDefault(locator, 0);
+         }
+@@ -123,7 +154,7 @@ public class RegistrationValidationContractTest {
+ 
+         @Override
+         public boolean isVisible(String cssSelector) {
+-            return true;
++            return visibilityBySelector.getOrDefault(cssSelector, true);
+         }
+ 
+         @Override

@@ -1,0 +1,26 @@
+# Next-Run Eligibility Card
+
+- extra artifact carries published claim = `yes`
+- named HTML owner = `5.5.3 #s553`
+- previous run = `run_01`
+- previous run novelty class = `sibling-variant`
+- actual source/test delta = materially expanded
+- materialization = materially expanded class
+- score effect = lift
+- low-novelty streak = 0
+- copied frontier row id = `n/a`
+- copied frontier row status = `requires fresh rerank after under-scoped ledger`
+- copied expected source/test delta row = no
+- copied expected materialization row = no
+- copied expected materialization = `n/a until fresh rerank settles the next honest target`
+- ledger refreshed when next target changed = yes
+- still-open-high-value frontier exists = yes
+- frontier state after previous run = sibling breadth is still open, and the profile page itself still contains richer unconsumed subflows such as profile mutation and password change with relogin
+- next target class = unresolved until fresh rerank
+- planned material source/test delta = yes
+- expected materialization alignment = the profile win materialized as `materially expanded class`; the next honest target must first be settled coldly before any copied materialization expectation is published
+- same-round continuation allowed = no
+- run_02 eligibility = blocked inside this closed package
+- block reason inside this closed package = one sibling breadth winner has been proved, but the next sibling has not yet beaten the other remaining breadth candidates under a fresh rerank
+- only fresh round can unlock next frontier because = the package closed after the first profile win, but no cold rerank reconciled profile mutation, password change, and the sibling breadth candidates against each other
+- broader site-opportunity note = this card does not claim that profile mutation, password change, product, contact, rental, or order families were exhausted

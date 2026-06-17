@@ -1,0 +1,82 @@
+diff --git "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteReopenabilityOwnershipTests.java" "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteReopenabilityOwnershipTests.java"
+new file mode 100644
+index 0000000..5b7097b
+--- /dev/null
++++ "src\\test\\java\\com\\endava\\ai\\atf\\ui\\customer\\CustomerFavoriteReopenabilityOwnershipTests.java"
+@@ -0,0 +1,75 @@
++package com.endava.ai.atf.ui.customer;
++
++import com.endava.ai.ui.service.CatalogService;
++import com.endava.ai.ui.service.ProductService;
++import org.testng.Assert;
++import org.testng.annotations.Test;
++
++public class CustomerFavoriteReopenabilityOwnershipTests extends AccountCustomerUiTestBase {
++
++    private final CatalogService catalog = new CatalogService();
++    private final ProductService product = new ProductService();
++
++    private String addFavoriteForAuthenticatedCustomer() {
++        account.registerAndLoginCustomer();
++        catalog.openHome();
++        catalog.openFirstProduct();
++        String expectedProduct = product.name();
++        product.addToFavorites();
++        return expectedProduct;
++    }
++
++    @Test
++    public void favorites_collection_reopens_after_returning_to_account_overview() {
++        String expectedProduct = addFavoriteForAuthenticatedCustomer();
++
++        account.openAccount();
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertTextContains(account.favoriteProductName(), expectedProduct);
++    }
++
++    @Test
++    public void favorites_collection_reopens_after_profile_visit() {
++        String expectedProduct = addFavoriteForAuthenticatedCustomer();
++
++        account.openProfile();
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertTextContains(account.favoriteProductName(), expectedProduct);
++    }
++
++    @Test
++    public void favorites_direct_route_reopens_same_product_identity() {
++        String expectedProduct = addFavoriteForAuthenticatedCustomer();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        Assert.assertTrue(account.favoriteProductNames().contains(expectedProduct),
++                "Direct favorites route should reopen the same product identity.");
++    }
++
++    @Test
++    public void favorites_collection_reopens_after_home_navigation() {
++        String expectedProduct = addFavoriteForAuthenticatedCustomer();
++
++        catalog.openHome();
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertTextContains(account.favoriteProductName(), expectedProduct);
++    }
++
++    @Test
++    public void favorites_reopen_preserves_non_empty_customer_context() {
++        String expectedProduct = addFavoriteForAuthenticatedCustomer();
++
++        account.openFavorites();
++        account.waitForFavoriteProduct(expectedProduct);
++
++        validation.assertPageTextDoesNotContain(account.pageText(), "There are no favorites yet");
++    }
++}
+

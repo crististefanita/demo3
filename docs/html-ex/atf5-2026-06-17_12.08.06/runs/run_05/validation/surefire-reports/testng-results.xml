@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-17T12:32:05 EEST" name="Surefire suite" finished-at="2026-06-17T12:33:07 EEST" duration-ms="61422">
+    <groups>
+    </groups>
+    <test started-at="2026-06-17T12:32:05 EEST" name="Surefire test" finished-at="2026-06-17T12:33:07 EEST" duration-ms="61422">
+      <class name="com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T12:32:05 EEST" name="setUp" finished-at="2026-06-17T12:32:21 EEST" duration-ms="16189" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="resetCustomerSession()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T12:32:21 EEST" name="resetCustomerSession" finished-at="2026-06-17T12:32:22 EEST" duration-ms="259" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- resetCustomerSession -->
+        <test-method signature="favorites_collection_does_not_claim_empty_state_after_two_rows()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T12:32:22 EEST" name="favorites_collection_does_not_claim_empty_state_after_two_rows" finished-at="2026-06-17T12:32:28 EEST" duration-ms="6449" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- favorites_collection_does_not_claim_empty_state_after_two_rows -->
+        <test-method is-config="true" signature="resetCustomerSession()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T12:32:29 EEST" name="resetCustomerSession" finished-at="2026-06-17T12:32:29 EEST" duration-ms="10" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- resetCustomerSession -->
+        <test-method signature="favorites_names_include_both_added_products()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T12:32:29 EEST" name="favorites_names_include_both_added_products" finished-at="2026-06-17T12:32:34 EEST" duration-ms="5591" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- favorites_names_include_both_added_products -->
+        <test-method is-config="true" signature="resetCustomerSession()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T12:32:35 EEST" name="resetCustomerSession" finished-at="2026-06-17T12:32:35 EEST" duration-ms="8" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- resetCustomerSession -->
+        <test-method signature="related_product_navigation_does_not_fake_second_favorite_row()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T12:32:35 EEST" name="related_product_navigation_does_not_fake_second_favorite_row" finished-at="2026-06-17T12:32:40 EEST" duration-ms="5261" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- related_product_navigation_does_not_fake_second_favorite_row -->
+        <test-method is-config="true" signature="resetCustomerSession()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T12:32:40 EEST" name="resetCustomerSession" finished-at="2026-06-17T12:32:40 EEST" duration-ms="7" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- resetCustomerSession -->
+        <test-method signature="repeated_add_keeps_one_owned_favorite_object_not_fake_breadth()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T12:32:40 EEST" name="repeated_add_keeps_one_owned_favorite_object_not_fake_breadth" finished-at="2026-06-17T12:32:45 EEST" duration-ms="4944" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- repeated_add_keeps_one_owned_favorite_object_not_fake_breadth -->
+        <test-method is-config="true" signature="resetCustomerSession()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T12:32:46 EEST" name="resetCustomerSession" finished-at="2026-06-17T12:32:46 EEST" duration-ms="7" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- resetCustomerSession -->
+        <test-method signature="second_favorite_addition_preserves_first_product_identity()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T12:32:46 EEST" name="second_favorite_addition_preserves_first_product_identity" finished-at="2026-06-17T12:32:50 EEST" duration-ms="4815" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- second_favorite_addition_preserves_first_product_identity -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests@52b1beb6]" started-at="2026-06-17T12:32:51 EEST" name="tearDown" finished-at="2026-06-17T12:33:07 EEST" duration-ms="15791" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.customer.CustomerFavoriteCollectionIntegrityTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

@@ -1,0 +1,9 @@
+ROUND_TARGET_TEST_COUNT numeric = 5 / 5
+accounting target met = yes
+business breadth verdict = partial
+how many good tests this run produced = 5
+why these tests belong together in the same run = One coherent checkout anchor deepened one visible business object.
+why this run stayed below configured ambition if it did = n/a
+why countable = The run closes 5/5 tests on a deeper payment object and proves positive success, not just negative gating.
+why breadth is still narrow if needed = The family stays inside one guest-checkout lane and does not yet close order or invoice identity.
+what next frontier must add = Payment success is real, but it still sits inside checkout context and does not yet become owned order identity.
