@@ -1,0 +1,815 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>Orchestrate Iterative Runs</title>
+<link href="../../shared-report-reference.css" rel="stylesheet">
+<style>
+.grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.diag{margin-top:10px;border:1px solid var(--border);border-radius:14px;background:#08101a;padding:12px;overflow:auto}
+.diag svg{display:block;width:100%;height:auto}
+.kvs{display:grid;grid-template-columns:120px 1fr;gap:8px 12px}
+.k{color:var(--muted);font-weight:600}
+.pillline{display:flex;flex-direction:column;gap:8px;align-items:flex-start;margin-top:10px}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pilllabel{color:var(--muted);font-size:12px;font-weight:700;margin-right:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Orchestrate Iterative Runs <span class="badge">RUNTIME</span> <span class="badge">LEGALITY</span> <span class="badge">RUN WINDOW</span> <span class="badge">HANDOFF</span>
+</h1>
+  <div class="sub">
+    <ul>
+      <li>Drives the iterative package and the run window.</li>
+      <li>Judges continuation, stop, and fresh ROOT_RUN legality.</li>
+      <li>Execution produces artifacts. Reporting publishes the final truth.</li>
+    </ul>
+  </div>
+  <div class="toolbar">
+<button type="button" onclick="toggleAll(true)">Open all</button><button type="button" onclick="toggleAll(false)">Close all</button>
+</div>
+</header>
+
+<div class="grid">
+<section class="card"><h2>Overview</h2>
+<table>
+  <thead><tr>
+<th>Badge</th>
+<th>Read here</th>
+</tr></thead>
+  <tbody>
+    <tr>
+<td><span class="badge">RUNTIME</span></td>
+<td>active values and common paths read from <code class="inline">agent-runtime.properties</code>
+</td>
+</tr>
+    <tr>
+<td><span class="badge">LEGALITY</span></td>
+<td>launch, continuation, stop, severe blocker, fresh ROOT_RUN</td>
+</tr>
+    <tr>
+<td><span class="badge">RUN WINDOW</span></td>
+<td>package slots and the separation between produced tests and consumed runs</td>
+</tr>
+    <tr>
+<td><span class="badge">HANDOFF</span></td>
+<td>handoff to the pretraining owner, run wrapper, and reporting</td>
+</tr>
+    <tr>
+<td><span class="badge">INVALID</span></td>
+<td>mixed targets, premature stop, or reporting used as legality</td>
+</tr>
+  </tbody>
+</table>
+<div class="pillline">
+  <div class="pillrow">
+<span class="pilllabel">Owner:</span><span class="pill">package orchestrator</span><span class="pill">move decision</span><span class="pill">run window</span>
+</div>
+  <div class="pillrow">
+<span class="pilllabel">Uses:</span><span class="pill">active runtime</span><span class="pill">local memory</span><span class="pill">audited pretraining</span>
+</div>
+  <div class="pillrow">
+<span class="pilllabel">Delegates:</span><span class="pill">pretraining to its owner</span><span class="pill">run to wrapper</span><span class="pill">publication to reporting</span>
+</div>
+  <div class="pillrow">
+<span class="pilllabel">Does not produce:</span><span class="pill">tests</span><span class="pill">run artifacts</span><span class="pill">report layout</span>
+</div>
+</div>
+<details class="subdetails">
+  <summary><span class="summary-title">Minimum contract</span><span class="sumhint">3 lines, closed by default</span></summary>
+  <table>
+    <thead><tr>
+<th>Axis</th>
+<th>Cold rule</th>
+</tr></thead>
+    <tbody>
+      <tr>
+<td>Runtime</td>
+<td>active values are read live and are not negotiated locally</td>
+</tr>
+      <tr>
+<td>Counters</td>
+<td>
+<code class="inline">ROUND_TARGET_TEST_COUNT</code> = tests per run; <code class="inline">META_ITERATION_COUNT</code> = runs per package</td>
+</tr>
+      <tr>
+<td>Below value</td>
+<td>procedural defect or severe blocker documented in state + gate card</td>
+</tr>
+    </tbody>
+  </table>
+</details>
+</section>
+<section class="card"><h2>Common Runtime Reference</h2>
+<details>
+<summary><span class="summary-title">Active constants</span><span class="sumhint">reference closed by default</span></summary>
+<table>
+  <thead>
+    <tr>
+      <th>Constant</th>
+      <th>Measures</th>
+      <th>Owner</th>
+      <th>Artifact that fixes it</th>
+      <th>If missing or below it</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>RUN_EXPECTED_DELTA_QUALITY</code></td>
+      <td>minimum quality threshold for a kept run</td>
+      <td>the orchestrator judges; execution explains the support</td>
+      <td>
+<code class="inline">score-support.md</code> + <code class="inline">quality-accounting-verdict.md</code>
+</td>
+      <td>run below threshold or cold learning / rerank verdict</td>
+    </tr>
+
+    <tr>
+      <td><code>ROUND_TARGET_TEST_COUNT</code></td>
+      <td>how many good auditable tests each run must leave behind</td>
+      <td>wrapper / execute produce; the orchestrator judges under-target</td>
+      <td>
+<code class="inline">run-state.json</code> + <code class="inline">quality-accounting-verdict.md</code>
+</td>
+      <td>procedural defect or severe blocker documented on the run</td>
+    </tr>
+
+    <tr>
+      <td><code>META_ITERATION_COUNT</code></td>
+      <td>how many runs must be consumed in the package</td>
+      <td>the orchestrator requires each slot consumed or severely closed; the run goes through wrapper and execute</td>
+      <td>
+<code class="inline">package-state.json</code> + <code class="inline">execution-gate-card.md</code>
+</td>
+      <td>package under-spend: procedural defect or severe blocker documented</td>
+    </tr>
+  </tbody>
+</table>
+</details>
+</section>
+</div>
+<details open><summary><span class="summary-title">1. Owner Map</span><span class="sumhint">who decides what</span></summary>
+
+<div class="diag"><svg viewbox="0 0 1160 260" role="img" aria-label="Cold truth chain for business understanding">
+<defs><marker id="tc" markerwidth="10" markerheight="10" refx="8" refy="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+<rect x="20" y="84" width="172" height="76" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="106" y="112" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">agent-runtime</text>
+<text x="106" y="136" text-anchor="middle" fill="#a8b3cf" font-size="11">quality / target / paths</text>
+<rect x="232" y="84" width="172" height="76" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="318" y="112" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Orchestrator</text>
+<text x="318" y="136" text-anchor="middle" fill="#a8b3cf" font-size="11">legality over the run window</text>
+<rect x="444" y="84" width="172" height="76" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="530" y="112" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Run adapter</text>
+<text x="530" y="136" text-anchor="middle" fill="#a8b3cf" font-size="11">UI now / API later</text>
+<rect x="656" y="84" width="172" height="76" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="742" y="112" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Artifacts</text>
+<text x="742" y="136" text-anchor="middle" fill="#a8b3cf" font-size="11">diff / Extent / XML / MD</text>
+<rect x="868" y="84" width="250" height="76" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="993" y="112" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Final business report</text>
+<text x="993" y="136" text-anchor="middle" fill="#a8b3cf" font-size="11">navigable graph + proof</text>
+<path d="M192 122 H232" stroke="#7aa2ff" stroke-width="2" marker-end="url(#tc)"></path><path d="M404 122 H444" stroke="#7aa2ff" stroke-width="2" marker-end="url(#tc)"></path>
+<path d="M616 122 H656" stroke="#7aa2ff" stroke-width="2" marker-end="url(#tc)"></path><path d="M828 122 H868" stroke="#7aa2ff" stroke-width="2" marker-end="url(#tc)"></path>
+</svg></div>
+
+<details class="subdetails">
+  <summary><span class="summary-title">1.1 Owner / delegation matrix</span><span class="sumhint">roles and handoffs</span></summary>
+  <table>
+<thead><tr>
+<th>Owner</th>
+<th>Role</th>
+<th>Delegation</th>
+</tr></thead>
+<tbody>
+  <tr>
+<td><code class="inline">orchestrate-iterative-runs.html</code></td>
+<td>legality, values active, rerank, continuation/stop, handoff</td>
+<td>to adapter for 1 run or reporting for final</td>
+</tr>
+  <tr>
+<td><code class="inline">docs/Living_Architecture_UI_API_doc_v1_0.html</code></td>
+<td>ATF structure, UI/API architecture, layers, configuration, technical reporting</td>
+<td>structurel reference for discovery and implementation; does not decide legality, ranking, or final truth</td>
+</tr>
+  <tr>
+<td><code class="inline">pretraining-reference.html</code></td>
+<td>owner for sources, cold order, intake card, and anti-copy rules</td>
+<td>to orchestrator: audited intake, artifact saved and cold decision</td>
+</tr>
+  <tr>
+<td><code class="inline">ui-business-frontier-adapter.html</code></td>
+<td>UI wrapper for a single run; adds actor, intent, anchors, and local verdict</td>
+<td>the wrapper hands off slot material to <code class="inline">execute-and-understand-run.html</code>
+</td>
+</tr>
+  <tr>
+<td><code class="inline">execute-and-understand-run.html</code></td>
+<td>canonical fixation, artifacts, diff, proof, MD learning, package memory</td>
+<td>to reporting for publication</td>
+</tr>
+  <tr>
+<td><code class="inline">reporting.html</code></td>
+<td>publishes the final navigable truth</td>
+<td>does not rejudge legality</td>
+</tr>
+  </tbody>
+</table>
+</details>
+<details class="mini-note">
+  <summary>Legend</summary>
+  <ul>
+    <li>
+<code class="inline">orchestrate-iterative-runs</code> decides legality and the shape of the next move.</li>
+    <li>
+<code class="inline">Living_Architecture_UI_API_doc_v1_0.html</code> decides ATF structure and good practices, not the iterative verdict.</li>
+    <li>
+<code class="inline">reporting.html</code> publishes the final business truth, with all main sections collapsible; the slot <code class="inline">4. Business Flow Graph</code> remains the only one open by default.</li>
+  </ul>
+</details>
+</details>
+<details open><summary><span class="summary-title">2. Flows and diagrams</span><span class="sumhint">orchestrator work band</span></summary>
+<details class="subdetails">
+<summary><span class="summary-title">2.1 Quick reading map</span><span class="sumhint">short orientation</span></summary>
+<table>
+  <thead>
+    <tr>
+      <th>If you ask</th>
+      <th>Open</th>
+      <th>Learn cold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+<td>what is the minimum package order?</td>
+<td><code class="inline">2.2</code></td>
+<td>short state machine, without long prose</td>
+</tr>
+    <tr>
+<td>what does the complete package window look like?</td>
+<td><code class="inline">2.3</code></td>
+<td>slots, fixation, and the decision for the next step</td>
+</tr>
+    <tr>
+<td>what do you extract and in what order do you reread?</td>
+<td><code class="inline">pretraining-reference.html</code></td>
+<td>sources, order, intake card, and what not to inherit</td>
+</tr>
+    <tr>
+<td>what does the orchestrator check before launch?</td>
+<td><code class="inline">2.4</code></td>
+<td>short gate: reread owner, audited intake, frontier winner cold</td>
+</tr>
+    <tr>
+<td>how do you separate same-package from fresh ROOT_RUN?</td>
+<td><code class="inline">2.7</code></td>
+<td>legality distinctions that must not be mixed</td>
+</tr>
+    <tr>
+<td>what does reporting receive, and only that?</td>
+<td><code class="inline">2.8</code></td>
+<td>minimum handoff, already frozen</td>
+</tr>
+  </tbody>
+</table>
+<div class="mini">
+  <ul>
+    <li>
+<code class="inline">2.2</code> = minimum order.</li>
+    <li>
+<code class="inline">2.3</code> = full window.</li>
+    <li>
+<code class="inline">2.4</code> = pretraining gate.</li>
+    <li>Sources and order live in <code class="inline">pretraining-reference.html</code>.</li>
+  </ul>
+</div>
+</details>
+<details class="subdetails">
+<summary><span class="summary-title">2.1.1 Canonical legal-move card</span><span class="sumhint">context -&gt; legal move -&gt; artifact</span></summary>
+<table>
+  <thead>
+    <tr>
+      <th>Context</th>
+      <th>Legal move</th>
+      <th>Required artifact</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>slot remains in the package</td>
+      <td>launch a valuable run or document a severe blocker</td>
+      <td><code class="inline">execution-gate-card.md</code></td>
+    </tr>
+    <tr>
+      <td>the same-package frontier still wins</td>
+      <td>same-package continuation</td>
+      <td><code class="inline">next-run-eligibility-card.md</code></td>
+    </tr>
+    <tr>
+      <td>another family becomes more valuable</td>
+      <td>fresh ROOT_RUN after pretraining</td>
+      <td>
+<code class="inline">round-pretraining-brief.md</code> / audited intake</td>
+    </tr>
+    <tr>
+      <td>incomplete fixation</td>
+      <td>do not continue and do not start fresh</td>
+      <td>
+<code class="inline">package-state.json</code> + close-out cold</td>
+    </tr>
+  </tbody>
+</table>
+<div class="mini">
+  <ul>
+    <li>This card decides the move.</li>
+    <li>Source details live in <code class="inline">pretraining-reference.html</code>.</li>
+    <li>Artifact details are produced after the wrapper, in <code class="inline">execute-and-understand-run.html</code>.</li>
+  </ul>
+</div>
+</details>
+<details class="subdetails"><summary><span class="summary-title">2.2 Minimum package order</span><span class="sumhint">short state machine</span></summary>
+  <pre><code>read_runtime
+-&gt; read_memory
+-&gt; pretrain
+-&gt; run_slot_01 .. run_slot_N
+-&gt; fix_slot
+-&gt; next_slot_decision
+-&gt; package_closeout
+-&gt; report_handoff
+-&gt; memory_writeback
+</code></pre>
+  <table>
+    <thead>
+      <tr>
+        <th>Node</th>
+        <th>If missing, do not move forward</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+<td><code class="inline">read_runtime</code></td>
+<td>active values, paths, and common references</td>
+</tr>
+      <tr>
+<td><code class="inline">read_memory</code></td>
+<td>
+<code class="inline">docs/out/README.md</code> and the latest relevant local package</td>
+</tr>
+      <tr>
+<td><code class="inline">pretrain</code></td>
+<td>audited intake, anti-copy and cold decision saved</td>
+</tr>
+      <tr>
+<td><code class="inline">run_slot</code></td>
+<td>slot delegated to the wrapper; the wrapper hands off the material to execute</td>
+</tr>
+      <tr>
+<td><code class="inline">next_slot_decision</code></td>
+<td>legal continuation or severe blocker for the remaining slot</td>
+</tr>
+      <tr>
+<td><code class="inline">package_closeout</code></td>
+<td>
+<code class="inline">package-state.json</code> + close-out cold</td>
+</tr>
+      <tr>
+<td><code class="inline">report_handoff</code></td>
+<td>artifacts suficiente for final page</td>
+</tr>
+    </tbody>
+  </table>
+</details>
+<details class="subdetails" open id="orchestrator-lane"><summary><span class="summary-title">2.3 Package lane</span><span class="sumhint">active window, each slot with proof</span></summary>
+<div class="diag"><svg viewbox="0 0 1160 310" role="img" aria-label="N-run orchestrator lane">
+<defs><marker id="co" markerwidth="10" markerheight="10" refx="8" refy="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+<rect x="30" y="110" width="145" height="72" rx="14" fill="#111826" stroke="#35507a"></rect><text x="102" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Cold reread</text><text x="102" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">history + artifacts</text>
+<rect x="220" y="110" width="145" height="72" rx="14" fill="#111826" stroke="#35507a"></rect><text x="292" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Rerank</text><text x="292" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">new frontier</text>
+<rect x="410" y="110" width="150" height="72" rx="14" fill="#111826" stroke="#35507a"></rect><text x="485" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Launch run</text><text x="485" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">to wrapper</text>
+<rect x="605" y="110" width="150" height="72" rx="14" fill="#111826" stroke="#35507a"></rect><text x="680" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Wrapper</text><text x="680" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">hands off to execute</text>
+<rect x="800" y="110" width="145" height="72" rx="14" fill="#111826" stroke="#35507a"></rect><text x="872" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Judge</text><text x="872" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">kept / countable?</text>
+<rect x="990" y="110" width="135" height="72" rx="14" fill="#111826" stroke="#35507a"></rect><text x="1057" y="138" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Report</text><text x="1057" y="160" text-anchor="middle" fill="#a8b3cf" font-size="11">only at the end</text>
+<path d="M175 146 H220" stroke="#7aa2ff" stroke-width="2" marker-end="url(#co)"></path><path d="M365 146 H410" stroke="#7aa2ff" stroke-width="2" marker-end="url(#co)"></path><path d="M560 146 H605" stroke="#7aa2ff" stroke-width="2" marker-end="url(#co)"></path><path d="M755 146 H800" stroke="#7aa2ff" stroke-width="2" marker-end="url(#co)"></path><path d="M945 146 H990" stroke="#7aa2ff" stroke-width="2" marker-end="url(#co)"></path>
+<path d="M872 182 C835 260 292 260 292 182" stroke="#4b5f82" stroke-width="2" fill="none" stroke-dasharray="6 5" marker-end="url(#co)"></path>
+<text x="580" y="270" text-anchor="middle" fill="#a8b3cf" font-size="12">repeat only while continuation remains legal; lack of value must be proven through a severe blocker</text>
+</svg></div>
+<div class="warn">
+  <ul>
+    <li>Do not leave unjudged slots.</li>
+    <li>After each run fixation, recalculate the remaining slots up to <code class="inline">META_ITERATION_COUNT</code>.</li>
+    <li>Cold decision: run legally consumable or severe blocker documented.</li>
+  </ul>
+</div>
+<details class="mini-note">
+  <summary>How to read the lane</summary>
+  <ul>
+    <li>Do not skip the reread: without memory and runtime, the rerank starts warm.</li>
+    <li>Do not confuse thresholds: quality is judged per run, while the window is judged per package.</li>
+  </ul>
+</details>
+</details>
+<details class="subdetails">
+  <summary><span class="summary-title">2.4 Pretraining gate</span><span class="sumhint">the orchestrator consumes the audited artifact, not the doctrine</span></summary>
+  <div class="rule">
+    <ul>
+      <li>Complete owner: <code class="inline">pretraining-reference.html</code>.</li>
+      <li>The orchestrator verifies only that pretraining was executed and saved auditably.</li>
+      <li>The cold decision must be able to govern launch / rerank / stop.</li>
+    </ul>
+  </div>
+  <table>
+    <thead><tr>
+<th>The orchestrator verifies</th>
+<th>Must exist</th>
+<th>If missing</th>
+</tr></thead>
+    <tbody>
+      <tr>
+<td>owner open</td>
+<td>
+<code class="inline">pretraining-reference.html</code> reread</td>
+<td>do not launch the run</td>
+</tr>
+      <tr>
+<td>brief closed</td>
+<td>
+<code class="inline">round-pretraining-brief.md</code> for fresh ROOT_RUN or rerank same-package which changes the winner</td>
+<td>warm / non-auditable rerank</td>
+</tr>
+      <tr>
+<td>selected frontier</td>
+<td>
+<code class="inline">frontier-ranking-ledger.md</code> or equivalent verdict</td>
+<td>no cold winner exists</td>
+</tr>
+      <tr>
+<td>no-copy risk cut</td>
+<td>what is not inherited from memory/html-ex</td>
+<td>the benchmark can contaminate business understanding</td>
+</tr>
+    </tbody>
+  </table>
+  <pre><code>pretraining owner = pretraining-reference.html
+orchestrator consumes = audited intake + cold decision + artifacts
+orchestrator does not own = source doctrine, benchmark interpretation, anti-copy rules
+</code></pre>
+</details>
+<details class="subdetails"><summary><span class="summary-title">2.6 Business novelty acquisition</span><span class="sumhint">what the orchestrator maximizes</span></summary>
+
+<div class="diag"><svg viewbox="0 0 1160 300" role="img" aria-label="Business novelty acquisition">
+<defs><marker id="bf" markerwidth="10" markerheight="10" refx="8" refy="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+<rect x="40" y="94" width="220" height="72" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="150" y="123" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Baseline covered</text>
+<text x="150" y="146" text-anchor="middle" fill="#a8b3cf" font-size="11">already defended</text>
+<rect x="350" y="94" width="220" height="72" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="460" y="123" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">New frontier</text>
+<text x="460" y="146" text-anchor="middle" fill="#a8b3cf" font-size="11">new business</text>
+<rect x="700" y="20" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="810" y="46" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Owned / countable</text>
+<text x="810" y="67" text-anchor="middle" fill="#a8b3cf" font-size="11">enters in x / target</text>
+<rect x="700" y="104" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="810" y="130" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Partial / repair-only</text>
+<text x="810" y="151" text-anchor="middle" fill="#a8b3cf" font-size="11">useful support</text>
+<rect x="700" y="188" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="810" y="214" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Blocked</text>
+<text x="810" y="235" text-anchor="middle" fill="#a8b3cf" font-size="11">does not hold cold</text>
+<rect x="940" y="104" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="1030" y="130" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Only fresh-round</text>
+<text x="1030" y="151" text-anchor="middle" fill="#a8b3cf" font-size="11">another package</text>
+<path d="M260 130 H350" stroke="#7aa2ff" stroke-width="2" marker-end="url(#bf)"></path>
+<path d="M570 130 C620 118 640 54 700 54" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#bf)"></path>
+<path d="M570 130 C625 130 640 138 700 138" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#bf)"></path>
+<path d="M570 130 C620 142 640 222 700 222" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#bf)"></path>
+<path d="M570 130 C700 130 790 138 940 138" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#bf)"></path>
+</svg></div>
+<pre><code>run diff = small mutation
+root diff = compiled mutation
+carrier = support only if the diff is not enough
+</code></pre>
+<details class="mini-note">
+  <summary>Legend</summary>
+  <ul>
+    <li>
+<code class="inline">owned / countable</code> = new business identity, supported by diff + proof.</li>
+    <li>
+<code class="inline">partial / repair-only</code> = better support or better reachability, without new cold business.</li>
+    <li>
+<code class="inline">blocked</code> = the frontier does not hold cold, even if intuition or the interactive browser looked positive.</li>
+    <li>
+<code class="inline">fresh-round-only</code> = valid frontier, but legally moved into another package.</li>
+  </ul>
+</details>
+
+<table>
+<thead><tr>
+<th>Orchestrator question</th>
+<th>Decision</th>
+<th>Expected artifact</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>What business was already covered?</td>
+<td>do not spend a slot on it except for necessary repair</td>
+<td>baseline score / reference to existing test</td>
+</tr>
+<tr>
+<td>Which new frontier is most promising?</td>
+<td>rank and choose a candidate</td>
+<td><code class="inline">frontier-ranking-ledger.md</code></td>
+</tr>
+<tr>
+<td>What did the previous run learn?</td>
+<td>continue, pivot, or stop</td>
+<td>helper MD + next-run-eligibility-card</td>
+</tr>
+<tr>
+<td>What entered x / ROUND_TARGET_TEST_COUNT?</td>
+<td>countable only if it has business identity + proof + sufficiently distinct cold contribution</td>
+<td>quality-accounting-verdict</td>
+</tr>
+</tbody>
+</table>
+<div class="warn">
+  <ul>
+    <li>5 payment methods can be numerically sufficient and business-narrow.</li>
+    <li>5 similar recoveries can be numerically sufficient and business-narrow.</li>
+    <li>5 parameterized variants can tick the target without real breadth.</li>
+    <li>Block the false reading: a ticked number does not mean a good package.</li>
+  </ul>
+</div>
+</details>
+<details class="subdetails" id="same-vs-fresh">
+<summary><span class="summary-title">2.7 Same-package vs fresh ROOT_RUN</span><span class="sumhint">legality distinctions</span></summary>
+<div class="diag"><svg viewbox="0 0 1160 220" role="img" aria-label="Same package versus fresh root">
+<defs><marker id="sf" markerwidth="10" markerheight="10" refx="8" refy="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+<rect x="30" y="78" width="200" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="130" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">run_n fixed</text>
+<text x="130" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">complete fixation</text>
+<rect x="300" y="78" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="410" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">same-package legal?</text>
+<text x="410" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">frontier same-round more good?</text>
+<rect x="590" y="78" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="700" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">fresh ROOT_RUN legal?</text>
+<text x="700" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">another family, another package</text>
+<rect x="880" y="78" width="230" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="995" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">launch-ready now?</text>
+<text x="995" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">prepare + pretrain real</text>
+<path d="M230 112 H300" stroke="#7aa2ff" stroke-width="2" marker-end="url(#sf)"></path>
+<path d="M520 112 H590" stroke="#7aa2ff" stroke-width="2" marker-end="url(#sf)"></path>
+<path d="M810 112 H880" stroke="#7aa2ff" stroke-width="2" marker-end="url(#sf)"></path>
+</svg></div>
+<details class="mini-note">
+  <summary>Legend</summary>
+  <ul>
+    <li>
+<code class="inline">same-package blocked</code> does not mean <code class="inline">application exhausted</code>.</li>
+    <li>
+<code class="inline">fresh ROOT_RUN legal</code> does not automatically mean <code class="inline">launch-ready now</code>.</li>
+    <li>Fresh-round legality comes from cold handoff; launch-ready comes after real prepare + pretrain.</li>
+    <li>If an agent confuses these three verdicts, the next package starts from false memory.</li>
+    <li>
+<code class="inline">META_ITERATION_COUNT</code> requires consuming the whole active window; any closure below it must be treated as a defect or severe blocker.</li>
+    <li>Before the first code step, the brief must explicitly state how you will reach <code class="inline">tests produced = x / ROUND_TARGET_TEST_COUNT</code> and <code class="inline">runs consumed = n / META_ITERATION_COUNT</code>.</li>
+  </ul>
+</details>
+<details class="mini-note" id="same-vs-fresh-card">
+  <summary>2.7.1 Final single decision card</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Question</th>
+        <th>Accepted answer</th>
+        <th>Minimum proof</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>does a heavier same-package continuation still exist?</td>
+        <td><code class="inline">same-package legal = yes / no</code></td>
+        <td><code class="inline">next-run-eligibility-card.md</code></td>
+      </tr>
+      <tr>
+        <td>were the active slots consumed or severely blocked?</td>
+        <td><code class="inline">runs consumed = n / META_ITERATION_COUNT</code></td>
+        <td><code class="inline">execution-gate-card.md</code></td>
+      </tr>
+      <tr>
+        <td>does another family require a new package?</td>
+        <td><code class="inline">fresh ROOT_RUN legal = yes / no</code></td>
+        <td><code class="inline">package-close-out.md</code></td>
+      </tr>
+      <tr>
+        <td>can the package be launched now?</td>
+        <td><code class="inline">launch-ready now = yes / no</code></td>
+        <td><code class="inline">round-pretraining-brief.md</code></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="warn">
+    <ul>
+      <li>Do not close the package only because one run was productive.</li>
+      <li>Do not start a fresh ROOT_RUN without new pretraining.</li>
+      <li>Do not confuse legality with launch readiness.</li>
+    </ul>
+  </div>
+</details>
+<table>
+  <thead>
+    <tr>
+      <th>Decision</th>
+      <th>Means</th>
+      <th>Owner</th>
+      <th>Minimum artifact</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+<td><code class="inline">same-package legal</code></td>
+<td>a heavier same-package continuation still exists</td>
+<td>orchestrator</td>
+<td><code class="inline">next-run-eligibility-card.md</code></td>
+</tr>
+    <tr>
+<td><code class="inline">fresh ROOT_RUN legal</code></td>
+<td>a next package is cold-possible</td>
+<td>orchestrator</td>
+<td>
+<code class="inline">package-close-out.md</code> + handoff cold</td>
+</tr>
+    <tr>
+<td><code class="inline">launch-ready now</code></td>
+<td>fresh root has real prepare + pretrain, not only abstract legality</td>
+<td>orchestrator</td>
+<td>
+<code class="inline">prepare-proof.md</code> + <code class="inline">round-pretraining-brief.md</code>
+</td>
+</tr>
+  </tbody>
+</table>
+</details>
+<details class="subdetails" id="minimum-handoff">
+<summary><span class="summary-title">2.8 Minimum handoff to reporting</span><span class="sumhint">reporting receives only frozen truth</span></summary>
+<div class="diag"><svg viewbox="0 0 1160 220" role="img" aria-label="Minimum handoff to reporting">
+<defs><marker id="hr" markerwidth="10" markerheight="10" refx="8" refy="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+<rect x="35" y="78" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="125" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">orchestrator truth</text>
+<text x="125" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">package identity</text>
+<rect x="265" y="78" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="355" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">counted runs</text>
+<text x="355" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">kept / countable</text>
+<rect x="495" y="78" width="160" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="575" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">x / target</text>
+<text x="575" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">accounting</text>
+<rect x="705" y="78" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="795" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">next-run truth</text>
+<text x="795" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">same / fresh</text>
+<rect x="935" y="78" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+<text x="1025" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">reporting receives</text>
+<text x="1025" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">frozen truth only</text>
+<path d="M215 112 H265" stroke="#7aa2ff" stroke-width="2" marker-end="url(#hr)"></path>
+<path d="M445 112 H495" stroke="#7aa2ff" stroke-width="2" marker-end="url(#hr)"></path>
+<path d="M655 112 H705" stroke="#7aa2ff" stroke-width="2" marker-end="url(#hr)"></path>
+<path d="M885 112 H935" stroke="#7aa2ff" stroke-width="2" marker-end="url(#hr)"></path>
+</svg></div>
+<details class="mini-note">
+  <summary>Legend</summary>
+  <ul>
+    <li>Reporting does not recalculate and does not rejudge legality.</li>
+    <li>Reporting publishes only already frozen runs, accounting, and next-run truth.</li>
+    <li>If the handoff cannot be sumlargezed in these four blocks, the orchestrated truth is not closed well yet.</li>
+    <li>Before publication, reopen <code class="inline">HTML_EX_LIBRARY_README</code> and relevant benchmarks from <code class="inline">HTML_EX_LIBRARY_ROOT</code>.</li>
+  </ul>
+</details>
+</details>
+</details>
+<details><summary><span class="summary-title">3. Launch legality</span><span class="sumhint">before each run</span></summary>
+<pre><code>before run_n
+  read agent-runtime.properties
+  reopen package memory and the latest decisive artifacts
+  identify the baseline already covered by existing tests
+  identify new business frontier candidates
+  confirm that the previous run fixation is complete when n &gt; 1
+  save or update frontier-ranking-ledger.md when candidates compete
+  launch exactly one governed run through the adapter
+</code></pre>
+<div class="rule">
+  <ul>
+    <li>The agent is free inside the slot.</li>
+    <li>The orchestrator controls why the slot exists.</li>
+    <li>Controls what must remain after the slot.</li>
+    <li>Controls whether the next slot is legal.</li>
+  </ul>
+</div>
+</details>
+<details><summary><span class="summary-title">4. Delegation contract</span><span class="sumhint">UI now, API later</span></summary>
+<table>
+<thead><tr>
+<th>When</th>
+<th>Delegation</th>
+<th>What must come back</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>run UI</td>
+<td><code class="inline">ui-business-frontier-adapter.html</code></td>
+<td>business claim, local meaning of the UI proof, code/test delta, UI feedback</td>
+</tr>
+<tr>
+<td>future API run</td>
+<td><code class="inline">api-flow-discovery-and-atf-test-generation.html</code></td>
+<td>contract/API claim, payload proof, schema/assertion delta, API feedback</td>
+</tr>
+<tr>
+<td>artifact fixation</td>
+<td><code class="inline">execute-and-understand-run.html</code></td>
+<td>diff, proof, XML, MD note, checklist, source carrier; called after wrapper</td>
+</tr>
+<tr>
+<td>final publication</td>
+<td><code class="inline">reporting.html</code></td>
+<td>langgraph-business-understanding.html + render + link audit</td>
+</tr>
+</tbody>
+</table>
+</details>
+<details><summary><span class="summary-title">5. Stop / continue / fresh-root law</span><span class="sumhint">separate truths</span></summary>
+<table>
+<thead><tr>
+<th>Verdict</th>
+<th>Legal when</th>
+<th>Do not use for</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>continue same package</td>
+<td>a stronger same-round frontier exists, complete fixation, active runs remain</td>
+<td>inertia after a good run</td>
+</tr>
+<tr>
+<td>stop same package</td>
+<td>all active runs were consumed or the same-round frontier collapsed cold with a documented severe blocker</td>
+<td>fatigue or a report that only looks good</td>
+</tr>
+<tr>
+<td>fresh ROOT_RUN</td>
+<td>a new frontier exists, but exceeds the current package frame</td>
+<td>avoiding an unreported blocker</td>
+</tr>
+<tr>
+<td>repair first</td>
+<td>a blocker reduces the validity of any future run</td>
+<td>generating tests without proof</td>
+</tr>
+</tbody>
+</table>
+<pre><code>must be published separately
+  same-package continuation legal = yes / no
+  fresh ROOT_RUN legal = yes / no
+  strongest unresolved truth = ...
+  materially turned into tests = x / target
+  accounting target met = yes / no
+  business breadth verdict = broad / partial / narrow
+  why the numeric target alone does not raise the score = ...
+</code></pre>
+</details>
+<details><summary><span class="summary-title">6. Handoff required by the orchestrator</span><span class="sumhint">what reporting receives</span></summary>
+<pre><code>the orchestrator hands off to reporting
+  link to agent-runtime and interpreted values
+  package identity and active accounting
+  run list and kept/countable verdicts
+  strongest owned business truths
+  strongest blocked/partial/fresh-round truths
+  roots for the artifact index
+  continuation / fresh-root legality
+</code></pre>
+<div class="note">
+  <ul>
+    <li>Reporting republishes only frozen truth.</li>
+    <li>If fixation is missing: block final reporting.</li>
+    <li>Or mark it explicitly as partial.</li>
+  </ul>
+</div>
+</details>
+
+</div>
+<script>function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

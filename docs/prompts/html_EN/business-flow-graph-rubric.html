@@ -1,0 +1,434 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>Business Flow Graph Rubric</title>
+<link href="../../shared-report-reference.css" rel="stylesheet">
+<style>
+.grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.diag{margin-top:10px;border:1px solid var(--border);border-radius:14px;background:#08101a;padding:12px;overflow:auto}
+.diag svg{display:block;width:100%;height:auto}
+.kvs{display:grid;grid-template-columns:120px 1fr;gap:8px 12px}
+.k{color:var(--muted);font-weight:600}
+.pillline{display:flex;flex-direction:column;gap:8px;align-items:flex-start;margin-top:10px}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pilllabel{color:var(--muted);font-size:12px;font-weight:700;margin-right:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Business Flow Graph Rubric <span class="badge">APP MAP</span> <span class="badge">OVERLAY</span> <span class="badge">NODE</span> <span class="badge">CLOSURE</span>
+</h1>
+  <div class="sub">
+    <ul>
+      <li>Explains only the drawing and validtion of <code class="inline">Business Flow Graph</code>.</li>
+      <li>
+<code class="inline">reporting.html</code> remains the owner of the final page.</li>
+      <li>The reusable graph shape lives here.</li>
+    </ul>
+  </div>
+  <div class="toolbar">
+<button type="button" onclick="toggleAll(true)">Open all</button><button type="button" onclick="toggleAll(false)">Close all</button>
+</div>
+</header>
+
+<div class="grid">
+  <section class="card">
+    <h2>Overview</h2>
+    <table>
+      <thead><tr>
+<th>Badge</th>
+<th>Read here</th>
+</tr></thead>
+      <tbody>
+        <tr>
+<td><span class="badge">APP MAP</span></td>
+<td>the real application: lanes, actors, intents, business objects</td>
+</tr>
+        <tr>
+<td><span class="badge">OVERLAY</span></td>
+<td>what the package touched: owned, partial, blocked, fresh-round-only</td>
+</tr>
+        <tr>
+<td><span class="badge">NODE</span></td>
+<td>actor -&gt; intent -&gt; business object -&gt; result</td>
+</tr>
+        <tr>
+<td><span class="badge">LEGEND</span></td>
+<td>test details, run id, repair, diff, Extent, and procedural jargon</td>
+</tr>
+        <tr>
+<td><span class="badge">CLOSURE</span></td>
+<td>the hard object or real rupture left for the next round</td>
+</tr>
+        <tr>
+<td><span class="badge">INVALID</span></td>
+<td>the graph becomes a package journal, technical suite, or run list</td>
+</tr>
+      </tbody>
+    </table>
+    <div class="pillline">
+        <div class="pillrow">
+<span class="pilllabel">Owner:</span><span class="pill">the real application</span><span class="pill">business map</span>
+</div>
+        <div class="pillrow">
+<span class="pilllabel">Uses:</span><span class="pill">macro-map</span><span class="pill">overlay</span><span class="pill">closure</span>
+</div>
+        <div class="pillrow">
+<span class="pilllabel">Does not produce:</span><span class="pill">final report</span><span class="pill">proof mapping</span><span class="pill">score</span>
+</div>
+      <div class="pillrow">
+<span class="pilllabel">Do not put in nodes:</span><span class="pill">run ids</span><span class="pill">locators</span><span class="pill">repair trail</span>
+</div>
+    </div>
+    <div class="rule">The application is the map. The package is the overlay. If the overlay becomes the map, the graph must be redrawn.</div>
+    <details class="mini-note">
+    <summary>Micro-example of a good node</summary>
+    <table>
+      <thead><tr>
+<th>Field</th>
+<th>Good node</th>
+<th>Bad node</th>
+</tr></thead>
+      <tbody>
+        <tr>
+<td>actor</td>
+<td>authenticated customer</td>
+<td>run_03</td>
+</tr>
+        <tr>
+<td>intent</td>
+<td>reopens post-purchase memory</td>
+<td>checks a new helper</td>
+</tr>
+        <tr>
+<td>business object</td>
+<td>order row / invoice row</td>
+<td>selector / test class</td>
+</tr>
+        <tr>
+<td>result</td>
+<td>payment success owned; order history blocked</td>
+<td>Extent verde</td>
+</tr>
+      </tbody>
+    </table>
+    </details>
+  </section>
+
+  <section class="card">
+    <details>
+    <summary><span class="summary-title">Minimum contract</span><span class="sumhint">map, overlay, closure</span></summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Block</th>
+          <th>Rule</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+<td>layer 1</td>
+<td>macro-map application, inclusiv zone relevante neatinse</td>
+</tr>
+        <tr>
+<td>layer 2</td>
+<td>package overlay: what was touched, owned, partial, blocked</td>
+</tr>
+        <tr>
+<td>layer 3</td>
+<td>
+<code class="inline">next closure pressure</code>: which hard object or real rupture remains open</td>
+</tr>
+        <tr>
+<td>nodes</td>
+<td>short title + at most one short context line</td>
+</tr>
+        <tr>
+<td>mandatory micro-template</td>
+<td><code class="inline">actor -&gt; intent -&gt; business object -&gt; result</code></td>
+</tr>
+        <tr>
+<td>legend</td>
+<td>collapsed, immediately under the subgraph; move test jargon and procedural detail there</td>
+</tr>
+        <tr>
+<td>default state</td>
+<td>in the final report all main sections are collapsible; the slot <code class="inline">4. Business Flow Graph</code> remains the only one open by default</td>
+</tr>
+      </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th>Binary test</th>
+          <th>Answers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+<td>application map</td>
+<td>what exists in the product, including what the package did not touch</td>
+</tr>
+        <tr>
+<td>package overlay</td>
+<td>what the package touched, without becoming the main map</td>
+</tr>
+      </tbody>
+    </table>
+    </details>
+  </section>
+</div>
+
+<details open><summary><span class="summary-title">1. Canonical LangGraph <span class="badge">APP MAP</span></span><span class="sumhint">macro-map -&gt; overlay -&gt; closure</span></summary>
+  <div class="diag"><svg viewbox="0 0 1160 250" role="img" aria-label="Canonical Business Flow Graph">
+  <defs><marker id="bgfr" markerwidth="10" markerheight="10" refx="8" refy="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+  <rect x="35" y="94" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="145" y="120" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">macro-map application</text>
+  <text x="145" y="142" text-anchor="middle" fill="#a8b3cf" font-size="11">real product lanes</text>
+  <rect x="325" y="94" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="435" y="120" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">package overlay</text>
+  <text x="435" y="142" text-anchor="middle" fill="#a8b3cf" font-size="11">what this package touched</text>
+  <rect x="645" y="26" width="210" height="62" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="750" y="51" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">owned / countable</text>
+  <text x="750" y="71" text-anchor="middle" fill="#a8b3cf" font-size="11">business objects cold-closed</text>
+  <rect x="645" y="98" width="210" height="62" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="750" y="123" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">partial / blocked</text>
+  <text x="750" y="143" text-anchor="middle" fill="#a8b3cf" font-size="11">ruptures, support, limits</text>
+  <rect x="645" y="170" width="210" height="62" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="750" y="195" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">next closure</text>
+  <text x="750" y="215" text-anchor="middle" fill="#a8b3cf" font-size="11">which hard object remains</text>
+  <path d="M255 128 H325" stroke="#7aa2ff" stroke-width="2" marker-end="url(#bgfr)"></path>
+  <path d="M545 128 C590 112 605 57 645 57" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#bgfr)"></path>
+  <path d="M545 128 H645" stroke="#7aa2ff" stroke-width="2" marker-end="url(#bgfr)"></path>
+  <path d="M545 128 C590 144 605 201 645 201" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#bgfr)"></path>
+  </svg></div>
+  <div class="note">
+<b>Short formula:</b> macro app map -&gt; package overlay -&gt; next closure pressure.</div>
+  <details class="subdetails">
+    <summary><span class="summary-title">1.1 Reusable SVG micro-template</span><span class="sumhint">aligned with html-ex and shared CSS</span></summary>
+    <div class="note">
+      <ul>
+        <li>The template is a starting point, not copied business.</li>
+        <li>The visual style must remain compatible with <code class="inline">shared-report-reference.css</code>.</li>
+        <li>Shape calibration uses the current examples from <code class="inline">HTML_EX_LIBRARY_ROOT</code> and <code class="inline">HTML_EX_LIBRARY_README</code>.</li>
+      </ul>
+    </div>
+    <div class="diag"><svg viewbox="0 0 1160 260" role="img" aria-label="Micro-template SVG Business Flow Graph">
+      <defs><marker id="mtpl" markerwidth="10" markerheight="10" refx="8" refy="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+      <rect x="35" y="92" width="190" height="72" rx="14" fill="#111826" stroke="#35507a"></rect>
+      <text x="130" y="120" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Actor + intent</text>
+      <text x="130" y="143" text-anchor="middle" fill="#a8b3cf" font-size="11">who wants what</text>
+      <rect x="300" y="92" width="210" height="72" rx="14" fill="#111826" stroke="#35507a"></rect>
+      <text x="405" y="120" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Object business</text>
+      <text x="405" y="143" text-anchor="middle" fill="#a8b3cf" font-size="11">real product entity</text>
+      <rect x="585" y="34" width="210" height="64" rx="14" fill="#111826" stroke="#20c997"></rect>
+      <text x="690" y="60" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Owned</text>
+      <text x="690" y="80" text-anchor="middle" fill="#a8b3cf" font-size="11">proven and countable</text>
+      <rect x="585" y="124" width="210" height="64" rx="14" fill="#111826" stroke="#f0b429"></rect>
+      <text x="690" y="150" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Partial / blocked</text>
+      <text x="690" y="170" text-anchor="middle" fill="#a8b3cf" font-size="11">real rupture</text>
+      <rect x="875" y="92" width="220" height="72" rx="14" fill="#111826" stroke="#7aa2ff"></rect>
+      <text x="985" y="120" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Next closure</text>
+      <text x="985" y="143" text-anchor="middle" fill="#a8b3cf" font-size="11">next hard object</text>
+      <path d="M225 128 H300" stroke="#7aa2ff" stroke-width="2" marker-end="url(#mtpl)"></path>
+      <path d="M510 128 C540 92 555 66 585 66" stroke="#20c997" stroke-width="2" fill="none" marker-end="url(#mtpl)"></path>
+      <path d="M510 128 C540 148 555 156 585 156" stroke="#f0b429" stroke-width="2" fill="none" marker-end="url(#mtpl)"></path>
+      <path d="M795 156 C825 156 845 128 875 128" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#mtpl)"></path>
+    </svg></div>
+    <table>
+      <thead><tr>
+<th>SVG slot</th>
+<th>Replace with</th>
+<th>Do not put here</th>
+</tr></thead>
+      <tbody>
+        <tr>
+<td>Actor + intent</td>
+<td>real actor + product intent</td>
+<td>run id, test class, helper</td>
+</tr>
+        <tr>
+<td>Object business</td>
+<td>order, invoice, message, profile, cart, comparison etc.</td>
+<td>selector, Java method, repair step</td>
+</tr>
+        <tr>
+<td>Owned / Partial / Blocked</td>
+<td>the package cold result</td>
+<td>score, green Extent, green XML as final result</td>
+</tr>
+        <tr>
+<td>Next closure</td>
+<td>the remaining hard object or next rupture</td>
+<td>vague plan or "we test more"</td>
+</tr>
+      </tbody>
+    </table>
+  </details>
+</details>
+
+<details>
+  <summary><span class="summary-title">2. Minimum rubric <span class="badge">NODE</span></span><span class="sumhint">what to verify before publishing</span></summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Rubric</th>
+        <th>Must be visible</th>
+        <th>Invalidtes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+<td>application map</td>
+<td>real product macro-zones</td>
+<td>the graph starts directly from runs or technical familys</td>
+</tr>
+      <tr>
+<td>package overlay</td>
+<td>what this package changed over the map</td>
+<td>the overlay becomes the main map</td>
+</tr>
+      <tr>
+<td>node template</td>
+<td>actor -&gt; intent -&gt; business object -&gt; result owned/partial/blocked</td>
+<td>the node cannot be read as a real business object</td>
+</tr>
+      <tr>
+<td>business object</td>
+<td>actor, intent, object, result</td>
+<td>nodes with helper, locator, class name, repair</td>
+</tr>
+      <tr>
+<td>closure pressure</td>
+<td>heavy object or remaining real rupture</td>
+<td>the graph stops without next truth</td>
+</tr>
+      <tr>
+<td>legend discipline</td>
+<td>procedural detail stays below, collapsed</td>
+<td>essay inside nodes or a legend that duplicates the whole graph</td>
+</tr>
+    </tbody>
+  </table>
+  <table>
+    <thead>
+      <tr>
+        <th>Mandatory micro-template</th>
+        <th>Question</th>
+        <th>Good example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+<td>Actor</td>
+<td>who has the intent?</td>
+<td><code class="inline">Customer</code></td>
+</tr>
+      <tr>
+<td>Intent</td>
+<td>what product result do they seek?</td>
+<td><code class="inline">wants post-purchase memory</code></td>
+</tr>
+      <tr>
+<td>Object business</td>
+<td>what real entity must exist?</td>
+<td><code class="inline">order row / invoice row / message row</code></td>
+</tr>
+      <tr>
+<td>Result</td>
+<td>what remains after proof?</td>
+<td><code class="inline">Orders shell partial; order row missing</code></td>
+</tr>
+    </tbody>
+  </table>
+<div class="warn">
+  <ul>
+    <li>The node must read as actor -&gt; intent -&gt; business object -&gt; result.</li>
+    <li>If it does not work, move the detail into the legend/proof mapping.</li>
+    <li>If it still does not work, redraw the node.</li>
+  </ul>
+</div>
+</details>
+
+<details>
+  <summary><span class="summary-title">3. Good vs bad <span class="badge">NODE</span></span><span class="sumhint">very short examples</span></summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Good</th>
+        <th>Bad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+<td>node name</td>
+<td><code class="inline">Orders history absent after payment success</code></td>
+<td><code class="inline">run_03 invoice fix</code></td>
+</tr>
+      <tr>
+<td>overlay</td>
+<td><code class="inline">Owned: Messages thread visible</code></td>
+<td><code class="inline">Extent ok + xml ok + diff ok</code></td>
+</tr>
+      <tr>
+<td>closure</td>
+<td><code class="inline">Next: order row persistent after relogin</code></td>
+<td><code class="inline">Mai vedem in run_05</code></td>
+</tr>
+      <tr>
+<td>commerce</td>
+<td><code class="inline">Payment success -&gt; order history blocked</code></td>
+<td><code class="inline">Checkout tests green</code></td>
+</tr>
+      <tr>
+<td>support</td>
+<td><code class="inline">Contact message submitted -&gt; thread/reply ownership partial</code></td>
+<td><code class="inline">Support form run_02</code></td>
+</tr>
+      <tr>
+<td>account</td>
+<td><code class="inline">Profile setting changed -&gt; persistence after relogin owned</code></td>
+<td><code class="inline">Account helper fixed</code></td>
+</tr>
+    </tbody>
+  </table>
+</details>
+
+<details>
+  <summary><span class="summary-title">4. Bad smells <span class="badge">INVALID</span></span><span class="sumhint">when cooling down the graph</span></summary>
+  <ul>
+    <li>If the reader remembers <code class="inline">run_03</code>, <code class="inline">repair</code>, <code class="inline">reentry</code> before the business lane, the graph is too procedural.</li>
+    <li>If macro-map application incape intr-un colt, iar overlay-ul ocupa tot, report is package-first.</li>
+    <li>If the nodes already contain proof, diff, and explanation, the graph is trying to do too much.</li>
+    <li>If the legend repeats the whole graph, it is no longer a legend; it is a poorly disguised essay.</li>
+  </ul>
+</details>
+</div>
+<script>
+function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
