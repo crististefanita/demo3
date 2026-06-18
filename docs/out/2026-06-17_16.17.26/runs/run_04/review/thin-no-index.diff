@@ -1,0 +1,584 @@
+﻿diff --git "a/C:\\Users\\CSTEFA~1\\AppData\\Local\\Temp\\codex-empty-diff.txt" b/src/test/java/com/endava/ai/ui/tests/AuthenticatedCheckoutBaseTest.java
+index e02abfc..3cae302 100644
+--- "a/C:\\Users\\CSTEFA~1\\AppData\\Local\\Temp\\codex-empty-diff.txt"
++++ b/src/test/java/com/endava/ai/ui/tests/AuthenticatedCheckoutBaseTest.java
+@@ -1 +1,158 @@
+-﻿
++package com.endava.ai.ui.tests;
++
++import com.endava.ai.ui.core.BaseTestUI;
++import com.endava.ai.ui.factory.CustomerDataFactory;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.service.AccountService;
++import com.endava.ai.ui.service.AuthenticatedCheckoutService;
++import com.endava.ai.ui.service.AuthenticationService;
++import com.endava.ai.ui.service.RegistrationService;
++import com.endava.ai.ui.service.StorefrontService;
++import com.endava.ai.ui.validation.AccountValidation;
++import com.endava.ai.ui.validation.CheckoutSuccessValidation;
++import com.endava.ai.ui.validation.RegistrationValidation;
++import com.endava.ai.ui.validation.StorefrontValidation;
++
++abstract class AuthenticatedCheckoutBaseTest extends BaseTestUI {
++
++    private static final String OVERVIEW_SCOPE_TEXT = "Here you can manage your profile, favorites and orders.";
++    private static final String GIFT_CARD_NUMBER = "ABCDEFGH12345678";
++    private static final String GIFT_CARD_VALIDATION_CODE = "W9X2";
++    private static final String SECOND_GIFT_CARD_NUMBER = "ZXCVASDF12345678";
++    private static final String SECOND_GIFT_CARD_VALIDATION_CODE = "Q1W2";
++
++    protected final RegistrationService registrationService = new RegistrationService();
++    protected final RegistrationValidation registrationValidation = new RegistrationValidation();
++    protected final AuthenticationService authenticationService = new AuthenticationService();
++    protected final AccountService accountService = new AccountService();
++    protected final AccountValidation accountValidation = new AccountValidation();
++    protected final CheckoutSuccessValidation checkoutSuccessValidation = new CheckoutSuccessValidation();
++    protected final StorefrontService storefrontService = new StorefrontService();
++    protected final StorefrontValidation storefrontValidation = new StorefrontValidation();
++    protected final AuthenticatedCheckoutService checkoutService = new AuthenticatedCheckoutService();
++
++    protected CustomerData registerAndLoginCustomer() {
++        CustomerData customer = CustomerDataFactory.validCustomer();
++        registrationService.openRegister();
++        registrationService.register(customer);
++        registrationValidation.assertRedirectedToLogin();
++        authenticationService.login(customer.getEmail(), customer.getPassword());
++        accountValidation.assertCurrentUrlContains("/account");
++        return customer;
++    }
++
++    protected CustomerData ensureCustomerSession(CustomerData existingCustomer) {
++        if (existingCustomer == null) {
++            return registerAndLoginCustomer();
++        }
++
++        authenticationService.login(existingCustomer.getEmail(), existingCustomer.getPassword());
++        accountValidation.assertCurrentUrlContains("/account");
++        return existingCustomer;
++    }
++
++    protected void reachPaymentStep(CustomerData customer) {
++        storefrontService.openHome();
++        storefrontService.openFirstProduct();
++        storefrontService.addCurrentProductToCart();
++        storefrontValidation.assertCartBadgeEquals("1");
++        storefrontService.openCart();
++        checkoutService.proceedFromCartToPayment(customer);
++    }
++
++    protected void completeAuthenticatedBnplPurchase(CustomerData customer) {
++        reachPaymentStep(customer);
++        checkoutService.selectPaymentMethod("Buy Now Pay Later");
++        checkoutService.selectMonthlyInstallments("3 Monthly Installments");
++        checkoutService.confirmSelectedPayment();
++        accountValidation.assertBodyContains("Payment was successful");
++    }
++
++    protected void completeAuthenticatedGiftCardPurchase(CustomerData customer) {
++        completeAuthenticatedGiftCardPurchase(customer, GIFT_CARD_NUMBER, GIFT_CARD_VALIDATION_CODE);
++    }
++
++    protected void completeAuthenticatedGiftCardPurchase(CustomerData customer, String giftCardNumber, String validationCode) {
++        reachPaymentStep(customer);
++        checkoutService.selectPaymentMethod("Gift Card");
++        checkoutService.fillGiftCard(giftCardNumber, validationCode);
++        checkoutService.confirmSelectedPayment();
++        accountValidation.assertBodyContains("Payment was successful");
++    }
++
++    protected void completeAuthenticatedBankTransferPurchase(CustomerData customer) {
++        reachPaymentStep(customer);
++        checkoutService.selectPaymentMethod("Bank Transfer");
++        checkoutService.fillBankTransfer("Audit Bank", customer.getFirstName() + " " + customer.getLastName(), "12345678901234");
++        checkoutService.confirmSelectedPayment();
++        accountValidation.assertBodyContains("Payment was successful");
++    }
++
++    protected void completeAuthenticatedSwitchedGiftCardPurchase(CustomerData customer) {
++        reachPaymentStep(customer);
++        checkoutService.selectPaymentMethod("Credit Card");
++        checkoutService.selectPaymentMethod("Gift Card");
++        checkoutService.fillGiftCard(SECOND_GIFT_CARD_NUMBER, SECOND_GIFT_CARD_VALIDATION_CODE);
++        checkoutService.confirmSelectedPayment();
++        accountValidation.assertBodyContains("Payment was successful");
++    }
++
++    protected void completeAuthenticatedCashOnDeliveryPurchase(CustomerData customer) {
++        reachPaymentStep(customer);
++        checkoutService.confirmCashOnDelivery();
++        accountValidation.assertBodyContains("Payment was successful");
++    }
++
++    protected void relogin(CustomerData customer) {
++        com.endava.ai.ui.utils.UIActions.clearSession();
++        authenticationService.login(customer.getEmail(), customer.getPassword());
++        accountValidation.assertCurrentUrlContains("/account");
++    }
++
++    protected void assertOrdersPromiseWithoutOrdersEntry() {
++        accountService.openOverview();
++        accountValidation.assertBodyContains(OVERVIEW_SCOPE_TEXT);
++        accountValidation.assertVisibleTextsDoNotContain(
++                com.endava.ai.ui.pages.AccountPage.NAV_LINKS,
++                "account navigation links",
++                "My orders"
++        );
++    }
++
++    protected void assertOrdersRouteUnavailable() {
++        accountService.openOrders();
++        accountValidation.assertBodyContains("Practice Black Box Testing & Bug Hunting");
++        accountValidation.assertBodyDoesNotContain("My orders");
++    }
++
++    protected void assertInvoiceHistoryStillEmpty() {
++        accountService.openInvoices();
++        new com.endava.ai.ui.validation.InvoiceValidation().assertInvoicesPageVisible();
++        new com.endava.ai.ui.validation.InvoiceValidation().assertInvoiceRowsAbsent();
++    }
++
++    protected void assertPaymentSuccessWithoutCommercialIdentity() {
++        checkoutSuccessValidation.assertPaymentSuccessWithoutCommercialIdentity();
++    }
++
++    protected void assertCommercialHistoryStillLacksPersistentIdentity() {
++        assertOrdersPromiseWithoutOrdersEntry();
++        assertOrdersRouteUnavailable();
++        assertInvoiceHistoryStillEmpty();
++    }
++
++    protected void assertCommercialHistoryStillLacksPersistentIdentityAfterRelogin(CustomerData customer) {
++        relogin(customer);
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++
++    protected void completeTwoSuccessfulPurchases(CustomerData customer) {
++        completeAuthenticatedCashOnDeliveryPurchase(customer);
++        completeAuthenticatedGiftCardPurchase(customer, SECOND_GIFT_CARD_NUMBER, SECOND_GIFT_CARD_VALIDATION_CODE);
++    }
++
++    protected void completeTwoGiftCardPurchases(CustomerData customer) {
++        completeAuthenticatedGiftCardPurchase(customer);
++        completeAuthenticatedGiftCardPurchase(customer, SECOND_GIFT_CARD_NUMBER, SECOND_GIFT_CARD_VALIDATION_CODE);
++    }
++}
+
+diff --git "a/C:\\Users\\CSTEFA~1\\AppData\\Local\\Temp\\codex-empty-diff.txt" b/src/test/java/com/endava/ai/ui/tests/AuthenticatedReceiptIdentityBridgeTests.java
+index e02abfc..07ee617 100644
+--- "a/C:\\Users\\CSTEFA~1\\AppData\\Local\\Temp\\codex-empty-diff.txt"
++++ b/src/test/java/com/endava/ai/ui/tests/AuthenticatedReceiptIdentityBridgeTests.java
+@@ -1 +1,59 @@
+-﻿
++package com.endava.ai.ui.tests;
++
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.utils.UIActions;
++import org.testng.annotations.BeforeMethod;
++import org.testng.annotations.Test;
++
++public class AuthenticatedReceiptIdentityBridgeTests extends AuthenticatedCheckoutBaseTest {
++
++    private CustomerData sharedCustomer;
++
++    @BeforeMethod(alwaysRun = true)
++    public void beforeReceiptIdentityBridgeMethod() {
++        StepLogger.startStep("Authenticated receipt-identity bridge preconditions");
++        UIActions.clearSession();
++        StepLogger.pass("Browser session was cleared before the next receipt-identity bridge check");
++    }
++
++    @Test(description = "After COD purchase the checkout success message does not bridge into a visible orders entry or invoice row")
++    public void after_cod_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedCashOnDeliveryPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++
++    @Test(description = "After bank-transfer purchase the checkout success message does not bridge into a visible orders entry or invoice row")
++    public void after_bank_transfer_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedBankTransferPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++
++    @Test(description = "After gift-card purchase the checkout success message does not bridge into a visible orders entry or invoice row")
++    public void after_gift_card_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedGiftCardPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++
++    @Test(description = "After switched credit-card to gift-card purchase the checkout success message does not bridge into a visible orders entry or invoice row")
++    public void after_switched_credit_card_to_gift_card_purchase_the_checkout_success_message_does_not_bridge_into_a_visible_orders_entry_or_invoice_row() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeAuthenticatedSwitchedGiftCardPurchase(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++
++    @Test(description = "After two successful purchases the checkout success message still does not bridge into a visible orders entry or invoice row")
++    public void after_two_successful_purchases_the_checkout_success_message_still_does_not_bridge_into_a_visible_orders_entry_or_invoice_row() {
++        CustomerData customer = sharedCustomer = ensureCustomerSession(sharedCustomer);
++        completeTwoSuccessfulPurchases(customer);
++        assertPaymentSuccessWithoutCommercialIdentity();
++        assertCommercialHistoryStillLacksPersistentIdentity();
++    }
++}
+
+diff --git "a/C:\\Users\\CSTEFA~1\\AppData\\Local\\Temp\\codex-empty-diff.txt" b/src/main/java/com/endava/ai/ui/service/AccountService.java
+index e02abfc..062960f 100644
+--- "a/C:\\Users\\CSTEFA~1\\AppData\\Local\\Temp\\codex-empty-diff.txt"
++++ b/src/main/java/com/endava/ai/ui/service/AccountService.java
+@@ -1 +1,72 @@
+-﻿
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.pages.ContactPage;
++import com.endava.ai.ui.pages.ProfilePage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++public final class AccountService {
++
++    public void openOverview() {
++        UIActions.navigateToRelative("/account");
++    }
++
++    public void openFavorites() {
++        UIActions.navigateToRelative("/account/favorites");
++    }
++
++    public void openMessages() {
++        UIActions.navigateToRelative("/account/messages");
++    }
++
++    public void openInvoices() {
++        UIActions.navigateToRelative("/account/invoices");
++    }
++
++    public void openOrders() {
++        UIActions.openRelativeWithoutUrlWait("/account/orders");
++    }
++
++    public void openProfile() {
++        UIActions.navigateToRelative("/account/profile");
++        WaitUtils.waitForVisible(ProfilePage.FIRST_NAME);
++    }
++
++    public void openProtectedRouteAsGuest(String relativePath) {
++        UIActions.openRelativeWithoutUrlWait(relativePath);
++    }
++
++    public void openContact() {
++        UIActions.navigateToRelative("/contact");
++        WaitUtils.waitForVisible(ContactPage.FIRST_NAME);
++    }
++
++    public void updateProfileIdentity(String firstName, String phone) {
++        UIActions.type(ProfilePage.FIRST_NAME, "First name", firstName);
++        UIActions.type(ProfilePage.PHONE, "Phone", phone);
++        UIActions.click(ProfilePage.UPDATE_PROFILE_BUTTON, "Update Profile");
++    }
++
++    public void submitPasswordChange(String currentPassword, String newPassword, String confirmPassword) {
++        UIActions.type(ProfilePage.CURRENT_PASSWORD, "Current Password", currentPassword);
++        UIActions.type(ProfilePage.NEW_PASSWORD, "New Password", newPassword);
++        UIActions.type(ProfilePage.NEW_PASSWORD_CONFIRM, "Confirm New Password", confirmPassword);
++        UIActions.click(ProfilePage.CHANGE_PASSWORD_BUTTON, "Change Password");
++    }
++
++    public void fillContactMessage(String firstName,
++                                   String lastName,
++                                   String email,
++                                   String subject,
++                                   String message) {
++        UIActions.type(ContactPage.FIRST_NAME, "First name", firstName);
++        UIActions.type(ContactPage.LAST_NAME, "Last name", lastName);
++        UIActions.type(ContactPage.EMAIL, "Email address", email);
++        UIActions.select(ContactPage.SUBJECT, "Subject", subject);
++        UIActions.type(ContactPage.MESSAGE, "Message", message);
++    }
++
++    public void submitContactMessage() {
++        UIActions.click(ContactPage.SEND_BUTTON, "Send");
++    }
++}
+
+diff --git "a/C:\\Users\\CSTEFA~1\\AppData\\Local\\Temp\\codex-empty-diff.txt" b/src/main/java/com/endava/ai/ui/validation/CheckoutSuccessValidation.java
+index e02abfc..da3c8fd 100644
+--- "a/C:\\Users\\CSTEFA~1\\AppData\\Local\\Temp\\codex-empty-diff.txt"
++++ b/src/main/java/com/endava/ai/ui/validation/CheckoutSuccessValidation.java
+@@ -1 +1,49 @@
+-﻿
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.pages.CheckoutPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++import org.testng.Assert;
++
++public final class CheckoutSuccessValidation {
++
++    private static final String[] COMMERCIAL_IDENTITY_LABELS = {
++            "Order ID",
++            "Order Id",
++            "Order Number",
++            "Order number",
++            "Receipt ID",
++            "Receipt Id",
++            "Receipt Number",
++            "Receipt number",
++            "Invoice Number",
++            "Invoice number",
++            "Reference Number",
++            "Reference number"
++    };
++
++    public void assertPaymentSuccessWithoutCommercialIdentity() {
++        WaitUtils.waitForVisible(CheckoutPage.PAYMENT_SUCCESS_MESSAGE);
++
++        String currentUrl = DriverManager.getEngine().getCurrentUrl();
++        Assert.assertTrue(
++                currentUrl.contains("/checkout"),
++                "Expected checkout success to remain on /checkout, but was: " + currentUrl
++        );
++
++        String body = UIActions.getText(AccountPage.PAGE_BODY, "page body");
++        Assert.assertTrue(
++                body.contains("Payment was successful"),
++                "Expected payment success message to stay visible, but body was: " + body
++        );
++
++        for (String label : COMMERCIAL_IDENTITY_LABELS) {
++            Assert.assertFalse(
++                    body.contains(label),
++                    "Did not expect checkout success body to expose '" + label + "', but body was: " + body
++            );
++        }
++    }
++}
+
+diff --git "a/C:\\Users\\CSTEFA~1\\AppData\\Local\\Temp\\codex-empty-diff.txt" b/src/main/java/com/endava/ai/ui/validation/InvoiceValidation.java
+index e02abfc..2970f29 100644
+--- "a/C:\\Users\\CSTEFA~1\\AppData\\Local\\Temp\\codex-empty-diff.txt"
++++ b/src/main/java/com/endava/ai/ui/validation/InvoiceValidation.java
+@@ -1 +1,23 @@
+-﻿
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++import org.testng.Assert;
++
++import java.util.List;
++
++public final class InvoiceValidation {
++
++    public void assertInvoicesPageVisible() {
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++        String title = UIActions.getText(AccountPage.PAGE_TITLE, "Invoices page title");
++        Assert.assertTrue(title.contains("Invoices"), "Expected invoices page title to be visible.");
++    }
++
++    public void assertInvoiceRowsAbsent() {
++        WaitUtils.waitForVisible(AccountPage.PAGE_TITLE);
++        List<String> rows = UIActions.getTexts("table tbody tr", "invoice rows");
++        Assert.assertTrue(rows.isEmpty(), "Expected invoice history to be empty before any purchase.");
++    }
++}
+
+diff --git "a/C:\\Users\\CSTEFA~1\\AppData\\Local\\Temp\\codex-empty-diff.txt" b/src/main/java/com/endava/ai/ui/validation/AccountValidation.java
+index e02abfc..1ae0a7a 100644
+--- "a/C:\\Users\\CSTEFA~1\\AppData\\Local\\Temp\\codex-empty-diff.txt"
++++ b/src/main/java/com/endava/ai/ui/validation/AccountValidation.java
+@@ -1 +1,160 @@
+-﻿
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.pages.AccountPage;
++import com.endava.ai.ui.pages.ContactPage;
++import com.endava.ai.ui.pages.LoginPage;
++import com.endava.ai.ui.pages.ProfilePage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++import org.testng.Assert;
++
++import java.time.Duration;
++import java.util.List;
++
++public final class AccountValidation {
++
++    public void assertCurrentUrlContains(String expectedFragment) {
++        WaitUtils.waitForCondition(
++                "URL contains " + expectedFragment,
++                () -> DriverManager.getEngine().getCurrentUrl().contains(expectedFragment),
++                "Expected URL to contain " + expectedFragment + " but was " + DriverManager.getEngine().getCurrentUrl()
++        );
++        Assert.assertTrue(
++                DriverManager.getEngine().getCurrentUrl().contains(expectedFragment),
++                "Expected URL to contain " + expectedFragment + " but was " + DriverManager.getEngine().getCurrentUrl()
++        );
++    }
++
++    public void assertCurrentUrlDoesNotContain(String unexpectedFragment) {
++        WaitUtils.waitForCondition(
++                "URL does not contain " + unexpectedFragment,
++                () -> !DriverManager.getEngine().getCurrentUrl().contains(unexpectedFragment),
++                "Expected URL not to contain " + unexpectedFragment + " but was " + DriverManager.getEngine().getCurrentUrl()
++        );
++        Assert.assertFalse(
++                DriverManager.getEngine().getCurrentUrl().contains(unexpectedFragment),
++                "Expected URL not to contain " + unexpectedFragment + " but was " + DriverManager.getEngine().getCurrentUrl()
++        );
++    }
++
++    public void assertGuestRedirectedToLogin() {
++        String outcome = WaitUtils.waitUntil(
++                () -> {
++                    String url = DriverManager.getEngine().getCurrentUrl();
++                    String body = DriverManager.getEngine().getText(AccountPage.PAGE_BODY);
++                    boolean loginButtonVisible;
++                    try {
++                        loginButtonVisible = DriverManager.getEngine().isVisible(LoginPage.LOGIN_BUTTON);
++                    } catch (Exception ignored) {
++                        loginButtonVisible = false;
++                    }
++
++                    if ((url != null && url.contains("/auth/login"))
++                            || loginButtonVisible
++                            || body.contains("Sign in with Google")
++                            || body.contains("Not yet an account? Register")) {
++                        return "login-surface";
++                    }
++
++                    return "pending";
++                },
++                value -> !"pending".equals(value),
++                Duration.ofSeconds(20),
++                Duration.ofMillis(250)
++        );
++        Assert.assertEquals(outcome, "login-surface", "Expected guest route to resolve to the login surface.");
++        assertVisible(LoginPage.EMAIL, "login email field");
++    }
++
++    public void assertHeadingEquals(String selector, String expectedHeading) {
++        WaitUtils.waitForVisible(selector);
++        String actual = UIActions.getText(selector, "page heading");
++        Assert.assertEquals(actual.trim(), expectedHeading, "Unexpected heading text.");
++    }
++
++    public void assertBodyContains(String expectedText) {
++        WaitUtils.waitForCondition(
++                "body contains " + expectedText,
++                () -> DriverManager.getEngine().getText(AccountPage.PAGE_BODY).contains(expectedText),
++                "Expected body text to contain '" + expectedText + "'."
++        );
++        String body = UIActions.getText(AccountPage.PAGE_BODY, "page body");
++        Assert.assertTrue(body.contains(expectedText), "Expected body to contain '" + expectedText + "' but was: " + body);
++    }
++
++    public void assertInvoiceHeaders(List<String> expectedHeaders) {
++        WaitUtils.waitForVisible(AccountPage.INVOICE_HEADERS);
++        List<String> actualHeaders = UIActions.getTexts(AccountPage.INVOICE_HEADERS, "invoice table headers");
++        for (String expectedHeader : expectedHeaders) {
++            Assert.assertTrue(
++                    actualHeaders.contains(expectedHeader),
++                    "Expected invoice headers to contain '" + expectedHeader + "' but were: " + actualHeaders
++            );
++        }
++    }
++
++    public void assertVisibleTextsContain(String selector, String description, String expectedText) {
++        WaitUtils.waitForVisible(selector);
++        List<String> texts = UIActions.getVisibleTexts(selector, description);
++        Assert.assertTrue(
++                texts.stream().anyMatch(text -> text.contains(expectedText)),
++                "Expected " + description + " to contain '" + expectedText + "' but were: " + texts
++        );
++    }
++
++    public void assertVisibleTextsDoNotContain(String selector, String description, String unexpectedText) {
++        WaitUtils.pause(Duration.ofMillis(500));
++        List<String> texts = UIActions.getVisibleTexts(selector, description);
++        Assert.assertFalse(
++                texts.stream().anyMatch(text -> text.contains(unexpectedText)),
++                "Did not expect " + description + " to contain '" + unexpectedText + "' but were: " + texts
++        );
++    }
++
++    public void assertInputValueEquals(String selector, String description, String expectedValue) {
++        WaitUtils.waitForInputValue(selector, description, expectedValue::equals);
++        String actualValue = UIActions.getValue(selector, description);
++        Assert.assertEquals(actualValue, expectedValue, "Unexpected value for " + description);
++    }
++
++    public void assertVisible(String selector, String description) {
++        WaitUtils.waitForVisible(selector);
++        Assert.assertTrue(DriverManager.getEngine().isVisible(selector), "Expected " + description + " to be visible.");
++    }
++
++    public void assertAlertContains(String expectedText) {
++        WaitUtils.waitForCondition(
++                "alert contains " + expectedText,
++                () -> DriverManager.getEngine().getText(ProfilePage.ALERT).contains(expectedText)
++                        || DriverManager.getEngine().getText(AccountPage.PAGE_BODY).contains(expectedText),
++                "Expected alert/body to contain '" + expectedText + "'."
++        );
++        String body = UIActions.getText(AccountPage.PAGE_BODY, "page body");
++        Assert.assertTrue(body.contains(expectedText), "Expected body to contain '" + expectedText + "' but was: " + body);
++    }
++
++    public void assertSubjectOptionsContain(List<String> expectedOptions) {
++        WaitUtils.waitForVisible(ContactPage.SUBJECT);
++        List<String> actualOptions = UIActions.getTexts(ContactPage.SUBJECT_OPTIONS, "contact subject options");
++        for (String expectedOption : expectedOptions) {
++            Assert.assertTrue(
++                    actualOptions.contains(expectedOption),
++                    "Expected subject options to contain '" + expectedOption + "' but were: " + actualOptions
++            );
++        }
++    }
++
++    public void assertAttachmentControlPresent() {
++        assertVisible(ContactPage.ATTACHMENT, "contact attachment input");
++    }
++
++    public void assertBodyDoesNotContain(String unexpectedText) {
++        WaitUtils.pause(Duration.ofSeconds(1));
++        String body = UIActions.getText(AccountPage.PAGE_BODY, "page body");
++        Assert.assertFalse(
++                body.contains(unexpectedText),
++                "Did not expect body to contain '" + unexpectedText + "' but it did: " + body
++        );
++    }
++}
+
+diff --git "a/C:\\Users\\CSTEFA~1\\AppData\\Local\\Temp\\codex-empty-diff.txt" b/src/main/java/com/endava/ai/ui/pages/AccountPage.java
+index e02abfc..1ef80b1 100644
+--- "a/C:\\Users\\CSTEFA~1\\AppData\\Local\\Temp\\codex-empty-diff.txt"
++++ b/src/main/java/com/endava/ai/ui/pages/AccountPage.java
+@@ -1 +1,15 @@
+-﻿
++package com.endava.ai.ui.pages;
++
++public final class AccountPage {
++
++    private AccountPage() {
++    }
++
++    public static final String PAGE_TITLE = "[data-test='page-title']";
++    public static final String PAGE_HEADING = "h1";
++    public static final String PAGE_BODY = "body";
++    public static final String NAV_LINKS = "a[data-test^='nav-']";
++    public static final String NAV_INVOICES = "[data-test='nav-invoices']";
++    public static final String INVOICE_HEADERS = "table thead th";
++    public static final String ALERT = "[role='alert']";
++}

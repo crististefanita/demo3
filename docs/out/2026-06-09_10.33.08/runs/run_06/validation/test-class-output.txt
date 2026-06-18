@@ -1,0 +1,33 @@
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+  � Playwright pages after init: 1
+? Registration preconditions
+  ? PASS: Ready
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  � base.url=https://practicesoftwaretesting.com
+  � relativePath=/auth/register
+  � Playwright pages after open: 1
+  � Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Click on: Register
+  � locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Get text from: Any error message container
+  � locator=div.alert.alert-danger
+  � text=First name is required
+Last name is required
+Please enter a valid date in YYYY-MM-DD format.
+Date of Birth is required
+Country is required
+Postcode is required
+House number is required
+Street is required
+City is required
+State is required
+Phone is required.
+Email is required
+Password is required
+Password must be minimal 6 characters long.
+Password can not include invalid characters.
+  ? PASS: Text captured

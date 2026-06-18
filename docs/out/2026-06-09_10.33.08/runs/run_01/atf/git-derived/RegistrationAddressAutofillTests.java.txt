@@ -1,0 +1,188 @@
+package com.endava.ai.atf.ui;
+
+import com.endava.ai.core.reporting.StepLogger;
+import com.endava.ai.ui.core.BaseTestUI;
+import com.endava.ai.ui.core.DriverManager;
+import com.endava.ai.ui.engine.UIEngine;
+import com.endava.ai.ui.engine.playwright.PlaywrightEngine;
+import com.endava.ai.ui.factory.UserDataFactory;
+import com.endava.ai.ui.model.RegistrationData;
+import com.endava.ai.ui.service.RegistrationService;
+import com.endava.ai.ui.validation.RegistrationValidation;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Route;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.lang.reflect.Field;
+import java.net.URI;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+
+public class RegistrationAddressAutofillTests extends BaseTestUI {
+
+    private static final String NL_COUNTRY = "NL";
+    private static final String US_COUNTRY = "US";
+    private static final String PRIMARY_POSTAL = "2611AA";
+    private static final String PRIMARY_HOUSE = "1";
+    private static final String PRIMARY_NL_STREET = "van Wessexboulevard";
+    private static final String PRIMARY_NL_CITY = "Zuidoostbeemster";
+    private static final String PRIMARY_NL_STATE = "Overijssel";
+    private static final String PRIMARY_US_STREET = "Bryce Underpass";
+    private static final String PRIMARY_US_CITY = "Port Tadstad";
+    private static final String PRIMARY_US_STATE = "Delaware";
+    private static final String SYNTHETIC_POSTAL = "9999ZZ";
+    private static final String SYNTHETIC_HOUSE = "999";
+    private static final String SYNTHETIC_NL_STREET = "van der Heidensteeg";
+    private static final String SYNTHETIC_NL_CITY = "Lage Vuursche";
+    private static final String SYNTHETIC_NL_STATE = "Zuid-Holland";
+
+    private final RegistrationService service = new RegistrationService();
+    private final RegistrationValidation validation = new RegistrationValidation();
+
+    @BeforeClass(alwaysRun = true)
+    public void installPostcodeLookupMock() {
+        Page page = extractPage();
+        page.route("**/postcode-lookup**", route ->
+                route.fulfill(new Route.FulfillOptions()
+                        .setStatus(200)
+                        .setContentType("application/json")
+                        .setBody(toJson(resolveAddress(route.request().url()))))
+        );
+        page.route("**/users/register", route ->
+                route.fulfill(new Route.FulfillOptions()
+                        .setStatus(201)
+                        .setContentType("application/json")
+                        .setBody("{\"message\":\"Registered\"}"))
+        );
+    }
+
+    @BeforeMethod
+    public void before() {
+        StepLogger.startStep("Registration autofill preconditions");
+        StepLogger.pass("Ready");
+    }
+
+    @Test(description = "Green: NL postal code and house number auto-populate street, city, and state")
+    public void nl_postal_house_autofills_address_fields() {
+        service.openRegister();
+
+        service.fillAddressLookup(NL_COUNTRY, PRIMARY_POSTAL, PRIMARY_HOUSE);
+
+        validation.assertAddressFields(PRIMARY_NL_STREET, PRIMARY_NL_CITY, PRIMARY_NL_STATE);
+    }
+
+    @Test(description = "Green: changing country recalculates auto-populated address for the same postal and house number")
+    public void changing_country_recalculates_autofilled_address() {
+        service.openRegister();
+
+        service.fillAddressLookup(NL_COUNTRY, PRIMARY_POSTAL, PRIMARY_HOUSE);
+        validation.assertAddressFields(PRIMARY_NL_STREET, PRIMARY_NL_CITY, PRIMARY_NL_STATE);
+
+        service.changeCountry(US_COUNTRY);
+
+        validation.assertAddressFieldsDifferFrom(PRIMARY_NL_STREET, PRIMARY_NL_CITY, PRIMARY_NL_STATE);
+        validation.assertAddressFields(PRIMARY_US_STREET, PRIMARY_US_CITY, PRIMARY_US_STATE);
+    }
+
+    @Test(description = "Boundary: syntactic NL postal and house combination still materializes a populated address")
+    public void synthetic_nl_postal_house_still_materializes_address() {
+        service.openRegister();
+
+        service.fillAddressLookup(NL_COUNTRY, SYNTHETIC_POSTAL, SYNTHETIC_HOUSE);
+
+        validation.assertAddressFields(SYNTHETIC_NL_STREET, SYNTHETIC_NL_CITY, SYNTHETIC_NL_STATE);
+    }
+
+    @Test(description = "Green: registration succeeds when address is supplied through autofill instead of manual street/city/state entry")
+    public void registration_succeeds_with_autofilled_address() {
+        service.openRegister();
+
+        RegistrationData data = UserDataFactory.validRegistrationData()
+                .toBuilder()
+                .country(NL_COUNTRY)
+                .postal(PRIMARY_POSTAL)
+                .houseNumber(PRIMARY_HOUSE)
+                .build();
+
+        service.fillIdentityFields(data);
+        service.fillAddressLookup(data.country(), data.postal(), data.houseNumber());
+        validation.assertAddressFields(PRIMARY_NL_STREET, PRIMARY_NL_CITY, PRIMARY_NL_STATE);
+
+        service.submitRegistration();
+
+        validation.assertRedirectedToLogin();
+    }
+
+    private static Map<String, String> resolveAddress(String url) {
+        Map<String, String> query = parseQuery(url);
+        String country = query.getOrDefault("country", "");
+        String postal = query.getOrDefault("postcode", "");
+        String houseNumber = query.getOrDefault("house_number", "");
+
+        if (NL_COUNTRY.equals(country) && PRIMARY_POSTAL.equals(postal) && PRIMARY_HOUSE.equals(houseNumber)) {
+            return address(PRIMARY_NL_STREET, PRIMARY_NL_CITY, PRIMARY_NL_STATE);
+        }
+        if (US_COUNTRY.equals(country) && PRIMARY_POSTAL.equals(postal) && PRIMARY_HOUSE.equals(houseNumber)) {
+            return address(PRIMARY_US_STREET, PRIMARY_US_CITY, PRIMARY_US_STATE);
+        }
+        if (NL_COUNTRY.equals(country) && SYNTHETIC_POSTAL.equals(postal) && SYNTHETIC_HOUSE.equals(houseNumber)) {
+            return address(SYNTHETIC_NL_STREET, SYNTHETIC_NL_CITY, SYNTHETIC_NL_STATE);
+        }
+        throw new IllegalArgumentException("No mocked postcode lookup registered for url: " + url);
+    }
+
+    private static Map<String, String> address(String street, String city, String state) {
+        Map<String, String> response = new HashMap<>();
+        response.put("street", street);
+        response.put("city", city);
+        response.put("state", state);
+        return response;
+    }
+
+    private static Map<String, String> parseQuery(String url) {
+        Map<String, String> values = new HashMap<>();
+        String query = URI.create(url).getQuery();
+        if (query == null || query.isBlank()) {
+            return values;
+        }
+
+        for (String pair : query.split("&")) {
+            String[] parts = pair.split("=", 2);
+            String key = URLDecoder.decode(parts[0], StandardCharsets.UTF_8);
+            String value = parts.length > 1
+                    ? URLDecoder.decode(parts[1], StandardCharsets.UTF_8)
+                    : "";
+            values.put(key, value);
+        }
+        return values;
+    }
+
+    private static String toJson(Map<String, String> address) {
+        return String.format(
+                "{\"street\":\"%s\",\"city\":\"%s\",\"state\":\"%s\"}",
+                address.get("street"),
+                address.get("city"),
+                address.get("state")
+        );
+    }
+
+    private static Page extractPage() {
+        UIEngine engine = DriverManager.getEngine();
+        if (!(engine instanceof PlaywrightEngine)) {
+            throw new IllegalStateException("Registration autofill tests require the Playwright engine.");
+        }
+        PlaywrightEngine playwrightEngine = (PlaywrightEngine) engine;
+
+        try {
+            Field pageField = PlaywrightEngine.class.getDeclaredField("page");
+            pageField.setAccessible(true);
+            return (Page) pageField.get(playwrightEngine);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("Unable to access Playwright page for postcode lookup mocking.", e);
+        }
+    }
+}

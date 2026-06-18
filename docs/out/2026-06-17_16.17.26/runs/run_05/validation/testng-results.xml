@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-17T16:21:10 EEST" name="Surefire suite" finished-at="2026-06-17T16:22:10 EEST" duration-ms="59652">
+    <groups>
+    </groups>
+    <test started-at="2026-06-17T16:21:10 EEST" name="Surefire test" finished-at="2026-06-17T16:22:10 EEST" duration-ms="59652">
+      <class name="com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests@72e5a8e]" started-at="2026-06-17T16:21:10 EEST" name="setUp" finished-at="2026-06-17T16:21:24 EEST" duration-ms="13467" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="beforeReceiptIdentityAfterReloginMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests@72e5a8e]" started-at="2026-06-17T16:21:24 EEST" name="beforeReceiptIdentityAfterReloginMethod" finished-at="2026-06-17T16:21:24 EEST" duration-ms="42" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeReceiptIdentityAfterReloginMethod -->
+        <test-method signature="after_bank_transfer_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests@72e5a8e]" started-at="2026-06-17T16:21:24 EEST" name="after_bank_transfer_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity" description="After bank-transfer purchase and relogin the account surfaces still expose no persistent commercial identity" finished-at="2026-06-17T16:21:35 EEST" duration-ms="10890" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_bank_transfer_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity -->
+        <test-method is-config="true" signature="beforeReceiptIdentityAfterReloginMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests@72e5a8e]" started-at="2026-06-17T16:21:35 EEST" name="beforeReceiptIdentityAfterReloginMethod" finished-at="2026-06-17T16:21:35 EEST" duration-ms="6" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeReceiptIdentityAfterReloginMethod -->
+        <test-method signature="after_cod_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests@72e5a8e]" started-at="2026-06-17T16:21:35 EEST" name="after_cod_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity" description="After COD purchase and relogin the account surfaces still expose no persistent commercial identity" finished-at="2026-06-17T16:21:43 EEST" duration-ms="7714" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_cod_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity -->
+        <test-method is-config="true" signature="beforeReceiptIdentityAfterReloginMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests@72e5a8e]" started-at="2026-06-17T16:21:43 EEST" name="beforeReceiptIdentityAfterReloginMethod" finished-at="2026-06-17T16:21:43 EEST" duration-ms="10" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeReceiptIdentityAfterReloginMethod -->
+        <test-method signature="after_gift_card_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests@72e5a8e]" started-at="2026-06-17T16:21:43 EEST" name="after_gift_card_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity" description="After gift-card purchase and relogin the account surfaces still expose no persistent commercial identity" finished-at="2026-06-17T16:21:51 EEST" duration-ms="8117" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_gift_card_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity -->
+        <test-method is-config="true" signature="beforeReceiptIdentityAfterReloginMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests@72e5a8e]" started-at="2026-06-17T16:21:52 EEST" name="beforeReceiptIdentityAfterReloginMethod" finished-at="2026-06-17T16:21:52 EEST" duration-ms="11" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeReceiptIdentityAfterReloginMethod -->
+        <test-method signature="after_switched_credit_card_to_gift_card_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests@72e5a8e]" started-at="2026-06-17T16:21:52 EEST" name="after_switched_credit_card_to_gift_card_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity" description="After switched credit-card to gift-card purchase and relogin the account surfaces still expose no persistent commercial identity" finished-at="2026-06-17T16:21:59 EEST" duration-ms="7309" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_switched_credit_card_to_gift_card_purchase_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity -->
+        <test-method is-config="true" signature="beforeReceiptIdentityAfterReloginMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests@72e5a8e]" started-at="2026-06-17T16:21:59 EEST" name="beforeReceiptIdentityAfterReloginMethod" finished-at="2026-06-17T16:21:59 EEST" duration-ms="4" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeReceiptIdentityAfterReloginMethod -->
+        <test-method signature="after_two_successful_purchases_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests@72e5a8e]" started-at="2026-06-17T16:21:59 EEST" name="after_two_successful_purchases_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity" description="After two successful purchases and relogin the account surfaces still expose no persistent commercial identity" finished-at="2026-06-17T16:22:09 EEST" duration-ms="9629" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_two_successful_purchases_and_relogin_the_account_surfaces_still_expose_no_persistent_commercial_identity -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests@72e5a8e]" started-at="2026-06-17T16:22:09 EEST" name="tearDown" finished-at="2026-06-17T16:22:10 EEST" duration-ms="564" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.AuthenticatedReceiptIdentityAfterReloginTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

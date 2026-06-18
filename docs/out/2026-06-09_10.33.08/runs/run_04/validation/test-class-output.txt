@@ -1,0 +1,63 @@
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+  � Playwright pages after init: 1
+? Registration autofill preconditions
+  ? PASS: Ready
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  � base.url=https://practicesoftwaretesting.com
+  � relativePath=/auth/register
+  � Playwright pages after open: 1
+  � Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  � locator=input[data-test='first-name']
+  � value=John
+  ? PASS: Typed
+? Type into element: Last name
+  � locator=input[data-test='last-name']
+  � value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  � locator=input[data-test='dob']
+  � value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  � locator=input[data-test='phone']
+  � value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  � locator=input[data-test='email']
+  � value=user_nzzz0id8sq@example.com
+  ? PASS: Typed
+? Type into element: Password
+  � locator=input[data-test='password']
+  � value=Aa1@YA4UZEK0
+  ? PASS: Typed
+? Select option: Country
+  � locator=select[data-test='country']
+  � value=NL
+  ? PASS: Selected
+? Type into element: Postal code
+  � locator=input[data-test='postal_code']
+  � value=2611AA
+  ? PASS: Typed
+? Type into element: House number
+  � locator=input[data-test='house_number']
+  � value=1
+  ? PASS: Typed
+? Get value from: Street
+  � locator=input[data-test='street']
+  � value=van Wessexboulevard
+  ? PASS: Value captured
+? Get value from: City
+  � locator=input[data-test='city']
+  � value=Zuidoostbeemster
+  ? PASS: Value captured
+? Get value from: State
+  � locator=input[data-test='state']
+  � value=Overijssel
+  ? PASS: Value captured
+? Click on: Register
+  � locator=button[data-test='register-submit']
+  ? PASS: Clicked

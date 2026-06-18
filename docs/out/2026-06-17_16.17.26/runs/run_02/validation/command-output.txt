@@ -1,0 +1,1315 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.endava.ai:test-framework >--------------------
+[INFO] Building Test Automation Framework 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ test-framework ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ test-framework ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ test-framework ---
+[INFO] Copying 4 resources from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ test-framework ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ test-framework ---
+[INFO] Using auto detected provider org.apache.maven.surefire.testng.TestNGProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+  • Playwright pages after init: 1
+? Authenticated orders-promise contradiction preconditions
+? Clear browser session
+  ? PASS: Session cleared
+  ? PASS: Browser session was cleared before the next orders-promise contradiction check
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_b4mjuec8p6@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@5Jp3qsy6
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_b4mjuec8p6@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@5Jp3qsy6
+  ? PASS: Typed
+? Click on: Login
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ? PASS: Navigated
+? Click visible match on: first product card
+  • locator=a[data-test^='product-']
+  • visibleIndex=1
+  ? PASS: Clicked visible match
+? Click on: Add to cart
+  • locator=button[data-test='add-to-cart']
+  ? PASS: Clicked
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ? PASS: Text captured
+? Click on: Cart
+  • locator=a[data-test='nav-cart']
+  ? PASS: Clicked
+? Click on: Proceed to checkout from cart
+  • locator=button[data-test='proceed-1']
+  ? PASS: Clicked
+? Click on: Proceed as authenticated user
+  • locator=button[data-test='proceed-2']
+  ? PASS: Clicked
+? Select option: Billing country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Billing street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: Billing city
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: Billing state
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Proceed to payment
+  • locator=button[data-test='proceed-3']
+  ? PASS: Clicked
+? Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=Bank Transfer
+  ? PASS: Selected
+? Type into element: Bank name
+  • locator=input[data-test='bank_name']
+  • value=Audit Bank
+  ? PASS: Typed
+? Type into element: Account name
+  • locator=input[data-test='account_name']
+  • value=John Doe
+  ? PASS: Typed
+? Type into element: Account number
+  • locator=input[data-test='account_number']
+  • value=12345678901234
+  ? PASS: Typed
+? Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ? PASS: Clicked
+? Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Bank Name
+Account Name
+Account Number
+Please enter your bank account number as it appears on your bank statement. It's a unique series of numbers used to identify your individual account. Avoid including any spaces or hyphens.
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Clear browser session
+  ? PASS: Session cleared
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_b4mjuec8p6@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@5Jp3qsy6
+  ? PASS: Typed
+? Click on: Login
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account
+  ? PASS: Navigated
+? Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+ EN 
+My account
+
+Here you can manage your profile, favorites and orders.
+
+ Favorites
+ Profile
+ Invoices
+ Messages
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+  ? PASS: Text captured
+? Navigate to URL: https://practicesoftwaretesting.com/account/invoices
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/invoices
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account/invoices
+  ? PASS: Navigated
+? Get texts from: invoice rows
+  • locator=table tbody tr
+  • texts=[]
+  ? PASS: Texts captured
+? Authenticated orders-promise contradiction preconditions
+? Clear browser session
+  ? PASS: Session cleared
+  ? PASS: Browser session was cleared before the next orders-promise contradiction check
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_yckavqbw88@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@l45q7r0D
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_yckavqbw88@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@l45q7r0D
+  ? PASS: Typed
+? Click on: Login
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ? PASS: Navigated
+? Click visible match on: first product card
+  • locator=a[data-test^='product-']
+  • visibleIndex=1
+  ? PASS: Clicked visible match
+? Click on: Add to cart
+  • locator=button[data-test='add-to-cart']
+  ? PASS: Clicked
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ? PASS: Text captured
+? Click on: Cart
+  • locator=a[data-test='nav-cart']
+  ? PASS: Clicked
+? Click on: Proceed to checkout from cart
+  • locator=button[data-test='proceed-1']
+  ? PASS: Clicked
+? Click on: Proceed as authenticated user
+  • locator=button[data-test='proceed-2']
+  ? PASS: Clicked
+? Select option: Billing country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Billing street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: Billing city
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: Billing state
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Proceed to payment
+  • locator=button[data-test='proceed-3']
+  ? PASS: Clicked
+? Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=Buy Now Pay Later
+  ? PASS: Selected
+? Select option: Monthly installments
+  • locator=select[data-test='monthly_installments']
+  • value=3 Monthly Installments
+  ? PASS: Selected
+? Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ? PASS: Clicked
+? Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Monthly Installments
+Choose your monthly installments
+3 Monthly Installments
+6 Monthly Installments
+9 Monthly Installments
+12 Monthly Installments
+This option allows you to spread the cost of your purchase over several months.
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Navigate to URL: https://practicesoftwaretesting.com/account/invoices
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/invoices
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account/invoices
+  ? PASS: Navigated
+? Get text from: Invoices page title
+  • locator=[data-test='page-title']
+  • text=Invoices
+  ? PASS: Text captured
+? Get texts from: invoice rows
+  • locator=table tbody tr
+  • texts=[]
+  ? PASS: Texts captured
+? Authenticated orders-promise contradiction preconditions
+? Clear browser session
+  ? PASS: Session cleared
+  ? PASS: Browser session was cleared before the next orders-promise contradiction check
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_eoalcxqi17@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@3IZVtwF4
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_eoalcxqi17@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@3IZVtwF4
+  ? PASS: Typed
+? Click on: Login
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ? PASS: Navigated
+? Click visible match on: first product card
+  • locator=a[data-test^='product-']
+  • visibleIndex=1
+  ? PASS: Clicked visible match
+? Click on: Add to cart
+  • locator=button[data-test='add-to-cart']
+  ? PASS: Clicked
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ? PASS: Text captured
+? Click on: Cart
+  • locator=a[data-test='nav-cart']
+  ? PASS: Clicked
+? Click on: Proceed to checkout from cart
+  • locator=button[data-test='proceed-1']
+  ? PASS: Clicked
+? Click on: Proceed as authenticated user
+  • locator=button[data-test='proceed-2']
+  ? PASS: Clicked
+? Select option: Billing country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Billing street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: Billing city
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: Billing state
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Proceed to payment
+  • locator=button[data-test='proceed-3']
+  ? PASS: Clicked
+? Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=Cash on Delivery
+  ? PASS: Selected
+? Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ? PASS: Clicked
+? Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Navigate to URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account
+  ? PASS: Navigated
+? Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+1
+ EN 
+My account
+
+Here you can manage your profile, favorites and orders.
+
+ Favorites
+ Profile
+ Invoices
+ Messages
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+  ? PASS: Text captured
+? Navigate to URL: https://practicesoftwaretesting.com/account/invoices
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/invoices
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account/invoices
+  ? PASS: Navigated
+? Get texts from: invoice rows
+  • locator=table tbody tr
+  • texts=[]
+  ? PASS: Texts captured
+? Authenticated orders-promise contradiction preconditions
+? Clear browser session
+  ? PASS: Session cleared
+  ? PASS: Browser session was cleared before the next orders-promise contradiction check
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_jejvfbirnr@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@4h5F5zNJ
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_jejvfbirnr@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@4h5F5zNJ
+  ? PASS: Typed
+? Click on: Login
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ? PASS: Navigated
+? Click visible match on: first product card
+  • locator=a[data-test^='product-']
+  • visibleIndex=1
+  ? PASS: Clicked visible match
+? Click on: Add to cart
+  • locator=button[data-test='add-to-cart']
+  ? PASS: Clicked
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ? PASS: Text captured
+? Click on: Cart
+  • locator=a[data-test='nav-cart']
+  ? PASS: Clicked
+? Click on: Proceed to checkout from cart
+  • locator=button[data-test='proceed-1']
+  ? PASS: Clicked
+? Click on: Proceed as authenticated user
+  • locator=button[data-test='proceed-2']
+  ? PASS: Clicked
+? Select option: Billing country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Billing street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: Billing city
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: Billing state
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Proceed to payment
+  • locator=button[data-test='proceed-3']
+  ? PASS: Clicked
+? Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=Gift Card
+  ? PASS: Selected
+? Type into element: Gift card number
+  • locator=input[data-test='gift_card_number']
+  • value=ABCDEFGH12345678
+  ? PASS: Typed
+? Type into element: Validation code
+  • locator=input[data-test='validation_code']
+  • value=W9X2
+  ? PASS: Typed
+? Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ? PASS: Clicked
+? Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Gift Card Number
+Enter the unique number found on your gift card. This number is usually located on the back of the card and consists of 16 letters and/or digits.
+Validation Code
+The validation code is a security feature found on your gift card, often located near the gift card number. Enter this 4-character code exactly as it appears on your card.
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Navigate to URL: https://practicesoftwaretesting.com/account/invoices
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/invoices
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account/invoices
+  ? PASS: Navigated
+? Get texts from: invoice table headers
+  • locator=table thead th
+  • texts=[Invoice Number, Billing Address, Invoice Date, Total]
+  ? PASS: Texts captured
+? Get texts from: invoice rows
+  • locator=table tbody tr
+  • texts=[]
+  ? PASS: Texts captured
+? Authenticated orders-promise contradiction preconditions
+? Clear browser session
+  ? PASS: Session cleared
+  ? PASS: Browser session was cleared before the next orders-promise contradiction check
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ? PASS: Typed
+? Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ? PASS: Typed
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_qgpo56xcqv@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@GEUpcnBZ
+  ? PASS: Typed
+? Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Register
+  • locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_qgpo56xcqv@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@GEUpcnBZ
+  ? PASS: Typed
+? Click on: Login
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ? PASS: Navigated
+? Click visible match on: first product card
+  • locator=a[data-test^='product-']
+  • visibleIndex=1
+  ? PASS: Clicked visible match
+? Click on: Add to cart
+  • locator=button[data-test='add-to-cart']
+  ? PASS: Clicked
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ? PASS: Text captured
+? Click on: Cart
+  • locator=a[data-test='nav-cart']
+  ? PASS: Clicked
+? Click on: Proceed to checkout from cart
+  • locator=button[data-test='proceed-1']
+  ? PASS: Clicked
+? Click on: Proceed as authenticated user
+  • locator=button[data-test='proceed-2']
+  ? PASS: Clicked
+? Select option: Billing country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Billing street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: Billing city
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: Billing state
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Proceed to payment
+  • locator=button[data-test='proceed-3']
+  ? PASS: Clicked
+? Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=Cash on Delivery
+  ? PASS: Selected
+? Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ? PASS: Clicked
+? Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ? PASS: Navigated
+? Click visible match on: first product card
+  • locator=a[data-test^='product-']
+  • visibleIndex=1
+  ? PASS: Clicked visible match
+? Click on: Add to cart
+  • locator=button[data-test='add-to-cart']
+  ? PASS: Clicked
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ? PASS: Text captured
+? Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ? PASS: Text captured
+? Click on: Cart
+  • locator=a[data-test='nav-cart']
+  ? PASS: Clicked
+? Click on: Proceed to checkout from cart
+  • locator=button[data-test='proceed-1']
+  ? PASS: Clicked
+? Click on: Proceed as authenticated user
+  • locator=button[data-test='proceed-2']
+  ? PASS: Clicked
+? Select option: Billing country
+  • locator=select[data-test='country']
+  • value=RO
+  ? PASS: Selected
+? Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ? PASS: Typed
+? Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ? PASS: Typed
+? Type into element: Billing street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ? PASS: Typed
+? Type into element: Billing city
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ? PASS: Typed
+? Type into element: Billing state
+  • locator=input[data-test='state']
+  • value=B
+  ? PASS: Typed
+? Click on: Proceed to payment
+  • locator=button[data-test='proceed-3']
+  ? PASS: Clicked
+? Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=Gift Card
+  ? PASS: Selected
+? Type into element: Gift card number
+  • locator=input[data-test='gift_card_number']
+  • value=ZXCVASDF12345678
+  ? PASS: Typed
+? Type into element: Validation code
+  • locator=input[data-test='validation_code']
+  • value=Q1W2
+  ? PASS: Typed
+? Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ? PASS: Clicked
+? Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+2
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Gift Card Number
+Enter the unique number found on your gift card. This number is usually located on the back of the card and consists of 16 letters and/or digits.
+Validation Code
+The validation code is a security feature found on your gift card, often located near the gift card number. Enter this 4-character code exactly as it appears on your card.
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ? PASS: Text captured
+? Clear browser session
+  ? PASS: Session cleared
+? Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ? PASS: Navigated
+? Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_qgpo56xcqv@example.com
+  ? PASS: Typed
+? Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@GEUpcnBZ
+  ? PASS: Typed
+? Click on: Login
+  • locator=input[data-test='login-submit']
+  ? PASS: Clicked
+? Navigate to URL: https://practicesoftwaretesting.com/account
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account
+  ? PASS: Navigated
+? Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+? Bug Hunting
+Home
+Categories 
+Contact
+ EN 
+My account
+
+Here you can manage your profile, favorites and orders.
+
+ Favorites
+ Profile
+ Invoices
+ Messages
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+  ? PASS: Text captured
+? Navigate to URL: https://practicesoftwaretesting.com/account/invoices
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/account/invoices
+  • Playwright pages after open: 1
+  • Wait for URL contains: /account/invoices
+  ? PASS: Navigated
+? Get texts from: invoice rows
+  • locator=table tbody tr
+  • texts=[]
+  ? PASS: Texts captured
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 45.75 s -- in com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  49.548 s
+[INFO] Finished at: 2026-06-17T16:18:58+03:00
+[INFO] ------------------------------------------------------------------------

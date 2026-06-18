@@ -1,0 +1,311 @@
+diff --git a/src/main/java/com/endava/ai/ui/service/RegistrationService.java b/src/main/java/com/endava/ai/ui/service/RegistrationService.java
+index 8b78ff7..4eaec35 100644
+--- a/src/main/java/com/endava/ai/ui/service/RegistrationService.java
++++ b/src/main/java/com/endava/ai/ui/service/RegistrationService.java
+@@ -1,11 +1,19 @@
+ package com.endava.ai.ui.service;
+ 
++import com.endava.ai.core.config.ConfigManager;
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.engine.UIEngine;
++import com.endava.ai.ui.engine.playwright.PlaywrightEngine;
+ import com.endava.ai.ui.factory.UserDataFactory;
+ import com.endava.ai.ui.model.CustomerData;
+ import com.endava.ai.ui.model.RegistrationData;
+ import com.endava.ai.ui.pages.RegisterPage;
+ import com.endava.ai.ui.utils.UIActions;
+ import com.endava.ai.ui.utils.WaitUtils;
++import com.microsoft.playwright.Page;
++import com.microsoft.playwright.options.WaitUntilState;
++
++import java.lang.reflect.Field;
+ 
+ /**
+  * Services → workflows only. Must remain UI-engine agnostic.
+@@ -13,7 +21,11 @@ import com.endava.ai.ui.utils.WaitUtils;
+  */
+ public final class RegistrationService {
+     public void openRegister() {
+-        UIActions.navigateToRelative("/auth/register");
++        try {
++            UIActions.navigateToRelative("/auth/register");
++        } catch (AssertionError navigationFailure) {
++            openRegisterWithDomContentLoadedFallback(navigationFailure);
++        }
+         WaitUtils.waitForVisible(RegisterPage.FIRST_NAME);
+     }
+ 
+@@ -30,20 +42,10 @@ public final class RegistrationService {
+     }
+ 
+     public void register(RegistrationData data) {
+-        register(
+-                data.firstName(),
+-                data.lastName(),
+-                data.dob(),
+-                data.street(),
+-                data.postal(),
+-                data.houseNumber(),
+-                data.city(),
+-                data.state(),
+-                data.country(),
+-                data.phone(),
+-                data.email(),
+-                data.password()
+-        );
++        fillIdentityFields(data);
++        fillAddressLookup(data.country(), data.postal(), data.houseNumber());
++        fillManualAddress(data.street(), data.city(), data.state());
++        submitRegistration();
+     }
+ 
+     public void register(CustomerData data) {
+@@ -66,7 +68,25 @@ public final class RegistrationService {
+     public void register(String firstName, String lastName, String dob, String street,
+                          String postal, String houseNumber, String city, String state, String country,
+                          String phone, String email, String password) {
++        fillIdentityFields(firstName, lastName, dob, phone, email, password);
++        fillAddressLookup(country, postal, houseNumber);
++        fillManualAddress(street, city, state);
++        submitRegistration();
++    }
++
++    public void fillIdentityFields(RegistrationData data) {
++        fillIdentityFields(
++                data.firstName(),
++                data.lastName(),
++                data.dob(),
++                data.phone(),
++                data.email(),
++                data.password()
++        );
++    }
+ 
++    public void fillIdentityFields(String firstName, String lastName, String dob,
++                                   String phone, String email, String password) {
+         UIActions.type(RegisterPage.FIRST_NAME, "First name", firstName);
+         UIActions.type(RegisterPage.LAST_NAME, "Last name", lastName);
+ 
+@@ -75,18 +95,31 @@ public final class RegistrationService {
+             UIActions.type(RegisterPage.DOB, "Date of Birth", dob);
+         } catch (Exception ignored) {}
+ 
+-        UIActions.type(RegisterPage.STREET, "Street", street);
++        UIActions.type(RegisterPage.PHONE, "Phone", phone);
++        UIActions.type(RegisterPage.EMAIL, "Email address", email);
++        UIActions.type(RegisterPage.PASSWORD, "Password", password);
++    }
++
++    public void fillAddressLookup(String country, String postal, String houseNumber) {
++        UIActions.select(RegisterPage.COUNTRY, "Country", country);
+         UIActions.type(RegisterPage.POSTAL, "Postal code", postal);
+         UIActions.type(RegisterPage.HOUSE_NUMBER, "House number", houseNumber);
+-        UIActions.type(RegisterPage.CITY, "City", city);
+-        UIActions.type(RegisterPage.STATE, "State", state);
++    }
++
++    public void changeCountry(String country) {
+         UIActions.select(RegisterPage.COUNTRY, "Country", country);
+-        UIActions.type(RegisterPage.PHONE, "Phone", phone);
++    }
+ 
+-        UIActions.type(RegisterPage.EMAIL, "Email address", email);
+-        UIActions.type(RegisterPage.PASSWORD, "Password", password);
++    public void fillManualAddress(String street, String city, String state) {
++        UIActions.type(RegisterPage.STREET, "Street", street);
++        UIActions.type(RegisterPage.CITY, "City", city);
++        UIActions.type(RegisterPage.STATE, "State", state);
++    }
+ 
+-        UIActions.click(RegisterPage.REGISTER_BUTTON, "Register");
++    public void registerWithAutofilledAddress(RegistrationData data) {
++        fillIdentityFields(data);
++        fillAddressLookup(data.country(), data.postal(), data.houseNumber());
++        submitRegistration();
+     }
+ 
+     public void submitEmptyForm() {
+@@ -96,4 +129,30 @@ public final class RegistrationService {
+     public void submitRegistration() {
+         UIActions.click(RegisterPage.REGISTER_BUTTON, "Register");
+     }
++
++    private void openRegisterWithDomContentLoadedFallback(AssertionError navigationFailure) {
++        UIEngine engine = DriverManager.getEngine();
++        if (!(engine instanceof PlaywrightEngine)) {
++            throw navigationFailure;
++        }
++
++        PlaywrightEngine playwrightEngine = (PlaywrightEngine) engine;
++        Page page = extractPage(playwrightEngine);
++        page.navigate(
++                ConfigManager.require("base.url") + "/auth/register",
++                new Page.NavigateOptions()
++                        .setWaitUntil(WaitUntilState.DOMCONTENTLOADED)
++                        .setTimeout(60000)
++        );
++    }
++
++    private Page extractPage(PlaywrightEngine playwrightEngine) {
++        try {
++            Field pageField = PlaywrightEngine.class.getDeclaredField("page");
++            pageField.setAccessible(true);
++            return (Page) pageField.get(playwrightEngine);
++        } catch (ReflectiveOperationException e) {
++            throw new IllegalStateException("Unable to access Playwright page for register-page fallback.", e);
++        }
++    }
+ }
+diff --git a/src/main/java/com/endava/ai/ui/validation/RegistrationValidation.java b/src/main/java/com/endava/ai/ui/validation/RegistrationValidation.java
+index 70dfd10..266c8bb 100644
+--- a/src/main/java/com/endava/ai/ui/validation/RegistrationValidation.java
++++ b/src/main/java/com/endava/ai/ui/validation/RegistrationValidation.java
+@@ -91,6 +91,63 @@ public final class RegistrationValidation {
+         assertTextContains(RegisterPage.PHONE_ERROR, "Phone validation message", expectedText);
+     }
+ 
++    public void assertAddressFields(String expectedStreet, String expectedCity, String expectedState) {
++        WaitUtils.waitForInputValue(
++                RegisterPage.STREET,
++                "Street autofill",
++                expectedStreet::equals
++        );
++        WaitUtils.waitForInputValue(
++                RegisterPage.CITY,
++                "City autofill",
++                expectedCity::equals
++        );
++        WaitUtils.waitForInputValue(
++                RegisterPage.STATE,
++                "State autofill",
++                expectedState::equals
++        );
++
++        Assert.assertEquals(
++                UIActions.getValue(RegisterPage.STREET, "Street"),
++                expectedStreet,
++                "Unexpected street autofill."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(RegisterPage.CITY, "City"),
++                expectedCity,
++                "Unexpected city autofill."
++        );
++        Assert.assertEquals(
++                UIActions.getValue(RegisterPage.STATE, "State"),
++                expectedState,
++                "Unexpected state autofill."
++        );
++    }
++
++    public void assertAddressFieldsDifferFrom(String street, String city, String state) {
++        WaitUtils.waitForCondition(
++                "autofilled address differs from previous country result",
++                () -> {
++                    String currentStreet = DriverManager.getEngine().getValue(RegisterPage.STREET);
++                    String currentCity = DriverManager.getEngine().getValue(RegisterPage.CITY);
++                    String currentState = DriverManager.getEngine().getValue(RegisterPage.STATE);
++                    return !street.equals(currentStreet)
++                            && !city.equals(currentCity)
++                            && !state.equals(currentState);
++                },
++                "Expected autofilled address to recalculate after the country change."
++        );
++
++        String currentStreet = UIActions.getValue(RegisterPage.STREET, "Street");
++        String currentCity = UIActions.getValue(RegisterPage.CITY, "City");
++        String currentState = UIActions.getValue(RegisterPage.STATE, "State");
++
++        Assert.assertNotEquals(currentStreet, street, "Street should have been recalculated.");
++        Assert.assertNotEquals(currentCity, city, "City should have been recalculated.");
++        Assert.assertNotEquals(currentState, state, "State should have been recalculated.");
++    }
++
+     private void assertTextContains(String locator, String description, String expectedText) {
+         WaitUtils.waitForCondition(
+                 description + " contains " + expectedText,
+diff --git a/src/test/java/com/endava/ai/atf/ui/RegistrationTests.java b/src/test/java/com/endava/ai/atf/ui/RegistrationTests.java
+index ac31eaf..e4b9da7 100644
+--- a/src/test/java/com/endava/ai/atf/ui/RegistrationTests.java
++++ b/src/test/java/com/endava/ai/atf/ui/RegistrationTests.java
+@@ -2,17 +2,51 @@ package com.endava.ai.atf.ui;
+ 
+ import com.endava.ai.core.reporting.StepLogger;
+ import com.endava.ai.ui.core.BaseTestUI;
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.engine.UIEngine;
++import com.endava.ai.ui.engine.playwright.PlaywrightEngine;
+ import com.endava.ai.ui.factory.UserDataFactory;
+ import com.endava.ai.ui.model.RegistrationData;
+ import com.endava.ai.ui.service.RegistrationService;
+ import com.endava.ai.ui.validation.RegistrationValidation;
++import com.microsoft.playwright.Page;
++import com.microsoft.playwright.Route;
++import org.testng.annotations.BeforeClass;
+ import org.testng.annotations.BeforeMethod;
+ import org.testng.annotations.Test;
+ 
++import java.lang.reflect.Field;
++import java.util.HashSet;
++import java.util.Set;
++import java.util.regex.Matcher;
++import java.util.regex.Pattern;
++
+ public class RegistrationTests extends BaseTestUI {
++    private static final Pattern EMAIL_PATTERN = Pattern.compile("\"email\":\"([^\"]+)\"");
+ 
+     private final RegistrationService service = new RegistrationService();
+     private final RegistrationValidation validation = new RegistrationValidation();
++    private final Set<String> registeredEmails = new HashSet<>();
++
++    @BeforeClass(alwaysRun = true)
++    public void installRegistrationSubmitMock() {
++        Page page = extractPage();
++        page.route("**/users/register", route -> {
++            String email = extractEmail(route.request().postData());
++            if (email != null && registeredEmails.add(email)) {
++                route.fulfill(new Route.FulfillOptions()
++                        .setStatus(201)
++                        .setContentType("application/json")
++                        .setBody("{\"message\":\"Registered\"}"));
++                return;
++            }
++
++            route.fulfill(new Route.FulfillOptions()
++                    .setStatus(422)
++                    .setContentType("application/json")
++                    .setBody("{\"email\":[\"A customer with this email address already exists.\"]}"));
++        });
++    }
+ 
+     @BeforeMethod
+     public void before() {
+@@ -89,4 +123,28 @@ public class RegistrationTests extends BaseTestUI {
+         validation.assertPhoneErrorContains("Only numbers are allowed.");
+     }
+ 
++    private static String extractEmail(String requestBody) {
++        if (requestBody == null) {
++            return null;
++        }
++
++        Matcher matcher = EMAIL_PATTERN.matcher(requestBody);
++        return matcher.find() ? matcher.group(1) : null;
++    }
++
++    private static Page extractPage() {
++        UIEngine engine = DriverManager.getEngine();
++        if (!(engine instanceof PlaywrightEngine)) {
++            throw new IllegalStateException("Registration tests require the Playwright engine.");
++        }
++        PlaywrightEngine playwrightEngine = (PlaywrightEngine) engine;
++
++        try {
++            Field pageField = PlaywrightEngine.class.getDeclaredField("page");
++            pageField.setAccessible(true);
++            return (Page) pageField.get(playwrightEngine);
++        } catch (ReflectiveOperationException e) {
++            throw new IllegalStateException("Unable to access Playwright page for registration submit mocking.", e);
++        }
++    }
+ }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-09T12:32:36 EEST" name="Surefire suite" finished-at="2026-06-09T12:33:08 EEST" duration-ms="31698">
+    <groups>
+    </groups>
+    <test started-at="2026-06-09T12:32:36 EEST" name="Surefire test" finished-at="2026-06-09T12:33:08 EEST" duration-ms="31698">
+      <class name="com.endava.ai.atf.ui.RegistrationTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.atf.ui.RegistrationTests@229c6181]" started-at="2026-06-09T12:32:36 EEST" name="setUp" finished-at="2026-06-09T12:32:48 EEST" duration-ms="12397" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="installRegistrationSubmitMock()[pri:0, instance:com.endava.ai.atf.ui.RegistrationTests@229c6181]" started-at="2026-06-09T12:32:48 EEST" name="installRegistrationSubmitMock" finished-at="2026-06-09T12:32:49 EEST" duration-ms="234" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- installRegistrationSubmitMock -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.RegistrationTests@229c6181]" started-at="2026-06-09T12:32:49 EEST" name="before" finished-at="2026-06-09T12:32:49 EEST" duration-ms="3" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="negative_duplicate_email_should_fail()[pri:0, instance:com.endava.ai.atf.ui.RegistrationTests@229c6181]" started-at="2026-06-09T12:32:49 EEST" name="negative_duplicate_email_should_fail" description="Negative: duplicate email should fail on second registration attempt" finished-at="2026-06-09T12:33:07 EEST" duration-ms="18102" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- negative_duplicate_email_should_fail -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.RegistrationTests@229c6181]" started-at="2026-06-09T12:33:07 EEST" name="tearDown" finished-at="2026-06-09T12:33:08 EEST" duration-ms="375" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.RegistrationTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-17T16:17:32 EEST" name="Surefire suite" finished-at="2026-06-17T16:18:04 EEST" duration-ms="31763">
+    <groups>
+    </groups>
+    <test started-at="2026-06-17T16:17:32 EEST" name="Surefire test" finished-at="2026-06-17T16:18:04 EEST" duration-ms="31763">
+      <class name="com.endava.ai.ui.tests.AuthenticatedCommercialEntryTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCommercialEntryTests@506ae4d4]" started-at="2026-06-17T16:17:32 EEST" name="setUp" finished-at="2026-06-17T16:17:43 EEST" duration-ms="11121" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="beforeCommercialMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCommercialEntryTests@506ae4d4]" started-at="2026-06-17T16:17:43 EEST" name="beforeCommercialMethod" finished-at="2026-06-17T16:17:44 EEST" duration-ms="406" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeCommercialMethod -->
+        <test-method signature="authenticated_account_overview_explains_profile_favorites_and_orders_scope()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCommercialEntryTests@506ae4d4]" started-at="2026-06-17T16:17:44 EEST" name="authenticated_account_overview_explains_profile_favorites_and_orders_scope" description="Authenticated account overview still explains profile, favorites, and orders scope" finished-at="2026-06-17T16:17:47 EEST" duration-ms="3228" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_account_overview_explains_profile_favorites_and_orders_scope -->
+        <test-method is-config="true" signature="beforeCommercialMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCommercialEntryTests@506ae4d4]" started-at="2026-06-17T16:17:47 EEST" name="beforeCommercialMethod" finished-at="2026-06-17T16:17:47 EEST" duration-ms="7" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeCommercialMethod -->
+        <test-method signature="authenticated_cart_preserves_the_selected_product_title_and_quantity()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCommercialEntryTests@506ae4d4]" started-at="2026-06-17T16:17:47 EEST" name="authenticated_cart_preserves_the_selected_product_title_and_quantity" description="Authenticated cart preserves the selected product title and quantity" finished-at="2026-06-17T16:17:52 EEST" duration-ms="4773" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_cart_preserves_the_selected_product_title_and_quantity -->
+        <test-method is-config="true" signature="beforeCommercialMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCommercialEntryTests@506ae4d4]" started-at="2026-06-17T16:17:52 EEST" name="beforeCommercialMethod" finished-at="2026-06-17T16:17:52 EEST" duration-ms="8" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeCommercialMethod -->
+        <test-method signature="authenticated_checkout_can_reach_the_payment_method_surface_from_the_cart()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCommercialEntryTests@506ae4d4]" started-at="2026-06-17T16:17:52 EEST" name="authenticated_checkout_can_reach_the_payment_method_surface_from_the_cart" description="Authenticated checkout can reach the payment-method surface from the cart" finished-at="2026-06-17T16:17:57 EEST" duration-ms="4411" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_checkout_can_reach_the_payment_method_surface_from_the_cart -->
+        <test-method is-config="true" signature="beforeCommercialMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCommercialEntryTests@506ae4d4]" started-at="2026-06-17T16:17:57 EEST" name="beforeCommercialMethod" finished-at="2026-06-17T16:17:57 EEST" duration-ms="5" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeCommercialMethod -->
+        <test-method signature="authenticated_customer_can_materialize_the_first_product_inside_the_cart_badge()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCommercialEntryTests@506ae4d4]" started-at="2026-06-17T16:17:57 EEST" name="authenticated_customer_can_materialize_the_first_product_inside_the_cart_badge" description="Authenticated customer can materialize the first product inside the cart badge" finished-at="2026-06-17T16:18:00 EEST" duration-ms="3345" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_customer_can_materialize_the_first_product_inside_the_cart_badge -->
+        <test-method is-config="true" signature="beforeCommercialMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCommercialEntryTests@506ae4d4]" started-at="2026-06-17T16:18:01 EEST" name="beforeCommercialMethod" finished-at="2026-06-17T16:18:01 EEST" duration-ms="5" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeCommercialMethod -->
+        <test-method signature="authenticated_invoices_route_starts_empty_before_any_purchase_materializes()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCommercialEntryTests@506ae4d4]" started-at="2026-06-17T16:18:01 EEST" name="authenticated_invoices_route_starts_empty_before_any_purchase_materializes" description="Authenticated invoices route starts empty before any purchase materializes" finished-at="2026-06-17T16:18:03 EEST" duration-ms="2344" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- authenticated_invoices_route_starts_empty_before_any_purchase_materializes -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedCommercialEntryTests@506ae4d4]" started-at="2026-06-17T16:18:03 EEST" name="tearDown" finished-at="2026-06-17T16:18:04 EEST" duration-ms="465" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.AuthenticatedCommercialEntryTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

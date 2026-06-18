@@ -1,0 +1,7 @@
+﻿Local link audit
+Package: C:\work\ex\java\demo\atf1\test-framework\docs\out\2026-06-17_16.17.26
+HTML: C:\work\ex\java\demo\atf1\test-framework\docs\out\2026-06-17_16.17.26\analysis\langgraph-business-understanding.html
+File links: 169
+Anchor links: 10
+Missing: 0
+Status: PASS

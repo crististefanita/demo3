@@ -1,0 +1,150 @@
+package com.endava.ai.atf.ui;
+
+import com.endava.ai.core.reporting.StepLogger;
+import com.endava.ai.ui.core.BaseTestUI;
+import com.endava.ai.ui.core.DriverManager;
+import com.endava.ai.ui.engine.UIEngine;
+import com.endava.ai.ui.engine.playwright.PlaywrightEngine;
+import com.endava.ai.ui.factory.UserDataFactory;
+import com.endava.ai.ui.model.RegistrationData;
+import com.endava.ai.ui.service.RegistrationService;
+import com.endava.ai.ui.validation.RegistrationValidation;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Route;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class RegistrationTests extends BaseTestUI {
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("\"email\":\"([^\"]+)\"");
+
+    private final RegistrationService service = new RegistrationService();
+    private final RegistrationValidation validation = new RegistrationValidation();
+    private final Set<String> registeredEmails = new HashSet<>();
+
+    @BeforeClass(alwaysRun = true)
+    public void installRegistrationSubmitMock() {
+        Page page = extractPage();
+        page.route("**/users/register", route -> {
+            String email = extractEmail(route.request().postData());
+            if (email != null && registeredEmails.add(email)) {
+                route.fulfill(new Route.FulfillOptions()
+                        .setStatus(201)
+                        .setContentType("application/json")
+                        .setBody("{\"message\":\"Registered\"}"));
+                return;
+            }
+
+            route.fulfill(new Route.FulfillOptions()
+                    .setStatus(422)
+                    .setContentType("application/json")
+                    .setBody("{\"email\":[\"A customer with this email address already exists.\"]}"));
+        });
+    }
+
+    @BeforeMethod
+    public void before() {
+        StepLogger.startStep("Registration preconditions");
+        StepLogger.pass("Ready");
+    }
+
+    @Test(description = "Positive: successful registration redirects to login")
+    public void positive_registration_redirects_to_login() {
+        service.openRegister();
+        RegistrationData data = UserDataFactory.validRegistrationData();
+        service.register(data);
+
+        validation.assertRedirectedToLogin();
+    }
+
+    @Test(description = "Negative: missing required fields should show validation error")
+    public void negative_missing_required_fields_shows_error() {
+        service.openRegister();
+
+        com.endava.ai.ui.utils.UIActions.click(com.endava.ai.ui.pages.RegisterPage.REGISTER_BUTTON, "Register");
+
+        validation.assertStillOnRegister();
+        validation.assertAnyErrorVisibleOrPresent();
+    }
+
+    @Test(description = "Negative: invalid email format should not redirect to login")
+    public void negative_invalid_email_should_fail() {
+        service.openRegister();
+
+        RegistrationData data = UserDataFactory.validRegistrationData()
+                .withEmail("invalid-email-format");
+        service.register(data);
+
+        validation.assertStillOnRegister();
+        validation.assertErrorContains("Email format is invalid");
+    }
+
+    @Test(description = "Negative: duplicate email should fail on second registration attempt")
+    public void negative_duplicate_email_should_fail() {
+        service.openRegister();
+
+        RegistrationData data = UserDataFactory.validRegistrationData();
+        service.register(data);
+        validation.assertRedirectedToLogin();
+
+        service.openRegister();
+        service.register(data);
+        validation.assertStillOnRegister();
+        validation.assertErrorContains("A customer with this email address already exists.");
+    }
+
+    @Test(description = "Negative: weak password should show password policy feedback")
+    public void negative_weak_password_should_show_validation_message() {
+        service.openRegister();
+
+        RegistrationData data = UserDataFactory.validRegistrationData()
+                .withPassword("short");
+        service.register(data);
+
+        validation.assertStillOnRegister();
+        validation.assertPasswordErrorContains("Password must be minimal 6 characters long.");
+    }
+
+    @Test(description = "Negative: phone with letters should fail validation")
+    public void negative_phone_with_letters_should_fail() {
+        service.openRegister();
+
+        RegistrationData data = UserDataFactory.validRegistrationData()
+                .withPhone("abc");
+        service.register(data);
+
+        validation.assertStillOnRegister();
+        validation.assertPhoneErrorContains("Only numbers are allowed.");
+    }
+
+    private static String extractEmail(String requestBody) {
+        if (requestBody == null) {
+            return null;
+        }
+
+        Matcher matcher = EMAIL_PATTERN.matcher(requestBody);
+        return matcher.find() ? matcher.group(1) : null;
+    }
+
+    private static Page extractPage() {
+        UIEngine engine = DriverManager.getEngine();
+        if (!(engine instanceof PlaywrightEngine)) {
+            throw new IllegalStateException("Registration tests require the Playwright engine.");
+        }
+        PlaywrightEngine playwrightEngine = (PlaywrightEngine) engine;
+
+        try {
+            Field pageField = PlaywrightEngine.class.getDeclaredField("page");
+            pageField.setAccessible(true);
+            return (Page) pageField.get(playwrightEngine);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("Unable to access Playwright page for registration submit mocking.", e);
+        }
+    }
+}

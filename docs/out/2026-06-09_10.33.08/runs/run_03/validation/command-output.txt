@@ -1,0 +1,36 @@
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+  � Playwright pages after init: 1
+? Registration autofill preconditions
+  ? PASS: Ready
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  � base.url=https://practicesoftwaretesting.com
+  � relativePath=/auth/register
+  � Playwright pages after open: 1
+  � Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Select option: Country
+  � locator=select[data-test='country']
+  � value=NL
+  ? PASS: Selected
+? Type into element: Postal code
+  � locator=input[data-test='postal_code']
+  � value=9999ZZ
+  ? PASS: Typed
+? Type into element: House number
+  � locator=input[data-test='house_number']
+  � value=999
+  ? PASS: Typed
+? Get value from: Street
+  � locator=input[data-test='street']
+  � value=van der Heidensteeg
+  ? PASS: Value captured
+? Get value from: City
+  � locator=input[data-test='city']
+  � value=Lage Vuursche
+  ? PASS: Value captured
+? Get value from: State
+  � locator=input[data-test='state']
+  � value=Zuid-Holland
+  ? PASS: Value captured

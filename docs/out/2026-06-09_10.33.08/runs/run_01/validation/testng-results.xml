@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-09T12:30:02 EEST" name="Surefire suite" finished-at="2026-06-09T12:30:18 EEST" duration-ms="15912">
+    <groups>
+    </groups>
+    <test started-at="2026-06-09T12:30:02 EEST" name="Surefire test" finished-at="2026-06-09T12:30:18 EEST" duration-ms="15912">
+      <class name="com.endava.ai.atf.ui.RegistrationAddressAutofillTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.atf.ui.RegistrationAddressAutofillTests@18df8434]" started-at="2026-06-09T12:30:02 EEST" name="setUp" finished-at="2026-06-09T12:30:15 EEST" duration-ms="12807" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="installPostcodeLookupMock()[pri:0, instance:com.endava.ai.atf.ui.RegistrationAddressAutofillTests@18df8434]" started-at="2026-06-09T12:30:15 EEST" name="installPostcodeLookupMock" finished-at="2026-06-09T12:30:15 EEST" duration-ms="253" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- installPostcodeLookupMock -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.RegistrationAddressAutofillTests@18df8434]" started-at="2026-06-09T12:30:15 EEST" name="before" finished-at="2026-06-09T12:30:15 EEST" duration-ms="3" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="nl_postal_house_autofills_address_fields()[pri:0, instance:com.endava.ai.atf.ui.RegistrationAddressAutofillTests@18df8434]" started-at="2026-06-09T12:30:16 EEST" name="nl_postal_house_autofills_address_fields" description="Green: NL postal code and house number auto-populate street, city, and state" finished-at="2026-06-09T12:30:17 EEST" duration-ms="1923" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- nl_postal_house_autofills_address_fields -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.RegistrationAddressAutofillTests@18df8434]" started-at="2026-06-09T12:30:18 EEST" name="tearDown" finished-at="2026-06-09T12:30:18 EEST" duration-ms="340" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.RegistrationAddressAutofillTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

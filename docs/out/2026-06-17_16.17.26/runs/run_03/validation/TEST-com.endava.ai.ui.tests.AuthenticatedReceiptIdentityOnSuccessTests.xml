@@ -1,0 +1,1152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.endava.ai.ui.tests.AuthenticatedReceiptIdentityOnSuccessTests" time="44.523" tests="5" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="sun.awt.enableExtraMouseButtons" value="true"/>
+    <property name="java.class.path" value="C:\work\ex\java\demo\atf1\test-framework\target\test-classes;C:\work\ex\java\demo\atf1\test-framework\target\classes;C:\Users\cstefanita\.m2\repository\org\testng\testng\7.10.2\testng-7.10.2.jar;C:\Users\cstefanita\.m2\repository\com\beust\jcommander\1.82\jcommander-1.82.jar;C:\Users\cstefanita\.m2\repository\org\webjars\jquery\3.7.1\jquery-3.7.1.jar;C:\Users\cstefanita\.m2\repository\org\mockito\mockito-core\5.11.0\mockito-core-5.11.0.jar;C:\Users\cstefanita\.m2\repository\net\bytebuddy\byte-buddy\1.14.12\byte-buddy-1.14.12.jar;C:\Users\cstefanita\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.12\byte-buddy-agent-1.14.12.jar;C:\Users\cstefanita\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\cstefanita\.m2\repository\io\qameta\allure\allure-java-commons\2.27.0\allure-java-commons-2.27.0.jar;C:\Users\cstefanita\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\cstefanita\.m2\repository\io\qameta\allure\allure-model\2.27.0\allure-model-2.27.0.jar;C:\Users\cstefanita\.m2\repository\io\qameta\allure\allure-testng\2.27.0\allure-testng-2.27.0.jar;C:\Users\cstefanita\.m2\repository\io\qameta\allure\allure-test-filter\2.27.0\allure-test-filter-2.27.0.jar;C:\Users\cstefanita\.m2\repository\io\rest-assured\rest-assured\5.5.0\rest-assured-5.5.0.jar;C:\Users\cstefanita\.m2\repository\org\apache\groovy\groovy\4.0.22\groovy-4.0.22.jar;C:\Users\cstefanita\.m2\repository\org\apache\groovy\groovy-xml\4.0.22\groovy-xml-4.0.22.jar;C:\Users\cstefanita\.m2\repository\org\apache\httpcomponents\httpclient\4.5.13\httpclient-4.5.13.jar;C:\Users\cstefanita\.m2\repository\org\apache\httpcomponents\httpcore\4.4.13\httpcore-4.4.13.jar;C:\Users\cstefanita\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\cstefanita\.m2\repository\commons-codec\commons-codec\1.17.0\commons-codec-1.17.0.jar;C:\Users\cstefanita\.m2\repository\org\apache\httpcomponents\httpmime\4.5.13\httpmime-4.5.13.jar;C:\Users\cstefanita\.m2\repository\org\hamcrest\hamcrest\2.2\hamcrest-2.2.jar;C:\Users\cstefanita\.m2\repository\org\ccil\cowan\tagsoup\tagsoup\1.2.1\tagsoup-1.2.1.jar;C:\Users\cstefanita\.m2\repository\io\rest-assured\json-path\5.5.0\json-path-5.5.0.jar;C:\Users\cstefanita\.m2\repository\org\apache\groovy\groovy-json\4.0.22\groovy-json-4.0.22.jar;C:\Users\cstefanita\.m2\repository\io\rest-assured\rest-assured-common\5.5.0\rest-assured-common-5.5.0.jar;C:\Users\cstefanita\.m2\repository\io\rest-assured\xml-path\5.5.0\xml-path-5.5.0.jar;C:\Users\cstefanita\.m2\repository\io\rest-assured\json-schema-validator\5.5.0\json-schema-validator-5.5.0.jar;C:\Users\cstefanita\.m2\repository\com\github\java-json-tools\json-schema-validator\2.2.14\json-schema-validator-2.2.14.jar;C:\Users\cstefanita\.m2\repository\com\github\java-json-tools\jackson-coreutils-equivalence\1.0\jackson-coreutils-equivalence-1.0.jar;C:\Users\cstefanita\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.17.2\jackson-databind-2.17.2.jar;C:\Users\cstefanita\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.17.2\jackson-annotations-2.17.2.jar;C:\Users\cstefanita\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.17.2\jackson-core-2.17.2.jar;C:\Users\cstefanita\.m2\repository\com\github\java-json-tools\jackson-coreutils\2.0\jackson-coreutils-2.0.jar;C:\Users\cstefanita\.m2\repository\com\github\java-json-tools\msg-simple\1.2\msg-simple-1.2.jar;C:\Users\cstefanita\.m2\repository\com\github\java-json-tools\btf\1.3\btf-1.3.jar;C:\Users\cstefanita\.m2\repository\com\github\java-json-tools\json-schema-core\1.2.14\json-schema-core-1.2.14.jar;C:\Users\cstefanita\.m2\repository\com\github\java-json-tools\uri-template\0.10\uri-template-0.10.jar;C:\Users\cstefanita\.m2\repository\org\mozilla\rhino\1.7.7.2\rhino-1.7.7.2.jar;C:\Users\cstefanita\.m2\repository\com\sun\mail\mailapi\1.6.2\mailapi-1.6.2.jar;C:\Users\cstefanita\.m2\repository\joda-time\joda-time\2.10.5\joda-time-2.10.5.jar;C:\Users\cstefanita\.m2\repository\com\googlecode\libphonenumber\libphonenumber\8.11.1\libphonenumber-8.11.1.jar;C:\Users\cstefanita\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;C:\Users\cstefanita\.m2\repository\net\sf\jopt-simple\jopt-simple\5.0.4\jopt-simple-5.0.4.jar;C:\Users\cstefanita\.m2\repository\com\google\guava\guava\33.2.1-jre\guava-33.2.1-jre.jar;C:\Users\cstefanita\.m2\repository\com\google\guava\failureaccess\1.0.2\failureaccess-1.0.2.jar;C:\Users\cstefanita\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\cstefanita\.m2\repository\org\checkerframework\checker-qual\3.42.0\checker-qual-3.42.0.jar;C:\Users\cstefanita\.m2\repository\com\google\j2objc\j2objc-annotations\3.0.0\j2objc-annotations-3.0.0.jar;C:\Users\cstefanita\.m2\repository\com\google\code\gson\gson\2.11.0\gson-2.11.0.jar;C:\Users\cstefanita\.m2\repository\com\google\errorprone\error_prone_annotations\2.27.0\error_prone_annotations-2.27.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-java\4.22.0\selenium-java-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-api\4.22.0\selenium-api-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-chrome-driver\4.22.0\selenium-chrome-driver-4.22.0.jar;C:\Users\cstefanita\.m2\repository\com\google\auto\service\auto-service-annotations\1.1.1\auto-service-annotations-1.1.1.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-chromium-driver\4.22.0\selenium-chromium-driver-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-json\4.22.0\selenium-json-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-manager\4.22.0\selenium-manager-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v124\4.22.0\selenium-devtools-v124-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v125\4.22.0\selenium-devtools-v125-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v126\4.22.0\selenium-devtools-v126-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v85\4.22.0\selenium-devtools-v85-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-edge-driver\4.22.0\selenium-edge-driver-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-firefox-driver\4.22.0\selenium-firefox-driver-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-http\4.22.0\selenium-http-4.22.0.jar;C:\Users\cstefanita\.m2\repository\dev\failsafe\failsafe\3.3.2\failsafe-3.3.2.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-ie-driver\4.22.0\selenium-ie-driver-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-remote-driver\4.22.0\selenium-remote-driver-4.22.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\semconv\opentelemetry-semconv\1.25.0-alpha\opentelemetry-semconv-1.25.0-alpha.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-api\1.39.0\opentelemetry-api-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-context\1.39.0\opentelemetry-context-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-exporter-logging\1.39.0\opentelemetry-exporter-logging-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-sdk-common\1.39.0\opentelemetry-sdk-common-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure-spi\1.39.0\opentelemetry-sdk-extension-autoconfigure-spi-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure\1.39.0\opentelemetry-sdk-extension-autoconfigure-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-api-incubator\1.39.0-alpha\opentelemetry-api-incubator-1.39.0-alpha.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-sdk-trace\1.39.0\opentelemetry-sdk-trace-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-sdk\1.39.0\opentelemetry-sdk-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-sdk-metrics\1.39.0\opentelemetry-sdk-metrics-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-sdk-logs\1.39.0\opentelemetry-sdk-logs-1.39.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-os\4.22.0\selenium-os-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\apache\commons\commons-exec\1.4.0\commons-exec-1.4.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-safari-driver\4.22.0\selenium-safari-driver-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-support\4.22.0\selenium-support-4.22.0.jar;C:\Users\cstefanita\.m2\repository\com\microsoft\playwright\playwright\1.53.0\playwright-1.53.0.jar;C:\Users\cstefanita\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\cstefanita\.m2\repository\com\microsoft\playwright\driver\1.53.0\driver-1.53.0.jar;C:\Users\cstefanita\.m2\repository\com\microsoft\playwright\driver-bundle\1.53.0\driver-bundle-1.53.0.jar;C:\Users\cstefanita\.m2\repository\com\aventstack\extentreports\5.1.2\extentreports-5.1.2.jar;C:\Users\cstefanita\.m2\repository\io\reactivex\rxjava3\rxjava\3.1.6\rxjava-3.1.6.jar;C:\Users\cstefanita\.m2\repository\org\reactivestreams\reactive-streams\1.0.4\reactive-streams-1.0.4.jar;C:\Users\cstefanita\.m2\repository\org\freemarker\freemarker\2.3.32\freemarker-2.3.32.jar;C:\Users\cstefanita\.m2\repository\org\projectlombok\lombok\1.18.26\lombok-1.18.26.jar;C:\Users\cstefanita\.m2\repository\org\slf4j\slf4j-simple\2.0.13\slf4j-simple-2.0.13.jar;C:\Users\cstefanita\.m2\repository\org\apache\commons\commons-lang3\3.15.0\commons-lang3-3.15.0.jar;"/>
+    <property name="framework.properties" value="framework.properties"/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
+    <property name="user.timezone" value="Europe/Bucharest"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="c:\tools\jdk-21.0.10.7\bin"/>
+    <property name="sun.java.command" value="C:\Users\cstefanita\AppData\Local\Temp\surefire12199286890694930265\surefirebooter-20260617161904629_3.jar C:\Users\cstefanita\AppData\Local\Temp\surefire12199286890694930265 2026-06-17T16-19-04_443-jvmRun1 surefire-20260617161904629_1tmp surefire_0-20260617161904629_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="com.endava.ai.ui.tests.AuthenticatedReceiptIdentityOnSuccessTests"/>
+    <property name="surefire.test.class.path" value="C:\work\ex\java\demo\atf1\test-framework\target\test-classes;C:\work\ex\java\demo\atf1\test-framework\target\classes;C:\Users\cstefanita\.m2\repository\org\testng\testng\7.10.2\testng-7.10.2.jar;C:\Users\cstefanita\.m2\repository\com\beust\jcommander\1.82\jcommander-1.82.jar;C:\Users\cstefanita\.m2\repository\org\webjars\jquery\3.7.1\jquery-3.7.1.jar;C:\Users\cstefanita\.m2\repository\org\mockito\mockito-core\5.11.0\mockito-core-5.11.0.jar;C:\Users\cstefanita\.m2\repository\net\bytebuddy\byte-buddy\1.14.12\byte-buddy-1.14.12.jar;C:\Users\cstefanita\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.12\byte-buddy-agent-1.14.12.jar;C:\Users\cstefanita\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\cstefanita\.m2\repository\io\qameta\allure\allure-java-commons\2.27.0\allure-java-commons-2.27.0.jar;C:\Users\cstefanita\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\cstefanita\.m2\repository\io\qameta\allure\allure-model\2.27.0\allure-model-2.27.0.jar;C:\Users\cstefanita\.m2\repository\io\qameta\allure\allure-testng\2.27.0\allure-testng-2.27.0.jar;C:\Users\cstefanita\.m2\repository\io\qameta\allure\allure-test-filter\2.27.0\allure-test-filter-2.27.0.jar;C:\Users\cstefanita\.m2\repository\io\rest-assured\rest-assured\5.5.0\rest-assured-5.5.0.jar;C:\Users\cstefanita\.m2\repository\org\apache\groovy\groovy\4.0.22\groovy-4.0.22.jar;C:\Users\cstefanita\.m2\repository\org\apache\groovy\groovy-xml\4.0.22\groovy-xml-4.0.22.jar;C:\Users\cstefanita\.m2\repository\org\apache\httpcomponents\httpclient\4.5.13\httpclient-4.5.13.jar;C:\Users\cstefanita\.m2\repository\org\apache\httpcomponents\httpcore\4.4.13\httpcore-4.4.13.jar;C:\Users\cstefanita\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\cstefanita\.m2\repository\commons-codec\commons-codec\1.17.0\commons-codec-1.17.0.jar;C:\Users\cstefanita\.m2\repository\org\apache\httpcomponents\httpmime\4.5.13\httpmime-4.5.13.jar;C:\Users\cstefanita\.m2\repository\org\hamcrest\hamcrest\2.2\hamcrest-2.2.jar;C:\Users\cstefanita\.m2\repository\org\ccil\cowan\tagsoup\tagsoup\1.2.1\tagsoup-1.2.1.jar;C:\Users\cstefanita\.m2\repository\io\rest-assured\json-path\5.5.0\json-path-5.5.0.jar;C:\Users\cstefanita\.m2\repository\org\apache\groovy\groovy-json\4.0.22\groovy-json-4.0.22.jar;C:\Users\cstefanita\.m2\repository\io\rest-assured\rest-assured-common\5.5.0\rest-assured-common-5.5.0.jar;C:\Users\cstefanita\.m2\repository\io\rest-assured\xml-path\5.5.0\xml-path-5.5.0.jar;C:\Users\cstefanita\.m2\repository\io\rest-assured\json-schema-validator\5.5.0\json-schema-validator-5.5.0.jar;C:\Users\cstefanita\.m2\repository\com\github\java-json-tools\json-schema-validator\2.2.14\json-schema-validator-2.2.14.jar;C:\Users\cstefanita\.m2\repository\com\github\java-json-tools\jackson-coreutils-equivalence\1.0\jackson-coreutils-equivalence-1.0.jar;C:\Users\cstefanita\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.17.2\jackson-databind-2.17.2.jar;C:\Users\cstefanita\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.17.2\jackson-annotations-2.17.2.jar;C:\Users\cstefanita\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.17.2\jackson-core-2.17.2.jar;C:\Users\cstefanita\.m2\repository\com\github\java-json-tools\jackson-coreutils\2.0\jackson-coreutils-2.0.jar;C:\Users\cstefanita\.m2\repository\com\github\java-json-tools\msg-simple\1.2\msg-simple-1.2.jar;C:\Users\cstefanita\.m2\repository\com\github\java-json-tools\btf\1.3\btf-1.3.jar;C:\Users\cstefanita\.m2\repository\com\github\java-json-tools\json-schema-core\1.2.14\json-schema-core-1.2.14.jar;C:\Users\cstefanita\.m2\repository\com\github\java-json-tools\uri-template\0.10\uri-template-0.10.jar;C:\Users\cstefanita\.m2\repository\org\mozilla\rhino\1.7.7.2\rhino-1.7.7.2.jar;C:\Users\cstefanita\.m2\repository\com\sun\mail\mailapi\1.6.2\mailapi-1.6.2.jar;C:\Users\cstefanita\.m2\repository\joda-time\joda-time\2.10.5\joda-time-2.10.5.jar;C:\Users\cstefanita\.m2\repository\com\googlecode\libphonenumber\libphonenumber\8.11.1\libphonenumber-8.11.1.jar;C:\Users\cstefanita\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;C:\Users\cstefanita\.m2\repository\net\sf\jopt-simple\jopt-simple\5.0.4\jopt-simple-5.0.4.jar;C:\Users\cstefanita\.m2\repository\com\google\guava\guava\33.2.1-jre\guava-33.2.1-jre.jar;C:\Users\cstefanita\.m2\repository\com\google\guava\failureaccess\1.0.2\failureaccess-1.0.2.jar;C:\Users\cstefanita\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\cstefanita\.m2\repository\org\checkerframework\checker-qual\3.42.0\checker-qual-3.42.0.jar;C:\Users\cstefanita\.m2\repository\com\google\j2objc\j2objc-annotations\3.0.0\j2objc-annotations-3.0.0.jar;C:\Users\cstefanita\.m2\repository\com\google\code\gson\gson\2.11.0\gson-2.11.0.jar;C:\Users\cstefanita\.m2\repository\com\google\errorprone\error_prone_annotations\2.27.0\error_prone_annotations-2.27.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-java\4.22.0\selenium-java-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-api\4.22.0\selenium-api-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-chrome-driver\4.22.0\selenium-chrome-driver-4.22.0.jar;C:\Users\cstefanita\.m2\repository\com\google\auto\service\auto-service-annotations\1.1.1\auto-service-annotations-1.1.1.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-chromium-driver\4.22.0\selenium-chromium-driver-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-json\4.22.0\selenium-json-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-manager\4.22.0\selenium-manager-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v124\4.22.0\selenium-devtools-v124-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v125\4.22.0\selenium-devtools-v125-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v126\4.22.0\selenium-devtools-v126-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v85\4.22.0\selenium-devtools-v85-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-edge-driver\4.22.0\selenium-edge-driver-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-firefox-driver\4.22.0\selenium-firefox-driver-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-http\4.22.0\selenium-http-4.22.0.jar;C:\Users\cstefanita\.m2\repository\dev\failsafe\failsafe\3.3.2\failsafe-3.3.2.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-ie-driver\4.22.0\selenium-ie-driver-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-remote-driver\4.22.0\selenium-remote-driver-4.22.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\semconv\opentelemetry-semconv\1.25.0-alpha\opentelemetry-semconv-1.25.0-alpha.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-api\1.39.0\opentelemetry-api-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-context\1.39.0\opentelemetry-context-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-exporter-logging\1.39.0\opentelemetry-exporter-logging-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-sdk-common\1.39.0\opentelemetry-sdk-common-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure-spi\1.39.0\opentelemetry-sdk-extension-autoconfigure-spi-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure\1.39.0\opentelemetry-sdk-extension-autoconfigure-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-api-incubator\1.39.0-alpha\opentelemetry-api-incubator-1.39.0-alpha.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-sdk-trace\1.39.0\opentelemetry-sdk-trace-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-sdk\1.39.0\opentelemetry-sdk-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-sdk-metrics\1.39.0\opentelemetry-sdk-metrics-1.39.0.jar;C:\Users\cstefanita\.m2\repository\io\opentelemetry\opentelemetry-sdk-logs\1.39.0\opentelemetry-sdk-logs-1.39.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-os\4.22.0\selenium-os-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\apache\commons\commons-exec\1.4.0\commons-exec-1.4.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-safari-driver\4.22.0\selenium-safari-driver-4.22.0.jar;C:\Users\cstefanita\.m2\repository\org\seleniumhq\selenium\selenium-support\4.22.0\selenium-support-4.22.0.jar;C:\Users\cstefanita\.m2\repository\com\microsoft\playwright\playwright\1.53.0\playwright-1.53.0.jar;C:\Users\cstefanita\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\cstefanita\.m2\repository\com\microsoft\playwright\driver\1.53.0\driver-1.53.0.jar;C:\Users\cstefanita\.m2\repository\com\microsoft\playwright\driver-bundle\1.53.0\driver-bundle-1.53.0.jar;C:\Users\cstefanita\.m2\repository\com\aventstack\extentreports\5.1.2\extentreports-5.1.2.jar;C:\Users\cstefanita\.m2\repository\io\reactivex\rxjava3\rxjava\3.1.6\rxjava-3.1.6.jar;C:\Users\cstefanita\.m2\repository\org\reactivestreams\reactive-streams\1.0.4\reactive-streams-1.0.4.jar;C:\Users\cstefanita\.m2\repository\org\freemarker\freemarker\2.3.32\freemarker-2.3.32.jar;C:\Users\cstefanita\.m2\repository\org\projectlombok\lombok\1.18.26\lombok-1.18.26.jar;C:\Users\cstefanita\.m2\repository\org\slf4j\slf4j-simple\2.0.13\slf4j-simple-2.0.13.jar;C:\Users\cstefanita\.m2\repository\org\apache\commons\commons-lang3\3.15.0\commons-lang3-3.15.0.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\cstefanita"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2026-01-20"/>
+    <property name="java.home" value="c:\tools\jdk-21.0.10.7"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\work\ex\java\demo\atf1\test-framework"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\cstefanita\AppData\Local\Temp\surefire12199286890694930265\surefirebooter-20260617161904629_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="21.0.10+7-LTS"/>
+    <property name="user.name" value="cstefanita"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Temurin-21.0.10+7"/>
+    <property name="localRepository" value="C:\Users\cstefanita\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+    <property name="java.io.tmpdir" value="C:\Users\CSTEFA~1\AppData\Local\Temp\"/>
+    <property name="java.version" value="21.0.10"/>
+    <property name="user.dir" value="C:\work\ex\java\demo\atf1\test-framework"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="c:\tools\jdk-21.0.10.7\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Users\cstefanita\.codex\tmp\arg0\codex-arg0Iv7eYH;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\Program Files\Windsurf\bin;C:\Program Files\Amazon\AWSCLIV2\;C:\tools\jdk-21.0.10.7\bin;C:\Users\cstefanita\AppData\Local\Microsoft\WindowsApps;c:\tools\jdk-21.0.10.7\bin\;c:\tools\apache-maven-3.9.14\bin\;C:\Users\cstefanita\.dotnet\tools;c:\tools\node-v24.16.0-win-x64\;C:\Users\cstefanita\AppData\Local\OpenAI\Codex\bin\ada252862d154cdd;C:\Program Files\WindowsApps\OpenAI.Codex_26.611.8273.0_x64__2p2nqsd0c76g0\app\resources;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="21.0.10+7-LTS"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="65.0"/>
+  </properties>
+  <testcase name="after_bank_transfer_purchase_success_the_checkout_confirmation_stays_generic_and_exposes_no_order_or_receipt_identity" classname="com.endava.ai.ui.tests.AuthenticatedReceiptIdentityOnSuccessTests" time="7.016">
+    <system-out><![CDATA[  • Playwright pages after init: 1
+▶ Authenticated receipt-identity on-success preconditions
+▶ Clear browser session
+  ✅ PASS: Session cleared
+  ✅ PASS: Browser session was cleared before the next receipt-identity on-success check
+▶ Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/register
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/register
+  ✅ PASS: Navigated
+▶ Type into element: First name
+  • locator=input[data-test='first-name']
+  • value=John
+  ✅ PASS: Typed
+▶ Type into element: Last name
+  • locator=input[data-test='last-name']
+  • value=Doe
+  ✅ PASS: Typed
+▶ Type into element: Date of Birth
+  • locator=input[data-test='dob']
+  • value=1990-01-01
+  ✅ PASS: Typed
+▶ Type into element: Phone
+  • locator=input[data-test='phone']
+  • value=0712345678
+  ✅ PASS: Typed
+▶ Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_xsg269ejmg@example.com
+  ✅ PASS: Typed
+▶ Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@5qbPlInM
+  ✅ PASS: Typed
+▶ Select option: Country
+  • locator=select[data-test='country']
+  • value=RO
+  ✅ PASS: Selected
+▶ Type into element: Postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ✅ PASS: Typed
+▶ Type into element: House number
+  • locator=input[data-test='house_number']
+  • value=5
+  ✅ PASS: Typed
+▶ Type into element: Street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ✅ PASS: Typed
+▶ Type into element: City
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ✅ PASS: Typed
+▶ Type into element: State
+  • locator=input[data-test='state']
+  • value=B
+  ✅ PASS: Typed
+▶ Click on: Register
+  • locator=button[data-test='register-submit']
+  ✅ PASS: Clicked
+▶ Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ✅ PASS: Navigated
+▶ Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_xsg269ejmg@example.com
+  ✅ PASS: Typed
+▶ Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@5qbPlInM
+  ✅ PASS: Typed
+▶ Click on: Login
+  • locator=input[data-test='login-submit']
+  ✅ PASS: Clicked
+▶ Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ✅ PASS: Navigated
+▶ Click visible match on: first product card
+  • locator=a[data-test^='product-']
+  • visibleIndex=1
+  ✅ PASS: Clicked visible match
+▶ Click on: Add to cart
+  • locator=button[data-test='add-to-cart']
+  ✅ PASS: Clicked
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ✅ PASS: Text captured
+▶ Click on: Cart
+  • locator=a[data-test='nav-cart']
+  ✅ PASS: Clicked
+▶ Click on: Proceed to checkout from cart
+  • locator=button[data-test='proceed-1']
+  ✅ PASS: Clicked
+▶ Click on: Proceed as authenticated user
+  • locator=button[data-test='proceed-2']
+  ✅ PASS: Clicked
+▶ Select option: Billing country
+  • locator=select[data-test='country']
+  • value=RO
+  ✅ PASS: Selected
+▶ Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ✅ PASS: Typed
+▶ Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ✅ PASS: Typed
+▶ Type into element: Billing street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ✅ PASS: Typed
+▶ Type into element: Billing city
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ✅ PASS: Typed
+▶ Type into element: Billing state
+  • locator=input[data-test='state']
+  • value=B
+  ✅ PASS: Typed
+▶ Click on: Proceed to payment
+  • locator=button[data-test='proceed-3']
+  ✅ PASS: Clicked
+▶ Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=Bank Transfer
+  ✅ PASS: Selected
+▶ Type into element: Bank name
+  • locator=input[data-test='bank_name']
+  • value=Audit Bank
+  ✅ PASS: Typed
+▶ Type into element: Account name
+  • locator=input[data-test='account_name']
+  • value=John Doe
+  ✅ PASS: Typed
+▶ Type into element: Account number
+  • locator=input[data-test='account_number']
+  • value=12345678901234
+  ✅ PASS: Typed
+▶ Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ✅ PASS: Clicked
+▶ Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+🐛 Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Bank Name
+Account Name
+Account Number
+Please enter your bank account number as it appears on your bank statement. It's a unique series of numbers used to identify your individual account. Avoid including any spaces or hyphens.
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ✅ PASS: Text captured
+▶ Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+🐛 Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Bank Name
+Account Name
+Account Number
+Please enter your bank account number as it appears on your bank statement. It's a unique series of numbers used to identify your individual account. Avoid including any spaces or hyphens.
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ✅ PASS: Text captured
+]]></system-out>
+    <system-err><![CDATA[SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+]]></system-err>
+  </testcase>
+  <testcase name="after_cod_purchase_success_the_checkout_confirmation_stays_generic_and_exposes_no_order_or_receipt_identity" classname="com.endava.ai.ui.tests.AuthenticatedReceiptIdentityOnSuccessTests" time="5.342">
+    <system-out><![CDATA[▶ Authenticated receipt-identity on-success preconditions
+▶ Clear browser session
+  ✅ PASS: Session cleared
+  ✅ PASS: Browser session was cleared before the next receipt-identity on-success check
+▶ Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ✅ PASS: Navigated
+▶ Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_xsg269ejmg@example.com
+  ✅ PASS: Typed
+▶ Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@5qbPlInM
+  ✅ PASS: Typed
+▶ Click on: Login
+  • locator=input[data-test='login-submit']
+  ✅ PASS: Clicked
+▶ Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ✅ PASS: Navigated
+▶ Click visible match on: first product card
+  • locator=a[data-test^='product-']
+  • visibleIndex=1
+  ✅ PASS: Clicked visible match
+▶ Click on: Add to cart
+  • locator=button[data-test='add-to-cart']
+  ✅ PASS: Clicked
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ✅ PASS: Text captured
+▶ Click on: Cart
+  • locator=a[data-test='nav-cart']
+  ✅ PASS: Clicked
+▶ Click on: Proceed to checkout from cart
+  • locator=button[data-test='proceed-1']
+  ✅ PASS: Clicked
+▶ Click on: Proceed as authenticated user
+  • locator=button[data-test='proceed-2']
+  ✅ PASS: Clicked
+▶ Select option: Billing country
+  • locator=select[data-test='country']
+  • value=RO
+  ✅ PASS: Selected
+▶ Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ✅ PASS: Typed
+▶ Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ✅ PASS: Typed
+▶ Type into element: Billing street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ✅ PASS: Typed
+▶ Type into element: Billing city
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ✅ PASS: Typed
+▶ Type into element: Billing state
+  • locator=input[data-test='state']
+  • value=B
+  ✅ PASS: Typed
+▶ Click on: Proceed to payment
+  • locator=button[data-test='proceed-3']
+  ✅ PASS: Clicked
+▶ Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=Cash on Delivery
+  ✅ PASS: Selected
+▶ Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ✅ PASS: Clicked
+▶ Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+🐛 Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ✅ PASS: Text captured
+▶ Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+🐛 Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ✅ PASS: Text captured
+]]></system-out>
+  </testcase>
+  <testcase name="after_gift_card_purchase_success_the_checkout_confirmation_stays_generic_and_exposes_no_order_or_receipt_identity" classname="com.endava.ai.ui.tests.AuthenticatedReceiptIdentityOnSuccessTests" time="4.645">
+    <system-out><![CDATA[▶ Authenticated receipt-identity on-success preconditions
+▶ Clear browser session
+  ✅ PASS: Session cleared
+  ✅ PASS: Browser session was cleared before the next receipt-identity on-success check
+▶ Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ✅ PASS: Navigated
+▶ Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_xsg269ejmg@example.com
+  ✅ PASS: Typed
+▶ Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@5qbPlInM
+  ✅ PASS: Typed
+▶ Click on: Login
+  • locator=input[data-test='login-submit']
+  ✅ PASS: Clicked
+▶ Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ✅ PASS: Navigated
+▶ Click visible match on: first product card
+  • locator=a[data-test^='product-']
+  • visibleIndex=1
+  ✅ PASS: Clicked visible match
+▶ Click on: Add to cart
+  • locator=button[data-test='add-to-cart']
+  ✅ PASS: Clicked
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ✅ PASS: Text captured
+▶ Click on: Cart
+  • locator=a[data-test='nav-cart']
+  ✅ PASS: Clicked
+▶ Click on: Proceed to checkout from cart
+  • locator=button[data-test='proceed-1']
+  ✅ PASS: Clicked
+▶ Click on: Proceed as authenticated user
+  • locator=button[data-test='proceed-2']
+  ✅ PASS: Clicked
+▶ Select option: Billing country
+  • locator=select[data-test='country']
+  • value=RO
+  ✅ PASS: Selected
+▶ Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ✅ PASS: Typed
+▶ Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ✅ PASS: Typed
+▶ Type into element: Billing street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ✅ PASS: Typed
+▶ Type into element: Billing city
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ✅ PASS: Typed
+▶ Type into element: Billing state
+  • locator=input[data-test='state']
+  • value=B
+  ✅ PASS: Typed
+▶ Click on: Proceed to payment
+  • locator=button[data-test='proceed-3']
+  ✅ PASS: Clicked
+▶ Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=Gift Card
+  ✅ PASS: Selected
+▶ Type into element: Gift card number
+  • locator=input[data-test='gift_card_number']
+  • value=ABCDEFGH12345678
+  ✅ PASS: Typed
+▶ Type into element: Validation code
+  • locator=input[data-test='validation_code']
+  • value=W9X2
+  ✅ PASS: Typed
+▶ Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ✅ PASS: Clicked
+▶ Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+🐛 Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Gift Card Number
+Enter the unique number found on your gift card. This number is usually located on the back of the card and consists of 16 letters and/or digits.
+Validation Code
+The validation code is a security feature found on your gift card, often located near the gift card number. Enter this 4-character code exactly as it appears on your card.
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ✅ PASS: Text captured
+▶ Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+🐛 Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Gift Card Number
+Enter the unique number found on your gift card. This number is usually located on the back of the card and consists of 16 letters and/or digits.
+Validation Code
+The validation code is a security feature found on your gift card, often located near the gift card number. Enter this 4-character code exactly as it appears on your card.
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ✅ PASS: Text captured
+]]></system-out>
+  </testcase>
+  <testcase name="after_switched_credit_card_to_gift_card_purchase_success_the_checkout_confirmation_stays_generic_and_exposes_no_order_or_receipt_identity" classname="com.endava.ai.ui.tests.AuthenticatedReceiptIdentityOnSuccessTests" time="4.153">
+    <system-out><![CDATA[▶ Authenticated receipt-identity on-success preconditions
+▶ Clear browser session
+  ✅ PASS: Session cleared
+  ✅ PASS: Browser session was cleared before the next receipt-identity on-success check
+▶ Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ✅ PASS: Navigated
+▶ Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_xsg269ejmg@example.com
+  ✅ PASS: Typed
+▶ Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@5qbPlInM
+  ✅ PASS: Typed
+▶ Click on: Login
+  • locator=input[data-test='login-submit']
+  ✅ PASS: Clicked
+▶ Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ✅ PASS: Navigated
+▶ Click visible match on: first product card
+  • locator=a[data-test^='product-']
+  • visibleIndex=1
+  ✅ PASS: Clicked visible match
+▶ Click on: Add to cart
+  • locator=button[data-test='add-to-cart']
+  ✅ PASS: Clicked
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ✅ PASS: Text captured
+▶ Click on: Cart
+  • locator=a[data-test='nav-cart']
+  ✅ PASS: Clicked
+▶ Click on: Proceed to checkout from cart
+  • locator=button[data-test='proceed-1']
+  ✅ PASS: Clicked
+▶ Click on: Proceed as authenticated user
+  • locator=button[data-test='proceed-2']
+  ✅ PASS: Clicked
+▶ Select option: Billing country
+  • locator=select[data-test='country']
+  • value=RO
+  ✅ PASS: Selected
+▶ Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ✅ PASS: Typed
+▶ Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ✅ PASS: Typed
+▶ Type into element: Billing street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ✅ PASS: Typed
+▶ Type into element: Billing city
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ✅ PASS: Typed
+▶ Type into element: Billing state
+  • locator=input[data-test='state']
+  • value=B
+  ✅ PASS: Typed
+▶ Click on: Proceed to payment
+  • locator=button[data-test='proceed-3']
+  ✅ PASS: Clicked
+▶ Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=Credit Card
+  ✅ PASS: Selected
+▶ Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=Gift Card
+  ✅ PASS: Selected
+▶ Type into element: Gift card number
+  • locator=input[data-test='gift_card_number']
+  • value=ZXCVASDF12345678
+  ✅ PASS: Typed
+▶ Type into element: Validation code
+  • locator=input[data-test='validation_code']
+  • value=Q1W2
+  ✅ PASS: Typed
+▶ Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ✅ PASS: Clicked
+▶ Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+🐛 Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Gift Card Number
+Enter the unique number found on your gift card. This number is usually located on the back of the card and consists of 16 letters and/or digits.
+Validation Code
+The validation code is a security feature found on your gift card, often located near the gift card number. Enter this 4-character code exactly as it appears on your card.
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ✅ PASS: Text captured
+▶ Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+🐛 Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Gift Card Number
+Enter the unique number found on your gift card. This number is usually located on the back of the card and consists of 16 letters and/or digits.
+Validation Code
+The validation code is a security feature found on your gift card, often located near the gift card number. Enter this 4-character code exactly as it appears on your card.
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ✅ PASS: Text captured
+]]></system-out>
+  </testcase>
+  <testcase name="after_two_successful_purchases_the_last_checkout_confirmation_still_exposes_no_order_or_receipt_identity" classname="com.endava.ai.ui.tests.AuthenticatedReceiptIdentityOnSuccessTests" time="8.231">
+    <system-out><![CDATA[▶ Authenticated receipt-identity on-success preconditions
+▶ Clear browser session
+  ✅ PASS: Session cleared
+  ✅ PASS: Browser session was cleared before the next receipt-identity on-success check
+▶ Navigate to URL: https://practicesoftwaretesting.com/auth/login
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/auth/login
+  • Playwright pages after open: 1
+  • Wait for URL contains: /auth/login
+  ✅ PASS: Navigated
+▶ Type into element: Email address
+  • locator=input[data-test='email']
+  • value=user_xsg269ejmg@example.com
+  ✅ PASS: Typed
+▶ Type into element: Password
+  • locator=input[data-test='password']
+  • value=Aa1@5qbPlInM
+  ✅ PASS: Typed
+▶ Click on: Login
+  • locator=input[data-test='login-submit']
+  ✅ PASS: Clicked
+▶ Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ✅ PASS: Navigated
+▶ Click visible match on: first product card
+  • locator=a[data-test^='product-']
+  • visibleIndex=1
+  ✅ PASS: Clicked visible match
+▶ Click on: Add to cart
+  • locator=button[data-test='add-to-cart']
+  ✅ PASS: Clicked
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ✅ PASS: Text captured
+▶ Click on: Cart
+  • locator=a[data-test='nav-cart']
+  ✅ PASS: Clicked
+▶ Click on: Proceed to checkout from cart
+  • locator=button[data-test='proceed-1']
+  ✅ PASS: Clicked
+▶ Click on: Proceed as authenticated user
+  • locator=button[data-test='proceed-2']
+  ✅ PASS: Clicked
+▶ Select option: Billing country
+  • locator=select[data-test='country']
+  • value=RO
+  ✅ PASS: Selected
+▶ Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ✅ PASS: Typed
+▶ Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ✅ PASS: Typed
+▶ Type into element: Billing street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ✅ PASS: Typed
+▶ Type into element: Billing city
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ✅ PASS: Typed
+▶ Type into element: Billing state
+  • locator=input[data-test='state']
+  • value=B
+  ✅ PASS: Typed
+▶ Click on: Proceed to payment
+  • locator=button[data-test='proceed-3']
+  ✅ PASS: Clicked
+▶ Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=Cash on Delivery
+  ✅ PASS: Selected
+▶ Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ✅ PASS: Clicked
+▶ Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+🐛 Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ✅ PASS: Text captured
+▶ Navigate to URL: https://practicesoftwaretesting.com/
+  • base.url=https://practicesoftwaretesting.com
+  • relativePath=/
+  • Playwright pages after open: 1
+  • Wait for URL contains: /
+  ✅ PASS: Navigated
+▶ Click visible match on: first product card
+  • locator=a[data-test^='product-']
+  • visibleIndex=1
+  ✅ PASS: Clicked visible match
+▶ Click on: Add to cart
+  • locator=button[data-test='add-to-cart']
+  ✅ PASS: Clicked
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ✅ PASS: Text captured
+▶ Get text from: cart quantity
+  • locator=span[data-test='cart-quantity']
+  • text=1
+  ✅ PASS: Text captured
+▶ Click on: Cart
+  • locator=a[data-test='nav-cart']
+  ✅ PASS: Clicked
+▶ Click on: Proceed to checkout from cart
+  • locator=button[data-test='proceed-1']
+  ✅ PASS: Clicked
+▶ Click on: Proceed as authenticated user
+  • locator=button[data-test='proceed-2']
+  ✅ PASS: Clicked
+▶ Select option: Billing country
+  • locator=select[data-test='country']
+  • value=RO
+  ✅ PASS: Selected
+▶ Type into element: Billing postal code
+  • locator=input[data-test='postal_code']
+  • value=10001
+  ✅ PASS: Typed
+▶ Type into element: Billing house number
+  • locator=input[data-test='house_number']
+  • value=5
+  ✅ PASS: Typed
+▶ Type into element: Billing street
+  • locator=input[data-test='street']
+  • value=Main Street 1
+  ✅ PASS: Typed
+▶ Type into element: Billing city
+  • locator=input[data-test='city']
+  • value=Bucharest
+  ✅ PASS: Typed
+▶ Type into element: Billing state
+  • locator=input[data-test='state']
+  • value=B
+  ✅ PASS: Typed
+▶ Click on: Proceed to payment
+  • locator=button[data-test='proceed-3']
+  ✅ PASS: Clicked
+▶ Select option: Payment method
+  • locator=select[data-test='payment-method']
+  • value=Gift Card
+  ✅ PASS: Selected
+▶ Type into element: Gift card number
+  • locator=input[data-test='gift_card_number']
+  • value=ZXCVASDF12345678
+  ✅ PASS: Typed
+▶ Type into element: Validation code
+  • locator=input[data-test='validation_code']
+  • value=Q1W2
+  ✅ PASS: Typed
+▶ Click on: Confirm payment
+  • locator=button[data-test='finish']
+  ✅ PASS: Clicked
+▶ Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+🐛 Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Gift Card Number
+Enter the unique number found on your gift card. This number is usually located on the back of the card and consists of 16 letters and/or digits.
+Validation Code
+The validation code is a security feature found on your gift card, often located near the gift card number. Enter this 4-character code exactly as it appears on your card.
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ✅ PASS: Text captured
+▶ Get text from: page body
+  • locator=body
+  • text=View the Documentation for this application.
+Practice Black Box Testing & Bug Hunting
+Testing Guide
+🐛 Bug Hunting
+Home
+Categories 
+Contact
+John Doe 
+1
+ EN 
+CART
+1
+SIGN IN
+2
+BILLING ADDRESS
+3
+PAYMENT
+4
+Payment
+Payment Method
+Choose your payment method
+Bank Transfer
+Cash on Delivery
+Credit Card
+Buy Now Pay Later
+Gift Card
+Gift Card Number
+Enter the unique number found on your gift card. This number is usually located on the back of the card and consists of 16 letters and/or digits.
+Validation Code
+The validation code is a security feature found on your gift card, often located near the gift card number. Enter this 4-character code exactly as it appears on your card.
+Payment was successful
+Confirm
+
+This is a DEMO application (GitHub repo), used for software testing training purpose. | Privacy Policy | Banner photo by Barn Images on Unsplash.
+
+Product added to shopping cart.
+  ✅ PASS: Text captured
+]]></system-out>
+  </testcase>
+</testsuite>

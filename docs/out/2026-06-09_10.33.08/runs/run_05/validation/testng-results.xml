@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-09T12:31:30 EEST" name="Surefire suite" finished-at="2026-06-09T12:31:48 EEST" duration-ms="18728">
+    <groups>
+    </groups>
+    <test started-at="2026-06-09T12:31:30 EEST" name="Surefire test" finished-at="2026-06-09T12:31:48 EEST" duration-ms="18728">
+      <class name="com.endava.ai.atf.ui.RegistrationTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.atf.ui.RegistrationTests@229c6181]" started-at="2026-06-09T12:31:30 EEST" name="setUp" finished-at="2026-06-09T12:31:42 EEST" duration-ms="11976" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="installRegistrationSubmitMock()[pri:0, instance:com.endava.ai.atf.ui.RegistrationTests@229c6181]" started-at="2026-06-09T12:31:42 EEST" name="installRegistrationSubmitMock" finished-at="2026-06-09T12:31:42 EEST" duration-ms="205" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- installRegistrationSubmitMock -->
+        <test-method is-config="true" signature="before()[pri:0, instance:com.endava.ai.atf.ui.RegistrationTests@229c6181]" started-at="2026-06-09T12:31:42 EEST" name="before" finished-at="2026-06-09T12:31:42 EEST" duration-ms="4" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="positive_registration_redirects_to_login()[pri:0, instance:com.endava.ai.atf.ui.RegistrationTests@229c6181]" started-at="2026-06-09T12:31:42 EEST" name="positive_registration_redirects_to_login" description="Positive: successful registration redirects to login" finished-at="2026-06-09T12:31:48 EEST" duration-ms="5757" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- positive_registration_redirects_to_login -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.atf.ui.RegistrationTests@229c6181]" started-at="2026-06-09T12:31:48 EEST" name="tearDown" finished-at="2026-06-09T12:31:48 EEST" duration-ms="335" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.atf.ui.RegistrationTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

@@ -1,0 +1,4 @@
+ M src/main/java/com/endava/ai/ui/service/RegistrationService.java
+ M src/main/java/com/endava/ai/ui/validation/RegistrationValidation.java
+ M src/test/java/com/endava/ai/atf/ui/RegistrationTests.java
+?? src/test/java/com/endava/ai/atf/ui/RegistrationAddressAutofillTests.java

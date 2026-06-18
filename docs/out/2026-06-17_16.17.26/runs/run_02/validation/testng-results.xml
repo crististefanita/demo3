@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-06-17T16:18:13 EEST" name="Surefire suite" finished-at="2026-06-17T16:18:57 EEST" duration-ms="44669">
+    <groups>
+    </groups>
+    <test started-at="2026-06-17T16:18:13 EEST" name="Surefire test" finished-at="2026-06-17T16:18:57 EEST" duration-ms="44669">
+      <class name="com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests@54e1c68b]" started-at="2026-06-17T16:18:13 EEST" name="setUp" finished-at="2026-06-17T16:18:24 EEST" duration-ms="10929" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="beforeOrdersPromiseMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests@54e1c68b]" started-at="2026-06-17T16:18:24 EEST" name="beforeOrdersPromiseMethod" finished-at="2026-06-17T16:18:24 EEST" duration-ms="243" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeOrdersPromiseMethod -->
+        <test-method signature="after_bank_transfer_payment_success_the_orders_promise_survives_a_fresh_relogin_while_invoices_stay_empty()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests@54e1c68b]" started-at="2026-06-17T16:18:24 EEST" name="after_bank_transfer_payment_success_the_orders_promise_survives_a_fresh_relogin_while_invoices_stay_empty" description="After bank-transfer payment success the orders promise survives a fresh relogin while invoices stay empty" finished-at="2026-06-17T16:18:32 EEST" duration-ms="7695" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_bank_transfer_payment_success_the_orders_promise_survives_a_fresh_relogin_while_invoices_stay_empty -->
+        <test-method is-config="true" signature="beforeOrdersPromiseMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests@54e1c68b]" started-at="2026-06-17T16:18:32 EEST" name="beforeOrdersPromiseMethod" finished-at="2026-06-17T16:18:32 EEST" duration-ms="8" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeOrdersPromiseMethod -->
+        <test-method signature="after_bnpl_payment_success_the_direct_invoices_route_stays_empty_even_before_relogin()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests@54e1c68b]" started-at="2026-06-17T16:18:32 EEST" name="after_bnpl_payment_success_the_direct_invoices_route_stays_empty_even_before_relogin" description="After BNPL payment success the direct invoices route stays empty even before relogin" finished-at="2026-06-17T16:18:37 EEST" duration-ms="5125" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_bnpl_payment_success_the_direct_invoices_route_stays_empty_even_before_relogin -->
+        <test-method is-config="true" signature="beforeOrdersPromiseMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests@54e1c68b]" started-at="2026-06-17T16:18:37 EEST" name="beforeOrdersPromiseMethod" finished-at="2026-06-17T16:18:37 EEST" duration-ms="7" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeOrdersPromiseMethod -->
+        <test-method signature="after_cod_payment_success_the_account_overview_still_promises_orders_while_invoices_stay_empty()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests@54e1c68b]" started-at="2026-06-17T16:18:37 EEST" name="after_cod_payment_success_the_account_overview_still_promises_orders_while_invoices_stay_empty" description="After COD payment success the account overview still promises orders while invoices stay empty" finished-at="2026-06-17T16:18:43 EEST" duration-ms="5237" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_cod_payment_success_the_account_overview_still_promises_orders_while_invoices_stay_empty -->
+        <test-method is-config="true" signature="beforeOrdersPromiseMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests@54e1c68b]" started-at="2026-06-17T16:18:43 EEST" name="beforeOrdersPromiseMethod" finished-at="2026-06-17T16:18:43 EEST" duration-ms="3" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeOrdersPromiseMethod -->
+        <test-method signature="after_gift_card_payment_success_the_invoices_table_headers_still_render_even_when_history_stays_empty()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests@54e1c68b]" started-at="2026-06-17T16:18:43 EEST" name="after_gift_card_payment_success_the_invoices_table_headers_still_render_even_when_history_stays_empty" description="After gift-card payment success the invoices table headers still render even when history stays empty" finished-at="2026-06-17T16:18:48 EEST" duration-ms="5251" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_gift_card_payment_success_the_invoices_table_headers_still_render_even_when_history_stays_empty -->
+        <test-method is-config="true" signature="beforeOrdersPromiseMethod()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests@54e1c68b]" started-at="2026-06-17T16:18:48 EEST" name="beforeOrdersPromiseMethod" finished-at="2026-06-17T16:18:48 EEST" duration-ms="3" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeOrdersPromiseMethod -->
+        <test-method signature="after_two_successful_purchases_the_account_overview_still_promises_orders_while_invoices_remain_empty_after_relogin()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests@54e1c68b]" started-at="2026-06-17T16:18:48 EEST" name="after_two_successful_purchases_the_account_overview_still_promises_orders_while_invoices_remain_empty_after_relogin" description="After two successful purchases the account overview still promises orders while invoices remain empty after relogin" finished-at="2026-06-17T16:18:56 EEST" duration-ms="8057" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_two_successful_purchases_the_account_overview_still_promises_orders_while_invoices_remain_empty_after_relogin -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests@54e1c68b]" started-at="2026-06-17T16:18:57 EEST" name="tearDown" finished-at="2026-06-17T16:18:57 EEST" duration-ms="565" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.endava.ai.ui.tests.AuthenticatedOrdersPromiseContradictionTests -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

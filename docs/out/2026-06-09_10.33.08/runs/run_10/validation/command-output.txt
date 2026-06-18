@@ -1,0 +1,67 @@
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+  � Playwright pages after init: 1
+? Registration preconditions
+  ? PASS: Ready
+? Navigate to URL: https://practicesoftwaretesting.com/auth/register
+  � base.url=https://practicesoftwaretesting.com
+  � relativePath=/auth/register
+  � Playwright pages after open: 1
+  � Wait for URL contains: /auth/register
+  ? PASS: Navigated
+? Type into element: First name
+  � locator=input[data-test='first-name']
+  � value=John
+  ? PASS: Typed
+? Type into element: Last name
+  � locator=input[data-test='last-name']
+  � value=Doe
+  ? PASS: Typed
+? Type into element: Date of Birth
+  � locator=input[data-test='dob']
+  � value=1990-01-01
+  ? PASS: Typed
+? Type into element: Phone
+  � locator=input[data-test='phone']
+  � value=abc
+  ? PASS: Typed
+? Type into element: Email address
+  � locator=input[data-test='email']
+  � value=user_xjhmes0eb8@example.com
+  ? PASS: Typed
+? Type into element: Password
+  � locator=input[data-test='password']
+  � value=Aa1@MIXeyCGx
+  ? PASS: Typed
+? Select option: Country
+  � locator=select[data-test='country']
+  � value=RO
+  ? PASS: Selected
+? Type into element: Postal code
+  � locator=input[data-test='postal_code']
+  � value=10001
+  ? PASS: Typed
+? Type into element: House number
+  � locator=input[data-test='house_number']
+  � value=5
+  ? PASS: Typed
+? Type into element: Street
+  � locator=input[data-test='street']
+  � value=Main Street 1
+  ? PASS: Typed
+? Type into element: City
+  � locator=input[data-test='city']
+  � value=Bucharest
+  ? PASS: Typed
+? Type into element: State
+  � locator=input[data-test='state']
+  � value=B
+  ? PASS: Typed
+? Click on: Register
+  � locator=button[data-test='register-submit']
+  ? PASS: Clicked
+? Get text from: Phone validation message
+  � locator=div[data-test='phone-error']
+  � text=Only numbers are allowed.
+  ? PASS: Text captured
