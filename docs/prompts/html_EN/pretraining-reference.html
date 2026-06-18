@@ -1,431 +1,398 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1" name="viewport">
-<title>Pretraining Reference</title>
-<link href="../../shared-report-reference.css" rel="stylesheet">
-<style>
-.grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
-.diag{margin-top:10px;border:1px solid var(--border);border-radius:14px;background:#08101a;padding:12px;overflow:auto}
-.diag svg{display:block;width:100%;height:auto}
-.kvs{display:grid;grid-template-columns:150px 1fr;gap:8px 12px}
-.k{color:var(--muted);font-weight:600}
-.pillline{display:flex;flex-direction:column;gap:8px;align-items:flex-start;margin-top:10px}
-.pillrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.pilllabel{color:var(--muted);font-size:12px;font-weight:700;margin-right:2px}
-</style>
-</head>
-<body>
-<div class="wrap">
-<header>
-  <h1>Pretraining Reference <span class="badge">SOURCE</span> <span class="badge">INTAKE</span> <span class="badge">ANTI-COPY</span> <span class="badge">DECISION</span>
-</h1>
-  <div class="sub">
-    <ul>
-      <li>Owns pretraining.</li>
-      <li>Defines sources, order, extraction, and anti-copy.</li>
-      <li>Defines the artifact that closes the choice.</li>
-      <li>
-<code class="inline">orchestrate-iterative-runs.html</code> remains owner for legality and handoff.</li>
-    </ul>
-  </div>
-  <div class="toolbar">
-<button type="button" onclick="toggleAll(true)">Open all</button><button type="button" onclick="toggleAll(false)">Close all</button>
-</div>
-</header>
-
-<div class="grid">
-  <section class="card">
-    <h2>Overview</h2>
-    <table>
-      <thead><tr>
-<th>Badge</th>
-<th>Read here</th>
-</tr></thead>
-      <tbody>
-        <tr>
-<td><span class="badge">SOURCE</span></td>
-<td>runtime, local memory, previous package, relevant html-ex, live standards</td>
-</tr>
-        <tr>
-<td><span class="badge">INTAKE</span></td>
-<td>what you extract, what you do not inherit, what artifact you save</td>
-</tr>
-        <tr>
-<td><span class="badge">BENCHMARK</span></td>
-<td>shape, severity, artifacts, and scoring; never copied business</td>
-</tr>
-        <tr>
-<td><span class="badge">FEEDBACK</span></td>
-<td>lessons from <code class="inline">docs/out/README.md</code> as Q/A, not owner-law</td>
-</tr>
-        <tr>
-<td><span class="badge">ANTI-COPY</span></td>
-<td>stop inheriting verdict, score, style, or business from examples</td>
-</tr>
-        <tr>
-<td><span class="badge">DECISION</span></td>
-<td>frontier that wins cold and the artifact that closes the choice</td>
-</tr>
-      </tbody>
-    </table>
-    <div class="pillline">
-      <div class="pillrow">
-<span class="pilllabel">Owner:</span><span class="pill">audited pretraining</span><span class="pill">sources</span><span class="pill">anti-copy</span>
-</div>
-      <div class="pillrow">
-<span class="pilllabel">Uses:</span><span class="pill">runtime</span><span class="pill">local memory</span><span class="pill">html-ex</span><span class="pill">feedback Q/A</span>
-</div>
-          <div class="pillrow">
-<span class="pilllabel">Produces:</span><span class="pill">intake card</span><span class="pill">frontier ranking</span><span class="pill">cold decision</span>
-</div>
-          <div class="pillrow">
-<span class="pilllabel">Does not produce:</span><span class="pill">package legality</span><span class="pill">run slot</span><span class="pill">final report</span>
-</div>
-    </div>
-    <details class="mini-note">
-      <summary>Base rule</summary>
-      <div class="rule">Good pretraining does not inherit a verdict. It extracts pressure, severity, shape, and the cold next frontier.</div>
-    </details>
-  </section>
-
-  <section class="card">
-    <details>
-    <summary><span class="summary-title">Minimum contract <span class="badge">INTAKE</span></span><span class="sumhint">sources, extraction, anti-copy</span></summary>
-    <table>
-      <thead><tr>
-<th>Step</th>
-<th>Rule</th>
-</tr></thead>
-      <tbody>
-        <tr>
-<td>runtime</td>
-<td>read active values and common paths; do not hardcode locally</td>
-</tr>
-        <tr>
-<td>local memory</td>
-<td>read <code class="inline">docs/out/README.md</code> as <code class="inline">Question -&gt; Answer</code>, not as law</td>
-</tr>
-        <tr>
-<td>previous package</td>
-<td>extract next-run truth, blocker, family, and what must not be repeated</td>
-</tr>
-        <tr>
-<td>html-ex</td>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>Pretraining Reference</title>
+<link href="../../shared-report-reference.css" rel="stylesheet">
+<style>
+.grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.diag{margin-top:10px;border:1px solid var(--border);border-radius:14px;background:#08101a;padding:12px;overflow:auto}
+.diag svg{display:block;width:100%;height:auto}
+.kvs{display:grid;grid-template-columns:150px 1fr;gap:8px 12px}
+.k{color:var(--muted);font-weight:600}
+.pillline{display:flex;flex-direction:column;gap:8px;align-items:flex-start;margin-top:10px}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pilllabel{color:var(--muted);font-size:12px;font-weight:700;margin-right:2px}
+pre,
+pre code{
+  line-height:1.04;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Pretraining Reference <span class="badge">SOURCE</span> <span class="badge">INTAKE</span> <span class="badge">ANTI-COPY</span> <span class="badge">DECISION</span>
+</h1>
+  <div class="sub">
+    <ul>
+      <li>Owns pretraining.</li>
+      <li>Defines sources, order, extraction, and anti-copy.</li>
+      <li>Defines the artifact that closes the choice.</li>
+      <li>
+<code class="inline">orchestrate-iterative-runs.html</code> remains owner for legality and handoff.</li>
+    </ul>
+  </div>
+</header>
+<div class="toolbar"><button type="button" onclick="toggleAll(true)">Open all</button><button type="button" onclick="toggleAll(false)">Close all</button></div>
+<div class="grid">
+  <section class="card">
+    <h2>Overview</h2>
+    <table>
+      <thead><tr>
+<th>Badge</th>
+<th>Read here</th>
+</tr></thead>
+      <tbody>
+        <tr>
+<td><span class="badge">SOURCE</span></td>
+<td>runtime, local memory, previous package, relevant html-ex, live standards</td>
+</tr>
+        <tr>
+<td><span class="badge">INTAKE</span></td>
+<td>what you extract, what you do not inherit, what artifact you save</td>
+</tr>
+        <tr>
+<td><span class="badge">BENCHMARK</span></td>
+<td>shape, severity, artifacts, and scoring; never copied business</td>
+</tr>
+        <tr>
+<td><span class="badge">FEEDBACK</span></td>
+<td>lessons from <code class="inline">docs/out/README.md</code> as Q/A, not owner-law</td>
+</tr>
+        <tr>
+<td><span class="badge">ANTI-COPY</span></td>
+<td>stop inheriting verdict, score, style, or business from examples</td>
+</tr>
+        <tr>
+<td><span class="badge">DECISION</span></td>
+<td>frontier that wins cold and the artifact that closes the choice</td>
+</tr>
+      </tbody>
+    </table>
+<table class="role-matrix">
+  <thead><tr><th>Category</th><th>Scope</th></tr></thead>
+  <tbody>
+    <tr><td>Owner</td><td><span class="pill">audited pretraining</span> <span class="pill">sources</span> <span class="pill">anti-copy</span></td></tr>
+    <tr><td>Uses</td><td><span class="pill">runtime</span> <span class="pill">local memory</span> <span class="pill">html-ex</span> <span class="pill">feedback Q/A</span></td></tr>
+    <tr><td>Produces</td><td><span class="pill">intake card</span> <span class="pill">frontier ranking</span> <span class="pill">cold decision</span></td></tr>
+    <tr><td>Does not produce</td><td><span class="pill">package legality</span> <span class="pill">run slot</span> <span class="pill">final report</span></td></tr>
+  </tbody>
+</table>
+    <details class="mini-note">
+      <summary>Base rule</summary>
+      <div class="rule">Good pretraining does not inherit a verdict. It extracts pressure, severity, shape, and the cold next frontier.</div>
+    </details>
+  </section>
+  <section class="card">
+    <details>
+    <summary><span class="summary-title">Minimum contract <span class="badge">INTAKE</span></span><span class="sumhint">sources, extraction, anti-copy</span></summary>
+    <table>
+      <thead><tr>
+<th>Step</th>
+<th>Rule</th>
+</tr></thead>
+      <tbody>
+        <tr>
+<td>runtime</td>
+<td>read active values and common paths; do not hardcode locally</td>
+</tr>
+        <tr>
+<td>local memory</td>
+<td>read <code class="inline">docs/out/README.md</code> as <code class="inline">Question -&gt; Answer</code>, not as law</td>
+</tr>
+        <tr>
+<td>previous package</td>
+<td>extract next-run truth, blocker, family, and what must not be repeated</td>
+</tr>
+        <tr>
+<td>html-ex</td>
 <td>choose relevant examples for form, severity, and artifacts; do not copy the business</td>
-</tr>
-        <tr>
-<td>brief scoped</td>
-<td>written when the context requires a complete reread or a cold change of winner</td>
-</tr>
-      </tbody>
-    </table>
-    <div class="note">The owner decides sources and intake. The orchestrator consumes only the audited intake, cold decision, and saved artifacts.</div>
-    </details>
-  </section>
-</div>
-
-<details open>
-  <summary><span class="summary-title">1. Flow pretraining <span class="badge">INTAKE</span></span><span class="sumhint">sources -&gt; intake -&gt; rerank</span></summary>
-  <div class="diag"><svg viewbox="0 0 1160 270" role="img" aria-label="Cold pretraining flow">
-  <defs><marker id="ptc" markerwidth="10" markerheight="10" refx="8" refy="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
-  <rect x="30" y="34" width="200" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
-  <text x="130" y="60" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">agent-runtime</text>
+</tr>
+        <tr>
+<td>brief scoped</td>
+<td>written when the context requires a complete reread or a cold change of winner</td>
+</tr>
+      </tbody>
+    </table>
+    <div class="note">The owner decides sources and intake. The orchestrator consumes only the audited intake, cold decision, and saved artifacts.</div>
+    </details>
+  </section>
+</div>
+<details open>
+  <summary><span class="summary-title">1. Flow pretraining <span class="badge">INTAKE</span></span><span class="sumhint">sources -&gt; intake -&gt; rerank</span></summary>
+  <div class="diag"><svg viewbox="0 0 1160 270" role="img" aria-label="Cold pretraining flow">
+  <defs><marker id="ptc" markerwidth="10" markerheight="10" refx="8" refy="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+  <rect x="30" y="34" width="200" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="130" y="60" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">agent-runtime</text>
   <text x="130" y="82" text-anchor="middle" fill="#a8b3cf" font-size="11">values + paths</text>
-  <rect x="30" y="126" width="200" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
-  <text x="130" y="152" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">local memory</text>
-  <text x="130" y="174" text-anchor="middle" fill="#a8b3cf" font-size="11">README + previous package</text>
-  <rect x="30" y="218" width="200" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
-  <text x="130" y="244" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">html-ex</text>
-  <text x="130" y="266" text-anchor="middle" fill="#a8b3cf" font-size="11">form + severity</text>
-  <rect x="340" y="88" width="250" height="84" rx="14" fill="#111826" stroke="#35507a"></rect>
-  <text x="465" y="116" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Pretraining Intake Card</text>
-  <text x="465" y="139" text-anchor="middle" fill="#a8b3cf" font-size="11">take / do not copy / save</text>
-  <text x="465" y="158" text-anchor="middle" fill="#a8b3cf" font-size="11">frontier that wins cold</text>
-  <rect x="700" y="88" width="190" height="84" rx="14" fill="#111826" stroke="#35507a"></rect>
-  <text x="795" y="116" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">rerank cold</text>
-  <text x="795" y="139" text-anchor="middle" fill="#a8b3cf" font-size="11">winner legal</text>
-  <text x="795" y="158" text-anchor="middle" fill="#a8b3cf" font-size="11">without warm inheritance</text>
-  <rect x="980" y="88" width="150" height="84" rx="14" fill="#111826" stroke="#35507a"></rect>
-  <text x="1055" y="116" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">cold decision</text>
-  <text x="1055" y="139" text-anchor="middle" fill="#a8b3cf" font-size="11">launch / rerank / stop</text>
-  <text x="1055" y="158" text-anchor="middle" fill="#a8b3cf" font-size="11">saved auditably</text>
-  <path d="M230 68 H300 Q320 68 340 100" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#ptc)"></path>
-  <path d="M230 160 H300 Q320 160 340 140" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#ptc)"></path>
-  <path d="M230 252 H300 Q320 252 340 160" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#ptc)"></path>
-  <path d="M590 130 H700" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ptc)"></path>
-  <path d="M890 130 H980" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ptc)"></path>
-  </svg></div>
-</details>
-
-<details>
-  <summary><span class="summary-title">2. Sources and what you extract</span><span class="sumhint">not everything you read becomes law</span></summary>
-  <div class="rule">
-    <ul>
-      <li>Section 2 = extraction contract.</li>
-      <li>Question: what do you take from each source?</li>
-      <li>Section 3 = reading procedure.</li>
-      <li>Question: in what order do you reopen sources?</li>
-    </ul>
-  </div>
-  <table>
-    <thead>
-      <tr>
-        <th>Sursa</th>
-        <th>What you extract</th>
-        <th>What you do NOT inherit</th>
-        <th>Artefact</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code class="inline">agent-runtime.properties</code></td>
+  <rect x="30" y="126" width="200" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="130" y="152" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">local memory</text>
+  <text x="130" y="174" text-anchor="middle" fill="#a8b3cf" font-size="11">README + previous package</text>
+  <rect x="30" y="218" width="200" height="68" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="130" y="244" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">html-ex</text>
+  <text x="130" y="266" text-anchor="middle" fill="#a8b3cf" font-size="11">form + severity</text>
+  <rect x="340" y="88" width="250" height="84" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="465" y="116" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Pretraining Intake Card</text>
+  <text x="465" y="139" text-anchor="middle" fill="#a8b3cf" font-size="11">take / do not copy / save</text>
+  <text x="465" y="158" text-anchor="middle" fill="#a8b3cf" font-size="11">frontier that wins cold</text>
+  <rect x="700" y="88" width="190" height="84" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="795" y="116" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">rerank cold</text>
+  <text x="795" y="139" text-anchor="middle" fill="#a8b3cf" font-size="11">winner legal</text>
+  <text x="795" y="158" text-anchor="middle" fill="#a8b3cf" font-size="11">without warm inheritance</text>
+  <rect x="980" y="88" width="150" height="84" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="1055" y="116" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">cold decision</text>
+  <text x="1055" y="139" text-anchor="middle" fill="#a8b3cf" font-size="11">launch / rerank / stop</text>
+  <text x="1055" y="158" text-anchor="middle" fill="#a8b3cf" font-size="11">saved auditably</text>
+  <path d="M230 68 H300 Q320 68 340 100" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#ptc)"></path>
+  <path d="M230 160 H300 Q320 160 340 140" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#ptc)"></path>
+  <path d="M230 252 H300 Q320 252 340 160" stroke="#7aa2ff" stroke-width="2" fill="none" marker-end="url(#ptc)"></path>
+  <path d="M590 130 H700" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ptc)"></path>
+  <path d="M890 130 H980" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ptc)"></path>
+  </svg></div>
+</details>
+<details>
+  <summary><span class="summary-title">2. Sources and what you extract</span><span class="sumhint">not everything you read becomes law</span></summary>
+  <div class="rule">
+    <ul>
+      <li>Section 2 = extraction contract.</li>
+      <li>Question: what do you take from each source?</li>
+      <li>Section 3 = reading procedure.</li>
+      <li>Question: in what order do you reopen sources?</li>
+    </ul>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Sursa</th>
+        <th>What you extract</th>
+        <th>What you do NOT inherit</th>
+        <th>Artefact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code class="inline">agent-runtime.properties</code></td>
         <td>active values, paths, current success</td>
-        <td>values hardcodate local</td>
-        <td>runtime link in package README</td>
-      </tr>
-      <tr>
-        <td><code class="inline">docs/out/README.md</code></td>
-        <td>raspunsuri Q/A, defecte repetate, calibrari</td>
-        <td>copied owner-law or score</td>
-        <td>frontier-ranking-ledger.md</td>
-      </tr>
-      <tr>
-        <td>latest complete local package</td>
+        <td>values hardcodate local</td>
+        <td>runtime link in package README</td>
+      </tr>
+      <tr>
+        <td><code class="inline">docs/out/README.md</code></td>
+        <td>raspunsuri Q/A, defecte repetate, calibrari</td>
+        <td>copied owner-law or score</td>
+        <td>frontier-ranking-ledger.md</td>
+      </tr>
+      <tr>
+        <td>latest complete local package</td>
         <td>next-run truth, blockers, family pressure</td>
-        <td>same winner inertial</td>
-        <td>next-run-eligibility-card.md</td>
-      </tr>
-      <tr>
-        <td><code class="inline">HTML_EX_LIBRARY_README</code></td>
-        <td>shape, severity, artifacts, scoring</td>
-        <td>business, verdict or score copied</td>
-        <td>round-pretraining-brief.md when the context requires it</td>
-      </tr>
-      <tr>
-        <td>standardele live</td>
-        <td>requirements new and ownerii current</td>
-        <td>historical habits from old examples</td>
-        <td>checklist in gate trace</td>
-      </tr>
-    </tbody>
-  </table>
-</details>
-
-<details>
-  <summary><span class="summary-title">3. Cold reread order</span><span class="sumhint">order matters</span></summary>
-  <div class="rule">
-    <ul>
-      <li>Ordinea not schimba ownerii.</li>
-      <li>Scop: previne pretraining warm.</li>
-      <li>Flux: runtime -&gt; memory -&gt; package local -&gt; biblioteca common -&gt; brief.</li>
-      <li>The brief is written only when required.</li>
-    </ul>
-  </div>
-  <div class="diag"><svg viewbox="0 0 1160 240" role="img" aria-label="Cold pretraining order">
-  <defs><marker id="pt2" markerwidth="10" markerheight="10" refx="8" refy="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
-  <rect x="30" y="82" width="170" height="72" rx="14" fill="#111826" stroke="#35507a"></rect>
-  <text x="115" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">1. runtime</text>
-  <text x="115" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">values active</text>
-  <rect x="250" y="82" width="180" height="72" rx="14" fill="#111826" stroke="#35507a"></rect>
-  <text x="340" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">2. docs/out</text>
-  <text x="340" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">Question -&gt; Answer</text>
-  <rect x="480" y="82" width="170" height="72" rx="14" fill="#111826" stroke="#35507a"></rect>
-  <text x="565" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">3. package vechi</text>
-  <text x="565" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">next-run truth</text>
-  <rect x="700" y="82" width="170" height="72" rx="14" fill="#111826" stroke="#35507a"></rect>
-  <text x="785" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">4. html-ex</text>
-  <text x="785" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">form + severity</text>
-  <rect x="920" y="82" width="180" height="72" rx="14" fill="#111826" stroke="#35507a"></rect>
-  <text x="1010" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">5. brief</text>
-  <text x="1010" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">cold choice</text>
-  <path d="M200 118 H250" stroke="#7aa2ff" stroke-width="2" marker-end="url(#pt2)"></path>
-  <path d="M430 118 H480" stroke="#7aa2ff" stroke-width="2" marker-end="url(#pt2)"></path>
-  <path d="M650 118 H700" stroke="#7aa2ff" stroke-width="2" marker-end="url(#pt2)"></path>
-  <path d="M870 118 H920" stroke="#7aa2ff" stroke-width="2" marker-end="url(#pt2)"></path>
-  </svg></div>
-  <table>
-    <thead><tr>
-<th>Step</th>
-<th>You reopen</th>
-<th>What you must obtain</th>
-</tr></thead>
-    <tbody>
-      <tr>
-<td>1</td>
-<td><code class="inline">agent-runtime.properties</code></td>
-<td>values active and succesul curent</td>
-</tr>
-      <tr>
-<td>2</td>
-<td><code class="inline">docs/out/README.md</code></td>
-<td>calibrarea acumulata intre agenti</td>
-</tr>
-      <tr>
-<td>3</td>
-<td>latest complete local package</td>
+        <td>same winner inertial</td>
+        <td>next-run-eligibility-card.md</td>
+      </tr>
+      <tr>
+        <td><code class="inline">HTML_EX_LIBRARY_README</code></td>
+        <td>shape, severity, artifacts, scoring</td>
+        <td>business, verdict or score copied</td>
+        <td>round-pretraining-brief.md when the context requires it</td>
+      </tr>
+      <tr>
+        <td>standardele live</td>
+        <td>requirements new and ownerii current</td>
+        <td>historical habits from old examples</td>
+        <td>checklist in gate trace</td>
+      </tr>
+    </tbody>
+  </table>
+</details>
+<details>
+  <summary><span class="summary-title">3. Cold reread order</span><span class="sumhint">order matters</span></summary>
+  <div class="rule">
+    <ul>
+      <li>Ordinea not schimba ownerii.</li>
+      <li>Scop: previne pretraining warm.</li>
+      <li>Flux: runtime -&gt; memory -&gt; package local -&gt; biblioteca common -&gt; brief.</li>
+      <li>The brief is written only when required.</li>
+    </ul>
+  </div>
+  <div class="diag"><svg viewbox="0 0 1160 240" role="img" aria-label="Cold pretraining order">
+  <defs><marker id="pt2" markerwidth="10" markerheight="10" refx="8" refy="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"></path></marker></defs>
+  <rect x="30" y="82" width="170" height="72" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="115" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">1. runtime</text>
+  <text x="115" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">values active</text>
+  <rect x="250" y="82" width="180" height="72" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="340" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">2. docs/out</text>
+  <text x="340" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">Question -&gt; Answer</text>
+  <rect x="480" y="82" width="170" height="72" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="565" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">3. previous package</text>
+  <text x="565" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">next-run truth</text>
+  <rect x="700" y="82" width="170" height="72" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="785" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">4. html-ex</text>
+  <text x="785" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">form + severity</text>
+  <rect x="920" y="82" width="180" height="72" rx="14" fill="#111826" stroke="#35507a"></rect>
+  <text x="1010" y="110" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">5. brief</text>
+  <text x="1010" y="132" text-anchor="middle" fill="#a8b3cf" font-size="11">cold choice</text>
+  <path d="M200 118 H250" stroke="#7aa2ff" stroke-width="2" marker-end="url(#pt2)"></path>
+  <path d="M430 118 H480" stroke="#7aa2ff" stroke-width="2" marker-end="url(#pt2)"></path>
+  <path d="M650 118 H700" stroke="#7aa2ff" stroke-width="2" marker-end="url(#pt2)"></path>
+  <path d="M870 118 H920" stroke="#7aa2ff" stroke-width="2" marker-end="url(#pt2)"></path>
+  </svg></div>
+  <table>
+    <thead><tr>
+<th>Step</th>
+<th>You reopen</th>
+<th>What you must obtain</th>
+</tr></thead>
+    <tbody>
+      <tr>
+<td>1</td>
+<td><code class="inline">agent-runtime.properties</code></td>
+<td>active values and current execution truth</td>
+</tr>
+      <tr>
+<td>2</td>
+<td><code class="inline">docs/out/README.md</code></td>
+<td>calibrarea acumulata intre agenti</td>
+</tr>
+      <tr>
+<td>3</td>
+<td>latest complete local package</td>
 <td>next-run truth and real blockers</td>
-</tr>
-      <tr>
-<td>4</td>
-<td>
-<code class="inline">HTML_EX_LIBRARY_README</code> + exemple relevante</td>
-<td>shape, severity, artifacts, scoring, without blind inheritance</td>
-</tr>
-      <tr>
-<td>5</td>
-<td>
-<code class="inline">round-pretraining-brief.md</code> only when the context requires it</td>
-<td>closed cold choice: launch, rerank, or stop</td>
-</tr>
-    </tbody>
-  </table>
-</details>
-
-<details>
+</tr>
+      <tr>
+<td>4</td>
+<td>
+<code class="inline">HTML_EX_LIBRARY_README</code> + exemple relevante</td>
+<td>shape, severity, artifacts, scoring, without blind inheritance</td>
+</tr>
+      <tr>
+<td>5</td>
+<td>
+<code class="inline">round-pretraining-brief.md</code> only when the context requires it</td>
+<td>closed cold choice: launch, rerank, or stop</td>
+</tr>
+    </tbody>
+  </table>
+</details>
+<details>
   <summary><span class="summary-title">4. Pretraining Intake Card <span class="badge">INTAKE</span></span><span class="sumhint">mandatory template</span></summary>
-  <table>
-    <thead><tr>
-<th>Context</th>
-<th>When it is written brief-ul</th>
-<th>De what</th>
-</tr></thead>
-    <tbody>
-      <tr>
-<td>fresh ROOT_RUN</td>
-<td>mereu</td>
-<td>new package needs complete rereading and a closed cold choice</td>
-</tr>
-      <tr>
-<td>same-package continuation</td>
-<td>only if rerank-ul schimba winner or benchmark-ul activ</td>
-<td>otherwise keep the package brief and update the frontier ledger</td>
-</tr>
-      <tr>
-<td>repair local without schimbare de winner</td>
-<td>not</td>
+  <table>
+    <thead><tr>
+<th>Context</th>
+<th>When the brief is written</th>
+<th>Why</th>
+</tr></thead>
+    <tbody>
+      <tr>
+<td>fresh ROOT_RUN</td>
+<td>always</td>
+<td>new package needs complete rereading and a closed cold choice</td>
+</tr>
+      <tr>
+<td>same-package continuation</td>
+<td>only if reranking changes the winner or the active benchmark</td>
+<td>otherwise keep the package brief and update the frontier ledger</td>
+</tr>
+      <tr>
+<td>local repair without a winner change</td>
+<td>not</td>
 <td>save the lesson in the run MD; do not reinvent pretraining</td>
-</tr>
-    </tbody>
-  </table>
-  <table>
-    <thead><tr>
-<th>Field</th>
-<th>Trebuie to fixeze</th>
-</tr></thead>
-    <tbody>
-      <tr>
-<td>source</td>
-<td>runtime, local memory, previous package, html-ex relevant</td>
-</tr>
-      <tr>
-<td>what extrag</td>
-<td>the lesson utila for frontier curenta</td>
-</tr>
-      <tr>
-<td>what I do NOT inherit</td>
-<td>blindly copied business, score, winner, or verdict</td>
-</tr>
-      <tr>
-<td>what artifact I save</td>
-<td>
-<code class="inline">frontier-ranking-ledger.md</code> mereu; <code class="inline">round-pretraining-brief.md</code> only for fresh ROOT_RUN or rerank same-package which schimba winner</td>
-</tr>
-      <tr>
-<td>which frontier wins</td>
-<td>winner cold curent and de what ceilalti pierd</td>
-</tr>
-      <tr>
-<td>cold decision</td>
-<td>
-<code class="inline">launch</code>, <code class="inline">rerank</code> or <code class="inline">stop</code>
-</td>
-</tr>
-    </tbody>
-  </table>
-<pre><code>round-pretraining-brief.md
-source = ...
-what I extract = ...
-what I do not inherit = ...
-artifact saved = ...
-winning frontier now = ...
-why it wins = ...
-cold decision = launch / rerank / stop
-</code></pre>
-</details>
-
-<details>
-  <summary><span class="summary-title">5. What pretraining does not consume</span><span class="sumhint">anti-copy rules</span></summary>
-  <ul>
-    <li>Do not consume chat verdicts as a truth source.</li>
-    <li>Do not consume an entire benchmark as a business or score template.</li>
-    <li>Do not consume <code class="inline">.java</code> snapshots as the primary evolution truth; the diff remains primary.</li>
-    <li>Do not consume the newest folder on disk if branch memory and cold carriers say otherwise.</li>
-    <li>Do not consume <code class="inline">docs/out/README.md</code> as owner-law; consume it only as iterative memory.</li>
+</tr>
+    </tbody>
+  </table>
+  <table>
+    <thead><tr>
+<th>Field</th>
+          <th>Must fix</th>
+</tr></thead>
+    <tbody>
+      <tr>
+<td>source</td>
+<td>runtime, local memory, previous package, html-ex relevant</td>
+</tr>
+      <tr>
+<td>what extrag</td>
+<td>the useful lesson for the current frontier</td>
+</tr>
+      <tr>
+<td>what I do NOT inherit</td>
+<td>blindly copied business, score, winner, or verdict</td>
+</tr>
+      <tr>
+<td>what artifact I save</td>
+<td>
+<code class="inline">frontier-ranking-ledger.md</code> always; <code class="inline">round-pretraining-brief.md</code> only for fresh ROOT_RUN or same-package reranking that changes the winner</td>
+</tr>
+      <tr>
+<td>which frontier wins</td>
+<td>the current cold winner and why the others lose</td>
+</tr>
+      <tr>
+<td>cold decision</td>
+<td>
+<code class="inline">launch</code>, <code class="inline">rerank</code> or <code class="inline">stop</code>
+</td>
+</tr>
+    </tbody>
+  </table>
+<pre><code>round-pretraining-brief.md
+source = ...
+what I extract = ...
+what I do not inherit = ...
+artifact saved = ...
+winning frontier now = ...
+why it wins = ...
+cold decision = launch / rerank / stop
+</code></pre>
+</details>
+<details>
+  <summary><span class="summary-title">5. What pretraining does not consume</span><span class="sumhint">anti-copy rules</span></summary>
+  <ul>
+    <li>Do not consume chat verdicts as a truth source.</li>
+    <li>Do not consume an entire benchmark as a business or score template.</li>
+    <li>Do not consume <code class="inline">.java</code> snapshots as the primary evolution truth; the diff remains primary.</li>
+    <li>Do not consume the newest folder on disk if branch memory and cold carriers say otherwise.</li>
+    <li>Do not consume <code class="inline">docs/out/README.md</code> as owner-law; consume it only as iterative memory.</li>
     <li>Do not copy the business from <code class="inline">html-ex</code>; take only the form, severity, and good artifacts.</li>
-  </ul>
-</details>
-<details>
-  <summary><span class="summary-title">6. Final decision card <span class="badge">DECISION</span></span><span class="sumhint">what pretraining produces for the orchestrator</span></summary>
-  <table>
-    <thead><tr>
-<th>Field</th>
-<th>Short answer</th>
-<th>If missing</th>
-</tr></thead>
-    <tbody>
-      <tr>
-<td>winner</td>
-<td>frontier that wins cold acum</td>
-<td>launch-ul is warm</td>
-</tr>
-      <tr>
-<td>what I do NOT inherit</td>
-<td>business, score, style, or verdict copied from memory/html-ex</td>
-<td>benchmark-ul contamineaza package</td>
-</tr>
-      <tr>
-<td>artifact saved</td>
-<td>
-<code class="inline">frontier-ranking-ledger.md</code> and, when the context requires it, <code class="inline">round-pretraining-brief.md</code>
-</td>
-<td>rerank is not reopenable</td>
-</tr>
-      <tr>
-<td>cold decision</td>
-<td>
-<code class="inline">launch</code>, <code class="inline">rerank</code> or <code class="inline">stop</code>
-</td>
+  </ul>
+</details>
+<details>
+  <summary><span class="summary-title">6. Final decision card <span class="badge">DECISION</span></span><span class="sumhint">what pretraining produces for the orchestrator</span></summary>
+  <table>
+    <thead><tr>
+<th>Field</th>
+<th>Short answer</th>
+<th>If missing</th>
+</tr></thead>
+    <tbody>
+      <tr>
+<td>winner</td>
+<td>frontier that wins cold acum</td>
+<td>launch-ul is warm</td>
+</tr>
+      <tr>
+<td>what I do NOT inherit</td>
+<td>business, score, style, or verdict copied from memory/html-ex</td>
+<td>benchmark-ul contamineaza package</td>
+</tr>
+      <tr>
+<td>artifact saved</td>
+<td>
+<code class="inline">frontier-ranking-ledger.md</code> and, when the context requires it, <code class="inline">round-pretraining-brief.md</code>
+</td>
+<td>rerank is not reopenable</td>
+</tr>
+      <tr>
+<td>cold decision</td>
+<td>
+<code class="inline">launch</code>, <code class="inline">rerank</code> or <code class="inline">stop</code>
+</td>
 <td>the orchestrator has nothing to govern</td>
-</tr>
-    </tbody>
-  </table>
-</details>
-</div>
-<script>
-function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}
-</script>
-</body>
+</tr>
+    </tbody>
+  </table>
+</details>
+</div>
+<script>function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}</script>
+</body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

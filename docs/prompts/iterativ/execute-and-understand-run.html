@@ -22,6 +22,10 @@
   max-width:140px;
   white-space:nowrap;
 }
+pre,
+pre code{
+  line-height:1.04;
+}
 </style>
 </head>
 <body>
@@ -37,8 +41,9 @@
       <li>Orchestratorul decide legalitatea miscarii urmatoare; executia lucreaza slotul aprobat.</li>
     </ul>
   </div>
-  <div class="toolbar"><button type="button" onclick="toggleAll(true)">Deschide tot</button><button type="button" onclick="toggleAll(false)">Inchide tot</button></div>
+  
 </header>
+<div class="toolbar"><button type="button" onclick="toggleAll(true)">Deschide tot</button><button type="button" onclick="toggleAll(false)">Inchide tot</button></div>
 
 <div class="grid">
 <section class="card"><h2>Overview</h2>
@@ -654,7 +659,10 @@ fallback / blocker = ...
 </details>
 
 </div>
+
 <script>function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}</script>
 </body>
 </html>
+
+
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ro">
 <head>
 <meta charset="utf-8">
@@ -6,232 +6,734 @@
 <title>Standard de raportare</title>
 <link href="../../shared-report-reference.css" rel="stylesheet">
 <style>
-.grid { grid-template-columns: 380px 1fr; gap: 12px; }
+.grid { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 12px; }
+.right-rail table td:first-child { width: 180px; font-weight: 600; }
+.tight li { margin: 3px 0; }
+.diag{margin-top:10px;border:1px solid var(--border);border-radius:14px;background:#08101a;padding:12px;overflow:auto}
+.diag svg{display:block;width:100%;height:auto}
+.kvs{display:grid;grid-template-columns:120px 1fr;gap:8px 12px}
+.k{color:var(--muted);font-weight:600}
+.pillline{display:flex;flex-direction:column;gap:8px;align-items:flex-start;margin-top:10px}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pilllabel{color:var(--muted);font-size:12px;font-weight:700;margin-right:2px}
+pre,
+pre code{
+  line-height:1.04;
+}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <h1>Standard de raportare <span class="badge">scheletul canonic al paginii finale</span></h1>
+  <h1>Standard de raportare <span class="badge">OPENING</span> <span class="badge">GRAPH</span> <span class="badge">PROOF</span> <span class="badge">CLOSE-OUT</span></h1>
   <div class="sub">
-    Acest document defineÈ™te forma canonicÄƒ pentru <code class="inline">analysis/langgraph-business-understanding.html</code>.
-    Raportul final trebuie sÄƒ publice noutatea business, dovada localÄƒ, accounting-ul È™i adevÄƒrul despre urmÄƒtoarea miÈ™care, fÄƒrÄƒ sÄƒ reinterpreteze legea de launch sau artefactele decisive.
+    <ul>
+      <li>Defineste forma canonica pentru <code class="inline">analysis/langgraph-business-understanding.html</code>.</li>
+      <li>Publica adevarul inghetat: business, dovada, accounting, next move.</li>
+      <li>Nu reinterpreteaza runtime-ul, legalitatea launch-ului sau artefactele de productie.</li>
+    </ul>
   </div>
-  <div style="margin-top:10px">
-    <span class="pill">Business Flow Graph</span>
-    <span class="pill">diff-first</span>
-    <span class="pill">Extent = proof UI</span>
-    <span class="pill">feedback MD hyperlink-uit</span>
-    <span class="pill">dark + collapsible</span>
-    <span class="pill">shared-report-reference.css</span>
-  </div>
-  <div class="toolbar">
-    <button type="button" onclick="toggleAll(true)">Deschide tot</button>
-    <button type="button" onclick="toggleAll(false)">ÃŽnchide tot</button>
-  </div>
+  
 </header>
+<div class="toolbar"><button type="button" onclick="toggleAll(true)">Deschide tot</button><button type="button" onclick="toggleAll(false)">Inchide tot</button></div>
 
 <div class="grid">
   <section class="card">
-    <h2>Ce trebuie sÄƒ predea raportul</h2>
-    <ul>
-      <li>ce business era deja acoperit;</li>
-      <li>ce business nou a fost apÄƒrat Ã®n acest pachet;</li>
-      <li>ce a rÄƒmas partial, blocked sau fresh-round-only;</li>
-      <li>care artefacte dovedesc fiecare claim important;</li>
-      <li>de ce pachetul continuÄƒ, se opreÈ™te sau paseazÄƒ spre fresh ROOT_RUN.</li>
-    </ul>
-    <div class="rule">Fiecare claim important din raport trebuie sÄƒ aibÄƒ hyperlink local cÄƒtre dovada lui.</div>
-    <div class="note">Forma este flexibilÄƒ peste minimul canonic: poÈ›i adÄƒuga subsecÈ›iuni utile, subgrafuri suplimentare È™i fiÈ™iere <code class="inline">.md</code> noi, dar numai dacÄƒ rÄƒmÃ¢n hyperlink-uite È™i nu Ã®mping Ã®n afara opening-ului miezul obligatoriu al raportului.</div>
+    <h2>Overview</h2>
+    <table>
+      <thead><tr><th>Badge</th><th>Citesti aici</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge">OPENING</span></td><td>hero, runtime strip, score cards, Score Overview, accounting compact</td></tr>
+        <tr><td><span class="badge">GRAPH</span></td><td>harta business reala a aplicatiei + overlay-ul pachetului</td></tr>
+        <tr><td><span class="badge">PROOF</span></td><td>claim -> run -> diff -> Extent/XML -> verdict</td></tr>
+        <tr><td><span class="badge">AUDIT</span></td><td>run audit, Artifact Index, state files, render proof si link audit</td></tr>
+        <tr><td><span class="badge">CLOSE-OUT</span></td><td>countability, runs consumed, same-round, fresh ROOT_RUN, next move</td></tr>
+        <tr><td><span class="badge">INVALID</span></td><td>raport frumos care ridica scorul peste substanta business sau ascunde lipsa de dovada</td></tr>
+      </tbody>
+    </table>
+    <div class="pillline">
+      <div class="pillrow"><span class="pilllabel">Owner:</span><span class="pill">pagina finala</span><span class="pill">forma publicata</span></div>
+      <div class="pillrow"><span class="pilllabel">Foloseste:</span><span class="pill">truth inghetat</span><span class="pill">proof links</span><span class="pill">state files</span></div>
+          <div class="pillrow"><span class="pilllabel">Nu produce:</span><span class="pill">runtime</span><span class="pill">legalitate launch</span><span class="pill">accounting productie</span></div>
+      <div class="pillrow"><span class="pilllabel">Anexe:</span><span class="pill">score overview</span><span class="pill">business graph rubric</span></div>
+    </div>
+    <div class="rule">Raportarea este publicare read-only: ia adevarul inchis si il face navigabil.</div>
   </section>
 
-  <section class="card">
-    <h2>Ce nu trebuie sÄƒ facÄƒ raportul</h2>
-    <ul>
-      <li>nu inventeazÄƒ legalitatea de launch sau continuare;</li>
-      <li>nu reinterpreteazÄƒ artefactele decisive;</li>
-      <li>nu transformÄƒ raw test count Ã®n business novelty;</li>
-      <li>nu foloseÈ™te un al doilea sistem complet de CSS;</li>
-      <li>nu umflÄƒ legendele È™i nodurile cu prozÄƒ lungÄƒ.</li>
-    </ul>
-    <div class="warn">Raportul final trebuie sÄƒ refoloseascÄƒ <code class="inline">shared-report-reference.css</code>. Sunt permise doar mici ajustÄƒri locale, nu un alt sistem complet de stil.</div>
+  <section class="card right-rail">
+    <details>
+    <summary><span class="summary-title">Structura obligatorie</span><span class="sumhint">referinta inchisa implicit</span></summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Zona</th>
+          <th>Sta vizibil sus?</th>
+          <th>Regula rece</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Visible top</td><td>da</td><td>hero verdict, runtime strip, score wall, access rapid spre <code class="inline">Score Overview</code></td></tr>
+        <tr><td>Folded top</td><td>doar in fold</td><td>Executive Context, accounting extins, jump links, controale, explicatii mai lungi</td></tr>
+        <tr><td>Never top</td><td>nu</td><td>run audit, Artifact Index complet, proof tables lungi, close-out detaliat, argumentatie de scor</td></tr>
+      </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th>Sectiune</th>
+          <th>Ce trebuie sa contina</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1. Deschidere</td>
+          <td>
+            <ul>
+              <li>hero verdict</li>
+              <li>runtime strip</li>
+              <li>score wall</li>
+              <li>acces direct spre <code class="inline">Score Overview</code></li>
+              <li>accounting compact scurt; restul accounting-ului coboara in fold</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>1a. Score Overview</td>
+          <td>
+            <ul>
+              <li>subsectiune colapsata si scurta</li>
+              <li>forma vine din <code class="inline">score-overview-reference.html</code></li>
+              <li>nu se reinventeaza local</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>2. Verdict executiv</td>
+          <td>winner truth, strongest unresolved truth, same-round truth, fresh ROOT_RUN truth si mutatia istorica fata de pachetul precedent</td>
+        </tr>
+        <tr>
+          <td>4. Graful fluxului business</td>
+          <td>
+            <ul>
+              <li>macro-harta aplicatiei + overlay pachet</li>
+              <li>forma vine din <code class="inline">business-flow-graph-rubric.html</code></li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>5. Dovada si acoperire</td>
+          <td>proof mapping + Artifact Index; fiecare claim major are run, run diff, Extent/XML, verdict MD si state file</td>
+        </tr>
+        <tr>
+          <td>6. Banda de audit pe run</td>
+          <td>o banda scurta per run: claim, delta, kept, diff, Extent/XML si feedback MD</td>
+        </tr>
+        <tr>
+          <td>7. Adevarul de inchidere</td>
+          <td>
+            <ul>
+              <li>x / ROUND_TARGET_TEST_COUNT</li>
+              <li>runs consumed = n / META_ITERATION_COUNT</li>
+              <li>target met</li>
+              <li>same-round / fresh ROOT_RUN legality</li>
+              <li>open problems si under-spend</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>8. Randare si audit</td>
+          <td><ul><li>pagina canonica + shared CSS</li><li>render proof + link audit</li><li>sectiuni principale colapsabile</li><li><code class="inline">4. Graful fluxului business</code> deschis implicit</li></ul></td>
+        </tr>
+      </tbody>
+    </table>
+    </details>
   </section>
 </div>
-
-<details>
-  <summary><span class="summary-title">1. Opening</span><span class="sumhint">hero, score wall, accounting compact</span></summary>
+<details open><summary><span class="summary-title">1. Flow-uri si diagrame</span><span class="sumhint">forma si dovada paginii finale</span></summary>
+  <details class="subdetails">
+  <summary><span class="summary-title">1.1 Harta rapida de citire</span><span class="sumhint">orientare scurta</span></summary>
   <table>
     <thead>
       <tr>
-        <th>Element</th>
-        <th>Trebuie publicat</th>
-        <th>RegulÄƒ rece</th>
+        <th>Daca intrebi</th>
+        <th>Deschizi</th>
+        <th>Afli rece</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td>Hero verdict</td><td>o propoziÈ›ie rece despre ce business nou a fost apÄƒrat sau de ce pachetul rÄƒmÃ¢ne capped</td><td>fÄƒrÄƒ warm bragging, fÄƒrÄƒ eseu</td></tr>
-      <tr><td>Runtime strip</td><td>link la <code class="inline">agent-runtime.properties</code> È™i valorile active pentru <code class="inline">RUN_EXPECTED_DELTA_QUALITY</code>, <code class="inline">ROUND_TARGET_TEST_COUNT</code>, <code class="inline">META_ITERATION_COUNT</code></td><td>raportul publicÄƒ valorile; nu le reinventeazÄƒ</td></tr>
-      <tr><td>4 score cards</td><td>Business Understanding, Proof Trust, Coverage Movement, Overall</td><td>doar 4 carduri egale Ã®n opening</td></tr>
-      <tr><td>Accounting compact</td><td><code class="inline">materially turned into tests = x / 5</code>, <code class="inline">accounting target met = yes / no</code>, link la <code class="inline">quality-accounting-verdict.md</code></td><td>integrat Ã®n score wall; nu bloc separat Ã®ntre cards È™i secÈ›iunea urmÄƒtoare</td></tr>
-      <tr><td>Jump links</td><td>Business Flow Graph, Proof Mapping, Artifact Index, Run Audit, Close-Out</td><td>cititorul trebuie sÄƒ ajungÄƒ rapid la proof</td></tr>
-      <tr><td>Colapsare timpurie</td><td>dupÄƒ opening, secÈ›iunile secundare sau dense pot fi colapsate implicit</td><td>primul ecran trebuie sÄƒ rÄƒmÃ¢nÄƒ calm È™i uÈ™or de scanat</td></tr>
+      <tr><td>cum trebuie sa arate primul ecran?</td><td><code class="inline">1.2</code></td><td>ordinea hero -> runtime -> score cards -> Score Overview -> accounting -> verdict</td></tr>
+      <tr><td>cum citeste raportarea adevarul inghetat?</td><td><code class="inline">1.2.1</code></td><td>state machine-ul read-only al paginii finale</td></tr>
+      <tr><td>cum trebuie desenata aplicatia, nu pachetul?</td><td><code class="inline">1.3</code></td><td>macro-harta business + overlay-ul local</td></tr>
+      <tr><td>cum leg claim-ul de dovada?</td><td><code class="inline">1.4</code></td><td>lantul claim -> run -> diff -> Extent -> verdict</td></tr>
+      <tr><td>ce adevaruri nu am voie sa amestec?</td><td><code class="inline">1.5</code></td><td>countability, runs consumed, same-package, fresh-root</td></tr>
     </tbody>
   </table>
-  <div class="warn">Nu plasa accounting, yield sau comparator ca slab separat Ã®ntre score cards È™i urmÄƒtoarea secÈ›iune majorÄƒ.</div>
+  <div class="mini">
+    <ul>
+      <li><code class="inline">1.2</code> = opening.</li>
+      <li><code class="inline">1.3</code> = harta aplicatiei.</li>
+      <li><code class="inline">1.4</code> = dovada.</li>
+      <li><code class="inline">1.5</code> = verdicte separate.</li>
+    </ul>
+  </div>
+  </details>
+  <details class="subdetails" open id="opening-shape">
+    <summary><span class="summary-title">1.2 Opening shape</span><span class="sumhint">forma primului ecran</span></summary>
+    <div class="diag"><svg viewBox="0 0 1160 220" role="img" aria-label="Opening shape">
+    <defs><marker id="op" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+    <rect x="20" y="78" width="160" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="100" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">hero</text>
+    <text x="100" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">verdict scurt</text>
+    <rect x="200" y="78" width="160" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="280" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">runtime strip</text>
+    <text x="280" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">valorile active</text>
+    <rect x="380" y="78" width="160" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="460" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">score cards</text>
+    <text x="460" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">carduri vizibile</text>
+    <rect x="560" y="78" width="160" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="640" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Score Overview</text>
+    <text x="640" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">subsectiune separata</text>
+    <rect x="740" y="78" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="830" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">accounting compact</text>
+    <text x="830" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">integrat, nu separat</text>
+    <rect x="940" y="78" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="1030" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">sectiunea 2</text>
+    <text x="1030" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">Verdict executiv</text>
+    <path d="M180 112 H200" stroke="#7aa2ff" stroke-width="2" marker-end="url(#op)"/>
+    <path d="M360 112 H380" stroke="#7aa2ff" stroke-width="2" marker-end="url(#op)"/>
+    <path d="M540 112 H560" stroke="#7aa2ff" stroke-width="2" marker-end="url(#op)"/>
+    <path d="M720 112 H740" stroke="#7aa2ff" stroke-width="2" marker-end="url(#op)"/>
+    <path d="M920 112 H940" stroke="#7aa2ff" stroke-width="2" marker-end="url(#op)"/>
+    </svg></div>
+    <details class="mini-note">
+      <summary>Legenda</summary>
+      <ul>
+        <li>Score cards si <code class="inline">Score Overview</code> nu sunt acelasi bloc; overview-ul ramane subsectiune separata.</li>
+        <li>Accounting trebuie integrat dupa zona de scor, nu helper slab separat.</li>
+        <li>Jump link-urile sunt bune doar daca nu umplu opening-ul cu zgomot.</li>
+      </ul>
+    </details>
+  </details>
+  <details class="subdetails">
+    <summary><span class="summary-title">1.2.1 State machine minim al raportarii</span><span class="sumhint">adevar inghetat -> pagina finala</span></summary>
+<pre><code>read_package_state
+-> read_frozen_truth
+-> build_business_graph
+-> map_claims_to_proof
+-> assemble_run_audit
+-> render_and_link_audit
+-> publish_final_html
+</code></pre>
+    <table>
+      <thead>
+        <tr>
+          <th>Pas</th>
+          <th>Ce citesti</th>
+          <th>Ce nu ai voie sa faci</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code class="inline">read_package_state</code></td><td>state files si close-out carriers</td><td>nu inventezi valori noi sau legalitate noua</td></tr>
+        <tr><td><code class="inline">build_business_graph</code></td><td>macro-harta aplicatiei + overlay-ul pachetului</td><td>nu transformi graful in jurnal de run-uri</td></tr>
+        <tr><td><code class="inline">map_claims_to_proof</code></td><td>run diff, Extent, XML, MD-uri decisive</td><td>nu lasi claim-uri fara owner si fara dovada</td></tr>
+        <tr><td><code class="inline">render_and_link_audit</code></td><td>CSS comun, render proof, link audit</td><td>nu publici o pagina frumoasa dar neauditabila</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <ul>
+        <li>Raportarea nu rejudeca.</li>
+        <li>Citeste starea si adevarul deja inghetat.</li>
+        <li>Verifica daca pagina finala este navigabila si rece.</li>
+      </ul>
+    </div>
+  </details>
+  <details class="subdetails">
+    <summary><span class="summary-title">1.3 Business Flow Graph</span><span class="sumhint">harta aplicatiei + overlay-ul pachetului</span></summary>
+    <div class="note">
+      <ul>
+        <li>Aici reporting valideaza doar forma.</li>
+        <li>LangGraph-ul canonic sta in <code class="inline">business-flow-graph-rubric.html</code>.</li>
+        <li>Tot acolo stau rubrica, exemplele si mirosurile rele.</li>
+      </ul>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Loc</th>
+          <th>Rol</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code class="inline">1.3</code></td><td>valideaza forma grafului si trimite la rubrica reutilizabila</td></tr>
+        <tr><td><code class="inline">4</code></td><td>descrie continutul minim obligatoriu din raportul final</td></tr>
+      </tbody>
+    </table>
+    <div class="mini">
+      <ul>
+        <li><code class="inline">1.3</code> nu dubleaza sectiunea <code class="inline">4</code>.</li>
+        <li>Forma se calibreaza in rubrica.</li>
+        <li>Continutul publicat ramane in raport.</li>
+      </ul>
+    </div>
+  </details>
+  <details class="subdetails" id="claim-proof-artifact">
+    <summary><span class="summary-title">1.4 Claim -> proof -> artifact</span><span class="sumhint">lantul minim al publicarii</span></summary>
+    <div class="diag"><svg viewBox="0 0 1160 220" role="img" aria-label="Claim to proof to artifact">
+    <defs><marker id="cp" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+    <rect x="35" y="78" width="180" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="125" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">business claim</text>
+    <text x="125" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">ce publici</text>
+    <rect x="255" y="78" width="150" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="330" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">run</text>
+    <text x="330" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">owner local</text>
+    <rect x="445" y="78" width="150" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="520" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">diff</text>
+    <text x="520" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">evolutie</text>
+    <rect x="635" y="78" width="150" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="710" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Extent</text>
+    <text x="710" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">proof UI</text>
+    <rect x="825" y="78" width="150" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="900" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">verdict MD</text>
+    <text x="900" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">owned / blocked</text>
+    <path d="M215 112 H255" stroke="#7aa2ff" stroke-width="2" marker-end="url(#cp)"/>
+    <path d="M405 112 H445" stroke="#7aa2ff" stroke-width="2" marker-end="url(#cp)"/>
+    <path d="M595 112 H635" stroke="#7aa2ff" stroke-width="2" marker-end="url(#cp)"/>
+    <path d="M785 112 H825" stroke="#7aa2ff" stroke-width="2" marker-end="url(#cp)"/>
+    </svg></div>
+    <details class="mini-note">
+      <summary>Legenda</summary>
+      <ul>
+        <li>Fiecare claim publicat trebuie sa aiba owner si dovada navigabila.</li>
+        <li>Daca lipseste ownerul, diff-ul sau proof carrierul, claim-ul nu e rece.</li>
+        <li>Claim-ul publicat trebuie sa sune mai sus decat numele testului care il sustine.</li>
+      </ul>
+    </details>
+  </details>
+  <details class="subdetails" id="truths-not-mixed">
+    <summary><span class="summary-title">1.5 Adevaruri care nu trebuie amestecate</span><span class="sumhint">countability, runs consumed, same-round, fresh-root</span></summary>
+    <div class="diag"><svg viewBox="0 0 1160 220" role="img" aria-label="Truths not mixed">
+    <rect x="35" y="78" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="145" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">countability</text>
+    <text x="145" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">x / ROUND_TARGET_TEST_COUNT</text>
+    <rect x="325" y="78" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="435" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">runs consumed</text>
+    <text x="435" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">sloturi cheltuite</text>
+    <rect x="615" y="78" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="725" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">same-package blocked</text>
+    <text x="725" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">nu mai continui aici</text>
+    <rect x="905" y="78" width="220" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="1015" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">fresh ROOT_RUN legal</text>
+    <text x="1015" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">urmatorul pachet</text>
+    </svg></div>
+    <details class="mini-note">
+      <summary>Legenda</summary>
+      <ul>
+        <li>Aceste patru verdicte sunt diferite chiar daca apar in acelasi close-out.</li>
+        <li><code class="inline">same-package blocked</code> nu inseamna automat <code class="inline">fresh ROOT_RUN legal = no</code>.</li>
+        <li>Daca aceste adevaruri sunt amestecate, raportul suna mai sigur decat este.</li>
+      </ul>
+    </details>
+  </details>
 </details>
 
 <details>
-  <summary><span class="summary-title">2. Executive Verdict</span><span class="sumhint">winner, cap, next move</span></summary>
+  <summary><span class="summary-title">2. Deschidere <span class="badge">OPENING</span></span><span class="sumhint">hero, score wall, Score Overview, accounting compact</span></summary>
+  <details class="subdetails">
+    <summary><span class="summary-title">2.1 Opening Contract Card</span><span class="sumhint">ce ramane sus si ce coboara</span></summary>
+    <table>
+      <thead><tr><th>Vizibil sus</th><th>Colapsat / mai jos</th></tr></thead>
+      <tbody>
+        <tr><td>hero verdict</td><td>explicatii lungi de scoring</td></tr>
+        <tr><td>runtime strip</td><td>doctrina runtime</td></tr>
+        <tr><td>score wall vizibil + Score Overview colapsat</td><td>argumentatie de auto-aparare</td></tr>
+        <tr><td>accounting compact</td><td>tabele late de audit</td></tr>
+        <tr><td>verdict executiv scurt</td><td>detalii de test, repair, helper, selector</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <ul>
+        <li>Raportul publica, nu rejudeca.</li>
+        <li>Fiecare claim important are hyperlink local catre dovada.</li>
+        <li>Forma finala publicata traieste aici, nu in documentele de executie.</li>
+        <li>Toate sectiunile principale sunt colapsabile.</li>
+        <li>Singura sectiune principala deschisa implicit: <code class="inline">4. Graful fluxului business</code>.</li>
+      </ul>
+    </div>
+  </details>
+  <details class="subdetails">
+    <summary><span class="summary-title">2.2 Elemente obligatorii de deschidere</span><span class="sumhint">hero + score wall vizibil; contextul greu colapsat</span></summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Zona</th>
+        <th>Model cerut</th>
+        <th>Regula rece</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Hero</td><td>titlu scurt + badge de stare</td><td>spune adevarul pachetului, nu marketing</td></tr>
+      <tr><td>Score wall</td><td>carduri vizibile pentru axele canonice, inclusiv <code class="inline">Overall</code></td><td>valorile urmeaza <code class="inline">score-overview-reference.html</code></td></tr>
+      <tr><td>Executive Context</td><td>subsectiune colapsata cu runtime pills, context scurt, owned / blocked</td><td>nu tine contextul greu deschis implicit</td></tr>
+      <tr><td>Read First</td><td>mini-card cu root diff sau artefactul istoric principal</td><td>primul link trebuie sa ajute redeschiderea rece</td></tr>
+      <tr><td>Compiled State</td><td>mini-card cu <code class="inline">package-state.json</code></td><td>starea compilata nu se ascunde in Artifact Index</td></tr>
+      <tr><td>Execution Gate</td><td>mini-card cu <code class="inline">execution-gate-card.md</code></td><td>completitudinea pachetului trebuie verificabila rapid</td></tr>
+      <tr><td>Jump links</td><td>linkuri scurte spre Score Overview, Business Flow Graph, Proof, Close-Out</td><td>navigatie, nu ornament</td></tr>
+      <tr><td>Colapsare</td><td>dupa opening, sectiunile principale sunt colapsabile</td><td>in raportul final, doar Business Flow Graph ramane deschis implicit</td></tr>
+    </tbody>
+  </table>
+  <div class="note">
+    <ul>
+      <li>Modelul bun: <code class="inline">score wall</code> vizibil, contextul greu in <code class="inline">Executive Context</code> colapsat.</li>
+      <li>Nu pune tabele late, audit complet sau explicatii lungi in primul ecran.</li>
+      <li>Runtime-ul si contoarele apar ca pills scurte; doctrina lor ramane in artefactele owner.</li>
+    </ul>
+  </div>
+  </details>
+  <details class="subdetails">
+    <summary><span class="summary-title">2.3 Accounting Compact</span><span class="sumhint">forma scurta publicata in opening</span></summary>
+  <pre><code>Accounting Compact
+  tests produced = x / ROUND_TARGET_TEST_COUNT
+  runs consumed = n / META_ITERATION_COUNT
+  breadth = broad / partial / narrow
+  same-round continuation = yes / no / blocked
+  fresh ROOT_RUN = yes / no
+  owner = quality-accounting-verdict.md
+</code></pre>
+  </details>
+</details>
+
+<details>
+  <summary><span class="summary-title">3. Verdict executiv <span class="badge">CLOSE-OUT</span></span><span class="sumhint">winner, under-spend, next move</span></summary>
   <table>
     <thead>
       <tr>
         <th>Bloc</th>
-        <th>ConÈ›inut minim</th>
+        <th>Continut minim</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td>Winner truth</td><td>ce business nou a devenit rece, owned È™i countable</td></tr>
-      <tr><td>Strongest unresolved truth</td><td>ce frontierÄƒ relevantÄƒ a rÄƒmas partial, blocked sau fresh-round-only</td></tr>
-      <tr><td>Same-round stop truth</td><td>de ce continuarea Ã®n acelaÈ™i pachet este legalÄƒ sau nu</td></tr>
-      <tr><td>Fresh ROOT_RUN truth</td><td>dacÄƒ pasul urmÄƒtor trebuie mutat Ã®ntr-un pachet nou</td></tr>
+      <tr><td>Winner truth</td><td>ce business nou a devenit rece, owned si countable</td></tr>
+      <tr><td>Strongest unresolved truth</td><td>ce frontiera relevanta a ramas partial, blocked sau fresh-round-only</td></tr>
+      <tr><td>Same-round stop truth</td><td>de ce continuarea in acelasi pachet este legala sau nu</td></tr>
+      <tr><td>Fresh ROOT_RUN truth</td><td>daca pasul urmator trebuie mutat intr-un pachet nou</td></tr>
+      <tr><td>Historical mutation</td><td>in 1-3 linii: ce a schimbat acest pachet fata de pachetul precedent, cu link timpuriu la <code class="inline">root-source-thin-no-index.diff</code></td></tr>
     </tbody>
   </table>
-</details>
-
-<details>
-  <summary><span class="summary-title">3. Business Flow Graph</span><span class="sumhint">centrul pedagogic al raportului</span></summary>
-  <table>
-    <thead>
-      <tr>
-        <th>Trebuie sÄƒ arate</th>
-        <th>Regula de formÄƒ</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>baseline covered</td><td>ce era deja apÄƒrat È™i nu a mai fost respent</td></tr>
-      <tr><td>new frontier</td><td>felia business nouÄƒ atacatÄƒ de pachet</td></tr>
-      <tr><td>owned / countable</td><td>ce a intrat rece Ã®n <code class="inline">x / 5</code></td></tr>
-      <tr><td>partial / repair-only</td><td>ce a Ã®mbunÄƒtÄƒÈ›it suportul fÄƒrÄƒ identitate business nouÄƒ</td></tr>
-      <tr><td>blocked</td><td>ce a eÈ™uat rece sau a rÄƒmas instabil</td></tr>
-      <tr><td>fresh-round-only</td><td>ce rÄƒmÃ¢ne valid dar aparÈ›ine altui pachet</td></tr>
-    </tbody>
-  </table>
-
-  <table>
-    <thead>
-      <tr>
-        <th>RegulÄƒ de prezentare</th>
-        <th>Concret</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Forme permise</td><td>diagramÄƒ, business lanes sau 2-4 subgrafuri mici</td></tr>
-      <tr><td>GramaticÄƒ preferatÄƒ</td><td>actor â†’ intenÈ›ie â†’ pas vizibil â†’ owned / blocked / fresh-round-only</td></tr>
-      <tr><td>Text Ã®n noduri</td><td>titlu scurt + maxim o linie scurtÄƒ de context</td></tr>
-      <tr><td>LegendÄƒ</td><td>o legendÄƒ scurtÄƒ, colapsatÄƒ, sub fiecare subgraf dens; explicÄƒ un pic mai mult decÃ¢t nodurile, dar fÄƒrÄƒ eseu</td></tr>
-      <tr><td>Stil</td><td>refoloseÈ™te clasele È™i culorile din <code class="inline">shared-report-reference.css</code>; fÄƒrÄƒ sistem vizual paralel</td></tr>
-      <tr><td>Nu face</td><td>nu dubla proza secÈ›iunii Ã®n noduri È™i nu umple legenda cu eseu</td></tr>
-    </tbody>
-  </table>
-  <div class="note">DacÄƒ graful devine greu, sparge-l Ã®n subgrafuri mai mici. Claritatea business bate ambiÈ›ia vizualÄƒ. ÃŽn mod normal, fiecare subgraf dens trebuie sÄƒ aibÄƒ legenda lui colapsatÄƒ chiar sub el.</div>
-</details>
-
-<details>
-  <summary><span class="summary-title">4. Proof And Coverage</span><span class="sumhint">mapping, diff, Extent, artifact index</span></summary>
-
+  <div class="note">
+    <ul>
+      <li>Raportul final nu devine jurnal lung.</li>
+      <li>Totusi, opening-ul trebuie sa aiba mutatie istorica scurta.</li>
+      <li>Fara ea, diff-urile raman prea jos si greu de citit pedagogic.</li>
+    </ul>
+  </div>
   <details class="subdetails">
-    <summary><span class="summary-title">4.1 Flow Ownership And Proof Mapping</span><span class="sumhint">claim â†’ run â†’ proof</span></summary>
+    <summary><span class="summary-title">3.1 Disciplina de citire rece</span><span class="sumhint">opening shape, ordinea buna, benchmark rece</span></summary>
+    <div class="diag"><svg viewBox="0 0 1160 220" role="img" aria-label="Disciplina de citire rece">
+    <defs><marker id="dr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7aa2ff"/></marker></defs>
+    <rect x="35" y="78" width="170" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="120" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">opening</text>
+    <text x="120" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">hero + cards + accounting</text>
+    <rect x="245" y="78" width="170" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="330" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">verdict</text>
+    <text x="330" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">winner + under-spend + next move</text>
+    <rect x="455" y="78" width="170" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="540" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">graph</text>
+    <text x="540" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">povestea business</text>
+    <rect x="665" y="78" width="170" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="750" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">proof mapping</text>
+    <text x="750" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">claim -> run -> proof</text>
+    <rect x="875" y="78" width="110" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="930" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">audit</text>
+    <text x="930" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">strip</text>
+    <rect x="1025" y="78" width="100" height="68" rx="14" fill="#111826" stroke="#35507a"/>
+    <text x="1075" y="104" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">close-out</text>
+    <text x="1075" y="126" text-anchor="middle" fill="#a8b3cf" font-size="11">truth final</text>
+    <path d="M205 112 H245" stroke="#7aa2ff" stroke-width="2" marker-end="url(#dr)"/>
+    <path d="M415 112 H455" stroke="#7aa2ff" stroke-width="2" marker-end="url(#dr)"/>
+    <path d="M625 112 H665" stroke="#7aa2ff" stroke-width="2" marker-end="url(#dr)"/>
+    <path d="M835 112 H875" stroke="#7aa2ff" stroke-width="2" marker-end="url(#dr)"/>
+    <path d="M985 112 H1025" stroke="#7aa2ff" stroke-width="2" marker-end="url(#dr)"/>
+    </svg></div>
+    <details class="mini-note">
+      <summary>Legenda</summary>
+      <ul>
+        <li>Nu lasa opening-ul sa devina index tehnic.</li>
+        <li>Nu lasa testele sa explice business-ul inaintea verdictului.</li>
+        <li>Nu ridica payload-ul greu deasupra proof mapping-ului.</li>
+      </ul>
+    </details>
     <table>
       <thead>
         <tr>
-          <th>ColoanÄƒ</th>
-          <th>Ce trebuie sÄƒ existe</th>
+          <th>Regula</th>
+          <th>Forma rece</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Business claim</td><td>claim rece despre un pas sau o identitate business</td></tr>
+      <tr>
+        <td>Opening shape</td>
+        <td>
+          <ul>
+            <li>hero -> runtime strip -> score wall canonic</li>
+            <li>Score Overview -> accounting integrat -> sectiunea 3</li>
+            <li>fara bloc separat contradictoriu intre scor si verdict</li>
+          </ul>
+        </td>
+      </tr>
+        <tr><td>Opening clutter</td><td>nu publica accounting, yield, comparator sau helper slab ca bloc separat in opening</td></tr>
+        <tr><td>Ordine de citire</td><td>cititorul trebuie sa inteleaga mai intai verdictul si business-ul, nu testele sau repair trail-ul</td></tr>
+        <tr>
+          <td>Payload mutat jos</td>
+          <td>
+            <ul>
+              <li>run ids, nume de test, repair steps</li>
+              <li>selectori, payload concret, micro-mutatii</li>
+              <li>loc: legenda, proof mapping, audit strip, artifact index</li>
+            </ul>
+          </td>
+        </tr>
+        <tr><td>Benchmark rece</td><td>pentru comparatia de forma se redeschid benchmark-urile selectate in pretraining; nu exista un singur teacher rigid</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">Daca cititorul trebuie sa inteleaga mai intai testele ca sa priceapa winner-ul business, raportul este gresit.</div>
+  </details>
+</details>
+
+<details>
+  <summary><span class="summary-title">4. Graful fluxului business <span class="badge">GRAPH</span></span><span class="sumhint">centrul pedagogic al raportului</span></summary>
+  <div class="note">
+    <ul>
+      <li>Aici ramane doar slotul obligatoriu al raportului final.</li>
+      <li>In acest document de cerinte: colapsat implicit.</li>
+      <li>In raportul final: singura sectiune deschisa implicit.</li>
+      <li>Forma si validarea vin din <code class="inline">business-flow-graph-rubric.html</code>.</li>
+    </ul>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>In raport trebuie publicat aici</th>
+        <th>Minim acceptat</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>macro-harta aplicatiei</td><td>lane-uri reale ale produsului, nu lista de run-uri</td></tr>
+      <tr><td>overlay-ul pachetului</td><td>ce a devenit owned, partial, blocked sau fresh-round-only</td></tr>
+      <tr><td>legenda colapsata</td><td>detaliile de test, run ids, metoda si repair trail stau sub graf, nu in noduri</td></tr>
+      <tr><td>legatura cu dovada</td><td>trimite cititorul spre proof mapping, run audit si Artifact Index</td></tr>
+    </tbody>
+  </table>
+  <div class="rule">
+    <ul>
+      <li>Aplicatia este harta.</li>
+      <li>Pachetul coloreaza doar ce a atins.</li>
+      <li>Desenare si validare: <code class="inline">business-flow-graph-rubric.html</code>.</li>
+    </ul>
+  </div>
+</details>
+
+<details>
+  <summary><span class="summary-title">5. Dovada si acoperire <span class="badge">PROOF</span></span><span class="sumhint">mapping, diff, Extent, artifact index</span></summary>
+
+  <details class="subdetails">
+    <summary><span class="summary-title">5.1 Ownership = adevarul inchis</span><span class="sumhint">claim -> run -> proof</span></summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Coloana</th>
+          <th>Ce trebuie sa existe</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Business claim</td><td>claim rece despre un pas sau o identitate business, nu doar despre un test verde</td></tr>
         <tr><td>Run owner</td><td>link la <code class="inline">runs/run_##/SUMMARY.md</code></td></tr>
-        <tr><td>Evolution truth</td><td>link la <code class="inline">thin-no-index.diff</code> sau diff-ul relevant</td></tr>
+        <tr><td>Evolution truth</td><td>link la <code class="inline">runs/run_##/review/thin-no-index.diff</code> pentru claim-ul de run; <code class="inline">root-source-thin-no-index.diff</code> doar pentru sinteza de pachet</td></tr>
         <tr><td>UI proof</td><td>link la <code class="inline">ExtentReport_*.html</code> pentru pachetele UI</td></tr>
         <tr><td>Machine proof</td><td>link la XML sau <code class="inline">command-result.md</code></td></tr>
         <tr><td>Cold verdict</td><td>owned / partial / blocked / fresh-round-only</td></tr>
       </tbody>
     </table>
+    <pre><code>run diff = mutatia mica
+root diff = mutatia compilata
+carrier = suport doar daca diff-ul nu ajunge
+</code></pre>
+    <div class="note">
+      <ul>
+        <li>Fiecare claim important are link la diff.</li>
+        <li>Fiecare claim are si o propozitie de mutatie istorica.</li>
+        <li>Spune: ce s-a deschis, inchis sau ingustat.</li>
+      </ul>
+    </div>
+    <div class="warn">
+      <ul>
+        <li>Fara run diff, claim-ul nu are istorie rece completa.</li>
+        <li>Root diff-ul nu compenseaza lipsa diff-ului mic.</li>
+      </ul>
+    </div>
   </details>
 
   <details class="subdetails">
-    <summary><span class="summary-title">4.2 Audit Artifact Index</span><span class="sumhint">ce trebuie sÄƒ fie hyperlink-uit</span></summary>
+    <summary><span class="summary-title">5.2 Artifact Index = unde redeschizi dovada</span><span class="sumhint">ce trebuie sa fie hyperlink-uit</span></summary>
+    <div class="rule">
+      <ul>
+        <li>Formula: <code class="inline">claim major -> run -> run diff -> Extent/XML -> verdict MD -> state file -> status</code>.</li>
+        <li>Un rand per claim major publicat in Verdict, Business Flow Graph sau Proof Mapping.</li>
+        <li>Inventarul brut sta in frozen inventory.</li>
+      </ul>
+    </div>
     <table>
       <thead>
         <tr>
-          <th>Family</th>
-          <th>Artifact obligatoriu</th>
+          <th>Familie</th>
+          <th>Artefact obligatoriu</th>
           <th>Rol</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Runtime</td><td><code class="inline">agent-runtime.properties</code></td><td>adevÄƒrul comun al pragurilor È™i path-urilor</td></tr>
-        <tr><td>Evolution</td><td><code class="inline">thin-no-index.diff</code></td><td>adevÄƒrul primar al evoluÈ›iei iterative</td></tr>
-        <tr><td>UI proof</td><td><code class="inline">ExtentReport_*.html</code></td><td>coloana principalÄƒ de proof pentru UI</td></tr>
-        <tr><td>Machine proof</td><td><code class="inline">testng-results.xml</code>, <code class="inline">TEST-*.xml</code>, <code class="inline">command-result.md</code></td><td>adevÄƒrul de execuÈ›ie machine-readable</td></tr>
-        <tr><td>Run review</td><td><code class="inline">SUMMARY.md</code>, <code class="inline">artifact-checklist.md</code>, <code class="inline">score-support.md</code></td><td>adevÄƒrul kept/countable</td></tr>
-        <tr><td>Governance</td><td><code class="inline">quality-accounting-verdict.md</code>, <code class="inline">next-run-eligibility-card.md</code>, <code class="inline">package-close-out.md</code></td><td>accounting, legality, close-out</td></tr>
-        <tr><td>Constructive learning</td><td>orice <code class="inline">*.md</code> care a influenÈ›at verdictul</td><td>feedback auditabil de la agent</td></tr>
-        <tr><td>Publication</td><td><code class="inline">shared-report-reference.css</code>, <code class="inline">canonical-render-check.png</code>, <code class="inline">local-link-check.txt</code></td><td>proba de render È™i link reopenability</td></tr>
+        <tr><td>Runtime</td><td><code class="inline">agent-runtime.properties</code></td><td>adevarul comun al pragurilor si cailor</td></tr>
+        <tr><td>Evolutie</td><td><code class="inline">runs/run_##/review/thin-no-index.diff</code> + <code class="inline">review/root-source-thin-no-index.diff</code></td><td>run diff pentru mutatia locala; root diff pentru compilarea pachetului</td></tr>
+        <tr><td>Dovada UI</td><td><code class="inline">ExtentReport_*.html</code></td><td>coloana principala de dovada pentru UI</td></tr>
+        <tr><td>Dovada machine</td><td><code class="inline">testng-results.xml</code>, <code class="inline">TEST-*.xml</code>, <code class="inline">command-result.md</code></td><td>adevarul de executie machine-readable</td></tr>
+        <tr><td>Audit pe run</td><td><code class="inline">SUMMARY.md</code>, <code class="inline">artifact-checklist.md</code>, <code class="inline">score-support.md</code></td><td>adevarul kept/countable</td></tr>
+        <tr><td>Guvernanta</td><td><code class="inline">quality-accounting-verdict.md</code>, <code class="inline">next-run-eligibility-card.md</code>, <code class="inline">package-close-out.md</code>, <code class="inline">package-state.json</code>, <code class="inline">execution-gate-card.md</code></td><td>accounting, legalitate, close-out si stare compilata</td></tr>
+        <tr><td>State files pe run</td><td><code class="inline">runs/run_##/review/run-state.json</code></td><td>leaga fiecare claim mare de starea rece a run-ului care l-a produs</td></tr>
+        <tr><td>Invatare constructiva</td><td>orice <code class="inline">*.md</code> care a influentat verdictul</td><td>feedback auditabil de la agent</td></tr>
+        <tr><td>Publicare</td><td><code class="inline">shared-report-reference.css</code>, <code class="inline">canonical-render-check.png</code>, <code class="inline">local-link-check.txt</code></td><td>proba de randare si redeschidere a link-urilor</td></tr>
       </tbody>
     </table>
-    <div class="rule">Pentru UI: raport fÄƒrÄƒ link la <code class="inline">thin-no-index.diff</code> È™i fÄƒrÄƒ link la <code class="inline">ExtentReport</code> Ã®nseamnÄƒ proof incomplet.</div>
-  </details>
-
-  <details class="subdetails">
-    <summary><span class="summary-title">4.3 Optional Value-Add Sections</span><span class="sumhint">libertate dupÄƒ scheletul obligatoriu</span></summary>
+    <div class="rule">Artifact Index este obligatoriu per claim major; valoarea extra nu il inlocuieste.</div>
     <table>
       <thead>
         <tr>
-          <th>PoÈ›i adÄƒuga</th>
-          <th>CÃ¢nd meritÄƒ</th>
-          <th>CondiÈ›ie rece</th>
+          <th>Claim major</th>
+          <th>Run</th>
+          <th>Run diff / source</th>
+          <th>Extent / XML</th>
+          <th>Verdict MD</th>
+          <th>State file</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>subgrafuri business suplimentare</td><td>cÃ¢nd un singur graph mare devine greu de citit</td><td>legendÄƒ scurtÄƒ, colapsatÄƒ, sub fiecare subgraf</td></tr>
-        <tr><td>mini-matrice de blockere</td><td>cÃ¢nd blockerele trebuie separate mai clar</td><td>fiecare rÃ¢nd are proof link</td></tr>
-        <tr><td>micro-comparator local</td><td>cÃ¢nd un comparator real clarificÄƒ standing-ul</td><td>sÄƒ nu devinÄƒ vanity strip</td></tr>
-        <tr><td>note de Ã®nvÄƒÈ›are per frontierÄƒ</td><td>cÃ¢nd feedback-ul salvat schimbÄƒ real urmÄƒtorul run</td><td>numai cu md local hyperlink-uit</td></tr>
-        <tr><td>subsecÈ›iuni de proof specializat</td><td>cÃ¢nd un flow cere explicaÈ›ii separate pentru diff, Extent, XML sau render</td><td>nu dubla Artifact Index-ul</td></tr>
+        <tr>
+          <td>claim publicat in verdict, graph sau proof mapping</td>
+          <td><code class="inline">run_##</code> sau <code class="inline">package</code></td>
+          <td>link la diff/source sau <code class="inline">missing</code></td>
+          <td>link la Extent/XML sau <code class="inline">n/a</code></td>
+          <td>link la MD-ul care detine verdictul</td>
+          <td>link la <code class="inline">run-state.json</code> sau <code class="inline">package-state.json</code></td>
+          <td><code class="inline">linked / missing / n/a</code></td>
+        </tr>
       </tbody>
     </table>
-    <div class="rule">Scheletul obligatoriu vine primul. DupÄƒ el, agentul poate adÄƒuga orice subsecÈ›iune care mÄƒreÈ™te claritatea de redeschidere, pÄƒstreazÄƒ hyperlink-uri locale È™i nu rupe ordinea canonicÄƒ a raportului.</div>
-    <div class="warn">DacÄƒ o subsecÈ›iune nouÄƒ repetÄƒ Executive Verdict, Business Flow Graph, Proof Mapping sau Artifact Index, ea trebuie tÄƒiatÄƒ.</div>
-    <div class="note">Feedback nou de stil: preferÄƒ secÈ›iuni colapsate implicit pentru zona de Ã®nceput, cu excepÈ›ia blocurilor care trebuie citite imediat. PreferÄƒ legende puÈ›in mai explicative, dar tot scurte È™i sub-colapsate.</div>
+    <div class="warn">
+      <ul>
+        <li>Artifact Index nu este inventar decorativ.</li>
+        <li>Claim fara lant complet ramane partial.</li>
+      </ul>
+    </div>
+    <div class="note">
+      <ul>
+        <li>claim -> run diff</li>
+        <li>sinteza -> root diff</li>
+        <li>carrier -> doar cand claim-ul cere interpretare suplimentara</li>
+      </ul>
+    </div>
+    <div class="note">
+      <ul>
+        <li>State files apar aici si in Close-Out.</li>
+        <li><code class="inline">package-state.json</code> = adevar compilat.</li>
+        <li><code class="inline">run-state.json</code> = claim greu dependent de un slot.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="subdetails">
+    <summary><span class="summary-title">5.3 Valoare extra permisa</span><span class="sumhint">libertate dupa scheletul obligatoriu</span></summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Poti adauga</th>
+          <th>Cand merita</th>
+          <th>Conditie rece</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>subgrafuri business suplimentare</td><td>cand un singur graf mare devine greu de citit</td><td>legenda scurta, colapsata, sub fiecare subgraf</td></tr>
+        <tr><td>mini-matrice de blockere</td><td>cand blockerele trebuie separate mai clar</td><td>fiecare rand are link la dovada</td></tr>
+        <tr><td>comparator local scurt</td><td>cand un comparator real clarifica standing-ul</td><td>sa nu devina vanity strip</td></tr>
+        <tr><td>note de invatare per frontiera</td><td>cand feedback-ul salvat schimba real urmatorul run</td><td>numai cu md local hyperlink-uit</td></tr>
+        <tr><td>subsectiuni de dovada specializata</td><td>cand un flow cere explicatii separate pentru diff, Extent, XML sau render</td><td>nu dubla Artifact Index-ul</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <ul>
+        <li>Scheletul obligatoriu vine primul.</li>
+        <li>Dupa el, agentul poate adauga subsectiuni utile.</li>
+        <li>Conditie: sa mareasca claritatea de redeschidere.</li>
+      </ul>
+    </div>
+    <div class="note">
+      <ul>
+        <li>Lipsa <code class="inline">package-state.json</code> = raport partial.</li>
+        <li>Lipsa run-state-urilor promise = raport partial.</li>
+        <li>HTML frumos nu compenseaza state files lipsa.</li>
+      </ul>
+    </div>
   </details>
 </details>
 
 <details>
-  <summary><span class="summary-title">5. Run Audit Strip</span><span class="sumhint">o bandÄƒ rece per run</span></summary>
+  <summary><span class="summary-title">6. Banda de audit pe run <span class="badge">AUDIT</span></span><span class="sumhint">o banda rece per run</span></summary>
   <table>
     <thead>
       <tr>
-        <th>ColoanÄƒ</th>
-        <th>ConÈ›inut minim</th>
+        <th>Coloana</th>
+        <th>Continut minim</th>
       </tr>
     </thead>
     <tbody>
       <tr><td>Run</td><td><code class="inline">run_##</code> + link la <code class="inline">SUMMARY.md</code></td></tr>
-      <tr><td>Business claim</td><td>ce a Ã®ncercat sÄƒ apere</td></tr>
-      <tr><td>Expected delta</td><td>ce fel de noutate sau adÃ¢ncime se aÈ™tepta</td></tr>
-      <tr><td>Actual delta</td><td>ce s-a materializat rece</td></tr>
+      <tr><td>Business claim</td><td>ce a incercat sa apere si de ce merita consumat acel run</td></tr>
+      <tr><td>Expected delta</td><td>ce fel de noutate sau adancime se astepta</td></tr>
+      <tr><td>Actual delta</td><td>ce s-a materializat rece si ce mutatie istorica a adus fata de starea anterioara</td></tr>
       <tr><td>Kept?</td><td>yes / no</td></tr>
       <tr><td>Why countable / not countable</td><td>motiv rece, scurt</td></tr>
-      <tr><td>Diff</td><td>link la diff relevant</td></tr>
+      <tr><td>Diff</td><td>link la diff-ul mic relevant al run-ului; nu doar la root diff</td></tr>
       <tr><td>Extent</td><td>link pentru UI sau <code class="inline">n/a</code> explicit</td></tr>
       <tr><td>Feedback</td><td>link la feedback-ul constructiv salvat</td></tr>
     </tbody>
   </table>
+  <div class="note">
+    <ul>
+      <li>Doar root diff = istoric partial.</li>
+      <li>Run audit trebuie sa duca la deltele mici per run.</li>
+    </ul>
+  </div>
+  <div class="note">
+    <ul>
+      <li>Ordine buna: claim -> run -> run diff -> Extent/XML -> verdict.</li>
+      <li>Alta ordine incetineste citirea istorica.</li>
+    </ul>
+  </div>
+  <div class="warn">
+    <ul>
+      <li>Run cu sursa schimbata cere link la <code class="inline">runs/run_##/review/thin-no-index.diff</code>.</li>
+      <li>Fara link, randul este incomplet public.</li>
+    </ul>
+  </div>
+  <div class="note">
+    <ul>
+      <li>Ce a dovedit run-ul?</li>
+      <li>Ce a schimbat in istoria pachetului?</li>
+    </ul>
+  </div>
 </details>
 
 <details>
-  <summary><span class="summary-title">6. Close-Out Truth</span><span class="sumhint">countability, legality, next move</span></summary>
+  <summary><span class="summary-title">7. Adevarul de inchidere <span class="badge">CLOSE-OUT</span></span><span class="sumhint">countability, legality, next move</span></summary>
+  <details class="subdetails">
+    <summary><span class="summary-title">7.1 Publicarea separata a adevarurilor de inchidere</span><span class="sumhint">separa countability, runs consumed si next move</span></summary>
   <table>
     <thead>
       <tr>
@@ -240,18 +742,41 @@
       </tr>
     </thead>
     <tbody>
-      <tr><td>Countability</td><td><code class="inline">materially turned into tests = x / 5</code></td></tr>
+      <tr><td>Countability</td><td><code class="inline">materially turned into tests = x / ROUND_TARGET_TEST_COUNT</code></td></tr>
+      <tr><td>Runs consumed</td><td><code class="inline">runs consumed = n / META_ITERATION_COUNT</code></td></tr>
       <tr><td>Accounting target</td><td><code class="inline">accounting target met = yes / no</code></td></tr>
+      <tr><td>Business breadth verdict</td><td><code class="inline">broad / partial / narrow</code> + motiv rece</td></tr>
       <tr><td>Same-round continuation</td><td><code class="inline">same-round continuation legal = yes / no</code></td></tr>
       <tr><td>Fresh ROOT_RUN legality</td><td><code class="inline">fresh ROOT_RUN legal = yes / no</code></td></tr>
-      <tr><td>Open problems</td><td>cele mai grele adevÄƒruri rÄƒmase</td></tr>
+      <tr><td>Open problems</td><td>cele mai grele adevaruri ramase si orice under-spend nerezolvat pe teste sau pe run-uri</td></tr>
     </tbody>
   </table>
-  <div class="warn">Nu amesteca Ã®ntr-o singurÄƒ propoziÈ›ie countability, cap consumat, yield È™i application exhaustion. Sunt adevÄƒruri diferite.</div>
+  <div class="warn">
+    <ul>
+      <li>Nu amesteca intr-o singura propozitie:</li>
+      <li>countability, breadth, runs consumed, yield, application exhaustion.</li>
+      <li>Contoarele raman separate.</li>
+    </ul>
+  </div>
+  <div class="note">
+    <ul>
+      <li>Raportul publica accounting si close-out deja decis.</li>
+      <li>Nu muta aici teoria producerii targetului.</li>
+      <li>Arata clar ce a iesit si verdictul final.</li>
+    </ul>
+  </div>
+  <div class="note">
+    <ul>
+      <li>Close-Out arata <code class="inline">package-state.json</code>.</li>
+      <li>Close-Out arata <code class="inline">execution-gate-card.md</code>.</li>
+      <li>Daca verdictul depinde de un run, arata si <code class="inline">run-state.json</code>.</li>
+    </ul>
+  </div>
+  </details>
 </details>
 
 <details>
-  <summary><span class="summary-title">7. Render And Audit</span><span class="sumhint">stil, screenshot, hyperlink-uri</span></summary>
+  <summary><span class="summary-title">8. Randare si audit <span class="badge">AUDIT</span></span><span class="sumhint">stil, screenshot, hyperlink-uri</span></summary>
   <table>
     <thead>
       <tr>
@@ -264,13 +789,27 @@
       <tr><td>Shared CSS used</td><td>link local la <code class="inline">shared-report-reference.css</code></td></tr>
       <tr><td>Render proof</td><td><code class="inline">canonical-render-check.png</code></td></tr>
       <tr><td>Link audit</td><td><code class="inline">local-link-check.txt</code></td></tr>
-      <tr><td>Collapsible discipline</td><td>secÈ›iuni mari colapsabile, legende scurte subgrafice</td></tr>
+      <tr><td>Collapsible discipline</td><td>sectiuni mari colapsabile, legende scurte subgrafice</td></tr>
     </tbody>
   </table>
+  <div class="warn">
+    <ul>
+      <li><code class="inline">canonical-render-check.png</code> trebuie sa arate raportul real.</li>
+      <li><code class="inline">not found</code>, ecran gri, cookie wall sau pagina straina = invalid.</li>
+      <li>Raportul cade rece chiar daca HTML-ul si linkurile exista.</li>
+    </ul>
+  </div>
+  <div class="note">
+    <ul>
+      <li>Fara render proof valid: <code class="inline">Contract Artefacte Noi</code> ramane cel mult partial.</li>
+      <li>Blocker-ul de publicare trebuie linkuit explicit.</li>
+    </ul>
+  </div>
 </details>
 </div>
-<script>
-function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}
-</script>
+
+<script>function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}</script>
 </body>
 </html>
+
+

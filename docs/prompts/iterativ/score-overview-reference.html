@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ro">
 <head>
 <meta charset="utf-8">
@@ -19,6 +19,10 @@
 .meta-row{display:grid;grid-template-columns:92px minmax(0,1fr);gap:10px;align-items:start}
 .meta-label{color:var(--muted);font-size:12px;font-weight:800;letter-spacing:.02em;padding-top:4px}
 .meta-pills{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+pre,
+pre code{
+  line-height:1.04;
+}
 </style>
 </head>
 <body>
@@ -32,11 +36,9 @@
       <li><code class="inline">reporting.html</code> ramane owner pentru scheletul paginii finale.</li>
     </ul>
   </div>
-  <div class="toolbar">
-    <button type="button" onclick="toggleAll(true)">Deschide tot</button>
-    <button type="button" onclick="toggleAll(false)">Inchide tot</button>
-  </div>
+  
 </header>
+<div class="toolbar"><button type="button" onclick="toggleAll(true)">Deschide tot</button><button type="button" onclick="toggleAll(false)">Inchide tot</button></div>
 
 <div class="grid">
   <section class="card">
@@ -305,10 +307,9 @@
 </details>
 
 </div>
-<script>
-function toggleAll(open) {
-  document.querySelectorAll('details').forEach((d) => d.open = open);
-}
-</script>
+
+<script>function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}</script>
 </body>
 </html>
+
+

@@ -14,6 +14,10 @@
 .pillline{display:flex;flex-direction:column;gap:8px;align-items:flex-start;margin-top:10px}
 .pillrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .pilllabel{color:var(--muted);font-size:12px;font-weight:700;margin-right:2px}
+pre,
+pre code{
+  line-height:1.04;
+}
 </style>
 </head>
 <body>
@@ -27,8 +31,9 @@
       <li>Aici sta forma reutilizabila a grafului.</li>
     </ul>
   </div>
-  <div class="toolbar"><button type="button" onclick="toggleAll(true)">Deschide tot</button><button type="button" onclick="toggleAll(false)">Inchide tot</button></div>
+  
 </header>
+<div class="toolbar"><button type="button" onclick="toggleAll(true)">Deschide tot</button><button type="button" onclick="toggleAll(false)">Inchide tot</button></div>
 
 <div class="grid">
   <section class="card">
@@ -242,8 +247,9 @@
   </ul>
 </details>
 </div>
-<script>
-function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}
-</script>
+
+<script>function toggleAll(openState){document.querySelectorAll('details').forEach(function(el){el.open=openState;});}</script>
 </body>
 </html>
+
+
