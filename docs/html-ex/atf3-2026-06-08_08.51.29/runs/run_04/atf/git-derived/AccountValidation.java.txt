@@ -1,0 +1,152 @@
+package com.endava.ai.ui.validation;
+
+import com.endava.ai.ui.core.DriverManager;
+import com.endava.ai.ui.model.CustomerData;
+import com.endava.ai.ui.pages.LoginPage;
+import com.endava.ai.ui.pages.ProfilePage;
+import com.endava.ai.ui.utils.UIActions;
+import com.endava.ai.ui.utils.WaitUtils;
+import org.testng.Assert;
+
+public final class AccountValidation {
+
+    public void assertRedirectedToLogin() {
+        WaitUtils.waitForCondition(
+                "redirected to login",
+                () -> {
+                    String url = DriverManager.getEngine().getCurrentUrl();
+                    return url.contains("/auth/login") || safeVisible(LoginPage.LOGIN_BUTTON);
+                },
+                "Expected redirect to login, but URL is: " + DriverManager.getEngine().getCurrentUrl()
+        );
+
+        String url = DriverManager.getEngine().getCurrentUrl();
+        Assert.assertTrue(
+                url.contains("/auth/login") || DriverManager.getEngine().isVisible(LoginPage.LOGIN_BUTTON),
+                "Expected login surface, but was: " + url
+        );
+    }
+
+    public void assertOnProfile() {
+        WaitUtils.waitForCondition(
+                "profile page is visible",
+                () -> {
+                    String body = safeText("body");
+                    return safeVisible(ProfilePage.FIRST_NAME)
+                            && (DriverManager.getEngine().getCurrentUrl().contains("/account/profile")
+                            || body.contains("Update Profile")
+                            || body.contains("Change Password"));
+                },
+                "Expected profile page, but URL is: " + DriverManager.getEngine().getCurrentUrl()
+        );
+    }
+
+    public void assertProfileMatches(CustomerData customer) {
+        assertOnProfile();
+
+        WaitUtils.waitForInputValue(
+                ProfilePage.FIRST_NAME,
+                "Profile first name",
+                customer.getFirstName()::equals
+        );
+        WaitUtils.waitForInputValue(
+                ProfilePage.LAST_NAME,
+                "Profile last name",
+                customer.getLastName()::equals
+        );
+        WaitUtils.waitForInputValue(
+                ProfilePage.EMAIL,
+                "Profile email",
+                customer.getEmail()::equals
+        );
+        WaitUtils.waitForInputValue(
+                ProfilePage.PHONE,
+                "Profile phone",
+                customer.getPhone()::equals
+        );
+
+        Assert.assertEquals(
+                UIActions.getValue(ProfilePage.FIRST_NAME, "Profile first name"),
+                customer.getFirstName(),
+                "Unexpected first name on profile."
+        );
+        Assert.assertEquals(
+                UIActions.getValue(ProfilePage.LAST_NAME, "Profile last name"),
+                customer.getLastName(),
+                "Unexpected last name on profile."
+        );
+        Assert.assertEquals(
+                UIActions.getValue(ProfilePage.EMAIL, "Profile email"),
+                customer.getEmail(),
+                "Unexpected email on profile."
+        );
+        Assert.assertEquals(
+                UIActions.getValue(ProfilePage.PHONE, "Profile phone"),
+                customer.getPhone(),
+                "Unexpected phone on profile."
+        );
+    }
+
+    public void assertPasswordChangeStaysOnProfile() {
+        assertOnProfile();
+        WaitUtils.waitForCondition(
+                "password change success message",
+                () -> safeText(ProfilePage.SUCCESS_ALERT).contains("successfully")
+                        || safeText("body").contains("Your password is successfully updated"),
+                "Expected password change success message on profile."
+        );
+
+        String bodyText = safeText(ProfilePage.SUCCESS_ALERT);
+        if (bodyText.isBlank()) {
+            bodyText = UIActions.getText("body", "Page body");
+        }
+        Assert.assertTrue(
+                bodyText.contains("successfully"),
+                "Expected password change success feedback, but was: " + bodyText
+        );
+    }
+
+    public void assertProfileRouteShellWithoutProtectedSurface() {
+        WaitUtils.waitForCondition(
+                "profile route shell retained without protected surface",
+                () -> {
+                    String url = DriverManager.getEngine().getCurrentUrl();
+                    return url.contains("/account/profile")
+                            && !safeVisible(ProfilePage.FIRST_NAME)
+                            && !safeVisible(ProfilePage.CURRENT_PASSWORD);
+                },
+                "Expected /account/profile route shell without protected profile surface, but URL is: "
+                        + DriverManager.getEngine().getCurrentUrl()
+        );
+
+        String body = safeText("body");
+        Assert.assertTrue(
+                DriverManager.getEngine().getCurrentUrl().contains("/account/profile"),
+                "Expected to stay on /account/profile, but URL is: " + DriverManager.getEngine().getCurrentUrl()
+        );
+        Assert.assertFalse(
+                safeVisible(ProfilePage.FIRST_NAME),
+                "Expected profile first-name field to be absent while route shell remains. Body was: " + body
+        );
+        Assert.assertFalse(
+                safeVisible(ProfilePage.CURRENT_PASSWORD),
+                "Expected password form to be absent while route shell remains. Body was: " + body
+        );
+    }
+
+    private boolean safeVisible(String locator) {
+        try {
+            return DriverManager.getEngine().isVisible(locator);
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
+    private String safeText(String locator) {
+        try {
+            return DriverManager.getEngine().getText(locator);
+        } catch (Exception ignored) {
+            return "";
+        }
+    }
+}

@@ -1,0 +1,294 @@
+﻿diff --git a/src/main/java/com/endava/ai/ui/pages/ProductPage.java b/src/main/java/com/endava/ai/ui/pages/ProductPage.java
+new file mode 100644
+index 0000000..5eab37b
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/pages/ProductPage.java
+@@ -0,0 +1,13 @@
++package com.endava.ai.ui.pages;
++
++public final class ProductPage {
++
++    private ProductPage() {
++    }
++
++    public static final String COMBINATION_PLIERS_ID = "01KTK0GKCCBM5YMCG345GBPKG4";
++    public static final String COMBINATION_PLIERS_NAME = "Combination Pliers";
++
++    public static final String PRODUCT_NAME = "h1[data-test='product-name']";
++    public static final String ADD_TO_FAVORITES = "button[data-test='add-to-favorites']";
++}
+
+diff --git a/src/main/java/com/endava/ai/ui/service/FavoritesService.java b/src/main/java/com/endava/ai/ui/service/FavoritesService.java
+new file mode 100644
+index 0000000..2ef5f96
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/service/FavoritesService.java
+@@ -0,0 +1,22 @@
++package com.endava.ai.ui.service;
++
++import com.endava.ai.ui.pages.FavoritesPage;
++import com.endava.ai.ui.utils.UIActions;
++import com.endava.ai.ui.utils.WaitUtils;
++
++public final class FavoritesService {
++
++    public void openFavorites() {
++        UIActions.navigateToRelative("/account/favorites");
++        WaitUtils.waitForVisible(FavoritesPage.PAGE_TITLE);
++    }
++
++    public void openFavoritesRouteOnly() {
++        UIActions.navigateToRelative("/account/favorites");
++    }
++
++    public void removeFirstFavorite() {
++        WaitUtils.waitForVisible(FavoritesPage.DELETE_BUTTON);
++        UIActions.click(FavoritesPage.DELETE_BUTTON, "Delete first favorite");
++    }
++}
+
+diff --git a/src/main/java/com/endava/ai/ui/validation/FavoritesValidation.java b/src/main/java/com/endava/ai/ui/validation/FavoritesValidation.java
+new file mode 100644
+index 0000000..32ab733
+--- /dev/null
++++ b/src/main/java/com/endava/ai/ui/validation/FavoritesValidation.java
+@@ -0,0 +1,88 @@
++package com.endava.ai.ui.validation;
++
++import com.endava.ai.ui.core.DriverManager;
++import com.endava.ai.ui.pages.FavoritesPage;
++import com.endava.ai.ui.utils.WaitUtils;
++import org.testng.Assert;
++
++import java.time.Duration;
++import java.util.List;
++
++public final class FavoritesValidation {
++
++    private static final String EMPTY_STATE_TEXT =
++            "There are no favorites yet. In order to add favorites, please go to the product listing and mark some products as your favorite.";
++
++    public void assertOnFavoritesPage() {
++        WaitUtils.waitForCondition(
++                "favorites page is visible",
++                () -> {
++                    String url = DriverManager.getEngine().getCurrentUrl();
++                    String title = safeText(FavoritesPage.PAGE_TITLE);
++                    return url.contains("/account/favorites") && "Favorites".equals(title);
++                },
++                "Expected favorites page, but URL is: " + DriverManager.getEngine().getCurrentUrl()
++        );
++    }
++
++    public void assertContainsProduct(String expectedProductName) {
++        assertOnFavoritesPage();
++
++        List<String> names = WaitUtils.waitUntil(
++                () -> DriverManager.getEngine().getTexts(FavoritesPage.PRODUCT_NAMES),
++                values -> values.stream().anyMatch(expectedProductName::equals),
++                Duration.ofSeconds(20),
++                Duration.ofMillis(250)
++        );
++
++        Assert.assertTrue(
++                names.stream().anyMatch(expectedProductName::equals),
++                "Expected favorites to contain '" + expectedProductName + "', but found: " + names
++        );
++    }
++
++    public void assertEmptyStateVisible() {
++        assertOnFavoritesPage();
++
++        WaitUtils.waitForCondition(
++                "favorites empty state",
++                () -> safeText("body").contains(EMPTY_STATE_TEXT),
++                "Expected favorites empty state to be visible."
++        );
++
++        Assert.assertTrue(
++                safeText("body").contains(EMPTY_STATE_TEXT),
++                "Expected favorites empty state to be visible."
++        );
++    }
++
++    public void assertFavoritesSurfaceUnavailable() {
++        WaitUtils.waitForCondition(
++                "favorites surface unavailable",
++                () -> {
++                    String url = DriverManager.getEngine().getCurrentUrl();
++                    String title = safeText(FavoritesPage.PAGE_TITLE);
++                    return !url.contains("/account/favorites") || !"Favorites".equals(title);
++                },
++                "Expected favorites surface to stay unavailable, but URL is: "
++                        + DriverManager.getEngine().getCurrentUrl()
++                        + " and title was: "
++                        + safeText(FavoritesPage.PAGE_TITLE)
++        );
++
++        String url = DriverManager.getEngine().getCurrentUrl();
++        String title = safeText(FavoritesPage.PAGE_TITLE);
++        Assert.assertFalse(
++                url.contains("/account/favorites") && "Favorites".equals(title),
++                "Expected favorites surface to stay unavailable, but URL is: " + url + " and title was: " + title
++        );
++    }
++
++    private String safeText(String locator) {
++        try {
++            return DriverManager.getEngine().getText(locator);
++        } catch (Exception ignored) {
++            return "";
++        }
++    }
++}
+
+diff --git a/src/test/java/com/endava/ai/atf/ui/AccountPasswordFavoritesTransitionTests.java b/src/test/java/com/endava/ai/atf/ui/AccountPasswordFavoritesTransitionTests.java
+new file mode 100644
+index 0000000..b959c01
+--- /dev/null
++++ b/src/test/java/com/endava/ai/atf/ui/AccountPasswordFavoritesTransitionTests.java
+@@ -0,0 +1,143 @@
++package com.endava.ai.atf.ui;
++
++import com.endava.ai.atf.ui.support.ProtectedAccountSeed;
++import com.endava.ai.core.reporting.StepLogger;
++import com.endava.ai.ui.core.BaseTestUI;
++import com.endava.ai.ui.factory.CustomerDataFactory;
++import com.endava.ai.ui.model.CustomerData;
++import com.endava.ai.ui.pages.ProductPage;
++import com.endava.ai.ui.service.AccountService;
++import com.endava.ai.ui.service.AuthenticationService;
++import com.endava.ai.ui.service.FavoritesService;
++import com.endava.ai.ui.service.ProductService;
++import com.endava.ai.ui.validation.AuthenticationValidation;
++import com.endava.ai.ui.validation.FavoritesValidation;
++import org.testng.annotations.BeforeMethod;
++import org.testng.annotations.Test;
++
++public class AccountPasswordFavoritesTransitionTests extends BaseTestUI {
++
++    private final AuthenticationService authenticationService = new AuthenticationService();
++    private final AuthenticationValidation authenticationValidation = new AuthenticationValidation();
++    private final AccountService accountService = new AccountService();
++    private final ProductService productService = new ProductService();
++    private final FavoritesService favoritesService = new FavoritesService();
++    private final FavoritesValidation favoritesValidation = new FavoritesValidation();
++
++    @BeforeMethod
++    public void before() {
++        authenticationService.clearSession();
++        StepLogger.startStep("Password favorites transition preconditions");
++        StepLogger.pass("Ready");
++    }
++
++    @Test(description = "Positive: changed password rejects the old credential and reopens the same favorites state with the new credential")
++    public void changed_password_can_reopen_the_same_favorites_state_with_the_new_credential() {
++        CustomerData customer = ProtectedAccountSeed.mutationCustomer();
++        String oldPassword = customer.getPassword();
++        String newPassword = CustomerDataFactory.newStrongPassword();
++
++        try {
++            seedFavoriteAndChangePassword(customer, oldPassword, newPassword);
++
++            authenticationService.clearSession();
++            authenticationService.openLogin();
++            authenticationService.login(customer.getEmail(), oldPassword);
++            authenticationValidation.assertLoginErrorContains("Invalid email or password");
++
++            authenticationService.clearSession();
++            loginIntoFavorites(customer.getEmail(), newPassword);
++            favoritesValidation.assertContainsProduct(ProductPage.COMBINATION_PLIERS_NAME);
++        } finally {
++            authenticationService.clearSession();
++        }
++    }
++
++    @Test(description = "Negative: old credential is rejected when reopening the same favorites state after the claimed password change")
++    public void old_credential_is_rejected_when_reopening_the_same_favorites_state_after_the_claimed_change() {
++        CustomerData customer = ProtectedAccountSeed.mutationCustomer();
++        String oldPassword = customer.getPassword();
++        String newPassword = CustomerDataFactory.newStrongPassword();
++
++        try {
++            seedFavoriteAndChangePassword(customer, oldPassword, newPassword);
++
++            authenticationService.clearSession();
++            authenticationService.openLogin();
++            authenticationService.login(customer.getEmail(), oldPassword);
++            authenticationValidation.assertLoginErrorContains("Invalid email or password");
++        } finally {
++            authenticationService.clearSession();
++        }
++    }
++
++    @Test(description = "Negative: the same-session favorites surface does not reopen after the claimed password change")
++    public void same_session_favorites_surface_does_not_reopen_after_the_claimed_change() {
++        CustomerData customer = ProtectedAccountSeed.mutationCustomer();
++        String oldPassword = customer.getPassword();
++        String newPassword = CustomerDataFactory.newStrongPassword();
++
++        try {
++            loginIntoProfile(customer.getEmail(), oldPassword);
++            productService.openCombinationPliers();
++            productService.addCurrentProductToFavorites();
++            favoritesService.openFavorites();
++            favoritesValidation.assertContainsProduct(ProductPage.COMBINATION_PLIERS_NAME);
++
++            accountService.openProfile();
++            accountService.changePassword(oldPassword, newPassword);
++
++            favoritesService.openFavoritesRouteOnly();
++            favoritesValidation.assertFavoritesSurfaceUnavailable();
++        } finally {
++            authenticationService.clearSession();
++        }
++    }
++
++    @Test(description = "Negative: favorite removal after the claimed password change is followed by new-credential rejection on fresh login")
++    public void favorite_removal_after_the_claimed_change_is_followed_by_new_credential_rejection() {
++        CustomerData customer = ProtectedAccountSeed.mutationCustomer();
++        String oldPassword = customer.getPassword();
++        String newPassword = CustomerDataFactory.newStrongPassword();
++
++        try {
++            seedFavoriteAndChangePassword(customer, oldPassword, newPassword);
++
++            favoritesService.openFavorites();
++            favoritesValidation.assertContainsProduct(ProductPage.COMBINATION_PLIERS_NAME);
++            favoritesService.removeFirstFavorite();
++            favoritesValidation.assertEmptyStateVisible();
++
++            authenticationService.clearSession();
++            authenticationService.openLogin();
++            authenticationService.login(customer.getEmail(), newPassword);
++            authenticationValidation.assertLoginErrorContains("Invalid email or password");
++        } finally {
++            authenticationService.clearSession();
++        }
++    }
++
++    private void seedFavoriteAndChangePassword(CustomerData customer, String oldPassword, String newPassword) {
++        loginIntoProfile(customer.getEmail(), oldPassword);
++        productService.openCombinationPliers();
++        productService.addCurrentProductToFavorites();
++        favoritesService.openFavorites();
++        favoritesValidation.assertContainsProduct(ProductPage.COMBINATION_PLIERS_NAME);
++        accountService.openProfile();
++        accountService.changePassword(oldPassword, newPassword);
++    }
++
++    private void loginIntoProfile(String email, String password) {
++        authenticationService.openLogin();
++        authenticationService.login(email, password);
++        authenticationValidation.assertOnAccountOverview();
++        accountService.openProfile();
++    }
++
++    private void loginIntoFavorites(String email, String password) {
++        authenticationService.openLogin();
++        authenticationService.login(email, password);
++        authenticationValidation.assertOnAccountOverview();
++        favoritesService.openFavorites();
++    }
++}
+

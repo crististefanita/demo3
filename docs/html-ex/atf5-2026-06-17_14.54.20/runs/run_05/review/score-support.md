@@ -1,9 +1,0 @@
-﻿ROUND_TARGET_TEST_COUNT numeric = 5 / 5
-accounting target met = yes
-business breadth verdict = partial
-how many good tests this run produced = 5
-why these tests belong together in the same run = One visible post-payment anchor was deepened through one coherent closure family.
-why this run stayed below configured ambition if it did = n/a
-why countable = 5/5 tests pass on a distinct business sub-claim with Extent + XML + run diff + run-state.
-why breadth is still narrow if needed = The run stays inside one guest post-payment surface and does not create a new persistent order object.
-what next frontier must add = A real uplift must surface order identity, invoice/receipt identity, history reopenability, or another owned commerce object.

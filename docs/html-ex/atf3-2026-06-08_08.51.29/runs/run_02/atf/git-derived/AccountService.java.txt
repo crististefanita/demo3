@@ -1,0 +1,71 @@
+package com.endava.ai.ui.service;
+
+import com.endava.ai.ui.pages.AccountPage;
+import com.endava.ai.ui.pages.ProfilePage;
+import com.endava.ai.ui.core.DriverManager;
+import com.endava.ai.ui.utils.UIActions;
+import com.endava.ai.ui.utils.WaitUtils;
+
+import java.time.Duration;
+
+public final class AccountService {
+
+    public void openAccountOverview() {
+        UIActions.navigateToRelative("/account");
+        WaitUtils.waitForVisible(AccountPage.PROFILE_NAV);
+    }
+
+    public void openProfile() {
+        UIActions.navigateToRelative("/account/profile");
+        WaitUtils.waitForVisible(ProfilePage.CURRENT_PASSWORD);
+        WaitUtils.waitForVisible(ProfilePage.FIRST_NAME);
+    }
+
+    public void changePassword(String currentPassword, String newPassword) {
+        UIActions.click(ProfilePage.CURRENT_PASSWORD, "Current password");
+        UIActions.type(ProfilePage.CURRENT_PASSWORD, "Current password", currentPassword);
+        UIActions.click(ProfilePage.NEW_PASSWORD, "New password");
+        UIActions.type(ProfilePage.NEW_PASSWORD, "New password", newPassword);
+        UIActions.pressKey(ProfilePage.NEW_PASSWORD, "New password", "Tab");
+        UIActions.click(ProfilePage.NEW_PASSWORD_CONFIRM, "Confirm new password");
+        UIActions.type(ProfilePage.NEW_PASSWORD_CONFIRM, "Confirm new password", newPassword);
+        UIActions.pressKey(ProfilePage.NEW_PASSWORD_CONFIRM, "Confirm new password", "Tab");
+        WaitUtils.waitForInputValue(ProfilePage.CURRENT_PASSWORD, "Current password", currentPassword::equals);
+        WaitUtils.waitForInputValue(ProfilePage.NEW_PASSWORD, "New password", newPassword::equals);
+        WaitUtils.waitForInputValue(ProfilePage.NEW_PASSWORD_CONFIRM, "Confirm new password", newPassword::equals);
+        UIActions.click(ProfilePage.CHANGE_PASSWORD_SUBMIT, "Submit password change");
+        failIfPasswordErrorAlertAppears();
+        waitForMutationSettle();
+    }
+
+    private void failIfPasswordErrorAlertAppears() {
+        String errorMessage = WaitUtils.waitUntil(
+                () -> {
+                    if (DriverManager.getEngine().isVisible(ProfilePage.ERROR_ALERT)) {
+                        return UIActions.getText(ProfilePage.ERROR_ALERT, "Password change error alert");
+                    }
+                    if (DriverManager.getEngine().isVisible(ProfilePage.SUCCESS_ALERT)) {
+                        return "";
+                    }
+                    return "";
+                },
+                ignored -> DriverManager.getEngine().isVisible(ProfilePage.ERROR_ALERT)
+                        || DriverManager.getEngine().isVisible(ProfilePage.SUCCESS_ALERT),
+                Duration.ofSeconds(3),
+                Duration.ofMillis(200)
+        );
+
+        if (errorMessage != null && !errorMessage.isBlank()) {
+            throw new AssertionError("Password change failed: " + errorMessage);
+        }
+    }
+
+    private void waitForMutationSettle() {
+        try {
+            Thread.sleep(8000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new AssertionError("Interrupted while waiting for password mutation to settle.", e);
+        }
+    }
+}

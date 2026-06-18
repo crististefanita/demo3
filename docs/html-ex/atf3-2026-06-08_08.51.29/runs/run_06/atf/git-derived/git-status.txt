@@ -1,0 +1,28 @@
+ M docs/prompts/iterativ/iterative-core-standard.html
+ M docs/prompts/iterativ/langgraph-business-understanding-reporting-standard.html
+ M docs/prompts/iterativ/prompt-evolution-orchestration-standard.html
+ M docs/prompts/iterativ/shared-constants.properties
+ M docs/prompts/iterativ/ui-flow-discovery-and-atf-test-generation.html
+ M src/main/java/com/endava/ai/ui/engine/UIEngine.java
+ M src/main/java/com/endava/ai/ui/engine/playwright/PlaywrightEngine.java
+ M src/main/java/com/endava/ai/ui/engine/selenium/SeleniumEngine.java
+ M src/main/java/com/endava/ai/ui/utils/UIActions.java
+ M src/main/resources/framework.properties
+?? src/main/java/com/endava/ai/ui/pages/AccountPage.java
+?? src/main/java/com/endava/ai/ui/pages/FavoritesPage.java
+?? src/main/java/com/endava/ai/ui/pages/ProductPage.java
+?? src/main/java/com/endava/ai/ui/pages/ProfilePage.java
+?? src/main/java/com/endava/ai/ui/service/AccountService.java
+?? src/main/java/com/endava/ai/ui/service/AuthenticationService.java
+?? src/main/java/com/endava/ai/ui/service/FavoritesService.java
+?? src/main/java/com/endava/ai/ui/service/ProductService.java
+?? src/main/java/com/endava/ai/ui/validation/AccountValidation.java
+?? src/main/java/com/endava/ai/ui/validation/AuthenticationValidation.java
+?? src/main/java/com/endava/ai/ui/validation/FavoritesValidation.java
+?? src/test/java/com/endava/ai/atf/ui/AccountPasswordCredentialTransitionTests.java
+?? src/test/java/com/endava/ai/atf/ui/AccountPasswordFavoritesTransitionTests.java
+?? src/test/java/com/endava/ai/atf/ui/AccountPasswordMutationPositiveContinuityTests.java
+?? src/test/java/com/endava/ai/atf/ui/AccountPasswordMutationTests.java
+?? src/test/java/com/endava/ai/atf/ui/AccountRouteContinuityTests.java
+?? src/test/java/com/endava/ai/atf/ui/FavoritesPersistenceTests.java
+?? src/test/java/com/endava/ai/atf/ui/support/

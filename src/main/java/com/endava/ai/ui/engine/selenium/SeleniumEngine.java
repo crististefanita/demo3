@@ -14,26 +14,9 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public final class SeleniumEngine implements UIEngine {
-    private static final String UI_WAIT_TIMEOUT_SECONDS_KEY = "ui.wait.timeout.seconds";
-    private static final String LEGACY_WAIT_TIMEOUT_SECONDS_KEY = "explicit.wait.seconds";
-    private static final int UI_WAIT_TIMEOUT_SECONDS =
-            Integer.parseInt(Objects.requireNonNull(
-                    ConfigManager.get(
-                            UI_WAIT_TIMEOUT_SECONDS_KEY,
-                            ConfigManager.get(LEGACY_WAIT_TIMEOUT_SECONDS_KEY, "10")
-                    )
-            ));
-    private static final Duration IMPLICIT_WAIT_TIMEOUT = Duration.ofSeconds(0);
-    private static final int TEXT_READ_ATTEMPTS = 4;
-    private static final int TYPE_ATTEMPTS = 2;
-    private static final long RETRY_SLEEP_MILLIS = 150L;
-    private static final double ZOOM_TOLERANCE = 0.01d;
-    private static final String XPATH_PREFIX = "xpath=";
-
     private final WebDriver driver;
     private final UIWindowConfiguration windowConfiguration;
     private boolean browserZoomConfigured;
@@ -47,7 +30,7 @@ public final class SeleniumEngine implements UIEngine {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         this.driver = new ChromeDriver(options);
-        this.driver.manage().timeouts().implicitlyWait(IMPLICIT_WAIT_TIMEOUT);
+        this.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
         applyWindowConfiguration(windowConfiguration);
         assertSingleStartupTarget("after init");
     }
@@ -69,9 +52,16 @@ public final class SeleniumEngine implements UIEngine {
 
     @Override
     public void click(String cssSelector) {
-        By locator = by(cssSelector);
-        WebElement element = waitForClickable(locator);
-        clickWithFallback(element);
+        By locator = By.cssSelector(cssSelector);
+        WebElement el = new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.elementToBeClickable(locator));
+
+        try {
+            el.click();
+        } catch (WebDriverException e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", el);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", el);
+        }
     }
 
     @Override
@@ -80,7 +70,7 @@ public final class SeleniumEngine implements UIEngine {
             throw new IllegalArgumentException("Visible click index is 1-based.");
         }
 
-        List<WebElement> visibleElements = driver.findElements(by(cssSelector)).stream()
+        List<WebElement> visibleElements = driver.findElements(By.cssSelector(cssSelector)).stream()
                 .filter(WebElement::isDisplayed)
                 .collect(Collectors.toList());
         if (visibleElements.size() < oneBasedIndex) {
@@ -88,18 +78,24 @@ public final class SeleniumEngine implements UIEngine {
         }
 
         WebElement element = visibleElements.get(oneBasedIndex - 1);
-        clickWithFallback(element);
+        try {
+            element.click();
+        } catch (WebDriverException e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        }
     }
 
     @Override
     public void type(String cssSelector, String text) {
-        typeInternal(cssSelector, text, true);
+        WebElement el = find(cssSelector);
+        el.clear();
+        el.sendKeys(text);
     }
 
     @Override
     public void pressKey(String cssSelector, String key) {
         WebElement element = find(cssSelector);
-        scrollIntoView(element);
         element.sendKeys(mapKey(key));
     }
 
@@ -136,7 +132,7 @@ public final class SeleniumEngine implements UIEngine {
 
     @Override
     public String getText(String cssSelector) {
-        List<WebElement> els = driver.findElements(by(cssSelector));
+        List<WebElement> els = driver.findElements(By.cssSelector(cssSelector));
         if (els.isEmpty()) return "";
         if (els.size() == 1) return els.get(0).getText();
         StringBuilder sb = new StringBuilder();
@@ -152,19 +148,34 @@ public final class SeleniumEngine implements UIEngine {
 
     @Override
     public List<String> getTexts(String cssSelector) {
-        return readTexts(cssSelector, false);
+        List<String> values = new ArrayList<>();
+        for (WebElement element : driver.findElements(By.cssSelector(cssSelector))) {
+            String text = element.getText();
+            if (text != null && !text.trim().isEmpty()) {
+                values.add(text.trim());
+            }
+        }
+        return values;
     }
 
     @Override
     public List<String> getVisibleTexts(String cssSelector) {
-        return readTexts(cssSelector, true);
+        List<String> values = new ArrayList<>();
+        for (WebElement element : driver.findElements(By.cssSelector(cssSelector))) {
+            if (!element.isDisplayed()) {
+                continue;
+            }
+            String text = element.getText();
+            if (text != null && !text.trim().isEmpty()) {
+                values.add(text.trim());
+            }
+        }
+        return values;
     }
 
     @Override
     public String getValue(String cssSelector) {
-        WebElement element = find(cssSelector);
-        String value = element.getDomProperty("value");
-        return value != null ? value : element.getAttribute("value");
+        return find(cssSelector).getAttribute("value");
     }
 
     @Override
@@ -175,7 +186,7 @@ public final class SeleniumEngine implements UIEngine {
     @Override
     public boolean isVisible(String cssSelector) {
         try {
-            WebElement el = driver.findElement(by(cssSelector));
+            WebElement el = driver.findElement(By.cssSelector(cssSelector));
             return el.isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
@@ -185,7 +196,7 @@ public final class SeleniumEngine implements UIEngine {
     @Override
     public boolean isEnabled(String cssSelector) {
         try {
-            return driver.findElement(by(cssSelector)).isEnabled();
+            return driver.findElement(By.cssSelector(cssSelector)).isEnabled();
         } catch (NoSuchElementException e) {
             return false;
         }
@@ -193,12 +204,14 @@ public final class SeleniumEngine implements UIEngine {
 
     @Override
     public void waitForVisible(String cssSelector, int seconds) {
-        wait(seconds).until(ExpectedConditions.visibilityOfElementLocated(by(cssSelector)));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelector)));
     }
 
     @Override
     public void waitForUrlContains(String fragment, int seconds) {
-        wait(seconds).until(ExpectedConditions.urlContains(fragment));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        wait.until(ExpectedConditions.urlContains(fragment));
     }
 
     @Override
@@ -228,96 +241,7 @@ public final class SeleniumEngine implements UIEngine {
     }
 
     private WebElement find(String cssSelector) {
-        List<WebElement> matches = driver.findElements(by(cssSelector));
-        if (matches.isEmpty()) {
-            throw new NoSuchElementException("No element found for selector: " + cssSelector);
-        }
-
-        for (WebElement match : matches) {
-            if (match.isDisplayed()) {
-                return match;
-            }
-        }
-
-        return matches.get(0);
-    }
-
-    private void scrollIntoView(WebElement element) {
-        try {
-            ((JavascriptExecutor) driver).executeScript(
-                    "arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});",
-                    element
-            );
-        } catch (WebDriverException ignored) {
-        }
-    }
-
-    private void sleepBriefly() {
-        try {
-            Thread.sleep(RETRY_SLEEP_MILLIS);
-        } catch (InterruptedException interrupted) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    private void typeInternal(String cssSelector, String text, boolean allowRetry) {
-        int attempts = allowRetry ? TYPE_ATTEMPTS : 1;
-        for (int attempt = 0; attempt < attempts; attempt++) {
-            try {
-                WebElement element = find(cssSelector);
-                scrollIntoView(element);
-                element.clear();
-                element.sendKeys(text);
-                return;
-            } catch (StaleElementReferenceException stale) {
-                if (attempt == attempts - 1) {
-                    throw stale;
-                }
-                sleepBriefly();
-            }
-        }
-    }
-
-    private WebDriverWait wait(int seconds) {
-        return new WebDriverWait(driver, Duration.ofSeconds(seconds));
-    }
-
-    private WebElement waitForClickable(By locator) {
-        return wait(UI_WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.elementToBeClickable(locator));
-    }
-
-    private void clickWithFallback(WebElement element) {
-        try {
-            element.click();
-        } catch (WebDriverException clickFailure) {
-            scrollIntoView(element);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
-        }
-    }
-
-    private List<String> readTexts(String cssSelector, boolean visibleOnly) {
-        for (int attempt = 0; attempt < TEXT_READ_ATTEMPTS; attempt++) {
-            try {
-                List<String> values = new ArrayList<>();
-                for (WebElement element : driver.findElements(by(cssSelector))) {
-                    if (visibleOnly && !element.isDisplayed()) {
-                        continue;
-                    }
-                    String text = element.getText();
-                    if (text != null && !text.trim().isEmpty()) {
-                        values.add(text.trim());
-                    }
-                }
-                return values;
-            } catch (StaleElementReferenceException stale) {
-                if (attempt == TEXT_READ_ATTEMPTS - 1) {
-                    throw stale;
-                }
-                sleepBriefly();
-            }
-        }
-        return List.of();
+        return driver.findElement(By.cssSelector(cssSelector));
     }
 
     private void applyWindowConfiguration(UIWindowConfiguration windowConfiguration) {
@@ -352,7 +276,7 @@ public final class SeleniumEngine implements UIEngine {
                         + "chrome.settingsPrivate.getDefaultZoom(done);"
         );
         if (!(configuredZoom instanceof Number)
-                || Math.abs(((Number) configuredZoom).doubleValue() - expectedZoomFactor) > ZOOM_TOLERANCE) {
+                || Math.abs(((Number) configuredZoom).doubleValue() - expectedZoomFactor) > 0.01d) {
             throw new IllegalStateException("Browser zoom was not applied correctly");
         }
 
@@ -384,22 +308,6 @@ public final class SeleniumEngine implements UIEngine {
         if ("Enter".equalsIgnoreCase(key)) {
             return Keys.ENTER;
         }
-        if ("ArrowRight".equalsIgnoreCase(key)) {
-            return Keys.ARROW_RIGHT;
-        }
-        if ("ArrowLeft".equalsIgnoreCase(key)) {
-            return Keys.ARROW_LEFT;
-        }
         throw new IllegalArgumentException("Unsupported key for Selenium engine: " + key);
-    }
-
-    private static By by(String selector) {
-        if (selector.startsWith(XPATH_PREFIX)) {
-            return By.xpath(selector.substring(XPATH_PREFIX.length()));
-        }
-        if (selector.startsWith("//")) {
-            return By.xpath(selector);
-        }
-        return By.cssSelector(selector);
     }
 }
