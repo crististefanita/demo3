@@ -46,11 +46,8 @@ In other words, the most valuable outcome is a stronger `UI + API + reporting` c
 
 If the work is iterative, governed, or AI-assisted, start here:
 
-- [docs/prompts/md-en/orchestrate-iterative-runs.md](docs/prompts/md-en/orchestrate-iterative-runs.md)
-- [docs/prompts/iterativ/agent-runtime.properties](docs/prompts/iterativ/agent-runtime.properties)
-
-The Markdown prompt set under `docs/prompts/md-en/` is the easiest entry point for agents. The HTML prompt set under
-`docs/prompts/html_EN/` preserves the same content with richer visual structure.
+- [docs/iterative-governed-execution-atlas.md](docs/iterative-governed-execution-atlas.md)
+- [docs/prompts/iterativ/iterative-core-standard.html](docs/prompts/iterativ/iterative-core-standard.html)
 
 ## Project Model
 
@@ -524,15 +521,12 @@ Cold formula:
 
 Primary entry points:
 
-- [docs/prompts/md-en/orchestrate-iterative-runs.md](docs/prompts/md-en/orchestrate-iterative-runs.md)
-- [docs/prompts/md-en/pretraining-reference.md](docs/prompts/md-en/pretraining-reference.md)
-- [docs/prompts/md-en/ui-business-frontier-adapter.md](docs/prompts/md-en/ui-business-frontier-adapter.md)
-- [docs/prompts/md-en/execute-and-understand-run.md](docs/prompts/md-en/execute-and-understand-run.md)
-- [docs/prompts/md-en/reporting.md](docs/prompts/md-en/reporting.md)
-- [docs/prompts/md-en/business-flow-graph-rubric.md](docs/prompts/md-en/business-flow-graph-rubric.md)
-- [docs/prompts/md-en/score-overview-reference.md](docs/prompts/md-en/score-overview-reference.md)
-- [docs/prompts/iterativ/agent-runtime.properties](docs/prompts/iterativ/agent-runtime.properties)
-- Shared benchmark memory outside this repo: `C:\work\ex\java\demo\common\docs\html-ex\README.md`
+- [docs/iterative-governed-execution-atlas.md](docs/iterative-governed-execution-atlas.md)
+- [docs/prompts/iterativ/iterative-core-standard.html](docs/prompts/iterativ/iterative-core-standard.html)
+- [docs/prompts/iterativ/prompt-evolution-orchestration-standard.html](docs/prompts/iterativ/prompt-evolution-orchestration-standard.html)
+- [docs/prompts/iterativ/ui-flow-discovery-and-atf-test-generation.html](docs/prompts/iterativ/ui-flow-discovery-and-atf-test-generation.html)
+- [docs/prompts/iterativ/langgraph-business-understanding-reporting-standard.html](docs/prompts/iterativ/langgraph-business-understanding-reporting-standard.html)
+- [docs/html-ex/README.md](docs/html-ex/README.md)
 
 </details>
 
@@ -571,27 +565,7 @@ Before accepting AI-generated changes, verify:
 <details>
 <summary>Prompt Library And When To Use It</summary>
 
-Use the governed prompt library when the work is iterative, AI-assisted, audit-sensitive, or expected to preserve
-learning between runs.
-
-Core governed flow:
-
-- [docs/prompts/md-en/orchestrate-iterative-runs.md](docs/prompts/md-en/orchestrate-iterative-runs.md): owns the run window, package legality, same-package versus fresh ROOT_RUN decisions, and handoff discipline.
-- [docs/prompts/md-en/pretraining-reference.md](docs/prompts/md-en/pretraining-reference.md): owns cold pretraining intake, benchmark reading order, anti-copy rules, and what must be saved from calibration.
-- [docs/prompts/md-en/ui-business-frontier-adapter.md](docs/prompts/md-en/ui-business-frontier-adapter.md): wraps one UI run with UI-specific business frontier discovery, visible anchors, and handoff to execution.
-- [docs/prompts/md-en/execute-and-understand-run.md](docs/prompts/md-en/execute-and-understand-run.md): owns run artifacts, countability, diff-first truth, state files, proof, and feedback saved on disk.
-- [docs/prompts/md-en/reporting.md](docs/prompts/md-en/reporting.md): publishes the frozen truth business-first; it does not rejudge runtime, legality, or artifact production.
-- [docs/prompts/md-en/business-flow-graph-rubric.md](docs/prompts/md-en/business-flow-graph-rubric.md): defines the application-first Business Flow Graph and package overlay rules.
-- [docs/prompts/md-en/score-overview-reference.md](docs/prompts/md-en/score-overview-reference.md): defines canonical Score Overview and `Overall` scoring discipline.
-
-Prompt folder structure:
-
-- `docs/prompts/iterativ/`: Romanian/source HTML prompt set and `agent-runtime.properties`.
-- `docs/prompts/html_EN/`: English HTML prompt set, same structure, richer visual form.
-- `docs/prompts/md-en/`: English Markdown prompt set, best default for agent reading and handoff.
-- `docs/prompts/*.md`: older task-specific prompts that still help for narrow API, UI recording, and ATF hardening work.
-
-Use the older task-specific prompts only when the work is narrow and not governed by the iterative lane:
+Use:
 
 - [docs/prompts/api-framework-evolution.md](docs/prompts/api-framework-evolution.md) for API-only evolution
 - [docs/prompts/ui-recording-to-atf-tests.md](docs/prompts/ui-recording-to-atf-tests.md) for recorded UI flow conversion

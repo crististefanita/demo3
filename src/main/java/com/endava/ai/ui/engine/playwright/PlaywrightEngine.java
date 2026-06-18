@@ -5,7 +5,6 @@ import com.endava.ai.ui.engine.UIEngine;
 import com.endava.ai.ui.engine.window.UIWindowConfiguration;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.SelectOption;
-import com.microsoft.playwright.options.WaitUntilState;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
 import java.io.IOException;
@@ -81,8 +80,7 @@ public final class PlaywrightEngine implements UIEngine {
         if (!usesHeadlessZoomFallback()) {
             ensureBrowserZoomConfigured();
         }
-        page.navigate(url, new Page.NavigateOptions()
-                .setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
+        page.navigate(url);
         if (usesHeadlessZoomFallback()) {
             applyHeadlessPageZoomFallback();
         }

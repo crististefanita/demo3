@@ -1,7 +1,6 @@
 package com.endava.ai.ui.service;
 
 import com.endava.ai.ui.factory.UserDataFactory;
-import com.endava.ai.ui.core.DriverManager;
 import com.endava.ai.ui.model.CustomerData;
 import com.endava.ai.ui.model.RegistrationData;
 import com.endava.ai.ui.pages.RegisterPage;
@@ -19,13 +18,17 @@ public final class RegistrationService {
     }
 
     public RegistrationData registerValidUser() {
+        openRegister();
         RegistrationData data = UserDataFactory.validRegistrationData();
-        return submitWithRetry(data, UserDataFactory::validRegistrationData);
+        register(data);
+        return data;
     }
 
     public CustomerData registerValidCustomer() {
+        openRegister();
         CustomerData data = com.endava.ai.ui.factory.CustomerDataFactory.validCustomer();
-        return submitWithRetry(data, com.endava.ai.ui.factory.CustomerDataFactory::validCustomer);
+        register(data);
+        return data;
     }
 
     public void register(RegistrationData data) {
@@ -115,45 +118,5 @@ public final class RegistrationService {
 
     public void submitRegistration() {
         UIActions.click(RegisterPage.REGISTER_BUTTON, "Register");
-    }
-
-    private RegistrationData submitWithRetry(RegistrationData data,
-                                             java.util.function.Supplier<RegistrationData> retryFactory) {
-        openRegister();
-        register(data);
-        if (!registrationStayedOnErrorSurface()) {
-            return data;
-        }
-
-        UIActions.clearSession();
-        RegistrationData retryData = retryFactory.get();
-        openRegister();
-        register(retryData);
-        return retryData;
-    }
-
-    private CustomerData submitWithRetry(CustomerData data,
-                                         java.util.function.Supplier<CustomerData> retryFactory) {
-        openRegister();
-        register(data);
-        if (!registrationStayedOnErrorSurface()) {
-            return data;
-        }
-
-        UIActions.clearSession();
-        CustomerData retryData = retryFactory.get();
-        openRegister();
-        register(retryData);
-        return retryData;
-    }
-
-    private boolean registrationStayedOnErrorSurface() {
-        try {
-            String url = DriverManager.getEngine().getCurrentUrl();
-            String errorText = DriverManager.getEngine().getText(RegisterPage.ANY_ERROR);
-            return url.contains("/auth/register") && errorText != null && !errorText.trim().isEmpty();
-        } catch (Exception ignored) {
-            return false;
-        }
     }
 }
